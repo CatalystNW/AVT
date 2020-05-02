@@ -58,22 +58,13 @@ router.get('/application_form', function(req, res){
   );
 });
 
+// REST API : GET /applications
+router.get('/applications', application_controller.get_applications);
+
 router.get('/view_applications', function(req, res){
   helper.create_user_context(req).then(
     (context) => {
-      context.applicants = [];
-      var app_obj;
-      CareApplicant.find({}, function(err, applicants) {
-        applicants.forEach(function(applicant) {
-          app_obj = {};
-          app_obj.id = applicant._id
-          app_obj.application_link = "./view_application/" + applicant._id;
-          app_obj.services_link = "./view_services/" + applicant._id;
-          context.applicants.push(app_obj);
-        });
-        
-        res.render("care/applications", context);
-      });
+      res.render("care/applications", context);
     }
   );
 });

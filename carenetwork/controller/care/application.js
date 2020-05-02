@@ -19,6 +19,16 @@ function check_care_application(req_body) {
   return true;
 }
 
+exports.get_applications = async function(req, res) {
+  var apps = await CareApplicant.find({}).lean().exec();
+  for (var i=0; i<apps.length;i++) {
+    apps[i].createdAt = apps[i].createdAt.toLocaleString();
+    apps[i].updatedAt = apps[i].updatedAt.toLocaleString();
+    apps[i].self = "/carenetwork/view_application/" + apps[i]._id;
+  }
+  res.status(200).json(apps);
+};
+
 async function get_applicant(application_id) {
   var applicant = await CareApplicant.findById(application_id)
     .lean().exec();

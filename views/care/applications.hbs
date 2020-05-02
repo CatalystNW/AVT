@@ -1,7 +1,103 @@
-{{#each applicants}}
-<p>
-  {{this.id}} 
-  <a href="{{this.application_link}}">Application</a>
-  <a href="{{this.services_link}}">Services</a>
-</p>
-{{/each}}
+<div class="card">
+  <div class="card-header">To Be Contacted</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="to_be_contacted_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Assigned Caller</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="assigned_caller_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Help Requested</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="help_requested_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Contact Complete</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="contact_complete_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Never Contacted</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="never_contacted_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Completed</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Last Edit Date</th>
+          <th scope="col">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="completed_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/applications_page.js"></script>
