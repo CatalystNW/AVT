@@ -8,6 +8,7 @@ var CareService = require('../../models/care/careService');
 var helper = require("../../controller/helper");
 var application_controller = require('../../controller/care/application.js');
 var service_controller = require('../../controller/care/service.js');
+var appnote_controller = require('../../controller/care/appnote.js');
 
 // router.get('/', helper.isLoggedIn, function(req, res) {
 router.get('/', function(req, res) {
@@ -225,5 +226,9 @@ router.get('/view_services', function(req, res) {
     }
   );
 });
+
+router.get('/appnote/:application_id', appnote_controller.get_appnotes);
+
+router.post('/appnote', appnote_controller.post_appnote);
 
 module.exports = router;

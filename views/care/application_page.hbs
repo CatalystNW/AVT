@@ -2,15 +2,15 @@
   <div id="applicant_id_div" hidden>{{application_id}}</div>
 
   <h2 id="notes-h2">Notes</h2>
-  <table class="table">
+  <table class="table ">
     <thead>
       <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Note</th>
-        <th scope="col">By</th>
+        <th width="25%" scope="col">Date</th>
+        <th width="50%" scope="col">Note</th>
+        <th width="25%" scope="col">By</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody id="appnote-container"></tbody>
     <tfoot>
       <form id="note-form">
         <tr>
@@ -18,7 +18,7 @@
             <button type="submit" class="btn btn-primary">Add Note</button>
           </th>
           <th scope="col">
-            <textarea class="form-control" placeholder="Enter Note"></textarea>
+            <textarea required class="form-control" placeholder="Enter Note" name="note"></textarea>
           </th>
         </tr>
       </form>

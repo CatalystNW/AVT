@@ -36,8 +36,6 @@ async function update_application(application_id, req_body) {
     update_status = false;
 
   var careApplicant = await CareApplicant.findById(application_id).exec();
-    
-  var new_data = {};
 
   for (field in fields_map) {
     value = req_body[field];

@@ -1,7 +1,8 @@
 window.onload = function() {
   var app_id = $("#applicant_id_div").text();
 
-  var $form = $("#application-form")
+  var $app_form = $("#application-form"),
+      $note_form = $("#note-form");
   
   $("#form-reset-button").click(event, function() {
     event.preventDefault();
@@ -11,21 +12,74 @@ window.onload = function() {
 
   form_load_data(app_id);
 
-  $form.on("submit", function(e) {
+  $app_form.on("submit", function(e) {
     e.preventDefault();
-    console.log(window.location.href);
 
     $.ajax({
       type: "POST",
       url: window.location.href,
       data: $form.serialize(),
       success: function(data, textStatus, xhr) {
-        if (xhr.status == 200) {
+        if (xhr.status == 201) {
         }
       }
     });
   });
+
+  $note_form.on("submit", function(e) {
+    e.preventDefault();
+
+    var formArr = $note_form.serializeArray();
+    formArr.push({name: "application_id", value: app_id});
+    submit_note(formArr);
+  });
+
+  load_notes(app_id);
 };
+
+function load_notes(application_id) { 
+  // Get Notes & Load
+  $.ajax({
+    type: "GET",
+    url: '/carenetwork/appnote/'+application_id,
+    success: function(notes, textStatus, xhr) {
+      var $container = $("#appnote-container");
+      $container.empty();
+
+      for (var i=0; i<notes.length; i++) {
+        add_note_html(notes[i]);
+      }
+    }
+  });
+}
+
+function add_note_html(noteObj) {
+  var $container = $("#appnote-container");
+
+  var tr, note;
+
+  tr = $('<tr></tr>');
+  tr.append(`<td>${noteObj.date}</td>`);
+  tr.append(`<td>${noteObj.note}</td>`);
+  tr.append(`<td>${noteObj.name}</td>`);
+  $container.append(tr);
+}
+
+function submit_note(data) {
+  var $note_form = $("#note-form");
+
+  $.ajax({
+    type: "POST",
+    url: '/carenetwork/appnote',
+    data: data,
+    success: function(note_data, textstatus, xhr) {
+      if (xhr.status == 201 || xhr.status == 200) {
+        $note_form[0].reset();
+        add_note_html(note_data);
+      }
+    }
+  });
+}
 
 function form_load_data(app_id) {
   $.ajax({
@@ -33,8 +87,6 @@ function form_load_data(app_id) {
       url: "/carenetwork/application/" + app_id,
       success: function(data, textStatus, xhr) {
         if (xhr.status == 200) {
-          console.log(data);
-
           fill_app_data(data)
         }
       },
