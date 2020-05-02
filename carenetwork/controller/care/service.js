@@ -22,7 +22,7 @@ async function get_service(service_id) {
 async function create_service(applicant_id, data) {
   var service = new CareService();
   service.applicant = applicant_id;
-  service.care_worker = data.care_worker;
+  service.volunteer = data.volunteer;
   service.service_date = data.service_date;
   service.note = data.note;
   await service.save();

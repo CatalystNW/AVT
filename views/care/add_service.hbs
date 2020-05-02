@@ -6,8 +6,8 @@
 
   <div class="form-row row">
     <div class="form-group col-md-3">
-      <label for="worker-select">Care Worker</label>
-      <select class="form-control" id="worker-select" name="care_worker">
+      <label for="volunteer-input">Volunteer</label>
+      <input type="text" class="form-control" id="volunteer-input" name="volunteer">
         {{#each workers}}
           <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}

@@ -5,10 +5,7 @@ const careServiceSchema = new mongoose.Schema({
     type: mongoose.ObjectId,
     ref: "CareApplicant",
   },
-  care_worker: {
-    type: mongoose.ObjectId,
-    ref: "UserPackage",
-  },
+  volunteer: String,
   note: String,
   service_date: Date,
 }, {
