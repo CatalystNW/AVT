@@ -18,7 +18,7 @@ window.onload = function() {
     $.ajax({
       type: "POST",
       url: window.location.href,
-      data: $form.serialize(),
+      data: $app_form.serialize(),
       success: function(data, textStatus, xhr) {
         if (xhr.status == 201) {
         }
