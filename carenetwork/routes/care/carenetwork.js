@@ -50,7 +50,7 @@ router.get('/application/:application_id', function(req, res){
   );
 });
 
-router.get('/application', function(req, res){
+router.get('/application_form', function(req, res){
   helper.create_user_context(req).then(
     (context) => {
       res.render("care/application_form", context);
