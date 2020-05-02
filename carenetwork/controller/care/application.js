@@ -73,6 +73,23 @@ async function create_care_applicant(req_body) {
 
   var path_arr, i, value, field_obj;
 
+  var year = (new Date()).getFullYear();
+
+  var prev_apps = await CareApplicant.find({ createdAt: { $gte: year, } }).sort({"createdAt": "descending"}).exec();
+
+  // Get prev reference & increment it
+  var ref_num;
+  if (prev_apps.length > 0) {
+    var prev_reference = prev_apps[0].reference;
+    var re = /\w+\-\d+\-(\d+)/;
+    var result = re.exec(prev_reference);
+    ref_num = parseInt(result[1]) + 1;
+  } else {
+    ref_num = 1;
+  }
+
+  careApplicant.reference = `CARE-${year}-${ref_num}`;
+
   for (field in fields_map) {
     field_obj = fields_map[field];
     
@@ -99,10 +116,7 @@ async function create_care_applicant(req_body) {
     }
   }
   // Add IDs of each other
-  // careApplicant.application.contacts.push(careContact._id);
-  // careContact.applicant_id = CareApplicant._id;
 
-  // await careContact.save()
   await careApplicant.save();
   return true
 }

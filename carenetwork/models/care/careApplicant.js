@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 
 const careApplicantSchema = new mongoose.Schema({
+  reference: {
+    type: String, // Format of CARE-[year]-[Count (+1 of latest one)]
+    match: [/CARE\-\d{4}\-\d+/, "CARE-[year]-[Count (+1 of latest one)]"],
+    unique: true,
+    required: true,
+  },
+
   application_status: {
     type: String,
     default: "never_contacted",
@@ -8,6 +15,7 @@ const careApplicantSchema = new mongoose.Schema({
       "to_be_contacted", "assigned_caller", "help_requested", 
       "contact_complete", "never_contacted", "completed"],
   },
+
   application: {
     first_name: String,
     middle_name: String,
