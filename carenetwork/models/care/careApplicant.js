@@ -59,7 +59,7 @@ const careApplicantSchema = new mongoose.Schema({
   }],
   notes: [{
     type: mongoose.ObjectId,
-    ref: "CareService",
+    ref: "CareAppNote",
   }],
 }, {
   timestamps: true, // Creates createdAt & updatedAt
