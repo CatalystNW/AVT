@@ -5,9 +5,18 @@ const careServiceSchema = new mongoose.Schema({
     type: mongoose.ObjectId,
     ref: "CareApplicant",
   },
+  description: String,
   volunteer: String,
-  note: String,
+  note: [{
+    type: mongoose.ObjectId,
+    ref: "CareServiceNote",
+  }],
   service_date: Date,
+  status: {
+    type: String,
+    default: "not_started",
+    enum: ["complete", "not_started"],
+  }
 }, {
   timestamps: true, // Creates createdAt & updatedAt
 });
