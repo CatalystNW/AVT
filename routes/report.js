@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var db = require('../mongoose/connection');
 
+var api = require('../controllers/api'); // INCLUDE API functionality
 var User = require('../models/userPackage');
 var ProjectWrapUpPackages = require('../models/projectWrapUpPackage'); // GLEN added this line
 
@@ -13,15 +14,38 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, function(req, res){
-            // stuff here.. ?
-    // some more stuff ??
-    console.log('report.js total projects aggregation starting');
-
+    router.get('/', isLoggedIn, getCompletedProjectsByYear, function(req, res){
+        
     // create object 'payload' to return
     var payload = {};
+    payload.completedProjects = res.locals.results;
+    res.render('reporting', payload);
+    // 
+    return router;
+}
 
+/* *****************************************************************
+Aggregation function.
+
+Dependencies:
+Must use projectWrapUpPackage.js model (collection)
+
+Returns:
+Object. Every project completed by year, and the nummber of projects
+completed.
+
+Notes:
+    should actually just find a specific year and the number of 
+    projects completed for that year.
+
+********************************************************************/
+function getCompletedProjectsByYear(req, res, next) {
+
+    console.log('getCompletedProjectsByYear starting');
+      
     Promise.props({
+
+        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
         completedProjects: ProjectWrapUpPackages.aggregate([{
             $match: {
                 "signup_sheet_office.complete": true
@@ -42,78 +66,25 @@ module.exports = function(passport){
                 "# projects completed": {$size: "$total_projects"}
             }
         }]).execAsync()
+        
     })
-    .then(function(results) {          
+    .then(function(results) {
+
         if(!results){
             console.log('report.js ERROR: total projects aggregation failure!');
         }
         else {
             console.log('report.js total projects aggregation passed.');
-            res.locals.results = results;
-            next();
+            results.completedYearAndQuantity = completedProjects;
+            next(); 
         }
     }) 
-    .catch(function(err){
-        console.err(err);
-    })
+    .catch(function(err){ console.err(err);})
     .catch(next);
-    
-    payload.completedProjects = res.locals.results.completedProjects;
-    res.render('projectsumreport', payload);
-    // trace
-    console.log('completed projects should be: ' + payload.completedProjects);
-    })
 
-};
+}
 
-
-/***************************************************************************** */
-/* Glen's Section 1st Attempt */
-/*
-router.post('/', function(req, res, next) {
-    // stuff here.. ?
-    // some more stuff ??
-    console.log('report.js total projects aggregation starting');
-
-    Promise.props({
-        completedProjects: ProjectWrapUpPackages.aggregate([{
-            $match: {
-                "signup_sheet_office.complete": true
-            }
-            },{
-            $group: {
-                _id: {
-                    $year: { 
-                        date: "$signup_sheet_office.completed_on"
-                    }
-                },
-                "total_projects": {$push: { $year: { date: "$signup_sheet_office.completed_on" } } }
-            } 
-            }, {
-            $project: {
-                _id: 0,
-                year: {$arrayElemAt: ["$total_projects", 0] },
-                "# projects completed": {$size: "$total_projects"}
-            }
-        }]).execAsync()
-    })
-    .then(function(results) {          
-        if(!results){
-            console.log('report.js ERROR: total projects aggregation failure!');
-        }
-        else {
-            console.log('report.js total projects aggregation passed.');
-            res.locals.results = results;
-            next();
-        }
-    }) 
-    .catch(function(err){
-        console.err(err);
-    })
-    .catch(next);
-});
-*/
-/***************************************************************************** */
+//MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM//
 function isLoggedIn(req, res, next) {
 
     if(req.isAuthenticated()) {
@@ -167,6 +138,7 @@ function isLoggedIn(req, res, next) {
         res.redirect('/user/login');
     }
 }
+
 
 //COPIED FROM: projectsummary.js (/route/)
 //post request authenticator.  Checks if user is an admin or vetting agent
