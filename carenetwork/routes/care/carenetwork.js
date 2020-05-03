@@ -127,9 +127,6 @@ router.get('/update_service/:service_id', function(req, res) {
     async (context) => {
       var service_id = req.params.service_id;
 
-      // Get Users
-      context.workers = await service_controller.get_workers();
-
       context.update_page = true;
       context.service_id = service_id;
 
@@ -156,7 +153,7 @@ router.post('/update_service/:service_id', async function(req, res) {
   
   var service = await CareService.findById(service_id).exec();
 
-  service.note = req_body.note;
+  service.description = req_body.description;
   service.case_worker = req_body.case_worker;
   service.service_date = req_body.service_date;
   service.save();
@@ -177,7 +174,6 @@ router.get('/view_service/:service_id', async function(req, res) {
 
       var applicant = await application_controller.get_applicant(applicant_id);
 
-      console.log(applicant);
       context.application = applicant.application;
       var address = applicant.application.address;
 
@@ -189,7 +185,6 @@ router.get('/view_service/:service_id', async function(req, res) {
       google_url = google_url.replace(/ /g, '+');
       console.log(google_url);
       context.google_map_url = google_url;
-
 
       context.service_id = service_id;
 
