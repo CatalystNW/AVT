@@ -14,15 +14,16 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, getCompletedProjectsByYear, function(req, res){
+    router.get('/', isLoggedIn, api.getCompletedProjectsByYear, function(req, res, next){
         
     // create object 'payload' to return
     var payload = {};
-    payload.completedProjects = res.locals.results;
-    res.render('reporting', payload);
-    // 
+    payload.completedProjects = res.locals.results.completedProjects;
+    res.render('reporting'); 
+    
+    })
     return router;
-}
+};
 
 /* *****************************************************************
 Aggregation function.
@@ -39,7 +40,7 @@ Notes:
     projects completed for that year.
 
 ********************************************************************/
-function getCompletedProjectsByYear(req, res, next) {
+function getCompletedProjectsByYear (req, res, next) {
 
     console.log('getCompletedProjectsByYear starting');
       
@@ -75,7 +76,7 @@ function getCompletedProjectsByYear(req, res, next) {
         }
         else {
             console.log('report.js total projects aggregation passed.');
-            results.completedYearAndQuantity = completedProjects;
+            res.locals.results.completedYearAndQuantity = completedProjects;
             next(); 
         }
     }) 

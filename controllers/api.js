@@ -3595,5 +3595,64 @@ getDocumentPlanning: function (req, res, next) {
       next()
     })
   }
+/* *****************************************************************
+Aggregation function.
 
+Dependencies:
+Must use projectWrapUpPackage.js model (collection)
+
+Returns:
+Object. Every project completed by year, and the nummber of projects
+completed.
+
+Notes:
+    should actually just find a specific year and the number of 
+    projects completed for that year.
+
+********************************************************************/
+/*
+getCompletedProjectsByYear: function(req, res, next) {
+
+    console.log('getCompletedProjectsByYear starting');
+      
+    Promise.props({
+
+        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
+        completedProjects: ProjectWrapUpPackages.aggregate([{
+            $match: {
+                "signup_sheet_office.complete": true
+            }
+            },{
+            $group: {
+                _id: {
+                    $year: { 
+                        date: "$signup_sheet_office.completed_on"
+                    }
+                },
+                "total_projects": {$push: { $year: { date: "$signup_sheet_office.completed_on" } } }
+            } 
+            }, {
+            $project: {
+                _id: 0,
+                year: {$arrayElemAt: ["$total_projects", 0] },
+                "# projects completed": {$size: "$total_projects"}
+            }
+        }]).execAsync()
+        
+    })
+    .then(function(results) {
+
+        if(!results){
+            console.log('report.js ERROR: total projects aggregation failure!');
+        }
+        else {
+            console.log('report.js total projects aggregation passed.');
+            res.locals.results.completedProjects = completedProjects;
+            next(); 
+        }
+    }) 
+    .catch(function(err){ console.err(err);})
+    .catch(next);
+}
+*/
 };
