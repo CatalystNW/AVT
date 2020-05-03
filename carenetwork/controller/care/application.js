@@ -20,12 +20,14 @@ function check_care_application(req_body) {
 }
 
 exports.get_applications = async function(req, res) {
-  var apps = await CareApplicant.find({}).lean().exec();
+  var apps = await CareApplicant.find({}).populate('services').lean().exec();
   for (var i=0; i<apps.length;i++) {
     apps[i].createdAt = apps[i].createdAt.toLocaleString();
     apps[i].updatedAt = apps[i].updatedAt.toLocaleString();
-    apps[i].self = "/carenetwork/view_application/" + apps[i]._id;
+    apps[i].self = "./view_application/" + apps[i]._id;
+    apps[i].add_services_url = "./add_service/" + apps[i]._id
   }
+  console.log(apps);
   res.status(200).json(apps);
 };
 
@@ -76,6 +78,7 @@ async function update_application(application_id, req_body) {
 }
 
 async function create_care_applicant(req_body) {
+  console.log(req_body);
   var field;
 
   var careApplicant = new CareApplicant();

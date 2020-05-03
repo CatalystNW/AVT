@@ -29,6 +29,7 @@ async function create_service(applicant_id, data) {
 
   var applicant = await CareApplicant.findById(applicant_id).exec();
   applicant.services.push(service._id);
+  await applicant.save();
 
   return true;
 }

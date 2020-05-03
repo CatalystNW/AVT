@@ -1,4 +1,4 @@
-<div class="col-md-10 row">
+<div class="col-md-10 col-lg-9 row">
   <div id="applicant_id_div" hidden>{{application_id}}</div>
 
   <h2 id="notes-h2">Notes</h2>
@@ -43,40 +43,41 @@
 
     {{> care_partialform}}
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Save</button>
     <button class="btn btn-secondary" type="button" id="form-reset-button">Reset</button>
   </form>
 </div>
 
-<div class="col-md-2 row">
-  <nav class="bg-light sidebar" aria-label="Main navigation">
-    <div style="height:100%; position: fixed; padding-left: 10pt">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-              Page Navigation
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#notes-h2">
-                    Notes</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="#personal-info-h2">
-                    Personal Info</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="#home-address-h2">
-                    Home Address</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#contact-info-h2">
-                    Contact</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#question-h2">
-                    Questionaire</a>
-            </li>
-            </ul>
-    </div>
-</nav>
+<div class="col-md-2 col-lg-3 row" id="page-navigation-container">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link" href="../view_applications">
+            ⬅️ Back to Applications</a></li>
+    <li class="nav-item">
+      Page Navigation
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#notes-h2">
+            Notes</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="#personal-info-h2">
+            Personal Info</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="#home-address-h2">
+            Home Address</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#contact-info-h2">
+            Contact</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#question-h2">
+            Questionaire</a>
+    </li>
+  </ul>
 </div>
 
 <script type="text/javascript" src="/javascript/care/application_helper.js"></script>
 <script type="text/javascript" src="/javascript/care/application_page.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/care/application_page.css">

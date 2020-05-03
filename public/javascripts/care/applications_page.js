@@ -11,7 +11,7 @@ window.onload = function() {
 };
 
 function add_applications(applicants) {
-  var $container, $tr, name, app;
+  console.log(applicants);
   for (var i=0; i<applicants.length; i++) {
     add_application(applicants[i]);
   }
@@ -31,6 +31,7 @@ function add_application(applicant) {
   $tr.append($(`<td>${applicant.createdAt}</td>`));
   $tr.append($(`<td>${applicant.updatedAt}</td>`));
   $tr.append($(`<td>${applicant.reference}</td>`));
+  $tr.append($(`<td>${applicant.services.length} <a href="${applicant.add_services_url}">Add</a></td>`));
 
   $container.append($tr);
 }
