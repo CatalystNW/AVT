@@ -1,4 +1,10 @@
 window.onload = function() {
+  load_applications();
+
+  $(".card-header").on("click", click_card_header);
+};
+
+function load_applications() {
   this.toggle_card_headers();
 
   var completed_show_cmd = this.get_appstatus_show_status("completed");
@@ -14,9 +20,7 @@ window.onload = function() {
       }
     }
   });
-
-  $(".card-header").on("click", click_card_header);
-};
+}
 
 function add_applications(applicants) {
   for (var i=0; i<applicants.length; i++) {
@@ -58,8 +62,11 @@ function get_status_item_name(app_status) {
 
 function click_card_header(e) {
   var app_status = $(this).attr("value");
-  toggle_appstatus_show_status(app_status);
+  var result = toggle_appstatus_show_status(app_status);
   toggle_card_header(app_status);
+  if (app_status == "completed" && result == "show" && 
+    $("#completed_container").children().length == 0)
+    load_applications(); // Load app data to include completed apps
 }
 
 function toggle_appstatus_show_status(app_status) {
