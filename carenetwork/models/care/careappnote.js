@@ -10,7 +10,7 @@ const CareAppNoteSchema = new mongoose.Schema({
   applicant: {
     type: mongoose.ObjectId,
     ref: "CareApplicant",
-  },
+  }
 }, {
   timestamps: true, // Creates createdAt & updatedAt
 });

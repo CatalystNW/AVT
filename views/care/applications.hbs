@@ -8,7 +8,8 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="never_contacted_container"></tbody>
@@ -26,7 +27,8 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="to_be_contacted_container"></tbody>
@@ -44,7 +46,8 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="assigned_caller_container"></tbody>
@@ -62,7 +65,8 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="help_requested_container"></tbody>
@@ -80,7 +84,8 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="contact_complete_container"></tbody>
@@ -98,11 +103,54 @@
           <th scope="col">Application Date</th>
           <th scope="col">Last Edit Date</th>
           <th scope="col">Reference #</th>
-          <th scope="col">Services</th>
+          <th scope="col"># Services</th>
+          <th scope="col">Service Options</th>
         </tr>
       </thead>
       <tbody id="completed_container"></tbody>
     </table>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" 
+  data-target="#serviceModal" data-whatever="@mdo">Open</button>
+
+<div class="modal fade" id="serviceModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="service-form">
+          <input type="text" class="form-control" name="applicant_id" id="service-app-id-input" hidden>
+          <div class="form-group">
+            <label for="volunteer-input" class="col-form-label">Volunteer</label>
+            <input type="text" class="form-control" name="volunteer" 
+              id="volunteer-input" required>
+          </div>
+        
+          <div class="form-group">
+            <label for="description-input" class="col-form-label">Description</label>
+            <input type="text" class="form-control" name="description" 
+              id="description-input" required>
+          </div>
+          <div class="form-group">
+            <label for="service-date" class="col-form-label">Service Date</label>
+            <input type="datetime-local" class="form-control" name="service_date" 
+              id="service-date" required>
+          </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

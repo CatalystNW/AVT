@@ -24,13 +24,20 @@ exports.get_applications = async function(req, res) {
     var query = CareApplicant.find({application_status: {$ne : "completed"}});
   else
     var query = CareApplicant.find({});
-  
+  var service;
   apps = await query.populate('services').lean().exec();
   for (var i=0; i<apps.length;i++) {
     apps[i].createdAt = apps[i].createdAt.toLocaleString();
     apps[i].updatedAt = apps[i].updatedAt.toLocaleString();
     apps[i].self = "./view_application/" + apps[i]._id;
-    apps[i].add_services_url = "./add_service/" + apps[i]._id
+    apps[i].add_services_url = "./add_service/" + apps[i]._id;
+
+    for (var j=0; j<apps[i].services.length; j++) {
+      service = apps[i].services[j];
+      service.createdAt = service.createdAt.toLocaleString();
+      service.updatedAt = service.updatedAt.toLocaleString();
+      service.service_date = service.service_date.toLocaleString();
+    }
   }
   res.status(200).json(apps);
 };

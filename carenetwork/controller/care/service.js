@@ -19,12 +19,37 @@ async function get_service(service_id) {
   return result;
 }
 
+exports.post_service = async function(req, res) {
+  var applicant_id = req.body.applicant_id;
+
+  var service = new CareService();
+  service.applicant = applicant_id;
+  service.volunteer = req.body.volunteer;
+  service.service_date = req.body.service_date;
+  service.description = req.body.description;
+  await service.save();
+
+  var applicant = await CareApplicant.findById(applicant_id).exec();
+  applicant.services.push(service._id);
+  await applicant.save();
+
+  var serviceObj = {
+    applicant: service.applicant,
+    volunteer: service.volunteer,
+    service_date: service.service_date.toLocaleString(),
+    description: service.description,
+    status: service.status,
+  }
+  res.status(201).json(serviceObj);
+}
+
+
 async function create_service(applicant_id, data) {
   var service = new CareService();
   service.applicant = applicant_id;
   service.volunteer = data.volunteer;
   service.service_date = data.service_date;
-  service.note = data.note;
+  service.description = data.description;
   await service.save();
 
   var applicant = await CareApplicant.findById(applicant_id).exec();

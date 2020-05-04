@@ -103,9 +103,6 @@ router.get('/add_service/:applicant_id', function(req, res) {
       var applicant_id = req.params.applicant_id;
       context.applicant_id = applicant_id;
 
-      // Get Users
-      context.workers = await service_controller.get_workers();
-
       res.render("care/add_service.hbs", context);
     }
   );
@@ -142,7 +139,6 @@ router.get('/service/:service_id', async function(req, res) {
    service = await service_controller.get_service(service_id);
    res.status(200).json(service);
 });
-
 
 // Update Service. Redirects back to view_servicse
 router.post('/update_service/:service_id', async function(req, res) {
@@ -216,5 +212,7 @@ router.get('/view_services', function(req, res) {
 router.get('/appnote/:application_id', appnote_controller.get_appnotes);
 
 router.post('/appnote', appnote_controller.post_appnote);
+
+router.post('/services', service_controller.post_service);
 
 module.exports = router;
