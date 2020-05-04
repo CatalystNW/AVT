@@ -7,7 +7,7 @@ const careServiceSchema = new mongoose.Schema({
   },
   description: String,
   volunteer: String,
-  note: [{
+  notes: [{
     type: mongoose.ObjectId,
     ref: "CareServiceNote",
   }],
