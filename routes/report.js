@@ -5,6 +5,7 @@ var db = require('../mongoose/connection');
 
 var api = require('../controllers/api'); // INCLUDE API functionality
 var User = require('../models/userPackage');
+var DocumentPackage = require('../models/documentPackage')
 var ProjectWrapUpPackages = require('../models/projectWrapUpPackage'); // GLEN added this line
 
 var Promise = require('bluebird'); // Import promise engine
@@ -14,12 +15,16 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, api.getCompletedProjectsByYear, function(req, res, next){
+    router.get('/', isLoggedIn, getCompletedProjectsByYear, getApplicationsByYear, api.getDocumentByStatus, function(req, res, next){
         
     // create object 'payload' to return
     var payload = {};
-    payload.completedProjects = res.locals.results.completedProjects;
-    res.render('reporting'); 
+    payload.completedProjects = res.locals.completedYearAndQuantity;
+    payload.applicationsForYear = res.locals.applications
+    payload.upComing = res.locals.results
+    console.log(res.locals)
+    console.log(payload.applicationsForYear)
+    res.render('projectsumreport'); 
     
     })
     return router;
@@ -64,7 +69,7 @@ function getCompletedProjectsByYear (req, res, next) {
             $project: {
                 _id: 0,
                 year: {$arrayElemAt: ["$total_projects", 0] },
-                "# projects completed": {$size: "$total_projects"}
+                projectsCompleted: {$size: "$total_projects"}
             }
         }]).execAsync()
         
@@ -76,15 +81,40 @@ function getCompletedProjectsByYear (req, res, next) {
         }
         else {
             console.log('report.js total projects aggregation passed.');
-            res.locals.results.completedYearAndQuantity = completedProjects;
+            res.locals.completedYearAndQuantity = results.completedProjects;
             next(); 
         }
     }) 
-    .catch(function(err){ console.err(err);})
+    .catch(function(err){ console.log(err);})
     .catch(next);
 
 }
 
+
+
+function getApplicationsByYear(req, res, next){
+    console.log("Performing get Applications!")
+
+    Promise.props({
+
+        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
+        applications: DocumentPackage.find({"app_year": 2020}).count().execAsync()
+        
+    })
+    .then(function(results) {
+
+        if(!results){
+            console.log('report.js ERROR: total projects aggregation failure!');
+        }
+        else {
+            console.log('report.js total projects aggregation passed.');
+            res.locals.applications = results.applications;
+            next(); 
+        }
+    }) 
+    .catch(function(err){ console.log(err);})
+    .catch(next);
+}
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM//
 function isLoggedIn(req, res, next) {
 
