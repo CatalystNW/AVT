@@ -352,7 +352,7 @@ app.use('/partners', partners);
 app.use('/projectview', projectview);
 app.use('/tasks/', tasks);
 app.use('/leadtime', leadtime);
-app.use('/reporting', report);
+app.use('/projectreport', report);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Server Side Libraries
 // Links to jQuery and Boots strap files
