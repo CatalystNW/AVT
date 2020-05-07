@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-6" id="applicant-div">
+  <div class="col-sm-6 col-xs-12" id="applicant-div">
     <h1>Applicant</h1>
     <h2>Contact</h2>
     <div>Name: {{{service.applicant.application.first_name}}} {{{service.applicant.application.middle_name}}} {{{service.applicant.application.last_name}}}</div>
@@ -30,7 +30,8 @@
     <h3>Help Request</h3>
     <div>{{{service.applicant.application.help_request}}}</div>
   </div>
-  <div class="col-sm-6" id="service-div">
+
+  <div class="col-sm-6 col-xs-12" id="service-div">
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" href="">Current Service</a>
@@ -44,9 +45,9 @@
     </ul>
     <div id="current-service-container">
       <div>Service Date: {{{service.service_date}}}</div>
-      <h3>Note</h3>
-      <div>{{{service.description}}}</div>
-      <div>{{{service.volunteer}}}</div>
+      <h3></h3>
+      <div>Description: {{{service.description}}}</div>
+      <div>Volunteer: {{{service.volunteer}}}</div>
     </div>
   </div>
 </div>
