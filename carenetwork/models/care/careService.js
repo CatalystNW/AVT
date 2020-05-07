@@ -15,7 +15,7 @@ const careServiceSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "not_started",
-    enum: ["complete", "not_started"],
+    enum: ["complete", "not_started", "started"],
   }
 }, {
   timestamps: true, // Creates createdAt & updatedAt
