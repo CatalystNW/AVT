@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const CareServiceNoteSchema = new mongoose.Schema({
   note: String,
-  applicant: {
+  service: {
     type: mongoose.ObjectId,
-    ref: "CareApplicant",
+    ref: "CareService",
   },
 }, {
   timestamps: true, // Creates createdAt & updatedAt
