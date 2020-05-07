@@ -2,20 +2,16 @@ var CareService = require('../../models/care/careService');
 var CareApplicant = require('../../models/care/careApplicant');
 var UserPackage = require('../../../models/userPackage');
 
+var helper = require("../helper");
+
 async function get_services(applicant_id) {
   var result = await CareService.find({applicant: applicant_id}).lean().exec();
   return result;
 }
 
-async function get_services_by_user(user_id) {
-  // var result = await CareService.find({applicant: user_id}).lean().exec();
-  var result = await CareService.find({}).lean().exec();
-  return result;
-}
-
 // Get Service Data only
 async function get_service(service_id) {
-  var result = await CareService.findById(service_id).exec();
+  var result = await CareService.findById(service_id).populate("applicant").exec();
   return result;
 }
 
@@ -59,7 +55,51 @@ async function create_service(applicant_id, data) {
   return true;
 }
 
+exports.view_services = function(req, res) {
+  helper.create_user_context(req).then(
+    async (context) => {
+      // if (req.user) {
+        // var user_id = req.user._id;
+        var services = await CareService.find({}).populate("applicant").lean().exec();
+
+        console.log(services);
+
+        for (var i=0; i<services.length; i++) {
+          services[i].view_service_url = "/carenetwork/view_service/" + services[i]._id;
+        }
+        context.services = services;
+      // }
+      res.render("care/view_services.hbs", context);
+    }
+  );
+};
+
+exports.view_service = function(req, res) {
+  helper.create_user_context(req).then(
+    async (context) => {
+      var service_id = req.params.service_id;
+
+      var service = await service_controller.get_service(service_id);
+      context.service = service;
+
+      var address = service.applicant.application.address;
+
+      // get Google Maps link
+      var google_url = "https://www.google.com/maps/search/?api=1&query=";
+      google_url += `${address.line_1} ${address.line_2}, `;
+      google_url += `${address.city}, ${address.state}, ${address.zip}`;
+
+      google_url = google_url.replace(/ /g, '+');
+      
+      context.google_map_url = google_url;
+
+      context.service_id = service_id;
+
+      res.render("care/service_page.hbs", context);
+    }
+  );
+};
+
 module.exports.get_services = get_services;
 module.exports.create_service = create_service;
 module.exports.get_service = get_service;
-module.exports.get_services_by_user = get_services_by_user

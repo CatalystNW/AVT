@@ -2,33 +2,33 @@
   <div class="col-sm-6" id="applicant-div">
     <h1>Applicant</h1>
     <h2>Contact</h2>
-    <div>Name: {{{application.first_name}}} {{{application.middle_name}}} {{{application.last_name}}}</div>
-    <div>Phone: {{{application.phone}}}</div>
-    <div>Email: {{{application.email}}}</div>
-    <div>Date of Birth: {{{application.dob}}}</div>
-    <div>Marital Status: {{{application.marital_status}}}</div>
+    <div>Name: {{{service.applicant.application.first_name}}} {{{service.applicant.application.middle_name}}} {{{service.applicant.application.last_name}}}</div>
+    <div>Phone: {{{service.applicant.application.phone}}}</div>
+    <div>Email: {{{service.applicant.application.email}}}</div>
+    <div>Date of Birth: {{{service.applicant.application.dob}}}</div>
+    <div>Marital Status: {{{service.applicant.application.marital_status}}}</div>
 
     <h2>Address</h2>
-    <div>{{{application.address.line_1}}}</div>
-    {{# if application.address.line_2}}
-    <div>{{{application.address.line_2}}}</div>
+    <div>{{{service.applicant.application.address.line_1}}}</div>
+    {{# if service.applicant.application.address.line_2}}
+    <div>{{{service.applicant.application.address.line_2}}}</div>
     {{/if}}
-    <div>{{{application.address.city}}}, {{{application.address.state}}} {{{application.address.zip}}}</div>
+    <div>{{{service.applicant.application.address.city}}}, {{{service.applicant.application.address.state}}} {{{service.applicant.application.address.zip}}}</div>
 
     <div><a href={{{google_map_url}}} target="_blank">Google Maps Link</a></div>
 
     <h2>Info</h2>
     <h3>Other Contacts</h3>
-    <div>Name: {{{application.contact_name}}}</div>
-    <div>Relationship: {{{application.contact_relationship}}}</div>
-    <div>Phone: {{{application.health_issues}}}</div>
-    <div>Email: {{{application.health_issues}}}</div>
+    <div>Name: {{{service.applicant.application.contact_name}}}</div>
+    <div>Relationship: {{{service.applicant.application.contact_relationship}}}</div>
+    <div>Phone: {{{service.applicant.application.health_issues}}}</div>
+    <div>Email: {{{service.applicant.application.health_issues}}}</div>
 
     <h3>Health Issues</h3>
-    <div>{{{application.health_issues}}}</div>
+    <div>{{{service.applicant.application.health_issues}}}</div>
 
     <h3>Help Request</h3>
-    <div>{{{application.help_request}}}</div>
+    <div>{{{service.applicant.application.help_request}}}</div>
   </div>
   <div class="col-sm-6" id="service-div">
     <ul class="nav nav-tabs">

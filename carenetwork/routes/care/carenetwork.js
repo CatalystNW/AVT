@@ -190,24 +190,7 @@ router.get('/view_service/:service_id', async function(req, res) {
 });
 
 // Services Page
-router.get('/view_services', function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      // if (req.user) {
-        // var user_id = req.user._id;
-        var services = await service_controller.get_services_by_user();
-
-        for (var i=0; i<services.length; i++) {
-          services[i].view_service_url = "/carenetwork/view_service/" + services[i]._id;
-        }
-
-        context.services = services;
-      // }
-      
-      res.render("care/view_services.hbs", context);
-    }
-  );
-});
+router.get('/view_services', service_controller.view_services);
 
 router.get('/appnote/:application_id', appnote_controller.get_appnotes);
 
