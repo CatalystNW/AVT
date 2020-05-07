@@ -157,37 +157,7 @@ router.post('/update_service/:service_id', async function(req, res) {
   res.redirect('/carenetwork/view_services/' + service.applicant);
 });
 
-router.get('/view_service/:service_id', async function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var service_id = req.params.service_id;
-
-      context.service = await service_controller.get_service(service_id);
-
-      console.log(context);
-
-      var applicant_id = context.service.applicant;
-
-      var applicant = await application_controller.get_applicant(applicant_id);
-
-      context.application = applicant.application;
-      var address = applicant.application.address;
-
-      // get Google Maps link
-      var google_url = "https://www.google.com/maps/search/?api=1&query=";
-      google_url += `${address.line_1} ${address.line_2}, `;
-      google_url += `${address.city}, ${address.state}, ${address.zip}`;
-
-      google_url = google_url.replace(/ /g, '+');
-      console.log(google_url);
-      context.google_map_url = google_url;
-
-      context.service_id = service_id;
-
-      res.render("care/service_page.hbs", context);
-    }
-  );
-});
+router.get('/view_service/:service_id', service_controller.view_service);
 
 // Services Page
 router.get('/view_services', service_controller.view_services);

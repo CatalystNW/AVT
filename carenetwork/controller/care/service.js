@@ -79,10 +79,12 @@ exports.view_service = function(req, res) {
     async (context) => {
       var service_id = req.params.service_id;
 
-      var service = await service_controller.get_service(service_id);
+      var service = await get_service(service_id);
+      service.service_date = service.service_date.toLocaleString(),
       context.service = service;
 
       var address = service.applicant.application.address;
+
 
       // get Google Maps link
       var google_url = "https://www.google.com/maps/search/?api=1&query=";
@@ -90,7 +92,7 @@ exports.view_service = function(req, res) {
       google_url += `${address.city}, ${address.state}, ${address.zip}`;
 
       google_url = google_url.replace(/ /g, '+');
-      
+
       context.google_map_url = google_url;
 
       context.service_id = service_id;
