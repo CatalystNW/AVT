@@ -1,0 +1,19 @@
+.noteDiv {
+    padding: 5px;
+    margin: 5px;
+    white-space: pre-line;
+}
+
+#notes-container {
+    overflow: auto;
+    height: 300px;
+}
+
+div.card-body {
+    margin: 5px;
+    padding: 10px;
+}
+
+.labelDiv {
+    font-weight: bold;
+}

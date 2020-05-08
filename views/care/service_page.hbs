@@ -1,37 +1,76 @@
 <div class="row">
-  <div class="col-sm-6 col-xs-12" id="applicant-div">
-    <h1>Applicant</h1>
-    <h2>Contact</h2>
-    <div>Name: {{{service.applicant.application.first_name}}} {{{service.applicant.application.middle_name}}} {{{service.applicant.application.last_name}}}</div>
-    <div>Phone: {{{service.applicant.application.phone}}}</div>
-    <div>Email: {{{service.applicant.application.email}}}</div>
-    <div>Date of Birth: {{{service.applicant.application.dob}}}</div>
-    <div>Marital Status: {{{service.applicant.application.marital_status}}}</div>
+  <div class="col-sm-6 col-xs-12 col-lg-8">
+    <div class="col-lg-5 col-xs-12">
+      <div style="padding: 5px;">
+        <h2>Contact</h2>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Name:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Phone:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.phone}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Email:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.email}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">DOB:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.dob}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Marital Status:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.marital_status}}</div>
+        </div>
 
-    <h2>Address</h2>
-    <div>{{{service.applicant.application.address.line_1}}}</div>
-    {{# if service.applicant.application.address.line_2}}
-    <div>{{{service.applicant.application.address.line_2}}}</div>
-    {{/if}}
-    <div>{{{service.applicant.application.address.city}}}, {{{service.applicant.application.address.state}}} {{{service.applicant.application.address.zip}}}</div>
+      </div>
 
-    <div><a href={{{google_map_url}}} target="_blank">Google Maps Link</a></div>
+      <h2>Health Issues</h2>
+      <div>{{service.applicant.application.health_issues}}</div>
 
-    <h2>Info</h2>
-    <h3>Other Contacts</h3>
-    <div>Name: {{{service.applicant.application.contact_name}}}</div>
-    <div>Relationship: {{{service.applicant.application.contact_relationship}}}</div>
-    <div>Phone: {{{service.applicant.application.health_issues}}}</div>
-    <div>Email: {{{service.applicant.application.health_issues}}}</div>
+      <h2>Help Request</h2>
+      <div>{{service.applicant.application.help_request}}</div>
 
-    <h3>Health Issues</h3>
-    <div>{{{service.applicant.application.health_issues}}}</div>
+      <div>
+        <h2>Contacts</h2>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Name:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_name}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Relationship:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_relationship}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Phone:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_phone}}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Email:</div>
+          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_email}}</div>
+        </div>
+      </div>
+    </div>
 
-    <h3>Help Request</h3>
-    <div>{{{service.applicant.application.help_request}}}</div>
+    <div class="col-lg-7 col-xs-12">
+      <h2>Map</h2>
+      <div><iframe width="100%" height="300" frameborder="0" style="border:0"
+      src={{google_map_url}} target="_blank">Google Maps Link</iframe></div>
+
+      <h2>Address</h2>
+      <div>{{service.applicant.application.address.line_1}}</div>
+      {{# if service.applicant.application.address.line_2}}
+      <div>{{service.applicant.application.address.line_2}}</div>
+      {{/if}}
+      <div>{{service.applicant.application.address.city}}, {{service.applicant.application.address.state}} {{service.applicant.application.address.zip}}</div>
+      
+    </div>
+    
   </div>
 
-  <div class="col-sm-6 col-xs-12" id="service-div">
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="service-div">
+    <!-- Disabled
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" href="">Current Service</a>
@@ -43,11 +82,74 @@
         <a class="nav-link active" href="">Future Services</a>
       </li>
     </ul>
-    <div id="current-service-container">
-      <div>Service Date: {{{service.service_date}}}</div>
-      <h3></h3>
-      <div>Description: {{{service.description}}}</div>
-      <div>Volunteer: {{{service.volunteer}}}</div>
+    -->
+    <div>
+      <div class="card">
+        <div class="card-header">{{service.service_date}}</div>
+        <div class="card-body" id="services-container">
+          <div class="row">
+            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Volunteer:</div>
+            <div class="col-sm-9 col-xs-8 col-md-9">{{service.volunteer}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Description:</div>
+            <div class="col-sm-9 col-xs-8 col-md-9">{{service.description}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Status:</div>
+            <div class="col-sm-9 col-xs-8 col-md-9">
+              <select value={{service.status}} name="status" id="statusSelect">
+                <option value="not_started">Not Started</option>
+                <option value="started">Started</option>
+                <option value="complete">Completed</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="card bg-light" >
+        <div class="card-header">
+          Notes
+          <button type="button" class="btn btn-primary" data-toggle="modal" 
+            data-target="#noteModal" style="float: right;">Add Note</button>
+        </div>
+        
+        <div class="card-body" id="notes-container"></div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="noteModalLabel">Add Note</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="noteForm">
+      <div class="modal-body">
+        <input name="service_id" value="{{service_id}}" type="hidden">
+        <textarea required style="width: 100%;" rows=8 name="note"
+          placeholder="Type Note Here"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/service_page.js"></script>
+<link rel="stylesheet" href="/stylesheets/care/service_page.css">

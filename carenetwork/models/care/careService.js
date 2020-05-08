@@ -21,4 +21,15 @@ const careServiceSchema = new mongoose.Schema({
   timestamps: true, // Creates createdAt & updatedAt
 });
 
+careServiceSchema.methods.get_obj = function() {
+  return {
+    applicant: this.applicant,
+    description: this.description,
+    volunteer: this.volunteer,
+    service_date: this.service_date.toLocaleString(),
+    createdAt: this.createdAt.toLocaleString(),
+    updatedAt: this.updatedAt.toLocaleString(),
+  }
+}
+
 module.exports = mongoose.model("CareService", careServiceSchema);

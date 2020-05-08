@@ -133,12 +133,14 @@ router.get('/update_service/:service_id', function(req, res) {
 });
 
 // GET Service API
-router.get('/service/:service_id', async function(req, res) {
+router.get('/services/:service_id', async function(req, res) {
    // Get Services
    var service_id = req.params.service_id;
-   service = await service_controller.get_service(service_id);
+   service = await service_controller.get_service_data(service_id);
    res.status(200).json(service);
 });
+
+router.post('/services', service_controller.post_service);
 
 // Update Service. Redirects back to view_servicse
 router.post('/update_service/:service_id', async function(req, res) {
@@ -159,13 +161,15 @@ router.post('/update_service/:service_id', async function(req, res) {
 
 router.get('/view_service/:service_id', service_controller.view_service);
 
+router.post('/services/:service_id/notes', service_controller.post_note);
+router.get('/services/:service_id/notes', service_controller.get_notes);
+router.patch('/services/:service_id', service_controller.update_service);
+
 // Services Page
 router.get('/view_services', service_controller.view_services);
 
 router.get('/appnote/:application_id', appnote_controller.get_appnotes);
 
 router.post('/appnote', appnote_controller.post_appnote);
-
-router.post('/services', service_controller.post_service);
 
 module.exports = router;

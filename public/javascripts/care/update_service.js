@@ -5,7 +5,7 @@ window.onload = function() {
   //Get Service Data & fill into inputs
   $.ajax({
     type: "GET",
-    url: "/carenetwork/service/" + service_id,
+    url: "/carenetwork/services/" + service_id,
     success: function(data, textStatus, xhr) {
       if (xhr.status == 200) {
         // Date Input
