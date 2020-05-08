@@ -109,7 +109,7 @@ var app_obj = {
     $tr.append($(`<td>${applicant.updatedAt}</td>`));
     $tr.append($(`<td>${applicant.reference}</td>`));
     $tr.append($(`<td>${applicant.services.length}</td>`));
-    var service_add_btn = create_service_add_btn(applicant._id),
+    var service_add_btn = create_add_service_btn(applicant._id),
         service_show_btn = create_service_hide_btn(applicant._id);
     $tr.append($(`<td></td>`)
       .append(service_add_btn)
@@ -121,12 +121,23 @@ var app_obj = {
   
     service_obj.add_service_rows(applicant._id, applicant.services, $container);
   },
-  empty_container() {
-
-  },
+  get_applicant(app_id) {
+    var applicants = this.applicants;
+    for (var i=0; i < applicants.length; i++) {
+      if (applicants[i]._id == app_id)
+        return applicants[i];
+    }
+  }
 }
 
 var service_obj ={
+  load_app_info_to_form(app_id) {
+    $("#appInfo-serviceFormContainer").empty();
+    var applicant = app_obj.get_applicant(app_id);
+    var text = "Help Requested\n" + applicant.application.help_request + "\n\n";
+    text += "Health Issues\n" + applicant.application.health_issues;
+    $("#appInfo-serviceFormContainer").text(text);
+  },
   get_tr_class(applicant_id) {
     return applicant_id + "-service-tr";
   },
@@ -178,7 +189,7 @@ var service_obj ={
   }
 }
 
-function create_service_add_btn(app_id) {
+function create_add_service_btn(app_id) {
   var btn = document.createElement("button");
   btn.textContent = "Create Service";
   btn.setAttribute("value", app_id);
@@ -187,7 +198,8 @@ function create_service_add_btn(app_id) {
   btn.setAttribute("data-target", "#serviceModal");
   btn.addEventListener("click", function(e) {
     var app_id = e.target.value;
-    $("#service-app-id-input").val(app_id);
+    $("#service-app-id-input").val(app_id); // fill hidden input with app_id
+    service_obj.load_app_info_to_form(app_id);    
   });
   btn.classList.add("btn", "btn-primary", "btn-sm");
   return btn;
