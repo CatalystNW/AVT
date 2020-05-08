@@ -1,5 +1,5 @@
 window.onload = function() {
-  app_obj.load_applications();
+  app_obj.onload();
 
   $(".card-header").on("click", click_card_header);
 
@@ -17,16 +17,17 @@ window.onload = function() {
         }
       }
     });
-  })
+  });
 };
 
 var app_obj = {
   applicants: null,
+  onload() {
+    this.load_applications();
+    this.add_change_year_select_handler();
+  },
 
   load_applications() {
-    app_obj.empty_tables()
-    toggle_card_headers();
-  
     var completed_show_cmd = get_appstatus_show_status("completed");
     var completed_show_status = (completed_show_cmd == "show") ? true : false;
   
@@ -35,55 +36,94 @@ var app_obj = {
       url: "/carenetwork/applications?show_completed=" + completed_show_status,
       success: function(applicants, textStatus, xhr) {
         if (xhr.status == 200) {
-          add_applications(applicants);
-          console.log(applicants);
           app_obj.applicants = applicants;
+          app_obj.load_apps_to_table();
+          app_obj.load_year_to_select();
         }
       }
     });
   },
-  empty_tables() {
-    $(".card-header").each(function(index, ele) {
-      app_status = $( this ).attr("value");
-      $("#" + app_status + "_container").empty();
+  load_year_to_select() {
+    var applicants = this.applicants;
+    var $sel = $("#yearSelect");
+    $sel.empty();
+    $sel.append($("<option value='all'>All</select>"));
+
+    var year;
+    var re = /\d+\/\d+\/(\d+)/;
+
+    var yearsObj = {},
+        yearsArr = [];
+    for(var i=0; i<applicants.length; i++) {
+      year = re.exec(applicants[i].createdAt)[1];
+      yearsObj[year] = true;
+    }
+
+    for (year in yearsObj) {
+      yearsArr.push(year);
+    }
+    yearsArr.sort();
+    for (var i =yearsArr.length - 1; i>= 0; i--) {
+      $sel.append($(`<option >${yearsArr[i]}</select>`));
+    }
+  },
+  add_change_year_select_handler() {
+    $("#yearSelect").on("change", function() {
+      var year = $(this).val();
+      if (year == "all")
+        app_obj.load_apps_to_table();
+      else
+      app_obj.load_apps_to_table(year);
     });
-  }
-}
+  },
+  empty_tables() {
+    $("tbody[class='apps_container']").empty();
+  },
+  load_apps_to_table(year) {
+    this.empty_tables()
+    toggle_card_headers();
 
-function add_applications(applicants) {
-  for (var i=0; i<applicants.length; i++) {
-    add_application(applicants[i]);
-  }
-}
-
-function add_application(applicant) {
-  var $container, $tr, name;
-  $container = $("#" + applicant.application_status+ "_container");
-  $tr = $("<tr></tr>", {id: applicant._id + "_tr"});
-
-  name = applicant.application.first_name;
-  if (applicant.application.middle_name)
-    name += " " + applicant.application.middle_name
-  name += " " + applicant.application.last_name
-  $tr.append(
-    $(`<td><a href=${applicant.self}>${name}</a></td>`));
-
-
-  $tr.append($(`<td>${applicant.createdAt}</td>`));
-  $tr.append($(`<td>${applicant.updatedAt}</td>`));
-  $tr.append($(`<td>${applicant.reference}</td>`));
-  $tr.append($(`<td>${applicant.services.length}</td>`));
-  var service_add_btn = create_service_add_btn(applicant._id),
-      service_show_btn = create_service_hide_btn(applicant._id);
-  $tr.append($(`<td></td>`)
-    .append(service_add_btn)
-    .append(service_show_btn)
-    );
-  $(service_add_btn).hide();
+    var applicants = this.applicants;
+    for (var i=0; i<applicants.length; i++) {
+      if (year != undefined) {
+        if (applicants[i].createdAt.includes(year))
+        this.add_application(applicants[i]);
+      } else {
+        this.add_application(applicants[i]);
+      }
+    }
+  },
+  add_application(applicant) {
+    var $container, $tr, name;
+    $container = $("#" + applicant.application_status+ "_container");
+    $tr = $("<tr></tr>", {id: applicant._id + "_tr"});
   
-  $container.append($tr);
+    name = applicant.application.first_name;
+    if (applicant.application.middle_name)
+      name += " " + applicant.application.middle_name
+    name += " " + applicant.application.last_name
+    $tr.append(
+      $(`<td><a href=${applicant.self}>${name}</a></td>`));
+  
+    $tr.append($(`<td>${applicant.createdAt}</td>`));
+    $tr.append($(`<td>${applicant.updatedAt}</td>`));
+    $tr.append($(`<td>${applicant.reference}</td>`));
+    $tr.append($(`<td>${applicant.services.length}</td>`));
+    var service_add_btn = create_service_add_btn(applicant._id),
+        service_show_btn = create_service_hide_btn(applicant._id);
+    $tr.append($(`<td></td>`)
+      .append(service_add_btn)
+      .append(service_show_btn)
+      );
+    $(service_add_btn).hide();
+    
+    $container.append($tr);
+  
+    service_obj.add_service_rows(applicant._id, applicant.services, $container);
+  },
+  empty_container() {
 
-  service_obj.add_service_rows(applicant._id, applicant.services, $container);
+  },
 }
 
 var service_obj ={
