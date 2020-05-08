@@ -4,16 +4,23 @@ window.onload = function() {
   $(".card-header").on("click", click_card_header);
 
   $("#service-form").on("submit", function(e) {
+    var method = $(this).attr("method");
     e.preventDefault();
     $.ajax({
-      type: "POST",
-      url: "./services",
+      type: method,
+      url: $(this).attr("url"),
       data: $(this).serialize(),
       success: function(service, textStatus, xhr) {
         if (xhr.status == 201 || xhr.status == 200) {
           $("#serviceModal").modal("hide");
           $("#service-form")[0].reset();
-          service_obj.add_service_row(service.applicant, service);
+          if (method == "POST") {
+            service_obj.add_service_row(service.applicant, service);
+            app_obj.add_service(service.applicant, service);
+          } else {
+            service_obj.update_service_row(service.applicant, service);
+            app_obj.update_service(service.applicant, service);
+          }
         }
       }
     });
@@ -22,6 +29,20 @@ window.onload = function() {
 
 var app_obj = {
   applicants: null,
+  add_service(app_id, service) {
+    var applicant = this.get_applicant(app_id);
+    applicant.services.push(service);
+  },
+  update_service(app_id, service) {
+    var applicant = this.get_applicant(app_id);
+    
+    var s = applicant.services
+    for (var i=0; i <s.length; i++) {
+      if (s[i]._id == service._id) {
+        s[i] = service;
+      }
+    }
+  },
   onload() {
     this.load_applications();
     this.add_change_year_select_handler();
@@ -127,19 +148,22 @@ var app_obj = {
       if (applicants[i]._id == app_id)
         return applicants[i];
     }
+  },
+  get_service(app_id, service_id) {
+    var applicant = this.get_applicant(app_id);
+    for (var i=0; i< applicant.services.length; i++) {
+      if (service_id == applicant.services[i]._id)
+        return applicant.services[i];  
+    }
   }
 }
 
 var service_obj ={
-  load_app_info_to_form(app_id) {
-    $("#appInfo-serviceFormContainer").empty();
-    var applicant = app_obj.get_applicant(app_id);
-    var text = "Help Requested\n" + applicant.application.help_request + "\n\n";
-    text += "Health Issues\n" + applicant.application.health_issues;
-    $("#appInfo-serviceFormContainer").text(text);
-  },
   get_tr_class(applicant_id) {
     return applicant_id + "-service-tr";
+  },
+  get_id(service_id) {
+    return service_id + "-service-tr";
   },
   add_service_rows(app_id, services, container_element) {
     var $service_tr,
@@ -166,18 +190,44 @@ var service_obj ={
     }
   },
   make_service_row(app_id, service) {
-    var tr_classname = this.get_tr_class(app_id);
+    var tr_classname = this.get_tr_class(app_id),
+        id = this.get_id(service._id);
 
     var $service_tr = $("<tr></tr>", 
-        {"class": tr_classname + " table-info"});
+        {"class": tr_classname + " table-info",
+          "id": id,});
 
     $service_tr.append($(`<td>${service.volunteer}</td>`));
     $service_tr.append($(`<td colspan="2">${service.description}</td>`));
     $service_tr.append($(`<td>${service.service_date}</td>`));
     $service_tr.append($(`<td>${service.status}</td>`));
-    $service_tr.append($(`<td></td>`));
+
+    edit_button = $(`<button applicant_id=${app_id} service_id=${service._id} class='btn btn-sm btn-danger' type='button'>Edit</button>`);
+    edit_button[0].setAttribute("data-toggle", "modal");
+    edit_button[0].setAttribute("data-target", "#serviceModal");
+
+    edit_button.on("click", function(e) {
+      var service_id = $(this).attr("service_id"),
+          app_id = $(this).attr("applicant_id");
+      $("#service-form")[0].reset();
+
+      $("#service-form").attr("method", "PATCH");
+      $("#service-form").attr("url", "./services/" + service_id);
+      
+      
+      service_obj.load_servicedata_to_modalform(app_id, service_id);
+      service_obj.load_app_info_to_form(app_id);
+      $("#serviceForm-modalTitle").text("Edit Service");
+    });
+
+    $service_tr.append($(`<td></td>`).append(edit_button));
 
     return $service_tr;
+  },
+  update_service_row(app_id, service) {
+    var id = this.get_id(service._id);
+    var new_tr = this.make_service_row(app_id, service);
+    $("#" + id).replaceWith(new_tr);
   },
   add_service_row(app_id, service) {
     var tr_classname = this.get_tr_class(app_id),
@@ -186,7 +236,41 @@ var service_obj ={
     $trs = $("." + tr_classname);
     var $last_tr = $trs[$trs.length - 1];
     new_tr.insertAfter($last_tr);
-  }
+  },
+  load_servicedata_to_modalform(app_id, service_id) {
+    var service = app_obj.get_service(app_id, service_id);
+    $("#description-input").val(service.description);
+    $("#volunteer-input").val(service.volunteer);
+    var date_time_string = service.service_date;
+
+    var re_date = /(\d+)\/(\d+)\/(\d+)/;
+    
+    var date_result = re_date.exec(date_time_string);
+    var year = date_result[3],
+        month = (parseInt(date_result[1]) < 10) ? "0" + date_result[1] : date_result[1],
+        day = (parseInt(date_result[2]) < 10) ? "0" + date_result[2] : date_result[2];
+
+    var date_str = year + "-"+ month +"-"+ day + "T";
+    var re_time = /(\d+):(\d+)/;
+    var time_result = re_time.exec(date_time_string);
+    if (date_time_string.includes("PM"))
+      date_str += (parseInt(time_result[1]) + 12) + ":" + time_result[2];
+    else {
+      if (parseInt(time_result[1]) < 10)
+        date_str += "0" + time_result[1] + ":" + time_result[2];
+      else
+        date_str += time_result[1] + ":" + time_result[2];
+    }
+
+    $("#service-date").val(date_str);
+  },
+  load_app_info_to_form(app_id) {
+    $("#appInfo-serviceFormContainer").empty();
+    var applicant = app_obj.get_applicant(app_id);
+    var text = "Help Requested\n" + applicant.application.help_request + "\n\n";
+    text += "Health Issues\n" + applicant.application.health_issues;
+    $("#appInfo-serviceFormContainer").text(text);
+  },
 }
 
 function create_add_service_btn(app_id) {
@@ -197,9 +281,14 @@ function create_add_service_btn(app_id) {
   btn.setAttribute("data-toggle", "modal");
   btn.setAttribute("data-target", "#serviceModal");
   btn.addEventListener("click", function(e) {
+    $("#service-form")[0].reset();
     var app_id = e.target.value;
+    // Set modal title (because modal used for editing services too)
+    $("#serviceForm-modalTitle").text("Add Service");
+    $("#service-form").attr("method", "POST");
+    $("#service-form").attr("url", "./services");
     $("#service-app-id-input").val(app_id); // fill hidden input with app_id
-    service_obj.load_app_info_to_form(app_id);    
+    service_obj.load_app_info_to_form(app_id);
   });
   btn.classList.add("btn", "btn-primary", "btn-sm");
   return btn;

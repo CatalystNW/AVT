@@ -38,16 +38,32 @@ exports.post_service = async function(req, res) {
   applicant.services.push(service._id);
   await applicant.save();
 
-  var serviceObj = {
-    applicant: service.applicant,
-    volunteer: service.volunteer,
-    service_date: service.service_date.toLocaleString(),
-    description: service.description,
-    status: service.status,
-  }
-  res.status(201).json(serviceObj);
+  res.status(201).json(service.get_obj());
 }
 
+exports.update_service = async function(req, res) {
+  var service_id = req.params.service_id,
+      status = req.body.status,
+      volunteer = req.body.volunteer,
+      service_date = req.body.service_date,
+      description = req.body.description;;
+
+  var service = await CareService.findById(service_id).exec();
+  if (status != undefined && status != service.status) {
+    service.status = status;
+  }
+  if (volunteer != undefined) {
+    service.volunteer = volunteer;
+  }
+  if (service_date != undefined) {
+    service.service_date = service_date;
+  }
+  if (description != undefined) {
+    service.description = description;
+  }
+  await service.save();
+  res.status(200).json(service.get_obj());
+}
 
 async function create_service(applicant_id, data) {
   var service = new CareService();
@@ -146,23 +162,6 @@ exports.get_notes = async function(req, res) {
 
   res.status(200).json(service.notes);
 };
-
-exports.update_service = async function(req, res) {
-  var service_id = req.params.service_id,
-      note = req.body.note,
-      status = req.body.status;
-
-  var service = await CareService.findById(service_id).exec();
-  
-  if (note != undefined && service.note != note) {
-    service.note = note;
-  }
-  if (status != undefined && status != service.status) {
-    service.status = status;
-  }
-  await service.save();
-  res.status(200).json(service.get_obj());
-}
 
 module.exports.get_services = get_services;
 module.exports.create_service = create_service;

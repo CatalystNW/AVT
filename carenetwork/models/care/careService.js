@@ -23,6 +23,8 @@ const careServiceSchema = new mongoose.Schema({
 
 careServiceSchema.methods.get_obj = function() {
   return {
+    _id: this._id,
+    status: this.status,
     applicant: this.applicant,
     description: this.description,
     volunteer: this.volunteer,

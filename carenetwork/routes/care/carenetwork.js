@@ -140,7 +140,7 @@ router.get('/services/:service_id', async function(req, res) {
    res.status(200).json(service);
 });
 
-router.post('/services', service_controller.post_service);
+
 
 // Update Service. Redirects back to view_servicse
 router.post('/update_service/:service_id', async function(req, res) {
@@ -160,6 +160,8 @@ router.post('/update_service/:service_id', async function(req, res) {
 });
 
 router.get('/view_service/:service_id', service_controller.view_service);
+
+router.post('/services', service_controller.post_service);
 
 router.post('/services/:service_id/notes', service_controller.post_note);
 router.get('/services/:service_id/notes', service_controller.get_notes);
