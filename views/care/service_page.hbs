@@ -98,9 +98,9 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Status:</div>
-            <div class="col-sm-9 col-xs-8 col-md-9">
-              <select value={{service.status}} name="status" id="statusSelect">
+            <label for="statusSelect" class="col-sm-3 col-xs-4 col-md-3 labelDiv">Status:</label>
+            <div class="col-sm-9 col-xs-8 col-md-6 col-lg-5">
+              <select class="form-control" value={{service.status}} name="status" id="statusSelect">
                 <option value="not_started">Not Started</option>
                 <option value="started">Started</option>
                 <option value="complete">Completed</option>
