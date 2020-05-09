@@ -47,7 +47,7 @@ exports.post_appnote = async function(req, res) {
 
 exports.get_appnotes = async function(req, res) {
   var app_id = req.params.application_id
-  var notes = await CareAppNote.find({}).lean().exec();
+  var notes = await CareAppNote.find({applicant: app_id}).lean().exec();
   var dataArr = [], note;
   for (var i=0; i< notes.length; i++) {
     dataArr.push(convert_to_data(notes[i]));
