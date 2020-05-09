@@ -1,5 +1,6 @@
 var UserPackage = require('../../../models/userPackage');
 var CareAppNote = require('../../models/care/careappnote');
+var CareApplicant = require('../../models/care/careApplicant');
 
 // Converts note entity to formatted data for frontend js
 function convert_to_data(note_entity) {
@@ -30,6 +31,12 @@ exports.post_appnote = async function(req, res) {
     appnote.note = note;
     appnote.name = name;
     appnote.applicant = application_id;
+
+    var applicant = await CareApplicant.findById(application_id).exec();
+
+    applicant.notes.push(appnote._id);;
+
+    await applicant.save();
 
     await appnote.save();
     res.status(201).json(convert_to_data(appnote));
