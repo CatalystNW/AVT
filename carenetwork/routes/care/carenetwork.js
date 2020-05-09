@@ -96,42 +96,6 @@ router.get('/view_services/:applicant_id', function(req, res) {
   );
 });
 
-// Add Service Page
-router.get('/add_service/:applicant_id', function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var applicant_id = req.params.applicant_id;
-      context.applicant_id = applicant_id;
-
-      res.render("care/add_service.hbs", context);
-    }
-  );
-});
-
-router.post('/add_service/:applicant_id', function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var applicant_id = req.params.applicant_id;
-      await service_controller.create_service(applicant_id, req.body);
-      // res.status(200).end();
-      res.redirect('/carenetwork/view_services/' + req.params.applicant_id);
-    });
-});
-
-// Update Service Page
-router.get('/update_service/:service_id', function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var service_id = req.params.service_id;
-
-      context.update_page = true;
-      context.service_id = service_id;
-
-      res.render("care/add_service.hbs", context);
-    }
-  );
-});
-
 // GET Service API
 router.get('/services/:service_id', async function(req, res) {
    // Get Services
@@ -140,24 +104,6 @@ router.get('/services/:service_id', async function(req, res) {
    res.status(200).json(service);
 });
 
-
-
-// Update Service. Redirects back to view_servicse
-router.post('/update_service/:service_id', async function(req, res) {
-  // Get Services
-  var service_id = req.params.service_id;
-
-  var req_body = req.body;
-  
-  var service = await CareService.findById(service_id).exec();
-
-  service.description = req_body.description;
-  service.case_worker = req_body.case_worker;
-  service.service_date = req_body.service_date;
-  service.save();
-
-  res.redirect('/carenetwork/view_services/' + service.applicant);
-});
 
 router.get('/view_service/:service_id', service_controller.view_service);
 
