@@ -65,21 +65,6 @@ exports.update_service = async function(req, res) {
   res.status(200).json(service.get_obj());
 }
 
-async function create_service(applicant_id, data) {
-  var service = new CareService();
-  service.applicant = applicant_id;
-  service.volunteer = data.volunteer;
-  service.service_date = data.service_date;
-  service.description = data.description;
-  await service.save();
-
-  var applicant = await CareApplicant.findById(applicant_id).exec();
-  applicant.services.push(service._id);
-  await applicant.save();
-
-  return true;
-}
-
 exports.view_services = function(req, res) {
   helper.create_user_context(req).then(
     async (context) => {
@@ -164,5 +149,4 @@ exports.get_notes = async function(req, res) {
 };
 
 module.exports.get_services = get_services;
-module.exports.create_service = create_service;
 module.exports.get_service = get_service;
