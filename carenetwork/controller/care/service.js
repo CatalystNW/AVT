@@ -32,6 +32,8 @@ exports.post_service = async function(req, res) {
   service.volunteer = req.body.volunteer;
   service.service_date = req.body.service_date;
   service.description = req.body.description;
+  if (req.body.status)
+    service.status = req.body.status;
   await service.save();
 
   var applicant = await CareApplicant.findById(applicant_id).exec();

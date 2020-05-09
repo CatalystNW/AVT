@@ -239,6 +239,7 @@ var service_obj ={
   },
   load_servicedata_to_modalform(app_id, service_id) {
     var service = app_obj.get_service(app_id, service_id);
+    $("#statusSelect").val(service.status);
     $("#description-input").val(service.description);
     $("#volunteer-input").val(service.volunteer);
     var date_time_string = service.service_date;
@@ -253,7 +254,7 @@ var service_obj ={
     var date_str = year + "-"+ month +"-"+ day + "T";
     var re_time = /(\d+):(\d+)/;
     var time_result = re_time.exec(date_time_string);
-    if (date_time_string.includes("PM"))
+    if (date_time_string.includes("PM") && time_result[1] != "12")
       date_str += (parseInt(time_result[1]) + 12) + ":" + time_result[2];
     else {
       if (parseInt(time_result[1]) < 10)
@@ -261,6 +262,7 @@ var service_obj ={
       else
         date_str += time_result[1] + ":" + time_result[2];
     }
+    console.log(date_str);
 
     $("#service-date").val(date_str);
   },
