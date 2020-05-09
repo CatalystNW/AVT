@@ -77,25 +77,6 @@ router.post('/application', async function(req, res) {
     res.status(404).end(); // Missing fields
 });
 
-// Services Page
-router.get('/view_services/:applicant_id', function(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var applicant_id = req.params.applicant_id
-      context.applicant_id = applicant_id;
-
-      context.services = await service_controller.get_services(applicant_id);
-      for (var i=0;i < context.services.length; i++) {
-        context.services[i].update_service_url = "/carenetwork/update_service/" + context.services[i]._id;
-        context.services[i].view_service_url = "/carenetwork/view_service/" + context.services[i]._id;
-      }
-      
-      context.add_service_url ="/carenetwork/add_service/" + applicant_id;
-      res.render("care/services_page.hbs", context);
-    }
-  );
-});
-
 // GET Service API
 router.get('/services/:service_id', async function(req, res) {
    // Get Services
