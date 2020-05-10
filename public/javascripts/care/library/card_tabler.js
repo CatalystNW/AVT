@@ -11,6 +11,7 @@ var card_tabler = {
   start(page_name, click_callback) {
     this.page_name = page_name;
     this.add_click_handler(click_callback);
+    this.toggle_card_headers();
   },
   add_click_handler(callback) {
     $(".card-header").on("click", function(e) {

@@ -106,8 +106,7 @@ var app_obj = {
     $("tbody[class='apps_container']").empty();
   },
   load_apps_to_table(year) {
-    this.empty_tables()
-    card_tabler.toggle_card_headers();
+    this.empty_tables();
 
     var applicants = this.applicants;
     for (var i=0; i<applicants.length; i++) {
