@@ -1,7 +1,11 @@
 window.onload = function() {
   app_obj.onload();
 
-  $(".card-header").on("click", click_card_header);
+  this.card_tabler.add_click_handler((app_status, result) => {
+    if (app_status == "completed" && result == "show" && 
+      $("#completed_container").children().length == 0)
+      app_obj.load_applications(); // Load app data to include completed apps
+  });
 
   $("#service-form").on("submit", function(e) {
     var method = $(this).attr("method");
@@ -327,12 +331,3 @@ function create_service_hide_btn(app_id) {
   return btn;
 }
 
-// Handler when user clicks on the card header
-function click_card_header(e) {
-  var app_status = $(this).attr("value");
-  var result = card_tabler.toggle_appstatus_show_status(app_status);
-  card_tabler.toggle_card_header(app_status);
-  if (app_status == "completed" && result == "show" && 
-    $("#completed_container").children().length == 0)
-    app_obj.load_applications(); // Load app data to include completed apps
-}

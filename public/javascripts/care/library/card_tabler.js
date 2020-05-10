@@ -6,6 +6,22 @@
  * Card body should have id=[app_status]_cardbody
  */
 var card_tabler = {
+  add_click_handler(callback) {
+    $(".card-header").on("click", function(e) {
+      var app_status = $(this).attr("value");
+      if (app_status) {
+        var result = card_tabler.toggle_appstatus_show_status(app_status);
+        card_tabler.toggle_card_header(app_status);
+
+        if (callback){
+          callback(app_status, result);
+        }
+        if (app_status == "completed" && result == "show" && 
+          $("#completed_container").children().length == 0)
+          app_obj.load_applications(); // Load app data to include completed apps
+      }
+    });
+  },
   // Get the name saved in local storage
   get_status_item_name(app_status) {
     return "CARE_show_" + app_status;
