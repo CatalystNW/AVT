@@ -31,6 +31,7 @@ careServiceSchema.methods.get_obj = function() {
     service_date: this.service_date.toLocaleString(),
     createdAt: this.createdAt.toLocaleString(),
     updatedAt: this.updatedAt.toLocaleString(),
+    view_service_url: "/carenetwork/view_service/" + this._id,
   }
 }
 

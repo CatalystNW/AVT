@@ -47,7 +47,7 @@ async function get_applicant(application_id) {
     .lean().exec();
   // var contact_ids = applicant.application.contacts;
 
-  // var contacts = await CareContact.find().where('_id').in(contact_ids)
+  // var contacts = await CareContact.find().
   //   .lean().exec();
   
   // applicant.application.contacts = contacts;
