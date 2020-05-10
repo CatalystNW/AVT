@@ -1,11 +1,12 @@
 window.onload = function() {
-  app_obj.onload();
-
-  this.card_tabler.add_click_handler((app_status, result) => {
-    if (app_status == "completed" && result == "show" && 
-      $("#completed_container").children().length == 0)
-      app_obj.load_applications(); // Load app data to include completed apps
+  this.card_tabler.start("applications", 
+    function click_callback(app_status, result) {
+      if (app_status == "completed" && result == "show" && 
+        $("#completed_container").children().length == 0)
+        app_obj.load_applications(); // Load app data to include completed apps
   });
+
+  app_obj.onload();
 
   $("#service-form").on("submit", function(e) {
     var method = $(this).attr("method");

@@ -6,6 +6,12 @@
  * Card body should have id=[app_status]_cardbody
  */
 var card_tabler = {
+  page_name: null,
+  // Note: run start & then any functions that relies on the show status
+  start(page_name, click_callback) {
+    this.page_name = page_name;
+    this.add_click_handler(click_callback);
+  },
   add_click_handler(callback) {
     $(".card-header").on("click", function(e) {
       var app_status = $(this).attr("value");
@@ -21,7 +27,7 @@ var card_tabler = {
   },
   // Get the name saved in local storage
   get_status_item_name(app_status) {
-    return "CARE_show_" + app_status;
+    return "CARE_" + this.page_name + "_page_" + app_status;
   }, 
   // Show/Hide the card header by app_status
   toggle_card_header(app_status) {
