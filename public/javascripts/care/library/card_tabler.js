@@ -16,9 +16,6 @@ var card_tabler = {
         if (callback){
           callback(app_status, result);
         }
-        if (app_status == "completed" && result == "show" && 
-          $("#completed_container").children().length == 0)
-          app_obj.load_applications(); // Load app data to include completed apps
       }
     });
   },
