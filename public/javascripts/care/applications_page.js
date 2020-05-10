@@ -49,7 +49,7 @@ var app_obj = {
   },
 
   load_applications() {
-    var completed_show_cmd = get_appstatus_show_status("completed");
+    var completed_show_cmd = card_tabler.get_appstatus_show_status("completed");
     var completed_show_status = (completed_show_cmd == "show") ? true : false;
   
     $.ajax({
@@ -102,7 +102,7 @@ var app_obj = {
   },
   load_apps_to_table(year) {
     this.empty_tables()
-    toggle_card_headers();
+    card_tabler.toggle_card_headers();
 
     var applicants = this.applicants;
     for (var i=0; i<applicants.length; i++) {
@@ -209,20 +209,34 @@ var service_obj ={
     edit_button.on("click", function(e) {
       var service_id = $(this).attr("service_id"),
           app_id = $(this).attr("applicant_id");
-      $("#service-form")[0].reset();
-
-      $("#service-form").attr("method", "PATCH");
-      $("#service-form").attr("url", "./services/" + service_id);
-      
-      
-      service_obj.load_servicedata_to_modalform(app_id, service_id);
-      service_obj.load_app_info_to_form(app_id);
-      $("#serviceForm-modalTitle").text("Edit Service");
+      service_obj.load_edit_service_modal_form(app_id, service_id);
     });
 
     $service_tr.append($(`<td></td>`).append(edit_button));
 
     return $service_tr;
+  },
+  load_edit_service_modal_form(app_id, service_id) {
+    $("#service-form")[0].reset();
+
+    $("#service-form").attr("method", "PATCH");
+    $("#service-form").attr("url", "./services/" + service_id);
+    
+    
+    service_obj.load_servicedata_to_modalform(app_id, service_id);
+    service_obj.load_app_info_to_form(app_id);
+    $("#serviceForm-modalTitle").text("Edit Service");
+  },
+  load_add_service_modal_form(app_id) {
+    $("#service-form")[0].reset();
+    
+    // Set modal title (because modal used for editing services too)
+    $("#serviceForm-modalTitle").text("Add Service");
+    $("#service-form").attr("method", "POST");
+
+    $("#service-form").attr("url", "./services");
+    $("#service-app-id-input").val(app_id); // fill hidden input with app_id
+    service_obj.load_app_info_to_form(app_id);
   },
   update_service_row(app_id, service) {
     var id = this.get_id(service._id);
@@ -283,14 +297,8 @@ function create_add_service_btn(app_id) {
   btn.setAttribute("data-toggle", "modal");
   btn.setAttribute("data-target", "#serviceModal");
   btn.addEventListener("click", function(e) {
-    $("#service-form")[0].reset();
     var app_id = e.target.value;
-    // Set modal title (because modal used for editing services too)
-    $("#serviceForm-modalTitle").text("Add Service");
-    $("#service-form").attr("method", "POST");
-    $("#service-form").attr("url", "./services");
-    $("#service-app-id-input").val(app_id); // fill hidden input with app_id
-    service_obj.load_app_info_to_form(app_id);
+    service_obj.load_add_service_modal_form(app_id);
   });
   btn.classList.add("btn", "btn-primary", "btn-sm");
   return btn;
@@ -319,52 +327,12 @@ function create_service_hide_btn(app_id) {
   return btn;
 }
 
-// Iterate through all headers & check if show/hide
-function toggle_card_headers() {
-  var app_status;
-  $(".card-header").each(function(index, ele) {
-    app_status = $( this ).attr("value");
-    toggle_card_header(app_status);
-  });
-}
-
-function get_status_item_name(app_status) {
-  return "CARE_show_" + app_status;
-}
-
+// Handler when user clicks on the card header
 function click_card_header(e) {
   var app_status = $(this).attr("value");
-  var result = toggle_appstatus_show_status(app_status);
-  toggle_card_header(app_status);
+  var result = card_tabler.toggle_appstatus_show_status(app_status);
+  card_tabler.toggle_card_header(app_status);
   if (app_status == "completed" && result == "show" && 
     $("#completed_container").children().length == 0)
     app_obj.load_applications(); // Load app data to include completed apps
-}
-
-function toggle_appstatus_show_status(app_status) {
-  var result = get_appstatus_show_status(app_status),
-      item_name = get_status_item_name(app_status);
-  
-  var new_status = result == "show" ? "hide" : "show";
-
-  window.localStorage.setItem(item_name, new_status);
-  return new_status;
-}
-
-function get_appstatus_show_status(app_status) {
-  var item_name = get_status_item_name(app_status);
-  var result = window.localStorage.getItem(item_name);
-  if (result === null || null === undefined)
-    return "show";
-  else
-    return result;
-}
-
-function toggle_card_header(app_status) {
-  var command = get_appstatus_show_status(app_status)
-  var $table = $("#" + app_status + "_container"); // get table
-  if (command == "hide")
-    $table.parent().hide();
-  else if (command == "show")
-    $table.parent().show();
 }
