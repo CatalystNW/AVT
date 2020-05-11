@@ -19,6 +19,19 @@ function check_care_application(req_body) {
   return true;
 }
 
+function transform_appData(applicant) {
+  applicant.createdAt = applicant.createdAt.toLocaleString();
+  applicant.updatedAt = applicant.updatedAt.toLocaleString();
+  applicant.self = "./view_application/" + applicant._id;
+  applicant.add_services_url = "./add_service/" + applicant._id;
+}
+
+function transform_serviceData(service) {
+  service.createdAt = service.createdAt.toLocaleString();
+  service.updatedAt = service.updatedAt.toLocaleString();
+  service.service_date = service.service_date.toLocaleString();
+}
+
 exports.get_applications = async function(req, res) {
   if (req.query.show_completed == "false")
     var query = CareApplicant.find({application_status: {$ne : "completed"}});
@@ -27,16 +40,10 @@ exports.get_applications = async function(req, res) {
   var service;
   apps = await query.populate('services').lean().exec();
   for (var i=0; i<apps.length;i++) {
-    apps[i].createdAt = apps[i].createdAt.toLocaleString();
-    apps[i].updatedAt = apps[i].updatedAt.toLocaleString();
-    apps[i].self = "./view_application/" + apps[i]._id;
-    apps[i].add_services_url = "./add_service/" + apps[i]._id;
+    transform_appData(apps[i]);
 
     for (var j=0; j<apps[i].services.length; j++) {
-      service = apps[i].services[j];
-      service.createdAt = service.createdAt.toLocaleString();
-      service.updatedAt = service.updatedAt.toLocaleString();
-      service.service_date = service.service_date.toLocaleString();
+      transform_serviceData(apps[i].services[j])
     }
   }
   res.status(200).json(apps);
