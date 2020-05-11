@@ -1,0 +1,52 @@
+<div class="modal fade" id="serviceModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="serviceForm-modalTitle" class="modal-title">Add Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="service-form">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="col-xs-12 col-md-6" id="appInfo-serviceFormContainer"></div>
+          <div class="col-xs-12 col-md-6">
+            <input type="text" class="form-control" name="applicant_id" id="service-app-id-input" hidden>
+            <div class="form-group">
+              <label for="volunteer-input" class="col-form-label">Volunteer</label>
+              <input type="text" class="form-control" name="volunteer" 
+                id="volunteer-input">
+            </div>
+          
+            <div class="form-group">
+              <label for="description-input" class="col-form-label">Description</label>
+              <input type="text" class="form-control" name="description" 
+                id="description-input" required>
+            </div>
+            <div class="form-group">
+              <label for="service-date" class="col-form-label">Service Date</label>
+              <input type="datetime-local" class="form-control" name="service_date" 
+                id="service-date" required>
+            </div>
+            <div class="form-group">
+              <label for="statusSelect" class="col-form-label">Service Date</label>
+              <select class="form-control" name="status" id="statusSelect">
+                <option value="not_started">Not Started</option>
+                <option value="started">Started</option>
+                <option value="complete">Completed</option>
+              </select>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      </form>   
+    </div>
+  </div>
+</div>
