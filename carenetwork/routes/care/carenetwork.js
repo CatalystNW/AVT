@@ -61,6 +61,9 @@ router.get('/application_form', function(req, res){
 // REST API : GET /applications
 router.get('/applications', application_controller.get_applications);
 
+router.get('/applications/:application_id', 
+    application_controller.get_application_by_id);
+
 router.get('/view_applications', function(req, res){
   helper.create_user_context(req).then(
     (context) => {

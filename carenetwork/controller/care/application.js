@@ -49,6 +49,16 @@ exports.get_applications = async function(req, res) {
   res.status(200).json(apps);
 };
 
+exports.get_application_by_id = async function(req, res) {
+  var app_id = req.params.application_id;
+  var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
+  transform_appData(app);
+  for (var i=0;  i< app.services.length; i++) {
+    transform_serviceData(app.services[i]);
+  }
+  return res.status(200).json(app);
+}
+
 async function get_applicant(application_id) {
   var applicant = await CareApplicant.findById(application_id)
     .lean().exec();
