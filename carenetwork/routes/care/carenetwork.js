@@ -86,6 +86,9 @@ router.get('/services/:service_id', async function(req, res) {
 });
 
 
+router.get('/services', service_controller.get_services_api);
+
+
 router.get('/view_service/:service_id', service_controller.view_service);
 
 router.post('/services', service_controller.post_service);

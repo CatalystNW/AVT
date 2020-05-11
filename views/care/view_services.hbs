@@ -1,9 +1,60 @@
-{{#each services}}
-<p>
-  {{{_id}}} {{{service_date}}}
+<div class="card">
+  <div class="card-header" value="not_started">Not Started</div>
+  <div class="card-body" id="not_started_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Service Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Volunteer</th>
+          <th scope="col">Applicant Reference</th>
+          <th scope="col">Create Date</th>
+          <th scope="col">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_contaiSner" id="not_started_container"></tbody>
+    </table>
+  </div>
+</div>
 
-  <div>{{{note}}}</div>
+<div class="card">
+  <div class="card-header" value="started">Started</div>
+  <div class="card-body" id="started_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Service Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Volunteer</th>
+          <th scope="col">Applicant Reference</th>
+          <th scope="col">Create Date</th>
+          <th scope="col">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="started_container"></tbody>
+    </table>
+  </div>
+</div>
 
-  <a href="{{this.view_service_url}}">View Service</a>
-</p>
-{{/each}}
+<div class="card">
+  <div class="card-header" value="complete">Complete</div>
+  <div class="card-body" id="complete_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Service Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Volunteer</th>
+          <th scope="col">Applicant Reference</th>
+          <th scope="col">Create Date</th>
+          <th scope="col">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="complete_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/library/card_tabler.js"></script>
+<script type="text/javascript" src="/javascript/care/view_services.js"></script>
+<link rel="stylesheet" href="/stylesheets/care/view_services.css">

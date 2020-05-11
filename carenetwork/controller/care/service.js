@@ -74,14 +74,26 @@ exports.view_services = function(req, res) {
         // var user_id = req.user._id;
         var services = await CareService.find({}).populate("applicant").lean().exec();
 
+        var services_array = [];
+
         for (var i=0; i<services.length; i++) {
           services[i].view_service_url = "/carenetwork/view_service/" + services[i]._id;
+          services[i].service_date = services[i].service_date.toLocaleString();
         }
         context.services = services;
       // }
       res.render("care/view_services.hbs", context);
     }
   );
+};
+
+exports.get_services_api = async function(req, res) {
+  services = await CareService.find({}).populate("applicant").lean().exec();
+  for (var i=0; i<services.length; i++) {
+    services[i].service_date = services[i].service_date.toLocaleString();
+    services[i].createdAt = services[i].createdAt.toLocaleString();
+  }
+  res.status(200).json(services);
 };
 
 exports.view_service = function(req, res) {
