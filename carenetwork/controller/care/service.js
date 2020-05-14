@@ -96,7 +96,12 @@ function view_services(req, res) {
 };
 
 async function get_services_api(req, res) {
-  services = await CareService.find({}).populate("applicant").lean().exec();
+  if (req.query.show_complete == "false") {
+    var query = CareService.find({status: {$ne: "complete"}});
+  } else {
+    var query = CareService.find({});
+  }
+  services = await query.populate("applicant").lean().exec();
   for (var i=0; i<services.length; i++) {
     services[i].service_date = services[i].service_date.toLocaleString();
     services[i].createdAt = services[i].createdAt.toLocaleString();

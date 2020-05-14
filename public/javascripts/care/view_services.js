@@ -1,16 +1,22 @@
 window.onload = function() {
+  this.card_tabler.start("view_services", 
+    function click_callback(app_status, result) {
+      if (app_status == "complete" && result == "show" && 
+        $("#complete_container").children().length == 0)
+        service_obj.get_services(); // Load app data to include complete apps
+    }
+  );
   this.service_obj.get_services();
-
-  this.card_tabler.start("view_services", (app_status, result) => {
-    ;
-  });
 };
 
 var service_obj = {
   get_services() {
+    var complete_show_cmd = card_tabler.get_appstatus_show_status("complete");
+    var complete_show_status = (complete_show_cmd == "show") ? true : false;
+
     $.ajax({
       type: "GET",
-      url: "./services",
+      url: "/carenetwork/services?show_complete=" + complete_show_status,
       success: function(servicesData, textStatus, xhr) {
         if (xhr.status == 201 || xhr.status == 200) {
           services_table.add_service_rows(servicesData);
@@ -26,8 +32,6 @@ var services_table = {
   },
   add_service_rows(servicesData) {
     this.empty_services();
-
-    console.log(servicesData);
 
     for(var  i=0; i<servicesData.length; i++) {
       this.add_service_row(servicesData[i]);
