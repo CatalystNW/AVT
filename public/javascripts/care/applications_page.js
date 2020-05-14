@@ -1,9 +1,9 @@
 window.onload = function() {
   this.card_tabler.start("applications", 
     function click_callback(app_status, result) {
-      if (app_status == "completed" && result == "show" && 
-        $("#completed_container").children().length == 0)
-        app_obj.load_applications(); // Load app data to include completed apps
+      if (app_status == "complete" && result == "show" && 
+        $("#complete_container").children().length == 0)
+        app_obj.load_applications(); // Load app data to include complete apps
   });
 
   app_obj.onload();
@@ -54,12 +54,12 @@ var app_obj = {
   },
 
   load_applications() {
-    var completed_show_cmd = card_tabler.get_appstatus_show_status("completed");
-    var completed_show_status = (completed_show_cmd == "show") ? true : false;
+    var complete_show_cmd = card_tabler.get_appstatus_show_status("complete");
+    var complete_show_status = (complete_show_cmd == "show") ? true : false;
   
     $.ajax({
       type: "GET",
-      url: "/carenetwork/applications?show_completed=" + completed_show_status,
+      url: "/carenetwork/applications?show_complete=" + complete_show_status,
       success: function(applicants, textStatus, xhr) {
         if (xhr.status == 200) {
           app_obj.applicants = applicants;
