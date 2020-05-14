@@ -1,5 +1,46 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script>
+$(document).ready(function(){  
+  $("#exportButton").click(function(){
+      let queryList = []
+      let firstName = $("#FirstName").val();
+      if(firstName) queryList.push("firstName=" + firstName)
+      let lastName = $("#LastName").val();
+      if(lastName) queryList.push("lastName=" + lastName)
+      let city = $("#City").val();
+      if(city) queryList.push("city=" + city)
+      let zipcode = $("#ZipCode").val();
+      if(zipcode) queryList.push("zipcode=" + zipcode)
+      $('#tableContent').empty();
+      let queryString = "?" + queryList.join("&")
+      alert(queryString)
+    $.get("/projectreport/search" + queryString, function(data){
+      //$("#tableContent").append(name)
+      data.forEach(element => {
+          let row = $("<tr></tr>")
+          let name = $("<td></td>").text(element.application.name.first + " " + element.application.name.last)
+          let status = $("<td></td>").text(element.status)      
+          let appName = $("<td></td>").text(element.app_name)
+          let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
+          row.append(name, loc, status, appName)
+          $("#tableContent").append(row)
+      })
+    });
+  });
+}); 
+</script>
+<style>
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .upComing {
+        margin-bottom: 1rem;
+    }
+</style>
+
 <!--Use Header Partial Here-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
@@ -74,22 +115,87 @@
     <div class="tab-pane" id="work" role="tabpanel">
         </br>
         <p>Search for projects with the following:</p>
+        <label>First Name</label>
+        <input type="text" id= "FirstName"></input>
+        <label>Last Name</label>
+        <input type="text" id= "LastName"></input>
         <label>City</label>
-        <input type="text"></input>
+        <input type="text" id= "City"></input>
         <label>Zip Code</label>
-        <input type="text"></input>
+        <input type="text" id= "ZipCode"></input>
         <label>Partner</label>
-        <input type="text"></input>
+        <input type="text" id= "Partner"></input>
+        <button id="exportButton">Submit</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th id="head1">Name</th>
+                    <th id="head2">Address</th>
+                    <th id="head3">Appl. Status</th>
+                    <th id="head4">Appl. ID</th>
+                </tr>
+            </thead>
+            <tbody id="tableContent">
+                <tr id="defaultRow">
+                    <td>
+                        Search to return specific results
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="tab-pane" id="upcoming" role="tabpanel">
-        <h5>Approval</h5>
-        {{#each results.approval}}
+        </br>
+        <h5 style="padding-left: 21px;">Upcoming Projects
+        <button class="btn btn-info" id="exportBtn" style="margin-left: 5%;">Export PDF</button>
+        </h5><div id="iframeHolder"></div>
+        <h5>Project - Upcoming</h5>
+        {{#each upComing}}
+        <div class="upComing">
+            <p>{{application.name.first}} {{application.name.last}}:</p>
+            <p>Status: {{status}}</p>
+            {{#if workItemDoc includeZero=true}}
+            <p>Description: {{#each workItemDoc}}{{description}}{{#unless @last}}, {{/unless}}{{/each}}</p>
+            {{/if}}
+            <p>House Type: {{property.home_type}}</p>
+            <p>Location: {{application.address.city}}</p>
+            {{#if assessmentDoc includeZero=true}}
+            <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
+            <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
+            {{/if}}
+        </div>
+        {{/each}}
+
+         <h5>Assessment Complete</h5>
+        {{#each assessComp}}
+        <p>{{application.name.first}} {{application.name.last}}:</p>
         <p>Status: {{status}}</p>
-        <p>Name: {{application.name.first}} {{application.name.last}}</p>
         <p>House Type: {{property.home_type}}</p>
         <p>Location: {{application.address.city}}</p>
+        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
+        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
+        {{/each}}
+
+        <h5>In Approval Process</h5>
+        {{#each approval}}
+        <p>{{application.name.first}} {{application.name.last}}:</p>
+        <p>Status: {{status}}</p>
+        <p>House Type: {{property.home_type}}</p>
+        <p>Location: {{application.address.city}}</p>
+        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
+        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
+        {{/each}}
+
+         <h5>Waitlist</h5>
+        {{#each waitlist}}
+        <p>{{application.name.first}} {{application.name.last}}:</p>
+        <p>Status: {{status}}</p>
+        <p>Notes: {{notes.vet_summary}}</p>
+        <p>House Type: {{property.home_type}}</p>
+        <p>Location: {{application.address.city}}</p>
+        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
+        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
         {{/each}}
     </div>
-
 </div>

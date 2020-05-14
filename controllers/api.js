@@ -453,6 +453,51 @@ getDocumentPlanning: function (req, res, next) {
             .catch(next);
     },
 
+    getUpcomingProjects: function(req, res, next){
+        console.log("Getting upcoming projects from API")
+        Promise.props({
+            approvalProcess: DocumentPackage.aggregate([
+                {$match : {"status": "approval"}},
+                {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessmentDoc"}}
+            ]).execAsync(),
+            //approvalProcess: DocumentPackage.find({"status": "approval"}).lean().execAsync(),
+            waitlist: DocumentPackage.aggregate([
+                {$match : {"status": "waitlist"}},
+                {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessmentDoc"}}
+            ]).execAsync(),
+            assessComp: DocumentPackage.aggregate([
+                {$match: {"status": "assessComp", "project.status": { $ne : "project"}}},
+                {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessmentDoc"}}
+            ]).execAsync(),
+            project: DocumentPackage.aggregate([
+                {$match: {"project.status": "project", "status": { $ne: "declined"}}},
+                {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessmentDoc"}},
+                {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}}
+            ]).execAsync()
+        }).then((results) => {
+            if (results.project) {
+                var obj = results.project;
+                obj.forEach(function(v, i) {
+                    if (v.project.project_start == null) {//test to see if the id is 3
+                        obj.push(obj[i]);//push the object to the last position
+                        obj.splice(i, 1);//remove the object from the current position
+                    }
+                    results.project = obj;    
+                });                                    
+            }
+            res.locals.upComing = results.project
+            res.locals.waitlist = results.waitlist
+            res.locals.assessComp = results.assessComp
+            res.locals.approval = results.approvalProcess
+            next()
+        })    
+    },
+
     /**
      * Description: retrieve all Project Packages from the database and group by status code
      * Type: GET
@@ -565,6 +610,7 @@ getDocumentPlanning: function (req, res, next) {
 
                     })
                         .then(function (results) {
+                            console.log(results.projectUpcoming)
                             if (!results) {
                                 console.log('[ API ] getProjectsByStatus :: Project Summary package found: FALSE');
                             }

@@ -15,17 +15,38 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, getCompletedProjectsByYear, getApplicationsByYear, api.getDocumentByStatus, function(req, res, next){
+    router.get('/', isLoggedIn, getCompletedProjectsByYear, getApplicationsByYear, api.getUpcomingProjects, function(req, res, next){
         
     // create object 'payload' to return
     var payload = {};
     payload.completedProjects = res.locals.completedYearAndQuantity;
-    payload.applicationsForYear = res.locals.applications
-    payload.upComing = res.locals.results
-    console.log(res.locals)
-    console.log(payload.applicationsForYear)
-    res.render('projectsumreport'); 
-    
+    payload.applicationsForYear = res.locals.applications;
+    payload.upComing = res.locals.upComing;
+    payload.upComing.map(formatStatusUpComing)
+    payload.assessComp = res.locals.assessComp;
+    payload.assessComp.map(formatStatusUpComing)
+    payload.approval = res.locals.approval
+    payload.approval.map(formatStatusUpComing)
+    payload.waitlist = res.locals.waitlist
+    payload.waitlist.map(formatStatusUpComing)
+    console.log(payload.assessComp)
+
+    //console.log(payload.applicationsForYear)
+    //console.log(payload.approval);
+    res.render('projectsumreport', payload); 
+    })
+    router.get('/search', function(req,res,next){
+        console.log(req.query)
+        let queryObject = {}
+        if(req.query.city) queryObject["application.address.city"] = req.query.city
+        if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
+        if(req.query.firstName) queryObject["application.name.first"] = req.query.firstName
+        if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
+        DocumentPackage.find(queryObject)
+        .then( result => {
+            result.map(formatStatusUpSearch)
+            res.send(result)
+        })       
     })
     return router;
 };
@@ -218,4 +239,61 @@ function isLoggedInPost(req, res, next) {
         res.locals.status = 406;
         return next('route');
     }
+}
+
+function formatStatusUpComing(element) {
+    var status;
+    console.log(element.status)
+    switch (element.status){
+        case 'assess':
+            status = 'Site Assessment - Pending';
+            break;
+		case 'assessComp':
+			status = 'Site Assessment - Complete';
+            break;
+        case 'approval':
+            status = 'Approval Process';
+            break;   
+        case 'waitlist':
+            status = 'Waitlist';
+            break; 
+        case 'project':
+            status = 'Project - Upcoming';
+            break; 
+        default:
+            status = element.status;
+    }
+
+    element.status = status;
+    return element;
+}
+
+function formatStatusUpSearch(element) {
+    var status;
+    console.log(element.status)
+    switch (element.status){
+        case 'assess':
+            status = 'Site Assessment - Pending';
+            break;
+		case 'assessComp':
+			status = 'Site Assessment - Complete';
+            break;
+        case 'approval':
+            status = 'Approval Process';
+            break;   
+        case 'waitlist':
+            status = 'Waitlist';
+            break; 
+        case 'project':
+            status = 'Approved Project';
+            break; 
+        case 'handle':
+            status = "Handle-It";
+            break;
+        default:
+            status = element.status;
+    }
+
+    element.status = status;
+    return element;
 }
