@@ -5,6 +5,16 @@ var CareServiceNote = require('../../models/care/careservicenote');
 
 var helper = require("../helper");
 
+module.exports.get_services = get_services;
+module.exports.get_service = get_service;
+module.exports.post_service = post_service;
+module.exports.update_service = update_service;
+module.exports.view_services = view_services;
+module.exports.get_services_api = get_services_api;
+module.exports.view_service = view_service;
+module.exports.post_note = post_note;
+module.exports.get_notes = get_notes;
+
 async function get_services(applicant_id) {
   var result = await CareService.find({applicant: applicant_id}).lean().exec();
   return result;
@@ -24,7 +34,7 @@ async function get_service_data(service_id) {
   return service;
 }
 
-exports.post_service = async function(req, res) {
+async function post_service(req, res) {
   var applicant_id = req.body.applicant_id;
 
   var service = new CareService();
@@ -43,7 +53,7 @@ exports.post_service = async function(req, res) {
   res.status(201).json(service.get_obj());
 }
 
-exports.update_service = async function(req, res) {
+async function update_service(req, res) {
   var service_id = req.params.service_id,
       status = req.body.status,
       volunteer = req.body.volunteer,
@@ -67,27 +77,25 @@ exports.update_service = async function(req, res) {
   res.status(200).json(service.get_obj());
 }
 
-exports.view_services = function(req, res) {
+function view_services(req, res) {
   helper.create_user_context(req).then(
     async (context) => {
+      console.log(context);
       // if (req.user) {
         // var user_id = req.user._id;
         var services = await CareService.find({}).populate("applicant").lean().exec();
-
-        var services_array = [];
 
         for (var i=0; i<services.length; i++) {
           services[i].view_service_url = "/carenetwork/view_service/" + services[i]._id;
           services[i].service_date = services[i].service_date.toLocaleString();
         }
         context.services = services;
-      // }
       res.render("care/view_services.hbs", context);
     }
   );
 };
 
-exports.get_services_api = async function(req, res) {
+async function get_services_api(req, res) {
   services = await CareService.find({}).populate("applicant").lean().exec();
   for (var i=0; i<services.length; i++) {
     services[i].service_date = services[i].service_date.toLocaleString();
@@ -96,7 +104,7 @@ exports.get_services_api = async function(req, res) {
   res.status(200).json(services);
 };
 
-exports.view_service = function(req, res) {
+function view_service(req, res) {
   helper.create_user_context(req).then(
     async (context) => {
       var service_id = req.params.service_id;
@@ -122,7 +130,7 @@ exports.view_service = function(req, res) {
   );
 };
 
-exports.post_note = async function(req, res) {
+async function post_note(req, res) {
   var service_id = req.body.service_id;
   
   var service = await CareService.findById(service_id).populate("notes").exec();
@@ -147,7 +155,7 @@ exports.post_note = async function(req, res) {
   res.status(201).json(s);
 };
 
-exports.get_notes = async function(req, res) {
+async function get_notes(req, res) {
   var service_id = req.params.service_id;
   
   var service = await CareService.findById(service_id).populate("notes").lean().exec();
@@ -161,6 +169,3 @@ exports.get_notes = async function(req, res) {
 
   res.status(200).json(service.notes);
 };
-
-module.exports.get_services = get_services;
-module.exports.get_service = get_service;

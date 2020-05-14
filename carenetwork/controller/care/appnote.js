@@ -11,7 +11,10 @@ function convert_to_data(note_entity) {
   }
 }
 
-exports.post_appnote = async function(req, res) {
+module.exports.post_appnote = post_appnote;
+module.exports.get_appnotes = get_appnotes;
+
+async function post_appnote(req, res) {
   if (req.user && req.user.id && req.body.note && req.body.application_id) {
     var id = req.user._id, 
         note = req.body.note
@@ -45,7 +48,7 @@ exports.post_appnote = async function(req, res) {
   }
 };
 
-exports.get_appnotes = async function(req, res) {
+async function get_appnotes(req, res) {
   var app_id = req.params.application_id
   var notes = await CareAppNote.find({applicant: app_id}).lean().exec();
   var dataArr = [], note;

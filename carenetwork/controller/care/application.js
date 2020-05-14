@@ -32,7 +32,14 @@ function transform_serviceData(service) {
   service.service_date = service.service_date.toLocaleString();
 }
 
-exports.get_applications = async function(req, res) {
+module.exports.check_care_application = check_care_application;
+module.exports.create_care_applicant = create_care_applicant;
+module.exports.get_applicant = get_applicant;
+module.exports.update_application = update_application;
+module.exports.get_applications = get_applications;
+module.exports.get_application_by_id = get_application_by_id;
+
+async function get_applications(req, res) {
   if (req.query.show_completed == "false")
     var query = CareApplicant.find({application_status: {$ne : "completed"}});
   else
@@ -49,7 +56,7 @@ exports.get_applications = async function(req, res) {
   res.status(200).json(apps);
 };
 
-exports.get_application_by_id = async function(req, res) {
+async function get_application_by_id(req, res) {
   var app_id = req.params.application_id;
   var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
   transform_appData(app);
@@ -281,8 +288,3 @@ var fields_map = {
     path: "application/contact_email"
   },
 };
-
-module.exports.check_care_application = check_care_application;
-module.exports.create_care_applicant = create_care_applicant;
-module.exports.get_applicant = get_applicant;
-module.exports.update_application = update_application;
