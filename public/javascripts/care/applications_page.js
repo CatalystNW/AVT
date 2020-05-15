@@ -8,28 +8,17 @@ window.onload = function() {
 
   app_obj.onload();
 
-  $("#service-form").on("submit", function(e) {
-    var method = $(this).attr("method");
-    e.preventDefault();
-    $.ajax({
-      type: method,
-      url: $(this).attr("url"),
-      data: $(this).serialize(),
-      success: function(service, textStatus, xhr) {
-        if (xhr.status == 201 || xhr.status == 200) {
-          $("#serviceModal").modal("hide");
-          $("#service-form")[0].reset();
-          if (method == "POST") {
-            service_obj.add_service_row(service.applicant, service);
-            app_obj.add_service(service.applicant, service);
-          } else {
-            service_obj.update_service_row(service.applicant, service);
-            app_obj.update_service(service.applicant, service);
-          }
-        }
+  service_form_modal.setup_form(
+    (method, service) => {
+      if (method == "POST") {
+        service_obj.add_service_row(service.applicant, service);
+        app_obj.add_service(service.applicant, service);
+      } else {
+        service_obj.update_service_row(service.applicant, service);
+        app_obj.update_service(service.applicant, service);
       }
-    });
-  });
+    }
+  );
 };
 
 var app_obj = {

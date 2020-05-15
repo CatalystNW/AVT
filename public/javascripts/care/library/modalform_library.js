@@ -10,6 +10,25 @@ var service_form_modal = {
       }
     });
   },
+  setup_form(callback) {
+    $("#service-form").on("submit", function(e) {
+      var method = $(this).attr("method");
+      e.preventDefault();
+      $.ajax({
+        type: method,
+        url: $(this).attr("url"),
+        data: $(this).serialize(),
+        success: function(service, textStatus, xhr) {
+          if (xhr.status == 201 || xhr.status == 200) {
+            $("#serviceModal").modal("hide");
+            $("#service-form")[0].reset();
+            
+            callback(method, service);
+          }
+        }
+      });
+    });
+  },
   create_edit_button(app_id, service_id) {
     var edit_button,
         that = this;
