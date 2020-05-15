@@ -103,12 +103,12 @@ var services_table = {
       "id": this.get_id(service_id)
     });
 
-    $tr.append( $(`<td>${serviceData.service_date}</td>`) );
-    $tr.append( $(`<td>${serviceData.status}</td>`));
-    $tr.append( $(`<td>${serviceData.volunteer}</td>`));
-    $tr.append( $(`<td>${applicant_reference}</td>`));
-    $tr.append( $(`<td>${serviceData.createdAt}</td>`));
-    var option_td = $(`<td><a href='view_service/${service_id}'>View</a></td>`);
+    $tr.append( $(`<td class="col-lg-2">${serviceData.service_date}</td>`) );
+    $tr.append( $(`<td class="col-lg-2">${serviceData.status}</td>`));
+    $tr.append( $(`<td class="col-lg-2">${serviceData.volunteer}</td>`));
+    $tr.append( $(`<td class="col-lg-2">${applicant_reference}</td>`));
+    $tr.append( $(`<td class="col-lg-2">${serviceData.createdAt}</td>`));
+    var option_td = $(`<td class="col-lg-2"><a href='view_service/${service_id}'>View</a></td>`);
     option_td.append(edit_btn);
     $tr.append( option_td );
 

@@ -27,6 +27,7 @@ var app_obj = {
     var applicant = this.get_applicant(app_id);
     applicant.services.push(service);
   },
+  // Updates the service object in applicants
   update_service(app_id, service) {
     var applicant = this.get_applicant(app_id);
     
@@ -117,15 +118,15 @@ var app_obj = {
       name += " " + applicant.application.middle_name
     name += " " + applicant.application.last_name
     $tr.append(
-      $(`<td><a href=${applicant.self}>${name}</a></td>`));
+      $(`<td class="col-lg-2"><a href=${applicant.self}>${name}</a></td>`));
   
-    $tr.append($(`<td>${applicant.createdAt}</td>`));
-    $tr.append($(`<td>${applicant.updatedAt}</td>`));
-    $tr.append($(`<td>${applicant.reference}</td>`));
-    $tr.append($(`<td>${applicant.services.length}</td>`));
+    $tr.append($(`<td class="col-lg-2">${applicant.createdAt}</td>`));
+    $tr.append($(`<td class="col-lg-2">${applicant.updatedAt}</td>`));
+    $tr.append($(`<td class="col-lg-2">${applicant.reference}</td>`));
+    $tr.append($(`<td class="col-lg-2">${applicant.services.length}</td>`));
     var service_add_btn = service_form_modal.create_add_button(applicant._id),
         service_show_btn = create_service_hide_btn(applicant._id);
-    $tr.append($(`<td></td>`)
+    $tr.append($(`<td class="col-lg-2"></td>`)
       .append(service_add_btn)
       .append(service_show_btn)
       );
@@ -166,11 +167,11 @@ var service_obj ={
     $service_tr = $("<tr></tr>", 
       {"class": tr_classname + " table-info"});
 
-    $service_tr.append($(`<th>Volunteer</th>`));
-    $service_tr.append($(`<th colspan="2">Description</th>`));
-    $service_tr.append($(`<th>Service Date</th>`));
-    $service_tr.append($(`<th>Status</th>`));
-    $service_tr.append($(`<th>Options</th>`));
+    $service_tr.append($(`<th class="col-lg-2">Volunteer</th>`));
+    $service_tr.append($(`<th colspan="2" class="col-lg-4">Description</th>`));
+    $service_tr.append($(`<th class="col-lg-2">Service Date</th>`));
+    $service_tr.append($(`<th class="col-lg-2">Status</th>`));
+    $service_tr.append($(`<th class="col-lg-2">Options</th>`));
 
     container_element.append($service_tr);
     $service_tr.hide();
@@ -190,14 +191,14 @@ var service_obj ={
         {"class": tr_classname + " table-info",
           "id": tr_id,});
 
-    $service_tr.append($(`<td>${service.volunteer}</td>`));
-    $service_tr.append($(`<td colspan="2">${service.description}</td>`));
-    $service_tr.append($(`<td>${service.service_date}</td>`));
-    $service_tr.append($(`<td>${service.status}</td>`));
+    $service_tr.append($(`<td class="col-lg-2">${service.volunteer}</td>`));
+    $service_tr.append($(`<td colspan="2" class="col-lg-4">${service.description}</td>`));
+    $service_tr.append($(`<td class="col-lg-2">${service.service_date}</td>`));
+    $service_tr.append($(`<td class="col-lg-2">${service.status}</td>`));
 
     var edit_button = service_form_modal.create_edit_button(app_id, service._id);
 
-    $service_tr.append($(`<td></td>`).append(edit_button));
+    $service_tr.append($(`<td class="col-lg-2"></td>`).append(edit_button));
 
     return $service_tr;
   },
