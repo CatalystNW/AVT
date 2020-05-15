@@ -108,7 +108,12 @@ var services_table = {
     $tr.append( $(`<td class="col-lg-2">${serviceData.volunteer}</td>`));
     $tr.append( $(`<td class="col-lg-2">${applicant_reference}</td>`));
     $tr.append( $(`<td class="col-lg-2">${serviceData.createdAt}</td>`));
-    var option_td = $(`<td class="col-lg-2"><a href='view_service/${service_id}'>View</a></td>`);
+    var option_td = $(`<td class="col-lg-2"></td>`);
+    
+    option_td.append(
+      $(`<a class="btn btn-sm btn-primary" 
+        href='view_service/${service_id}'>View</a>`));
+
     option_td.append(edit_btn);
     $tr.append( option_td );
 
