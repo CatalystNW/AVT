@@ -78,14 +78,16 @@ async function get_applicant(application_id) {
   return applicant;
 }
 
-async function update_application(application_id, req_body) {
+async function update_application(req, res) {
+  var application_id = req.params.application_id;
+
   var field, value, old_value, field_obj, o, 
     update_status = false;
 
   var careApplicant = await CareApplicant.findById(application_id).exec();
 
   for (field in fields_map) {
-    value = req_body[field];
+    value = req.body[field];
     field_obj = fields_map[field];
 
     if (value == undefined)
@@ -107,9 +109,14 @@ async function update_application(application_id, req_body) {
         o = o[path_arr[i]];
     }
   }
-  if (update_status)
-    await careApplicant.save();
-  return true;
+  if (update_status) {
+    var result = await careApplicant.save();
+    var json_result = JSON.parse(JSON.stringify(result));
+    json_result.createdAt = result.createdAt.toLocaleString();
+    json_result.updatedAt = result.updatedAt.toLocaleString();
+    res.status(200).json(json_result);
+  } else
+    res.status(500).end();
 }
 
 async function create_care_applicant(req_body) {

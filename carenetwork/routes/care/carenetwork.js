@@ -33,11 +33,7 @@ router.get('/view_application/:application_id',  function(req, res){
 });
 
 // Edit Applicant Data
-router.post('/view_application/:application_id', async function(req, res) {
-  var application_id = req.params.application_id;
-  await application_controller.update_application(application_id, req.body);
-  res.status(200).end();
-});
+router.post('/view_application/:application_id', application_controller.update_application);
 
 router.get('/application/:application_id', function(req, res){
   helper.create_user_context(req).then(
