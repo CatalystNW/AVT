@@ -29,6 +29,10 @@ var app_obj = {
   add_service(app_id, service) {
     var applicant = this.get_applicant(app_id);
     applicant.services.push(service);
+
+    var service_td = $("#" + applicant._id + "_services_count");
+    console.log(service_td);
+    service_td.text(applicant.services.length);
   },
   // Updates the service object in applicants
   update_service(app_id, service) {
@@ -166,7 +170,8 @@ var app_obj = {
     $tr.append($(`<td class="col-lg-2">${applicant.createdAt}</td>`));
     $tr.append($(`<td class="col-lg-2">${applicant.updatedAt}</td>`));
     $tr.append($(`<td class="col-lg-2">${applicant.reference}</td>`));
-    $tr.append($(`<td class="col-lg-2">${applicant.services.length}</td>`));
+    $tr.append($(`<td class="col-lg-2" id=${applicant._id}_services_count>
+                  ${applicant.services.length}</td>`));
     var service_add_btn = service_form_modal.create_add_button(applicant._id),
         service_show_btn = create_service_hide_btn(applicant._id);
     $tr.append($(`<td class="col-lg-2"></td>`)
