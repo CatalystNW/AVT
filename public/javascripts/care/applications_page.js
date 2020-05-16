@@ -121,6 +121,33 @@ var app_obj = {
   
     service_obj.add_service_rows(applicant._id, applicant.services, $tr);
   },
+  update_applicant(app_id, new_applicant_data) {
+    var applicants = this.applicants;
+    for (var i=0; i < applicants.length; i++) {
+      if (applicants[i]._id == app_id)
+        applicants[i] = new_applicant_data;
+    }
+  },
+  update_app_table(new_applicant_obj) {
+    var app_id = new_applicant_obj._id;
+    var tr_id = app_obj.get_tr_id(app_id),
+        $old_tr = $("#" + tr_id);
+
+    var $new_tr = app_obj.make_app_row(new_applicant_obj),
+        old_applicant = app_obj.get_applicant(app_id);
+    
+    if (old_applicant.application_status != new_applicant_obj.application_status) {
+      $old_tr.remove();
+      var $container = $("#" + new_applicant_obj.application_status+ "_container");
+      $container.append($new_tr);
+    } else {
+      $old_tr.replaceWith($new_tr);
+    }
+
+    app_obj.update_applicant(app_id, new_applicant_obj);
+    service_obj.remove_services(app_id);
+    service_obj.add_service_rows(app_id, new_applicant_obj.services, $new_tr);
+  },
   make_app_row(applicant) {
     var $tr = $("<tr></tr>", {id: this.get_tr_id( applicant._id ) });
   
@@ -131,22 +158,7 @@ var app_obj = {
     var name_td = $(`<td class="col-lg-2"></td>`);
     
     var link = applicant_form_modal.create_link(
-      applicant._id, name,
-      function edit_app_callback(new_applicant) {
-        var tr_id = app_obj.get_tr_id(new_applicant._id),
-            $old_tr = $("#" + tr_id);
-
-        var $new_tr = app_obj.make_app_row(new_applicant);
-        
-        if (applicant.application_status != new_applicant.application_status) {
-          $old_tr.remove();
-          var $container = $("#" + new_applicant.application_status+ "_container");
-          $container.append($new_tr);
-
-        } else {
-          $old_tr.replaceWith($new_tr);
-        }
-      });
+      applicant._id, name, this.update_app_table);
 
     name_td.append(link);
     $tr.append(name_td);
@@ -158,8 +170,8 @@ var app_obj = {
     var service_add_btn = service_form_modal.create_add_button(applicant._id),
         service_show_btn = create_service_hide_btn(applicant._id);
     $tr.append($(`<td class="col-lg-2"></td>`)
-      .append(service_add_btn)
       .append(service_show_btn)
+      .append(service_add_btn)
       );
     $(service_add_btn).hide();
     return $tr;
@@ -183,6 +195,9 @@ var app_obj = {
 var service_obj ={
   get_tr_class(applicant_id) {
     return applicant_id + "-service-tr";
+  },
+  remove_services(applicant_id) {
+    $("." + this.get_tr_class(applicant_id)).remove();
   },
   get_id(service_id) {
     return service_id + "-service-tr";
