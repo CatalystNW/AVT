@@ -119,7 +119,7 @@ var app_obj = {
     
     $container.append($tr);
   
-    service_obj.add_service_rows(applicant._id, applicant.services, $container);
+    service_obj.add_service_rows(applicant._id, applicant.services, $tr);
   },
   make_app_row(applicant) {
     var $tr = $("<tr></tr>", {id: this.get_tr_id( applicant._id ) });
@@ -187,7 +187,7 @@ var service_obj ={
   get_id(service_id) {
     return service_id + "-service-tr";
   },
-  add_service_rows(app_id, services, container_element) {
+  add_service_rows(app_id, services, applicant_row) {
     var $service_tr,
         tr_classname = this.get_tr_class(app_id);
 
@@ -201,14 +201,17 @@ var service_obj ={
     $service_tr.append($(`<th class="col-lg-2">Status</th>`));
     $service_tr.append($(`<th class="col-lg-2">Options</th>`));
 
-    container_element.append($service_tr);
+    $service_tr.insertAfter(applicant_row);
     $service_tr.hide();
+
+    var $prev_tr = $service_tr;
 
     for (var i=0; i<services.length; i++) {
       $service_tr = this.make_service_row(app_id, services[i]);
 
-      container_element.append($service_tr);
+      $service_tr.insertAfter($prev_tr);
       $service_tr.hide();
+      $prev_tr = $service_tr;
     }
   },
   make_service_row(app_id, service) {
