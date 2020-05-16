@@ -23,6 +23,9 @@ window.onload = function() {
 
 var app_obj = {
   applicants: null,
+  get_tr_id(service_id) {
+    return service_id + "-app-tr";
+  },
   add_service(app_id, service) {
     var applicant = this.get_applicant(app_id);
     applicant.services.push(service);
@@ -109,16 +112,44 @@ var app_obj = {
     }
   },
   add_application(applicant) {
-    var $container, $tr, name;
+    var $container, $tr;
+
     $container = $("#" + applicant.application_status+ "_container");
-    $tr = $("<tr></tr>", {id: applicant._id + "_tr"});
+    $tr = this.make_app_row(applicant);
+    
+    $container.append($tr);
+  
+    service_obj.add_service_rows(applicant._id, applicant.services, $container);
+  },
+  make_app_row(applicant) {
+    var $tr = $("<tr></tr>", {id: this.get_tr_id( applicant._id ) });
   
     name = applicant.application.first_name;
     if (applicant.application.middle_name)
       name += " " + applicant.application.middle_name
     name += " " + applicant.application.last_name
-    $tr.append(
-      $(`<td class="col-lg-2"><a href=${applicant.self}>${name}</a></td>`));
+    var name_td = $(`<td class="col-lg-2"></td>`);
+    
+    var link = applicant_form_modal.create_link(
+      applicant._id, name,
+      function edit_app_callback(new_applicant) {
+        var tr_id = app_obj.get_tr_id(new_applicant._id),
+            $old_tr = $("#" + tr_id);
+
+        var $new_tr = app_obj.make_app_row(new_applicant);
+        
+        if (applicant.application_status != new_applicant.application_status) {
+          $old_tr.remove();
+          var $container = $("#" + new_applicant.application_status+ "_container");
+          $container.append($new_tr);
+
+        } else {
+          $old_tr.replaceWith($new_tr);
+        }
+      });
+
+    name_td.append(link);
+    $tr.append(name_td);
   
     $tr.append($(`<td class="col-lg-2">${applicant.createdAt}</td>`));
     $tr.append($(`<td class="col-lg-2">${applicant.updatedAt}</td>`));
@@ -131,10 +162,7 @@ var app_obj = {
       .append(service_show_btn)
       );
     $(service_add_btn).hide();
-    
-    $container.append($tr);
-  
-    service_obj.add_service_rows(applicant._id, applicant.services, $container);
+    return $tr;
   },
   get_applicant(app_id) {
     var applicants = this.applicants;

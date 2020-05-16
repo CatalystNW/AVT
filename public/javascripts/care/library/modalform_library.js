@@ -130,3 +130,154 @@ var service_form_modal = {
     $("#service-date").val(date_str);
   },
 };
+
+var applicant_form_modal = {
+  setup_form_handlers(app_id, edit_app_callback) {
+    var $app_form = $("#application-form"),
+      $note_form = $("#note-form");
+
+    $app_form.off();
+    $note_form.off();
+
+    var that = this;
+
+    $("#form-reset-button").click(event, function() {
+      event.preventDefault();
+      $app_form[0].reset();
+      that.form_load_data(app_id);
+    });
+  
+    $app_form.on("submit", function(e) {
+      e.preventDefault();
+  
+      $.ajax({
+        type: "PUT",
+        url: "/carenetwork/applications/" + app_id,
+        data: $app_form.serialize(),
+        success: function(data, textStatus, xhr) {
+          if (xhr.status == 200) {
+            $("#applicantModal").modal("hide");
+            $app_form[0].reset();
+            if (edit_app_callback)
+              edit_app_callback(data);
+          }
+        }
+      });
+    });
+
+    $note_form.on("submit", function(e) {
+      e.preventDefault();
+  
+      var formArr = $note_form.serializeArray();
+      formArr.push({name: "application_id", value: app_id});
+      that.submit_note(formArr);
+    });
+  },
+  create_link(app_id, name, edit_app_callback) {
+    var link = $(`<a></a>`, {
+      value: app_id,
+      href: "",
+      text: name,
+      "data-target": "#applicantModal",
+      "data-toggle": "modal",
+    });
+    var that = this;
+    link.on("click", function(e) {
+      var app_id = $(this).attr("value");
+      $("#applicant_id_div").val(app_id);
+      that.form_load_data(app_id);
+      that.load_notes(app_id);
+      that.setup_form_handlers(app_id, edit_app_callback)
+    });
+    return link;
+  },
+  form_load_data(app_id, callback) {
+    var that = this;
+    $.ajax({
+      type: "GET",
+        url: "/carenetwork/application/" + app_id,
+        success: function(data, add_note_htmltextStatus, xhr) {
+          if (xhr.status == 200) {
+            that.fill_app_data(data)
+          }
+        },
+        error: function(xhr, ajaxOptions, err) {
+        }
+    });
+  },
+  fill_app_data(data) {
+    var field,
+        app_data = data.application;
+    // Fill out application_status select value
+    if (data.application_status)
+      $('[name=application_status]').val(data.application_status);
+    else // Just in case status isn't given
+      $('[name=application_status]').val("never_contacted");
+  
+    for (field in app_data) {
+      if (field == "address") { // Set address
+        for (field in app_data.address) {
+          $(`input[name=${field}]`).val(app_data.address[field]);
+        }     
+      // } else if (field == "contacts") {
+      //   for (field in app_data.contacts[0]) {
+      //     $(`input[name=contact_${field}]`).val(app_data.contacts[0][field]);
+      //   }
+      } else if (field == "dob") {
+        var regex = /(\d{4}-\d{2}-\d{2})/g
+        var result = app_data[field].match(regex);
+        if (result)
+          $(`input[name=${field}]`).val(result[0]);
+      } else if (field == "marital_status") {
+        $(`:radio[value=${app_data[field]}]`,).prop('checked', true);
+      } else {
+        $(`input[name=${field}]`, ).val(app_data[field]);
+        // Set text area for some fields
+        $(`textarea[name=${field}]`, ).val(app_data[field]);
+      }
+    }
+  },
+  load_notes(application_id) { 
+    // Get Notes & Load
+    var that = this;
+    $.ajax({
+      type: "GET",
+      url: '/carenetwork/appnote/'+application_id,
+      success: function(notes, textStatus, xhr) {
+        var $container = $("#appnote-container");
+        $container.empty();
+  
+        for (var i=0; i<notes.length; i++) {
+          that.add_note_html(notes[i]);
+        }
+      }
+    });
+  },
+  add_note_html(noteObj) {
+    var $container = $("#appnote-container");
+  
+    var tr, note;
+  
+    tr = $('<tr></tr>');
+    tr.append(`<td>${noteObj.date}</td>`);
+    tr.append(`<td>${noteObj.note}</td>`);
+    tr.append(`<td>${noteObj.name}</td>`);
+    $container.append(tr);
+  },
+  submit_note(data) {
+    var $note_form = $("#note-form"),
+        that = this;
+  
+    $.ajax({
+      type: "POST",
+      url: '/carenetwork/appnote',
+      data: data,
+      success: function(note_data, textstatus, xhr) {
+        if (xhr.status == 201 || xhr.status == 200) {
+          $note_form[0].reset();
+          that.add_note_html(note_data);
+        }
+      }
+    });
+  }
+};

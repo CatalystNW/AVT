@@ -35,6 +35,8 @@ router.get('/view_application/:application_id',  function(req, res){
 // Edit Applicant Data
 router.post('/view_application/:application_id', application_controller.update_application);
 
+router.put('/applications/:application_id', application_controller.update_application);
+
 router.get('/application/:application_id', function(req, res){
   helper.create_user_context(req).then(
     async (context) => {
