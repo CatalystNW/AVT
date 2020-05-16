@@ -6,7 +6,7 @@ window.onload = function() {
   
   $("#form-reset-button").click(event, function() {
     event.preventDefault();
-    $form[0].reset();
+    $app_form[0].reset();
     form_load_data(app_id);
   });
 
