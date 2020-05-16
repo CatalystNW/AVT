@@ -19,11 +19,15 @@ function check_care_application(req_body) {
   return true;
 }
 
-function transform_appData(applicant) {
+function transform_app_with_services_data(applicant) {
   applicant.createdAt = applicant.createdAt.toLocaleString();
   applicant.updatedAt = applicant.updatedAt.toLocaleString();
   applicant.self = "./view_application/" + applicant._id;
   applicant.add_services_url = "./add_service/" + applicant._id;
+
+  for (var j=0; j<applicant.services.length; j++) {
+    transform_serviceData(applicant.services[j])
+  }
 }
 
 function transform_serviceData(service) {
@@ -44,14 +48,10 @@ async function get_applications(req, res) {
     var query = CareApplicant.find({application_status: {$ne : "complete"}});
   else
     var query = CareApplicant.find({});
-  var service;
+
   apps = await query.populate('services').lean().exec();
   for (var i=0; i<apps.length;i++) {
-    transform_appData(apps[i]);
-
-    for (var j=0; j<apps[i].services.length; j++) {
-      transform_serviceData(apps[i].services[j])
-    }
+    transform_app_with_services_data(apps[i]);
   }
   res.status(200).json(apps);
 };
@@ -59,10 +59,7 @@ async function get_applications(req, res) {
 async function get_application_by_id(req, res) {
   var app_id = req.params.application_id;
   var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
-  transform_appData(app);
-  for (var i=0;  i< app.services.length; i++) {
-    transform_serviceData(app.services[i]);
-  }
+  transform_app_with_services_data(app);
   return res.status(200).json(app);
 }
 
@@ -111,10 +108,11 @@ async function update_application(req, res) {
   }
   if (update_status) {
     var result = await careApplicant.save();
-    var json_result = JSON.parse(JSON.stringify(result));
-    json_result.createdAt = result.createdAt.toLocaleString();
-    json_result.updatedAt = result.updatedAt.toLocaleString();
-    res.status(200).json(json_result);
+    // get back app thru query with populated services obj
+    var app = await CareApplicant.findById(application_id).populate("services")
+        .lean().exec();
+    transform_app_with_services_data(app);
+    res.status(200).json(app);
   } else
     res.status(500).end();
 }
