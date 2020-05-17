@@ -77,6 +77,10 @@ var services_table = {
   add_service_rows(servicesData) {
     this.empty_services();
 
+    servicesData.sort(function(a, b) {
+      return new Date(b.service_date) - new Date(a.service_date);
+    });
+
     for(var  i=0; i<servicesData.length; i++) {
       this.add_service_row(servicesData[i]);
     }

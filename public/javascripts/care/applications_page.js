@@ -59,6 +59,11 @@ var app_obj = {
       url: "/carenetwork/applications?show_complete=" + complete_show_status,
       success: function(applicants, textStatus, xhr) {
         if (xhr.status == 200) {
+          for (var i=0;i<applicants.length;i++) {
+            applicants[i].services.sort(function(a, b) {
+              return new Date(b.service_date) - new Date(a.service_date);
+            });
+          }
           app_obj.applicants = applicants;
           app_obj.load_apps_to_table();
           app_obj.load_year_to_select();
