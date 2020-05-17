@@ -97,11 +97,27 @@ var service_form_modal = {
       that.load_app_info_to_form(applicant);
     });
   },
+  // Load the applicant info to the left side of the modal
   load_app_info_to_form(applicant) {
-    $("#appInfo-serviceFormContainer").empty();
-    var text = "Help Requested\n" + applicant.application.help_request + "\n\n";
-    text += "Health Issues\n" + applicant.application.health_issues;
-    $("#appInfo-serviceFormContainer").text(text);
+    var container = $("#appInfo-serviceFormContainer");
+    container.empty();
+
+    var name = applicant.application.first_name;
+    if (applicant.application.middle_name)
+      name += " " + applicant.application.middle_name
+    name += " " + applicant.application.last_name
+    container.append($("<p></p>").text("Name\n" + name));
+
+    var address = applicant.application.address.line_1 + "\n";
+    if (applicant.application.address.line_2)
+      address += applicant.application.address.line_2 + "\n";
+    address += applicant.application.address.city + ",";
+    address += applicant.application.address.state + " ";
+    address += applicant.application.address.zip + ",";
+    container.append($("<p></p>").text("Address\n" + address));
+
+    container.append($("<p></p>").text("Help Requested\n" + applicant.application.help_request));
+    container.append($("<p></p>").text("Health Issues\n" + applicant.application.health_issues));
   },
   load_servicedata_to_modalform(service) {
     $("#statusSelect").val(service.status);
