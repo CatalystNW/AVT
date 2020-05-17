@@ -24,7 +24,9 @@ window.onload = function() {
       success: function(data, textStatus, xhr) {
         if (xhr.status == 201) {
           $form.trigger('reset'); // Reset form
-          window.alert("Your form was submitted successfully");
+          window.alert("Your form was submitted successfully. Someone will contact you within a few days.");
+          window.location.replace("https://www.catalystnw.org/");
+          
         }
       },
       error: function(xhr, ajaxOptions, err) {
