@@ -52,10 +52,6 @@ async function get_applications(req, res) {
   apps = await query.populate('services').lean().exec();
   for (var i=0; i<apps.length;i++) {
     // Sort by services_by service_date
-    apps[i].services.sort(function(a, b) {
-      return b.service_date - a.service_date;
-    });
-
     transform_app_with_services_data(apps[i]);
 
   }
