@@ -4,24 +4,24 @@
       <div style="padding: 5px;">
         <h2>Contact</h2>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Name:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
+          <div class="col-xs-4 labelDiv">Name:</div>
+          <div class="col-xs-8">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Phone:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.phone}}</div>
+          <div class="col-xs-4 labelDiv">Phone:</div>
+          <div class="col-xs-8">{{service.applicant.application.phone}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Email:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.email}}</div>
+          <div class="col-xs-4 labelDiv">Email:</div>
+          <div class="col-xs-8">{{service.applicant.application.email}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">DOB:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.dob}}</div>
+          <div class="col-xs-4 labelDiv">DOB:</div>
+          <div class="col-xs-8">{{service.applicant.application.dob}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Marital Status:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.marital_status}}</div>
+          <div class="col-xs-4 labelDiv">Marital Status:</div>
+          <div class="col-xs-8">{{service.applicant.application.marital_status}}</div>
         </div>
 
       </div>
@@ -35,20 +35,20 @@
       <div>
         <h2>Contacts</h2>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Name:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_name}}</div>
+          <div class="col-xs-4 labelDiv">Name:</div>
+          <div class="col-xs-8">{{service.applicant.application.contact_name}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Relationship:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_relationship}}</div>
+          <div class="col-xs-4 labelDiv">Relationship:</div>
+          <div class="col-xs-8">{{service.applicant.application.contact_relationship}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Phone:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_phone}}</div>
+          <div class="col-xs-4 labelDiv">Phone:</div>
+          <div class="col-xs-8">{{service.applicant.application.contact_phone}}</div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Email:</div>
-          <div class="col-sm-9 col-xs-8 col-md-9">{{service.applicant.application.contact_email}}</div>
+          <div class="col-xs-4 labelDiv">Email:</div>
+          <div class="col-xs-8">{{service.applicant.application.contact_email}}</div>
         </div>
       </div>
     </div>
@@ -88,18 +88,18 @@
         <div class="card-header">{{service.service_date}}</div>
         <div class="card-body" id="services-container">
           <div class="row">
-            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Volunteer:</div>
-            <div class="col-sm-9 col-xs-8 col-md-9">{{service.volunteer}}</div>
+            <div class="col-xs-4 labelDiv">Volunteer:</div>
+            <div class="col-xs-8">{{service.volunteer}}</div>
           </div>
 
           <div class="row">
-            <div class="col-sm-3 col-xs-4 col-md-3 labelDiv">Description:</div>
-            <div class="col-sm-9 col-xs-8 col-md-9">{{service.description}}</div>
+            <div class="col-xs-4 labelDiv">Description:</div>
+            <div class="col-xs-8">{{service.description}}</div>
           </div>
 
           <div class="row">
-            <label for="statusSelect" class="col-sm-3 col-xs-4 col-md-3 labelDiv">Status:</label>
-            <div class="col-sm-9 col-xs-8 col-md-6 col-lg-5">
+            <label for="statusSelect" class="col-xs-4 labelDiv">Status:</label>
+            <div class="col-xs-8 col-md-6 col-lg-5">
               <select class="form-control" value={{service.status}} name="status" id="statusSelect">
                 <option value="not_started">Not Started</option>
                 <option value="started">Started</option>

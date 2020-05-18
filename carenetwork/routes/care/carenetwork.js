@@ -10,6 +10,7 @@ var application_controller = require('../../controller/care/application.js');
 var service_controller = require('../../controller/care/service.js');
 var appnote_controller = require('../../controller/care/appnote.js');
 
+// Welcome Page
 // router.get('/', helper.isLoggedIn, function(req, res) {
 router.get('/', function(req, res) {
   helper.create_user_context(req).then(
@@ -18,6 +19,8 @@ router.get('/', function(req, res) {
     }
   );
 });
+
+/** Applications / Applicants */
 
 // View Page for Applicant Data
 router.get('/view_application/:application_id',  function(req, res){
@@ -28,6 +31,22 @@ router.get('/view_application/:application_id',  function(req, res){
       // Ajax To Application API used to retrieve application
       // var application = await application_controller.get_applicant(application_id);
       res.render("care/application_page", context);
+    }
+  );
+});
+
+router.get('/application_form', function(req, res){
+  helper.create_user_context(req).then(
+    (context) => {
+      res.render("care/application_form", context);
+    }
+  );
+});
+
+router.get('/view_applications', function(req, res){
+  helper.create_user_context(req).then(
+    (context) => {
+      res.render("care/applications", context);
     }
   );
 });
@@ -48,27 +67,11 @@ router.get('/application/:application_id', function(req, res){
   );
 });
 
-router.get('/application_form', function(req, res){
-  helper.create_user_context(req).then(
-    (context) => {
-      res.render("care/application_form", context);
-    }
-  );
-});
-
 // REST API : GET /applications
 router.get('/applications', application_controller.get_applications);
 
 router.get('/applications/:application_id', 
     application_controller.get_application_by_id);
-
-router.get('/view_applications', function(req, res){
-  helper.create_user_context(req).then(
-    (context) => {
-      res.render("care/applications", context);
-    }
-  );
-});
 
 router.post('/application', async function(req, res) {
   if (application_controller.check_care_application(req.body)) {
@@ -78,6 +81,14 @@ router.post('/application', async function(req, res) {
     res.status(404).end(); // Missing fields
 });
 
+// Application Notes for the Applications
+router.get('/appnote/:application_id', appnote_controller.get_appnotes);
+
+router.post('/appnote', appnote_controller.post_appnote);
+
+
+/** Services */
+
 // GET Service API
 router.get('/services/:service_id', async function(req, res) {
    // Get Services
@@ -86,23 +97,20 @@ router.get('/services/:service_id', async function(req, res) {
    res.status(200).json(service);
 });
 
-
 router.get('/services', service_controller.get_services_api);
-
-
-router.get('/view_service/:service_id', service_controller.view_service);
 
 router.post('/services', service_controller.post_service);
 
-router.post('/services/:service_id/notes', service_controller.post_note);
-router.get('/services/:service_id/notes', service_controller.get_notes);
 router.patch('/services/:service_id', service_controller.update_service);
 
-// Services Page
+router.post('/services/:service_id/notes', service_controller.post_note);
+
+/* Service View Pages */
+
+router.get('/view_service/:service_id', service_controller.view_service);
+
+router.get('/services/:service_id/notes', service_controller.get_notes);
+
 router.get('/view_services', service_controller.view_services);
-
-router.get('/appnote/:application_id', appnote_controller.get_appnotes);
-
-router.post('/appnote', appnote_controller.post_appnote);
 
 module.exports = router;

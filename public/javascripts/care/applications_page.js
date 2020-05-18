@@ -31,7 +31,6 @@ var app_obj = {
     applicant.services.push(service);
 
     var service_td = $("#" + applicant._id + "_services_count");
-    console.log(service_td);
     service_td.text(applicant.services.length);
   },
   // Updates the service object in applicants

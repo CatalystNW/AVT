@@ -13,6 +13,7 @@ var card_tabler = {
     this.add_click_handler(click_callback);
     this.toggle_card_headers();
   },
+  
   add_click_handler(callback) {
     $(".card-header").on("click", function(e) {
       var app_status = $(this).attr("value");
