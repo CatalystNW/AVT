@@ -8,6 +8,8 @@ window.onload = function() {
 
   app_obj.onload();
 
+  applicant_form_modal.setup_form();
+
   service_form_modal.setup_form(
     (method, service) => {
       if (method == "POST") {

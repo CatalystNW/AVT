@@ -148,10 +148,12 @@ var service_form_modal = {
 };
 
 var applicant_form_modal = {
-  setup_form_handlers(app_id, edit_app_callback) {
+  app_id: null,
+  edit_app_callback: null,
+  setup_form() {
     var $app_form = $("#application-form"),
-      $note_form = $("#note-form");
-
+        $note_form = $("#note-form");
+    
     $app_form.off();
     $note_form.off();
 
@@ -160,22 +162,23 @@ var applicant_form_modal = {
     $("#form-reset-button").click(event, function() {
       event.preventDefault();
       $app_form[0].reset();
-      that.form_load_data(app_id);
+      that.form_load_data();
     });
-  
+
     $app_form.on("submit", function(e) {
       e.preventDefault();
   
       $.ajax({
         type: "PUT",
-        url: "/carenetwork/applications/" + app_id,
+        url: "/carenetwork/applications/" + that.app_id,
         data: $app_form.serialize(),
         success: function(data, textStatus, xhr) {
           if (xhr.status == 200) {
             $("#applicantModal").modal("hide");
             $app_form[0].reset();
-            if (edit_app_callback)
-              edit_app_callback(data);
+            if (that.edit_app_callback)
+              that.edit_app_callback(data);
+              that.edit_app_callback = null;
           }
         }
       });
@@ -185,9 +188,13 @@ var applicant_form_modal = {
       e.preventDefault();
   
       var formArr = $note_form.serializeArray();
-      formArr.push({name: "application_id", value: app_id});
+      formArr.push({name: "application_id", value: that.app_id});
       that.submit_note(formArr);
     });
+  },
+  setup_form_handlers(app_id, edit_app_callback) {
+    this.app_id = app_id;
+    this.edit_app_callback = edit_app_callback;
   },
   create_link(app_id, name, edit_app_callback) {
     var link = $(`<a></a>`, {
@@ -207,11 +214,11 @@ var applicant_form_modal = {
     });
     return link;
   },
-  form_load_data(app_id, callback) {
+  form_load_data() {
     var that = this;
     $.ajax({
       type: "GET",
-        url: "/carenetwork/application/" + app_id,
+        url: "/carenetwork/application/" + that.app_id,
         success: function(data, add_note_htmltextStatus, xhr) {
           if (xhr.status == 200) {
             that.fill_app_data(data)
