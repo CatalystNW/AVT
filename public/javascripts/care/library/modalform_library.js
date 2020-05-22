@@ -164,17 +164,15 @@ var applicant_form_modal = {
       $app_form[0].reset();
       that.form_load_data();
     });
-
-    $app_form.on("submit", function(e) {
-      e.preventDefault();
-  
+    
+    // submit app form when user closes it
+    $("#applicantModal").on("hidden.bs.modal", function(e) {
       $.ajax({
         type: "PUT",
         url: "/carenetwork/applications/" + that.app_id,
         data: $app_form.serialize(),
         success: function(data, textStatus, xhr) {
           if (xhr.status == 200) {
-            $("#applicantModal").modal("hide");
             $app_form[0].reset();
             if (that.edit_app_callback)
               that.edit_app_callback(data);
