@@ -44,8 +44,8 @@ module.exports.get_applications = get_applications;
 module.exports.get_application_by_id = get_application_by_id;
 
 async function get_applications(req, res) {
-  if (req.query.show_complete == "false")
-    var query = CareApplicant.find({application_status: {$ne : "complete"}});
+  if (req.query.show_do_not_contact == "false")
+    var query = CareApplicant.find({application_status: {$ne : "do_not_contact"}});
   else
     var query = CareApplicant.find({});
 
