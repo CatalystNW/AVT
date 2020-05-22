@@ -177,12 +177,12 @@ var app_obj = {
     $tr.append($(`<td class="col-lg-2" id=${applicant._id}_services_count>
                   ${applicant.services.length}</td>`));
     var service_add_btn = service_form_modal.create_add_button(applicant._id),
-        service_show_btn = create_service_hide_btn(applicant._id);
+        service_show_btn = create_service_btn(applicant._id);
     $tr.append($(`<td class="col-lg-2"></td>`)
       .append(service_show_btn)
       .append(service_add_btn)
       );
-    $(service_add_btn).hide();
+    // $(service_add_btn).hide();
     return $tr;
   },
   get_applicant(app_id) {
@@ -272,7 +272,7 @@ var service_obj ={
   },
 }
 
-function create_service_hide_btn(app_id) {
+function create_service_btn(app_id) {
   var btn = document.createElement("button");
   btn.textContent = "Show Service";
   btn.setAttribute("value", app_id);
@@ -281,13 +281,11 @@ function create_service_hide_btn(app_id) {
         app_id = btn.getAttribute("value");
 
     if (btn.textContent.toUpperCase().includes("HIDE")) {
-      $("." +service_obj.get_tr_class(app_id)).hide();
+      $("." +service_obj.get_tr_class(app_id)).hide(); // hide services
       btn.textContent = "Show Service";
-      $("#" + app_id + "-service-create-btn").hide();
     } else {
-      $("." +service_obj.get_tr_class(app_id)).show();
+      $("." +service_obj.get_tr_class(app_id)).show(); // show services
       btn.textContent = "Hide Service";
-      $("#" + app_id + "-service-create-btn").show();
     }
   });
 
