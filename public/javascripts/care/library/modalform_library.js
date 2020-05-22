@@ -192,7 +192,7 @@ var applicant_form_modal = {
       that.submit_note(formArr);
     });
   },
-  setup_form_handlers(app_id, edit_app_callback) {
+  load_data_and_handler(app_id, edit_app_callback) {
     this.app_id = app_id;
     this.edit_app_callback = edit_app_callback;
   },
@@ -208,9 +208,10 @@ var applicant_form_modal = {
     link.on("click", function(e) {
       var app_id = $(this).attr("value");
       $("#applicant_id_div").val(app_id);
-      that.form_load_data(app_id);
-      that.load_notes(app_id);
-      that.setup_form_handlers(app_id, edit_app_callback)
+      that.load_data_and_handler(app_id, edit_app_callback)
+      that.form_load_data();
+      that.load_notes();
+      
     });
     return link;
   },
@@ -260,12 +261,12 @@ var applicant_form_modal = {
       }
     }
   },
-  load_notes(application_id) { 
+  load_notes() { 
     // Get Notes & Load
     var that = this;
     $.ajax({
       type: "GET",
-      url: '/carenetwork/appnote/'+application_id,
+      url: '/carenetwork/appnote/'+ that.app_id,
       success: function(notes, textStatus, xhr) {
         var $container = $("#appnote-container");
         $container.empty();
