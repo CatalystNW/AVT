@@ -21,20 +21,6 @@ router.get('/', function(req, res) {
 });
 
 /** Applications / Applicants */
-
-// View Page for Applicant Data
-router.get('/view_application/:application_id',  function(req, res){
-  helper.create_user_context(req).then(
-    async (context) => {
-      var application_id = req.params.application_id
-      context.application_id = application_id;
-      // Ajax To Application API used to retrieve application
-      // var application = await application_controller.get_applicant(application_id);
-      res.render("care/application_page", context);
-    }
-  );
-});
-
 router.get('/application_form', function(req, res){
   helper.create_user_context(req).then(
     (context) => {
