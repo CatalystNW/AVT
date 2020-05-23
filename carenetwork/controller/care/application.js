@@ -48,22 +48,14 @@ module.exports.update_application = update_application;
 module.exports.get_applications = get_applications;
 module.exports.get_application_by_id = get_application_by_id;
 
-function view_application_form(req, res) {
-  helper.create_user_context(req).then(
-    (context) => {
-      res.render("care/application_form", context);
-    }
-  );
+async function view_application_form(req, res) {
+  var context = await helper.create_care_context(req, res);
+  res.render("care/application_form", context);
 }
 
 function view_applications_page(req, res) {
   helper.create_user_context(req).then(
     async (context) => {
-      if(req.isAuthenticated()) {
-        var userID = req.user._id.toString();
-        var result = await User.findOne({"_id": userID}).lean();
-        console.log(result.user_roles, result.user_role);
-      }
       res.render("care/applications", context);
     }
   );
@@ -84,9 +76,15 @@ async function post_application(req, res) {
   if (check_care_application(req.body)) {
     await create_care_applicant(req.body)
 
-    res.status(201).end(); // OK creation
-} else
-  res.status(404).end(); // Missing fields
+    var context = helper.create_care_context(req, res);
+
+    if (context.care_manager_status) {
+      res.status(201).json({"care_manager_status": true});
+    } else {
+      res.status(201).end(); // OK creation
+    }
+  } else
+    res.status(404).end(); // Missing fields  
 }
 
 async function get_applications(req, res) {

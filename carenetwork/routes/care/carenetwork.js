@@ -5,8 +5,6 @@ var CareApplicant = require('../../models/care/careApplicant');
 var CareService = require('../../models/care/careService');
 // var CareContact = require('../../models/care/careContact');
 
-var User = require('../../../models/userPackage');
-
 var helper = require("../../controller/helper");
 var application_controller = require('../../controller/care/application.js');
 var service_controller = require('../../controller/care/service.js');
@@ -14,12 +12,9 @@ var appnote_controller = require('../../controller/care/appnote.js');
 
 // Welcome Page
 // router.get('/', helper.isLoggedIn, function(req, res) {
-router.get('/', function(req, res) {
-  helper.create_user_context(req).then(
-    (context) => {
-      res.render("care/index", context);
-    }
-  );
+router.get('/', async function(req, res) {
+  var context = await helper.create_care_context(req, res);
+  res.render("care/index", context);
 });
 
 /** Applications / Applicants */

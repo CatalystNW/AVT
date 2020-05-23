@@ -22,11 +22,12 @@ window.onload = function() {
       url: $form.attr('action'),
       data: $form.serialize(),
       success: function(data, textStatus, xhr) {
-        if (xhr.status == 201) {
+        if (xhr.status == 201 && data && data.care_manager_status) {
+          window.location.replace("./view_applications");
+        } else {
           $form.trigger('reset'); // Reset form
           window.alert("Your form was submitted successfully. Someone will contact you within a few days.");
           window.location.replace("https://www.catalystnw.org/");
-          
         }
       },
       error: function(xhr, ajaxOptions, err) {
