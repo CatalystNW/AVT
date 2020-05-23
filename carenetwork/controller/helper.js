@@ -7,6 +7,7 @@ var User = require('../../models/userPackage');
 
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.create_user_context = create_user_context;
+module.exports.create_care_context = create_care_context;
 
 
 // Uses Promises to retrieve user info. Returns context object
@@ -39,4 +40,31 @@ function isLoggedIn(req, res, next) {
   else {
     res.redirect('/user/login');
   }
+}
+
+function create_care_context(req, res) {
+  var context = {carenetwork: true};
+  if(!req.isAuthenticated()) {
+    return context;
+  }
+
+  if (req.user) {
+    var user = req.user;
+
+    context.user_email = user.contact_info.user_email;
+    context.user_roles = user.user_roles;
+    context.user = true;
+
+    var roles = user.user_roles;
+
+    for (var i=0; i<roles.length; i++) {
+      if (roles[i] == 'CARE_MANAGER') {
+        context.care_manager_status = true;
+        break;
+      }
+    }
+  }
+
+  
+  return context;
 }
