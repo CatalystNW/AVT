@@ -314,6 +314,7 @@ $(document).ready(function() {
     $('#l_client_contrib').editable();
     $('#l_associate_contrib').editable();
     $('#fbo_name').editable();
+    $('#requested_other_help_description').editable();
 
     $('#advocate_name').editable();
     $('#advocate_org_name').editable();

@@ -32,7 +32,6 @@ initPassport(passport);
 // Define routes that will be used
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 var routes = require('./routes/index')(passport);
-var test = require('./routes/test');
 var view = require('./routes/view')(passport);
 var edit = require('./routes/edit')(passport);
 var tasks = require('./routes/tasks.js')(passport);
@@ -337,7 +336,6 @@ app.use(function(req, res, next) {
 // Use routes now that app has been initiated and all middleware is defined
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 app.use('/', routes);
-app.use('/test', test);
 app.use('/view', view);
 app.use('/edit', edit);
 app.use('/application', appform);

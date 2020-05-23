@@ -48,6 +48,12 @@
    width: 22em;
    height: 10em;
  }
+ .btnEditDrive {
+  font-size: 14px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  margin-top: -3px;
+}
 </style>
 
 
@@ -198,6 +204,30 @@
             </div>
 
             <div class="col-xs-12 col-sm-6" style="float:left;">
+
+              <!-- Google Drive Link and Go Button -->
+
+              <!-- HBS - IF NO DRIVE LINK  - then show this. -->
+              <span id="noDrive" style="display: inline-flex;">
+                <h4>Drive URL:&nbsp;&nbsp;</h4>
+                <a href="#" id="drive_url" data-type="text" data-pk="{{_id}}"
+                  data-url="/edit/project/{{_id}}" data-name="drive_url" data-title="Drive Link" 
+                  data-onblur="submit">{{drive.drive_url}}</a>&nbsp;&nbsp;
+              </span>
+              
+              <!-- HBS - IF LINK EXISTS - then show this. -->
+              
+              <span id="yesDrive" style="display: inline-flex;">
+                <a id="driveHref" target="_blank" href="{{drive.drive_url}}">
+                  <h4>Google Drive</h4>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btnEditDrive" onclick="editDriveURL()">Edit</button>
+              </span>
+              <br />
+              <br />
+
+
               <h4>Vetting Summary</h4>
               <p>
                 {{#if_not_eq notes.vet_summary ''}}
@@ -531,6 +561,13 @@
          ]
        });
 
+       //Added for Google Drive Editability
+       $('#drive_url').editable();
+       $('#drive_url').on('save', function (e, params) {
+         location.reload();
+       });
+       yesDriveLoaded();
+
        // Assessment Checklist autosaving
        $('.assessment-checklist input[type="radio"], .assessment-checklist input[type="checkbox"], ' +
          '.assessment-checklist input[type="date"], .assessment-checklist input[type="number"]')
@@ -767,6 +804,32 @@
                               .on('click', showWorkItemEditForm)
                               .appendTo(cardBlock)
  }
+
+  function editDriveURL() {
+    //Toggle = show edit span, and hide current span
+    document.getElementById("yesDrive").style.display = "none";
+    document.getElementById("noDrive").style.display = "inline-flex";
+
+  }
+
+  function yesDriveLoaded() {
+    var webUrl = "{{{escape doc.drive.drive_url}}}";
+
+    if (document.getElementById("driveHref").href == "" || document.getElementById("driveHref").href == window.location || document.getElementById("driveHref").href + "#" == window.location) {
+      document.getElementById("yesDrive").style.display = "none";
+      document.getElementById("noDrive").style.display = "inline-flex";
+    } else {
+      if (document.getElementById("driveHref") && document.getElementById("driveHref").href) {
+        var webUrl = "{{{escape doc.drive.drive_url}}}";
+        if (!webUrl.startsWith('http')) {
+          document.getElementById("driveHref").href = 'http://' + webUrl;
+        }
+      }
+
+      document.getElementById("yesDrive").style.display = "inline-flex";
+      document.getElementById("noDrive").style.display = "none";
+    }
+  }
 
  function saveWorkItem(node) {
    var data = {}, id = false

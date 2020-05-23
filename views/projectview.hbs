@@ -261,37 +261,28 @@ function getCurrentDate() {
                </span>
                  </br>
 
-
             <!-- HBS - IF LINK EXISTS - then show this. -->
-
 
                <span id="yesDrive" style="display: inline-flex;">
                   <a id="driveHref" target="_blank" href="{{drive.drive_url}}"><h4>Google Drive</h4></a>
                   <button class="btn btnEditDrive" onclick="editDriveURL()">Edit</button>
                </span>
-
                <br/>
                
-           <!--     <h4>Summary</h4>
-               <br/> -->
               {{#if notes.vet_summary}}
-              <h4>Vetting Summary</h4>
-              <p>
-                  {{notes.vet_summary}}
-                
-              </p>
+                <h4>Vetting Summary</h4>
+                <p>
+                    {{notes.vet_summary}}
+                </p>
                {{/if}}
-               {{#if notes.site_summary}}
-               <!--  <div class="col-xs-12 col-sm-6"> -->
-                <h4>Site Assessment Summary</h4>
-              <p>
-                  {{notes.site_summary}}
-                
-              </p>
-               {{/if}}
-                
-               <!--  </div> -->
 
+               {{#if notes.site_summary}}
+                <h4>Site Assessment Summary</h4>
+                <p>
+                    {{notes.site_summary}}               
+                </p>
+               {{/if}}
+                
 
                   <h4 style="padding-top: 15px;">Map</h4>
                    <iframe width="100%" height="350" frameborder="0" style="border:0"
@@ -302,50 +293,50 @@ function getCurrentDate() {
   </div><!-- end #projectInfo -->
 
 
-      <!-- Partners (needs new data base fields for Org Name, Org Address, Contact Name, Contact Phone, Contact email)  -->
-      <div class="tab-pane" id="partners" role="tabpanel"><!-- start #partners -->
-      <h5></h5>
-        {{> partners}}
+  <!-- Partners TAB (needs new data base fields for Org Name, Org Address, Contact Name, Contact Phone, Contact email)  -->
+  <div class="tab-pane" id="partners" role="tabpanel"><!-- start #partners -->
+  <h5></h5>
+    {{> partners}}
 
-        <div class="col-xs-12 col-sm-6">
-          <!--VETTING NOTES-->
-          <h3>Project Notes</h3>
-          <div class="form-group">
-            <form method="post">
-              <input type="hidden" value="{{doc._id}}" id="appId"/>
-              <input type="hidden" value="{{user}}" id="userId"/>
-              <table class="table table-striped orderTable2">
-                <thead>
+    <div class="col-xs-12 col-sm-6">
+      <!--VETTING NOTES-->
+      <h3>Project Notes</h3>
+      <div class="form-group">
+        <form method="post">
+          <input type="hidden" value="{{doc._id}}" id="appId"/>
+          <input type="hidden" value="{{user}}" id="userId"/>
+          <table class="table table-striped orderTable2">
+            <thead>
+              <tr>
+                <th onclick="orderTable('orderTable2', 0)">Note</th>
+                <th onclick="orderTable('orderTable2', 1)">Submitted By</th>
+                <th onclick="orderTable('orderTable2', 2)">Date</th>
+              </tr>
+            </thead>
+            <tbody id="notes-body" class="notes-body-container">
+              {{#if projectNotes}}
+                {{#each projectNotes}}
                   <tr>
-                    <th onclick="orderTable('orderTable2', 0)">Note</th>
-                    <th onclick="orderTable('orderTable2', 1)">Submitted By</th>
-                    <th onclick="orderTable('orderTable2', 2)">Date</th>
-                 </tr>
-                </thead>
-                <tbody id="notes-body" class="notes-body-container">
-                  {{#if projectNotes}}
-                    {{#each projectNotes}}
-                      <tr>
-                        <td class="note-descrip" style="white-space: pre-wrap">{{this.description}}</td>
-                        <td class="note-vetAgent">{{this.projectPlanner}}</td>
-                        <td>{{dateToLocaleDate this.date}}</td>                       
-                      </tr>
-                    {{/each}}
-                  {{else}}
-                    <tr>
-                      <td id="empty-notes" class="alert-danger danger empty-notes-container" colspan="3">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No Notes To Display
-                      </td>
-                    </tr>
-                  {{/if}}
+                    <td class="note-descrip" style="white-space: pre-wrap">{{this.description}}</td>
+                    <td class="note-vetAgent">{{this.projectPlanner}}</td>
+                    <td>{{dateToLocaleDate this.date}}</td>                       
+                  </tr>
+                {{/each}}
+              {{else}}
+                <tr>
+                  <td id="empty-notes" class="alert-danger danger empty-notes-container" colspan="3">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No Notes To Display
+                  </td>
+                </tr>
+              {{/if}}
 
-                  <tr><!--THIS EMPTY ROW IS NECESSARY FOR addProjectNote.js TO WORK ON MULTIPLE PAGES--></tr>
-                </tbody>
-              </table>
-            </form>
-          </div>
-        </div>
-      </div><!-- end #partners -->
+              <tr><!--THIS EMPTY ROW IS NECESSARY FOR addProjectNote.js TO WORK ON MULTIPLE PAGES--></tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div><!-- end #partners -->
       
 
       <div class="tab-pane" id="planning" role="tabpanel"><!-- start #planning -->

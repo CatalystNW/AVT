@@ -1,5 +1,6 @@
 # Added in 2020
 .env
+.env.template
 
 # Ignore Visual Studio Files in .vs directory
 .vs/*

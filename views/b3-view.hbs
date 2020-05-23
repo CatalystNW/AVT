@@ -372,7 +372,10 @@
                 <tr>
                     <td></td>
                     <td>Associate Labor/Materials Contribution</td>
-                    <td><a href="#" id="l_associate_contrib" data-type="text" data-pk="1" data-url="/edit/{{doc._id}}" data-name="property.associates_can_contribute.description" data-title="Enter Contribution Description">{{doc.property.associates_can_contribute.description}}</a></td>
+                    <td><a href="#" id="l_associate_contrib" data-type="text" data-pk="1" 
+                            data-url="/edit/{{doc._id}}"
+                            data-name="property.associates_can_contribute.description"
+                            data-title="Enter Contribution Description">{{doc.property.associates_can_contribute.description}}</a></td>
                 </tr>
                 <tr>
                     <td><a id="recruitment.fbo_help"class="highlight">{{highlight.recruitment.fbo_help}}</a></td>
@@ -390,6 +393,14 @@
                     <td><a id="finance.requested_other_help"class="highlight">{{highlight.finance.requested_other_help}}</a></td>
                     <td>Requested Other Help</td>
                     <td><a href="#" id="request_help" data-type="select" data-pk="1" data-url="/edit/{{doc._id}}" data-name="finance.requested_other_help.value" data-title="Client Requested Other Help?"></a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Organization Names and Help Requested</td>
+                    <td><a href="#" id="requested_other_help_description" 
+                           data-type="text" data-pk="1" data-url="/edit/{{doc._id}}"
+                           data-name="finance.requested_other_help.description"
+                           data-title="Enter Organization Names and Help Requested">{{doc.finance.requested_other_help.description}}</a></td>
                 </tr>
                 </tbody>
             </table>
