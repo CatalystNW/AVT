@@ -10,6 +10,7 @@ module.exports.get_service = get_service;
 module.exports.post_service = post_service;
 module.exports.update_service = update_service;
 module.exports.view_services = view_services;
+module.exports.get_service_api = get_service_api;
 module.exports.get_services_api = get_services_api;
 module.exports.view_service = view_service;
 module.exports.post_note = post_note;
@@ -94,6 +95,13 @@ function view_services(req, res) {
     }
   );
 };
+
+async function get_service_api(req, res) {
+     // Get Services
+     var service_id = req.params.service_id;
+     service = await get_service_data(service_id);
+     res.status(200).json(service);
+}
 
 async function get_services_api(req, res) {
   if (req.query.show_complete == "false") {

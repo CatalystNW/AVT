@@ -1,3 +1,4 @@
+var helper = require("../helper");
 
 // var mongoose = require('mongoose');
 // var db = require('../../../mongoose/connection');
@@ -36,12 +37,57 @@ function transform_serviceData(service) {
   service.service_date = service.service_date.toLocaleString();
 }
 
-module.exports.check_care_application = check_care_application;
+module.exports.view_application_form = view_application_form;
+module.exports.view_applications_page = view_applications_page;
+
+module.exports.post_application = post_application;
+module.exports.get_applicant_data_api = get_applicant_data_api;
 module.exports.create_care_applicant = create_care_applicant;
 module.exports.get_applicant = get_applicant;
 module.exports.update_application = update_application;
 module.exports.get_applications = get_applications;
 module.exports.get_application_by_id = get_application_by_id;
+
+function view_application_form(req, res) {
+  helper.create_user_context(req).then(
+    (context) => {
+      res.render("care/application_form", context);
+    }
+  );
+}
+
+function view_applications_page(req, res) {
+  helper.create_user_context(req).then(
+    async (context) => {
+      if(req.isAuthenticated()) {
+        var userID = req.user._id.toString();
+        var result = await User.findOne({"_id": userID}).lean();
+        console.log(result.user_roles, result.user_role);
+      }
+      res.render("care/applications", context);
+    }
+  );
+}
+
+function get_applicant_data_api(req, res) {
+  helper.create_user_context(req).then(
+    async (context) => {
+      var application_id = req.params.application_id
+      context.application_id = application_id;
+      var application = await get_applicant(application_id);
+      res.status(200).json(application);
+    }
+  );
+}
+
+async function post_application(req, res) {
+  if (check_care_application(req.body)) {
+    await create_care_applicant(req.body)
+
+    res.status(201).end(); // OK creation
+} else
+  res.status(404).end(); // Missing fields
+}
 
 async function get_applications(req, res) {
   if (req.query.show_do_not_contact == "false")
@@ -53,7 +99,6 @@ async function get_applications(req, res) {
   for (var i=0; i<apps.length;i++) {
     // Sort by services_by service_date
     transform_app_with_services_data(apps[i]);
-
   }
   res.status(200).json(apps);
 };

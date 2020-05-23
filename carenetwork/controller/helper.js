@@ -5,6 +5,9 @@
 // var db = require('../mongoose/connection');
 var User = require('../../models/userPackage');
 
+module.exports.isLoggedIn = isLoggedIn;
+module.exports.create_user_context = create_user_context;
+
 
 // Uses Promises to retrieve user info. Returns context object
 function create_user_context(req) {
@@ -37,6 +40,3 @@ function isLoggedIn(req, res, next) {
     res.redirect('/user/login');
   }
 }
-
-module.exports.isLoggedIn = isLoggedIn;
-module.exports.create_user_context = create_user_context;
