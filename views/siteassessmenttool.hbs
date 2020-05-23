@@ -54,6 +54,12 @@
   margin-bottom: 15px;
   margin-top: -3px;
 }
+
+.shallow {
+  font-size: 14px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
 </style>
 
 
@@ -210,9 +216,11 @@
               <!-- HBS - IF NO DRIVE LINK  - then show this. -->
               <span id="noDrive" style="display: inline-flex;">
                 <h4>Drive URL:&nbsp;&nbsp;</h4>
-                <a href="#" id="drive_url" data-type="text" data-pk="{{_id}}"
+                <a href="#" onclick="showDriveDone()" id="drive_url" data-type="text" data-pk="{{_id}}"
                   data-url="/edit/project/{{_id}}" data-name="drive_url" data-title="Drive Link" 
                   data-onblur="submit">{{drive.drive_url}}</a>&nbsp;&nbsp;
+                  <button class="btn btn-success shallow" id="driveDoneBtn" style="display: none;"
+                    onclick="window.location.reload(true)">Collapse</button>
               </span>
               
               <!-- HBS - IF LINK EXISTS - then show this. -->
@@ -809,8 +817,13 @@
     //Toggle = show edit span, and hide current span
     document.getElementById("yesDrive").style.display = "none";
     document.getElementById("noDrive").style.display = "inline-flex";
+    document.getElementById("driveDoneBtn").style.display = "inline-flex";
 
   }
+
+   function showDriveDone() {
+      document.getElementById("driveDoneBtn").style.display = "inline-flex";
+    }
 
   function yesDriveLoaded() {
     var webUrl = "{{{escape doc.drive.drive_url}}}";

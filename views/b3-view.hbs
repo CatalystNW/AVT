@@ -1,13 +1,81 @@
+<style>
+    .no-left-padding {
+		padding-left: 0px;
+	}
+	.btnEditDrive {
+		font-size: 14px;
+		margin-left: 20px;
+		margin-bottom: 5px;
+		margin-top: -3px;
+		}
+	.shallow {
+		font-size: 14px;
+		margin-left: 20px;
+		}
+	.no-bottom-margin {
+		margin-bottom: 0px;
+	}
+	.drive-header {
+		margin-bottom: 0px;
+	}
+	.drive-button-padding {
+		padding-top: 15px;
+        padding-left: 10px;
+	}
+	.drive-link {
+		padding-top: 0px;
+        margin-top: 0px;
+        font-size: 1.8em;
+        font-weight: bold;
+	}
+    .drive-input-link {
+        padding-top: 7px;
+        font-size: 1.2em;
+    }
+</style>
+
 <a href="/view" class="btn btn-primary">Back to Vetting Home</a>
 <a href="/vettingworksheet/{{doc._id}}" class="btn btn-primary">Vetting Worksheet</a>
 <!-- <a id="csvExportButton" class="btn btn-primary">Export to CSV</a> -->
 
+<div class="container col-xs-12">
+    <h1>{{doc.application.name.first}} {{doc.application.name.last}} - Application View</h1>
+
+    <div class="col-sm-6 no-left-padding">
+        <h3>Status: <a href="#" id="status" data-type="select" data-pk="1" data-url="/edit/{{doc._id}}" 
+                       data-name="status" data-title="Select status"></a></h3>
+        
+    </div>
+    <div class="col-sm-6 drive-button-padding">
+        <!-- HBS - IF NO DRIVE LINK  - then show this. -->
+        <span id="noDrive" style="display: inline-flex;">
+            <h4 class="drive-header">Drive URL:&nbsp;&nbsp;</h4>
+            <a href="#" onclick="showDriveDone()" id="drive_url" data-type="text" data-pk="{{_id}}"
+                data-url="/edit/project/{{doc._id}}" data-name="drive_url" data-title="Drive Link" data-onblur="submit"
+                class="drive-input-link">{{doc.drive.drive_url}}</a>&nbsp;&nbsp;
+            <button class="btn btn-success shallow" id="driveDoneBtn" style="display: none;"
+                onclick="window.location.reload(true)">Collapse</button>
+        </span>
+
+        <!-- HBS - IF LINK EXISTS - then show this. -->
+
+        <span id="yesDrive" style="display: inline-flex;">
+            <a id="driveHref" target="_blank" href="{{doc.drive.drive_url}}">
+                <h4 class="no-bottom-margin drive-link">Google Drive</h4>
+            </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btnEditDrive" onclick="editDriveURL()">Edit</button>
+        </span>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1>{{doc.application.name.first}} {{doc.application.name.last}} - Application View</h1>
+            <!-- h1>{{doc.application.name.first}} {{doc.application.name.last}} - Application View</h1>
 
-            <h3>Status: <a href="#" id="status" data-type="select" data-pk="1" data-url="/edit/{{doc._id}}" data-name="status" data-title="Select status"></a></h3>
+            <h3>Status: <a href="#" id="status" data-type="select" data-pk="1" data-url="/edit/{{doc._id}}" 
+                           data-name="status" data-title="Select status"></a></h3 -->
 
             <!--VETTING NOTES-->
             <div class="row">
@@ -650,8 +718,42 @@
             })
         });
 
-        $('[id="notes.vet_summary"]').editable()
+        $('[id="notes.vet_summary"]').editable();
+        $('#drive_url').editable();
+        yesDriveLoaded();
     });
+
+    /**
+     * These three functions work together to display the Google Drive Button
+    **/
+    function editDriveURL() {
+        //Toggle = show edit span, and hide current span
+        document.getElementById("yesDrive").style.display = "none";
+        document.getElementById("noDrive").style.display = "inline-flex";
+        document.getElementById("driveDoneBtn").style.display = "inline-flex";
+    }
+
+    function showDriveDone() {
+        document.getElementById("driveDoneBtn").style.display = "inline-flex";
+    }
+
+    function yesDriveLoaded() {
+        var webUrl = "{{{escape doc.drive.drive_url}}}";
+
+        if (document.getElementById("driveHref").href == "" || document.getElementById("driveHref").href == window.location || document.getElementById("driveHref").href + "#" == window.location) {
+            document.getElementById("yesDrive").style.display = "none";
+            document.getElementById("noDrive").style.display = "inline-flex";
+        } else {
+            if (document.getElementById("driveHref") && document.getElementById("driveHref").href) {
+                var webUrl = "{{{escape doc.drive.drive_url}}}";
+                if (!webUrl.startsWith('http')) {
+                    document.getElementById("driveHref").href = 'http://' + webUrl;
+                }
+            }
+            document.getElementById("yesDrive").style.display = "inline-flex";
+            document.getElementById("noDrive").style.display = "none";
+        }
+    }
 
  //    $('#csvExportButton').on('click', function(e) {
 	// var urlParts = window.location.pathname.split('/')

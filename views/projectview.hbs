@@ -54,12 +54,17 @@ function getCurrentDate() {
    
  }
 
-
 .btnEditDrive {
   font-size: 14px;
   margin-left: 20px;
   margin-bottom: 15px;
   margin-top: -3px;
+}
+
+.shallow {
+  font-size: 14px;
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 </style>
 
@@ -256,7 +261,7 @@ function getCurrentDate() {
                <span id="noDrive" style="display: inline-flex;">
                   <h4>Drive URL:&nbsp;&nbsp;</h4>
                   <a href="#" onclick="showDriveDone()" id="drive_url" data-type="text" data-pk="{{_id}}" data-url="/edit/project/{{_id}}" data-name="drive_url" data-title="Drive Link">{{drive.drive_url}}</a>&nbsp;&nbsp; 
-                  <button class="btn btn-success" id="driveDoneBtn" style="display: none;" onclick="window.location.reload(true)">Collapse</button>
+                  <button class="btn btn-success shallow" id="driveDoneBtn" style="display: none;" onclick="window.location.reload(true)">Collapse</button>
                  
                </span>
                  </br>
