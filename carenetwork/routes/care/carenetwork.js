@@ -37,8 +37,6 @@ router.get('/view_applications', function(req, res){
   );
 });
 
-// Edit Applicant Data
-router.post('/view_application/:application_id', application_controller.update_application);
 
 router.put('/applications/:application_id', application_controller.update_application);
 
