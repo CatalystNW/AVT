@@ -15,12 +15,10 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, getCompletedProjectsByYear, getApplicationsByYear, api.getUpcomingProjects, function(req, res, next){
+    router.get('/', isLoggedIn, api.getUpcomingProjects, api.getAppYears, function(req, res, next){
         
     // create object 'payload' to return
     var payload = {};
-    payload.completedProjects = res.locals.completedYearAndQuantity;
-    payload.applicationsForYear = res.locals.applications;
     payload.upComing = res.locals.upComing;
     payload.upComing.map(formatStatusUpComing)
     payload.assessComp = res.locals.assessComp;
@@ -29,24 +27,28 @@ module.exports = function(passport){
     payload.approval.map(formatStatusUpComing)
     payload.waitlist = res.locals.waitlist
     payload.waitlist.map(formatStatusUpComing)
-    console.log(payload.assessComp)
+    payload.appYears = res.locals.appYears
+    console.log(payload.appYears)
 
     //console.log(payload.applicationsForYear)
     //console.log(payload.approval);
     res.render('projectsumreport', payload); 
     })
-    router.get('/search', function(req,res,next){
-        console.log(req.query)
-        let queryObject = {}
-        if(req.query.city) queryObject["application.address.city"] = req.query.city
-        if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
-        if(req.query.firstName) queryObject["application.name.first"] = req.query.firstName
-        if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
-        DocumentPackage.find(queryObject)
-        .then( result => {
-            result.map(formatStatusUpSearch)
-            res.send(result)
-        })       
+    
+    router.get('/search', api.Search, function(req,res,next){
+        //console.log(res.locals)
+        res.locals.results.map(formatStatusUpSearch)
+        res.send(res.locals.results)      
+    })
+
+    router.get('/endReport', api.getPartnerProjectCount, getCompletedProjectsByYear, getApplicationsByYear, api.getProjEndReport, function(req,res, next){
+        let payload = {}
+        payload.completedProjects = res.locals.completedYearAndQuantity;
+        payload.applicationsForYear = res.locals.applications;
+        payload.projCount = res.locals.results
+        payload.projTable = res.locals.projecttable
+        console.log(payload.projTable)
+        res.send(payload)
     })
     return router;
 };

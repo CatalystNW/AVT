@@ -1,8 +1,10 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script>
-$(document).ready(function(){  
+$(document).ready(function(){
+    alert("Ready!")  
   $("#exportButton").click(function(){
+      alert("Why no work!")
       let queryList = []
       let firstName = $("#FirstName").val();
       if(firstName) queryList.push("firstName=" + firstName)
@@ -12,6 +14,26 @@ $(document).ready(function(){
       if(city) queryList.push("city=" + city)
       let zipcode = $("#ZipCode").val();
       if(zipcode) queryList.push("zipcode=" + zipcode)
+      let site_host = $('#site_host').val();
+      if(site_host) queryList.push("site_host=" + site_host)
+      let crew_chief = $('#crew_chief').val();
+      if(crew_chief) queryList.push("crew_chief=" + crew_chief)
+      let project_advocate = $('#project_advocate').val();
+      if(project_advocate) queryList.push("project_advocate=" + project_advocate)
+      let appFromDate = $('#appFrom').val()
+      if(appFromDate) queryList.push("appFromDate=" + appFromDate)
+      let appToDate = $('#appTo').val()
+      if(appToDate) queryList.push("appToDate=" + appToDate)
+      let projStartFromDate = $('#projStartFrom').val()
+      if(projStartFromDate) queryList.push("projStartFrom=" + projStartFromDate)
+      let projStartToDate = $('#projStartTo').val()
+      if(projStartToDate) queryList.push("projStartTo=" + projStartToDate)
+      let projEndFromDate = $('#projEndFrom').val()
+      if(projEndFromDate) queryList.push("projEndFrom=" + projEndFromDate)
+      let projEndToDate = $('#projEndTo').val()
+      if(projEndToDate) queryList.push("projEndTo=" + projEndToDate)
+      var leader_andor = $(".and_or:checked").val()
+      queryList.push("leader_and_or=" + leader_andor)
       $('#tableContent').empty();
       let queryString = "?" + queryList.join("&")
       alert(queryString)
@@ -19,7 +41,11 @@ $(document).ready(function(){
       //$("#tableContent").append(name)
       data.forEach(element => {
           let row = $("<tr></tr>")
-          let name = $("<td></td>").text(element.application.name.first + " " + element.application.name.last)
+          let name = $("<td></td>")
+          let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
+          let projLink = $("<a></a>").attr("href", link)
+          projLink.text(element.application.name.first + " " + element.application.name.last)
+          name.append(projLink)
           let status = $("<td></td>").text(element.status)      
           let appName = $("<td></td>").text(element.app_name)
           let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
@@ -28,9 +54,49 @@ $(document).ready(function(){
       })
     });
   });
+  $("#EndSubmit").click(function(){
+      let endMonth = $('#month').val()
+      let endYear = $('#year').val()
+      let queryString = "?endMonth=" + endMonth + "&endYear=" + endYear
+      $('#projectCountTable').empty();
+      $('#assocPartnerTable').empty();
+      $.get("/projectreport/endReport" + queryString, function(data){
+          $("#numProj").text("Number of Projects:" + data.completedYearAndQuantity)
+          $("#numApp").text("Number of Applications: " + data.applicationsForYear)
+          data.projCount.forEach(element => {
+              if (element.projCount){
+                let row = $("<tr></tr>")
+                let partnerName = $("<td></td>").text(element.org_name)
+                let projCount = $("<td></td>").text(element.projCount)
+                row.append(partnerName, projCount)
+                $("#projectCountTable").append(row)
+              }
+          });
+          data.projTable.forEach(element => {
+              let row = $("<tr></tr>")
+              let firstName = element.name.preferred ? element.name.preferred : element.name.first
+              let projectName = $("<td></td>").text(firstName + " " + element.name.last)
+              let partnerList = $("<td></td>").addClass("cell-overflow")
+              element.partners.forEach((partner, idx, arr) => {
+                  partnerList.append(partner.org_name)
+                  if (idx !== arr.length - 1){partnerList.append(", ")}
+              })
+              let total_cost = $("<td></td>").text(element.cost)
+              row.append(projectName, partnerList, total_cost)
+              $("#assocPartnerTable").append(row)
+          })
+      })
+  });
 }); 
 </script>
 <style>
+    .cell-overflow {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+
+    }
+
     p {
         margin-top: 0px;
         margin-bottom: 0px;
@@ -58,20 +124,35 @@ $(document).ready(function(){
     <div class="tab-pane active" id="projectInfo" role="tabpanel">
         <div class="col-xs-12 col-sm-6" style="float:left;">
             </br>
-            <form action="/action_page.php">
-                <label for="year">Choose a Year:</label>
-                <select id="year" name="year">
-                    <!--This section would be prepopulated by handlebars years from the backend-->
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                </select>
-                <input type="submit">
-            </form>
-            <h4>Year and Applications: {{year}}</h4>
-            <p>Number of Projects: {{projectsCompleted}}</p>
-            <p>Number of Applications: {{applicationsForYear}}</p>
+            <h5>Choose a date range to create report for</h5>
+            <label for="month">Choose a Month:</label>
+            <select id="month" name="month">
+            <option value="null">--</option>
+            <option value="00">Jan</option>
+            <option value="01">Feb</option>
+            <option value="02">Mar</option>
+            <option value="03">Apr</option>
+            <option value="04">May</option>
+            <option value="05">Jun</option>
+            <option value="06">Jul</option>
+            <option value="07">Aug</option>
+            <option value="08">Sep</option>
+            <option value="09">Oct</option>
+            <option value="10">Nov</option>
+            <option value="11">Dec</option>
+            </select>
+            <label for="year">Choose a Year:</label>
+            <select id="year" name="year">
+                <!--This section would be prepopulated by handlebars years from the backend-->
+                {{#each appYears}}
+                    <option value={{this}}>{{this}}</option>
+                {{/each}}
+            </select>
+            
+            <button id="EndSubmit">Submit</button>
+            <h4>Year and Applications:</h4>
+            <p id="numProj">Number of Projects:</p>
+            <p id="numApp">Number of Applications: </p>
             <h5>The Year in Projects</h5>
             <table class="table">
                 <thead>
@@ -79,11 +160,9 @@ $(document).ready(function(){
                         <th scope="col">Partner</th>
                         <th scope="col">Number of Projects</th>
                     </tr>
-                    <tr>
-                        <td>Dummy Data</td>
-                        <td>Dummy Data</td>
-                    </tr>
                 </thead>
+                <tbody id="projectCountTable">
+                </tbody>
             </table>
             <h5>Total Partners</h5>
             <table class="table">
@@ -94,17 +173,7 @@ $(document).ready(function(){
                         <th>Cost</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Dummy Data</td>
-                        <td>Dummy Data</td>
-                        <td>Dummy Data</td>
-                    </tr>
-                    <tr>
-                        <td>Dummy Data</td>
-                        <td>Dummy Data</td>
-                        <td>Dummy Data</td>
-                    </tr>
+                <tbody id="assocPartnerTable">
                 </tbody>
             </table>
             <p></p>Active Volunteers: </p>
@@ -115,17 +184,58 @@ $(document).ready(function(){
     <div class="tab-pane" id="work" role="tabpanel">
         </br>
         <p>Search for projects with the following:</p>
-        <label>First Name</label>
+        <h5>Applicant Info</h5>
+        <label>First Name:</label>
         <input type="text" id= "FirstName"></input>
-        <label>Last Name</label>
+        <label>Last Name:</label>
         <input type="text" id= "LastName"></input>
-        <label>City</label>
+        <label>City:</label>
         <input type="text" id= "City"></input>
-        <label>Zip Code</label>
+        <label>Zip Code:</label>
         <input type="text" id= "ZipCode"></input>
-        <label>Partner</label>
-        <input type="text" id= "Partner"></input>
-        <button id="exportButton">Submit</button>
+        <!--<label>Partner:</label>
+        <input type="text" id= "Partner"></input>-->
+        <h5>Project Leaders</h5>
+        <label>Site Host</label>
+        <input type="text" id= "site_host"></input>
+        <label>Project Advocate</label>
+        <input type="text" id= "project_advocate"></input>
+        <label>Crew Chief</label>
+        <input type="text" id= "crew_chief"></input>
+        <label for="and">AND</label>
+        <input type="radio" class="and_or" name="and_or" value="and" checked> 
+        <label for="or">OR</label>
+        <input type="radio" class="and_or" name="and_or" value="or">
+        <h5>Project Information</h5>
+        <label>Number Volunteers: </label>
+        <input type="text" id= "Number Volunteers"></input>
+        <input type="radio" id="vol1" name="numberVol" value="less">
+        <label for="vol1">less than</label>
+        <input type="radio" id="vol2" name="numberVol" value="greater">
+        <label for="vol2">greater than</label></br>
+        <label>Total Cost: </label>
+        <input type="text" id= "Total Cost"></input>
+        <input type="radio" id="cost1" name="totCost" value="less">
+        <label for="cost1">less than</label>
+        <input type="radio" id="cost2" name="totCost" value="greater">
+        <label for="cost2">greater than</label>
+        <h5>Application Date</h5>
+        <label>From</label>
+        <input type="date" id="appFrom">
+        <label>To</label>
+        <input type="date" id="appTo">
+        <h5>Project Date</h5>
+        <p>Begin:</p>
+        <label>From</label>
+        <input type="date" id="projStartFrom">
+        <label>To</label>
+        <input type="date" id="projStartTo">
+        </br><p>End:</p>
+        <label>From</label>
+        <input type="date" id="projEndFrom">
+        <label>To</label>
+        <input type="date" id="projEndTo">
+        </br><button id="exportButton">Submit</button>
         <table class="table">
             <thead>
                 <tr>
