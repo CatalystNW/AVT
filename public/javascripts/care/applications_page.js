@@ -291,7 +291,7 @@ function create_service_btn(app_id) {
     }
   });
 
-  btn.classList.add("btn", "btn-primary", "btn-sm");
+  btn.classList.add("btn", "btn-success", "btn-sm");
   return btn;
 }
 
