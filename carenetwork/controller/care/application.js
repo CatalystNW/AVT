@@ -5,6 +5,140 @@ var helper = require("../helper");
 var CareApplicant = require('../../models/care/careApplicant');
 var CareContact = require('../../models/care/careContact');
 
+module.exports.view_application_form = view_application_form;
+module.exports.view_applications_page = view_applications_page;
+
+module.exports.post_application = post_application;
+module.exports.get_applicant_data_api = get_applicant_data_api;
+module.exports.update_application = update_application;
+module.exports.get_applications = get_applications;
+module.exports.get_application_by_id = get_application_by_id;
+
+async function view_application_form(req, res) {
+  var context = await helper.create_care_context(req, res);
+  res.render("care/application_form", context);
+}
+
+async function view_applications_page(req, res) {
+  helper.authenticate_view_page(req, res, 
+    (context) => {
+      res.render("care/applications", context);
+    });
+}
+
+async function get_applicant_data_api(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      var application_id = req.params.application_id
+      context.application_id = application_id;
+      var application = await get_applicant(application_id);
+      res.status(200).json(application);
+    }
+  );
+}
+
+async function post_application(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      if (check_care_application(req.body)) {
+        await create_care_applicant(req.body)
+    
+        var context = helper.create_care_context(req, res);
+    
+        if (context.care_manager_status) {
+          res.status(201).json({"care_manager_status": true});
+        } else {
+          res.status(201).end(); // OK creation
+        }
+      } else {
+        res.status(404).end(); // Missing fields  
+      }
+    }
+    
+  );
+}
+
+async function get_applications(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      if (req.query.show_do_not_contact == "false")
+        var query = CareApplicant.find({application_status: {$ne : "do_not_contact"}});
+      else
+        var query = CareApplicant.find({});
+
+      apps = await query.populate('services').lean().exec();
+      for (var i=0; i<apps.length;i++) {
+        // Sort by services_by service_date
+        transform_app_with_services_data(apps[i]);
+      }
+      res.status(200).json(apps);
+    }
+    
+  );
+};
+
+async function get_application_by_id(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      var app_id = req.params.application_id;
+      var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
+      transform_app_with_services_data(app);
+      return res.status(200).json(app);
+    }
+    
+  );
+}
+
+async function update_application(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      var application_id = req.params.application_id;
+
+      var field, value, old_value, field_obj, o, 
+        update_status = false;
+
+      var careApplicant = await CareApplicant.findById(application_id).exec();
+
+      for (field in fields_map) {
+        value = req.body[field];
+        field_obj = fields_map[field];
+
+        if (value == undefined)
+          continue;
+
+        o = careApplicant;
+        
+        // Split path string into array. Used for navigation
+        path_arr = field_obj.path.split("/");
+        for (i=0; i< path_arr.length; i++) {
+          if (i == path_arr.length - 1) {
+            // Update if the values differ
+            if (value != o[path_arr[i]]) {
+              o[path_arr[i]] = value;
+              update_status = true
+            }
+          }
+          else
+            o = o[path_arr[i]];
+        }
+      }
+      if (update_status) {
+        var result = await careApplicant.save();
+      }
+      // get back app thru query with populated services obj
+      var app = await CareApplicant.findById(application_id).populate("services")
+          .lean().exec();
+      transform_app_with_services_data(app);
+      res.status(200).json(app);
+    }  
+  );
+
+  
+}
+
+/** Internal functions. Might export to Applicant as static methods instead */
+
+
 // Check that all required data was provided using fields obj
 // into body of request
 function check_care_application(req_body) {
@@ -37,129 +171,10 @@ function transform_serviceData(service) {
   service.service_date = service.service_date.toLocaleString();
 }
 
-module.exports.view_application_form = view_application_form;
-module.exports.view_applications_page = view_applications_page;
-
-module.exports.post_application = post_application;
-module.exports.get_applicant_data_api = get_applicant_data_api;
-module.exports.create_care_applicant = create_care_applicant;
-module.exports.get_applicant = get_applicant;
-module.exports.update_application = update_application;
-module.exports.get_applications = get_applications;
-module.exports.get_application_by_id = get_application_by_id;
-
-async function view_application_form(req, res) {
-  var context = await helper.create_care_context(req, res);
-  res.render("care/application_form", context);
-}
-
-function view_applications_page(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      res.render("care/applications", context);
-    }
-  );
-}
-
-function get_applicant_data_api(req, res) {
-  helper.create_user_context(req).then(
-    async (context) => {
-      var application_id = req.params.application_id
-      context.application_id = application_id;
-      var application = await get_applicant(application_id);
-      res.status(200).json(application);
-    }
-  );
-}
-
-async function post_application(req, res) {
-  if (check_care_application(req.body)) {
-    await create_care_applicant(req.body)
-
-    var context = helper.create_care_context(req, res);
-
-    if (context.care_manager_status) {
-      res.status(201).json({"care_manager_status": true});
-    } else {
-      res.status(201).end(); // OK creation
-    }
-  } else
-    res.status(404).end(); // Missing fields  
-}
-
-async function get_applications(req, res) {
-  if (req.query.show_do_not_contact == "false")
-    var query = CareApplicant.find({application_status: {$ne : "do_not_contact"}});
-  else
-    var query = CareApplicant.find({});
-
-  apps = await query.populate('services').lean().exec();
-  for (var i=0; i<apps.length;i++) {
-    // Sort by services_by service_date
-    transform_app_with_services_data(apps[i]);
-  }
-  res.status(200).json(apps);
-};
-
-async function get_application_by_id(req, res) {
-  var app_id = req.params.application_id;
-  var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
-  transform_app_with_services_data(app);
-  return res.status(200).json(app);
-}
-
 async function get_applicant(application_id) {
   var applicant = await CareApplicant.findById(application_id)
     .lean().exec();
-  // var contact_ids = applicant.application.contacts;
-
-  // var contacts = await CareContact.find().
-  //   .lean().exec();
-  
-  // applicant.application.contacts = contacts;
   return applicant;
-}
-
-async function update_application(req, res) {
-  var application_id = req.params.application_id;
-
-  var field, value, old_value, field_obj, o, 
-    update_status = false;
-
-  var careApplicant = await CareApplicant.findById(application_id).exec();
-
-  for (field in fields_map) {
-    value = req.body[field];
-    field_obj = fields_map[field];
-
-    if (value == undefined)
-      continue;
-
-    o = careApplicant;
-    
-    // Split path string into array. Used for navigation
-    path_arr = field_obj.path.split("/");
-    for (i=0; i< path_arr.length; i++) {
-      if (i == path_arr.length - 1) {
-        // Update if the values differ
-        if (value != o[path_arr[i]]) {
-          o[path_arr[i]] = value;
-          update_status = true
-        }
-      }
-      else
-        o = o[path_arr[i]];
-    }
-  }
-  if (update_status) {
-    var result = await careApplicant.save();
-    // get back app thru query with populated services obj
-    var app = await CareApplicant.findById(application_id).populate("services")
-        .lean().exec();
-    transform_app_with_services_data(app);
-    res.status(200).json(app);
-  } else
-    res.status(500).end();
 }
 
 async function create_care_applicant(req_body) {

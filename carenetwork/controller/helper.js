@@ -8,6 +8,9 @@ var User = require('../../models/userPackage');
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.create_user_context = create_user_context;
 module.exports.create_care_context = create_care_context;
+module.exports.authenticate_api = authenticate_api;
+
+module.exports.authenticate_view_page = authenticate_view_page
 
 
 // Uses Promises to retrieve user info. Returns context object
@@ -67,4 +70,24 @@ function create_care_context(req, res) {
 
   
   return context;
+}
+
+async function authenticate_api(req, res, callback) {
+  var context = await create_care_context(req, res);
+  if (context.care_manager_status) {
+    await callback(context);
+  } else if (context.user) {
+    res.status(403).send();
+  } else {
+    res.status(401).send();
+  }
+}
+
+async function authenticate_view_page(req, res, callback) {
+  var context = await create_care_context(req, res);
+  if (context.care_manager_status) {
+    await callback(context);
+  } else {
+    res.redirect("unauthorized");
+  }
 }

@@ -17,6 +17,11 @@ router.get('/', async function(req, res) {
   res.render("care/index", context);
 });
 
+router.get('/unauthorized', async function(req, res) {
+  var context = await helper.create_care_context(req, res);
+  res.render("care/unauthorized", context);
+});
+
 /** Applications / Applicants */
 router.get('/application_form', application_controller.view_application_form);
 
