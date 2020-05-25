@@ -13,7 +13,12 @@ const careApplicantSchema = new mongoose.Schema({
     default: "never_contacted",
     enum: [
       "to_be_contacted", "assigned_caller", "help_requested", 
-      "contact_complete", "never_contacted", "do_not_contact"],
+      "contact_complete", "never_contacted", "do_not_contact",
+      "appvet_transferred"],
+  },
+  appvet_id: {
+    type: mongoose.ObjectId, // Will default to null if not transferred
+    ref: "DocumentPackage",
   },
 
   application: {
