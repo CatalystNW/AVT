@@ -1,19 +1,48 @@
 .noteDiv {
-    padding: 5px;
-    margin: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     white-space: pre-line;
 }
 
-#notes-container {
+.scrollbox {
     overflow: auto;
-    height: 300px;
+    height: 340px;
 }
 
-div.card-body {
+.card-body {
     margin: 5px;
     padding: 10px;
 }
 
 .labelDiv {
     font-weight: bold;
+}
+
+h2 {
+    font-size: 15pt;
+}
+
+iframe {
+    border: 0;
+}
+
+.print {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.printbox {
+    margin: 0px;
+    padding:0px;
+    z-index: 100000;
+}
+
+#add-note-btn {
+    float: right;
+}
+
+#print-btn {
+    float: right;
 }

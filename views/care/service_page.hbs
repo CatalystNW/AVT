@@ -1,92 +1,138 @@
 <div class="row">
-  <div class="col-sm-6 col-xs-12 col-lg-8">
-    <div class="col-lg-5 col-xs-12">
-      <div style="padding: 5px;">
-        <h2>Contact</h2>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Name:</div>
-          <div class="col-xs-8">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="first-container">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Applicant Info
+            <button type="button" class="btn btn-danger d-print-none hidden-print"
+            id="print-btn">
+            Print</button>
+          </h2>
         </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Phone:</div>
-          <div class="col-xs-8">{{service.applicant.application.phone}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Email:</div>
-          <div class="col-xs-8">{{service.applicant.application.email}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">DOB:</div>
-          <div class="col-xs-8">{{service.applicant.application.dob}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Marital Status:</div>
-          <div class="col-xs-8">{{service.applicant.application.marital_status}}</div>
-        </div>
+        <div class="card-body" >
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Name:</div>
+            <div class="col-xs-8">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
+          </div>
 
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">DOB:</div>
+            <div class="col-xs-8">{{service.applicant.application.dob}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Marital Status:</div>
+            <div class="col-xs-8">{{service.applicant.application.marital_status}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Email:</div>
+            <div class="col-xs-8">{{service.applicant.application.email}}</div>
+          </div>
+        </div>
       </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <h2>Health Issues</h2></div>
+      <div class="card-body" >
+        {{service.applicant.application.health_issues}}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2>Health Request</h2></div>
+      <div class="card-body" >
+        {{service.applicant.application.help_request}}
+      </div>
+    </div>
+  </div>
 
-      <h2>Health Issues</h2>
-      <div>{{service.applicant.application.health_issues}}</div>
-
-      <h2>Help Request</h2>
-      <div>{{service.applicant.application.help_request}}</div>
-
-      <div>
-        <h2>Contacts</h2>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Name:</div>
-          <div class="col-xs-8">{{service.applicant.application.contact_name}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Relationship:</div>
-          <div class="col-xs-8">{{service.applicant.application.contact_relationship}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Phone:</div>
-          <div class="col-xs-8">{{service.applicant.application.contact_phone}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4 labelDiv">Email:</div>
-          <div class="col-xs-8">{{service.applicant.application.contact_email}}</div>
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="second-div">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Map</h2></div>
+        <div class="card-body" >
+          <div><iframe width="100%" height="240" frameborder="0"
+            src={{google_map_url}} target="_blank">Google Maps Link</iframe></div>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-7 col-xs-12">
-      <h2>Map</h2>
-      <div><iframe width="100%" height="300" frameborder="0" style="border:0"
-      src={{google_map_url}} target="_blank">Google Maps Link</iframe></div>
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Address</h2></div>
+        <div class="card-body" >
+          <div >
+            {{service.applicant.application.address.line_1}}
+          </div>
 
-      <h2>Address</h2>
-      <div>{{service.applicant.application.address.line_1}}</div>
-      {{# if service.applicant.application.address.line_2}}
-      <div>{{service.applicant.application.address.line_2}}</div>
-      {{/if}}
-      <div>{{service.applicant.application.address.city}}, {{service.applicant.application.address.state}} {{service.applicant.application.address.zip}}</div>
-      
+          {{# if service.applicant.application.address.line_2}}
+          <div >
+            {{service.applicant.application.address.line_2}}
+          </div>
+          {{/if}}
+
+          <div >
+            {{service.applicant.application.address.city}}, {{service.applicant.application.address.state}} {{service.applicant.application.address.zip}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Emergency Contact</h2></div>
+        <div class="card-body" >
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Name:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_name}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Relationship:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_relationship}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Email:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_email}}</div>
+          </div>
+        </div>
+      </div>
     </div>
     
   </div>
 
-  <div class="col-sm-6 col-xs-12 col-lg-4" id="service-div">
-    <!-- Disabled
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" href="">Current Service</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="">Past Services</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="">Future Services</a>
-      </li>
-    </ul>
-    -->
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="third-container">
     <div>
       <div class="card">
-        <div class="card-header">{{service.service_date}}</div>
+        <div class="card-header"><h2>Service Info</h2></div>
         <div class="card-body" id="services-container">
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Service Date:</div>
+            <div class="col-xs-8">{{service.service_date}}</div>
+          </div>
+
           <div class="row">
             <div class="col-xs-4 labelDiv">Volunteer:</div>
             <div class="col-xs-8">{{service.volunteer}}</div>
@@ -115,12 +161,14 @@
     <div>
       <div class="card bg-light" >
         <div class="card-header">
-          Notes
-          <button type="button" class="btn btn-primary" data-toggle="modal" 
-            data-target="#noteModal" style="float: right;">Add Note</button>
+          <h2>Notes
+          <button type="button" class="btn btn-primary d-print-none hidden-print"
+            id="add-note-btn" data-toggle="modal" data-target="#noteModal">
+            Add Note</button>
+          </h2>
         </div>
         
-        <div class="card-body" id="notes-container"></div>
+        <div class="card-body scrollbox" id="notes-container"></div>
       </div>
     </div>
   </div>
