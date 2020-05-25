@@ -1,0 +1,61 @@
+
+<form method="GET">
+  <div class="form-group row">
+    <label for="yearSelect" class="col-sm-2 col-form-label">Search AppVett</label>
+    <div class="col-sm-4 col-md-2">
+      <select class="form-control" id="yearSelect" name="search_option">
+        <option value="first_name">First Name</option>
+        <option value="last_name">Last Name</option>
+        <option value="reference">Reference #</option>
+      </select>
+    </div>
+    <div class="col-sm-4 col-md-2">
+      <input type="text" class="form-control" id="yearSelect"  name="search_value">
+    </div>
+    <div class="col-sm-1">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+
+<div class="card">
+  <div class="card-header">Applications</div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Status</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2">Transfer Status</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container">
+        {{#each applicants}}
+        <tr>
+          <td class="col-lg-2">
+            {{this.application.name.first}} {{this.application.name.middle}} {{this.application.name.last}}
+            </td>
+          <td class="col-lg-2">{{this.updated}}</td>
+          <td class="col-lg-2">{{this.status}}</td>
+          <td class="col-lg-2">{{this.created}}</td>
+          <td class="col-lg-2">{{this.app_name}}</td>
+          
+          <td scope="col" class="col-lg-2">
+            {{#if this.care_network_transferred}}✔️
+            {{else}}
+              <button type="button" class="transfer-btn btn btn-primary"
+                value={{this._id}}>
+              Transfer</button>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/transfer_appvet.js"></script>

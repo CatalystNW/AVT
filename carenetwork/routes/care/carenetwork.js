@@ -9,6 +9,7 @@ var helper = require("../../controller/helper");
 var application_controller = require('../../controller/care/application.js');
 var service_controller = require('../../controller/care/service.js');
 var appnote_controller = require('../../controller/care/appnote.js');
+var appvett_transfer_controller = require('../../controller/care/appvet_transfer.js');
 
 // Welcome Page
 // router.get('/', helper.isLoggedIn, function(req, res) {
@@ -65,5 +66,9 @@ router.get('/view_service/:service_id', service_controller.view_service);
 router.get('/services/:service_id/notes', service_controller.get_notes);
 
 router.get('/view_services', service_controller.view_services);
+
+/* AppVett Transfer */
+router.get('/view_appvet_transfer', appvett_transfer_controller.view_transfer_page);
+router.post('/transfer_appvet', appvett_transfer_controller.transfer_appvet);
 
 module.exports = router;
