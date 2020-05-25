@@ -27,10 +27,14 @@ const careApplicantSchema = new mongoose.Schema({
     last_name: String,
     email: String,
     phone: String,
+    other_phone: String,
 
     dob: Date,
 
-    marital_status: String,
+    marital_status: {
+      type: String,
+      enum: ["widow", "married", "single"]
+    },
 
     address: {
       line_1: String,
