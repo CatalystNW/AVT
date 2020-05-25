@@ -3,7 +3,6 @@ var helper = require("../helper");
 // var mongoose = require('mongoose');
 // var db = require('../../../mongoose/connection');
 var CareApplicant = require('../../models/care/careApplicant');
-var CareContact = require('../../models/care/careContact');
 
 module.exports.view_application_form = view_application_form;
 module.exports.view_applications_page = view_applications_page;
@@ -54,7 +53,6 @@ async function post_application(req, res) {
         res.status(404).end(); // Missing fields  
       }
     }
-    
   );
 }
 
