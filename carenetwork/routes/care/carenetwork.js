@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var CareApplicant = require('../../models/care/careApplicant');
-var CareService = require('../../models/care/careService');
-// var CareContact = require('../../models/care/careContact');
-
 var helper = require("../../controller/helper");
 var application_controller = require('../../controller/care/application.js');
 var service_controller = require('../../controller/care/service.js');
@@ -23,7 +19,7 @@ router.get('/unauthorized', async function(req, res) {
   res.render("care/unauthorized", context);
 });
 
-/** Applications / Applicants */
+/** Applications Pages */
 router.get('/application_form', application_controller.view_application_form);
 router.get('/view_applications', application_controller.view_applications_page);
 

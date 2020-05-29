@@ -21,8 +21,6 @@ module.exports.view_service = view_service;
 module.exports.post_note = post_note;
 module.exports.get_notes = get_notes;
 
-
-
 async function post_service(req, res) {
   helper.authenticate_api(req, res,
     async (context) => {
@@ -43,7 +41,6 @@ async function post_service(req, res) {
 
       res.status(201).json(service.get_obj());
     }
-    
   );
 }
 
@@ -74,8 +71,6 @@ async function update_service(req, res) {
     }
     
   );
-
-  
 }
 
 function view_services(req, res) {
@@ -101,8 +96,7 @@ async function get_service_api(req, res) {
       res.status(200).json(service);
     }
     
-  );
-     
+  );   
 }
 
 async function get_services_api(req, res) {
@@ -120,9 +114,7 @@ async function get_services_api(req, res) {
       }
       res.status(200).json(services);
     }
-    
   );
-
 };
 
 function view_service(req, res) {
@@ -198,5 +190,4 @@ async function get_notes(req, res) {
       res.status(200).json(service.notes);
     }
   );
-  
 };

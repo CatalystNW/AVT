@@ -49,11 +49,6 @@ const careApplicantSchema = new mongoose.Schema({
     contact_phone: String,
     contact_email: String,
 
-    // contacts: [{
-    //   type: mongoose.ObjectId,
-    //   ref: "careContact",
-    // }],
-
     health_issues: String,
     help_request: String,
     home_occupants: String,
@@ -113,10 +108,7 @@ careApplicantSchema.statics.create_app =  async function(data) {
     path_arr = field_obj.path.split("/");
 
     var o;
-    // if (field_obj.schema == "careApplicant")
       o = careapp;
-    // else
-    //   o = careContact
     
     // Navigate through model objects thru path array
     for (i=0; i< path_arr.length; i++) {
