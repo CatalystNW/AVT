@@ -97,9 +97,9 @@ async function authenticate_api(req, res, callback, required_roles) {
 
 async function authenticate_view_page(req, res, callback, required_roles) {
   var context = await create_care_context(req, res);
+  var authenticated = false;
   if (required_roles != undefined) {
     authenticated = true;
-    console.log(context);
     for (var i=0; i<required_roles.length; i++) {
       if ( !(context.user_roles.includes(required_roles[i]))) {
         authenticated = false;
