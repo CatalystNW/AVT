@@ -217,9 +217,10 @@ var applicant_form_modal = {
     var that = this;
     $.ajax({
       type: "GET",
-        url: "/carenetwork/application/" + that.app_id,
+        url: "/carenetwork/applications/" + that.app_id,
         success: function(data, add_note_htmltextStatus, xhr) {
           if (xhr.status == 200) {
+            console.log(data);
             that.fill_app_data(data)
           }
         },

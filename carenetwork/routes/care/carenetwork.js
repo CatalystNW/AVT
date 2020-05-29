@@ -25,50 +25,43 @@ router.get('/unauthorized', async function(req, res) {
 
 /** Applications / Applicants */
 router.get('/application_form', application_controller.view_application_form);
-
 router.get('/view_applications', application_controller.view_applications_page);
-
-router.put('/applications/:application_id', application_controller.update_application);
-
-router.get('/application/:application_id', application_controller.get_applicant_data_api);
-
-// REST API : GET /applications
-router.get('/applications', application_controller.get_applications);
-
-router.get('/applications/:application_id', 
-    application_controller.get_application_by_id);
-
-router.post('/application', application_controller.post_application);
-
-// Application Notes for the Applications
-router.get('/appnote/:application_id', appnote_controller.get_appnotes);
-
-router.post('/appnote', appnote_controller.post_appnote);
-
-
-/** Services */
-
-// GET Service API
-router.get('/services/:service_id', service_controller.get_service_api);
-
-router.get('/services', service_controller.get_services_api);
-
-router.post('/services', service_controller.post_service);
-
-router.patch('/services/:service_id', service_controller.update_service);
-
-router.post('/services/:service_id/notes', service_controller.post_note);
 
 /* Service View Pages */
 
 router.get('/view_service/:service_id', service_controller.view_service);
-
 router.get('/services/:service_id/notes', service_controller.get_notes);
-
 router.get('/view_services', service_controller.view_services);
+
+// REST API : GET /applications
+router.route('/applications')
+    .get(application_controller.get_applications)
+    .post(application_controller.post_application);
+
+router.route('/applications/:application_id')
+  .get(application_controller.get_applicant_data_api)
+  .put(application_controller.update_application);
+
+// Application Notes for the Applications
+router.get('/appnote/:application_id', appnote_controller.get_appnotes);
+router.post('/appnote', appnote_controller.post_appnote);
+
+/** Services */
+
+// GET Service API
+router.route('/services')
+    .get(service_controller.get_services_api)
+    .post(service_controller.post_service);
+
+router.route('/services/:service_id')
+  .get(service_controller.get_service_api)
+  .patch(service_controller.update_service);
+
+router.post('/services/:service_id/notes', service_controller.post_note);
 
 /* AppVett Transfer */
 router.get('/view_appvet_transfer', appvett_transfer_controller.view_transfer_page);
+
 router.post('/transfer_appvet', appvett_transfer_controller.transfer_appvet);
 
 module.exports = router;
