@@ -62,19 +62,31 @@ function create_care_context(req, res) {
 
     for (var i=0; i<roles.length; i++) {
       if (roles[i] == 'CARE_MANAGER') {
-        context.care_manager_status = true;
-        break;
+        context.care_manager = true;
       }
     }
   }
-
   
   return context;
 }
 
-async function authenticate_api(req, res, callback) {
+async function authenticate_api(req, res, callback, required_roles) {
   var context = await create_care_context(req, res);
-  if (context.care_manager_status) {
+  var authenticated = false;
+  if (required_roles != undefined) {
+    authenticated = true;
+    for (var i=0; i<required_roles.length; i++) {
+      if ( !(context.user_roles.includes(required_roles[i]))) {
+        authenticated = false;
+        break;
+      }
+    }
+  } else {
+    if (context.care_manager)
+      authenticated = true;
+  }
+
+  if (authenticated) {
     await callback(context);
   } else if (context.user) {
     res.status(403).send();
@@ -83,9 +95,23 @@ async function authenticate_api(req, res, callback) {
   }
 }
 
-async function authenticate_view_page(req, res, callback) {
+async function authenticate_view_page(req, res, callback, required_roles) {
   var context = await create_care_context(req, res);
-  if (context.care_manager_status) {
+  if (required_roles != undefined) {
+    authenticated = true;
+    console.log(context);
+    for (var i=0; i<required_roles.length; i++) {
+      if ( !(context.user_roles.includes(required_roles[i]))) {
+        authenticated = false;
+        break;
+      }
+    }
+  } else {
+    if (context.care_manager)
+      authenticated = true;
+  }
+
+  if (authenticated) {
     await callback(context);
   } else {
     res.redirect("unauthorized");
