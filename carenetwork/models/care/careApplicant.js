@@ -148,6 +148,9 @@ careApplicantSchema.statics.check_care_application =  async function(data) {
   return true;
 }
 
+careApplicantSchema.statics.get_fields_map = function() {
+  return fields_map;
+}
 
 var fields_map = {
   application_status: { // This has a default value

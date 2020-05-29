@@ -15,6 +15,7 @@ module.exports.get_application_by_id = get_application_by_id;
 
 async function view_application_form(req, res) {
   var context = await helper.create_care_context(req, res);
+
   res.render("care/application_form", context);
 }
 
@@ -30,7 +31,7 @@ async function get_applicant_data_api(req, res) {
     async (context) => {
       var application_id = req.params.application_id
       context.application_id = application_id;
-      var application = await this.findById(application_id).lean().exec();
+      var application = await CareApplicant.findById(application_id).lean().exec();
       res.status(200).json(application);
     }
   );
@@ -77,7 +78,6 @@ async function get_application_by_id(req, res) {
       transform_app_with_services_data(app);
       return res.status(200).json(app);
     }
-    
   );
 }
 
@@ -86,10 +86,12 @@ async function update_application(req, res) {
     async (context) => {
       var application_id = req.params.application_id;
 
-      var field, value, old_value, field_obj, o, 
+      var field, value, field_obj, o, 
         update_status = false;
 
       var careApplicant = await CareApplicant.findById(application_id).exec();
+
+      var fields_map = CareApplicant.get_fields_map();
 
       for (field in fields_map) {
         value = req.body[field];
@@ -137,7 +139,7 @@ function transform_app_with_services_data(applicant) {
   applicant.add_services_url = "./add_service/" + applicant._id;
   
   var service;
-  for (var j=0; j<applicant.services.length; j++) {
+  for (var i=0; i<applicant.services.length; i++) {
     service = applicant.services[i];
     service.createdAt = service.createdAt.toLocaleString();
     service.updatedAt = service.updatedAt.toLocaleString();
