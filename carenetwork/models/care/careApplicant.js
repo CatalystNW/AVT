@@ -94,6 +94,7 @@ careApplicantSchema.statics.get_next_ref = async function() {
 };
 
 careApplicantSchema.statics.create_app =  async function(data) {
+  var field;
   var app_ref = await this.get_next_ref();
 
   var careapp = new this();
@@ -133,6 +134,19 @@ careApplicantSchema.statics.create_app =  async function(data) {
   await careapp.save();
   return careapp;
 };
+
+careApplicantSchema.statics.check_care_application =  async function(data) {
+  for (field in fields_map) {
+    if (fields_map[field]["required"]) {
+      if (req_body[field] == undefined || req_body[field].length <= 0){
+        console.log("missing");
+        console.log(field);
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 
 var fields_map = {

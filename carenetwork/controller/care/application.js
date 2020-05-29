@@ -130,22 +130,6 @@ async function update_application(req, res) {
 
 /** Internal functions. Might export to Applicant as static methods instead */
 
-
-// Check that all required data was provided using fields obj
-// into body of request
-function check_care_application(req_body) {
-  for (field in fields_map) {
-    if (fields_map[field]["required"]) {
-      if (req_body[field] == undefined || req_body[field].length <= 0){
-        console.log("missing");
-        console.log(field);
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
 function transform_app_with_services_data(applicant) {
   applicant.createdAt = applicant.createdAt.toLocaleString();
   applicant.updatedAt = applicant.updatedAt.toLocaleString();
@@ -167,62 +151,6 @@ async function get_applicant(application_id) {
   var applicant = await CareApplicant.findById(application_id)
     .lean().exec();
   return applicant;
-}
-
-async function create_care_applicant(req_body) {
-  var field;
-
-  var careApplicant = new CareApplicant();
-      // careContact = new CareContact();
-
-  var path_arr, i, value, field_obj;
-
-  var year = (new Date()).getFullYear();
-
-  var prev_apps = await CareApplicant.find({ createdAt: { $gte: year, } }).sort({"createdAt": "descending"}).exec();
-
-  // Get prev reference & increment it
-  var ref_num;
-  if (prev_apps.length > 0) {
-    var prev_reference = prev_apps[0].reference;
-    var re = /\w+\-\d+\-(\d+)/;
-    var result = re.exec(prev_reference);
-    ref_num = parseInt(result[1]) + 1;
-  } else {
-    ref_num = 1;
-  }
-
-  careApplicant.reference = `CARE-${year}-${ref_num}`;
-
-  for (field in fields_map) {
-    field_obj = fields_map[field];
-    
-    value = req_body[field];
-
-    if (value == undefined || value.length <= 0)
-      continue;
-
-    // Split path string into array. Used for navigation
-    path_arr = field_obj.path.split("/");
-
-    var o;
-    // if (field_obj.schema == "careApplicant")
-      o = careApplicant;
-    // else
-    //   o = careContact
-    
-    // Navigate through model objects thru path array
-    for (i=0; i< path_arr.length; i++) {
-      if (i == path_arr.length - 1)
-        o[path_arr[i]] = value;
-      else
-        o = o[path_arr[i]];
-    }
-  }
-  // Add IDs of each other
-
-  await careApplicant.save();
-  return true
 }
 
 // Map for names of the HTML inputs, required for db, 
