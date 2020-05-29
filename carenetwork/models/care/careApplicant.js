@@ -135,7 +135,8 @@ careApplicantSchema.statics.create_app =  async function(data) {
   return careapp;
 };
 
-careApplicantSchema.statics.check_care_application =  async function(data) {
+careApplicantSchema.statics.check_care_application =  async function(req_body) {
+  var field;
   for (field in fields_map) {
     if (fields_map[field]["required"]) {
       if (req_body[field] == undefined || req_body[field].length <= 0){
