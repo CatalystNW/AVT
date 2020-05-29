@@ -30,7 +30,7 @@ async function get_applicant_data_api(req, res) {
     async (context) => {
       var application_id = req.params.application_id
       context.application_id = application_id;
-      var application = await get_applicant(application_id);
+      var application = await this.findById(application_id).lean().exec();
       res.status(200).json(application);
     }
   );
