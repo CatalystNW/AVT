@@ -1,7 +1,5 @@
 var helper = require("../helper");
 
-// var mongoose = require('mongoose');
-// var db = require('../../../mongoose/connection');
 var CareApplicant = require('../../models/care/careApplicant');
 
 module.exports.view_application_form = view_application_form;
@@ -11,7 +9,6 @@ module.exports.post_application = post_application;
 module.exports.get_applicant_data_api = get_applicant_data_api;
 module.exports.update_application = update_application;
 module.exports.get_applications = get_applications;
-module.exports.get_application_by_id = get_application_by_id;
 
 async function view_application_form(req, res) {
   var context = await helper.create_care_context(req, res);
@@ -70,13 +67,15 @@ async function get_applications(req, res) {
   );
 };
 
-async function get_application_by_id(req, res) {
+async function get_applicant_data_api(req, res) {
   helper.authenticate_api(req, res,
     async (context) => {
-      var app_id = req.params.application_id;
-      var app = await CareApplicant.findById(app_id).populate("services").lean().exec();
-      transform_app_with_services_data(app);
-      return res.status(200).json(app);
+      var application_id = req.params.application_id
+      context.application_id = application_id;
+      var application = await CareApplicant.findById(application_id)
+        .populate("services").lean().exec();
+      transform_app_with_services_data(application);
+      res.status(200).json(application);
     }
   );
 }
@@ -126,8 +125,6 @@ async function update_application(req, res) {
       res.status(200).json(app);
     }  
   );
-
-  
 }
 
 /** Internal functions. Might export to Applicant as static methods instead */
