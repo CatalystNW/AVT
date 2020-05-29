@@ -37,23 +37,18 @@ async function get_applicant_data_api(req, res) {
 }
 
 async function post_application(req, res) {
-  helper.authenticate_api(req, res,
-    async (context) => {
-      if (check_care_application(req.body)) {
-        await create_care_applicant(req.body)
-    
-        var context = helper.create_care_context(req, res);
-    
-        if (context.care_manager_status) {
-          res.status(201).json({"care_manager_status": true});
-        } else {
-          res.status(201).end(); // OK creation
-        }
-      } else {
-        res.status(404).end(); // Missing fields  
-      }
+  var context = await helper.create_care_context(req, res);
+  if (CareApplicant.check_care_application(req.body)) { // check that all requried fields are present
+    await CareApplicant.create_app(req.body);
+
+    if (context.care_manager) { // Will redirect to applications page
+      res.status(201).json({"care_manager_status": true});
+    } else {
+      res.status(201).end(); // will redirect to catalystnw.org
     }
-  );
+  } else {
+    res.status(404).end(); // Missing fields  
+  }
 }
 
 async function get_applications(req, res) {
