@@ -70,8 +70,7 @@ async function get_applications(req, res) {
         transform_app_with_services_data(apps[i]);
       }
       res.status(200).json(apps);
-    }
-    
+    }    
   );
 };
 
