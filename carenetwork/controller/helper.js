@@ -113,7 +113,9 @@ async function authenticate_view_page(req, res, callback, required_roles) {
 
   if (authenticated) {
     await callback(context);
-  } else {
+  } else if (context.user) {
     res.redirect("unauthorized");
+  } else {
+    res.redirect("/user/login");
   }
 }
