@@ -21,6 +21,7 @@ const careServiceSchema = new mongoose.Schema({
   timestamps: true, // Creates createdAt & updatedAt
 });
 
+// Returns data that will be formatted for HTML, namely the dates in localestring.
 careServiceSchema.methods.get_obj = function() {
   return {
     _id: this._id,

@@ -16,7 +16,7 @@ const careApplicantSchema = new mongoose.Schema({
       "contact_complete", "never_contacted", "do_not_contact",
       "appvet_transferred"],
   },
-  appvet_id: {
+  appvet_id: { // Used if an documentPackage info was used to create this
     type: mongoose.ObjectId, // Will default to null if not transferred
     ref: "DocumentPackage",
   },
@@ -127,6 +127,7 @@ careApplicantSchema.statics.create_app =  async function(data) {
   return careapp;
 };
 
+// Checks that the required data is given
 careApplicantSchema.statics.check_care_application =  async function(req_body) {
   var field;
   for (field in fields_map) {
