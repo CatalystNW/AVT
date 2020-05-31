@@ -1,10 +1,94 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/pdfmake.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/vfs_fonts.js'></script>
 <script>
-$(document).ready(function(){
-    alert("Ready!")  
+function getCurrentDate() {
+    var date = new Date();
+    var Year = date.getFullYear();
+    var Day = ( "00" + date.getDate()).slice(-2);
+    var Mon = ("00" + (date.getMonth()+1)).slice(-2);
+    return Mon + "/" + Day + "/" + Year;
+}
+
+let pdfTitle = {
+    columns: [
+        {
+            text: "Catalyst Partnerships - This many projects to be prioritized and scheduled",
+            style: 'header',
+        },
+        {
+            text: getCurrentDate(),
+            style: 'header',
+            width: 70
+        }
+    ]
+}
+let pdfSubtitle = {
+    text: "Showing all projects in Upcoming, Site Assessment Complete, In Approval Process, or Waitlist\n",
+    style: 'subheader'
+}
+let contentArray = [pdfTitle, pdfSubtitle]
+let inputString
+let columnsArray = []
+let columnCounter = -1
+{{#each payload}}
+    {{#each this}}
+        columnCounter += 1
+        inputString = "{{escape application.name.first}} {{escape application.name.last}}:\n" +
+                    "Status: {{escape status}}\n"
+        {{#if workItemDoc includeZero=true}}
+            inputString += "Work Items:\n"
+            {{#each workItemDoc}}
+                inputString += {{plus_one @index}} + ") " + "{{escape name}} ({{escape description}})"
+                {{#unless @last}}
+                inputString += "\n" 
+                {{/unless}}
+            {{/each}}
+            inputString += "\n"
+        {{else}}
+            inputString += "No current work items\n"
+        {{/if}}
+        inputString += "House Type: {{escape property.home_type}}\n" +
+                    "Location: {{application.address.city}}\n" 
+        {{#if assessmentDoc includeZero=true}}
+            inputString += "Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}\n" + 
+                        "Cost: ${{assessmentDoc.0.estimates.total_cost}}\n\n"
+        {{else}}
+            inputString += "Volunteers: None specified\n" +
+                        "Cost: None specified\n\n"
+        {{/if}}
+        columnsArray.push({"text" : inputString})
+        if(columnCounter % 2 !== 0){
+            contentArray.push({"columns" : columnsArray})
+            columnsArray = []
+        }
+        inputString = ""
+    {{/each}}
+    {{#if @last}}
+        if(columnsArray.length){
+            contentArray.push({"columns" : columnsArray})
+            columnsArray = []
+        }
+    {{/if}}
+{{/each}}
+
+var content = {"content": contentArray, 
+               "styles" : {
+                    "header": {"bold":true},
+                    "subheader": {"italics":true}
+               },
+               "defaultStyle": {"columnGap": 10}
+              }
+function exportUpcoming() {
+    alert(contentArray.length)
+    pdfMake.createPdf(content).open();
+}
+</script>
+<script>
+    
+$(document).ready(function(){ 
   $("#exportButton").click(function(){
-      alert("Why no work!")
       let queryList = []
       let firstName = $("#FirstName").val();
       if(firstName) queryList.push("firstName=" + firstName)
@@ -20,6 +104,10 @@ $(document).ready(function(){
       if(crew_chief) queryList.push("crew_chief=" + crew_chief)
       let project_advocate = $('#project_advocate').val();
       if(project_advocate) queryList.push("project_advocate=" + project_advocate)
+      let numVol = $('#numVol').val();
+      if(numVol) queryList.push("numVol=" + numVol)
+      let totCost = $('#totCost').val();
+      if(totCost) queryList.push("totCost=" + totCost)
       let appFromDate = $('#appFrom').val()
       if(appFromDate) queryList.push("appFromDate=" + appFromDate)
       let appToDate = $('#appTo').val()
@@ -36,9 +124,14 @@ $(document).ready(function(){
       queryList.push("leader_and_or=" + leader_andor)
       $('#tableContent').empty();
       let queryString = "?" + queryList.join("&")
-      alert(queryString)
     $.get("/projectreport/search" + queryString, function(data){
       //$("#tableContent").append(name)
+      if(!data.length){
+          let row = $("<tr></tr>")
+          let emptyResultsEle = $("<td></td>").text("No results for that search")
+          row.append(emptyResultsEle)
+          $("#tableContent").append(row)
+      }
       data.forEach(element => {
           let row = $("<tr></tr>")
           let name = $("<td></td>")
@@ -55,11 +148,20 @@ $(document).ready(function(){
     });
   });
   $("#EndSubmit").click(function(){
-      let endMonth = $('#month').val()
-      let endYear = $('#year').val()
-      let queryString = "?endMonth=" + endMonth + "&endYear=" + endYear
+      let queryList = []
+      let appFromDateSum = $('#appFromSum').val()
+      if(appFromDateSum) {queryList.push("appFromSum=" + appFromDateSum)}
+      let appEndDateSum = $('#appToSum').val()
+      if(appEndDateSum) {queryList.push("appToSum=" + appEndDateSum)}
+      let projFromDateSum = $('#projStartFromSum').val()
+      if(projFromDateSum) {queryList.push("projFromSum=" + projFromDateSum)}
+      let projToDateSum = $('#projStartToSum').val()
+      if(projToDateSum) {queryList.push("projToSum=" + projToDateSum)}
+      let queryString = "?" + queryList.join("&")
       $('#projectCountTable').empty();
       $('#assocPartnerTable').empty();
+      $('#total_cost').empty()
+      $('#total_volunteers').empty()
       $.get("/projectreport/endReport" + queryString, function(data){
           $("#numProj").text("Number of Projects:" + data.completedYearAndQuantity)
           $("#numApp").text("Number of Applications: " + data.applicationsForYear)
@@ -81,10 +183,13 @@ $(document).ready(function(){
                   partnerList.append(partner.org_name)
                   if (idx !== arr.length - 1){partnerList.append(", ")}
               })
-              let total_cost = $("<td></td>").text(element.cost)
-              row.append(projectName, partnerList, total_cost)
+              let total_cost = $("<td></td>").text("$" + element.cost)
+              let volunteers = $("<td></td>").text(element.volunteers)
+              row.append(projectName, partnerList, total_cost, volunteers)
               $("#assocPartnerTable").append(row)
           })
+          $("#total_cost").text("$" + data.total_cost)
+          $("#total_volunteers").text(data.total_volunteers)
       })
   });
 }); 
@@ -124,36 +229,21 @@ $(document).ready(function(){
     <div class="tab-pane active" id="projectInfo" role="tabpanel">
         <div class="col-xs-12 col-sm-6" style="float:left;">
             </br>
-            <h5>Choose a date range to create report for</h5>
-            <label for="month">Choose a Month:</label>
-            <select id="month" name="month">
-            <option value="null">--</option>
-            <option value="00">Jan</option>
-            <option value="01">Feb</option>
-            <option value="02">Mar</option>
-            <option value="03">Apr</option>
-            <option value="04">May</option>
-            <option value="05">Jun</option>
-            <option value="06">Jul</option>
-            <option value="07">Aug</option>
-            <option value="08">Sep</option>
-            <option value="09">Oct</option>
-            <option value="10">Nov</option>
-            <option value="11">Dec</option>
-            </select>
-            <label for="year">Choose a Year:</label>
-            <select id="year" name="year">
-                <!--This section would be prepopulated by handlebars years from the backend-->
-                {{#each appYears}}
-                    <option value={{this}}>{{this}}</option>
-                {{/each}}
-            </select>
-            
+            <h5>Application Submit Date</h5>
+            <label>From</label>
+            <input type="date" id="appFromSum">
+            <label>To</label>
+            <input type="date" id="appToSum">
+            <h5>Project Start Date</h5>
+            <label>From</label>
+            <input type="date" id="projStartFromSum">
+            <label>To</label>
+            <input type="date" id="projStartToSum">
             <button id="EndSubmit">Submit</button>
             <h4>Year and Applications:</h4>
-            <p id="numProj">Number of Projects:</p>
-            <p id="numApp">Number of Applications: </p>
-            <h5>The Year in Projects</h5>
+            {{!--<p id="numProj">Number of Projects:</p>
+            <p id="numApp">Number of Applications: </p>--}}
+            <h5>Partner Breakdown</h5>
             <table class="table">
                 <thead>
                     <tr>
@@ -164,20 +254,21 @@ $(document).ready(function(){
                 <tbody id="projectCountTable">
                 </tbody>
             </table>
-            <h5>Total Partners</h5>
+            <h5>Project Breakdown</h5>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Project</th>
                         <th>Partners</th>
                         <th>Cost</th>
+                        <th>Volunteers</th>
                     </tr>
                 </thead>
                 <tbody id="assocPartnerTable">
                 </tbody>
             </table>
-            <p></p>Active Volunteers: </p>
-            <p>Total Cost: </p>
+            <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
+            <p>Total Cost: <span id="total_cost"></span></p>
         </div>
     </div>
 
@@ -208,13 +299,13 @@ $(document).ready(function(){
         <input type="radio" class="and_or" name="and_or" value="or">
         <h5>Project Information</h5>
         <label>Number Volunteers: </label>
-        <input type="text" id= "Number Volunteers"></input>
+        <input type="text" id= "numVol"></input>
         <input type="radio" id="vol1" name="numberVol" value="less">
         <label for="vol1">less than</label>
         <input type="radio" id="vol2" name="numberVol" value="greater">
         <label for="vol2">greater than</label></br>
         <label>Total Cost: </label>
-        <input type="text" id= "Total Cost"></input>
+        <input type="text" id= "totCost"></input>
         <input type="radio" id="cost1" name="totCost" value="less">
         <label for="cost1">less than</label>
         <input type="radio" id="cost2" name="totCost" value="greater">
@@ -258,54 +349,31 @@ $(document).ready(function(){
     <div class="tab-pane" id="upcoming" role="tabpanel">
         </br>
         <h5 style="padding-left: 21px;">Upcoming Projects
-        <button class="btn btn-info" id="exportBtn" style="margin-left: 5%;">Export PDF</button>
-        </h5><div id="iframeHolder"></div>
-        <h5>Project - Upcoming</h5>
-        {{#each upComing}}
-        <div class="upComing">
-            <p>{{application.name.first}} {{application.name.last}}:</p>
-            <p>Status: {{status}}</p>
-            {{#if workItemDoc includeZero=true}}
-            <p>Description: {{#each workItemDoc}}{{description}}{{#unless @last}}, {{/unless}}{{/each}}</p>
-            {{/if}}
-            <p>House Type: {{property.home_type}}</p>
-            <p>Location: {{application.address.city}}</p>
-            {{#if assessmentDoc includeZero=true}}
-            <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
-            <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
-            {{/if}}
-        </div>
-        {{/each}}
-
-         <h5>Assessment Complete</h5>
-        {{#each assessComp}}
-        <p>{{application.name.first}} {{application.name.last}}:</p>
-        <p>Status: {{status}}</p>
-        <p>House Type: {{property.home_type}}</p>
-        <p>Location: {{application.address.city}}</p>
-        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
-        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
-        {{/each}}
-
-        <h5>In Approval Process</h5>
-        {{#each approval}}
-        <p>{{application.name.first}} {{application.name.last}}:</p>
-        <p>Status: {{status}}</p>
-        <p>House Type: {{property.home_type}}</p>
-        <p>Location: {{application.address.city}}</p>
-        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
-        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
-        {{/each}}
-
-         <h5>Waitlist</h5>
-        {{#each waitlist}}
-        <p>{{application.name.first}} {{application.name.last}}:</p>
-        <p>Status: {{status}}</p>
-        <p>Notes: {{notes.vet_summary}}</p>
-        <p>House Type: {{property.home_type}}</p>
-        <p>Location: {{application.address.city}}</p>
-        <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
-        <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
-        {{/each}}
+        <button class="btn btn-info" id="exportPDFBtn" onclick="exportUpcoming()" style="margin-left: 5%;">Export PDF</button>
+        {{#each payload}}
+            <h5>{{convertStatus @key}}</h5>
+            {{#each this}}
+            <div>
+                <p>{{application.name.first}} {{application.name.last}}:</p>
+                <p>Status: {{status}}</p>
+                {{#if workItemDoc includeZero=true}}
+                    <p>Description: {{#each workItemDoc}}<p>{{plus_one @index}}){{name}} ({{description}}){{#unless @last}}, {{/unless}}</p>{{/each}}</p>
+                {{else}}
+                    <p>Description: No current work items</p>
+                {{/if}}
+                <p>House Type: {{property.home_type}}</p>
+                <p>Location: {{application.address.city}}</p>
+                {{#if assessmentDoc includeZero=true}}
+                <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
+                <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
+                {{else}}
+                <p>Volunteers: None specified </p>
+                <p>Cost: None specified</p>
+                {{/if}}
+            </div>
+            </br>
+            {{/each}}
+        {{/each}}     
     </div>
 </div>
+

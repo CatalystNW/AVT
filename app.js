@@ -195,6 +195,31 @@ hbs.registerHelper('getCompletedDate', function (item, name) {
   return item.getCompletedDate(name);
 })
 
+hbs.registerHelper('convertStatus', function(statusKey) {
+  switch (statusKey){
+    case 'assess':
+        return 'Site Assessment - Pending';
+        break;
+    case 'assessComp':
+        return 'Site Assessment - Complete';
+        break;
+    case 'approval':
+        return 'Approval Process';  
+    case 'waitlist':
+        return 'Waitlist';
+    case 'upComing':
+        return'Project Upcoming'; 
+    case 'handle':
+        return "Handle-It";
+    default:
+        return "Error"
+  }
+})
+
+hbs.registerHelper('plus_one', function(idx){
+  return idx + 1
+})
+
 hbs.registerHelper('getAppNameForPlan', function(apps, appid) {
   if (apps[appid] && apps[appid].app_name) {
     return apps[appid].app_name

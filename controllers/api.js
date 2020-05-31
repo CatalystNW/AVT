@@ -389,7 +389,7 @@ getDocumentPlanning: function (req, res, next) {
     /**
      * Description: retrieve all Document Packages from the database and group by status code
      * Type: GET
-     * Params: none
+     * Params: 
      * Address: api.getDocumentByStatus
      * Returns: results.statuscode[array of Document Packages]
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
@@ -454,20 +454,24 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     getProjEndReport: function(req, res, next){
-        let Date1
-        let Date2
-        if(req.query.endMonth === "null"){
-            Date1 = new Date(req.query.endYear, null)
-            Date2 = new Date(Number(req.query.endYear) + 1, null)
+        let queryObject = {}
+        let appDateObject = {}
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
+        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
+            queryObject["signature.client_date"] = appDateObject
         }
-        else {
-            Date1 = new Date(req.query.endYear, req.query.endMonth)
-            Date2 = new Date(req.query.endYear, Number(req.query.endMonth) + 1)
+
+        let projStartObject = {}
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
+        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
+            queryObject["project.project_start"] = projStartObject
         }
+        
         Promise.props({
             targetedYearIds: DocumentPackage.find(
-                {"signature.client_date": {"$gte": Date1,
-                              "$lt": Date2}}, 
+                queryObject, 
                             {"_id": 1}).lean().execAsync()
         })
         .then(result => {
@@ -493,14 +497,19 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(result => {
             return Promise.all(result.map(async item => {
-                let cost = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, {"estimates.total_cost": 1, "_id": 0})
-                item.cost = cost[0].estimates.total_cost ? cost[0].estimates.total_cost : "N/A"
+                let estimates = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, 
+                    {"estimates.total_cost": 1, "_id": 0, "estimates.volunteers_needed": 1})
+                if(estimates){
+                    item.cost = estimates[0].estimates.total_cost ? estimates[0].estimates.total_cost : "N/A"
+                    item.volunteers = estimates[0].estimates.volunteers_needed ? estimates[0].estimates.volunteers_needed : "N/A"
+                }
                 let name = await DocumentPackage.find({"_id":ObjectId(item.projectId)}, {"application": 1, "_id": 0})
                 item.name = name[0].application.name
                 return item
             }))
         })
         .then(result => {
+            console.log(result)
             res.locals.projecttable = result
             next()
         })
@@ -508,30 +517,23 @@ getDocumentPlanning: function (req, res, next) {
 
     Search: function(req, res, next){
         let queryObject = {}
-        if(req.query.partner){
-            PartnerPackage.find({"org_name": req.query.partner})
-            .then(result => {
-                //console.log(result[0]._id.toString())
-                return ProjectSummaryPackage.find({"assocPartners": result[0]._id.toString()}).select("_id")
-            })
-            .then(result => {
-                console.log(result)
-            })
-        }
         let leaderQueries = []
         if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
         if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
         if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
+        if(req.query.numVol) queryObject["assessment.estimates.volunteers_needed"] = req.query.numVol
+        if(req.query.totCost) queryObject["assessment.estimates.total_cost"] = req.query.totCost
         if(leaderQueries.length) queryObject["$" + req.query.leader_and_or] = leaderQueries
         if(req.query.city) queryObject["application.address.city"] = req.query.city
         if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
-        if(req.query.firstName) queryObject["application.name.first"] = req.query.firstName
+        if(req.query.firstName) queryObject["$or"] = [{"application.name.first": req.query.firstName}, 
+            {"application.name.preferred": req.query.firstName}]
         if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
         let appDateObject = {}
         if(req.query.appFromDate)appDateObject["$gte"] = new Date(req.query.appFromDate+"T00:00")
         if(req.query.appToDate)appDateObject["$lte"] = new Date(req.query.appToDate+"T23:59")
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
-            queryObject["created"] = appDateObject
+            queryObject["signature.client_date"] = appDateObject
         }
 
         let projStartObject = {}
@@ -546,9 +548,20 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
             queryObject["project.project_end"] = projEndObject
         }
-        console.log(req.query)
-        DocumentPackage.find(queryObject)
+        console.log(queryObject)
+        DocumentPackage.aggregate(
+            [
+                {$lookup: {
+                    from: "assessmentpackages",
+                    localField: "_id",
+                    foreignField: "applicationId",
+                    as: "assessment"
+                }},
+                {$unwind: {path: "$assessment"}},
+                {$match: queryObject}
+            ])
         .then( result => {
+            console.log(result)
             res.locals.results = result
             next()
         })
@@ -571,34 +584,39 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     getPartnerProjectCount: function(req, res, next){
-        console.log("Here:" + req.query.endYear + req.query.endMonth)
-        let Date1
-        let Date2
-        if(req.query.endMonth === "null"){
-            Date1 = new Date(req.query.endYear, null)
-            Date2 = new Date(Number(req.query.endYear) + 1, null)
+        console.log("Here:" + req.query.projToSum + req.query.projFromSum)
+        let queryObject = {}
+        let appDateObject = {}
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
+        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
+            queryObject["signature.client_date"] = appDateObject
         }
-        else {
-            Date1 = new Date(req.query.endYear, req.query.endMonth)
-            Date2 = new Date(req.query.endYear, Number(req.query.endMonth) + 1)
+
+        let projStartObject = {}
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
+        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
+            queryObject["project.project_start"] = projStartObject
         }
         
         Promise.props({
             partnerIds: PartnerPackage.find({},{"org_name": 1}).sort({"org_name": 1}).lean().execAsync(),
             targetedYearIds: DocumentPackage.find(
-                {"signature.client_date": {"$gte": Date1,
-                              "$lt": Date2}}, 
+                queryObject, 
                             {"_id": 1}).lean().execAsync()
         })
         .then(result => {
+            //console.log(result)
             let sumIdsArr = result.targetedYearIds.map(item => {return item._id.toString()})
             return Promise.all(result.partnerIds.map(async item => {
                 item.projCount = await ProjectSummaryPackage.count({"assocPartners": item._id.toString(), "projectId" : sumIdsArr})
                 return item
             }))
         })
-        .then(errResult => {
-            res.locals.results = errResult
+        .then(result => {
+            console.log(result)
+            res.locals.results = result
             next()
         })  
     },
@@ -609,25 +627,63 @@ getDocumentPlanning: function (req, res, next) {
             approvalProcess: DocumentPackage.aggregate([
                 {$match : {"status": "approval"}},
                 {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}}
+                            foreignField: "applicationId", as: "assessmentDoc"}},
+                {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+                {$addFields: 
+                    {
+                        workItemsLength: {
+                            $size: "$workItemDoc"
+                        }
+                    }
+                },
+                {$sort: {workItemsLength: 1} }   
             ]).execAsync(),
             //approvalProcess: DocumentPackage.find({"status": "approval"}).lean().execAsync(),
             waitlist: DocumentPackage.aggregate([
                 {$match : {"status": "waitlist"}},
                 {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}}
+                            foreignField: "applicationId", as: "assessmentDoc"}},
+                {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+                {$addFields: 
+                    {
+                        workItemsLength: {
+                            $size: "$workItemDoc"
+                        }
+                    }
+                },
+                {$sort: {workItemsLength: 1} }           
             ]).execAsync(),
             assessComp: DocumentPackage.aggregate([
                 {$match: {"status": "assessComp", "project.status": { $ne : "project"}}},
                 {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}}
+                            foreignField: "applicationId", as: "assessmentDoc"}},
+                {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+                {$addFields: 
+                    {
+                        workItemsLength: {
+                            $size: "$workItemDoc"
+                        }
+                    }
+                },
+                {$sort: {workItemsLength: 1} }             
             ]).execAsync(),
             project: DocumentPackage.aggregate([
                 {$match: {"project.status": "project", "status": { $ne: "declined"}}},
                 {$lookup: {from: "assessmentpackages", localField: "_id",
                             foreignField: "applicationId", as: "assessmentDoc"}},
                 {$lookup: {from: "workitempackages", localField: "_id",
-                            foreignField: "applicationId", as: "workItemDoc"}}
+                            foreignField: "applicationId", as: "workItemDoc"}},
+                {$addFields: 
+                    {
+                        workItemsLength: {
+                            $size: "$workItemDoc"
+                        }
+                    }
+                },
+                {$sort: {workItemsLength: 1} }   
             ]).execAsync()
         }).then((results) => {
             if (results.project) {

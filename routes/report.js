@@ -15,28 +15,28 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
-    router.get('/', isLoggedIn, api.getUpcomingProjects, api.getAppYears, function(req, res, next){
+    router.get('/', isLoggedIn, api.getUpcomingProjects, function(req, res, next){
         
     // create object 'payload' to return
-    var payload = {};
-    payload.upComing = res.locals.upComing;
-    payload.upComing.map(formatStatusUpComing)
-    payload.assessComp = res.locals.assessComp;
-    payload.assessComp.map(formatStatusUpComing)
-    payload.approval = res.locals.approval
-    payload.approval.map(formatStatusUpComing)
-    payload.waitlist = res.locals.waitlist
-    payload.waitlist.map(formatStatusUpComing)
-    payload.appYears = res.locals.appYears
-    console.log(payload.appYears)
+    let myPayload = {};
+    console.log(res.locals)
+    myPayload.upComing = res.locals.upComing;
+    myPayload.upComing.map(formatStatusUpComing)
+    myPayload.assessComp = res.locals.assessComp;
+    myPayload.assessComp.map(formatStatusUpComing)
+    myPayload.approval = res.locals.approval
+    myPayload.approval.map(formatStatusUpComing)
+    myPayload.waitlist = res.locals.waitlist
+    myPayload.waitlist.map(formatStatusUpComing)
+    //console.log(myPayload)
 
     //console.log(payload.applicationsForYear)
     //console.log(payload.approval);
-    res.render('projectsumreport', payload); 
+    res.render('projectsumreport', {"payload":myPayload}); 
     })
     
     router.get('/search', api.Search, function(req,res,next){
-        //console.log(res.locals)
+        console.log(res.locals)
         res.locals.results.map(formatStatusUpSearch)
         res.send(res.locals.results)      
     })
@@ -47,11 +47,20 @@ module.exports = function(passport){
         payload.applicationsForYear = res.locals.applications;
         payload.projCount = res.locals.results
         payload.projTable = res.locals.projecttable
+        let total_cost = 0
+        payload.projTable.forEach(item => {total_cost += item.cost === "N/A" ? 0 : item.cost})
+        let total_volunteers = 0
+        payload.projTable.forEach(item => {total_volunteers += item.volunteers === "N/A" ? 0 : item.volunteers})
+        payload.total_cost = total_cost
+        payload.total_volunteers = total_volunteers
         console.log(payload.projTable)
         res.send(payload)
     })
+
+    router.get('/exportPDF/upComing')
     return router;
 };
+
 
 /* *****************************************************************
 Aggregation function.
@@ -243,6 +252,7 @@ function isLoggedInPost(req, res, next) {
     }
 }
 
+//Formats the status of the results from the Upcoming projects query 
 function formatStatusUpComing(element) {
     var status;
     console.log(element.status)
@@ -270,6 +280,7 @@ function formatStatusUpComing(element) {
     return element;
 }
 
+//Formats the results from our search results
 function formatStatusUpSearch(element) {
     var status;
     console.log(element.status)
