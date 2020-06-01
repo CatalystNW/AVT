@@ -37,13 +37,13 @@ module.exports = function(passport){
     res.render('projectsumreport', {"payload":myPayload}); 
     })
     
-    router.get('/search', api.Search, function(req,res,next){
+    router.get('/search', isLoggedIn, api.Search, function(req,res,next){
         console.log(res.locals)
         res.locals.results.map(formatStatusUpSearch)
         res.send(res.locals.results)      
     })
 
-    router.get('/endReport', api.getPartnerProjectCount, getCompletedProjectsByYear, getApplicationsByYear, api.getProjEndReport, function(req,res, next){
+    router.get('/endReport', isLoggedIn, api.getPartnerProjectCount, getCompletedProjectsByYear, getApplicationsByYear, api.getProjEndReport, function(req,res, next){
         let payload = {}
         payload.completedProjects = res.locals.completedYearAndQuantity;
         payload.applicationsForYear = res.locals.applications;
@@ -164,7 +164,7 @@ function isLoggedIn(req, res, next) {
                 if(results.user.user_status == "ACTIVE") {
                     res.locals.assign_tasks = results.user.assign_tasks;
         
-                    if(results.user.user_role == "VET" || results.user.user_role == "ADMIN") {
+                    if(results.user.user_role == "PROJECT_MANAGEMENT") {
                         res.locals.email = results.user.contact_info.user_email;
                         res.locals.role = results.user.user_role;
                         res.locals.user_roles = results.user.user_roles;

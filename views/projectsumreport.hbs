@@ -81,7 +81,6 @@ var content = {"content": contentArray,
                "defaultStyle": {"columnGap": 10}
               }
 function exportUpcoming() {
-    alert(contentArray.length)
     pdfMake.createPdf(content).open();
 }
 </script>
@@ -129,7 +128,6 @@ $(document).ready(function(){
       $('#tableContent').empty();
       let queryString = "?" + queryList.join("&")
     $.get("/projectreport/search" + queryString, function(data){
-      //$("#tableContent").append(name)
       if(!data.length){
           let row = $("<tr></tr>")
           let emptyResultsEle = $("<td></td>").text("No results for that search")
@@ -148,6 +146,7 @@ $(document).ready(function(){
           let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
           row.append(name, loc, status, appName)
           $("#tableContent").append(row)
+          $('#searchHidden').css("display", "block")
       })
     });
   });
@@ -194,6 +193,7 @@ $(document).ready(function(){
           })
           $("#total_cost").text("$" + data.total_cost)
           $("#total_volunteers").text(data.total_volunteers)
+          $('#yearEndReportHidden').css("display", "block")
       })
   });
 }); 
@@ -243,10 +243,10 @@ $(document).ready(function(){
             <input type="date" id="projStartFromSum">
             <label>To</label>
             <input type="date" id="projStartToSum">
+            </br>
+            <span>Generate with an application or project start date range </span>
             <button id="EndSubmit">Submit</button>
-            <h4>Year and Applications:</h4>
-            {{!--<p id="numProj">Number of Projects:</p>
-            <p id="numApp">Number of Applications: </p>--}}
+            <div style="display:none" id="yearEndReportHidden">
             <h5>Partner Breakdown</h5>
             <table class="table">
                 <thead>
@@ -273,12 +273,14 @@ $(document).ready(function(){
             </table>
             <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
             <p>Total Cost: <span id="total_cost"></span></p>
+            </div>
         </div>
     </div>
 
     <div class="tab-pane" id="work" role="tabpanel">
         </br>
-        <p>Search for projects with the following:</p>
+        <div class="row">
+        <div class="col-xs-12">
         <h5>Applicant Info</h5>
         <label>First Name:</label>
         <input type="text" id= "FirstName"></input>
@@ -330,8 +332,11 @@ $(document).ready(function(){
         <input type="date" id="projEndFrom">
         <label>To</label>
         <input type="date" id="projEndTo">
-        </br><button id="exportButton">Submit</button>
-        <table class="table">
+        </br>
+        <span>Search by any combination of the above fields</sanp>
+        <button id="exportButton">Search</button>
+        <div></div>
+        <table class="table" id="searchHidden" style="display:none">
             <thead>
                 <tr>
                     <th id="head1">Name</th>
@@ -348,36 +353,63 @@ $(document).ready(function(){
                 </tr>
             </tbody>
         </table>
+        </div>
+        </div>
     </div>
 
     <div class="tab-pane" id="upcoming" role="tabpanel">
         </br>
-        <h5 style="padding-left: 21px;">Upcoming Projects
-        <button class="btn btn-info" id="exportPDFBtn" onclick="exportUpcoming()" style="margin-left: 5%;">Export PDF</button>
-        {{#each payload}}
-            <h5>{{convertStatus @key}}</h5>
-            {{#each this}}
-            <div>
-                <p>{{application.name.first}} {{application.name.last}}:</p>
-                <p>Status: {{status}}</p>
-                {{#if workItemDoc includeZero=true}}
-                    <p>Description: {{#each workItemDoc}}<p>{{plus_one @index}}){{name}} ({{description}}){{#unless @last}}, {{/unless}}</p>{{/each}}</p>
-                {{else}}
-                    <p>Description: No current work items</p>
-                {{/if}}
-                <p>House Type: {{property.home_type}}</p>
-                <p>Location: {{application.address.city}}</p>
-                {{#if assessmentDoc includeZero=true}}
-                <p>Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}</p>
-                <p>Cost: ${{assessmentDoc.0.estimates.total_cost}}</p>
-                {{else}}
-                <p>Volunteers: None specified </p>
-                <p>Cost: None specified</p>
-                {{/if}}
-            </div>
-            </br>
+        <div class="row">
+        <div class="col-xs-12">
+        <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                            Upcoming Projects
+                    </h5>
+                    <button class="btn btn-info" id="exportPDFBtn" onclick="exportUpcoming()">Export to PDF</button>
+        </div>
+            <div class="card-block">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Work Items</th>
+                        <th>Home Type</th>
+                        <th>Location</th>
+                        <th>Voluneers</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+            {{#each payload}}
+                {{#each this}}
+                <tr>
+                    <td>{{application.name.first}} {{application.name.last}}</td>
+                    <td>{{status}}</td>
+                    <td>
+                    {{#if workItemDoc includeZero=true}}
+                        <p>{{#each workItemDoc}}<p>{{plus_one @index}}) {{name}} ({{description}}){{#unless @last}}, {{/unless}}</p>{{/each}}</p>
+                    {{else}}
+                        <p>No current work items</p>
+                    {{/if}}
+                    </td>
+                    <td>{{property.home_type}}</td>
+                    <td>{{application.address.city}}</td>
+                    {{#if assessmentDoc includeZero=true}}
+                    <td>{{assessmentDoc.0.estimates.volunteers_needed}}</td>
+                    <td>${{assessmentDoc.0.estimates.total_cost}}</td>
+                    {{else}}
+                    <td>None specified </td>
+                    <td>None specified</td>
+                    {{/if}}
+                </tr>
+                {{/each}}
             {{/each}}
-        {{/each}}     
+            </table>
+            </div> 
+        </div>
+        </div>
+        </div>    
     </div>
 </div>
 

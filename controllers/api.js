@@ -577,15 +577,20 @@ getDocumentPlanning: function (req, res, next) {
                     foreignField: "applicationId",
                     as: "assessment"
                 }},
-                {$unwind: {path: "$assessment"}},
+               {$unwind: 
+                    {path: "$assessment",
+                    preserveNullAndEmptyArrays: true}},
                 {$match: queryObject}
             ])
         .then( result => {
-            console.log(result.assessment)
+            console.log(result)
             res.locals.results = result
             next()
         })
-        .catch(next)
+        .catch(err => {
+            console.log(err)
+            next()
+        })
     },
 
     searchPartners: function(req, res, next){
