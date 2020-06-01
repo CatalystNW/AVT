@@ -19,16 +19,18 @@ module.exports = function(passport){
         
     // create object 'payload' to return
     let myPayload = {};
+    console.log("Here come them locals:")
     console.log(res.locals)
     myPayload.upComing = res.locals.upComing;
     myPayload.upComing.map(formatStatusUpComing)
-    myPayload.assessComp = res.locals.assessComp;
+    /*myPayload.assessComp = res.locals.assessComp
     myPayload.assessComp.map(formatStatusUpComing)
     myPayload.approval = res.locals.approval
     myPayload.approval.map(formatStatusUpComing)
     myPayload.waitlist = res.locals.waitlist
-    myPayload.waitlist.map(formatStatusUpComing)
-    //console.log(myPayload)
+    myPayload.waitlist.map(formatStatusUpComing)*/
+    
+    console.log(myPayload)
 
     //console.log(payload.applicationsForYear)
     //console.log(payload.approval);
@@ -56,8 +58,6 @@ module.exports = function(passport){
         console.log(payload.projTable)
         res.send(payload)
     })
-
-    router.get('/exportPDF/upComing')
     return router;
 };
 
@@ -272,6 +272,9 @@ function formatStatusUpComing(element) {
         case 'project':
             status = 'Project - Upcoming';
             break; 
+        case 'handle':
+            status = "Handle-It To Be Assigned";
+            break;
         default:
             status = element.status;
     }

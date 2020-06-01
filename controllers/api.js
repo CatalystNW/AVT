@@ -521,8 +521,28 @@ getDocumentPlanning: function (req, res, next) {
         if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
         if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
         if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
-        if(req.query.numVol) queryObject["assessment.estimates.volunteers_needed"] = req.query.numVol
-        if(req.query.totCost) queryObject["assessment.estimates.total_cost"] = req.query.totCost
+        if(req.query.numVol){
+            let numberVolObject = {}
+            console.log(req.query.numberVol_range)
+            if(req.query.numberVol_range) {
+                numberVolObject[req.query.numberVol_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.numVol)
+            }
+            else {
+                numberVolObject["$eq"] = parseInt(req.query.numVol)
+            }
+            queryObject["assessment.estimates.volunteers_needed"] = numberVolObject
+        }   
+        if(req.query.totCost){
+            console.log(req.query.totCost_range)
+            let totCostObject = {}
+            if(req.query.totCost_range) {
+                totCostObject[req.query.totCost_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.totCost)
+            }
+            else {
+                totCostObject["$eq"] = parseInt(req.query.totCost)
+            }
+            queryObject["assessment.estimates.total_cost"] = totCostObject
+        }
         if(leaderQueries.length) queryObject["$" + req.query.leader_and_or] = leaderQueries
         if(req.query.city) queryObject["application.address.city"] = req.query.city
         if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
@@ -561,7 +581,7 @@ getDocumentPlanning: function (req, res, next) {
                 {$match: queryObject}
             ])
         .then( result => {
-            console.log(result)
+            console.log(result.assessment)
             res.locals.results = result
             next()
         })
@@ -624,82 +644,32 @@ getDocumentPlanning: function (req, res, next) {
     getUpcomingProjects: function(req, res, next){
         console.log("Getting upcoming projects from API")
         Promise.props({
-            approvalProcess: DocumentPackage.aggregate([
-                {$match : {"status": "approval"}},
+            upComing: DocumentPackage.aggregate([
+                {$match : 
+                    {"$or" : [{"status": "approval"}, {"status": "waitlist"},
+                             {"status": "assessComp", "project.status": { $ne : "project"}},
+                            {"project.status": "project", "status": { $ne: "declined"}},
+                            {"project.status": "handle"}]
+                    }
+                },
                 {$lookup: {from: "assessmentpackages", localField: "_id",
                             foreignField: "applicationId", as: "assessmentDoc"}},
                 {$lookup: {from: "workitempackages", localField: "_id",
                             foreignField: "applicationId", as: "workItemDoc"}},
                 {$addFields: 
                     {
-                        workItemsLength: {
-                            $size: "$workItemDoc"
+                        "startDate": {
+                            "$ifNull": ["$project.project_start", new Date(864000000000000)]
                         }
                     }
                 },
-                {$sort: {workItemsLength: 1} }   
-            ]).execAsync(),
-            //approvalProcess: DocumentPackage.find({"status": "approval"}).lean().execAsync(),
-            waitlist: DocumentPackage.aggregate([
-                {$match : {"status": "waitlist"}},
-                {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}},
-                {$lookup: {from: "workitempackages", localField: "_id",
-                            foreignField: "applicationId", as: "workItemDoc"}},
-                {$addFields: 
-                    {
-                        workItemsLength: {
-                            $size: "$workItemDoc"
-                        }
-                    }
-                },
-                {$sort: {workItemsLength: 1} }           
-            ]).execAsync(),
-            assessComp: DocumentPackage.aggregate([
-                {$match: {"status": "assessComp", "project.status": { $ne : "project"}}},
-                {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}},
-                {$lookup: {from: "workitempackages", localField: "_id",
-                            foreignField: "applicationId", as: "workItemDoc"}},
-                {$addFields: 
-                    {
-                        workItemsLength: {
-                            $size: "$workItemDoc"
-                        }
-                    }
-                },
-                {$sort: {workItemsLength: 1} }             
-            ]).execAsync(),
-            project: DocumentPackage.aggregate([
-                {$match: {"project.status": "project", "status": { $ne: "declined"}}},
-                {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}},
-                {$lookup: {from: "workitempackages", localField: "_id",
-                            foreignField: "applicationId", as: "workItemDoc"}},
-                {$addFields: 
-                    {
-                        workItemsLength: {
-                            $size: "$workItemDoc"
-                        }
-                    }
-                },
-                {$sort: {workItemsLength: 1} }   
+                {$sort: {"startDate": 1} }    
             ]).execAsync()
         }).then((results) => {
-            if (results.project) {
-                var obj = results.project;
-                obj.forEach(function(v, i) {
-                    if (v.project.project_start == null) {//test to see if the id is 3
-                        obj.push(obj[i]);//push the object to the last position
-                        obj.splice(i, 1);//remove the object from the current position
-                    }
-                    results.project = obj;    
-                });                                    
-            }
-            res.locals.upComing = results.project
-            res.locals.waitlist = results.waitlist
-            res.locals.assessComp = results.assessComp
-            res.locals.approval = results.approvalProcess
+            res.locals.upComing = results.upComing
+            //res.locals.waitlist = results.waitlist
+            //res.locals.assessComp = results.assessComp
+            //res.locals.approval = results.approvalProcess
             next()
         })    
     },

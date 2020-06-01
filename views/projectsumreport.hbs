@@ -120,7 +120,11 @@ $(document).ready(function(){
       if(projEndFromDate) queryList.push("projEndFrom=" + projEndFromDate)
       let projEndToDate = $('#projEndTo').val()
       if(projEndToDate) queryList.push("projEndTo=" + projEndToDate)
-      var leader_andor = $(".and_or:checked").val()
+      let leader_andor = $(".and_or:checked").val()
+      let totCost_range = $(".totCost:checked").val()
+      let numberVol_range = $(".numberVol:checked").val()
+      queryList.push("totCost_range=" + totCost_range)
+      queryList.push("numberVol_range=" + numberVol_range)
       queryList.push("leader_and_or=" + leader_andor)
       $('#tableContent').empty();
       let queryString = "?" + queryList.join("&")
@@ -300,15 +304,15 @@ $(document).ready(function(){
         <h5>Project Information</h5>
         <label>Number Volunteers: </label>
         <input type="text" id= "numVol"></input>
-        <input type="radio" id="vol1" name="numberVol" value="less">
+        <input type="radio" id="vol1" name="numberVol" class="numberVol" value="less">
         <label for="vol1">less than</label>
-        <input type="radio" id="vol2" name="numberVol" value="greater">
+        <input type="radio" id="vol2" name ="numberVol" class="numberVol" value="greater">
         <label for="vol2">greater than</label></br>
         <label>Total Cost: </label>
         <input type="text" id= "totCost"></input>
-        <input type="radio" id="cost1" name="totCost" value="less">
+        <input type="radio" id="cost1" name="totCost" class="totCost" value="less">
         <label for="cost1">less than</label>
-        <input type="radio" id="cost2" name="totCost" value="greater">
+        <input type="radio" id="cost2" name ="totCost" class="totCost" value="greater">
         <label for="cost2">greater than</label>
         <h5>Application Date</h5>
         <label>From</label>
