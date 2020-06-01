@@ -22,7 +22,7 @@ window.onload = function() {
     }
   );
 };
-
+// handles the application element component
 var app_obj = {
   applicants: null,
   get_tr_id(service_id) {
@@ -202,7 +202,7 @@ var app_obj = {
     }
   }
 }
-
+// handles the service element components
 var service_obj ={
   get_tr_class(applicant_id) {
     return applicant_id + "-service-tr";
@@ -273,7 +273,7 @@ var service_obj ={
     new_tr.insertAfter($last_tr);
   },
 }
-
+// btn to show services
 function create_service_btn(app_id) {
   var btn = document.createElement("button");
   btn.textContent = "Show Service";

@@ -1,3 +1,4 @@
+// Modal that shows the add/update service form
 var service_form_modal = {
   get_applicant(app_id, callback) {
     $.ajax({
@@ -61,7 +62,7 @@ var service_form_modal = {
     btn.classList.add("btn", "btn-primary", "btn-sm");
     return btn;
   },
-
+  // set form to edit status with url & action
   load_edit_service_modal_form(app_id, service_id) {
     $("#service-form")[0].reset();
 
@@ -220,7 +221,6 @@ var applicant_form_modal = {
         url: "/carenetwork/applications/" + that.app_id,
         success: function(data, add_note_htmltextStatus, xhr) {
           if (xhr.status == 200) {
-            console.log(data);
             that.fill_app_data(data)
           }
         },
@@ -236,16 +236,12 @@ var applicant_form_modal = {
       $('[name=application_status]').val(data.application_status);
     else // Just in case status isn't given
       $('[name=application_status]').val("never_contacted");
-  
+
     for (field in app_data) {
       if (field == "address") { // Set address
         for (field in app_data.address) {
           $(`input[name=${field}]`).val(app_data.address[field]);
-        }     
-      // } else if (field == "contacts") {
-      //   for (field in app_data.contacts[0]) {
-      //     $(`input[name=contact_${field}]`).val(app_data.contacts[0][field]);
-      //   }
+        }
       } else if (field == "dob") {
         var regex = /(\d{4}-\d{2}-\d{2})/g
         var result = app_data[field].match(regex);

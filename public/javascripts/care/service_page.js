@@ -102,8 +102,6 @@ var services_handler = {
           }
         }
       })
-      
-      $()
     });
   }
 }
