@@ -59,13 +59,14 @@
     </div>
   </div>
 
-  <div class="col-sm-6 col-xs-12 col-lg-4" id="second-div">
-    <div>
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="second-container">
+    <!-- Disabled from printing map because it does not work properly in Chrome -->
+    <div class="d-print-none hidden-print">
       <div class="card">
         <div class="card-header">
           <h2>Map</h2></div>
         <div class="card-body" >
-          <div><iframe width="100%" height="240" frameborder="0"
+          <div><iframe width="100%" height="280" frameborder="0"
             src={{google_map_url}} target="_blank">Google Maps Link</iframe></div>
         </div>
       </div>
