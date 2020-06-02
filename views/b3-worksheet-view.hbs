@@ -55,8 +55,22 @@
 
 <a href="/view" class="btn btn-primary">Back to Vetting Home</a>
 <a href="/view/{{doc._id}}" class="btn btn-primary">Back to Application View</a>
+<button class="btn btn-info" id="exportBtnTop">Export PDFs</button>
+<div id="iframeHolderTop"></div>
 <!-- <a id="csvExportButton" class="btn btn-primary">Export to CSV</a> -->
 
+<script type="text/javascript">
+	$(function () {
+		$('#exportBtnTop').click(function () {
+			if (!$('#iframeTop').length) {
+				$('#iframeHolderTop').html('<iframe id="iframeTop" src="/vettingworksheet/exportPDF/{{doc._id}}" frameborder="0" width="100%" height="100%"></iframe>');
+				$('#iframeHolder').html('<iframe id="iframe" src="/vettingworksheet/exportPDF/{{doc._id}}" frameborder="0" width="100%" height="100%"></iframe>');
+				$('#exportBtnTop').hide();
+				$('#exportBtn').hide();
+			}
+		});
+	});
+</script>
 
 <div class="container col-xs-12">
 	<h1>{{doc.application.name.first}} {{doc.application.name.last}} - Vetting Worksheet</h1>
@@ -877,7 +891,9 @@ $(function(){
     $('#exportBtn').click(function(){
         if(!$('#iframe').length) {
                 $('#iframeHolder').html('<iframe id="iframe" src="/vettingworksheet/exportPDF/{{doc._id}}" frameborder="0" width="100%" height="75"></iframe>');
+				$('#iframeHolderTop').html('<iframe id="iframeTop" src="/vettingworksheet/exportPDF/{{doc._id}}" frameborder="0" width="100%" height="75"></iframe>');
 				$('#exportBtn').hide();
+				$('#exportBtnTop').hide();
         }
     });   
 });
