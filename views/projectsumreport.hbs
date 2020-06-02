@@ -11,6 +11,7 @@ function getCurrentDate() {
     return Mon + "/" + Day + "/" + Year;
 }
 
+//Everything that follows is input for pdfmake to generate the pdf_file----------------------
 let pdfTitle = {
     columns: [
         {
@@ -83,10 +84,12 @@ var content = {"content": contentArray,
 function exportUpcoming() {
     pdfMake.createPdf(content).open();
 }
+//End pdf generation------------------------------------------------------------------
 </script>
 <script>
-    
+
 $(document).ready(function(){ 
+    //AJAX handlers for search function
   $("#exportButton").click(function(){
       let queryList = []
       let firstName = $("#FirstName").val();
@@ -127,30 +130,44 @@ $(document).ready(function(){
       queryList.push("leader_and_or=" + leader_andor)
       $('#tableContent').empty();
       let queryString = "?" + queryList.join("&")
-    $.get("/projectreport/search" + queryString, function(data){
-      if(!data.length){
-          let row = $("<tr></tr>")
-          let emptyResultsEle = $("<td></td>").text("No results for that search")
-          row.append(emptyResultsEle)
-          $("#tableContent").append(row)
-      }
-      data.forEach(element => {
-          let row = $("<tr></tr>")
-          let name = $("<td></td>")
-          let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
-          let projLink = $("<a></a>").attr("href", link)
-          projLink.text(element.application.name.first + " " + element.application.name.last)
-          name.append(projLink)
-          let status = $("<td></td>").text(element.status)      
-          let appName = $("<td></td>").text(element.app_name)
-          let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
-          row.append(name, loc, status, appName)
-          $("#tableContent").append(row)
-          $('#searchHidden').css("display", "block")
-      })
+      //Send AJAX request
+    $.ajax({
+        url: "/projectreport/search" + queryString, 
+        type: 'GET',
+        success: function(data){
+            if(!data.length){
+                //If there is no response, 
+                let row = $("<tr></tr>")
+                let emptyResultsEle = $("<td></td>").text("No results for that search")
+                row.append(emptyResultsEle)
+                $("#tableContent").append(row)
+            }
+            data.forEach(element => {
+                let row = $("<tr></tr>")
+                let name = $("<td></td>")
+                let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
+                let projLink = $("<a></a>").attr("href", link)
+                projLink.text(element.application.name.first + " " + element.application.name.last)
+                name.append(projLink)
+                let status = $("<td></td>").text(element.status)      
+                let appName = $("<td></td>").text(element.app_name)
+                let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
+                row.append(name, loc, status, appName)
+                $("#tableContent").append(row)
+                $('#searchHidden').css("display", "block")
+            })
+        },
+        error: function(data) {
+            let row = $("<tr></tr>")
+            let emptyResultsEle = $("<td></td>").text("There was an error with your search")
+            row.append(emptyResultsEle)
+             $("#tableContent").append(row)
+        }
     });
-  });
+  })
+    //Handler for end report submission button click
   $("#EndSubmit").click(function(){
+      //Build up query from submitted fields
       let queryList = []
       let appFromDateSum = $('#appFromSum').val()
       if(appFromDateSum) {queryList.push("appFromSum=" + appFromDateSum)}
@@ -165,35 +182,42 @@ $(document).ready(function(){
       $('#assocPartnerTable').empty();
       $('#total_cost').empty()
       $('#total_volunteers').empty()
-      $.get("/projectreport/endReport" + queryString, function(data){
-          $("#numProj").text("Number of Projects:" + data.completedYearAndQuantity)
-          $("#numApp").text("Number of Applications: " + data.applicationsForYear)
-          data.projCount.forEach(element => {
-              if (element.projCount){
+      //submit query to end report endpoint
+      $.ajax({
+          url: "/projectreport/endReport" + queryString,
+          type: 'GET',
+          success: function(data){
+            
+            data.projCount.forEach(element => {
+                if (element.projCount){
+                    let row = $("<tr></tr>")
+                    let partnerName = $("<td></td>").text(element.org_name)
+                    let projCount = $("<td></td>").text(element.projCount)
+                    row.append(partnerName, projCount)
+                    $("#projectCountTable").append(row)
+                }
+            });
+            data.projTable.forEach(element => {
                 let row = $("<tr></tr>")
-                let partnerName = $("<td></td>").text(element.org_name)
-                let projCount = $("<td></td>").text(element.projCount)
-                row.append(partnerName, projCount)
-                $("#projectCountTable").append(row)
-              }
-          });
-          data.projTable.forEach(element => {
-              let row = $("<tr></tr>")
-              let firstName = element.name.preferred ? element.name.preferred : element.name.first
-              let projectName = $("<td></td>").text(firstName + " " + element.name.last)
-              let partnerList = $("<td></td>").addClass("cell-overflow")
-              element.partners.forEach((partner, idx, arr) => {
-                  partnerList.append(partner.org_name)
-                  if (idx !== arr.length - 1){partnerList.append(", ")}
-              })
-              let total_cost = $("<td></td>").text("$" + element.cost)
-              let volunteers = $("<td></td>").text(element.volunteers)
-              row.append(projectName, partnerList, total_cost, volunteers)
-              $("#assocPartnerTable").append(row)
-          })
-          $("#total_cost").text("$" + data.total_cost)
-          $("#total_volunteers").text(data.total_volunteers)
-          $('#yearEndReportHidden').css("display", "block")
+                let firstName = element.name.preferred ? element.name.preferred : element.name.first
+                let projectName = $("<td></td>").text(firstName + " " + element.name.last)
+                let partnerList = $("<td></td>").addClass("cell-overflow")
+                element.partners.forEach((partner, idx, arr) => {
+                    partnerList.append(partner.org_name)
+                    if (idx !== arr.length - 1){partnerList.append(", ")}
+                })
+                let total_cost = $("<td></td>").text("$" + element.cost)
+                let volunteers = $("<td></td>").text(element.volunteers)
+                row.append(projectName, partnerList, total_cost, volunteers)
+                $("#assocPartnerTable").append(row)
+            })
+            $("#total_cost").text("$" + data.total_cost)
+            $("#total_volunteers").text(data.total_volunteers)
+            $('#yearEndReportHidden').css("display", "block")
+        },
+        error: function(data){
+            alert("There was an error generating the report")
+        }
       })
   });
 }); 

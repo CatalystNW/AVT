@@ -15,139 +15,47 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(passport){
+    //Get Route for the Reports module that will query for all upcoming projects 
     router.get('/', isLoggedIn, api.getUpcomingProjects, function(req, res, next){
-        
-    // create object 'payload' to return
-    let myPayload = {};
-    console.log("Here come them locals:")
-    console.log(res.locals)
-    myPayload.upComing = res.locals.upComing;
-    myPayload.upComing.map(formatStatusUpComing)
-    /*myPayload.assessComp = res.locals.assessComp
-    myPayload.assessComp.map(formatStatusUpComing)
-    myPayload.approval = res.locals.approval
-    myPayload.approval.map(formatStatusUpComing)
-    myPayload.waitlist = res.locals.waitlist
-    myPayload.waitlist.map(formatStatusUpComing)*/
-    
-    console.log(myPayload)
-
-    //console.log(payload.applicationsForYear)
-    //console.log(payload.approval);
-    res.render('projectsumreport', {"payload":myPayload}); 
+            
+        // create object 'payload' to return the results of the getUpcomingProjectsAPICall
+        let myPayload = {};
+        myPayload.upComing = res.locals.upComing;
+        myPayload.upComing.map(formatStatusUpComing)
+        res.render('projectsumreport', {"payload":myPayload}); 
     })
     
+    //Route for ajax call by Search Tab on the Report Module
     router.get('/search', isLoggedIn, api.Search, function(req,res,next){
-        console.log(res.locals)
+        //Change the format of the returned status to be the correct format
         res.locals.results.map(formatStatusUpSearch)
         res.send(res.locals.results)      
     })
 
-    router.get('/endReport', isLoggedIn, api.getPartnerProjectCount, getCompletedProjectsByYear, getApplicationsByYear, api.getProjEndReport, function(req,res, next){
+    //Route for ajax call by the endReport Tab
+    router.get('/endReport', isLoggedIn, api.getPartnerProjectCount, api.getProjEndReport, function(req,res, next){
         let payload = {}
-        payload.completedProjects = res.locals.completedYearAndQuantity;
-        payload.applicationsForYear = res.locals.applications;
+        //Populating the object with responses from the API with project counts for partners
+        //and general partner information
         payload.projCount = res.locals.results
         payload.projTable = res.locals.projecttable
+
+        //Calculating totals for costs and total_volunteers
         let total_cost = 0
         payload.projTable.forEach(item => {total_cost += item.cost === "N/A" ? 0 : item.cost})
         let total_volunteers = 0
         payload.projTable.forEach(item => {total_volunteers += item.volunteers === "N/A" ? 0 : item.volunteers})
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
-        console.log(payload.projTable)
+
+        //Sending the result to the page
         res.send(payload)
     })
     return router;
 };
 
-
-/* *****************************************************************
-Aggregation function.
-
-Dependencies:
-Must use projectWrapUpPackage.js model (collection)
-
-Returns:
-Object. Every project completed by year, and the nummber of projects
-completed.
-
-Notes:
-    should actually just find a specific year and the number of 
-    projects completed for that year.
-
-********************************************************************/
-function getCompletedProjectsByYear (req, res, next) {
-
-    console.log('getCompletedProjectsByYear starting');
-      
-    Promise.props({
-
-        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
-        completedProjects: ProjectWrapUpPackages.aggregate([{
-            $match: {
-                "signup_sheet_office.complete": true
-            }
-            },{
-            $group: {
-                _id: {
-                    $year: { 
-                        date: "$signup_sheet_office.completed_on"
-                    }
-                },
-                "total_projects": {$push: { $year: { date: "$signup_sheet_office.completed_on" } } }
-            } 
-            }, {
-            $project: {
-                _id: 0,
-                year: {$arrayElemAt: ["$total_projects", 0] },
-                projectsCompleted: {$size: "$total_projects"}
-            }
-        }]).execAsync()
-        
-    })
-    .then(function(results) {
-
-        if(!results){
-            console.log('report.js ERROR: total projects aggregation failure!');
-        }
-        else {
-            console.log('report.js total projects aggregation passed.');
-            res.locals.completedYearAndQuantity = results.completedProjects;
-            next(); 
-        }
-    }) 
-    .catch(function(err){ console.log(err);})
-    .catch(next);
-
-}
-
-
-
-function getApplicationsByYear(req, res, next){
-    console.log("Performing get Applications!")
-
-    Promise.props({
-
-        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
-        applications: DocumentPackage.find({"app_year": 2020}).count().execAsync()
-        
-    })
-    .then(function(results) {
-
-        if(!results){
-            console.log('report.js ERROR: total projects aggregation failure!');
-        }
-        else {
-            console.log('report.js total projects aggregation passed.');
-            res.locals.applications = results.applications;
-            next(); 
-        }
-    }) 
-    .catch(function(err){ console.log(err);})
-    .catch(next);
-}
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM//
+//Checks whether the current user is a project management vetting agent
 function isLoggedIn(req, res, next) {
 
     if(req.isAuthenticated()) {
@@ -199,56 +107,6 @@ function isLoggedIn(req, res, next) {
     else {
         console.log("no user id");
         res.redirect('/user/login');
-    }
-}
-
-
-//COPIED FROM: projectsummary.js (/route/)
-//post request authenticator.  Checks if user is an admin or vetting agent
-function isLoggedInPost(req, res, next) {
-    if(req.isAuthenticated()) {
-        var userID = req.user._id.toString();
-        var ObjectId = require('mongodb').ObjectID;
-
-        Promise.props({
-            user: User.findOne({'_id' : ObjectId(userID)}).lean().execAsync()
-        })
-        .then(function (results) {
-                if (!results) {
-                    //user not found in db.  Route to error handler
-                    res.locals.status = 406;
-                    return next('route');
-                }
-                else {
-
-                    if(results.user.user_role == "VET" || results.user.user_role == "ADMIN") {
-                        return next();
-
-                    }
-                    else if (results.user.user_roles !== undefined && (results.user.user_roles.indexOf('VET') >-1|| results.user.user_roles.indexOf('PROJECT_MANAGEMENT') >-1))
-                    {
-                        
-                        return next();
-                    }
-                    else {
-                        //user is not a vetting agent or admin, route to error handler
-                        res.locals.status = 406;
-                        return next('route');
-                    }
-                }
-
-        })
-
-    .catch(function(err) {
-            console.error(err);
-    })
-     .catch(next);
-    }
-    else {
-        //user is not logged in
-        console.log("no user id");
-        res.locals.status = 406;
-        return next('route');
     }
 }
 
