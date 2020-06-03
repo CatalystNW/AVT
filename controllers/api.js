@@ -496,10 +496,14 @@ getDocumentPlanning: function (req, res, next) {
             ]).execAsync()
         })
         .then(result => {
+            console.log("Here are our results")
+            console.log(result)
             return Promise.all(result.map(async item => {
                 let estimates = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, 
                     {"estimates.total_cost": 1, "_id": 0, "estimates.volunteers_needed": 1})
-                if(estimates){
+                item.cost = "No Assessment"
+                item.volunteers = "No Assessment"
+                if(estimates[0]){
                     item.cost = estimates[0].estimates.total_cost ? estimates[0].estimates.total_cost : "N/A"
                     item.volunteers = estimates[0].estimates.volunteers_needed ? estimates[0].estimates.volunteers_needed : "N/A"
                 }
@@ -640,7 +644,6 @@ getDocumentPlanning: function (req, res, next) {
             }))
         })
         .then(result => {
-            console.log(result)
             res.locals.results = result
             next()
         })  

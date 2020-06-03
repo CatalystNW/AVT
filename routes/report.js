@@ -42,13 +42,17 @@ module.exports = function(passport){
 
         //Calculating totals for costs and total_volunteers
         let total_cost = 0
-        payload.projTable.forEach(item => {total_cost += item.cost === "N/A" ? 0 : item.cost})
+        payload.projTable.forEach(item => {
+            total_cost += item.cost === "N/A" || item.cost === "No Assessment"? 0 : item.cost})
         let total_volunteers = 0
-        payload.projTable.forEach(item => {total_volunteers += item.volunteers === "N/A" ? 0 : item.volunteers})
+        payload.projTable.forEach(item => {
+            total_volunteers += item.volunteers === "N/A" || item.volunteers === "No Assessment" ? 0 : item.volunteers})
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
 
         //Sending the result to the page
+        console.log("Here is what it is")
+        console.log(payload)
         res.send(payload)
     })
     return router;

@@ -187,7 +187,6 @@ $(document).ready(function(){
           url: "/projectreport/endReport" + queryString,
           type: 'GET',
           success: function(data){
-            
             data.projCount.forEach(element => {
                 if (element.projCount){
                     let row = $("<tr></tr>")
@@ -206,7 +205,8 @@ $(document).ready(function(){
                     partnerList.append(partner.org_name)
                     if (idx !== arr.length - 1){partnerList.append(", ")}
                 })
-                let total_cost = $("<td></td>").text("$" + element.cost)
+                if (!element.partners.length)partnerList.append("No partners for this project")
+                let total_cost = $("<td></td>").text(element.cost)
                 let volunteers = $("<td></td>").text(element.volunteers)
                 row.append(projectName, partnerList, total_cost, volunteers)
                 $("#assocPartnerTable").append(row)
