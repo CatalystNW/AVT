@@ -520,15 +520,17 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     Search: function(req, res, next){
+        console.log(req.query)
         let queryObject = {}
         let leaderQueries = []
         if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
         if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
         if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
         if(req.query.numVol){
+            console.log("Entered here!")
             let numberVolObject = {}
             console.log(req.query.numberVol_range)
-            if(req.query.numberVol_range) {
+            if(req.query.numberVol_range != 'undefined') {
                 numberVolObject[req.query.numberVol_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.numVol)
             }
             else {
@@ -539,7 +541,7 @@ getDocumentPlanning: function (req, res, next) {
         if(req.query.totCost){
             console.log(req.query.totCost_range)
             let totCostObject = {}
-            if(req.query.totCost_range) {
+            if(req.query.totCost_range != 'undefined') {
                 totCostObject[req.query.totCost_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.totCost)
             }
             else {
@@ -587,7 +589,6 @@ getDocumentPlanning: function (req, res, next) {
                 {$match: queryObject}
             ])
         .then( result => {
-            console.log(result)
             res.locals.results = result
             next()
         })
