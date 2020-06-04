@@ -58,7 +58,7 @@ var UserPackageSchema = new Schema({
 		waiver_signed:		Boolean,
 		background_check:	Boolean,
 		ID_badge:			Boolean,
-		ID_Date:			Boolean,
+		ID_Date:			Date,
 	}
 
 
