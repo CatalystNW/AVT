@@ -496,8 +496,6 @@ getDocumentPlanning: function (req, res, next) {
             ]).execAsync()
         })
         .then(result => {
-            console.log("Here are our results")
-            console.log(result)
             return Promise.all(result.map(async item => {
                 let estimates = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, 
                     {"estimates.total_cost": 1, "_id": 0, "estimates.volunteers_needed": 1})
@@ -513,23 +511,19 @@ getDocumentPlanning: function (req, res, next) {
             }))
         })
         .then(result => {
-            console.log(result)
             res.locals.projecttable = result
             next()
         })
     },
 
     Search: function(req, res, next){
-        console.log(req.query)
         let queryObject = {}
         let leaderQueries = []
         if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
         if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
         if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
         if(req.query.numVol){
-            console.log("Entered here!")
             let numberVolObject = {}
-            console.log(req.query.numberVol_range)
             if(req.query.numberVol_range != 'undefined') {
                 numberVolObject[req.query.numberVol_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.numVol)
             }
@@ -539,7 +533,6 @@ getDocumentPlanning: function (req, res, next) {
             queryObject["assessment.estimates.volunteers_needed"] = numberVolObject
         }   
         if(req.query.totCost){
-            console.log(req.query.totCost_range)
             let totCostObject = {}
             if(req.query.totCost_range != 'undefined') {
                 totCostObject[req.query.totCost_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.totCost)
@@ -574,7 +567,6 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
             queryObject["project.project_end"] = projEndObject
         }
-        console.log(queryObject)
         DocumentPackage.aggregate(
             [
                 {$lookup: {
@@ -598,23 +590,7 @@ getDocumentPlanning: function (req, res, next) {
         })
     },
 
-    searchPartners: function(req, res, next){
-        PartnerPackage.find({"org_name": req.query.partner})
-    },
-
-    
-
-    getAppYears: function(req,res, next){
-        DocumentPackage.distinct("app_year")
-        .then(result => {
-            result.sort().reverse()
-            res.locals.appYears = result
-            next()
-        })       
-    },
-
     getPartnerProjectCount: function(req, res, next){
-        console.log("Here:" + req.query.projToSum + req.query.projFromSum)
         let queryObject = {}
         let appDateObject = {}
         if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
@@ -637,7 +613,6 @@ getDocumentPlanning: function (req, res, next) {
                             {"_id": 1}).lean().execAsync()
         })
         .then(result => {
-            //console.log(result)
             let sumIdsArr = result.targetedYearIds.map(item => {return item._id.toString()})
             return Promise.all(result.partnerIds.map(async item => {
                 item.projCount = await ProjectSummaryPackage.count({"assocPartners": item._id.toString(), "projectId" : sumIdsArr})
@@ -654,6 +629,7 @@ getDocumentPlanning: function (req, res, next) {
         console.log("Getting upcoming projects from API")
         Promise.props({
             upComing: DocumentPackage.aggregate([
+                //match the documents that match the listed status
                 {$match : 
                     {"$or" : [{"status": "approval"}, {"status": "waitlist"},
                              {"status": "assessComp", "project.status": { $ne : "project"}},
@@ -661,12 +637,15 @@ getDocumentPlanning: function (req, res, next) {
                             {"project.status": "handle"}]
                     }
                 },
+                //join the assessment and workitem packages
                 {$lookup: {from: "assessmentpackages", localField: "_id",
                             foreignField: "applicationId", as: "assessmentDoc"}},
                 {$lookup: {from: "workitempackages", localField: "_id",
                             foreignField: "applicationId", as: "workItemDoc"}},
                 {$addFields: 
                     {
+                        //If the start date is null, set as furthest date possible in results 
+                        //for sorting purposes
                         "startDate": {
                             "$ifNull": ["$project.project_start", new Date(864000000000000)]
                         }
@@ -676,9 +655,6 @@ getDocumentPlanning: function (req, res, next) {
             ]).execAsync()
         }).then((results) => {
             res.locals.upComing = results.upComing
-            //res.locals.waitlist = results.waitlist
-            //res.locals.assessComp = results.assessComp
-            //res.locals.approval = results.approvalProcess
             next()
         })    
     },

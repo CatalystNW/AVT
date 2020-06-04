@@ -51,8 +51,6 @@ module.exports = function(passport){
         payload.total_volunteers = total_volunteers
 
         //Sending the result to the page
-        console.log("Here is what it is")
-        console.log(payload)
         res.send(payload)
     })
     return router;
