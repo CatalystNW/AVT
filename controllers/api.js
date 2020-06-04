@@ -2027,9 +2027,6 @@ getDocumentPlanning: function (req, res, next) {
             console.error(err);
         });
     },
-
-
-
     //post - GET (Retrieve) partners and leaders associated to that project
     getProjPartnersLeaders: function(req, res, next) {
         //console.log(req.body);
@@ -2042,7 +2039,6 @@ getDocumentPlanning: function (req, res, next) {
         // var projectId = String(req.body.projectId);
         var resArray = [];
         //var unAssocArray = [];
-
 
         Promise.props({
             allPartners: PartnerPackage.find().sort({ "org_name": 1 }).execAsync(),
@@ -2091,17 +2087,12 @@ getDocumentPlanning: function (req, res, next) {
                         console.log("\nCREATED Blank Document-Partner Association ----->\n");
                         console.log(newSendRes);
 
-                        res.locals.results.part = newSendRes;
+                        res.locals.results = newSendRes;
                         req.partnerTime = newSendRes;
                         res.locals.status = '200';
                     }
                 });
-
-
             } 
-
-
-
             else if (assocRes) {
               var assocPartners = assocRes.assocPartners[0].assocPartners || null;        //An array of IDS
                 console.log('[ API ] getProjPartnersLeaders :: item(s) found: TRUE');
@@ -2132,10 +2123,6 @@ getDocumentPlanning: function (req, res, next) {
                         }
                         return (! isFound);
                     }
-
-            
-
-
                 if (resArray.length > 0) {
                     console.log(resArray.length);
                 }
@@ -2154,7 +2141,7 @@ getDocumentPlanning: function (req, res, next) {
                                 // uIDs:   uIDs
                             };
             req.partnerTime = sendRes;
-            res.locals.results.part = sendRes;
+            res.locals.results = sendRes;
             // req.partnerTime = sendRes;
             res.locals.status = '200';
             } else {
@@ -2166,8 +2153,6 @@ getDocumentPlanning: function (req, res, next) {
             console.error(err);
         });
     },
-
-
     //post - SET (Store) partners and leaders associated to that project
     setProjPartnersLeaders: function(req, res, next) {
         
