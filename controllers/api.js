@@ -829,7 +829,7 @@ getDocumentPlanning: function (req, res, next) {
 		
 		//var currentTime = new Date();
 		//var year = req.body.signature.client_date.getFullYear();
-		var year = new Date(req.body.signature.client_date).getFullYear();
+		var year = new Date().getFullYear();
 		console.log("year " + year);
 
 		Promise.props({
