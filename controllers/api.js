@@ -1125,7 +1125,10 @@ getDocumentPlanning: function (req, res, next) {
                 updates = {"project.project_end":req.body.value };
         } else if (req.body.name == "drive_url") {
                 updates = {"drive.drive_url":req.body.value };
+        } else if (req.body.name == "vetting_drive_url") {
+                updates = { "drive.vetting_drive_url": req.body.value };
         }   
+
 
         // else {
         

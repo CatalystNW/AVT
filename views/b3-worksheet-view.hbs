@@ -7,10 +7,10 @@
 
 	.btnEditDrive {
 		font-size: 14px;
-		margin-left: 20px;
+		margin-left: 5px;
 		margin-bottom: 5px;
 		margin-top: -3px;
-		}
+	}
 	.shallow {
 		font-size: 14px;
 		margin-left: 20px;
@@ -25,9 +25,9 @@
 		padding-top: 15px;
 	}
 	.drive-link {
-		padding-top: 0px;
+		padding-top: 5px;
         margin-top: 0px;
-        font-size: 1.8em;
+        font-size: 1.5em;
         font-weight: bold;
 	}
     .drive-input-link {
@@ -98,6 +98,27 @@
 			</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<button class="btn btnEditDrive" onclick="editDriveURL()">Edit</button>
+		</span>
+	</div>
+	<div class="col-sm-6 drive-button-padding">
+		<!-- HBS - IF NO VETTING DRIVE LINK  - then show this. -->
+		<span id="vettingNoDrive" style="display: inline-flex;">
+			<h4 class="drive-header">Vetting Drive URL:&nbsp;&nbsp;</h4>
+			<a href="#" onclick="showVettingDriveDone()" id="vetting_drive_url" data-type="text" data-pk="{{_id}}"
+				data-url="/edit/project/{{doc._id}}" data-name="vetting_drive_url" data-title="Vetting Drive Link"
+				data-onblur="submit" class="drive-input-link">{{doc.drive.vetting_drive_url}}</a>&nbsp;&nbsp;
+			<button class="btn btn-success shallow" id="vettingDriveDoneBtn" style="display: none;"
+				onclick="window.location.reload(true)">Collapse</button>
+		</span>
+	
+		<!-- HBS - IF VETTING LINK EXISTS - then show this. -->
+	
+		<span id="vettingYesDrive" style="display: inline-flex;">
+			<a id="vettingDriveHref" target="_blank" href="{{doc.drive.vetting_drive_url}}">
+				<h4 class="no-bottom-margin drive-link">Google Drive - Vetting Only</h4>
+			</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btnEditDrive" onclick="editVettingDriveURL()">Edit</button>
 		</span>
 	</div>
 </div>
@@ -1100,9 +1121,11 @@ $(function(){
                     ]
         });
 		$('#drive_url').editable();
+		$('#vetting_drive_url').editable();
 
 		//call Google Drive Button function
 		yesDriveLoaded();
+		vettingYesDriveLoaded();
 
         /**
          * iterate through all dynamic array fields to make them editable
@@ -1216,7 +1239,43 @@ $(function(){
 		});
 
 		/**
-		 * These three functions work together to display the Google Drive Button
+			* These three functions work together to display the VETTING Google Drive Button
+		**/
+		function editVettingDriveURL() {
+			//Toggle = show edit span, and hide current span
+			document.getElementById("vettingYesDrive").style.display = "none";
+			document.getElementById("vettingNoDrive").style.display = "inline-flex";
+			document.getElementById("vettingDriveDoneBtn").style.display = "inline-flex";
+		}
+
+		function showVettingDriveDone() {
+			document.getElementById("vettingDriveDoneBtn").style.display = "inline-flex";
+		}
+
+		function vettingYesDriveLoaded() {
+			var vettingWebUrl = "{{{escape doc.drive.vetting_drive_url}}}";
+			console.log('In vettingYesDriveLoaded and vettingWebUrl = ', vettingWebUrl);
+
+			if (document.getElementById("vettingDriveHref").href == "" ||
+				document.getElementById("vettingDriveHref").href == window.location ||
+				document.getElementById("vettingDriveHref").href + "#" == window.location) {
+				document.getElementById("vettingYesDrive").style.display = "none";
+				document.getElementById("vettingNoDrive").style.display = "inline-flex";
+			} else {
+				if (document.getElementById("vettingDriveHref") &&
+					document.getElementById("vettingDriveHref").href) {
+					var vettingWebUrl = "{{{escape doc.drive.vetting_drive_url}}}";
+					if (!vettingWebUrl.startsWith('http')) {
+						document.getElementById("vettingDriveHref").href = 'http://' + vettingWebUrl;
+					}
+				}
+				document.getElementById("vettingYesDrive").style.display = "inline-flex";
+				document.getElementById("vettingNoDrive").style.display = "none";
+			}
+		}
+
+		/**
+			* These three functions work together to display the PROJECT Google Drive Button
 		**/
 		function editDriveURL() {
 			//Toggle = show edit span, and hide current span
