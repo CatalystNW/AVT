@@ -559,7 +559,6 @@ function formatElement(element) {
  */
 function formatDate(element)
 {
-
 	var Year = element.updated.getFullYear();
     //get month and day with padding since they are 0 indexed
     var Day = ( "00" + element.updated.getDate()).slice(-2);
@@ -569,14 +568,22 @@ function formatDate(element)
 
 	//signature date (application date)
 	if(element.signature && element.signature.client_date != "") {
-	var appDate = new Date(element.signature.client_date);
-	var appYear = appDate.getFullYear();
-	var appDay = ("00" + appDate.getDate()).slice(-2);
-	var appMon = ("00" + (appDate.getMonth()+1)).slice(-2);
-    element.signature.client_date = appMon + "/" + appDay + "/" + appYear;
-    element.signature.client_full_date = appYear + "/" + appMon + "/" + appDay;
+        var appDate = new Date(element.signature.client_date);
+        var appYear = appDate.getFullYear();
+        var appDay = ("00" + appDate.getDate()).slice(-2);
+        var appMon = ("00" + (appDate.getMonth()+1)).slice(-2);
+        element.signature.client_date = appMon + "/" + appDay + "/" + appYear;
+        element.signature.client_full_date = appYear + "/" + appMon + "/" + appDay;
+    }
 
-	}
+    if (element.created) {
+        let appDate = element.created;
+        let appYear = appDate.getFullYear(),
+            appDay = ("00" + appDate.getDate()).slice(-2),
+            appMon = ("00" + (appDate.getMonth()+1)).slice(-2);
+        element.created_date = appMon + "/" + appDay + "/" + appYear;
+        element.created_full_date = appYear + "/" + appMon + "/" + appDay;
+    }
     return element;
 }
 
