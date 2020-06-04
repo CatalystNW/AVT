@@ -30,6 +30,7 @@ var services_handler = {
   },
   restore_page_after_print() {
     // Place back scroll bars & padding in card
+    var $note_container = $("#notes-container");
     $note_container.removeClass("print");
     $note_container.addClass("scrollbox");
 
