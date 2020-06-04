@@ -2090,6 +2090,7 @@ getDocumentPlanning: function (req, res, next) {
                         res.locals.results = newSendRes;
                         req.partnerTime = newSendRes;
                         res.locals.status = '200';
+                        next();
                     }
                 });
             } 
@@ -2126,28 +2127,29 @@ getDocumentPlanning: function (req, res, next) {
                 if (resArray.length > 0) {
                     console.log(resArray.length);
                 }
-            //res.locals.results = results;
-            // res.locals.results = { ans: JSON.stringify(resArray) };
-            // res.locals.results = assocRes.allPartners;
+                //res.locals.results = results;
+                // res.locals.results = { ans: JSON.stringify(resArray) };
+                // res.locals.results = assocRes.allPartners;
 
-            var sendRes =   { 
-                                pAll:   allPartners, 
-                                // aCount: assocRes.pCount, 
-                                pAssoc: resArray,
-                                // aIDs:   assocPartners,
-                                uAssoc: filtered,
-                                projectId: projectId
-                                // uCount: filtered.length,
-                                // uIDs:   uIDs
-                            };
-            req.partnerTime = sendRes;
-            res.locals.results = sendRes;
-            // req.partnerTime = sendRes;
-            res.locals.status = '200';
+                var sendRes =   { 
+                                    pAll:   allPartners, 
+                                    // aCount: assocRes.pCount, 
+                                    pAssoc: resArray,
+                                    // aIDs:   assocPartners,
+                                    uAssoc: filtered,
+                                    projectId: projectId
+                                    // uCount: filtered.length,
+                                    // uIDs:   uIDs
+                                };
+                req.partnerTime = sendRes;
+                res.locals.results = sendRes;
+                // req.partnerTime = sendRes;
+                res.locals.status = '200';
+                next();
             } else {
                 console.log('[ API ] getProjPartnersLeaders :: item(s) found: FALSE');
+                next();
             }
-            next();
         })
         .catch(function (err) {
             console.error(err);
