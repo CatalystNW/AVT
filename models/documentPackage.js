@@ -208,7 +208,8 @@ var DocumentPackageSchema = new Schema({
     // Store external links to documents (and client photos in the future).
     drive:      {
         photos: String,
-        drive_url: String
+        drive_url: String,
+        vetting_drive_url: String
     }
 
 
