@@ -43,7 +43,7 @@ var adminUser = {
   "password-confirm": process.env.CATALYST_USER_PASSWORD,
   "user_status": "ACTIVE",
   "user_documents": {
-    "ID_Date": true,
+    "ID_Date": "2020-01-01",
     "waiver_signed": true,
     "background_check": true,
     "ID_badge": true
