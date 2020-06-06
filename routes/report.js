@@ -20,9 +20,15 @@ module.exports = function(passport){
             
         // create object 'payload' to return the results of the getUpcomingProjectsAPICall
         let myPayload = {};
+        
         myPayload.upComing = res.locals.upComing;
         myPayload.upComing.map(formatStatusUpComing)
-        res.render('projectsumreport', {"payload":myPayload}); 
+        var context = {"payload": myPayload};
+        context.user = req.user._id;
+        context.user_email = res.locals.email;
+        context.user_role = res.locals.role;
+        context.user_roles = res.locals.user_roles;
+        res.render('projectsumreport', context); 
     })
     
     //Route for ajax call by Search Tab on the Report Module
