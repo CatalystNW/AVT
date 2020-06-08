@@ -26,8 +26,10 @@
             </div>
             <div class="form-group">
               <label for="service-date" class="col-form-label">Service Date</label>
+              <!-- datetime-local works only for Chrome & Edge. 
+                Temporarily force the pattern -->
               <input type="datetime-local" class="form-control" name="service_date" 
-                id="service-date" required>
+                id="service-date" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required>
             </div>
             <div class="form-group">
               <label for="statusSelect" class="col-form-label">Service Status</label>
