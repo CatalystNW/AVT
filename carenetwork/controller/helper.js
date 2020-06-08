@@ -76,7 +76,7 @@ async function authenticate_api(req, res, callback, required_roles) {
   if (required_roles != undefined) {
     authenticated = true;
     for (var i=0; i<required_roles.length; i++) {
-      if ( !(context.user_roles.includes(required_roles[i]))) {
+      if (!(context.user_roles) || !(context.user_roles.includes(required_roles[i]))) {
         authenticated = false;
         break;
       }
@@ -101,7 +101,7 @@ async function authenticate_view_page(req, res, callback, required_roles) {
   if (required_roles != undefined) {
     authenticated = true;
     for (var i=0; i<required_roles.length; i++) {
-      if ( !(context.user_roles.includes(required_roles[i]))) {
+      if (!(context.user_roles) || !(context.user_roles.includes(required_roles[i]))) {
         authenticated = false;
         break;
       }
