@@ -46,26 +46,42 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col" class="col-lg-2">Name</th>
-          <th scope="col" class="col-lg-2">Last Edit Date</th>
-          <th scope="col" class="col-lg-2">Status</th>
-          <th scope="col" class="col-lg-2">Application Date</th>
-          <th scope="col" class="col-lg-2">Reference #</th>
-          <th scope="col" class="col-lg-2">Transfer Status</th>
+          <th scope="col" class="">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="form-check-input" id="header-check">
+            </div>
+          </th>
+          <th scope="col" class="">Name</th>
+          <th scope="col" class="">Last Edit Date</th>
+          <th scope="col" class="">Status</th>
+          <th scope="col" class="">Application Date</th>
+          <th scope="col" class="">Reference #</th>
+          <th scope="col" class="">Transfer Status</th>
         </tr>
       </thead>
       <tbody class="apps_container">
         {{#each applicants}}
         <tr>
-          <td class="col-lg-2">
-            {{this.application.name.first}} {{this.application.name.middle}} {{this.application.name.last}}
-            </td>
-          <td class="col-lg-2">{{this.updated}}</td>
-          <td class="col-lg-2">{{this.status}}</td>
-          <td class="col-lg-2">{{this.created}}</td>
-          <td class="col-lg-2">{{this.app_name}}</td>
+          <td>
+            <div class="custom-control custom-checkbox">
+              {{#if this.care_network_transferred}}
+                <input type="checkbox" class="form-check-input" checked disabled>
+              {{else}}
+                <input type="checkbox" class="form-check-input">
+              {{/if}}
+            </div>
+          </td>
+          <td class=""><a href="/view/{{this._id}}" target="_blank">
+            <a href="/view/{{this._id}}" target="_blank">
+              {{this.application.name.first}} {{this.application.name.middle}} {{this.application.name.last}}
+            </a>
+          </td>
+          <td class="">{{this.updated}}</td>
+          <td class="">{{this.status}}</td>
+          <td class="">{{this.created}}</td>
+          <td class="">{{this.app_name}}</td>
           
-          <td scope="col" class="col-lg-2">
+          <td scope="col" class="">
             {{#if this.care_network_transferred}}✔️
             {{else}}
               <button type="button" class="transfer-btn btn btn-primary"
@@ -79,5 +95,8 @@
     </table>
   </div>
 </div>
+
+
+
 
 <script type="text/javascript" src="/javascript/care/transfer_appvet.js"></script>
