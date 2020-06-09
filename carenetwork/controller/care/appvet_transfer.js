@@ -8,14 +8,25 @@ var CareApplicant = require('../../models/care/careApplicant');
 module.exports.view_transfer_page = view_transfer_page;
 module.exports.transfer_appvet = transfer_appvet;
 
+function get_utc_date(date_string) {
+  var date = new Date(date_string);
+  var utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+  // var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+    // date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+  return new Date(utc);
+}
+
 async function view_transfer_page(req, res) {
   helper.authenticate_view_page(req, res, 
     async (context) => {
       var search_option = req.query.search_option,
-        search_value = req.query.search_value;
+          search_value = req.query.search_value,
+          start_date = req.query.start_date,
+          end_date = req.query.end_date;
 
+      var query;
       if (search_option && search_value) {
-        var query;
         if (search_option == "first_name") {
           query = DocumentPackage.find({ "application.name.first": search_value});
         } else if (search_option == "last_name") {
@@ -24,14 +35,43 @@ async function view_transfer_page(req, res) {
           query = DocumentPackage.find({ "app_name": search_value});
         } else {
           query = undefined;
+        } 
+        
+      } else if (search_option == "app_date_range" && (start_date || end_date)) {
+        var start, end;
+        // Use locale time as the cutoff
+        if (start_date) {
+          start = get_utc_date(start_date);
+        }
+        if (end_date) {
+          end = get_utc_date(end_date);
         }
 
-        if (query) {
-          var apps = await query.lean().exec();
-          for (var i=0; i<apps.length; i++) {
-            apps[i].updated = apps[i].updated.toLocaleString();
-            apps[i].created = apps[i].created.toLocaleString();
-          }
+        if (end) { // extend by a 1 since we'll use less than in query for date
+          end = end.setDate(end.getDate() + 1);
+        }
+
+        if (start && end) {
+          query = DocumentPackage.find({ "created": {
+            "$gte": start,
+            "$lt": end
+          }});
+        } else if (start_date) {
+          query = DocumentPackage.find({ "created": {
+            "$gte": start,
+          }});
+        } else {
+          query = DocumentPackage.find({ "created": {
+            "$lt": end
+          }});
+        }
+      }
+
+      if (query) {
+        var apps = await query.lean().exec();
+        for (var i=0; i<apps.length; i++) {
+          apps[i].updated = apps[i].updated.toLocaleString();
+          apps[i].created = apps[i].created.toLocaleString();
         }
         context.applicants = apps;
       }
