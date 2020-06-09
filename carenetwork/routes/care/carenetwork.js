@@ -58,6 +58,6 @@ router.post('/services/:service_id/notes', service_controller.post_note);
 /* AppVett Transfer */
 router.get('/view_appvet_transfer', appvett_transfer_controller.view_transfer_page);
 
-router.post('/transfer_appvet', appvett_transfer_controller.transfer_appvet);
+router.post('/transfer_appvets', appvett_transfer_controller.transfer_appvets);
 
 module.exports = router;

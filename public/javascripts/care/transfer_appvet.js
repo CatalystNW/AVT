@@ -11,20 +11,55 @@ window.onload = function() {
   });
 
   $(".transfer-btn").on("click", function (e) {
-    var app_id = $(this).attr("value");
+    var apps = [];
+    $("tbody input:checkbox:checked").each(function(index, ele) {
+      apps.push(ele.value);
+    });
+    console.log(apps);
     $.ajax({
       type: "POST",
-      url: "/carenetwork/transfer_appvet",
-      data: {
-        applicant_id: app_id
-      },
+      url: "/carenetwork/transfer_appvets",
+      contentType: 'application/json',
+      data: JSON.stringify({
+        app_ids: apps,
+      }),
       success: function(data, textStatus, xhr) {
         // reload even if error
         location.reload();
       }
     });
   });
+  // Clicking on header checkbox makes it all or none checked
+  $("#header-check").on("change", function(e) {
+    if ( $(this).prop("checked") ) {
+      $("tbody input:checkbox").prop("checked", true).change();
+    } else {
+      $("tbody input:checkbox").prop("checked", false).change();
+    }
+  });
+  // Changing checkbox will highlight row
+  $("tbody input:checkbox").on("change", function(e) {
+    var $ele = $(this);
+    if ( $ele.prop("checked")) {
+      $ele.parent().parent().parent().addClass("table-info");
+    } else {
+      $ele.parent().parent().parent().removeClass("table-info");
+    }
+  });
 };
+
+function get_query_parameters() {
+  var option = $("#searchSelect").val();
+  var query_string = `?search_option=${option}&`;
+  // $("#startDateInput").val("");
+  //     $("#endDateInput").val("");
+  if (option == "app_date_range") {
+    query_string += `start_date=${$("#startDateInput").val()}&end_date=${$("#endDateInput").val()}`
+  } else {
+    query_string += `search_value=${$("#search_input").val()}`
+  }
+  return query_string;
+}
 
 // check if start & end dates are in correct order. If not, switch them.
 function check_dates() {
@@ -80,5 +115,82 @@ function load_input_row(empty_inputs) {
 
     if (empty_inputs)
       $("#search_input").val("");
+  }
+}
+
+// UNUSED, BUT MIGHT BE USED IN THE FUTURE FOR MANIPULATION OF TABLE VIA FRONTEND JS
+var appvet_obj = {
+  applications: null,
+  load_applications(applications) {
+    this.applications = applications;
+    this.load_new_table(this.applications);
+  },
+  load_new_table(apps) {
+    var apps = this.applications;
+    var $container = $("#app-row-container");
+    $container.empty();
+    for (var i=0; i<apps.length; i++) {
+      $container.append(this.make_app_row(apps[i]));
+    }
+  },
+  make_app_row(app) {
+    console.log(app);
+    var tr = $("<tr>");
+    var td, div, a, input;
+
+    // CHECKBOX
+    td = $("<td>");
+    
+    if (app.care_network_transferred) {
+      div = $("<div>✔️</div>");
+    } else {
+      div = $("<div>", {
+        "class": "custom-control custom-checkbox"
+      });
+      input = $("<input>", {
+        "type": "checkbox",
+        "class": "form-check-input"
+      });
+      div.append(input);
+    }
+    
+    td.append(div);
+    tr.append(td);
+
+    // NAME / LINK
+    td = $("<td></td>");
+    a = $("<a>", {
+      "href": "/view/" + app._id,
+      "target": "_blank",
+      "text": `${app.application.name.first} ${app.application.name.middle} ${app.application.name.last}`
+    });
+    td.append(a);
+    tr.append(td);
+
+    // UPDATED DATE
+    td = $("<td></td>", {
+      text: app.updated
+    });
+    tr.append(td);
+
+    // UPDATED STATUS
+    td = $("<td></td>", {
+      text: app.status
+    });
+    tr.append(td);
+
+    // CREATED DATE
+    td = $("<td></td>", {
+      text: app.created
+    });
+    tr.append(td);
+
+    // UPDATED App Name
+    td = $("<td></td>", {
+      text: app.app_name
+    });
+    tr.append(td);
+
+    return tr;
   }
 }
