@@ -2028,6 +2028,7 @@ getDocumentPlanning: function (req, res, next) {
         });
     },
     //post - GET (Retrieve) partners and leaders associated to that project
+    // Partners are saved (& used) in res.locals.results.part as the search result.
     getProjPartnersLeaders: function(req, res, next) {
         //console.log(req.body);
         
