@@ -45,8 +45,8 @@
     <div class="form-row row">
       <div class="form-group col-md-3">
         <label for="input-dob">Signature Date</label>
-        <input type="date" class="form-control" id="input-dob" 
-          name="signature_date" placeholder="yyyy-mm-dd" required>
+        <input type="text" class="form-control dateinput" 
+          placeholder="yyyy-mm-dd" name="signature_date" required>
       </div>
     </div>
 
@@ -84,3 +84,12 @@
 <script type="text/javascript" src="/javascript/care/application_form.js"></script>
 
 <link rel="stylesheet" href="/stylesheets/care/application_page.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<script>
+  $('.dateinput').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+</script>
