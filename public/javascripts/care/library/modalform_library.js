@@ -12,7 +12,38 @@ var service_form_modal = {
     });
   },
   setup_form(callback) {
+    this.add_hours();
+    this.add_minutes();
+
     $("#service-form").on("submit", function(e) {
+      var date_string = $("#service-select-day").val() + "T";
+
+      var hour = $("#service-select-hour").val(),
+          period = $("#service-select-period").val();
+
+      if (period == "AM" && hour == 12) {
+        date_string += "00:"
+      } else {
+        if (period == "PM") {
+          if (hour == 12)
+            hour = 0;
+          hour = parseInt(hour) + 12;
+        }
+        if (hour < 10)
+          date_string += "0" + hour + ":";
+        else
+          date_string += hour + ":";
+      }
+
+      var minute = $("#service-select-minute").val();
+
+      if (minute < 10)
+        date_string += "0" + minute
+      else
+        date_string += minute;
+
+      $("#service-date").val(date_string);
+
       var method = $(this).attr("method");
       e.preventDefault();
       $.ajax({
@@ -29,6 +60,40 @@ var service_form_modal = {
         }
       });
     });
+  },
+  add_hours() {
+    // add hours to hour select
+    var $select =$("#service-select-hour");
+
+    var option, text;
+    for (var i=1; i<13; i++) {
+      if (i < 10)
+        text = "0" + i;
+      else
+        text = i;
+      option = $("<option>", {
+        "text": text,
+        "value": i
+      });
+      $select.append(option);
+    }
+  },
+  add_minutes() {
+    // add minutes to minute select
+    var $select =$("#service-select-minute");
+
+    var option, text;
+    for (var i=0; i<60; i++) {
+      if (i < 10)
+        text = "0" + i;
+      else
+        text = i;
+      option = $("<option>", {
+        "text": text,
+        "value": i
+      });
+      $select.append(option);
+    }
   },
   create_edit_button(app_id, service_id) {
     var edit_button,
@@ -133,18 +198,25 @@ var service_form_modal = {
         month = (parseInt(date_result[1]) < 10) ? "0" + date_result[1] : date_result[1],
         day = (parseInt(date_result[2]) < 10) ? "0" + date_result[2] : date_result[2];
 
-    var date_str = year + "-"+ month +"-"+ day + "T";
+    var date_str = year + "-"+ month +"-"+ day;
+    var period;
+    $("#service-select-day").val(date_str);
+
     var re_time = /(\d+):(\d+)/;
     var time_result = re_time.exec(date_time_string);
-    if (date_time_string.includes("PM") && time_result[1] != "12")
-      date_str += (parseInt(time_result[1]) + 12) + ":" + time_result[2];
-    else {
-      if (parseInt(time_result[1]) < 10)
-        date_str += "0" + time_result[1] + ":" + time_result[2];
-      else
-        date_str += time_result[1] + ":" + time_result[2];
-    }
-    $("#service-date").val(date_str);
+    var hour = parseInt(time_result[1]),
+        minute = parseInt(time_result[2]);
+
+    
+    $("#service-select-hour").val(hour);
+    $("#service-select-minute").val(minute);
+
+    if (date_time_string.includes("PM")) {
+      period = "PM"
+    } else
+      period = "AM";
+    
+    $("#service-select-period").val(period);
   },
 };
 
