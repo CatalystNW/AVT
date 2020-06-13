@@ -2087,7 +2087,11 @@ getDocumentPlanning: function (req, res, next) {
                         console.log("\nCREATED Blank Document-Partner Association ----->\n");
                         console.log(newSendRes);
 
-                        res.locals.results = newSendRes;
+                        if (res.locals.results === undefined) {
+                            res.locals.results = {};
+                        }
+
+                        res.locals.results.part = newSendRes;
                         req.partnerTime = newSendRes;
                         res.locals.status = '200';
                         next();
@@ -2141,8 +2145,11 @@ getDocumentPlanning: function (req, res, next) {
                                     // uCount: filtered.length,
                                     // uIDs:   uIDs
                                 };
+                if (res.locals.results === undefined) {
+                    res.locals.results = {};
+                }
                 req.partnerTime = sendRes;
-                res.locals.results = sendRes;
+                res.locals.results.part = sendRes;
                 // req.partnerTime = sendRes;
                 res.locals.status = '200';
                 next();
