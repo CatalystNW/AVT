@@ -272,22 +272,31 @@ var service_obj ={
     var $last_tr = $trs[$trs.length - 1];
     new_tr.insertAfter($last_tr);
   },
+  hide_services(app_id){
+    var btn = $(`button[id=${app_id}-service-hide-btn]`);
+    $("." +service_obj.get_tr_class(app_id)).hide(); // hide services
+    btn.text("Show Service");
+  },
+  show_services(app_id) {
+    var btn = $(`button[id=${app_id}-service-hide-btn]`);
+    $("." +service_obj.get_tr_class(app_id)).show(); // show services
+    btn.text("Hide Service");
+  }
 }
 // btn to show services
 function create_service_btn(app_id) {
   var btn = document.createElement("button");
   btn.textContent = "Show Service";
   btn.setAttribute("value", app_id);
+  btn.setAttribute("id", app_id + "-service-hide-btn");
   btn.addEventListener("click", function(ele) {
     var btn = ele.target,
         app_id = btn.getAttribute("value");
 
     if (btn.textContent.toUpperCase().includes("HIDE")) {
-      $("." +service_obj.get_tr_class(app_id)).hide(); // hide services
-      btn.textContent = "Show Service";
+      service_obj.hide_services(app_id);
     } else {
-      $("." +service_obj.get_tr_class(app_id)).show(); // show services
-      btn.textContent = "Hide Service";
+      service_obj.show_services(app_id);
     }
   });
 
