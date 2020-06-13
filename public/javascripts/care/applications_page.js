@@ -13,8 +13,9 @@ window.onload = function() {
   service_form_modal.setup_form(
     (method, service) => {
       if (method == "POST") {
-        service_obj.add_service_row(service.applicant, service);
         app_obj.add_service(service.applicant, service);
+        service_obj.show_services(service.applicant);
+        service_obj.add_service_row(service.applicant, service);
       } else {
         service_obj.update_service_row(service.applicant, service);
         app_obj.update_service(service.applicant, service);
