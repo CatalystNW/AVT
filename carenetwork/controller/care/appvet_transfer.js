@@ -19,9 +19,11 @@ async function view_transfer_page(req, res) {
       var query;
       if (search_option && search_value) {
         if (search_option == "first_name") {
-          query = DocumentPackage.find({ "application.name.first": search_value});
+          query = DocumentPackage.find({ 
+            "application.name.first": { $regex: search_value, $options: 'i'}});
         } else if (search_option == "last_name") {
-          query = DocumentPackage.find({ "application.name.last": search_value});
+          query = DocumentPackage.find({ 
+            "application.name.last": { $regex: search_value, $options: 'i'}});
         } else if (search_option == "reference") {
           query = DocumentPackage.find({ "app_name": search_value});
         } else {
