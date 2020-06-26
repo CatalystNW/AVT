@@ -41,6 +41,7 @@ router.route('/applications/:application_id')
 // Application Notes for the Applications
 router.get('/appnote/:application_id', appnote_controller.get_appnotes);
 router.post('/appnote', appnote_controller.post_appnote);
+router.put('/appnote/:appnote_id', appnote_controller.edit_appnote);
 
 /** Services */
 

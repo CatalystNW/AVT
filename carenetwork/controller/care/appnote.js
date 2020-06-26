@@ -15,6 +15,7 @@ function convert_to_data(note_entity) {
 
 module.exports.post_appnote = post_appnote;
 module.exports.get_appnotes = get_appnotes;
+module.exports.edit_appnote = edit_appnote;
 
 async function post_appnote(req, res) {
   helper.authenticate_api(req, res,
@@ -59,16 +60,48 @@ async function post_appnote(req, res) {
 async function get_appnotes(req, res) {
   helper.authenticate_api(req, res,
     async (context) => {
+      var user_id = req.user.id;
       var app_id = req.params.application_id
       var notes = await CareAppNote.find({applicant: app_id}).lean().exec();
       var dataArr = [], note;
       for (var i=0; i< notes.length; i++) {
-        dataArr.push(convert_to_data(notes[i]));
+        notes[i].updatedAt = notes[i].updatedAt.toLocaleString();
+        notes[i].createdAt = notes[i].createdAt.toLocaleString();
+        if (user_id == notes[i].user) {
+          notes[i].editable = true;
+        }
       }
-      res.status(200).json(dataArr);
+      res.status(200).json(notes);
     }
-    
   );
+}
 
-  
+async function edit_appnote(req, res) {
+  helper.authenticate_api(req, res,
+    async (context) => {
+      var user_id = req.user.id;
+      var appnote_id = req.params.appnote_id
+      CareAppNote.findById(appnote_id).exec(
+        async (err, appnote) => {
+          if (err)
+            res.status(404).end();
+          else {
+            if (appnote.user == user_id) {
+              var note_text = req.body.note_text;
+              if (note_text != appnote.note) {
+                appnote.note = note_text
+                await appnote.save();  
+              }
+              var data = appnote.toJSON();
+              data.updatedAt = appnote.updatedAt.toLocaleString();
+              data.createdAt = appnote.createdAt.toLocaleString();
+              res.status(200).json(data);
+            } else {
+              res.status(401).end();
+            }
+          }
+        }
+      );
+    }
+  );
 }

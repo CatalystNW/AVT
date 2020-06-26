@@ -344,15 +344,84 @@ var applicant_form_modal = {
       }
     });
   },
+  click_appnote_edit_btn(e) {
+    var note_id = $(this).val();
+    var btn_text = $(this).text();
+    var td = $(`#${note_id}_text`);
+
+    if (btn_text == "Edit") {
+      $(this).text("Submit");
+      let note_text = td.text();
+      td.empty();
+      td.append($("<textarea>", {
+        style: "width: 100%;",
+        id: `${note_id}_textarea`,
+        text: note_text
+      }));
+    } else if (btn_text == "Submit") {
+      $(this).text("Edit");
+
+      let textarea = $(`#${note_id}_textarea`),
+          note_text = textarea.val();
+      textarea.parent().empty();
+      
+      $.ajax({
+        type: "PUT",
+        url: "/carenetwork/appnote/" + note_id,
+        data: {
+          "note_text": note_text
+        },
+        success: function(appnote, textStatus, xhr) {
+          td.empty();
+          if (xhr.status == 200) {
+            td.text(appnote.note);
+            $("#" + appnote._id + "_" + "date").text(appnote.updatedAt);
+          } else {
+            td.text(note_text);
+          }
+        },
+        error: function(xhr, textStatus, err) {
+          td.empty();
+          td.text(note_text);
+          window.alert("An error occurred.");
+        }
+      })
+    } else {
+      $(this).text("Edit");
+    }
+  },
+  edit_note(appnote_id, text) {
+
+  },
   add_note_html(noteObj) {
     var $container = $("#appnote-container");
   
     var tr, note;
   
     tr = $('<tr></tr>');
-    tr.append(`<td>${noteObj.date}</td>`);
-    tr.append(`<td>${noteObj.note}</td>`);
+    tr.append( $("<td>", {
+      text: noteObj.updatedAt,
+      id: noteObj._id + "_" + "date"
+    }));
+
+    tr.append($("<td>", {
+      "text": noteObj.note,
+      "id": noteObj._id + "_" + "text"
+    }));
     tr.append(`<td>${noteObj.name}</td>`);
+    var td = $("<td>");
+    if (noteObj.editable) {
+      var button = $("<button>", {
+        "type": "button",
+        "class": "btn btn-primary",
+        "value": noteObj._id,
+        "text": "Edit"
+      });
+      button.on("click", this.click_appnote_edit_btn);
+      td.append(button);
+    }
+      
+    tr.append(td)
     $container.append(tr);
   },
   submit_note(data) {
