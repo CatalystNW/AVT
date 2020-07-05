@@ -8,3 +8,11 @@
     font-weight: 500;
     color: #333
 }
+
+#page-navigation-container {
+    height: 100%;
+    right: 0;
+    position: fixed;
+    padding-left: 10pt;
+}
+}
