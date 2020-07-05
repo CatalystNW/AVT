@@ -237,7 +237,7 @@ var applicant_form_modal = {
       $app_form[0].reset();
       that.form_load_data();
     });
-    
+
     // submit app form when user closes it
     $("#applicantModal").on("hidden.bs.modal", function(e) {
       $.ajax({
@@ -263,10 +263,11 @@ var applicant_form_modal = {
       that.submit_note(formArr);
     });
   },
-  load_data_and_handler(app_id, edit_app_callback) {
+  set_appid_and_edit_callback(app_id, edit_app_callback) {
     this.app_id = app_id;
     this.edit_app_callback = edit_app_callback;
   },
+  // Creates a link with a click handler that will open the application form modal
   create_link(app_id, name, edit_app_callback) {
     var link = $(`<a></a>`, {
       value: app_id,
@@ -279,13 +280,15 @@ var applicant_form_modal = {
     link.on("click", function(e) {
       var app_id = $(this).attr("value");
       $("#applicant_id_div").val(app_id);
-      that.load_data_and_handler(app_id, edit_app_callback)
+      that.set_appid_and_edit_callback(app_id, edit_app_callback)
       that.form_load_data();
       that.load_notes();
       
     });
     return link;
   },
+  // Send GET Request to get Application data & then loads to the form
+  // via this.fill_app_data()
   form_load_data() {
     var that = this;
     $.ajax({
