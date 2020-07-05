@@ -15,4 +15,12 @@
     position: fixed;
     padding-left: 10pt;
 }
+
+#sidebar-link-container {
+}
+
+@media screen and (min-width: 1000px) {
+    #sidebar-link-container {
+        position: fixed;
+    }
 }
