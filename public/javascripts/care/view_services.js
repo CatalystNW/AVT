@@ -8,6 +8,8 @@ window.onload = function() {
   );
   this.service_obj.get_services();
 
+  applicant_form_modal.setup_form();
+
   service_form_modal.setup_form(
     (method, service) => {
       if (method == "POST") {
@@ -107,10 +109,22 @@ var services_table = {
       "id": this.get_id(service_id)
     });
 
+    
+
     $tr.append( $(`<td class="col-lg-2">${serviceData.service_date}</td>`) );
     $tr.append( $(`<td class="col-lg-2">${serviceData.status}</td>`));
     $tr.append( $(`<td class="col-lg-2">${serviceData.volunteer}</td>`));
-    $tr.append( $(`<td class="col-lg-2">${applicant_reference}</td>`));
+      
+    var $td = $(`<td class="col-lg-2"></td>`);
+
+    var link = applicant_form_modal.create_link(
+      serviceData.applicant._id, applicant_reference);
+
+    $td.append(link);
+
+    $tr.append($td);
+
+
     $tr.append( $(`<td class="col-lg-2">${serviceData.createdAt}</td>`));
     var option_td = $(`<td class="col-lg-2"></td>`);
     
