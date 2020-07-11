@@ -37,7 +37,7 @@ async function get_applicant_data_api(req, res) {
 async function post_application(req, res) {
   var context = await helper.create_care_context(req, res);
   if (CareApplicant.check_care_application(req.body)) { // check that all requried fields are present
-    await CareApplicant.create_app(req.body);
+    await CareApplicant.create_app(req.body); // Creates only defined properties
 
     if (context.care_manager) { // Will redirect to applications page
       res.status(201).json({"care_manager_status": true});
