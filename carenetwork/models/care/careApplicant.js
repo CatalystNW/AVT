@@ -22,6 +22,7 @@ const careApplicantSchema = new mongoose.Schema({
   },
 
   application: {
+    preferred_name: String,
     first_name: String,
     middle_name: String,
     last_name: String,
@@ -161,6 +162,11 @@ var fields_map = {
     required: true,
     schema: "careApplicant",
     path: "application/first_name"
+  },
+  preferred_name: {
+    required: false,
+    schema: "careApplicant",
+    path: "application/preferred_name"
   },
   middle_name: {
     required: false,
