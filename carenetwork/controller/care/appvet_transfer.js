@@ -16,6 +16,7 @@ async function view_transfer_page(req, res) {
           start_date = req.query.start_date,
           end_date = req.query.end_date;
 
+      // If search query paramters are provided, search and populate page with results
       var query;
       if (search_option && search_value) {
         if (search_option == "first_name") {
@@ -24,6 +25,9 @@ async function view_transfer_page(req, res) {
         } else if (search_option == "last_name") {
           query = DocumentPackage.find({ 
             "application.name.last": { $regex: search_value, $options: 'i'}});
+        } else if (search_option == "preferred_name") {
+          query = DocumentPackage.find({ 
+            "application.name.preferred": { $regex: search_value, $options: 'i'}});
         } else if (search_option == "reference") {
           query = DocumentPackage.find({ "app_name": search_value});
         } else {
@@ -136,9 +140,11 @@ async function transfer_appvet(app_id) {
         others_text += `Name: ${other_residents.name[i]} / Age: ${other_residents.age[i]} / Relationship ${other_residents.relationship[i]}\n`;
       }
 
+      // Map DocumentPackage (key in data) to the property names in CareApplicant
       var data = {
         "application_status": "appvet_transferred",
         "first_name": app.application.name.first,
+        "preferred_name": app.application.name.preferred,
         "last_name": app.application.name.last,
         "middle_name": app.application.name.middle,
 
