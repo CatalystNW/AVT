@@ -21,13 +21,14 @@ async function view_transfer_page(req, res) {
       if (search_option && search_value) {
         if (search_option == "first_name") {
           query = DocumentPackage.find({ 
-            "application.name.first": { $regex: search_value, $options: 'i'}});
+            "$or": [
+              {"application.name.first": { $regex: search_value, $options: 'i'}},
+              {"application.name.preferred": { $regex: search_value, $options: 'i'}},
+            ]
+          });
         } else if (search_option == "last_name") {
           query = DocumentPackage.find({ 
             "application.name.last": { $regex: search_value, $options: 'i'}});
-        } else if (search_option == "preferred_name") {
-          query = DocumentPackage.find({ 
-            "application.name.preferred": { $regex: search_value, $options: 'i'}});
         } else if (search_option == "reference") {
           query = DocumentPackage.find({ "app_name": search_value});
         } else {
