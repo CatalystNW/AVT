@@ -1,8 +1,8 @@
 #! /bin/bash
-# This script can be run as following: 
+# This script can be run as following:
 #   export AVT_GIT_BRANCH=develop && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 
-
+cd "$(dirname "$0")/.."
 CONTINUE=$1
 TITLE="\e[96mSetup Script for Catalyst AppVetting Tool\e[0m"
 SETUP="\n\e[93mSETUP\e[0m"
@@ -41,7 +41,7 @@ echo -e ""
 
 read -e -r -p "Do you want to install with the above settings? [y/N] " someAns
 case "$someAns" in
-    [yY][eE][sS]|[yY]) 
+    [yY][eE][sS]|[yY])
         echo -e "$SETUP: Setting up Catalyst Appvetting Tool..."
         ;;
     *)
@@ -88,7 +88,7 @@ echo -e "AVT | Do you want to start the web-application tool?\n"
 
 read -r -p "Are you sure? [y/N] " startup
 case "$startup" in
-    [yY][eE][sS]|[yY]) 
+    [yY][eE][sS]|[yY])
         echo -e "AVT | Starting Node.js..."
         ;;
     *)

@@ -1,4 +1,5 @@
 #! /bin/bash
+cd "$(dirname "$0")/.."
 #BIN_PATH=./node_modules/.bin
 
 # if [ -x "$(command -v systemctl)" ]; then

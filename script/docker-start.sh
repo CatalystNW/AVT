@@ -1,4 +1,6 @@
 #! /bin/bash
+
+cd "$(dirname "$0")/.."
 BIN_PATH=./node_modules/.bin
 
 ./script/start-mongod.sh

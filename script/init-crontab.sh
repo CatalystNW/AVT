@@ -2,6 +2,7 @@
 
 set -e
 
+cd "$(dirname "$0")/.."
 [ -d /usr/src/logs ] || mkdir /usr/src/logs/
 touch /usr/src/logs/cron_s3.log
 

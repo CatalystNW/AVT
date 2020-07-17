@@ -1,10 +1,14 @@
 version: "3.7"
+volumes:
+  data_mongodb:
+  data_logs:
+
 services:
   avt:
     build:
       context: .
       dockerfile: Dockerfile
-      args:                                                                      
+      args:
         AVT_ENVIRONMENT: ${AVT_ENVIRONMENT}
         AVT_GIT_BRANCH: ${AVT_GIT_BRANCH}
         AVT_RESTORE_FROM_BACKUP: ${AVT_RESTORE_FROM_BACKUP}
@@ -25,10 +29,12 @@ services:
         DB_PORT: ${DB_PORT}
         DB_NAME: ${DB_NAME}
         AVT_SERVER_PORT: ${AVT_SERVER_PORT}
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     container_name: avt
     ports:
       - "8000:8000"
       - "27017:27017"  # DISABLE IN PRODUCTION (This is for connecting to mongodb for development)
-      
+    volumes:
+      - data_mongodb:/usr/src/db
+      - data_logs:/usr/src/logs
