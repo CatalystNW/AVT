@@ -32,6 +32,8 @@ initPassport(passport);
 // Define routes that will be used
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 var routes = require('./routes/index')(passport);
+var report = require('./routes/report')(passport);
+var test = require('./routes/test');
 var view = require('./routes/view')(passport);
 var edit = require('./routes/edit')(passport);
 var tasks = require('./routes/tasks.js')(passport);
@@ -195,6 +197,31 @@ hbs.registerHelper('getCompletedDate', function (item, name) {
   return item.getCompletedDate(name);
 })
 
+hbs.registerHelper('convertStatus', function(statusKey) {
+  switch (statusKey){
+    case 'assess':
+        return 'Site Assessment - Pending';
+        break;
+    case 'assessComp':
+        return 'Site Assessment - Complete';
+        break;
+    case 'approval':
+        return 'Approval Process';  
+    case 'waitlist':
+        return 'Waitlist';
+    case 'upComing':
+        return'Project Upcoming'; 
+    case 'handle':
+        return "Handle-It";
+    default:
+        return "Error"
+  }
+})
+
+hbs.registerHelper('plus_one', function(idx){
+  return idx + 1
+})
+
 hbs.registerHelper('getAppNameForPlan', function(apps, appid) {
   if (apps[appid] && apps[appid].app_name) {
     return apps[appid].app_name
@@ -351,8 +378,8 @@ app.use('/partners', partners);
 app.use('/projectview', projectview);
 app.use('/tasks/', tasks);
 app.use('/leadtime', leadtime);
-
 app.use('/carenetwork', care_network);
+app.use('/projectreport', report);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Server Side Libraries
 // Links to jQuery and Boots strap files

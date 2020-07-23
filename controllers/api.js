@@ -389,7 +389,7 @@ getDocumentPlanning: function (req, res, next) {
     /**
      * Description: retrieve all Document Packages from the database and group by status code
      * Type: GET
-     * Params: none
+     * Params: 
      * Address: api.getDocumentByStatus
      * Returns: results.statuscode[array of Document Packages]
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
@@ -451,6 +451,212 @@ getDocumentPlanning: function (req, res, next) {
                 console.error(err);
             })
             .catch(next);
+    },
+
+    getProjEndReport: function(req, res, next){
+        let queryObject = {}
+        let appDateObject = {}
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
+        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
+            queryObject["signature.client_date"] = appDateObject
+        }
+
+        let projStartObject = {}
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
+        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
+            queryObject["project.project_start"] = projStartObject
+        }
+        
+        Promise.props({
+            targetedYearIds: DocumentPackage.find(
+                queryObject, 
+                            {"_id": 1}).lean().execAsync()
+        })
+        .then(result => {
+            let sumIdsArr = result.targetedYearIds.map(item => {return item._id.toString()})
+            let names = result.targetedYearIds.map(item => {return item._id.toString()})
+            return ProjectSummaryPackage.aggregate([
+                {$match : {"projectId": {"$in": sumIdsArr}}},
+                { $addFields:
+                    {
+                       "partnerIdsObjectId":
+                          { $map:
+                             {
+                                input: "$assocPartners",
+                                as: "ourPartners",
+                                in: { $toObjectId:"$$ourPartners" }
+                             }
+                          }
+                     }
+                },
+                {$lookup: {from: "partnerpackages", localField: "partnerIdsObjectId",
+                            foreignField: "_id", as: "partners"}}
+            ]).execAsync()
+        })
+        .then(result => {
+            return Promise.all(result.map(async item => {
+                let estimates = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, 
+                    {"estimates.total_cost": 1, "_id": 0, "estimates.volunteers_needed": 1})
+                item.cost = "No Assessment"
+                item.volunteers = "No Assessment"
+                if(estimates[0]){
+                    item.cost = estimates[0].estimates.total_cost ? estimates[0].estimates.total_cost : "N/A"
+                    item.volunteers = estimates[0].estimates.volunteers_needed ? estimates[0].estimates.volunteers_needed : "N/A"
+                }
+                let name = await DocumentPackage.find({"_id":ObjectId(item.projectId)}, {"application": 1, "_id": 0})
+                item.name = name[0].application.name
+                return item
+            }))
+        })
+        .then(result => {
+            res.locals.projecttable = result
+            next()
+        })
+    },
+
+    Search: function(req, res, next){
+        let queryObject = {}
+        let leaderQueries = []
+        if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
+        if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
+        if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
+        if(req.query.numVol){
+            let numberVolObject = {}
+            if(req.query.numberVol_range != 'undefined') {
+                numberVolObject[req.query.numberVol_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.numVol)
+            }
+            else {
+                numberVolObject["$eq"] = parseInt(req.query.numVol)
+            }
+            queryObject["assessment.estimates.volunteers_needed"] = numberVolObject
+        }   
+        if(req.query.totCost){
+            let totCostObject = {}
+            if(req.query.totCost_range != 'undefined') {
+                totCostObject[req.query.totCost_range == "greater" ? "$gte" : "$lte"] = parseInt(req.query.totCost)
+            }
+            else {
+                totCostObject["$eq"] = parseInt(req.query.totCost)
+            }
+            queryObject["assessment.estimates.total_cost"] = totCostObject
+        }
+        if(leaderQueries.length) queryObject["$" + req.query.leader_and_or] = leaderQueries
+        if(req.query.city) queryObject["application.address.city"] = req.query.city
+        if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
+        if(req.query.firstName) queryObject["$or"] = [{"application.name.first": req.query.firstName}, 
+            {"application.name.preferred": req.query.firstName}]
+        if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
+        let appDateObject = {}
+        if(req.query.appFromDate)appDateObject["$gte"] = new Date(req.query.appFromDate+"T00:00")
+        if(req.query.appToDate)appDateObject["$lte"] = new Date(req.query.appToDate+"T23:59")
+        if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
+            queryObject["signature.client_date"] = appDateObject
+        }
+
+        let projStartObject = {}
+        if(req.query.projStartFrom) projStartObject["$gte"] = new Date(req.query.projStartFrom+"T00:00")
+        if(req.query.projStartTo) projStartObject["$lte"] = new Date(req.query.projStartTo+"T23:59")
+        if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
+            queryObject["project.project_start"] = projStartObject
+        }
+        let projEndObject = {}
+        if(req.query.projEndFrom) projEndObject["$gte"] = new Date(req.query.projEndFrom+"T00:00")
+        if(req.query.projEndTo) projEndObject["$lte"] = new Date(req.query.projEndTo+"T23:59")
+        if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
+            queryObject["project.project_end"] = projEndObject
+        }
+        DocumentPackage.aggregate(
+            [
+                {$lookup: {
+                    from: "assessmentpackages",
+                    localField: "_id",
+                    foreignField: "applicationId",
+                    as: "assessment"
+                }},
+               {$unwind: 
+                    {path: "$assessment",
+                    preserveNullAndEmptyArrays: true}},
+                {$match: queryObject}
+            ])
+        .then( result => {
+            res.locals.results = result
+            next()
+        })
+        .catch(err => {
+            console.log(err)
+            next()
+        })
+    },
+
+    getPartnerProjectCount: function(req, res, next){
+        let queryObject = {}
+        let appDateObject = {}
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
+        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
+            queryObject["signature.client_date"] = appDateObject
+        }
+
+        let projStartObject = {}
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
+        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
+            queryObject["project.project_start"] = projStartObject
+        }
+        
+        Promise.props({
+            partnerIds: PartnerPackage.find({},{"org_name": 1}).sort({"org_name": 1}).lean().execAsync(),
+            targetedYearIds: DocumentPackage.find(
+                queryObject, 
+                            {"_id": 1}).lean().execAsync()
+        })
+        .then(result => {
+            let sumIdsArr = result.targetedYearIds.map(item => {return item._id.toString()})
+            return Promise.all(result.partnerIds.map(async item => {
+                item.projCount = await ProjectSummaryPackage.count({"assocPartners": item._id.toString(), "projectId" : sumIdsArr})
+                return item
+            }))
+        })
+        .then(result => {
+            res.locals.results = result
+            next()
+        })  
+    },
+
+    getUpcomingProjects: function(req, res, next){
+        console.log("Getting upcoming projects from API")
+        Promise.props({
+            upComing: DocumentPackage.aggregate([
+                //match the documents that match the listed status
+                {$match : 
+                    {"$or" : [{"status": "approval"}, {"status": "waitlist"},
+                             {"status": "assessComp", "project.status": { $ne : "project"}},
+                            {"project.status": "project", "status": { $ne: "declined"}},
+                            {"project.status": "handle"}]
+                    }
+                },
+                //join the assessment and workitem packages
+                {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessmentDoc"}},
+                {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+                {$addFields: 
+                    {
+                        //If the start date is null, set as furthest date possible in results 
+                        //for sorting purposes
+                        "startDate": {
+                            "$ifNull": ["$project.project_start", new Date(864000000000000)]
+                        }
+                    }
+                },
+                {$sort: {"startDate": 1} }    
+            ]).execAsync()
+        }).then((results) => {
+            res.locals.upComing = results.upComing
+            next()
+        })    
     },
 
     /**
@@ -565,6 +771,7 @@ getDocumentPlanning: function (req, res, next) {
 
                     })
                         .then(function (results) {
+                            console.log(results.projectUpcoming)
                             if (!results) {
                                 console.log('[ API ] getProjectsByStatus :: Project Summary package found: FALSE');
                             }
@@ -3593,5 +3800,64 @@ getDocumentPlanning: function (req, res, next) {
       next()
     })
   }
+/* *****************************************************************
+Aggregation function.
 
+Dependencies:
+Must use projectWrapUpPackage.js model (collection)
+
+Returns:
+Object. Every project completed by year, and the nummber of projects
+completed.
+
+Notes:
+    should actually just find a specific year and the number of 
+    projects completed for that year.
+
+********************************************************************/
+/*
+getCompletedProjectsByYear: function(req, res, next) {
+
+    console.log('getCompletedProjectsByYear starting');
+      
+    Promise.props({
+
+        // GET # OF PROJECTS COMPLETED FOR EVERY YEAR -- needs
+        completedProjects: ProjectWrapUpPackages.aggregate([{
+            $match: {
+                "signup_sheet_office.complete": true
+            }
+            },{
+            $group: {
+                _id: {
+                    $year: { 
+                        date: "$signup_sheet_office.completed_on"
+                    }
+                },
+                "total_projects": {$push: { $year: { date: "$signup_sheet_office.completed_on" } } }
+            } 
+            }, {
+            $project: {
+                _id: 0,
+                year: {$arrayElemAt: ["$total_projects", 0] },
+                "# projects completed": {$size: "$total_projects"}
+            }
+        }]).execAsync()
+        
+    })
+    .then(function(results) {
+
+        if(!results){
+            console.log('report.js ERROR: total projects aggregation failure!');
+        }
+        else {
+            console.log('report.js total projects aggregation passed.');
+            res.locals.results.completedProjects = completedProjects;
+            next(); 
+        }
+    }) 
+    .catch(function(err){ console.err(err);})
+    .catch(next);
+}
+*/
 };

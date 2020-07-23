@@ -273,7 +273,9 @@ router.get('/', isLoggedIn, api.getProjectsByStatus, api.getSummaryPartners, fun
         console.log('[ API ] getProjectsByStatus: Unable to find Document Packages with status: \'handle\'');
     } else {
         res.locals.results.handle.forEach(function (element) {
-                       if (payload.part.pAssoc[element._id]) {                 element.parts = payload.part.pAssoc[element._id].join("; ");             }
+                       if (payload.part.pAssoc[element._id]) {                 
+                           element.parts = payload.part.pAssoc[element._id].join("; ");            
+                        }
             element = formatElement(element);
 		});
     }
@@ -284,14 +286,18 @@ router.get('/', isLoggedIn, api.getProjectsByStatus, api.getSummaryPartners, fun
         console.log('[ API ] getProjectsByStatus: Unable to find Document Packages with status: \'project\'');
     } else {
         res.locals.results.project.forEach(function (element) {
-                       if (payload.part.pAssoc[element._id]) {                            if (payload.part.pAssoc[element._id]) {                 element.parts = payload.part.pAssoc[element._id].join("; ");             }             }
+                       if (payload.part.pAssoc[element._id]) {                            
+                           if (payload.part.pAssoc[element._id]) {                 
+                               element.parts = payload.part.pAssoc[element._id].join("; ");             
+                            }             
+                        }
             element = formatElement(element);
 		});
     }
     payload.project = res.locals.results.project;
 
-
-	payload.completed = []; 			//Storing handle + project output that was sorted by project.date by DB call
+    //Storing handle + project output that was sorted by project.date by DB call
+	payload.completed = []; 			
     payload.handleToBeAssigned = [];
     payload.handleAssigned = [];
     payload.handleCompleted = [];
