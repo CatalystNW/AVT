@@ -1,0 +1,17 @@
+.card-header {
+    cursor: pointer;
+}
+
+#appInfo-serviceFormContainer {
+    white-space: pre-wrap;
+    overflow: auto;
+    height: 400px;
+}
+
+#yearSelect {
+    width: 240px;
+}
+
+#yearSelectLabel {
+    width: 220px;
+}

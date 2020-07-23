@@ -1,0 +1,204 @@
+<div class="row">
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="first-container">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Applicant Info
+            <button type="button" class="btn btn-danger d-print-none hidden-print"
+            id="print-btn">
+            Print</button>
+          </h2>
+        </div>
+        <div class="card-body" >
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Name:</div>
+            <div class="col-xs-8">{{service.applicant.application.first_name}} {{service.applicant.application.middle_name}} {{service.applicant.application.last_name}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">DOB:</div>
+            <div class="col-xs-8">{{service.applicant.application.dob}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Marital Status:</div>
+            <div class="col-xs-8">{{service.applicant.application.marital_status}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Email:</div>
+            <div class="col-xs-8">{{service.applicant.application.email}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <h2>Health Issues</h2></div>
+      <div class="card-body" >
+        {{service.applicant.application.health_issues}}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2>Help Requested</h2></div>
+      <div class="card-body" >
+        {{service.applicant.application.help_request}}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="second-container">
+    <!-- Disabled from printing map because it does not work properly in Chrome -->
+    <div class="d-print-none hidden-print">
+      <div class="card">
+        <div class="card-header">
+          <h2>Map</h2></div>
+        <div class="card-body" >
+          <div><iframe width="100%" height="280" frameborder="0"
+            src={{google_map_url}} target="_blank">Google Maps Link</iframe></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Address</h2></div>
+        <div class="card-body" >
+          <div >
+            {{service.applicant.application.address.line_1}}
+          </div>
+
+          {{# if service.applicant.application.address.line_2}}
+          <div >
+            {{service.applicant.application.address.line_2}}
+          </div>
+          {{/if}}
+
+          <div >
+            {{service.applicant.application.address.city}}, {{service.applicant.application.address.state}} {{service.applicant.application.address.zip}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Emergency Contact</h2></div>
+        <div class="card-body" >
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Name:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_name}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Relationship:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_relationship}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Phone:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_phone}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Email:</div>
+            <div class="col-xs-8">{{service.applicant.application.contact_email}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="col-sm-6 col-xs-12 col-lg-4" id="third-container">
+    <div>
+      <div class="card">
+        <div class="card-header"><h2>Service Info</h2></div>
+        <div class="card-body" id="services-container">
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Service Date:</div>
+            <div class="col-xs-8">{{service.service_date}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Volunteer:</div>
+            <div class="col-xs-8">{{service.volunteer}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 labelDiv">Description:</div>
+            <div class="col-xs-8">{{service.description}}</div>
+          </div>
+
+          <div class="row">
+            <label for="statusSelect" class="col-xs-4 labelDiv">Status:</label>
+            <div class="col-xs-8 col-md-6 col-lg-5">
+              <select class="form-control" value={{service.status}} name="status" id="statusSelect">
+                <option value="not_started">Not Started</option>
+                <option value="started">Started</option>
+                <option value="complete">Completed</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="card bg-light" >
+        <div class="card-header">
+          <h2>Notes
+          <button type="button" class="btn btn-primary d-print-none hidden-print"
+            id="add-note-btn" data-toggle="modal" data-target="#noteModal">
+            Add Note</button>
+          </h2>
+        </div>
+        
+        <div class="card-body scrollbox" id="notes-container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="noteModalLabel">Add Note</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="noteForm">
+      <div class="modal-body">
+        <input name="service_id" value="{{service_id}}" type="hidden">
+        <textarea required style="width: 100%;" rows=8 name="note"
+          placeholder="Type Note Here"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/service_page.js"></script>
+<link rel="stylesheet" href="/stylesheets/care/service_page.css">

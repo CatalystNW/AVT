@@ -58,7 +58,7 @@ This should shut off any windows instances of mongoDB. We should be good to go!
 ### Get the installation started:
 From the linux command line, run:
 ```
-curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/develop/script/init-curl.sh | sudo bash -
+export AVT_GIT_BRANCH=develop-osu && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 ```
 The above line finds the installation script (init-curl.sh) from the develop branch of our gitHub repo, and executes it locally.  Enjoy the log files as they wander down your linux console.  **This process will take a few minutes.**  During this process, you may encounter firewall issues.  If they come from Ubuntu, you should be safe.
 

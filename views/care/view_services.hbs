@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header" value="not_started">Not Started</div>
+  <div class="card-body" id="not_started_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Service Date</th>
+          <th scope="col" class="col-lg-2">Status</th>
+          <th scope="col" class="col-lg-2">Volunteer</th>
+          <th scope="col" class="col-lg-2">Applicant Reference</th>
+          <th scope="col" class="col-lg-2">Create Date</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_contaiSner" id="not_started_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="started">Started</div>
+  <div class="card-body" id="started_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Service Date</th>
+          <th scope="col" class="col-lg-2">Status</th>
+          <th scope="col" class="col-lg-2">Volunteer</th>
+          <th scope="col" class="col-lg-2">Applicant Reference</th>
+          <th scope="col" class="col-lg-2">Create Date</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="started_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="complete">Complete</div>
+  <div class="card-body" id="complete_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Service Date</th>
+          <th scope="col" class="col-lg-2">Status</th>
+          <th scope="col" class="col-lg-2">Volunteer</th>
+          <th scope="col" class="col-lg-2">Applicant Reference</th>
+          <th scope="col" class="col-lg-2">Create Date</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="complete_container"></tbody>
+    </table>
+  </div>
+</div>
+
+{{> care_serviceform_modal}}
+
+{{> care_applicantform_modal}}
+
+<script type="text/javascript" src="/javascript/care/library/card_tabler.js"></script>
+<script type="text/javascript" src="/javascript/care/library/modalform_library.js"></script>
+<script type="text/javascript" src="/javascript/care/view_services.js"></script>
+<link rel="stylesheet" href="/stylesheets/care/view_services.css">

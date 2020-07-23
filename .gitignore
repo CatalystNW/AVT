@@ -2,6 +2,10 @@
 .env
 .env.template
 
+# Ignore Visual Studio Files in .vs directory
+.vs/*
+.vscode/*
+
 # Added by kohn-catalyst
 rest-data/*
 rest-logs/*

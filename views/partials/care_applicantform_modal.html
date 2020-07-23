@@ -1,0 +1,66 @@
+<div class="modal fade" id="applicantModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" style="max-width:1400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="applicantForm-modalTitle" class="modal-title">Edit Applicant - Auto-Saves Once Form is Closed</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div id="applicant_id_div" hidden>{{application_id}}</div>
+      
+        <form id="note-form">
+        <h2 id="notes-h2">Notes</h2>
+        <table class="table ">
+          <thead>
+            <tr>
+              <th width="25%" scope="col">Date</th>
+              <th width="50%" scope="col">Note</th>
+              <th width="25%" scope="col">By</th>
+              <th width="25%" scope="col">Options</th>
+            </tr>
+          </thead>
+          <tbody id="appnote-container"></tbody>
+          <tfoot>
+              <tr>
+                <th scope="col">
+                  <button type="submit" class="btn btn-primary">Add Note</button>
+                </th>
+                <th scope="col">
+                  <textarea required class="form-control" placeholder="Enter Note" name="note"></textarea>
+                </th>
+              </tr>
+            
+          </tfoot>
+        </table>
+        </form>
+      
+        <form id="application-form">
+          <div class="form-row row">
+            <div class="form-group col-md-3">
+              <label for="app-status-select">Status</label>
+              <select class="custom-select" name="application_status" id="app-status-select">
+                <option value="never_contacted">Never Contacted</option>
+                <option value="appvet_transferred">AppVet Transferred</option>
+                <option value="to_be_contacted">To Be Contacted</option>
+                <option value="assigned_caller">Assigned to Caller</option>
+                <option value="help_requested">Helper Requested</option>
+                <option value="contact_complete">Contact Complete</option>
+                <option value="do_not_contact">Do Not Contact</option>
+              </select>
+            </div>
+          </div>  
+      
+          {{> care_partialform}}
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" id="form-reset-button">Reset</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+      </form>   
+    </div>
+  </div>
+</div>

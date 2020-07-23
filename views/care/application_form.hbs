@@ -1,0 +1,93 @@
+<div class="col-md-10 col-lg-9 row">
+  <h1>Care Network - Help Request Form</h1>
+
+  <form method="POST" id="applicant-form" action="./applications">
+    {{> care_partialform}}
+
+    <fieldset class="form-row row">
+      <div class="form-group col-md-9">
+        <div>
+          <strong>
+            RELEASE OF LIABILITY WAIVER - I understand and acknowledge that my involvement 
+            in this endeavor with Catalyst, its agents and contractors, and any partnering organizations, 
+            is voluntary. I understand and acknowledge my willingness to allow myself and my property to 
+            be associated with this Catalyst activity in the manner described on the Catalyst Care Network 
+            webpage. I understand and acknowledge that this Activity may pose the potential risk of damage 
+            to my person and/or property. I also realize that Catalyst and its personnel, agents, or 
+            volunteers, or any other person or entity associated with this Activity, may not be professionally 
+            trained for this Activity, and are not legally or financially responsible or liable for any claim 
+            arising from any damage done to my property during this Activity.
+          </strong>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input type="radio" id="waiver-radio-1" name="waiver-radio" 
+            class="form-check-input" value="1" required>
+            <label class="custom-control-label" for="waiver-radio-1">Agreed</label>
+          </div>
+          <div class="form-check">
+            <input type="radio" id="waiver-radio-2" name="waiver-radio" 
+              class="form-check-input" value="0">
+            <label class="custom-control-label" for="waiver-radio-2">Decline</label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form-row row">
+      <div class="form-group col-md-4">
+        <label for="input-confirm-name">The information I have provided is true and accurate</label>
+        <input type="text" class="form-control" id="input-confirm-name" 
+          placeholder="Please type your name to verify" name="signature" required>
+      </div>
+    </div>
+
+    <div class="form-row row">
+      <div class="form-group col-md-3">
+        <label for="input-dob">Signature Date</label>
+        <input type="text" class="form-control dateinput" 
+          placeholder="yyyy-mm-dd" name="signature_date" required>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+  </form>
+</div>
+
+<div class="col-md-2 col-lg-3 row" id="page-navigation-container">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      Page Navigation
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#notes-h2">
+            Notes</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="#personal-info-h2">
+            Personal Info</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="#home-address-h2">
+            Home Address</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#contact-info-h2">
+            Contact</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#question-h2">
+            Questionaire</a>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript" src="/javascript/care/application_form.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<script>
+  $('.dateinput').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+</script>

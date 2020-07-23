@@ -1,0 +1,177 @@
+<h2 id="personal-info-h2">Personal Information</h2>
+<div class="form-row row">
+  <div class="form-group col-md-3 col-sm-5">
+    <label for="input-first-name">First Name</label>
+    <input type="text" class="form-control" id="input-first-name" 
+      name="first_name" required>
+  </div>
+  <div class="form-group col-md-2 col-sm-2">
+    <label for="input-middle-name">Middle Name</label>
+    <input type="text" class="form-control" id="input-middle-name" 
+      name="middle_name">
+  </div>
+  <div class="form-group col-md-3 col-sm-5" >
+    <label for="input-last-name">Last Name</label>
+    <input type="text" class="form-control" id="input-last-name" 
+      name="last_name" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-5 col-sm-6">
+    <label for="input-preferred-name">Preferred Name (If Applicable)</label>
+    <input type="text" class="form-control" id="input-preferred-name" 
+      name="preferred_name">
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-4">
+    <label for="input-phone-number">Phone Number</label>
+    <input type="text" class="form-control" id="input-phone-number" 
+      name="phone" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-5">
+    <label for="input-email">Email</label>
+    <input type="email" class="form-control" id="input-email" 
+      name="email">
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-3">
+    <label for="input-dob">Date of Birth</label>
+    <input type="text" class="form-control dateinput" id="input-dob" 
+      placeholder="yyyy-mm-dd" name="dob" required>
+  </div>
+</div>
+
+<fieldset class="form-row row">
+  <div class="form-group col-md-4">
+    <legend class="col-form-label">Marital Status</legend>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input type="radio" id="marital-radio-1" name="marital_status" 
+          class="form-check-input" value="married" required>
+        <label class="custom-control-label" for="marital-radio-1">Married</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" id="marital-radio-2" name="marital_status" 
+          class="form-check-input" value="single">
+        <label class="custom-control-label" for="marital-radio-2">Single</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" id="marital-radio-3" name="marital_status" 
+          class="form-check-input" value="widow">
+        <label class="custom-control-label" for="marital-radio-3">Widow</label>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<h2 id="home-address-h2">Home Address</h2>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-address-1">Address 1</label>
+    <input type="text" class="form-control" id="input-address-1" 
+      placeholder="1234 Main St" name="line_1" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-address-2">Address 2</label>
+    <input type="text" class="form-control" id="input-address-2" 
+      placeholder="Apartment, studio, or floor" name="line_2">
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-3">
+    <label for="input-city">City</label>
+    <input type="text" class="form-control" id="input-city" 
+      name="city" required>
+  </div>
+  <div class="form-group col-md-1">
+    <label for="input-state">State</label>
+    <input type="text" class="form-control" id="input-state" 
+      name="state" required>
+  </div>
+  <div class="form-group col-md-2">
+    <label for="input-zip">Zip</label>
+    <input type="text" class="form-control" id="input-zip" 
+      name="zip" required>
+  </div>
+</div>
+
+<h2 id="contact-info-h2">Emergency Contact Information</h2>
+
+<div class="form-row row">
+  <div class="form-group col-md-4">
+    <label for="input-emergency-name">Emergency Contact name</label>
+    <input type="text" class="form-control" id="input-emergency-name"
+      name="contact_name" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-4">
+    <label for="input-emergency-relationship">Emergency Contact Relationship</label>
+    <input type="text" class="form-control" id="input-emergency-relationship"
+      name="contact_relationship" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-4">
+    <label for="input-emergency-phone">Emergency Contact Phone</label>
+    <input type="text" class="form-control" id="input-emergency-phone"
+      name="contact_phone" required>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-4">
+    <label for="input-emergency-email">Emergency Contact Email</label>
+    <input type="email" class="form-control" id="input-emergency-email"
+      name="contact_email">
+  </div>
+</div>
+
+<h2 id="question-h2">Questionaire</h2>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-symptoms">Are There Any Health Issues We Should Be Aware Of?</label>
+    <input type="text" class="form-control" id="input-symptoms" 
+      name="health_issues">
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-others-text">Name / Age / Relationship of Others Living in Your Home</label>
+    <textarea class="form-control" id="input-others-text" rows="5" 
+      name="home_occupants"></textarea>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-help-text">Help Requested</label>
+    <textarea class="form-control" id="input-help-text" rows="5" 
+      name="help_request" required></textarea>
+  </div>
+</div>
+
+<div class="form-row row">
+  <div class="form-group col-md-6">
+    <label for="input-hear">How Did You Hear About Catalyst Care Network?</label>
+    <input type="text" class="form-control" id="input-hear" 
+      name="refer_text">
+  </div>
+</div>

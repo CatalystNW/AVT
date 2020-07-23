@@ -47,6 +47,14 @@ ObjectId = Schema.ObjectId;
 
 var DocumentPackageSchema = new Schema({
     status:         String,
+    care_network_transfer: {
+        type: mongoose.ObjectId, // Will default to null if not transferred
+        ref: "CareApplicant",
+    },
+    care_network_transferred: {
+        type: Boolean,
+        default: false,
+    },
 	level : {type: Number, default: 1},
     created:        { type: Date, default: Date.now},
     updated:        { type: Date, default: Date.now},

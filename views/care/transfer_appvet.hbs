@@ -1,0 +1,105 @@
+<form method="GET" id="search-form">
+  <div class="form-group row">
+    <label for="searchSelect" class="col-sm-1 col-form-label">Search</label>
+    <div class="col-sm-4 col-md-2">
+      <select class="form-control" id="searchSelect" name="search_option">
+        <option value="reference">Reference #</option>
+        <option value="first_name">First Name</option>
+        <option value="preferred_name">Preferred Name</option>
+        <option value="last_name">Last Name</option>
+        <option value="app_date_range">Application Date Range</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row" id="dates-input-row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4 col-md-3 col-lg-2">
+      <label for="startDateInput">Start Date</label>
+      <input type="text" class="form-control dateinput" id="startDateInput" 
+        placeholder="yyyy-mm-dd" name="start_date">
+    </div>
+    <div class="col-sm-4 col-md-3 col-lg-2">
+      <label for="endDateInput">End Date</label>
+      <input type="text" class="form-control dateinput" id="endDateInput" 
+        placeholder="yyyy-mm-dd" name="end_date">
+    </div>
+  </div>
+  <div class="form-group row" id="text-input-row">
+    <div class="col-sm-1"></div>
+    <div class="col-md-3 col-lg-2">
+      <input type="text" class="form-control" id="search_input"  name="search_value">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-2">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+
+<div class="card">
+  <div class="card-header">
+    <button type="button" class="transfer-btn btn btn-primary">
+        Transfer</button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="form-check-input" id="header-check">
+            </div>
+          </th>
+          <th scope="col" class="">Name</th>
+          <th scope="col" class="">Last Edit Date</th>
+          <th scope="col" class="">Status</th>
+          <th scope="col" class="">Application Date</th>
+          <th scope="col" class="">Reference #</th>
+        </tr>
+      </thead>
+      <tbody id="app-row-container">
+        {{#each applicants}}
+        {{#if this.care_network_transferred}}
+        <tr class="table-active">
+        {{else}}
+        <tr>
+        {{/if}}
+          <td>
+            {{#if this.care_network_transferred}}
+            ✔️
+            {{else}}
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="form-check-input" value="{{this._id}}">
+            </div>
+            {{/if}}
+          </td>
+          <td class=""><a href="/view/{{this._id}}" target="_blank">
+            <a href="/view/{{this._id}}" target="_blank">
+              {{this.application.name.first}} {{this.application.name.middle}} {{this.application.name.last}}
+            </a>
+          </td>
+          <td class="">{{this.updated}}</td>
+          <td class="">{{this.status}}</td>
+          <td class="">{{this.created}}</td>
+          <td class="">{{this.app_name}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascript/care/transfer_appvet.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<script>
+  $('.dateinput').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+</script>
