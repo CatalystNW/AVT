@@ -13,6 +13,15 @@ db.createUser({ user: '$DB_USERNAME', pwd: '$DB_PASSWORD', roles: [{role:'userAd
 exit
 EOF
 
-node ./script/createAdminUser &
+case "$AVT_CREATE_NEW_USER" in
+    [yY][eE][sS]|[yY])
+        node ./script/createAdminUser &
+        sleep 3
+        ;;
+    *)
+          echo -e "AVT | SKIPPING CREATING AVT ADMIN USER: ENV VAR 'AVT_CREATE_NEW_USER' is not set to 'yes'"
+          echo -e "AVT | If you need to do this at a future time, you can run 'node /script/createAdminUser' manually."
+        ;;
+esac
 
-sleep 3
+sleep 1

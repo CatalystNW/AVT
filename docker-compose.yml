@@ -1,6 +1,5 @@
 version: "3.7"
 volumes:
-  data_mongodb:
   data_logs:
 
 services:
@@ -13,6 +12,7 @@ services:
         AVT_GIT_BRANCH: ${AVT_GIT_BRANCH}
         AVT_RESTORE_FROM_BACKUP: ${AVT_RESTORE_FROM_BACKUP}
         AVT_RESTORE_FROM_BACKUP_FOLDER: ${AVT_RESTORE_FROM_BACKUP_FOLDER}
+        AVT_CREATE_NEW_USER: ${AVT_CREATE_NEW_USER}
         AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
         AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
         AWS_S3_RESTORE_BUCKET: ${AWS_S3_RESTORE_BUCKET}
@@ -33,8 +33,7 @@ services:
     #   - .env
     container_name: avt
     ports:
-      - "8000:8000"
-      - "27017:27017"  # DISABLE IN PRODUCTION (This is for connecting to mongodb for development)
+      - 8000:8000
+      - 27017:27017
     volumes:
-      - data_mongodb:/usr/src/db
       - data_logs:/usr/src/logs

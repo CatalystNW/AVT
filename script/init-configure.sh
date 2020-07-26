@@ -1,6 +1,6 @@
 #! /bin/bash
 # This script can be run as following:
-#   export AVT_GIT_BRANCH=develop && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
+#   export AVT_GIT_BRANCH=develop && export AVT_AUTO_S3=no && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 
 cd "$(dirname "$0")/.."
 
@@ -14,7 +14,7 @@ echo -e "$SETUP: Running in $(pwd)"
 # Ask env vars - including branch and set it in env and source it
 
 if [ -f ".env" ]; then
-    echo -e "\nAVT | Reading configuration from .env!"
+    echo -e "\nAVT | .env file already exists!! Reading configuration from .env!"
 else
     echo -e "$SETUP: Let's set up the environment configuration..."
     echo -e "$SETUP: Soon: Press [a] to edit. When done, save the file to continue by typing [ESC] :wq!"

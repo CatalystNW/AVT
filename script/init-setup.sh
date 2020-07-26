@@ -1,6 +1,6 @@
 #! /bin/bash
 # This script can be run as following:
-#   export AVT_GIT_BRANCH=develop && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
+#   export AVT_GIT_BRANCH=develop && export AVT_AUTO_S3=no && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 
 cd "$(dirname "$0")/.."
 CONTINUE=$1
@@ -25,6 +25,7 @@ echo -e "\tAWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
 echo -e "\tAVT_GIT_BRANCH: $AVT_GIT_BRANCH"
 echo -e "\tAVT_RESTORE_FROM_BACKUP: $AVT_RESTORE_FROM_BACKUP"
 echo -e "\tAVT_RESTORE_FROM_BACKUP_FOLDER: $AVT_RESTORE_FROM_BACKUP_FOLDER"
+echo -e "\tAVT_CREATE_NEW_USER: $AVT_CREATE_NEW_USER"
 echo -e "\tAVT_SERVER_PORT: $AVT_SERVER_PORT"
 echo -e "\tCATALYST_USER_EMAIL: $CATALYST_USER_EMAIL"
 echo -e "\tCATALYST_USER_PASSWORD: $CATALYST_USER_PASSWORD"
