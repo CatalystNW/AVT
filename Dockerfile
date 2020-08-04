@@ -33,7 +33,6 @@ COPY . .
 ARG AVT_ENVIRONMENT=${AVT_ENVIRONMENT}
 ARG AVT_RESTORE_FROM_BACKUP=${AVT_RESTORE_FROM_BACKUP}
 ARG AVT_RESTORE_FROM_BACKUP_FOLDER=${AVT_RESTORE_FROM_BACKUP_FOLDER}
-ARG AVT_CREATE_NEW_USER=${AVT_CREATE_NEW_USER}
 ARG AVT_GIT_BRANCH=${AVT_GIT_BRANCH}
 ARG AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ARG AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -53,7 +52,10 @@ ARG DB_NAME=${DB_NAME}
 ARG AVT_SERVER_PORT=${AVT_SERVER_PORT}
 
 # RUN ls
-RUN ./script/start-mongod.sh && ./script/createServiceUsers.sh && ./script/stop-mongod.sh; sleep 3; exit 0
+RUN ./script/start-mongod.sh \
+ && ./script/createServiceUsers.sh \
+ && node ./script/createAdminUser.js -f Catalyst -l User -e catalyst@admin.com -p password \
+ && ./script/stop-mongod.sh; sleep 3; exit 0
 
 # RUN ./script/start-mongod.sh && ./script/db-restore.sh -yes ./script/stop-mongod.sh
 

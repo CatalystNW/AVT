@@ -1,6 +1,4 @@
 #! /bin/bash
-# This script can be run as following:
-#   export AVT_GIT_BRANCH=develop && export AVT_AUTO_S3=no && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 
 cd "$(dirname "$0")/.."
 CONTINUE=$1
@@ -25,7 +23,6 @@ echo -e "\tAWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
 echo -e "\tAVT_GIT_BRANCH: $AVT_GIT_BRANCH"
 echo -e "\tAVT_RESTORE_FROM_BACKUP: $AVT_RESTORE_FROM_BACKUP"
 echo -e "\tAVT_RESTORE_FROM_BACKUP_FOLDER: $AVT_RESTORE_FROM_BACKUP_FOLDER"
-echo -e "\tAVT_CREATE_NEW_USER: $AVT_CREATE_NEW_USER"
 echo -e "\tAVT_SERVER_PORT: $AVT_SERVER_PORT"
 echo -e "\tCATALYST_USER_EMAIL: $CATALYST_USER_EMAIL"
 echo -e "\tCATALYST_USER_PASSWORD: $CATALYST_USER_PASSWORD"
@@ -81,9 +78,21 @@ echo -e "$SETUP: Finalizing: Creating DB and AVT Service Users"
 
 echo -e "$SETUP: Finalizing: Setting up Automated Backups [using crontab] to S3"
 ./script/init-crontab.sh
-
 echo -e "AVT | DONE: Cron Job Set Successfully"
-echo -e "$SETUP: DONE: Configuration Complete!"
+
+echo -e "$SETUP: [OPTIONAL] Do you want to create a new Catalyst admin user?"
+read -r -p "Are you sure? [y/N] " newcatuser
+case "$newcatuser" in
+    [yY][eE][sS]|[yY])
+        ./script/createAdminUser.sh
+        ;;
+    *)
+        echo -e "$SETUP: Cancelled by user, exiting. Run NPM START manually when ready."
+        ;;
+esac
+
+
+echo -e "$SETUP: Configuration Complete!"
 echo -e "AVT | Do you want to start the web-application tool?\n"
 
 

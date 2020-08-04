@@ -58,7 +58,7 @@ This should shut off any windows instances of mongoDB. We should be good to go!
 ### Get the installation started:
 From the linux command line, run:
 ```
-export AVT_GIT_BRANCH=develop-osu && export AVT_AUTO_S3=no && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
+export AVT_GIT_BRANCH=develop && export AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 ```
 The above line finds the installation script (init-curl.sh) from the develop branch of our gitHub repo, and executes it locally.  Enjoy the log files as they wander down your linux console.  **This process will take a few minutes.**  During this process, you may encounter firewall issues.  If they come from Ubuntu, you should be safe.
 
@@ -77,7 +77,6 @@ AWS_DEFAULT_REGION=
 AVT_GIT_BRANCH=develop
 AVT_RESTORE_FROM_BACKUP=no
 AVT_RESTORE_FROM_BACKUP_FOLDER=
-AVT_CREATE_NEW_USER=yes <*** Set to no if restoring from a backup to which you have an admin user and password existing ***>
 AVT_SERVER_PORT=8000 <*** You can change this, but remember when running in browser ***>
 CATALYST_USER_EMAIL=<***MAKE UP YOUR OWN, but REMEMBER IT SOMEHOW***>
 CATALYST_USER_PASSWORD=<***AGAIN, MAKE IT UP AND RECORD IT SOMEWHERE***>
