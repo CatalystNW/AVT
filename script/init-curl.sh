@@ -1,6 +1,7 @@
 #! /bin/bash -i
 # This script can be run as following:
-#   export AVT_GIT_BRANCH=aws-config && export AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo -E bash -
+#   Login as root user: `sudo su - root`
+#   Run: export AVT_GIT_BRANCH=aws-config && export AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test && bash <(curl -s https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh)
 
 set -e
 CONTINUE=$1
