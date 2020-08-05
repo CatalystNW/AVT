@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -i
 # This script can be run as following:
 #   export AVT_GIT_BRANCH=aws-config && export AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo -E bash -
 
@@ -30,7 +30,7 @@ case "$CONTINUE" in
         ;;
     *)
           echo "Do you want to run 'aws configure'?"
-          read -r -p "Please enter your answer [y/N]: " response < /dev/tty
+          read -r -p "Please enter your answer [y/N]: " response
           case "$response" in
               [yY][eE][sS]|[yY]) 
                   aws configure
