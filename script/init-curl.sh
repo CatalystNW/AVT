@@ -2,7 +2,7 @@
 # This script can be run as following:
 #   export AVT_GIT_BRANCH=develop && export AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test && curl https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh | sudo bash -
 
-set -e
+set -x
 CONTINUE=$1
 
 TITLE="\e[96mCatalyst AppVetting Tool v0.2.0\e[0m"
@@ -37,7 +37,6 @@ case "$CONTINUE" in
                   ;;
               *)
                   echo -e "AVT | Not running 'aws configure'. Make sure S3 access is provided by AWS AMI or manually via environment variables if you want to use S3."
-                  exit 1
                   ;;
           esac
         ;;
