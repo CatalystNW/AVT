@@ -13,14 +13,14 @@ else
         echo -e "$SETUP: NOT FETCHING ENV CONFIG FROM S3. You will be manually setting the .env file later."
         ;;
     *)
-          if [ -f "../.env" ]; then
+          if [ -f ".env" ]; then
             echo -e "$SETUP: ERROR - A previous .env already exists. Please remove/rename existing env file.\nYou can retry this by running 'sudo AVT_AUTO_S3=<s3-path-to-env-file> ./script/auto-s3.sh' at a later time..."
 
           fi
 
           echo -e "$SETUP: GRABBING .env file from SPECIFIED S3 PATH: $AVT_AUTO_S3"
-          aws s3 cp s3://$AVT_AUTO_S3 ../.env
-          [ -f "../.env" ] || echo -e "$SETUP: ERROR - COULD NOT RETRIEVE .ENV FILE FROM S3 BUCKET.\nYou can retry this by running 'sudo AVT_AUTO_S3=<s3-path-to-env-file> ./script/auto-s3.sh' at a later time..."
+          aws s3 cp s3://$AVT_AUTO_S3 ./.env
+          [ -f ".env" ] || echo -e "$SETUP: ERROR - COULD NOT RETRIEVE .ENV FILE FROM S3 BUCKET.\nYou can retry this by running 'sudo AVT_AUTO_S3=<s3-path-to-env-file> ./script/auto-s3.sh' at a later time..."
         ;;
     esac
     sleep 1
