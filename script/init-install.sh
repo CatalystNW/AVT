@@ -11,11 +11,11 @@ echo -e "$SETUP: Running in $(pwd)"
 # Create folders under /usr/src
 echo -e "$SETUP: Making initial app directories under $(pwd)"
 echo -e "$SETUP: Creating 'db' folder"
-[ -d db ] || mkdir db
+[ -d db ] || mkdir db; chown -R ubuntu:ubuntu db
 echo -e "$SETUP: Creating 'db_backups' folder"
-[ -d db_backups ] || mkdir db_backups
+[ -d db_backups ] || mkdir db_backups; chown -R ubuntu:ubuntu db_backups
 echo -e "$SETUP: Creating 'logs' folder"
-[ -d logs ] || mkdir logs
+[ -d logs ] || mkdir logs; chown -R ubuntu:ubuntu logs
 
 echo -e "$SETUP: Updating Ubuntu OS 18.04 Packages..."
 apt-get update
