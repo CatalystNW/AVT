@@ -4,7 +4,7 @@ set -e
 TITLE="\e[96mInstall Script for Catalyst AppVetting Tool by Rohin Adalja\e[0m"
 SETUP="\n\e[93mINSTALL\e[0m"
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 echo -e "\n$TITLE"
 echo -e "$SETUP: Running in $(pwd)"
 
@@ -16,10 +16,6 @@ echo -e "$SETUP: Creating 'db_backups' folder"
 [ -d db_backups ] || mkdir db_backups
 echo -e "$SETUP: Creating 'logs' folder"
 [ -d logs ] || mkdir logs
-
-chown -R ubuntu:ubuntu db
-chown -R ubuntu:ubuntu db_backups
-chown -R ubuntu:ubuntu logs
 
 echo -e "$SETUP: Updating Ubuntu OS 18.04 Packages..."
 apt-get update

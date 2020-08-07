@@ -57,7 +57,7 @@ This should shut off any windows instances of mongoDB. We should be good to go!
 ## Installing the Catalyst Software
 ### Get the installation started:
 ```
-sudo AVT_GIT_BRANCH=aws-config AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test   bash -E -c "$(wget -O - https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/aws-config/script/init-curl.sh)"
+sudo AVT_GIT_BRANCH=aws-config AVT_AUTO_S3=catalyst-db-dev/env_files/.env-test bash -E -c "$(wget -O - https://raw.githubusercontent.com/dandahle/Catalyst-AppVetting/${AVT_GIT_BRANCH}/script/init-curl.sh)"
 ```
 The above line finds the installation script (init-curl.sh) from the develop branch of our gitHub repo, and executes it locally.  Enjoy the log files as they wander down your linux console.  **This process will take a few minutes.**  During this process, you may encounter firewall issues.  If they come from Ubuntu, you should be safe.
 
