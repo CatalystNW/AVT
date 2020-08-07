@@ -9,12 +9,12 @@ SETUP="\n\e[93mAVT || createAdminUser.sh:\e[0m"
 # source .env
 # set +a
 echo -e "$SETUP Please enter the following information for Catalyst Admin user creation:"
-read -r -p "Enter the first name: " create_first
+read -r -p "Enter the first name:" create_first
 read -r -p "Enter the last name: " create_last
-read -r -p "Enter the email: " create_email
-read -r -p "Enter the password: " create_password
+read -r -p "Enter the email [must contain '@']: " create_email
+read -r -p "Enter the password:  " create_password
 
-echo -e "We will be creating the following new user:"
+echo -e "\nWe will be creating the following new user:"
 echo -e "First name: $create_first"
 echo -e "Last name: $create_last"
 echo -e "Email [must contain '@']: $create_email"
