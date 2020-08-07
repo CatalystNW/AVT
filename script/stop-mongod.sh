@@ -5,8 +5,12 @@ cd "$(dirname "$0")/.."
 # if [ -x "$(command -v systemctl)" ]; then
 #   systemctl stop mongod
 # else
-  pkill -2 mongod
-  pkill mongod
+if [ -x "$(command -v sudo)" ]; then
+  SUDO_CMD=sudo
+fi
+
+$SUDO_CMD pkill -2 mongod
+$SUDO_CMD pkill mongod
 # fi
 
 sleep 1
