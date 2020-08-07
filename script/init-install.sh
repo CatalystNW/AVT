@@ -8,7 +8,7 @@ cd "$(dirname "$0")/../.."
 echo -e "\n$TITLE"
 echo -e "$SETUP: Running in $(pwd)"
 
-# Create folders under /usr/src
+# Create folders
 echo -e "$SETUP: Making initial app directories under $(pwd)"
 echo -e "$SETUP: Creating 'db' folder"
 [ -d db ] || mkdir db

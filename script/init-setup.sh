@@ -87,22 +87,21 @@ case "$newcatuser" in
         ./script/createAdminUser.sh
         ;;
     *)
-        echo -e "$SETUP: Cancelled by user, exiting. Run NPM START manually when ready."
+        echo -e "$SETUP: Skipping... Run './script/createAdminUser.sh' manually in the future to create one."
         ;;
 esac
 
 
 echo -e "$SETUP: Configuration Complete!"
-echo -e "AVT | Do you want to start the web-application tool?\n"
-
+echo -e "AVT | Let's finish by starting the web-application tool (node.js)..."
 
 read -r -p "Are you sure? [y/N] " startup
 case "$startup" in
     [yY][eE][sS]|[yY])
-        echo -e "AVT | Starting Node.js..."
+        echo -e "\nAVT | Starting Node.js..."
         ;;
     *)
-        echo -e "$SETUP: Cancelled by user, exiting. Run NPM START manually when ready."
+        echo -e "\n$SETUP: Not starting Node.js. Run 'npm start' manually when ready."
         exit 1
         ;;
 esac

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "$0")/.."
+AVT_PARENT_DIR=/usr/src
 
 set -a
 source .env
@@ -8,8 +9,8 @@ set +a
 
 CONTINUE=$1
 DB_BACKUP_FOLDER=db_backups
-DB_BACKUPS_DIR=/usr/src/$DB_BACKUP_FOLDER
-SETUP="\n\e[93mAVT || DB-RESTORE Script:\e[0m"
+DB_BACKUPS_DIR=$AVT_PARENT_DIR/$DB_BACKUP_FOLDER
+SETUP="\e[93mAVT || DB-RESTORE Script:\e[0m"
 YEAR=$(date +\%Y)
 
 case "$AVT_RESTORE_FROM_BACKUP" in
@@ -17,7 +18,7 @@ case "$AVT_RESTORE_FROM_BACKUP" in
         echo -e "\n"
         ;;
     *)
-          echo -e "$SETUP SKIPPING RESTORE: ENV VAR 'RESTORE_FROM_BACKUP' is not set to 'yes'"
+          echo -e "\n$SETUP SKIPPING RESTORE: ENV VAR 'RESTORE_FROM_BACKUP' is not set to 'yes'"
           exit 0
         ;;
 esac
@@ -34,7 +35,7 @@ if [ -z "$FOLDER" ]; then
     exit 1
 fi
 
-echo -e "$SETUP Your S3 BUCKET NAME is $AWS_S3_RESTORE_BUCKET"
+echo -e "\n$SETUP Your S3 BUCKET NAME is $AWS_S3_RESTORE_BUCKET"
 echo -e "$SETUP Restoring from: s3://$AWS_S3_RESTORE_BUCKET/$DB_BACKUP_FOLDER/$FOLDER"
 echo -e "$SETUP Restoring to: $DB_BACKUPS_DIR/restore-$FOLDER\n"
 
@@ -50,7 +51,7 @@ case "$CONTINUE" in
                   echo -e "\n$SETUP Starting Restore..."
                   ;;
               *)
-                  echo -e "$SETUP Skipping... (In the future, you can run ./script/db-restore.sh to restore later on)"
+                  echo -e "\n$SETUP Skipping... (In the future, you can run ./script/db-restore.sh to restore later on)"
                   exit 0
                   ;;
           esac
