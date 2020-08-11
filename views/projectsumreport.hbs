@@ -89,6 +89,23 @@ function exportUpcoming() {
 </script>
 <script>
 
+function validDateCheck(dateArray){
+    for(const element of dateArray){
+        if(element && isNaN(Date.parse(element))){
+            return false;
+        }
+    }
+    return true;
+}
+$(function(){
+    $('#exportUpcomingBtn').click(function(){
+        if(!$('#iframe').length) {
+                $('#iframeHolder').html('<iframe id="iframe" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
+				$('#exportUpcomingBtn').hide();
+        }
+    });   
+});
+
 $(document).ready(function(){ 
     //AJAX handlers for search function
   $("#exportButton").click(function(){
@@ -130,6 +147,10 @@ $(document).ready(function(){
       queryList.push("numberVol_range=" + numberVol_range)
       queryList.push("leader_and_or=" + leader_andor)
       $('#tableContent').empty();
+      if(!validDateCheck([appFromDate, appToDate, 
+            projStartFromDate, projStartToDate, projEndFromDate, projEndToDate])){
+          return;
+      }
       let queryString = "?" + queryList.join("&")
       //Send AJAX request
     $.ajax({
@@ -183,6 +204,9 @@ $(document).ready(function(){
       $('#assocPartnerTable').empty();
       $('#total_cost').empty()
       $('#total_volunteers').empty()
+       if(!validDateCheck([appFromDateSum, appEndDateSum, projFromDateSum, projToDateSum])){
+          return;
+      }
       //submit query to end report endpoint
       $.ajax({
           url: "/projectreport/endReport" + queryString,
@@ -240,7 +264,7 @@ $(document).ready(function(){
         margin-bottom: 1rem;
     }
 </style>
-
+<div id="iframeHolder"></div>
 <!--Use Header Partial Here-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
@@ -260,14 +284,14 @@ $(document).ready(function(){
             </br>
             <h5>Application Submit Date</h5>
             <label>From</label>
-            <input type="date" id="appFromSum">
+            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
             <label>To</label>
-            <input type="date" id="appToSum">
+            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
             <h5>Project Start Date</h5>
             <label>From</label>
-            <input type="date" id="projStartFromSum">
+            <input type="date" placeholder="MM/DD/YYYY" id="projStartFromSum">
             <label>To</label>
-            <input type="date" id="projStartToSum">
+            <input type="date" placeholder="MM/DD/YYYY" id="projStartToSum">
             </br>
             <span>Generate with an application or project start date range </span>
             <button id="EndSubmit">Submit</button>
@@ -343,24 +367,24 @@ $(document).ready(function(){
         <label for="cost2">greater than</label>
         <h5>Application Date</h5>
         <label>From</label>
-        <input type="date" id="appFrom">
+        <input type="date" placeholder="MM/DD/YYYY" id="appFrom">
         <label>To</label>
-        <input type="date" id="appTo">
+        <input type="date" placeholder="MM/DD/YYYY" id="appTo">
         <h5>Project Date</h5>
         <p>Begin:</p>
         <label>From</label>
-        <input type="date" id="projStartFrom">
+        <input type="date" placeholder="MM/DD/YYYY" id="projStartFrom">
         <label>To</label>
-        <input type="date" id="projStartTo">
+        <input type="date" placeholder="MM/DD/YYYY" id="projStartTo">
         </br><p>End:</p>
         <label>From</label>
-        <input type="date" id="projEndFrom">
+        <input type="date" placeholder="MM/DD/YYYY" id="projEndFrom">
         <label>To</label>
-        <input type="date" id="projEndTo">
+        <input type="date" placeholder="MM/DD/YYYY" id="projEndTo">
         </br>
         <span>Search by any combination of the above fields</sanp>
-        <button id="exportButton">Search</button>
-        <div></div>
+        {{!--<button id="exportButton">Search</button>--}}
+        <button type="submit" id="exportButton">Search</button>
         <table class="table" id="searchHidden" style="display:none">
             <thead>
                 <tr>
@@ -391,17 +415,21 @@ $(document).ready(function(){
                     <h5 class="mb-0">
                             Upcoming Projects
                     </h5>
-                    <button class="btn btn-info" id="exportPDFBtn" onclick="exportUpcoming()">Print</button>
+                     <button class="btn btn-info" id="exportUpcomingBtn">Export</button>
         </div>
             <div class="card-block">
             <table class="table table-sm table-bordered">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>Location</th>
                         <th>Work Items</th>
                         <th>Home Type</th>
-                        <th>Location</th>
+                        <th>CC</th>
+                        <th>PA</th>
+                        <th>SH</th>
+                        <th>Partners</th>
                         <th>Volunteers</th>
                         <th>Cost</th>
                     </tr>
@@ -409,23 +437,45 @@ $(document).ready(function(){
             {{#each payload}}
                 {{#each this}}
                 <tr>
-                    <td>{{application.name.first}} {{application.name.last}}</td>
-                    <td>{{status}}</td>
+                    
                     <td>
-                    {{#if workItemDoc includeZero=true}}
-                        <p>{{#each workItemDoc}}<p>{{plus_one @index}}) {{name}} ({{description}}){{#unless @last}}, {{/unless}}</p>{{/each}}</p>
-                    {{else}}
-                        <p>No current work items</p>
-                    {{/if}}
+                    {{#if project}}
+                            <a href="/projectview/{{_id}}">{{application.name.first}} {{application.name.last}}</a>
+                        {{else}}
+                            <a href="/view/{{_id}}">{{application.name.first}} {{application.name.last}}</a>
+                        {{/if}}
                     </td>
-                    <td>{{property.home_type}}</td>
+                    <td>
+                        {{#if project.project_start}}
+                            <p>{{dateToLocaleDate project.project_start}}</p>
+                        {{else}}
+                            <p>None specified</p>
+                        {{/if}}
+                    </td>
                     <td>{{application.address.city}}</td>
+                     <td>
+                        {{#if workItemDoc includeZero=true}}
+                            <p>{{#each workItemDoc}}<p>{{plus_one @index}}) {{name}}{{#unless @last}} {{/unless}}</p>{{/each}}</p>
+                        {{else}}
+                            <p>No current work items</p>
+                        {{/if}}
+                    </td>
+                    <td>{{fillFields property.home_type}}</td>
+                    <td>{{fillFields project.crew_chief}}</td>
+                    <td>{{fillFields project.project_advocate}}</td>
+                    <td>{{fillFields project.site_host}}</td>
+                    <td>
+                        {{#each partners}}
+                            {{this.org_name}}
+                            {{#unless @last}},{{/unless}}
+                        {{/each}}
+                    </td>
                     {{#if assessmentDoc includeZero=true}}
-                    <td>{{assessmentDoc.0.estimates.volunteers_needed}}</td>
-                    <td>${{assessmentDoc.0.estimates.total_cost}}</td>
+                    <td>{{fillFields assessmentDoc.0.estimates.volunteers_needed}}</td>
+                    <td>${{fillFields assessmentDoc.0.estimates.total_cost}}</td>
                     {{else}}
-                    <td>None specified </td>
-                    <td>None specified</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
                     {{/if}}
                 </tr>
                 {{/each}}

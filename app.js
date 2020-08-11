@@ -33,7 +33,7 @@ initPassport(passport);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 var routes = require('./routes/index')(passport);
 var report = require('./routes/report')(passport);
-var test = require('./routes/test');
+//var test = require('./routes/test');
 var view = require('./routes/view')(passport);
 var edit = require('./routes/edit')(passport);
 var tasks = require('./routes/tasks.js')(passport);
@@ -134,6 +134,14 @@ hbs.registerHelper('escape', function(variable) {
     return new hbs.handlebars.SafeString(variable.toString().replace(/(['"\n\r])/g, '\\$1'));
   } else return '';
   
+});
+
+hbs.registerHelper('add_d_quote', function(variable) {
+    if (variable) {
+
+      return new hbs.handlebars.SafeString(variable.toString().replace(/(["])/g, '""'));
+    } else return '';
+
 });
 
 hbs.registerHelper('assetsValueAndName', function(assets) {
@@ -271,10 +279,20 @@ hbs.registerHelper('dateToLocaleDate', function (date) {
       if (day.length !== 2) {
         day = '0' + day;
       }
-      return d.getFullYear() + '-' + month + '-' + day
+      return month + '/' + day + '/' + d.getFullYear()
   }
 
 });
+
+hbs.registerHelper('fillFields', function(field){
+    if(field){
+        return field
+    }
+    else{
+        return 'N/A'
+    }
+})
+
 hbs.registerHelper('getPlanTaskAssignments', function(plan, userId, apps, appid) {
   var assigned = ProjectPlanPackage.getOnlyAssigned(plan, userId);
   var labels = [];

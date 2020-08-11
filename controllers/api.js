@@ -456,15 +456,23 @@ getDocumentPlanning: function (req, res, next) {
     getProjEndReport: function(req, res, next){
         let queryObject = {}
         let appDateObject = {}
-        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
-        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum)
+        if(req.query.appToSum) {
+            let date = new Date(req.query.appToSum)
+            date.setDate(date.getDate() + 1)
+            appDateObject["$lt"] = date
+        }
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
             queryObject["signature.client_date"] = appDateObject
         }
 
         let projStartObject = {}
-        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
-        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum)
+        if(req.query.projToSum){
+            let date = new Date(req.query.projToSum)
+            date.setDate(date.getDate() + 1)
+            projStartObject["$lt"] = date
+        }
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
@@ -549,21 +557,33 @@ getDocumentPlanning: function (req, res, next) {
             {"application.name.preferred": req.query.firstName}]
         if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
         let appDateObject = {}
-        if(req.query.appFromDate)appDateObject["$gte"] = new Date(req.query.appFromDate+"T00:00")
-        if(req.query.appToDate)appDateObject["$lte"] = new Date(req.query.appToDate+"T23:59")
+        if(req.query.appFromDate)appDateObject["$gte"] = new Date(req.query.appFromDate)
+        if(req.query.appToDate){
+                let date = new Date(req.query.appToDate)
+                date.setDate(date.getDate() + 1)
+                appDateObject["$lt"] = date
+        }
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
             queryObject["signature.client_date"] = appDateObject
         }
 
         let projStartObject = {}
-        if(req.query.projStartFrom) projStartObject["$gte"] = new Date(req.query.projStartFrom+"T00:00")
-        if(req.query.projStartTo) projStartObject["$lte"] = new Date(req.query.projStartTo+"T23:59")
+        if(req.query.projStartFrom) projStartObject["$gte"] = new Date(req.query.projStartFrom)
+        if(req.query.projStartTo) {
+            let date = new Date(req.query.projStartTo)
+            date.setDate(date.getDate() + 1)
+            projStartObject["$lt"] = date
+        }
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
         let projEndObject = {}
-        if(req.query.projEndFrom) projEndObject["$gte"] = new Date(req.query.projEndFrom+"T00:00")
-        if(req.query.projEndTo) projEndObject["$lte"] = new Date(req.query.projEndTo+"T23:59")
+        if(req.query.projEndFrom) projEndObject["$gte"] = new Date(req.query.projEndFrom)
+        if(req.query.projEndTo){
+            let date = new Date(req.query.projEndTo)
+            date.setDate(date.getDate() + 1)
+            projEndObject["$lt"] = date
+        }
         if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
             queryObject["project.project_end"] = projEndObject
         }
@@ -593,15 +613,23 @@ getDocumentPlanning: function (req, res, next) {
     getPartnerProjectCount: function(req, res, next){
         let queryObject = {}
         let appDateObject = {}
-        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum+"T00:00")
-        if(req.query.appToSum)appDateObject["$lte"] = new Date(req.query.appToSum+"T23:59")
+        if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum)
+        if(req.query.appToSum){
+            let date = new Date(req.query.appToSum)
+            date.setDate(date.getDate() + 1)
+            appDateObject["$lt"] = date
+        }
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
             queryObject["signature.client_date"] = appDateObject
         }
 
         let projStartObject = {}
-        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum+"T00:00")
-        if(req.query.projToSum) projStartObject["$lte"] = new Date(req.query.projToSum+"T23:59")
+        if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum)
+        if(req.query.projToSum){
+            let date = new Date(req.query.projToSum)
+            date.setDate(date.getDate() + 1)
+            projStartObject["$lt"] = date
+        }
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
@@ -627,36 +655,59 @@ getDocumentPlanning: function (req, res, next) {
 
     getUpcomingProjects: function(req, res, next){
         console.log("Getting upcoming projects from API")
-        Promise.props({
-            upComing: DocumentPackage.aggregate([
-                //match the documents that match the listed status
-                {$match : 
-                    {"$or" : [{"status": "approval"}, {"status": "waitlist"},
-                             {"status": "assessComp", "project.status": { $ne : "project"}},
-                            {"project.status": "project", "status": { $ne: "declined"}},
-                            {"project.status": "handle"}]
+        DocumentPackage.aggregate([
+            //match the documents that match the listed status
+            {$match :
+                {"$or" : [{"status": "approval"}, {"status": "waitlist"},
+                            {"status": "assessComp", "project.status": { $ne : "project"}},
+                        {"project.status": "project", "status": { $ne: "declined"}},
+                        {"project.status": "handle"}, {"project.status": "projectInProgress"}]
+                }
+            },
+            //join the assessment and workitem packages
+            {$lookup: {from: "assessmentpackages", localField: "_id",
+                        foreignField: "applicationId", as: "assessmentDoc"}},
+            {$lookup: {from: "workitempackages", localField: "_id",
+                        foreignField: "applicationId", as: "workItemDoc"}},
+            {$addFields:
+                {
+                    //If the start date is null, set as furthest date possible in results
+                    //for sorting purposes
+                    "startDate": {
+                        "$ifNull": ["$project.project_start", new Date(864000000000000)]
                     }
-                },
-                //join the assessment and workitem packages
-                {$lookup: {from: "assessmentpackages", localField: "_id",
-                            foreignField: "applicationId", as: "assessmentDoc"}},
-                {$lookup: {from: "workitempackages", localField: "_id",
-                            foreignField: "applicationId", as: "workItemDoc"}},
-                {$addFields: 
+                }
+            },
+            {$sort: {"startDate": 1} }
+        ])
+        .then((results) => {
+            res.locals.upComing = results
+            console.log(results)
+            //res.locals.upComing = results.upComing
+            let ids = results.map(a => a._id.toString())
+            return ProjectSummaryPackage.aggregate([
+                {$match : {"projectId": {"$in": ids}}},
+                { $addFields:
                     {
-                        //If the start date is null, set as furthest date possible in results 
-                        //for sorting purposes
-                        "startDate": {
-                            "$ifNull": ["$project.project_start", new Date(864000000000000)]
+                        "partnerIdsObjectId":
+                          { $map:
+                            {
+                                input: "$assocPartners",
+                                as: "ourPartners",
+                                in: { $toObjectId:"$$ourPartners" }
+                            }
                         }
                     }
                 },
-                {$sort: {"startDate": 1} }    
+                {$lookup: {from: "partnerpackages", localField: "partnerIdsObjectId",
+                foreignField: "_id", as: "partners"}}
             ]).execAsync()
         }).then((results) => {
-            res.locals.upComing = results.upComing
+            for(let i=0; i< res.locals.upComing.length; i++) {
+                res.locals.upComing[i].partners = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString())).partners
+            }
             next()
-        })    
+        })
     },
 
     /**

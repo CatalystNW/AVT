@@ -59,6 +59,19 @@ module.exports = function(passport){
         //Sending the result to the page
         res.send(payload)
     })
+
+    router.get('/upComingExport', api.getUpcomingProjects, function(req, res, next){
+        let myPayload = {};
+
+        myPayload.upComing = res.locals.upComing;
+        var context = {"payload": myPayload};
+        context.user = req.user._id;
+        context.user_email = res.locals.email;
+        context.user_role = res.locals.role;
+        context.user_roles = res.locals.user_roles;
+        res.render('upComingExport', context)
+    })
+    
     return router;
 };
 
