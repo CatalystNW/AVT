@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd /usr/src/Catalyst-AppVetting/
+cd "$(dirname "$0")/.."
 
 ./script/stop-all.sh
 sleep 1

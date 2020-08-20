@@ -10,17 +10,45 @@ createAdminUser: {
 
 */
 
-require('dotenv').config({ path: require('find-config')('.env') });
+// require('dotenv').config({ path: require('find-config')('.env') });
+const yargs = require('yargs');
+
+const argv = yargs
+  .options({
+    'first': {
+      alias: 'f',
+      describe: 'First name',
+      demandOption: true
+    },
+    'last': {
+      alias: 'l',
+      describe: 'Last name',
+      demandOption: true
+    },
+    'email': {
+      alias: 'e',
+      describe: 'Email',
+      demandOption: true
+    },
+    'password': {
+      alias: 'p',
+      describe: 'Password',
+      demandOption: true
+    }
+  })
+  .help()
+  .argv
+
 
 var createInitialUsers = require('../controllers/createInitialUsers');
 
 var adminUser = {
   "contact_info": {
-    "user_email": process.env.CATALYST_USER_EMAIL,
+    "user_email": argv.email,
     "user_name": {
-      "user_first": process.env.CATALYST_USER_FIRST_N || 'Catalyst',
+      "user_first": argv.first || 'Catalyst',
       "user_middle": "",
-      "user_last": process.env.CATALYST_USER_LAST_N || 'Admin',
+      "user_last": argv.last || 'User',
       "user_preferred": ""
     },
     "user_dob": {
@@ -39,8 +67,8 @@ var adminUser = {
       "uec_phone": "adsf"
     }
   },
-  "password": process.env.CATALYST_USER_PASSWORD,
-  "password-confirm": process.env.CATALYST_USER_PASSWORD,
+  "password": argv.password,
+  "password-confirm": argv.password,
   "user_status": "ACTIVE",
   "user_documents": {
     "ID_Date": "2020-01-01",

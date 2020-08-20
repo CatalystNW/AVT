@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd /usr/src/Catalyst-AppVetting/
+cd "$(dirname "$0")/.."
+AVT_PARENT_DIR=/usr/src
+
 set -a
 source .env
 set +a
@@ -8,7 +10,7 @@ set +a
 CONTINUE=$1
 DATE=$(date +\%Y-\%m-\%d:\%H:\%M:\%S)
 DB_BACKUP_FOLDER=db_backups
-DB_BACKUPS_DIR=/usr/src/$DB_BACKUP_FOLDER
+DB_BACKUPS_DIR=$AVT_PARENT_DIR/$DB_BACKUP_FOLDER
 DEST=$DB_BACKUPS_DIR/$DATE
 
 mkdir $DEST
