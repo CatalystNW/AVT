@@ -37,7 +37,8 @@
 </style>
 
 <!-- Begin navigation bar -->
-<nav id="navID"  class="navbar navbar-fixed-top navbar-dark bg-inverse" style="padding-top: 0; padding-bottom: 0">
+<nav id="navID"  class="navbar navbar-fixed-top navbar-dark bg-inverse d-print-none hidden-print" 
+  style="padding-top: 0; padding-bottom: 0">
     <a class="navbar-brand" href="/"><img src="../images/cBlock-nav.png" class="rounded-circle" width="30" height="30"></a>
 
     <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
@@ -68,6 +69,9 @@
             <li class="nav-item">
               <a class="nav-link" href="/projectsummary">Project Summary</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/projectreport">Reports</a>
+            </li>
             {{/if_in}}
 
             {{#if assign_tasks}}
@@ -81,6 +85,10 @@
                   <a class="nav-link" href="/user/userList">Users</a>
               </li>
             {{/if_in}}
+
+            <li class="nav-item">
+              <a class="nav-link" href="/carenetwork">Care Network</a>
+            </li>
 
 
            
@@ -139,7 +147,8 @@
    
   }
   //alert(window.location.pathname);
-  if (window.location.pathname.startsWith('/vettingworksheet/exportPDF/') || window.location.pathname.startsWith('/projectview/exportPDF/') ) {
+  if (window.location.pathname.startsWith('/vettingworksheet/exportPDF/') || window.location.pathname.startsWith('/projectview/exportPDF/') 
+    || window.location.pathname.startsWith('/projectreport/')) {
     //alert("startswith");
     $('#navID').css('paddingTop', '0px')
     $('body').css('paddingTop', '0px')

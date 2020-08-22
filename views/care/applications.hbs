@@ -1,0 +1,155 @@
+<div class="form-group">
+  <label for="yearSelect" id="yearSelectLabel" class="col-sm-3 col-form-label">Show By Application Year</label>
+  <select class="form-control" id="yearSelect"></select>
+</div>
+
+<div class="card">
+  <div class="card-header" value="never_contacted">Never Contacted</div>
+  <div class="card-body" id="never_contacted_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="never_contacted_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="appvet_transferred">AppVet Transferred</div>
+  <div class="card-body" id="appvet_transferred_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="appvet_transferred_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="to_be_contacted">To Be Contacted</div>
+  <div class="card-body" id="to_be_contacted_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="to_be_contacted_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="assigned_caller">Assigned to Caller</div>
+  <div class="card-body" id="assigned_caller_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="assigned_caller_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="help_requested">Help Requested</div>
+  <div class="card-body" id="help_requested_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="help_requested_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="contact_complete">Contact Complete</div>
+  <div class="card-body" id="contact_complete_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="contact_complete_container"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" value="do_not_contact">Do Not Contact</div>
+  <div class="card-body" id="do_not_contact_cardbody">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-2">Name</th>
+          <th scope="col" class="col-lg-2">Application Date</th>
+          <th scope="col" class="col-lg-2">Last Edit Date</th>
+          <th scope="col" class="col-lg-2">Reference #</th>
+          <th scope="col" class="col-lg-2"># Services</th>
+          <th scope="col" class="col-lg-2">Service Options</th>
+        </tr>
+      </thead>
+      <tbody class="apps_container" id="do_not_contact_container"></tbody>
+    </table>
+  </div>
+</div>
+
+{{> care_serviceform_modal}}
+
+{{> care_applicantform_modal}}
+
+<script type="text/javascript" src="/javascript/care/library/card_tabler.js"></script>
+<script type="text/javascript" src="/javascript/care/library/modalform_library.js"></script>
+<script type="text/javascript" src="/javascript/care/applications_page.js"></script>
+<link rel="stylesheet" href="/stylesheets/care/applications.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<script>
+  $('.dateinput').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+</script>

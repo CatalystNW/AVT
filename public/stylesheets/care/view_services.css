@@ -1,0 +1,9 @@
+.card-header {
+    cursor: pointer;
+}
+
+#appInfo-serviceFormContainer {
+    white-space: pre-wrap;
+    overflow: auto;
+    height: 400px;
+}

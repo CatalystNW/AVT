@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname "$0")/.."
+
 # Source the .env file
 set -a
 source .env
@@ -11,6 +13,4 @@ db.createUser({ user: '$DB_USERNAME', pwd: '$DB_PASSWORD', roles: [{role:'userAd
 exit
 EOF
 
-node ./script/createAdminUser &
-
-sleep 3
+sleep 2

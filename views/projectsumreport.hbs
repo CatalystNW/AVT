@@ -1,0 +1,490 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/pdfmake.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/vfs_fonts.js'></script>
+<script>
+function getCurrentDate() {
+    var date = new Date();
+    var Year = date.getFullYear();
+    var Day = ( "00" + date.getDate()).slice(-2);
+    var Mon = ("00" + (date.getMonth()+1)).slice(-2);
+    return Mon + "/" + Day + "/" + Year;
+}
+
+//Everything that follows is input for pdfmake to generate the pdf_file----------------------
+let pdfTitle = {
+    columns: [
+        {
+            text: "Catalyst Partnerships - This many projects to be prioritized and scheduled",
+            style: 'header',
+        },
+        {
+            text: getCurrentDate(),
+            style: 'header',
+            width: 70
+        }
+    ]
+}
+let pdfSubtitle = {
+    text: "Showing all projects in Upcoming, Site Assessment Complete, In Approval Process, or Waitlist\n",
+    style: 'subheader'
+}
+let contentArray = [pdfTitle, pdfSubtitle]
+let inputString
+let columnsArray = []
+let columnCounter = -1
+{{#each payload}}
+    {{#each this}}
+        columnCounter += 1
+        inputString = "{{escape application.name.first}} {{escape application.name.last}}:\n" +
+                    "Status: {{escape status}}\n"
+        {{#if workItemDoc includeZero=true}}
+            inputString += "Work Items:\n"
+            {{#each workItemDoc}}
+                inputString += {{plus_one @index}} + ") " + "{{escape name}} ({{escape description}})"
+                {{#unless @last}}
+                inputString += "\n" 
+                {{/unless}}
+            {{/each}}
+            inputString += "\n"
+        {{else}}
+            inputString += "No current work items\n"
+        {{/if}}
+        inputString += "House Type: {{escape property.home_type}}\n" +
+                    "Location: {{application.address.city}}\n" 
+        {{#if assessmentDoc includeZero=true}}
+            inputString += "Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}\n" + 
+                        "Cost: ${{assessmentDoc.0.estimates.total_cost}}\n\n"
+        {{else}}
+            inputString += "Volunteers: None specified\n" +
+                        "Cost: None specified\n\n"
+        {{/if}}
+        columnsArray.push({"text" : inputString})
+        if(columnCounter % 2 !== 0){
+            contentArray.push({"columns" : columnsArray})
+            columnsArray = []
+        }
+        inputString = ""
+    {{/each}}
+    {{#if @last}}
+        if(columnsArray.length){
+            contentArray.push({"columns" : columnsArray})
+            columnsArray = []
+        }
+    {{/if}}
+{{/each}}
+
+var content = {"content": contentArray, 
+               "styles" : {
+                    "header": {"bold":true},
+                    "subheader": {"italics":true}
+               },
+               "defaultStyle": {"columnGap": 10}
+              }
+function exportUpcoming() {
+    window.print();
+    {{!-- pdfMake.createPdf(content).open(); --}}
+}
+//End pdf generation------------------------------------------------------------------
+</script>
+<script>
+
+function validDateCheck(dateArray){
+    for(const element of dateArray){
+        if(element && isNaN(Date.parse(element))){
+            return false;
+        }
+    }
+    return true;
+}
+$(function(){
+    $('#exportUpcomingBtn').click(function(){
+        if(!$('#iframe').length) {
+                $('#iframeHolder').html('<iframe id="iframe" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
+				$('#exportUpcomingBtn').hide();
+        }
+    });   
+});
+
+$(document).ready(function(){ 
+    //AJAX handlers for search function
+  $("#exportButton").click(function(){
+      let queryList = []
+      let firstName = $("#FirstName").val();
+      if(firstName) queryList.push("firstName=" + firstName)
+      let lastName = $("#LastName").val();
+      if(lastName) queryList.push("lastName=" + lastName)
+      let city = $("#City").val();
+      if(city) queryList.push("city=" + city)
+      let zipcode = $("#ZipCode").val();
+      if(zipcode) queryList.push("zipcode=" + zipcode)
+      let site_host = $('#site_host').val();
+      if(site_host) queryList.push("site_host=" + site_host)
+      let crew_chief = $('#crew_chief').val();
+      if(crew_chief) queryList.push("crew_chief=" + crew_chief)
+      let project_advocate = $('#project_advocate').val();
+      if(project_advocate) queryList.push("project_advocate=" + project_advocate)
+      let numVol = $('#numVol').val();
+      if(numVol) queryList.push("numVol=" + numVol)
+      let totCost = $('#totCost').val();
+      if(totCost) queryList.push("totCost=" + totCost)
+      let appFromDate = $('#appFrom').val()
+      if(appFromDate) queryList.push("appFromDate=" + appFromDate)
+      let appToDate = $('#appTo').val()
+      if(appToDate) queryList.push("appToDate=" + appToDate)
+      let projStartFromDate = $('#projStartFrom').val()
+      if(projStartFromDate) queryList.push("projStartFrom=" + projStartFromDate)
+      let projStartToDate = $('#projStartTo').val()
+      if(projStartToDate) queryList.push("projStartTo=" + projStartToDate)
+      let projEndFromDate = $('#projEndFrom').val()
+      if(projEndFromDate) queryList.push("projEndFrom=" + projEndFromDate)
+      let projEndToDate = $('#projEndTo').val()
+      if(projEndToDate) queryList.push("projEndTo=" + projEndToDate)
+      let leader_andor = $(".and_or:checked").val()
+      let totCost_range = $(".totCost:checked").val()
+      let numberVol_range = $(".numberVol:checked").val()
+      queryList.push("totCost_range=" + totCost_range)
+      queryList.push("numberVol_range=" + numberVol_range)
+      queryList.push("leader_and_or=" + leader_andor)
+      $('#tableContent').empty();
+      if(!validDateCheck([appFromDate, appToDate, 
+            projStartFromDate, projStartToDate, projEndFromDate, projEndToDate])){
+          return;
+      }
+      let queryString = "?" + queryList.join("&")
+      //Send AJAX request
+    $.ajax({
+        url: "/projectreport/search" + queryString, 
+        type: 'GET',
+        success: function(data){
+            if(!data.length){
+                //If there is no response, 
+                let row = $("<tr></tr>")
+                let emptyResultsEle = $("<td></td>").text("No results for that search")
+                row.append(emptyResultsEle)
+                $("#tableContent").append(row)
+            }
+            data.forEach(element => {
+                let row = $("<tr></tr>")
+                let name = $("<td></td>")
+                let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
+                let projLink = $("<a></a>").attr("href", link)
+                projLink.text(element.application.name.first + " " + element.application.name.last)
+                name.append(projLink)
+                let status = $("<td></td>").text(element.status)      
+                let appName = $("<td></td>").text(element.app_name)
+                let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
+                row.append(name, loc, status, appName)
+                $("#tableContent").append(row)
+                $('#searchHidden').css("display", "block")
+            })
+        },
+        error: function(data) {
+            let row = $("<tr></tr>")
+            let emptyResultsEle = $("<td></td>").text("There was an error with your search")
+            row.append(emptyResultsEle)
+             $("#tableContent").append(row)
+        }
+    });
+  })
+    //Handler for end report submission button click
+  $("#EndSubmit").click(function(){
+      //Build up query from submitted fields
+      let queryList = []
+      let appFromDateSum = $('#appFromSum').val()
+      if(appFromDateSum) {queryList.push("appFromSum=" + appFromDateSum)}
+      let appEndDateSum = $('#appToSum').val()
+      if(appEndDateSum) {queryList.push("appToSum=" + appEndDateSum)}
+      let projFromDateSum = $('#projStartFromSum').val()
+      if(projFromDateSum) {queryList.push("projFromSum=" + projFromDateSum)}
+      let projToDateSum = $('#projStartToSum').val()
+      if(projToDateSum) {queryList.push("projToSum=" + projToDateSum)}
+      let queryString = "?" + queryList.join("&")
+      $('#projectCountTable').empty();
+      $('#assocPartnerTable').empty();
+      $('#total_cost').empty()
+      $('#total_volunteers').empty()
+       if(!validDateCheck([appFromDateSum, appEndDateSum, projFromDateSum, projToDateSum])){
+          return;
+      }
+      //submit query to end report endpoint
+      $.ajax({
+          url: "/projectreport/endReport" + queryString,
+          type: 'GET',
+          success: function(data){
+            data.projCount.forEach(element => {
+                if (element.projCount){
+                    let row = $("<tr></tr>")
+                    let partnerName = $("<td></td>").text(element.org_name)
+                    let projCount = $("<td></td>").text(element.projCount)
+                    row.append(partnerName, projCount)
+                    $("#projectCountTable").append(row)
+                }
+            });
+            data.projTable.forEach(element => {
+                let row = $("<tr></tr>")
+                let firstName = element.name.preferred ? element.name.preferred : element.name.first
+                let projectName = $("<td></td>").text(firstName + " " + element.name.last)
+                let partnerList = $("<td></td>").addClass("cell-overflow")
+                element.partners.forEach((partner, idx, arr) => {
+                    partnerList.append(partner.org_name)
+                    if (idx !== arr.length - 1){partnerList.append(", ")}
+                })
+                if (!element.partners.length)partnerList.append("No partners for this project")
+                let total_cost = $("<td></td>").text(element.cost)
+                let volunteers = $("<td></td>").text(element.volunteers)
+                row.append(projectName, partnerList, total_cost, volunteers)
+                $("#assocPartnerTable").append(row)
+            })
+            $("#total_cost").text("$" + data.total_cost)
+            $("#total_volunteers").text(data.total_volunteers)
+            $('#yearEndReportHidden').css("display", "block")
+        },
+        error: function(data){
+            alert("There was an error generating the report")
+        }
+      })
+  });
+}); 
+</script>
+<style>
+    .cell-overflow {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+
+    }
+
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .upComing {
+        margin-bottom: 1rem;
+    }
+</style>
+<div id="iframeHolder"></div>
+<!--Use Header Partial Here-->
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#projectInfo" role="tab">Year-End Report</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#work" role="tab">Search</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#upcoming" role="tab">Upcoming Projects</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="projectInfo" role="tabpanel">
+        <div class="col-xs-12 col-sm-6" style="float:left;">
+            </br>
+            <h5>Application Submit Date</h5>
+            <label>From</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
+            <label>To</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
+            <h5>Project Start Date</h5>
+            <label>From</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="projStartFromSum">
+            <label>To</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="projStartToSum">
+            </br>
+            <span>Generate with an application or project start date range </span>
+            <button id="EndSubmit">Submit</button>
+            <div style="display:none" id="yearEndReportHidden">
+            <h5>Partner Breakdown</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Partner</th>
+                        <th scope="col">Number of Projects</th>
+                    </tr>
+                </thead>
+                <tbody id="projectCountTable">
+                </tbody>
+            </table>
+            <h5>Project Breakdown</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Partners</th>
+                        <th>Cost</th>
+                        <th>Volunteers</th>
+                    </tr>
+                </thead>
+                <tbody id="assocPartnerTable">
+                </tbody>
+            </table>
+            <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
+            <p>Total Cost: <span id="total_cost"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="work" role="tabpanel">
+        </br>
+        <div class="row">
+        <div class="col-xs-12">
+        <h5>Applicant Info</h5>
+        <label>First Name:</label>
+        <input type="text" id= "FirstName"></input>
+        <label>Last Name:</label>
+        <input type="text" id= "LastName"></input>
+        <label>City:</label>
+        <input type="text" id= "City"></input>
+        <label>Zip Code:</label>
+        <input type="text" id= "ZipCode"></input>
+        <!--<label>Partner:</label>
+        <input type="text" id= "Partner"></input>-->
+        <h5>Project Leaders</h5>
+        <label>Site Host</label>
+        <input type="text" id= "site_host"></input>
+        <label>Project Advocate</label>
+        <input type="text" id= "project_advocate"></input>
+        <label>Crew Chief</label>
+        <input type="text" id= "crew_chief"></input>
+        <label for="and">AND</label>
+        <input type="radio" class="and_or" name="and_or" value="and" checked> 
+        <label for="or">OR</label>
+        <input type="radio" class="and_or" name="and_or" value="or">
+        <h5>Project Information</h5>
+        <label>Number Volunteers: </label>
+        <input type="text" id= "numVol"></input>
+        <input type="radio" id="vol1" name="numberVol" class="numberVol" value="less">
+        <label for="vol1">less than</label>
+        <input type="radio" id="vol2" name ="numberVol" class="numberVol" value="greater">
+        <label for="vol2">greater than</label></br>
+        <label>Total Cost: </label>
+        <input type="text" id= "totCost"></input>
+        <input type="radio" id="cost1" name="totCost" class="totCost" value="less">
+        <label for="cost1">less than</label>
+        <input type="radio" id="cost2" name ="totCost" class="totCost" value="greater">
+        <label for="cost2">greater than</label>
+        <h5>Application Date</h5>
+        <label>From</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="appFrom">
+        <label>To</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="appTo">
+        <h5>Project Date</h5>
+        <p>Begin:</p>
+        <label>From</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="projStartFrom">
+        <label>To</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="projStartTo">
+        </br><p>End:</p>
+        <label>From</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="projEndFrom">
+        <label>To</label>
+        <input type="date" placeholder="MM/DD/YYYY" id="projEndTo">
+        </br>
+        <span>Search by any combination of the above fields</sanp>
+        {{!--<button id="exportButton">Search</button>--}}
+        <button type="submit" id="exportButton">Search</button>
+        <table class="table" id="searchHidden" style="display:none">
+            <thead>
+                <tr>
+                    <th id="head1">Name</th>
+                    <th id="head2">Address</th>
+                    <th id="head3">Appl. Status</th>
+                    <th id="head4">Appl. ID</th>
+                </tr>
+            </thead>
+            <tbody id="tableContent">
+                <tr id="defaultRow">
+                    <td>
+                        Search to return specific results
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="upcoming" role="tabpanel">
+        </br>
+        <div class="row">
+        <div class="col-xs-12">
+        <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                            Upcoming Projects
+                    </h5>
+                     <button class="btn btn-info" id="exportUpcomingBtn">Export</button>
+        </div>
+            <div class="card-block">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>Location</th>
+                        <th>Work Items</th>
+                        <th>Home Type</th>
+                        <th>CC</th>
+                        <th>PA</th>
+                        <th>SH</th>
+                        <th>Partners</th>
+                        <th>Volunteers</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+            {{#each payload}}
+                {{#each this}}
+                <tr>
+                    
+                    <td>
+                    {{#if project}}
+                            <a href="/projectview/{{_id}}">{{application.name.first}} {{application.name.last}}</a>
+                        {{else}}
+                            <a href="/view/{{_id}}">{{application.name.first}} {{application.name.last}}</a>
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if project.project_start}}
+                            <p>{{dateToLocaleDate project.project_start}}</p>
+                        {{else}}
+                            <p>None specified</p>
+                        {{/if}}
+                    </td>
+                    <td>{{application.address.city}}</td>
+                     <td>
+                        {{#if workItemDoc includeZero=true}}
+                            <p>{{#each workItemDoc}}<p>{{plus_one @index}}) {{name}}{{#unless @last}} {{/unless}}</p>{{/each}}</p>
+                        {{else}}
+                            <p>No current work items</p>
+                        {{/if}}
+                    </td>
+                    <td>{{fillFields property.home_type}}</td>
+                    <td>{{fillFields project.crew_chief}}</td>
+                    <td>{{fillFields project.project_advocate}}</td>
+                    <td>{{fillFields project.site_host}}</td>
+                    <td>
+                        {{#each partners}}
+                            {{this.org_name}}
+                            {{#unless @last}},{{/unless}}
+                        {{/each}}
+                    </td>
+                    {{#if assessmentDoc includeZero=true}}
+                    <td>{{fillFields assessmentDoc.0.estimates.volunteers_needed}}</td>
+                    <td>${{fillFields assessmentDoc.0.estimates.total_cost}}</td>
+                    {{else}}
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+            {{/each}}
+            </table>
+            </div> 
+        </div>
+        </div>
+        </div>    
+    </div>
+</div>
+

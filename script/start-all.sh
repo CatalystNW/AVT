@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd /usr/src/Catalyst-AppVetting/
+cd "$(dirname "$0")/.."
 
 ./script/start-mongod.sh
 sleep 1

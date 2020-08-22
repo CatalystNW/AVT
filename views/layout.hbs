@@ -19,9 +19,14 @@
     <body>
         {{>header}}
         {{>navbar}}
+        
 
         <div class="container-fluid">
-          {{{body}}}
+            {{#if carenetwork}}
+            {{>care_layout_page}}
+            {{else}}
+            {{{body}}}
+            {{/if}}
         </div>
         {{>footer}}
 

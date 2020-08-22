@@ -32,6 +32,8 @@ initPassport(passport);
 // Define routes that will be used
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 var routes = require('./routes/index')(passport);
+var report = require('./routes/report')(passport);
+//var test = require('./routes/test');
 var view = require('./routes/view')(passport);
 var edit = require('./routes/edit')(passport);
 var tasks = require('./routes/tasks.js')(passport);
@@ -44,6 +46,8 @@ var planning = require('./routes/planning')(passport);
 var projectsummary = require('./routes/projectsummary')(passport);
 var partners = require('./routes/partners')(passport);
 var projectview = require('./routes/projectview')(passport);
+
+var care_network = require('./carenetwork/routes/care/carenetwork');
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -132,6 +136,14 @@ hbs.registerHelper('escape', function(variable) {
   
 });
 
+hbs.registerHelper('add_d_quote', function(variable) {
+    if (variable) {
+
+      return new hbs.handlebars.SafeString(variable.toString().replace(/(["])/g, '""'));
+    } else return '';
+
+});
+
 hbs.registerHelper('assetsValueAndName', function(assets) {
   var returnText = ''
   assets.value.forEach(function(v, i) {
@@ -193,6 +205,31 @@ hbs.registerHelper('getCompletedDate', function (item, name) {
   return item.getCompletedDate(name);
 })
 
+hbs.registerHelper('convertStatus', function(statusKey) {
+  switch (statusKey){
+    case 'assess':
+        return 'Site Assessment - Pending';
+        break;
+    case 'assessComp':
+        return 'Site Assessment - Complete';
+        break;
+    case 'approval':
+        return 'Approval Process';  
+    case 'waitlist':
+        return 'Waitlist';
+    case 'upComing':
+        return'Project Upcoming'; 
+    case 'handle':
+        return "Handle-It";
+    default:
+        return "Error"
+  }
+})
+
+hbs.registerHelper('plus_one', function(idx){
+  return idx + 1
+})
+
 hbs.registerHelper('getAppNameForPlan', function(apps, appid) {
   if (apps[appid] && apps[appid].app_name) {
     return apps[appid].app_name
@@ -242,10 +279,20 @@ hbs.registerHelper('dateToLocaleDate', function (date) {
       if (day.length !== 2) {
         day = '0' + day;
       }
-      return d.getFullYear() + '-' + month + '-' + day
+      return month + '/' + day + '/' + d.getFullYear()
   }
 
 });
+
+hbs.registerHelper('fillFields', function(field){
+    if(field){
+        return field
+    }
+    else{
+        return 'N/A'
+    }
+})
+
 hbs.registerHelper('getPlanTaskAssignments', function(plan, userId, apps, appid) {
   var assigned = ProjectPlanPackage.getOnlyAssigned(plan, userId);
   var labels = [];
@@ -349,6 +396,8 @@ app.use('/partners', partners);
 app.use('/projectview', projectview);
 app.use('/tasks/', tasks);
 app.use('/leadtime', leadtime);
+app.use('/carenetwork', care_network);
+app.use('/projectreport', report);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Server Side Libraries
 // Links to jQuery and Boots strap files

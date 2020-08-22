@@ -1,0 +1,48 @@
+<script>
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Name,Start Date,Location,Work Items,Home Type,CC,PA,SH,Partners,Volunteers,Cost\n"
+        {{#each payload}}
+            {{#each this}}
+                    csvContent += "{{escape application.name.first}} {{escape application.name.last}},"
+                    {{#if project.project_start}}
+                        csvContent += "{{dateToLocaleDate project.project_start}},"
+                    {{else}}
+                        csvContent += ","
+                    {{/if}}
+                    csvContent += "{{escape application.address.city}},"
+                    workItemString = '\"'
+                    {{#each workItemDoc}} workItemString += '{{plus_one @index}}) {{escape (add_d_quote name)}}{{#unless @last}}\n{{/unless}}'; {{/each}}
+                    workItemString += '\",'
+                    csvContent += workItemString
+                    csvContent += "{{property.home_type}},"
+                    csvContent += "{{escape project.crew_chief}},"
+                    csvContent += "{{escape project.project_advocate}},"
+                    csvContent += "{{escape project.site_host}},"
+                    partnerListString = '\"'
+                    {{#each partners}} partnerListString += '{{plus_one @index}}) {{escape (add_d_quote org_name)}}{{#unless @last}}\n{{/unless}}'; {{/each}}
+                    partnerListString += '\",'
+                    csvContent += partnerListString
+                    {{#if assessmentDoc includeZero=true}}
+                        csvContent += "{{assessmentDoc.0.estimates.volunteers_needed}},"
+                        csvContent += "{{assessmentDoc.0.estimates.total_cost}},"
+                    {{/if}}
+                    csvContent += "\n"
+            {{/each}}
+        {{/each}}
+    //csvContent = {{csvContent}}
+    csvContent = csvContent.replace('/\'/g', '\\\'')
+    function exportToCSV(){
+        let encodedUri = encodeURI(csvContent)
+        let link = document.createElement("a")
+        link.setAttribute("href", encodedUri)
+        let date = new Date()
+        let fileName = "upComingExp."+ [date.getMonth() + 1,date.getDate(),date.getFullYear()].join('.') + ".csv"
+        link.setAttribute("download", fileName)
+        document.body.appendChild(link)
+        link.click(); 
+    }
+</script>
+<h5 style="padding-left: 21px;">Generated PDFs:
+    <button id="pafB" class="btn btn-success" style="margin-left: 5%" onclick="exportToCSV()">Export to CSV</button>
+</h5>
+<span style="padding-left: 21px; font-size: .8em; font-style: italic;">Note: the data in this CSV file reflects the data at the time of export.  If you make subsequent changes to the data on this page, you will need to reload the page and re-export the PDF files. Thank you.</span>

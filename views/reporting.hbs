@@ -1,0 +1,66 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<!--Use Header Partial Here-->
+<div class="container">
+        <div class="col-xs-12 col-sm-6" style="float:left;"></div>
+         <div class="input-group">
+            <input type="text" id="note" class="form-control" placeholder="Enter Year Note Here...">
+            <span class="input-group-btn">
+            <button id="addNote" class="btn btn-primary" type="submit">Add Note</button>
+            </span>
+         </div>
+        <form action="/action_page.php">
+            <label for="year">Choose a Year:</label>
+            <select id="year" name="year">
+                <!--This section would be prepopulated by handlebars years from the backend-->
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+            </select>
+            <input type="submit">
+        </form>
+        <span>Year Notes</span>
+        <span>It was great!</span>
+        <h4>Year and Applications</h4>
+        <p>Number of Projects: {{completedProjects}} </p>
+        <p>Number of Applications: </p>
+        <h5>The Year in Projects</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Partner</th>
+                    <th scope="col">Number of Projects</th>
+                </tr>
+                <tr>
+                    <td>Dummy Data</td>
+                    <td>Dummy Data</td>
+                </tr>
+            </thead>
+        </table>
+        <h5>Total Partners</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Partners</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dummy Data</td>
+                    <td>Dummy Data</td>
+                    <td>Dummy Data</td>
+                </tr>
+                <tr>
+                    <td>Dummy Data</td>
+                    <td>Dummy Data</td>
+                    <td>Dummy Data</td>
+                </tr>
+            </tbody>
+        </table>
+        <p></p>Active Volunteers: </p>
+        <p>Total Cost: </p>
+    </div>
+</div>
