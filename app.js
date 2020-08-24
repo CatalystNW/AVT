@@ -265,7 +265,7 @@ hbs.registerHelper('getApplicationDueDate', function (apps, appid, ldTime) {
 });
 
 hbs.registerHelper('dateToLocaleDate', function (date) {
-  console.log('dateToLocaleDate', arguments);
+  //console.log('dateToLocaleDate', arguments);
   
   if (date === "Not set") {
     return 'Not set'
