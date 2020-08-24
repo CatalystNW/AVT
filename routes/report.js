@@ -28,6 +28,9 @@ module.exports = function(passport){
         context.user_email = res.locals.email;
         context.user_role = res.locals.role;
         context.user_roles = res.locals.user_roles;
+        console.log('--------------WHAT FOLLOWS ARE THE RESULTS OF OUR QUERY----------')
+        console.log(context)
+        console.log('---------------END 3-------------------------------------')
         res.render('projectsumreport', context); 
     })
     
@@ -134,7 +137,6 @@ function isLoggedIn(req, res, next) {
 //Formats the status of the results from the Upcoming projects query 
 function formatStatusUpComing(element) {
     var status;
-    console.log(element.status)
     switch (element.status){
         case 'assess':
             status = 'Site Assessment - Pending';

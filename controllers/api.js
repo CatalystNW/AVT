@@ -682,7 +682,9 @@ getDocumentPlanning: function (req, res, next) {
         ])
         .then((results) => {
             res.locals.upComing = results
+            console.log('-----WHAT FOLLOWS ARE THE RESULTS TO AGGREGATION ONE---------')
             console.log(results)
+            console.log('-----END AGGREGATION ONE-----------')
             //res.locals.upComing = results.upComing
             let ids = results.map(a => a._id.toString())
             return ProjectSummaryPackage.aggregate([
@@ -703,9 +705,17 @@ getDocumentPlanning: function (req, res, next) {
                 foreignField: "_id", as: "partners"}}
             ]).execAsync()
         }).then((results) => {
+            console.log('---WHAT FOLLOWS ARE THE RESULTS TO AGGREGATION TWO-----------')
+            console.log(results)
             for(let i=0; i< res.locals.upComing.length; i++) {
                 res.locals.upComing[i].partners = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString())).partners
             }
+            console.log('-----------END AGGREGATION TWO-------------------')
+            next()
+        }).catch((err) => {
+            console.log('------WHAT FOLLOWS IS THE CAUGHT ERROR----')
+            console.log(err)
+            console.log('--------------CAUGHT ERROR--------------------')
             next()
         })
     },
