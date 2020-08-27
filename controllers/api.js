@@ -50,6 +50,7 @@ var FinancialPackage = require('../models/finPackage');
 var crypto = require('crypto');
 var bluebird = require('bluebird');
 var Promise = require('bluebird'); // Import promise engine
+const { match } = require('assert');
 mongoose.Promise = require('bluebird'); // Tell mongoose to use bluebird
 Promise.promisifyAll(mongoose); // Convert all of mongoose to promises with bluebird
 var ObjectId = require('mongodb').ObjectId;
@@ -707,8 +708,10 @@ getDocumentPlanning: function (req, res, next) {
         }).then((results) => {
             console.log('---WHAT FOLLOWS ARE THE RESULTS TO AGGREGATION TWO-----------')
             console.log(results)
+            console.log(res.locals.upComing)
             for(let i=0; i< res.locals.upComing.length; i++) {
-                res.locals.upComing[i].partners = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString())).partners
+                let match = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString()))
+                res.locals.upComing[i].partners = match ? match.partners : []
             }
             console.log('-----------END AGGREGATION TWO-------------------')
             next()
