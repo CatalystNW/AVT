@@ -434,6 +434,10 @@ function getCurrentDate() {
                 <tr>
                   <th class="col-sm-3">Final Labor-Hrs Count</th>
                   <td class="col-sm-9"><a href="#" id="actual_labor_count" data-type="text" data-pk="{{_id}}" data-url="/edit/project/{{_id}}" data-name="actual_labor_count" data-title="Actual Labor Hrs Count">{{project.actual_labor_count}}</a></td>
+                </tr>                 
+                <tr>
+                  <th class="col-sm-3">Final Cost</th>
+                  <td class="col-sm-9"><a href="#" id="actual_cost" data-type="text" data-pk="{{_id}}" data-url="/edit/project/{{_id}}" data-name="actual_cost" data-title="Actual Cost">{{project.actual_cost}}</a></td>
                 </tr>
                 
         {{/each}}
@@ -1456,6 +1460,7 @@ $(function(){
 
      $('#actual_volunteer_count').editable();
      $('#actual_labor_count').editable();
+     $('#actual_cost').editable();
 
      yesDriveLoaded();
 
