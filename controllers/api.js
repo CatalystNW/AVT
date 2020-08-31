@@ -1388,6 +1388,9 @@ getDocumentPlanning: function (req, res, next) {
                 updates = {"project.actual_volunteer_count":req.body.value };
         }
 
+        else if (req.body.name == "actual_cost") {
+            updates = {"project.actual_cost":req.body.value };
+        }   
         else if (req.body.name == "actual_labor_count") {
                 updates = {"project.actual_labor_count":req.body.value };
         } else if (req.body.name == "project.project_start") {
