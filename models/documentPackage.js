@@ -210,7 +210,8 @@ var DocumentPackageSchema = new Schema({
         project_start: Date,
         project_end: Date,
         actual_volunteer_count: String,
-        actual_labor_count: String
+        actual_labor_count: String,
+        actual_cost: String
     },
 
     // Store external links to documents (and client photos in the future).
