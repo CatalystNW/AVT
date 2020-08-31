@@ -279,7 +279,7 @@ hbs.registerHelper('dateToLocaleDate', function (date) {
       if (day.length !== 2) {
         day = '0' + day;
       }
-      return month + '/' + day + '/' + d.getFullYear()
+      return + d.getFullYear() + '-' + month + '-' + day 
   }
 
 });
