@@ -528,9 +528,9 @@ getDocumentPlanning: function (req, res, next) {
     Search: function(req, res, next){
         let queryObject = {}
         let leaderQueries = []
-        if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": req.query.crew_chief})
-        if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": req.query.project_advocate})
-        if(req.query.site_host) leaderQueries.push({"project.site_host": req.query.site_host})
+        if(req.query.crew_chief) leaderQueries.push({"project.crew_chief": {$regex: req.query.crew_chief, $options: 'i'}})
+        if(req.query.project_advocate) leaderQueries.push({"project.project_advocate": {$regex: req.query.project_advocate, $options: 'i'}})
+        if(req.query.site_host) leaderQueries.push({"project.site_host": {$regex: req.query.site_host, $options: 'i'}})
         if(req.query.numVol){
             let numberVolObject = {}
             if(req.query.numberVol_range != 'undefined') {
@@ -551,12 +551,36 @@ getDocumentPlanning: function (req, res, next) {
             }
             queryObject["assessment.estimates.total_cost"] = totCostObject
         }
-        if(leaderQueries.length) queryObject["$" + req.query.leader_and_or] = leaderQueries
-        if(req.query.city) queryObject["application.address.city"] = req.query.city
+
+        //A situation could occur where two fields could be searched for with the OR operator (firstName/preferredName and leaders)
+        //In this case, the docs suggest nesting inside an explicit AND operation https://docs.mongodb.com/manual/reference/operator/query/and/#op._S_and
+        //The if statement handles the case where this could potentially happen and crafts query accordingly
+        if(req.query.firstName && leaderQueries.length && req.query.leader_and_or === 'or') {
+            queryObject["$and"] = []
+            if (req.query.firstName) {
+                let fNameSearchObj = {'$or': [{"application.name.first": {$regex: req.query.firstName, $options: 'i'}}, 
+                {"application.name.preferred": {$regex: req.query.firstName, $options: 'i'}}]}
+                console.log(queryObject['$and'])
+                queryObject["$and"].push(fNameSearchObj)
+            }
+            if (leaderQueries.length) {
+                leaderSearchObj = {}
+                leaderSearchObj['$or'] = leaderQueries
+                queryObject["$and"].push(leaderSearchObj)
+            }
+        }
+        //In call other cases, craft query normally
+        else {
+            if(leaderQueries.length) queryObject["$" + req.query.leader_and_or] = leaderQueries
+            if(req.query.firstName) {
+                queryObject["$or"] = [{"application.name.first": {$regex: req.query.firstName, $options: 'i'}}, 
+                    {"application.name.preferred": {$regex: req.query.firstName, $options: 'i'}}]
+            }
+        }
+        
+        if(req.query.lastName) queryObject["application.name.last"] = {$regex: req.query.lastName, $options: 'i'}
+        if(req.query.city) queryObject["application.address.city"] = {$regex: req.query.city, $options: 'i'}
         if(req.query.zip) queryObject["application.address.zip"] = req.query.zip
-        if(req.query.firstName) queryObject["$or"] = [{"application.name.first": req.query.firstName}, 
-            {"application.name.preferred": req.query.firstName}]
-        if(req.query.lastName) queryObject["application.name.last"] = req.query.lastName
         let appDateObject = {}
         if(req.query.appFromDate)appDateObject["$gte"] = new Date(req.query.appFromDate)
         if(req.query.appToDate){
@@ -588,6 +612,7 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
             queryObject["project.project_end"] = projEndObject
         }
+        console.log(queryObject)
         DocumentPackage.aggregate(
             [
                 {$lookup: {
@@ -683,9 +708,7 @@ getDocumentPlanning: function (req, res, next) {
         ])
         .then((results) => {
             res.locals.upComing = results
-            console.log('-----WHAT FOLLOWS ARE THE RESULTS TO AGGREGATION ONE---------')
             console.log(results)
-            console.log('-----END AGGREGATION ONE-----------')
             //res.locals.upComing = results.upComing
             let ids = results.map(a => a._id.toString())
             return ProjectSummaryPackage.aggregate([
@@ -706,19 +729,15 @@ getDocumentPlanning: function (req, res, next) {
                 foreignField: "_id", as: "partners"}}
             ]).execAsync()
         }).then((results) => {
-            console.log('---WHAT FOLLOWS ARE THE RESULTS TO AGGREGATION TWO-----------')
             console.log(results)
             console.log(res.locals.upComing)
             for(let i=0; i< res.locals.upComing.length; i++) {
                 let match = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString()))
                 res.locals.upComing[i].partners = match ? match.partners : []
             }
-            console.log('-----------END AGGREGATION TWO-------------------')
             next()
         }).catch((err) => {
-            console.log('------WHAT FOLLOWS IS THE CAUGHT ERROR----')
             console.log(err)
-            console.log('--------------CAUGHT ERROR--------------------')
             next()
         })
     },
