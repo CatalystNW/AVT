@@ -454,7 +454,7 @@ getDocumentPlanning: function (req, res, next) {
             .catch(next);
     },
 
-    getProjEndReport: function(req, res, next){
+    getApplicationEndReport: function(req, res, next){
         let queryObject = {}
         let appDateObject = {}
         if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum)
@@ -466,7 +466,33 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
             queryObject["signature.client_date"] = appDateObject
         }
+        DocumentPackage.aggregate([
+            {$match: queryObject},
+            {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessment"}},
+            {$unwind: {path: "$assessment",
+                                preserveNullAndEmptyArrays: true}},
+            {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItems"}},
+            {$project: {
+                "assessment.estimates" : 1,
+                "signature.client_date": 1,
+                "application.name": 1,
+                "application.address": 1,
+                "project": 1,
+                "workItems": 1,      
+            }}
+        ]).then(result => {
+            res.locals.results = result
+            console.log(result)
+            next()
+        })
+    },
 
+    getProjEndReport: function(req, res, next){
+        let queryObject = {}
+        
+        
         let projStartObject = {}
         if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum)
         if(req.query.projToSum){
@@ -477,7 +503,7 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
-        
+        console.log(queryObject)
         Promise.props({
             targetedYearIds: DocumentPackage.find(
                 queryObject, 

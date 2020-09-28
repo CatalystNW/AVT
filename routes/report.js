@@ -28,9 +28,9 @@ module.exports = function(passport){
         context.user_email = res.locals.email;
         context.user_role = res.locals.role;
         context.user_roles = res.locals.user_roles;
-        console.log('--------------WHAT FOLLOWS ARE THE RESULTS OF OUR QUERY----------')
-        console.log(context)
-        console.log('---------------END 3-------------------------------------')
+        //console.log('--------------WHAT FOLLOWS ARE THE RESULTS OF OUR QUERY----------')
+        //console.log(context)
+        //console.log('---------------END 3-------------------------------------')
         res.render('projectsumreport', context); 
     })
     
@@ -42,7 +42,7 @@ module.exports = function(passport){
     })
 
     //Route for ajax call by the endReport Tab
-    router.get('/endReport', isLoggedIn, api.getPartnerProjectCount, api.getProjEndReport, function(req,res, next){
+    router.get('/endReportProj', isLoggedIn, api.getPartnerProjectCount, api.getProjEndReport, function(req,res, next){
         let payload = {}
         //Populating the object with responses from the API with project counts for partners
         //and general partner information
@@ -52,7 +52,14 @@ module.exports = function(passport){
         //Calculating totals for costs and total_volunteers
         let total_cost = 0
         payload.projTable.forEach(item => {
-            total_cost += item.cost === "N/A" || item.cost === "No Assessment"? 0 : item.cost})
+            console.log(item)
+            total_cost += item.cost === "N/A" || item.cost === "No Assessment"? 0 : item.cost
+            if (!('project' in item)){
+                item.project = {}
+            }
+            let project = item.project
+            item.project.project_start = 'project_start' in project ? formatDate(project.project_start) : 'N/A'
+        })
         let total_volunteers = 0
         payload.projTable.forEach(item => {
             total_volunteers += item.volunteers === "N/A" || item.volunteers === "No Assessment" ? 0 : item.volunteers})
@@ -60,6 +67,43 @@ module.exports = function(passport){
         payload.total_volunteers = total_volunteers
 
         //Sending the result to the page
+        res.send(payload)
+    })
+
+    router.get('/endReportApp', isLoggedIn, api.getApplicationEndReport, function(req,res, next){
+        let payload = {}
+        //Populating the object with responses from the API with project counts for partners
+        //and general partner information
+        payload.projTable = res.locals.results
+        console.log('it fails after this')
+        //Calculating totals for costs and total_volunteers
+        let total_cost = 0
+        let total_volunteers = 0
+        payload.projTable.forEach(item => {
+            if (('assessment' in item) && ('estimates' in item.assessment)){
+                total_cost += 'total_cost' in item.assessment.estimates ? item.assessment.estimates.total_cost : 0
+                total_volunteers += 'volunteers_needed' in item.assessment.estimates ? item.assessment.estimates.volunteers_needed : 0
+            }
+            else {
+                item.assessment = {};
+                item.assessment.estimates = {}
+            }
+            if (!('project' in item)){
+                item.project = {}
+            }
+            let project = item.project
+            item.project.site_host = 'site_host' in project && project.site_host ? project.site_host : 'N/A'
+            item.project.crew_chief = 'crew_chief' in project && project.crew_chief ? project.crew_chief : 'N/A'
+            item.project.project_advocate = 'project_advocate' in project && project.project_advocate ? project.project_advocate : 'N/A'
+            item.signature.client_date = formatDate(item.signature.client_date) 
+        })
+        console.log('does it get here')
+        payload.total_cost = total_cost
+        payload.total_volunteers = total_volunteers
+
+        //Sending the result to the page
+        console.log('WELL OKAY')
+        console.log(payload)
         res.send(payload)
     })
 
@@ -132,6 +176,15 @@ function isLoggedIn(req, res, next) {
         console.log("no user id");
         res.redirect('/user/login');
     }
+}
+
+function formatDate(element)
+{
+	var Year = element.getFullYear();
+    //get month and day with padding since they are 0 indexed
+    var Day = ( "00" + element.getDate()).slice(-2);
+    var Mon = ("00" + (element.getMonth()+1)).slice(-2);
+	return Mon + "/" + Day + "/" + Year;
 }
 
 //Formats the status of the results from the Upcoming projects query 
