@@ -51,18 +51,23 @@ module.exports = function(passport){
 
         //Calculating totals for costs and total_volunteers
         let total_cost = 0
+        let total_volunteers = 0
         payload.projTable.forEach(item => {
-            console.log(item)
             total_cost += item.cost === "N/A" || item.cost === "No Assessment"? 0 : item.cost
             if (!('project' in item)){
                 item.project = {}
             }
             let project = item.project
+            item.project.site_host = 'site_host' in project && project.site_host ? project.site_host : 'N/A'
+            item.project.crew_chief = 'crew_chief' in project && project.crew_chief ? project.crew_chief : 'N/A'
+            item.project.project_advocate = 'project_advocate' in project && project.project_advocate ? project.project_advocate : 'N/A'
             item.project.project_start = 'project_start' in project ? formatDate(project.project_start) : 'N/A'
-        })
-        let total_volunteers = 0
-        payload.projTable.forEach(item => {
-            total_volunteers += item.volunteers === "N/A" || item.volunteers === "No Assessment" ? 0 : item.volunteers})
+            item.project.actual_volunteer_count = 'actual_volunteer_count' in project ? project.actual_volunteer_count : 'N/A'
+            item.project.actual_cost = 'actual_cost' in project ? project.actual_cost : 'N/A'
+            item.project.actual_labor_count = 'actual_labor_count' in project ? project.actual_labor_count : 'N/A'
+            
+            //total_cost += 
+        })  
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
 

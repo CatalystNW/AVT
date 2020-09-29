@@ -129,19 +129,37 @@ $(function() {
             });
             data.projTable.forEach(element => {
                 let row = $("<tr></tr>")
-                let firstName = element.name.preferred ? element.name.preferred : element.name.first
-                let projectName = $("<td></td>").text(firstName + " " + element.name.last)
+                if (element.project.status == 'handle'){
+                    row.addClass('orange')
+                }
+                else {
+                    row.addClass('blue')
+                }
+                let firstName = element.application.name.preferred ? element.application.name.preferred : element.application.name.first
+                let projectName = $("<td></td>")
+                projectName.append(`<a href=\'/projectview/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
                 let startDate = $("<td></td>").text(element.project.project_start)
-                let location = $("<td></td>").text(element.city)
+                let location = $("<td></td>").text(element.application.address.city)
+                let workItems = $("<td></td>")
+                element.workItems.forEach((item, i) => {
+                    workItems.append('<p>' + (i + 1) + ') ' + item.name + '</p>')
+                })
+                if (!element.workItems.length){
+                    workItems.text('No work items')
+                }
+                let crew_chief = $("<td></td>").text(element.project.crew_chief)
+                let project_advocate = $("<td></td>").text(element.project.project_advocate)
+                let site_host = $("<td></td>").text(element.project.site_host)
                 let partnerList = $("<td></td>").addClass("cell-overflow")
-                element.partners.forEach((partner, idx, arr) => {
+                element.partnerPack.forEach((partner, idx, arr) => {
                     partnerList.append(partner.org_name)
                     if (idx !== arr.length - 1){partnerList.append(", ")}
                 })
-                if (!element.partners.length)partnerList.append("No partners for this project")
-                let total_cost = $("<td></td>").text(element.cost)
-                let volunteers = $("<td></td>").text(element.volunteers)
-                row.append(projectName, startDate, location, partnerList, total_cost, volunteers)
+                if (!element.partnerPack.length)partnerList.append("No partners for this project")
+                let total_cost = $("<td></td>").text(element.project.actual_cost)
+                let volunteers = $("<td></td>").text(element.project.actual_volunteer_count)
+                let labor_count = $("<td></td>").text(element.project.actual_labor_count)
+                row.append(projectName, startDate, location, workItems, crew_chief, project_advocate, site_host, partnerList, total_cost, volunteers, labor_count)
                 $("#assocPartnerTableP").append(row)
             })
             $("#total_cost").text("$" + data.total_cost)

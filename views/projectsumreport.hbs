@@ -21,6 +21,14 @@
     #appReportHidden {
         margin-top: 1em;
     }
+
+    .blue {
+         background-color: lightcyan;
+    }
+
+    .orange {
+        background-color: moccasin;
+    }
 </style>
 <div id="iframeHolder"></div>
 <!--Use Header Partial Here-->
@@ -41,7 +49,7 @@
 
 <div class="tab-content">
     <div class="tab-pane active" id="projectEnd" role="tabpanel">
-        <div class="col-xs-12 col-sm-6" style="float:left;">
+        <div style="float:left;">
             </br>
             <h5>Project Start Date</h5>
             <label>From</label>
@@ -52,36 +60,53 @@
             <span>Generate with a project start date range </span>
             <button id="EndSubmitP">Submit</button>
             <div style="display:none" id="projReportHidden">
-            <h5>Partner Breakdown</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Partner</th>
-                        <th scope="col">Number of Projects</th>
-                    </tr>
-                </thead>
-                <tbody id="projectCountTable">
-                </tbody>
-            </table>
-            <h5>Project Breakdown</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Project</th>
-                        <th>Start Date</th>
-                        <th>Location</th>
-                        <th>CC</th>
-                        <th>PA</th>
-                        <th>SH</th>
-                        <th>Partners</th>
-                        <th>Fin. Cost</th>
-                        <th>Fin. Volunteers</th>
-                        <th>Fin. Labor Hr</th>
-                    </tr>
-                </thead>
-                <tbody id="assocPartnerTableP">
-                </tbody>
-            </table>
+            <div class="card">
+                 <div class="card-header" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                                Partner Breakdown
+                        </h5>
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Partner</th>
+                                <th scope="col">Number of Projects</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectCountTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                                Project Breakdown
+                        </h5>
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Start Date</th>
+                                <th>Location</th>
+                                <th>Work Items</th>
+                                <th>CC</th>
+                                <th>PA</th>
+                                <th>SH</th>
+                                <th>Partners</th>
+                                <th>Fin. Cost</th>
+                                <th>Fin. Volunteers</th>
+                                <th>Fin. Labor Hr</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assocPartnerTableP">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
             <p>Total Cost: <span id="total_cost"></span></p>
             </div>

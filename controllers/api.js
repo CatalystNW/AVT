@@ -504,7 +504,59 @@ getDocumentPlanning: function (req, res, next) {
             queryObject["project.project_start"] = projStartObject
         }
         console.log(queryObject)
-        Promise.props({
+        DocumentPackage.aggregate([
+            {$match: queryObject},
+            {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItems"}},
+            //{$lookup: {from: "projectsummarypackages", localField: "_id",
+            //                foreignField: "projectId", as: "partners"}},
+            {$addFields: {
+                stringID: { $toString: "$_id" }
+            }},
+            {$lookup: {
+                from: "projectsummarypackages",
+                localField: "stringID",
+                foreignField: "projectId",
+                /*let: { project_id: "$projectId" },    
+                pipeline : [
+                    { $match: { $expr: { $eq: [ "$stringID", "$$project_id" ] } }, },
+                ],*/
+                as: "partners"
+            }},
+            {$unwind: 
+                {path: "$partners",
+                preserveNullAndEmptyArrays: true,
+            }},
+            { $addFields:
+                {
+                   "partnerIdsObjectId":
+                      { $map:
+                         {
+                            input: "$partners.assocPartners",
+                            as: "ourPartners",
+                            in: { $toObjectId:"$$ourPartners" }
+                         }
+                      }
+                 }
+            },
+            {$lookup: {from: "partnerpackages", localField: "partnerIdsObjectId",
+                            foreignField: "_id", as: "partnerPack"}},
+            {$project: {
+                "partnerPack": 1,
+                "signature.client_date": 1,
+                "application.name": 1,
+                "application.address": 1,
+                "project": 1,
+                "workItems": 1,   
+                "stringID": 1,  
+            }}
+        ]).then( result => {
+            console.log(result)
+            res.locals.projecttable = result
+            next()
+        })
+    },
+        /*Promise.props({
             targetedYearIds: DocumentPackage.find(
                 queryObject, 
                             {"_id": 1}).lean().execAsync()
@@ -549,7 +601,7 @@ getDocumentPlanning: function (req, res, next) {
             res.locals.projecttable = result
             next()
         })
-    },
+    },*/
 
     Search: function(req, res, next){
         let queryObject = {}
