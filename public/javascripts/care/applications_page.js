@@ -115,8 +115,9 @@ var app_obj = {
     var applicants = this.applicants;
     for (var i=0; i<applicants.length; i++) {
       if (year != undefined) {
+        // If User selects a year to show, only show those applications
         if (applicants[i].createdAt.includes(year))
-        this.add_application(applicants[i]);
+          this.add_application(applicants[i]);
       } else {
         this.add_application(applicants[i]);
       }
@@ -161,15 +162,16 @@ var app_obj = {
   },
   make_app_row(applicant) {
     var $tr = $("<tr></tr>", {id: this.get_tr_id( applicant._id ) });
-  
+
     name = applicant.application.first_name;
     if (applicant.application.middle_name)
-      name += " " + applicant.application.middle_name
-    name += " " + applicant.application.last_name
+      name += " " + applicant.application.middle_name;
+    name += " " + applicant.application.last_name;
     var name_td = $(`<td class="col-lg-2"></td>`);
-    
+
+    // Link in the application name that will open the application form/modal
     var link = applicant_form_modal.create_link(
-      applicant._id, name, this.update_app_table);
+                applicant._id, name, this.update_app_table);
 
     name_td.append(link);
     $tr.append(name_td);
@@ -179,6 +181,7 @@ var app_obj = {
     $tr.append($(`<td class="col-lg-2">${applicant.reference}</td>`));
     $tr.append($(`<td class="col-lg-2" id=${applicant._id}_services_count>
                   ${applicant.services.length}</td>`));
+                  
     var service_add_btn = service_form_modal.create_add_button(applicant._id),
         service_show_btn = create_service_btn(applicant._id);
     $tr.append($(`<td class="col-lg-2"></td>`)
