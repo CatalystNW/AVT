@@ -1,6 +1,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src='/javascript/report.js' type="text/javascript"></script>
+<script src="/javascript/orderTable.js" type="text/javascript"></script>
 <style>
     .cell-overflow {
     white-space: nowrap;
@@ -30,7 +31,6 @@
         background-color: moccasin;
     }
 </style>
-<div id="iframeHolder"></div>
 <!--Use Header Partial Here-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
@@ -49,6 +49,7 @@
 
 <div class="tab-content">
     <div class="tab-pane active" id="projectEnd" role="tabpanel">
+        <div id="iframeHolder2"></div>
         <div style="float:left;">
             </br>
             <h5>Project Start Date</h5>
@@ -84,22 +85,23 @@
                         <h5 class="mb-0">
                                 Project Breakdown
                         </h5>
+                        <button class="btn btn-info" id="exportProjectEnd">Export</button>
                 </div>
                 <div class="card-block">
-                    <table class="table table-sm table-bordered">
+                    <table class="table table-sm table-bordered orderTable1">
                         <thead>
                             <tr>
-                                <th>Project</th>
-                                <th>Start Date</th>
-                                <th>Location</th>
-                                <th>Work Items</th>
-                                <th>CC</th>
-                                <th>PA</th>
-                                <th>SH</th>
-                                <th>Partners</th>
-                                <th>Fin. Cost</th>
-                                <th>Fin. Volunteers</th>
-                                <th>Fin. Labor Hr</th>
+                                <th onclick="orderTable('orderTable1', 0)">Project</th>
+                                <th onclick="orderTable('orderTable1', 1)">Start Date</th>
+                                <th onclick="orderTable('orderTable1', 2)">Location</th>
+                                <th onclick="orderTable('orderTable1', 3)">Work Items</th>
+                                <th onclick="orderTable('orderTable1', 4)">CC</th>
+                                <th onclick="orderTable('orderTable1', 5)">PA</th>
+                                <th onclick="orderTable('orderTable1', 6)">SH</th>
+                                <th onclick="orderTable('orderTable1', 7)">Partners</th>
+                                <th onclick="orderTable('orderTable1', 8)">Fin. Cost</th>
+                                <th onclick="orderTable('orderTable1', 9)">Fin. Volunteers</th>
+                                <th onclick="orderTable('orderTable1', 10)">Fin. Labor Hr</th>
                             </tr>
                         </thead>
                         <tbody id="assocPartnerTableP">
@@ -109,11 +111,13 @@
             </div>
             <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
             <p>Total Cost: <span id="total_cost"></span></p>
+            <p>Total Labor Hrs: <span id="total_labor_count"></span></p>
             </div>
         </div>
     </div>
 
     <div class="tab-pane" id="applicationEnd" role="tabpanel">
+        <div id="iframeHolder1"></div>
         <div  style="float:left;">
             </br>
             <h5>Application Submit Date</h5>
@@ -130,20 +134,21 @@
                     <h5 class="mb-0">
                             Application Breakdown
                     </h5>
+                    <button class="btn btn-info" id="exportAppEnd">Export</button>
             </div>
             <div class="card-block">
-                <table class="table table-sm table-bordered">
+                <table class="table table-sm table-bordered orderTable2" >
                     <thead>
                         <tr>
-                            <th>Project</th>
-                            <th>Application Date</th>
-                            <th>Location</th>
-                            <th>Work Items</th>
-                            <th>CC</th>
-                            <th>PA</th>
-                            <th>SH</th>
-                            <th>Est. Cost</th>
-                            <th>Est. Volunteers</th>
+                            <th onclick="orderTable('orderTable2', 0)">Project</th>
+                            <th onclick="orderTable('orderTable2', 1)">Application Date</th>
+                            <th onclick="orderTable('orderTable2', 2)">Location</th>
+                            <th onclick="orderTable('orderTable2', 3)">Work Items</th>
+                            <th onclick="orderTable('orderTable2', 4)">CC</th>
+                            <th onclick="orderTable('orderTable2', 5)">PA</th>
+                            <th onclick="orderTable('orderTable2', 6)">SH</th>
+                            <th onclick="orderTable('orderTable2', 7)">Est. Cost</th>
+                            <th onclick="orderTable('orderTable2', 8)">Est. Volunteers</th>
                         </tr>
                     </thead>
                     <tbody id="assocPartnerTableA">
@@ -216,13 +221,13 @@
         <span>Search by any combination of the above fields</sanp>
         {{!--<button id="exportButton">Search</button>--}}
         <button type="submit" id="exportButton">Search</button>
-        <table class="table" id="searchHidden" style="display:none">
+        <table class="table orderTable3" id="searchHidden" style="display:none">
             <thead>
                 <tr>
-                    <th id="head1">Name</th>
-                    <th id="head2">Address</th>
-                    <th id="head3">Appl. Status</th>
-                    <th id="head4">Appl. ID</th>
+                    <th onclick="orderTable('orderTable3', 0)" id="head1">Name</th>
+                    <th onclick="orderTable('orderTable3', 1)" id="head2">Address</th>
+                    <th onclick="orderTable('orderTable3', 2)" id="head3">Appl. Status</th>
+                    <th onclick="orderTable('orderTable3', 3)"id="head4">Appl. ID</th>
                 </tr>
             </thead>
             <tbody id="tableContent">
@@ -238,7 +243,7 @@
     </div>
 
     <div class="tab-pane" id="upcoming" role="tabpanel">
-        </br>
+        <div id="iframeHolder3"></div>
         <div class="row">
         <div class="col-xs-12">
         <div class="card">
@@ -249,20 +254,20 @@
                      <button class="btn btn-info" id="exportUpcomingBtn">Export</button>
         </div>
             <div class="card-block">
-            <table class="table table-sm table-bordered">
+            <table class="table table-sm table-bordered orderTable4">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Start Date</th>
-                        <th>Location</th>
-                        <th>Work Items</th>
-                        <th>Home Type</th>
-                        <th>CC</th>
-                        <th>PA</th>
-                        <th>SH</th>
-                        <th>Partners</th>
-                        <th>Volunteers</th>
-                        <th>Cost</th>
+                        <th onclick="orderTable('orderTable4', 0)">Name</th>
+                        <th onclick="orderTable('orderTable4', 1)">Start Date</th>
+                        <th onclick="orderTable('orderTable4', 2)">Location</th>
+                        <th onclick="orderTable('orderTable4', 3)">Work Items</th>
+                        <th onclick="orderTable('orderTable4', 4)">Home Type</th>
+                        <th onclick="orderTable('orderTable4', 5)">CC</th>
+                        <th onclick="orderTable('orderTable4', 6)">PA</th>
+                        <th onclick="orderTable('orderTable4', 7)">SH</th>
+                        <th onclick="orderTable('orderTable4', 8)">Partners</th>
+                        <th onclick="orderTable('orderTable4', 9)">Volunteers</th>
+                        <th onclick="orderTable('orderTable4', 10)">Cost</th>
                     </tr>
                 </thead>
             {{#each payload}}
@@ -303,7 +308,7 @@
                     </td>
                     {{#if assessmentDoc includeZero=true}}
                     <td>{{fillFields assessmentDoc.0.estimates.volunteers_needed}}</td>
-                    <td>${{fillFields assessmentDoc.0.estimates.total_cost}}</td>
+                    <td>{{fillFields assessmentDoc.0.estimates.total_cost}}</td>
                     {{else}}
                     <td>N/A</td>
                     <td>N/A</td>
