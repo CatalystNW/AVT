@@ -251,6 +251,7 @@ var applicant_form_modal = {
               that.edit_app_callback(data);
               that.edit_app_callback = null;
             }
+            that.clear_form();
           }
         }
       });
@@ -287,6 +288,12 @@ var applicant_form_modal = {
       
     });
     return link;
+  },
+  clear_form() {
+    $("#applicantModal").find('input').val('');
+    $("#applicantModal").find('textarea').val('');
+    $("#appnote-container").empty();
+    console.log("Modal Form was closed");
   },
   // Send GET Request to get Application data & then loads to the form
   // via this.fill_app_data()
