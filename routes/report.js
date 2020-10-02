@@ -52,8 +52,8 @@ module.exports = function(passport){
         //Calculating totals for costs and total_volunteers
         let total_cost = 0
         let total_volunteers = 0
+        let total_labor_count = 0
         payload.projTable.forEach(item => {
-            total_cost += item.cost === "N/A" || item.cost === "No Assessment"? 0 : item.cost
             if (!('project' in item)){
                 item.project = {}
             }
@@ -62,14 +62,32 @@ module.exports = function(passport){
             item.project.crew_chief = 'crew_chief' in project && project.crew_chief ? project.crew_chief : 'N/A'
             item.project.project_advocate = 'project_advocate' in project && project.project_advocate ? project.project_advocate : 'N/A'
             item.project.project_start = 'project_start' in project ? formatDate(project.project_start) : 'N/A'
-            item.project.actual_volunteer_count = 'actual_volunteer_count' in project ? project.actual_volunteer_count : 'N/A'
-            item.project.actual_cost = 'actual_cost' in project ? project.actual_cost : 'N/A'
-            item.project.actual_labor_count = 'actual_labor_count' in project ? project.actual_labor_count : 'N/A'
-            
-            //total_cost += 
+            if (!('actual_volunteer_count' in project) || !(project.actual_volunteer_count)){
+                item.project.actual_volunteer_count = 'N/A'
+                total_volunteers += 0
+            }
+            else {
+                total_volunteers += parseInt(project.actual_volunteer_count)
+            }
+            if (!('actual_cost' in project) || !(project.actual_cost)){
+                item.project.actual_cost = 'N/A'
+                total_cost += 0
+            }
+            else {
+                total_cost += parseInt(project.actual_cost)
+            }
+            if (!('actual_labor_count' in project) || !(project.actual_labor_count)){
+                item.project.actual_labor_count = 'N/A'
+                total_labor_count += 0
+            }
+            else {
+                total_labor_count += parseInt(project.actual_labor_count)
+            }
         })  
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
+        payload.total_labor_count = total_labor_count
+        console.log(payload.total_labor_count)
 
         //Sending the result to the page
         res.send(payload)
@@ -124,6 +142,28 @@ module.exports = function(passport){
         res.render('upComingExport', context)
     })
     
+    router.get('/endReportAppExport', api.getApplicationEndReport, function(req, res, next){
+        let myPayload = {};
+
+        myPayload.results = res.locals.results;
+        var context = {"payload": myPayload};
+        context.user = req.user._id;
+        context.user_email = res.locals.email;
+        context.user_role = res.locals.role;
+        context.user_roles = res.locals.user_roles;
+        res.render('appEndReportExport', context)
+    })
+
+    router.get('/endReportProjExport', api.getProjEndReport, function(req, res, next){
+        let myPayload = {};
+        myPayload.projecttable = res.locals.projecttable;
+        var context = {"payload": myPayload};
+        context.user = req.user._id;
+        context.user_email = res.locals.email;
+        context.user_role = res.locals.role;
+        context.user_roles = res.locals.user_roles;
+        res.render('projEndReportExport', context)
+    })
     return router;
 };
 
