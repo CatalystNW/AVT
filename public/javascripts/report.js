@@ -89,10 +89,35 @@ $(function() {
         }
     });
   })
+  $('#exportAppEnd').on("click",function(){
+    let queryList = []
+    let appFromDateSum = $('#appFromSum').val()
+    if(appFromDateSum) {queryList.push("appFromSum=" + appFromDateSum)}
+    let appEndDateSum = $('#appToSum').val()
+    if(appEndDateSum) {queryList.push("appToSum=" + appEndDateSum)}
+    let queryString = "?" + queryList.join("&")
+    if(!$('#iframe').length) {
+            $('#iframeHolder1').html('<iframe id="iframe1" src="projectreport/endReportAppExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
+            $('#exportAppEnd').hide();
+    }
+  });
+
+  $('#exportProjectEnd').on("click",function(){
+    let queryList = []
+    let projFromDateSum = $('#projStartFromSum').val()
+    if(projFromDateSum) {queryList.push("projFromSum=" + projFromDateSum)}
+    let projToDateSum = $('#projStartToSum').val()
+    if(projToDateSum) {queryList.push("projToSum=" + projToDateSum)}
+    let queryString = "?" + queryList.join("&")
+    if(!$('#iframe').length) {
+            $('#iframeHolder2').html('<iframe id="iframe2" src="projectreport/endReportProjExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
+            $('#exportProjectEnd').hide();
+    }
+  });
 
   $('#exportUpcomingBtn').on("click",function(){
     if(!$('#iframe').length) {
-            $('#iframeHolder').html('<iframe id="iframe" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
+            $('#iframeHolder3').html('<iframe id="iframe3" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportUpcomingBtn').hide();
     }
   });
@@ -129,7 +154,8 @@ $(function() {
             });
             data.projTable.forEach(element => {
                 let row = $("<tr></tr>")
-                if (element.project.status == 'handle'){
+                let status = 'status' in element.project ? element.project.status : ''
+                if (status.includes("handle")){
                     row.addClass('orange')
                 }
                 else {
@@ -141,10 +167,10 @@ $(function() {
                 let startDate = $("<td></td>").text(element.project.project_start)
                 let location = $("<td></td>").text(element.application.address.city)
                 let workItems = $("<td></td>")
-                element.workItems.forEach((item, i) => {
+                element.workItemDoc.forEach((item, i) => {
                     workItems.append('<p>' + (i + 1) + ') ' + item.name + '</p>')
                 })
-                if (!element.workItems.length){
+                if (!element.workItemDoc.length){
                     workItems.text('No work items')
                 }
                 let crew_chief = $("<td></td>").text(element.project.crew_chief)
@@ -162,8 +188,9 @@ $(function() {
                 row.append(projectName, startDate, location, workItems, crew_chief, project_advocate, site_host, partnerList, total_cost, volunteers, labor_count)
                 $("#assocPartnerTableP").append(row)
             })
-            $("#total_cost").text("$" + data.total_cost)
             $("#total_volunteers").text(data.total_volunteers)
+            $("#total_cost").text("$" + data.total_cost)
+            $("#total_labor_count").text(data.total_labor_count)
             $('#projReportHidden').css("display", "block")
         },
         error: function(data){
@@ -200,10 +227,10 @@ $(function() {
               projectName.append(`<a href=\'/view/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
               let location = $("<td></td>").text(element.application.address.city)
               let workItems = $("<td></td>")
-              element.workItems.forEach((item, i) => {
+              element.workItemDoc.forEach((item, i) => {
                 workItems.append('<p>' + (i + 1) + ') ' + item.name + '</p>')
               })
-              if (!element.workItems.length){
+              if (!element.workItemDoc.length){
                 workItems.text('No work items')
               }
               let crew_chief = $("<td></td>").text(element.project.crew_chief)
