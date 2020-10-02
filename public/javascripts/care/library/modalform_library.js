@@ -247,9 +247,10 @@ var applicant_form_modal = {
         success: function(data, textStatus, xhr) {
           if (xhr.status == 200) {
             $app_form[0].reset();
-            if (that.edit_app_callback)
+            if (that.edit_app_callback) {
               that.edit_app_callback(data);
               that.edit_app_callback = null;
+            }
           }
         }
       });
