@@ -1,7 +1,7 @@
 <script src='/javascript/exportToCsv.js' type="text/javascript"></script>
 <script>
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Name,Start Date,Location,Work Items,Home Type,CC,PA,SH,Partners,Volunteers,Cost\n"
+    csvContent += "Name,Start Date,Location,Work Items,CC,PA,SH,Partners,Cost,Volunteers,Labor Hours\n"
         {{#each payload}}
             {{#each this}}
                     csvContent += "{{escape application.name.first}} {{escape application.name.last}},"
@@ -15,18 +15,16 @@
                     {{#each workItemDoc}} workItemString += '{{plus_one @index}}) {{escape (add_d_quote name)}}{{#unless @last}}\n{{/unless}}'; {{/each}}
                     workItemString += '\",'
                     csvContent += workItemString
-                    csvContent += "{{property.home_type}},"
                     csvContent += "{{escape project.crew_chief}},"
                     csvContent += "{{escape project.project_advocate}},"
                     csvContent += "{{escape project.site_host}},"
                     partnerListString = '\"'
-                    {{#each partners}} partnerListString += '{{plus_one @index}}) {{escape (add_d_quote org_name)}}{{#unless @last}}\n{{/unless}}'; {{/each}}
+                    {{#each partnerPack}} partnerListString += '{{plus_one @index}}) {{escape (add_d_quote org_name)}}{{#unless @last}}\n{{/unless}}'; {{/each}}
                     partnerListString += '\",'
                     csvContent += partnerListString
-                    {{#if assessmentDoc includeZero=true}}
-                        csvContent += "{{assessmentDoc.0.estimates.volunteers_needed}},"
-                        csvContent += "{{assessmentDoc.0.estimates.total_cost}},"
-                    {{/if}}
+                    csvContent += "{{escape project.actual_cost}},"
+                    csvContent += "{{escape project.actual_volunteer_count}},"
+                     csvContent += "{{escape project.actual_labor_count}},"
                     csvContent += "\n"
             {{/each}}
         {{/each}}
@@ -34,6 +32,6 @@
     csvContent = csvContent.replace('/\'/g', '\\\'')
 </script>
 <h5 style="padding-left: 21px;">Generated CSV:
-    <button id="pafB" class="btn btn-success" style="margin-left: 5%" onclick="exportToCSV('Upcoming')">Export to CSV</button>
+    <button id="pafB" class="btn btn-success" style="margin-left: 5%" onclick="exportToCSV('ProjEnd')">Export to CSV</button>
 </h5>
 <span style="padding-left: 21px; font-size: .8em; font-style: italic;">Note: the data in this CSV file reflects the data at the time of export. </span>
