@@ -393,9 +393,6 @@ var applicant_form_modal = {
       $(this).text("Edit");
     }
   },
-  edit_note(appnote_id, text) {
-
-  },
   add_note_html(noteObj) {
     var $container = $("#appnote-container");
   
