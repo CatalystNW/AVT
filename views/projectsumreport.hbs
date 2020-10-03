@@ -1,252 +1,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/pdfmake.min.js'></script>
-<script src='//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.39/vfs_fonts.js'></script>
-<script>
-function getCurrentDate() {
-    var date = new Date();
-    var Year = date.getFullYear();
-    var Day = ( "00" + date.getDate()).slice(-2);
-    var Mon = ("00" + (date.getMonth()+1)).slice(-2);
-    return Mon + "/" + Day + "/" + Year;
-}
-
-//Everything that follows is input for pdfmake to generate the pdf_file----------------------
-let pdfTitle = {
-    columns: [
-        {
-            text: "Catalyst Partnerships - This many projects to be prioritized and scheduled",
-            style: 'header',
-        },
-        {
-            text: getCurrentDate(),
-            style: 'header',
-            width: 70
-        }
-    ]
-}
-let pdfSubtitle = {
-    text: "Showing all projects in Upcoming, Site Assessment Complete, In Approval Process, or Waitlist\n",
-    style: 'subheader'
-}
-let contentArray = [pdfTitle, pdfSubtitle]
-let inputString
-let columnsArray = []
-let columnCounter = -1
-{{#each payload}}
-    {{#each this}}
-        columnCounter += 1
-        inputString = "{{escape application.name.first}} {{escape application.name.last}}:\n" +
-                    "Status: {{escape status}}\n"
-        {{#if workItemDoc includeZero=true}}
-            inputString += "Work Items:\n"
-            {{#each workItemDoc}}
-                inputString += {{plus_one @index}} + ") " + "{{escape name}} ({{escape description}})"
-                {{#unless @last}}
-                inputString += "\n" 
-                {{/unless}}
-            {{/each}}
-            inputString += "\n"
-        {{else}}
-            inputString += "No current work items\n"
-        {{/if}}
-        inputString += "House Type: {{escape property.home_type}}\n" +
-                    "Location: {{application.address.city}}\n" 
-        {{#if assessmentDoc includeZero=true}}
-            inputString += "Volunteers: {{assessmentDoc.0.estimates.volunteers_needed}}\n" + 
-                        "Cost: ${{assessmentDoc.0.estimates.total_cost}}\n\n"
-        {{else}}
-            inputString += "Volunteers: None specified\n" +
-                        "Cost: None specified\n\n"
-        {{/if}}
-        columnsArray.push({"text" : inputString})
-        if(columnCounter % 2 !== 0){
-            contentArray.push({"columns" : columnsArray})
-            columnsArray = []
-        }
-        inputString = ""
-    {{/each}}
-    {{#if @last}}
-        if(columnsArray.length){
-            contentArray.push({"columns" : columnsArray})
-            columnsArray = []
-        }
-    {{/if}}
-{{/each}}
-
-var content = {"content": contentArray, 
-               "styles" : {
-                    "header": {"bold":true},
-                    "subheader": {"italics":true}
-               },
-               "defaultStyle": {"columnGap": 10}
-              }
-function exportUpcoming() {
-    window.print();
-    {{!-- pdfMake.createPdf(content).open(); --}}
-}
-//End pdf generation------------------------------------------------------------------
-</script>
-<script>
-
-function validDateCheck(dateArray){
-    for(const element of dateArray){
-        if(element && isNaN(Date.parse(element))){
-            return false;
-        }
-    }
-    return true;
-}
-$(function(){
-    $('#exportUpcomingBtn').click(function(){
-        if(!$('#iframe').length) {
-                $('#iframeHolder').html('<iframe id="iframe" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
-				$('#exportUpcomingBtn').hide();
-        }
-    });   
-});
-
-$(document).ready(function(){ 
-    //AJAX handlers for search function
-  $("#exportButton").click(function(){
-      let queryList = []
-      let firstName = $("#FirstName").val();
-      if(firstName) queryList.push("firstName=" + firstName)
-      let lastName = $("#LastName").val();
-      if(lastName) queryList.push("lastName=" + lastName)
-      let city = $("#City").val();
-      if(city) queryList.push("city=" + city)
-      let zipcode = $("#ZipCode").val();
-      if(zipcode) queryList.push("zipcode=" + zipcode)
-      let site_host = $('#site_host').val();
-      if(site_host) queryList.push("site_host=" + site_host)
-      let crew_chief = $('#crew_chief').val();
-      if(crew_chief) queryList.push("crew_chief=" + crew_chief)
-      let project_advocate = $('#project_advocate').val();
-      if(project_advocate) queryList.push("project_advocate=" + project_advocate)
-      let numVol = $('#numVol').val();
-      if(numVol) queryList.push("numVol=" + numVol)
-      let totCost = $('#totCost').val();
-      if(totCost) queryList.push("totCost=" + totCost)
-      let appFromDate = $('#appFrom').val()
-      if(appFromDate) queryList.push("appFromDate=" + appFromDate)
-      let appToDate = $('#appTo').val()
-      if(appToDate) queryList.push("appToDate=" + appToDate)
-      let projStartFromDate = $('#projStartFrom').val()
-      if(projStartFromDate) queryList.push("projStartFrom=" + projStartFromDate)
-      let projStartToDate = $('#projStartTo').val()
-      if(projStartToDate) queryList.push("projStartTo=" + projStartToDate)
-      let projEndFromDate = $('#projEndFrom').val()
-      if(projEndFromDate) queryList.push("projEndFrom=" + projEndFromDate)
-      let projEndToDate = $('#projEndTo').val()
-      if(projEndToDate) queryList.push("projEndTo=" + projEndToDate)
-      let leader_andor = $(".and_or:checked").val()
-      let totCost_range = $(".totCost:checked").val()
-      let numberVol_range = $(".numberVol:checked").val()
-      queryList.push("totCost_range=" + totCost_range)
-      queryList.push("numberVol_range=" + numberVol_range)
-      queryList.push("leader_and_or=" + leader_andor)
-      $('#tableContent').empty();
-      if(!validDateCheck([appFromDate, appToDate, 
-            projStartFromDate, projStartToDate, projEndFromDate, projEndToDate])){
-          return;
-      }
-      let queryString = "?" + queryList.join("&")
-      //Send AJAX request
-    $.ajax({
-        url: "/projectreport/search" + queryString, 
-        type: 'GET',
-        success: function(data){
-            if(!data.length){
-                //If there is no response, 
-                let row = $("<tr></tr>")
-                let emptyResultsEle = $("<td></td>").text("No results for that search")
-                row.append(emptyResultsEle)
-                $("#tableContent").append(row)
-            }
-            data.forEach(element => {
-                let row = $("<tr></tr>")
-                let name = $("<td></td>")
-                let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
-                let projLink = $("<a></a>").attr("href", link)
-                projLink.text(element.application.name.first + " " + element.application.name.last)
-                name.append(projLink)
-                let status = $("<td></td>").text(element.status)      
-                let appName = $("<td></td>").text(element.app_name)
-                let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
-                row.append(name, loc, status, appName)
-                $("#tableContent").append(row)
-                $('#searchHidden').css("display", "block")
-            })
-        },
-        error: function(data) {
-            let row = $("<tr></tr>")
-            let emptyResultsEle = $("<td></td>").text("There was an error with your search")
-            row.append(emptyResultsEle)
-             $("#tableContent").append(row)
-        }
-    });
-  })
-    //Handler for end report submission button click
-  $("#EndSubmit").click(function(){
-      //Build up query from submitted fields
-      let queryList = []
-      let appFromDateSum = $('#appFromSum').val()
-      if(appFromDateSum) {queryList.push("appFromSum=" + appFromDateSum)}
-      let appEndDateSum = $('#appToSum').val()
-      if(appEndDateSum) {queryList.push("appToSum=" + appEndDateSum)}
-      let projFromDateSum = $('#projStartFromSum').val()
-      if(projFromDateSum) {queryList.push("projFromSum=" + projFromDateSum)}
-      let projToDateSum = $('#projStartToSum').val()
-      if(projToDateSum) {queryList.push("projToSum=" + projToDateSum)}
-      let queryString = "?" + queryList.join("&")
-      $('#projectCountTable').empty();
-      $('#assocPartnerTable').empty();
-      $('#total_cost').empty()
-      $('#total_volunteers').empty()
-       if(!validDateCheck([appFromDateSum, appEndDateSum, projFromDateSum, projToDateSum])){
-          return;
-      }
-      //submit query to end report endpoint
-      $.ajax({
-          url: "/projectreport/endReport" + queryString,
-          type: 'GET',
-          success: function(data){
-            data.projCount.forEach(element => {
-                if (element.projCount){
-                    let row = $("<tr></tr>")
-                    let partnerName = $("<td></td>").text(element.org_name)
-                    let projCount = $("<td></td>").text(element.projCount)
-                    row.append(partnerName, projCount)
-                    $("#projectCountTable").append(row)
-                }
-            });
-            data.projTable.forEach(element => {
-                let row = $("<tr></tr>")
-                let firstName = element.name.preferred ? element.name.preferred : element.name.first
-                let projectName = $("<td></td>").text(firstName + " " + element.name.last)
-                let partnerList = $("<td></td>").addClass("cell-overflow")
-                element.partners.forEach((partner, idx, arr) => {
-                    partnerList.append(partner.org_name)
-                    if (idx !== arr.length - 1){partnerList.append(", ")}
-                })
-                if (!element.partners.length)partnerList.append("No partners for this project")
-                let total_cost = $("<td></td>").text(element.cost)
-                let volunteers = $("<td></td>").text(element.volunteers)
-                row.append(projectName, partnerList, total_cost, volunteers)
-                $("#assocPartnerTable").append(row)
-            })
-            $("#total_cost").text("$" + data.total_cost)
-            $("#total_volunteers").text(data.total_volunteers)
-            $('#yearEndReportHidden').css("display", "block")
-        },
-        error: function(data){
-            alert("There was an error generating the report")
-        }
-      })
-  });
-}); 
-</script>
+<script src='/javascript/report.js' type="text/javascript"></script>
+<script src="/javascript/orderTable.js" type="text/javascript"></script>
 <style>
     .cell-overflow {
     white-space: nowrap;
@@ -263,12 +18,26 @@ $(document).ready(function(){
     .upComing {
         margin-bottom: 1rem;
     }
+
+    #appReportHidden {
+        margin-top: 1em;
+    }
+
+    .blue {
+         background-color: lightcyan;
+    }
+
+    .orange {
+        background-color: moccasin;
+    }
 </style>
-<div id="iframeHolder"></div>
 <!--Use Header Partial Here-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#projectInfo" role="tab">Year-End Report</a>
+    <a class="nav-link active" data-toggle="tab" href="#projectEnd" role="tab">Project Report</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#applicationEnd" role="tab">Application Report</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#work" role="tab">Search</a>
@@ -279,49 +48,116 @@ $(document).ready(function(){
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane active" id="projectInfo" role="tabpanel">
-        <div class="col-xs-12 col-sm-6" style="float:left;">
+    <div class="tab-pane active" id="projectEnd" role="tabpanel">
+        <div id="iframeHolder2"></div>
+        <div style="float:left;">
             </br>
-            <h5>Application Submit Date</h5>
-            <label>From</label>
-            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
-            <label>To</label>
-            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
             <h5>Project Start Date</h5>
             <label>From</label>
             <input type="date" placeholder="MM/DD/YYYY" id="projStartFromSum">
             <label>To</label>
             <input type="date" placeholder="MM/DD/YYYY" id="projStartToSum">
             </br>
-            <span>Generate with an application or project start date range </span>
-            <button id="EndSubmit">Submit</button>
-            <div style="display:none" id="yearEndReportHidden">
-            <h5>Partner Breakdown</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Partner</th>
-                        <th scope="col">Number of Projects</th>
-                    </tr>
-                </thead>
-                <tbody id="projectCountTable">
-                </tbody>
-            </table>
-            <h5>Project Breakdown</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Project</th>
-                        <th>Partners</th>
-                        <th>Cost</th>
-                        <th>Volunteers</th>
-                    </tr>
-                </thead>
-                <tbody id="assocPartnerTable">
-                </tbody>
-            </table>
+            <span>Generate with a project start date range </span>
+            <button id="EndSubmitP">Submit</button>
+            <div style="display:none" id="projReportHidden">
+            <div class="card">
+                 <div class="card-header" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                                Partner Breakdown
+                        </h5>
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Partner</th>
+                                <th scope="col">Number of Projects</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectCountTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                                Project Breakdown
+                        </h5>
+                        <button class="btn btn-info" id="exportProjectEnd">Export</button>
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm table-bordered orderTable1">
+                        <thead>
+                            <tr>
+                                <th onclick="orderTable('orderTable1', 0)">Project</th>
+                                <th onclick="orderTable('orderTable1', 1)">Start Date</th>
+                                <th onclick="orderTable('orderTable1', 2)">Location</th>
+                                <th onclick="orderTable('orderTable1', 3)">Work Items</th>
+                                <th onclick="orderTable('orderTable1', 4)">CC</th>
+                                <th onclick="orderTable('orderTable1', 5)">PA</th>
+                                <th onclick="orderTable('orderTable1', 6)">SH</th>
+                                <th onclick="orderTable('orderTable1', 7)">Partners</th>
+                                <th onclick="orderTable('orderTable1', 8)">Fin. Cost</th>
+                                <th onclick="orderTable('orderTable1', 9)">Fin. Volunteers</th>
+                                <th onclick="orderTable('orderTable1', 10)">Fin. Labor Hr</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assocPartnerTableP">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
             <p>Total Cost: <span id="total_cost"></span></p>
+            <p>Total Labor Hrs: <span id="total_labor_count"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="applicationEnd" role="tabpanel">
+        <div id="iframeHolder1"></div>
+        <div  style="float:left;">
+            </br>
+            <h5>Application Submit Date</h5>
+            <label>From</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
+            <label>To</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
+            </br>
+            <span>Generate with an application date range </span>
+            <button id="EndSubmitA">Submit</button>
+            <div style="display:none" id="appReportHidden">
+            <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                            Application Breakdown
+                    </h5>
+                    <button class="btn btn-info" id="exportAppEnd">Export</button>
+            </div>
+            <div class="card-block">
+                <table class="table table-sm table-bordered orderTable2" >
+                    <thead>
+                        <tr>
+                            <th onclick="orderTable('orderTable2', 0)">Project</th>
+                            <th onclick="orderTable('orderTable2', 1)">Application Date</th>
+                            <th onclick="orderTable('orderTable2', 2)">Location</th>
+                            <th onclick="orderTable('orderTable2', 3)">Work Items</th>
+                            <th onclick="orderTable('orderTable2', 4)">CC</th>
+                            <th onclick="orderTable('orderTable2', 5)">PA</th>
+                            <th onclick="orderTable('orderTable2', 6)">SH</th>
+                            <th onclick="orderTable('orderTable2', 7)">Est. Cost</th>
+                            <th onclick="orderTable('orderTable2', 8)">Est. Volunteers</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assocPartnerTableA">
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <p>Total Volunteers: <span id="est_volunteers"></span></p>
+            <p>Total Cost: <span id="est_cost"></span></p>
             </div>
         </div>
     </div>
@@ -385,13 +221,13 @@ $(document).ready(function(){
         <span>Search by any combination of the above fields</sanp>
         {{!--<button id="exportButton">Search</button>--}}
         <button type="submit" id="exportButton">Search</button>
-        <table class="table" id="searchHidden" style="display:none">
+        <table class="table orderTable3" id="searchHidden" style="display:none">
             <thead>
                 <tr>
-                    <th id="head1">Name</th>
-                    <th id="head2">Address</th>
-                    <th id="head3">Appl. Status</th>
-                    <th id="head4">Appl. ID</th>
+                    <th onclick="orderTable('orderTable3', 0)" id="head1">Name</th>
+                    <th onclick="orderTable('orderTable3', 1)" id="head2">Address</th>
+                    <th onclick="orderTable('orderTable3', 2)" id="head3">Appl. Status</th>
+                    <th onclick="orderTable('orderTable3', 3)"id="head4">Appl. ID</th>
                 </tr>
             </thead>
             <tbody id="tableContent">
@@ -407,7 +243,7 @@ $(document).ready(function(){
     </div>
 
     <div class="tab-pane" id="upcoming" role="tabpanel">
-        </br>
+        <div id="iframeHolder3"></div>
         <div class="row">
         <div class="col-xs-12">
         <div class="card">
@@ -418,20 +254,20 @@ $(document).ready(function(){
                      <button class="btn btn-info" id="exportUpcomingBtn">Export</button>
         </div>
             <div class="card-block">
-            <table class="table table-sm table-bordered">
+            <table class="table table-sm table-bordered orderTable4">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Start Date</th>
-                        <th>Location</th>
-                        <th>Work Items</th>
-                        <th>Home Type</th>
-                        <th>CC</th>
-                        <th>PA</th>
-                        <th>SH</th>
-                        <th>Partners</th>
-                        <th>Volunteers</th>
-                        <th>Cost</th>
+                        <th onclick="orderTable('orderTable4', 0)">Name</th>
+                        <th onclick="orderTable('orderTable4', 1)">Start Date</th>
+                        <th onclick="orderTable('orderTable4', 2)">Location</th>
+                        <th onclick="orderTable('orderTable4', 3)">Work Items</th>
+                        <th onclick="orderTable('orderTable4', 4)">Home Type</th>
+                        <th onclick="orderTable('orderTable4', 5)">CC</th>
+                        <th onclick="orderTable('orderTable4', 6)">PA</th>
+                        <th onclick="orderTable('orderTable4', 7)">SH</th>
+                        <th onclick="orderTable('orderTable4', 8)">Partners</th>
+                        <th onclick="orderTable('orderTable4', 9)">Volunteers</th>
+                        <th onclick="orderTable('orderTable4', 10)">Cost</th>
                     </tr>
                 </thead>
             {{#each payload}}
@@ -472,7 +308,7 @@ $(document).ready(function(){
                     </td>
                     {{#if assessmentDoc includeZero=true}}
                     <td>{{fillFields assessmentDoc.0.estimates.volunteers_needed}}</td>
-                    <td>${{fillFields assessmentDoc.0.estimates.total_cost}}</td>
+                    <td>{{fillFields assessmentDoc.0.estimates.total_cost}}</td>
                     {{else}}
                     <td>N/A</td>
                     <td>N/A</td>

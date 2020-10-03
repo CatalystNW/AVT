@@ -454,7 +454,7 @@ getDocumentPlanning: function (req, res, next) {
             .catch(next);
     },
 
-    getProjEndReport: function(req, res, next){
+    getApplicationEndReport: function(req, res, next){
         let queryObject = {}
         let appDateObject = {}
         if(req.query.appFromSum)appDateObject["$gte"] = new Date(req.query.appFromSum)
@@ -466,7 +466,35 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(appDateObject).length !== 0 && appDateObject.constructor === Object){
             queryObject["signature.client_date"] = appDateObject
         }
+        DocumentPackage.aggregate([
+            {$match: queryObject},
+            {$lookup: {from: "assessmentpackages", localField: "_id",
+                            foreignField: "applicationId", as: "assessment"}},
+            {$unwind: {path: "$assessment",
+                                preserveNullAndEmptyArrays: true}},
+            {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+            {$project: {
+                "assessment.estimates" : 1,
+                "signature.client_date": 1,
+                "application.name": 1,
+                "application.address": 1,
+                "project": 1,
+                "status": 1,
+                "workItemDoc": 1,      
+            }},
+            {$sort: {"signature.client_date": 1} }
+        ]).then(result => {
+            res.locals.results = result
+            console.log(result)
+            next()
+        })
+    },
 
+    getProjEndReport: function(req, res, next){
+        let queryObject = {}
+        
+        
         let projStartObject = {}
         if(req.query.projFromSum) projStartObject["$gte"] = new Date(req.query.projFromSum)
         if(req.query.projToSum){
@@ -477,54 +505,66 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
-        
-        Promise.props({
-            targetedYearIds: DocumentPackage.find(
-                queryObject, 
-                            {"_id": 1}).lean().execAsync()
-        })
-        .then(result => {
-            let sumIdsArr = result.targetedYearIds.map(item => {return item._id.toString()})
-            let names = result.targetedYearIds.map(item => {return item._id.toString()})
-            return ProjectSummaryPackage.aggregate([
-                {$match : {"projectId": {"$in": sumIdsArr}}},
-                { $addFields:
-                    {
-                       "partnerIdsObjectId":
-                          { $map:
-                             {
-                                input: "$assocPartners",
-                                as: "ourPartners",
-                                in: { $toObjectId:"$$ourPartners" }
-                             }
-                          }
-                     }
-                },
-                {$lookup: {from: "partnerpackages", localField: "partnerIdsObjectId",
-                            foreignField: "_id", as: "partners"}}
-            ]).execAsync()
-        })
-        .then(result => {
-            return Promise.all(result.map(async item => {
-                let estimates = await AssessmentPackage.find({"applicationId": ObjectId(item.projectId)}, 
-                    {"estimates.total_cost": 1, "_id": 0, "estimates.volunteers_needed": 1})
-                item.cost = "No Assessment"
-                item.volunteers = "No Assessment"
-                if(estimates[0]){
-                    item.cost = estimates[0].estimates.total_cost ? estimates[0].estimates.total_cost : "N/A"
-                    item.volunteers = estimates[0].estimates.volunteers_needed ? estimates[0].estimates.volunteers_needed : "N/A"
+        queryObject["project"] = {$exists: true}
+        queryObject["status"] = {$nin: ['declined', 'withdrawn']}
+        console.log(queryObject)
+        DocumentPackage.aggregate([
+            {$match: queryObject},
+            {$lookup: {from: "workitempackages", localField: "_id",
+                            foreignField: "applicationId", as: "workItemDoc"}},
+            {$addFields: {
+                stringID: { $toString: "$_id" }
+            }},
+            {$lookup: {
+                from: "projectsummarypackages",
+                localField: "stringID",
+                foreignField: "projectId",
+                as: "partners"
+            }},
+            {$unwind: 
+                {path: "$partners",
+                preserveNullAndEmptyArrays: true,
+            }},
+            { $addFields:
+                {
+                   "partnerIdsObjectId":
+                      { $map:
+                         {
+                            input: "$partners.assocPartners",
+                            as: "ourPartners",
+                            in: { $toObjectId:"$$ourPartners" }
+                         }
+                      }
+                 }
+            },
+            {$lookup: {from: "partnerpackages", localField: "partnerIdsObjectId",
+                            foreignField: "_id", as: "partnerPack"}},
+            {$project: {
+                "partnerPack": 1,
+                "signature.client_date": 1,
+                "application.name": 1,
+                "application.address": 1,
+                "project": 1,
+                "workItemDoc": 1,   
+                "stringID": 1,  
+            }},
+            {$addFields:
+                {
+                    //If the start date is null, set as furthest date possible in results
+                    //for sorting purposes
+                    "startDate": {
+                        "$ifNull": ["$project.project_start", new Date(864000000000000)]
+                    }
                 }
-                let name = await DocumentPackage.find({"_id":ObjectId(item.projectId)}, {"application": 1, "_id": 0})
-                item.name = name[0].application.name
-                return item
-            }))
-        })
-        .then(result => {
+            },
+            {$sort: {"startDate": 1} }
+        ]).then( result => {
+            console.log(result)
             res.locals.projecttable = result
             next()
         })
     },
-
+        
     Search: function(req, res, next){
         let queryObject = {}
         let leaderQueries = []
