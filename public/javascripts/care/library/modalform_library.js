@@ -247,9 +247,11 @@ var applicant_form_modal = {
         success: function(data, textStatus, xhr) {
           if (xhr.status == 200) {
             $app_form[0].reset();
-            if (that.edit_app_callback)
+            if (that.edit_app_callback) {
               that.edit_app_callback(data);
               that.edit_app_callback = null;
+            }
+            that.clear_form();
           }
         }
       });
@@ -287,6 +289,12 @@ var applicant_form_modal = {
     });
     return link;
   },
+  clear_form() {
+    $("#applicantModal").find('input').val('');
+    $("#applicantModal").find('textarea').val('');
+    $("#appnote-container").empty();
+    console.log("Modal Form was closed");
+  },
   // Send GET Request to get Application data & then loads to the form
   // via this.fill_app_data()
   form_load_data() {
@@ -296,13 +304,14 @@ var applicant_form_modal = {
         url: "/carenetwork/applications/" + that.app_id,
         success: function(data, add_note_htmltextStatus, xhr) {
           if (xhr.status == 200) {
-            that.fill_app_data(data)
+            that.fill_app_data(data);
           }
         },
         error: function(xhr, ajaxOptions, err) {
         }
     });
   },
+  // Fill the applicant form/modal with data
   fill_app_data(data) {
     var field,
         app_data = data.application;
@@ -393,15 +402,10 @@ var applicant_form_modal = {
       $(this).text("Edit");
     }
   },
-  edit_note(appnote_id, text) {
-
-  },
   add_note_html(noteObj) {
     var $container = $("#appnote-container");
   
-    var tr, note;
-  
-    tr = $('<tr></tr>');
+    var tr = $('<tr></tr>');
     tr.append( $("<td>", {
       text: noteObj.updatedAt,
       id: noteObj._id + "_" + "date"
@@ -424,7 +428,7 @@ var applicant_form_modal = {
       td.append(button);
     }
       
-    tr.append(td)
+    tr.append(td);
     $container.append(tr);
   },
   submit_note(data) {
