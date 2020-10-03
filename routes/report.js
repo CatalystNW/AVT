@@ -125,7 +125,6 @@ module.exports = function(passport){
         payload.total_volunteers = total_volunteers
 
         //Sending the result to the page
-        console.log('WELL OKAY')
         console.log(payload)
         res.send(payload)
     })
@@ -158,6 +157,7 @@ module.exports = function(passport){
         let myPayload = {};
         myPayload.projecttable = res.locals.projecttable;
         var context = {"payload": myPayload};
+
         context.user = req.user._id;
         context.user_email = res.locals.email;
         context.user_role = res.locals.role;
@@ -261,6 +261,7 @@ function formatStatusUpComing(element) {
     element.status = status;
     return element;
 }
+
 
 //Formats the results from our search results
 function formatStatusUpSearch(element) {

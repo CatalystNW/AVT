@@ -480,6 +480,7 @@ getDocumentPlanning: function (req, res, next) {
                 "application.name": 1,
                 "application.address": 1,
                 "project": 1,
+                "status": 1,
                 "workItemDoc": 1,      
             }},
             {$sort: {"signature.client_date": 1} }
@@ -504,6 +505,8 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
+        queryObject["project"] = {$exists: true}
+        queryObject["status"] = {$nin: ['declined', 'withdrawn']}
         console.log(queryObject)
         DocumentPackage.aggregate([
             {$match: queryObject},
