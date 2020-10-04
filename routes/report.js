@@ -62,27 +62,36 @@ module.exports = function(passport){
             item.project.crew_chief = 'crew_chief' in project && project.crew_chief ? project.crew_chief : 'N/A'
             item.project.project_advocate = 'project_advocate' in project && project.project_advocate ? project.project_advocate : 'N/A'
             item.project.project_start = 'project_start' in project ? formatDate(project.project_start) : 'N/A'
+            
+            let volunteer_addition = 0
             if (!('actual_volunteer_count' in project) || !(project.actual_volunteer_count)){
                 item.project.actual_volunteer_count = 'N/A'
-                total_volunteers += 0
             }
             else {
-                total_volunteers += parseInt(project.actual_volunteer_count)
+                let volunteers = project.actual_volunteer_count
+                volunteer_addition += isNaN(volunteers) ? 0 : parseInt(volunteers)
             }
+            total_volunteers += volunteer_addition
+
+            let cost_addition = 0
             if (!('actual_cost' in project) || !(project.actual_cost)){
                 item.project.actual_cost = 'N/A'
-                total_cost += 0
             }
             else {
-                total_cost += parseInt(project.actual_cost)
+                let cost = project.actual_cost.replace('$', '')
+                cost_addition = isNaN(cost) ? 0 : parseInt(cost)
             }
+            total_cost += cost_addition
+
+            let labor_addition = 0
             if (!('actual_labor_count' in project) || !(project.actual_labor_count)){
                 item.project.actual_labor_count = 'N/A'
-                total_labor_count += 0
             }
             else {
-                total_labor_count += parseInt(project.actual_labor_count)
+                let labor = project.actual_labor_count
+                labor_addition = isNaN(labor) ? 0 : parseInt(labor)
             }
+            total_labor_count += labor_addition
         })  
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
@@ -98,14 +107,15 @@ module.exports = function(passport){
         //Populating the object with responses from the API with project counts for partners
         //and general partner information
         payload.projTable = res.locals.results
-        console.log('it fails after this')
         //Calculating totals for costs and total_volunteers
         let total_cost = 0
         let total_volunteers = 0
         payload.projTable.forEach(item => {
             if (('assessment' in item) && ('estimates' in item.assessment)){
-                total_cost += 'total_cost' in item.assessment.estimates ? item.assessment.estimates.total_cost : 0
-                total_volunteers += 'volunteers_needed' in item.assessment.estimates ? item.assessment.estimates.volunteers_needed : 0
+                let cost = item.assessment.estimates.total_cost
+                let volunteers = item.assessment.estimates.volunteers_needed 
+                total_cost += !isNaN(cost) ? cost : 0
+                total_volunteers += !isNaN(volunteers) ? volunteers : 0
             }
             else {
                 item.assessment = {};
