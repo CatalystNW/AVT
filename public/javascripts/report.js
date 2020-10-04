@@ -72,6 +72,8 @@ $(function() {
                 let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
                 let projLink = $("<a></a>").attr("href", link)
                 projLink.text(element.application.name.first + " " + element.application.name.last)
+                projLink.attr('target', '_blank');
+                projLink.attr('rel', 'noopener noreferrer');
                 name.append(projLink)
                 let status = $("<td></td>").text(element.status)      
                 let appName = $("<td></td>").text(element.app_name)
@@ -163,7 +165,10 @@ $(function() {
                 }
                 let firstName = element.application.name.preferred ? element.application.name.preferred : element.application.name.first
                 let projectName = $("<td></td>")
-                projectName.append(`<a href=\'/projectview/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
+                let projectLink = $(`<a href=\'/projectview/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
+                projectLink.attr('target', '_blank');
+                projectLink.attr('rel', 'noopener noreferrer');
+                projectName.append(projectLink)
                 let startDate = $("<td></td>").text(element.project.project_start)
                 let location = $("<td></td>").text(element.application.address.city)
                 let workItems = $("<td></td>")
@@ -224,7 +229,10 @@ $(function() {
               let firstName = element.application.name.preferred ? element.application.name.preferred : element.application.name.first
               let applicationDate =  $("<td></td>").text(element.signature.client_date)
               let projectName = $("<td></td>")
-              projectName.append(`<a href=\'/view/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
+              let projectLink = $(`<a href=\'/view/${element._id}\'>${firstName} ${element.application.name.last}</a>`)
+              projectLink.attr('target', '_blank');
+              projectLink.attr('rel', 'noopener noreferrer');
+              projectName.append(projectLink)
               let location = $("<td></td>").text(element.application.address.city)
               let workItems = $("<td></td>")
               element.workItemDoc.forEach((item, i) => {
