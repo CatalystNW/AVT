@@ -101,6 +101,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder1').html('<iframe id="iframe1" src="projectreport/endReportAppExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportAppEnd').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
@@ -114,6 +115,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder2').html('<iframe id="iframe2" src="projectreport/endReportProjExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportProjectEnd').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
@@ -121,6 +123,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder3').html('<iframe id="iframe3" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportUpcomingBtn').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
