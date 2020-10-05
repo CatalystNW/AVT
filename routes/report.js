@@ -276,30 +276,52 @@ function formatStatusUpComing(element) {
 //Formats the results from our search results
 function formatStatusUpSearch(element) {
     var status;
-    console.log(element.status)
+    console.log(element.application.name.first, element.status)
     switch (element.status){
-        case 'assess':
-            status = 'Site Assessment - Pending';
-            break;
-		case 'assessComp':
-			status = 'Site Assessment - Complete';
+        case 'assessComp':
+            status =  'Site Assessment - Complete';
             break;
         case 'approval':
-            status = 'Approval Process';
-            break;   
-        case 'waitlist':
-            status = 'Waitlist';
-            break; 
-        case 'project':
-            status = 'Approved Project';
-            break; 
-        case 'handle':
-            status = "Handle-It";
+            status =  'Approval Process';  
             break;
-        default:
-            status = element.status;
+        case 'waitlist':
+            status =  'Waitlist';
+            break;
+        case 'phone':
+            status =  'Phone Screen';
+            break;
+        case 'project':
+            status =  'Converted to Project';
+            break;
+        case 'handle':
+            status =  "Handle-It";
+            break;
+        case 'declined':
+            status =  "Declined";
+            break;
+        case 'withdrawn':
+            status =  "Withdrawn";
+            break;
+        case 'documents':
+            status =  "Documents Needed";
+            break;
+        case 'withdrawnooa':
+            status =  "Out of Area";
+            break;
+        case 'discuss':
+            status =  "Dicussion Phase";
+            break;
+        case 'assess': 
+            status =  "Site Assessment - Pending";
+            break;
+        case 'new': 
+            status =  "New Document";
+            break;
+        default: 
+            status =  "Error"
+            break;
     }
-
+    console.log(element.application.name.first, element.status)
     element.status = status;
     return element;
 }

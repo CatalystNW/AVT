@@ -69,16 +69,25 @@ $(function() {
             data.forEach(element => {
                 let row = $("<tr></tr>")
                 let name = $("<td></td>")
-                let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
-                let projLink = $("<a></a>").attr("href", link)
-                projLink.text(element.application.name.first + " " + element.application.name.last)
-                projLink.attr('target', '_blank');
-                projLink.attr('rel', 'noopener noreferrer');
-                name.append(projLink)
+                let link = "/view/" + element._id
+                let appLink = $("<a></a>").attr("href", link)
+                appLink.text(element.application.name.first + " " + element.application.name.last)
+                appLink.attr('target', '_blank');
+                appLink.attr('rel', 'noopener noreferrer');
+                name.append(appLink)
                 let status = $("<td></td>").text(element.status)      
                 let appName = $("<td></td>").text(element.app_name)
                 let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
-                row.append(name, loc, status, appName)
+                let projLink = $("<td></td>")
+                let projLinkContent = "N/A"
+                if (element.project){
+                    projLinkContent = $("<a>Link</a>")
+                    projLinkContent.attr("href", "/projectview/" + element._id) 
+                    projLinkContent.attr('target', '_blank');
+                    projLinkContent.attr('rel', 'noopener noreferrer');
+                }
+                projLink.append(projLinkContent)
+                row.append(name, loc, status, appName, projLink)
                 $("#tableContent").append(row)
                 $('#searchHidden').css("display", "block")
             })
