@@ -34,7 +34,10 @@
 <!--Use Header Partial Here-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#projectEnd" role="tab">Project Report</a>
+    <a class="nav-link active" data-toggle="tab" href="#upcoming" role="tab">Upcoming Projects</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#projectEnd" role="tab">Project Report</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#applicationEnd" role="tab">Application Report</a>
@@ -42,13 +45,10 @@
     <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#work" role="tab">Search</a>
     </li>
-    <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#upcoming" role="tab">Upcoming Projects</a>
-    </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane active" id="projectEnd" role="tabpanel">
+    <div class="tab-pane" id="projectEnd" role="tabpanel">
         <div id="iframeHolder2"></div>
         <div style="float:left;">
             </br>
@@ -85,6 +85,8 @@
                         <h5 class="mb-0">
                                 Project Breakdown
                         </h5>
+                        <span id="numHandle"></span>
+                        <span id="numProj"></span>
                         <button class="btn btn-info" id="exportProjectEnd">Export</button>
                 </div>
                 <div class="card-block">
@@ -112,52 +114,6 @@
             <p></p>Total Volunteers: <span id="total_volunteers"></span></p>
             <p>Total Cost: <span id="total_cost"></span></p>
             <p>Total Labor Hrs: <span id="total_labor_count"></span></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="tab-pane" id="applicationEnd" role="tabpanel">
-        <div id="iframeHolder1"></div>
-        <div  style="float:left;">
-            </br>
-            <h5>Application Submit Date</h5>
-            <label>From</label>
-            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
-            <label>To</label>
-            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
-            </br>
-            <span>Generate with an application date range </span>
-            <button id="EndSubmitA">Submit</button>
-            <div style="display:none" id="appReportHidden">
-            <div class="card">
-            <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
-                    <h5 class="mb-0">
-                            Application Breakdown
-                    </h5>
-                    <button class="btn btn-info" id="exportAppEnd">Export</button>
-            </div>
-            <div class="card-block">
-                <table class="table table-sm table-bordered orderTable2" >
-                    <thead>
-                        <tr>
-                            <th onclick="orderTable('orderTable2', 0)">Project</th>
-                            <th onclick="orderTable('orderTable2', 1)">Application Date</th>
-                            <th onclick="orderTable('orderTable2', 2)">Location</th>
-                            <th onclick="orderTable('orderTable2', 3)">Work Items</th>
-                            <th onclick="orderTable('orderTable2', 4)">CC</th>
-                            <th onclick="orderTable('orderTable2', 5)">PA</th>
-                            <th onclick="orderTable('orderTable2', 6)">SH</th>
-                            <th onclick="orderTable('orderTable2', 7)">Est. Cost</th>
-                            <th onclick="orderTable('orderTable2', 8)">Est. Volunteers</th>
-                        </tr>
-                    </thead>
-                    <tbody id="assocPartnerTableA">
-                    </tbody>
-                </table>
-            </div>
-            </div>
-            <p>Total Volunteers: <span id="est_volunteers"></span></p>
-            <p>Total Cost: <span id="est_cost"></span></p>
             </div>
         </div>
     </div>
@@ -228,6 +184,7 @@
                     <th onclick="orderTable('orderTable3', 1)" id="head2">Address</th>
                     <th onclick="orderTable('orderTable3', 2)" id="head3">Appl. Status</th>
                     <th onclick="orderTable('orderTable3', 3)"id="head4">Appl. ID</th>
+                    <th>Project Link</th>
                 </tr>
             </thead>
             <tbody id="tableContent">
@@ -242,7 +199,7 @@
         </div>
     </div>
 
-    <div class="tab-pane" id="upcoming" role="tabpanel">
+    <div class="tab-pane active" id="upcoming" role="tabpanel">
         <div id="iframeHolder3"></div>
         <div class="row">
         <div class="col-xs-12">
@@ -321,6 +278,53 @@
         </div>
         </div>
         </div>    
+    </div>
+
+    <div class="tab-pane" id="applicationEnd" role="tabpanel">
+        <div id="iframeHolder1"></div>
+        <div  style="float:left;">
+            </br>
+            <h5>Application Submit Date</h5>
+            <label>From</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appFromSum">
+            <label>To</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="appToSum">
+            </br>
+            <span>Generate with an application date range </span>
+            <button id="EndSubmitA">Submit</button>
+            <div style="display:none" id="appReportHidden">
+            <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                            Application Breakdown
+                    </h5>
+                    <span id="numApps"></span>
+                    <button class="btn btn-info" id="exportAppEnd">Export</button>
+            </div>
+            <div class="card-block">
+                <table class="table table-sm table-bordered orderTable2" >
+                    <thead>
+                        <tr>
+                            <th onclick="orderTable('orderTable2', 0)">Project</th>
+                            <th onclick="orderTable('orderTable2', 1)">Application Date</th>
+                            <th onclick="orderTable('orderTable2', 2)">Location</th>
+                            <th onclick="orderTable('orderTable2', 3)">Work Items</th>
+                            <th onclick="orderTable('orderTable2', 4)">CC</th>
+                            <th onclick="orderTable('orderTable2', 5)">PA</th>
+                            <th onclick="orderTable('orderTable2', 6)">SH</th>
+                            <th onclick="orderTable('orderTable2', 7)">Est. Cost</th>
+                            <th onclick="orderTable('orderTable2', 8)">Est. Volunteers</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assocPartnerTableA">
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <p>Total Volunteers: <span id="est_volunteers"></span></p>
+            <p>Total Cost: <span id="est_cost"></span></p>
+            </div>
+        </div>
     </div>
 </div>
 

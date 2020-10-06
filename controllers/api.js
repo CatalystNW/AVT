@@ -506,7 +506,7 @@ getDocumentPlanning: function (req, res, next) {
             queryObject["project.project_start"] = projStartObject
         }
         queryObject["project"] = {$exists: true}
-        queryObject["status"] = {$nin: ['declined', 'withdrawn']}
+        queryObject["project.status"] = {$in: ['projectCompleted', 'handleCompleted', 'projectGoBacks']}
         console.log(queryObject)
         DocumentPackage.aggregate([
             {$match: queryObject},
@@ -552,12 +552,12 @@ getDocumentPlanning: function (req, res, next) {
                 {
                     //If the start date is null, set as furthest date possible in results
                     //for sorting purposes
-                    "startDate": {
-                        "$ifNull": ["$project.project_start", new Date(864000000000000)]
+                    "endDate": {
+                        "$ifNull": ["$project.project_end", new Date(864000000000000)]
                     }
                 }
             },
-            {$sort: {"startDate": 1} }
+            {$sort: {"endDate": 1} }
         ]).then( result => {
             console.log(result)
             res.locals.projecttable = result

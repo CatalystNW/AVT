@@ -50,6 +50,8 @@ module.exports = function(passport){
         payload.projTable = res.locals.projecttable
 
         //Calculating totals for costs and total_volunteers
+        let numberHandle = 0
+        let numberProj = 0
         let total_cost = 0
         let total_volunteers = 0
         let total_labor_count = 0
@@ -92,10 +94,19 @@ module.exports = function(passport){
                 labor_addition = isNaN(labor) ? 0 : parseInt(labor)
             }
             total_labor_count += labor_addition
+
+            if (item.project.status.includes('handle')){
+                numberHandle += 1
+            }
+            else {
+                numberProj += 1
+            }
         })  
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
         payload.total_labor_count = total_labor_count
+        payload.numberHandle = numberHandle
+        payload.numberProj = numberProj
         console.log(payload.total_labor_count)
 
         //Sending the result to the page
@@ -276,30 +287,52 @@ function formatStatusUpComing(element) {
 //Formats the results from our search results
 function formatStatusUpSearch(element) {
     var status;
-    console.log(element.status)
+    console.log(element.application.name.first, element.status)
     switch (element.status){
-        case 'assess':
-            status = 'Site Assessment - Pending';
-            break;
-		case 'assessComp':
-			status = 'Site Assessment - Complete';
+        case 'assessComp':
+            status =  'Site Assessment - Complete';
             break;
         case 'approval':
-            status = 'Approval Process';
-            break;   
-        case 'waitlist':
-            status = 'Waitlist';
-            break; 
-        case 'project':
-            status = 'Approved Project';
-            break; 
-        case 'handle':
-            status = "Handle-It";
+            status =  'Approval Process';  
             break;
-        default:
-            status = element.status;
+        case 'waitlist':
+            status =  'Waitlist';
+            break;
+        case 'phone':
+            status =  'Phone Screen';
+            break;
+        case 'project':
+            status =  'Converted to Project';
+            break;
+        case 'handle':
+            status =  "Handle-It";
+            break;
+        case 'declined':
+            status =  "Declined";
+            break;
+        case 'withdrawn':
+            status =  "Withdrawn";
+            break;
+        case 'documents':
+            status =  "Documents Needed";
+            break;
+        case 'withdrawnooa':
+            status =  "Out of Area";
+            break;
+        case 'discuss':
+            status =  "Dicussion Phase";
+            break;
+        case 'assess': 
+            status =  "Site Assessment - Pending";
+            break;
+        case 'new': 
+            status =  "New Document";
+            break;
+        default: 
+            status =  "Error"
+            break;
     }
-
+    console.log(element.application.name.first, element.status)
     element.status = status;
     return element;
 }

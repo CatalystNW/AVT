@@ -69,16 +69,25 @@ $(function() {
             data.forEach(element => {
                 let row = $("<tr></tr>")
                 let name = $("<td></td>")
-                let link = element.project ? "/projectview/" + element._id : "/view/" + element._id
-                let projLink = $("<a></a>").attr("href", link)
-                projLink.text(element.application.name.first + " " + element.application.name.last)
-                projLink.attr('target', '_blank');
-                projLink.attr('rel', 'noopener noreferrer');
-                name.append(projLink)
+                let link = "/view/" + element._id
+                let appLink = $("<a></a>").attr("href", link)
+                appLink.text(element.application.name.first + " " + element.application.name.last)
+                appLink.attr('target', '_blank');
+                appLink.attr('rel', 'noopener noreferrer');
+                name.append(appLink)
                 let status = $("<td></td>").text(element.status)      
                 let appName = $("<td></td>").text(element.app_name)
                 let loc = $("<td></td>").text(element.application.address.city + ", " + element.application.address.state)
-                row.append(name, loc, status, appName)
+                let projLink = $("<td></td>")
+                let projLinkContent = "N/A"
+                if (element.project){
+                    projLinkContent = $("<a>Link</a>")
+                    projLinkContent.attr("href", "/projectview/" + element._id) 
+                    projLinkContent.attr('target', '_blank');
+                    projLinkContent.attr('rel', 'noopener noreferrer');
+                }
+                projLink.append(projLinkContent)
+                row.append(name, loc, status, appName, projLink)
                 $("#tableContent").append(row)
                 $('#searchHidden').css("display", "block")
             })
@@ -101,6 +110,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder1').html('<iframe id="iframe1" src="projectreport/endReportAppExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportAppEnd').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
@@ -114,6 +124,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder2').html('<iframe id="iframe2" src="projectreport/endReportProjExport' + queryString + '" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportProjectEnd').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
@@ -121,6 +132,7 @@ $(function() {
     if(!$('#iframe').length) {
             $('#iframeHolder3').html('<iframe id="iframe3" src="projectreport/upComingExport" frameborder="0" width="100%" height="100%"></iframe>');
             $('#exportUpcomingBtn').hide();
+            $("html").animate({ scrollTop: 0 }, "slow");
     }
   });
 
@@ -193,6 +205,8 @@ $(function() {
                 row.append(projectName, startDate, location, workItems, crew_chief, project_advocate, site_host, partnerList, total_cost, volunteers, labor_count)
                 $("#assocPartnerTableP").append(row)
             })
+            $("#numHandle").text(`${data.numberHandle} Handle-it(s)`)
+            $("#numProj").text(`${data.numberProj} Project(s)`)
             $("#total_volunteers").text(data.total_volunteers)
             $("#total_cost").text("$" + data.total_cost)
             $("#total_labor_count").text(data.total_labor_count)
@@ -248,7 +262,8 @@ $(function() {
               let volunteers = $("<td></td>").text('volunteers_needed' in estimates ? estimates.volunteers_needed : 'None specified')
               row.append(projectName, applicationDate, location, workItems, crew_chief, project_advocate, site_host, total_cost, volunteers)
               $("#assocPartnerTableA").append(row)
-          })
+          });
+          $("#numApps").text(`${data.projTable.length} Applications`);
           $("#est_cost").text("$" + data.total_cost)
           $("#est_volunteers").text(data.total_volunteers)
           $('#appReportHidden').css("display", "block")
