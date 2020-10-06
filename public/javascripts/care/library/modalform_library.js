@@ -16,6 +16,7 @@ var service_form_modal = {
     this.add_minutes();
 
     $("#service-form").on("submit", function(e) {
+
       var date_string = $("#service-select-day").val() + "T";
 
       var hour = $("#service-select-hour").val(),
@@ -41,7 +42,7 @@ var service_form_modal = {
         date_string += "0" + minute
       else
         date_string += minute;
-
+      // hidden date input the service form modal
       $("#service-date").val(date_string);
 
       var method = $(this).attr("method");

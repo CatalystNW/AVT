@@ -22,7 +22,7 @@ async function post_appnote(req, res) {
     async (context) => {
       if (req.user && req.user.id && req.body.note && req.body.application_id) {
         var id = req.user._id, 
-            note = req.body.note
+            note = req.body.note,
             application_id = req.body.application_id;
     
         var user = await UserPackage.findById(id).lean().exec();
@@ -63,7 +63,7 @@ async function get_appnotes(req, res) {
       var user_id = req.user.id;
       var app_id = req.params.application_id
       var notes = await CareAppNote.find({applicant: app_id}).lean().exec();
-      var dataArr = [], note;
+
       for (var i=0; i< notes.length; i++) {
         notes[i].updatedAt = notes[i].updatedAt.toLocaleString();
         notes[i].createdAt = notes[i].createdAt.toLocaleString();

@@ -57,7 +57,7 @@ async function get_applications(req, res) {
       else
         var query = CareApplicant.find({});
 
-      apps = await query.populate('services').lean().exec();
+      var apps = await query.populate('services').lean().exec();
       for (var i=0; i<apps.length;i++) {
         // Sort by services_by service_date
         transform_app_with_services_data(apps[i]);
@@ -67,6 +67,7 @@ async function get_applications(req, res) {
   );
 };
 
+// gets the application data and sends as JSON. Uss req.params.application_id
 async function get_applicant_data_api(req, res) {
   helper.authenticate_api(req, res,
     async (context) => {
@@ -80,6 +81,7 @@ async function get_applicant_data_api(req, res) {
   );
 }
 
+// Updates application by id (req.params.application_id) and the data from req.body
 async function update_application(req, res) {
   helper.authenticate_api(req, res,
     async (context) => {
@@ -102,8 +104,8 @@ async function update_application(req, res) {
         o = careApplicant;
         
         // Split path string into array. Used for navigation
-        path_arr = field_obj.path.split("/");
-        for (i=0; i< path_arr.length; i++) {
+        var path_arr = field_obj.path.split("/");
+        for (var i=0; i< path_arr.length; i++) {
           if (i == path_arr.length - 1) {
             // Update if the values differ
             if (value != o[path_arr[i]]) {
@@ -115,7 +117,7 @@ async function update_application(req, res) {
             o = o[path_arr[i]];
         }
       }
-      if (update_status) {
+      if (update_status) { //update status is flagged only if value was changed
         var result = await careApplicant.save();
       }
       // get back app thru query with populated services obj
