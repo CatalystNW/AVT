@@ -205,6 +205,8 @@ $(function() {
                 row.append(projectName, startDate, location, workItems, crew_chief, project_advocate, site_host, partnerList, total_cost, volunteers, labor_count)
                 $("#assocPartnerTableP").append(row)
             })
+            $("#numHandle").text(`${data.numberHandle} Handle-it(s)`)
+            $("#numProj").text(`${data.numberProj} Project(s)`)
             $("#total_volunteers").text(data.total_volunteers)
             $("#total_cost").text("$" + data.total_cost)
             $("#total_labor_count").text(data.total_labor_count)
@@ -260,7 +262,8 @@ $(function() {
               let volunteers = $("<td></td>").text('volunteers_needed' in estimates ? estimates.volunteers_needed : 'None specified')
               row.append(projectName, applicationDate, location, workItems, crew_chief, project_advocate, site_host, total_cost, volunteers)
               $("#assocPartnerTableA").append(row)
-          })
+          });
+          $("#numApps").text(`${data.projTable.length} Applications`);
           $("#est_cost").text("$" + data.total_cost)
           $("#est_volunteers").text(data.total_volunteers)
           $('#appReportHidden').css("display", "block")

@@ -50,6 +50,8 @@ module.exports = function(passport){
         payload.projTable = res.locals.projecttable
 
         //Calculating totals for costs and total_volunteers
+        let numberHandle = 0
+        let numberProj = 0
         let total_cost = 0
         let total_volunteers = 0
         let total_labor_count = 0
@@ -92,10 +94,19 @@ module.exports = function(passport){
                 labor_addition = isNaN(labor) ? 0 : parseInt(labor)
             }
             total_labor_count += labor_addition
+
+            if (item.project.status.includes('handle')){
+                numberHandle += 1
+            }
+            else {
+                numberProj += 1
+            }
         })  
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
         payload.total_labor_count = total_labor_count
+        payload.numberHandle = numberHandle
+        payload.numberProj = numberProj
         console.log(payload.total_labor_count)
 
         //Sending the result to the page
