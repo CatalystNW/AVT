@@ -699,7 +699,7 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projStartObject).length !== 0 && projStartObject.constructor === Object){
             queryObject["project.project_start"] = projStartObject
         }
-        
+        queryObject["project.status"] = {$in: ['projectCompleted', 'handleCompleted', 'projectGoBacks']}
         Promise.props({
             partnerIds: PartnerPackage.find({},{"org_name": 1}).sort({"org_name": 1}).lean().execAsync(),
             targetedYearIds: DocumentPackage.find(
