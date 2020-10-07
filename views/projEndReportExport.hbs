@@ -1,13 +1,18 @@
 <script src='/javascript/exportToCsv.js' type="text/javascript"></script>
 <script>
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Name, Status, Start Date,Location,Work Items,CC,PA,SH,Partners,Cost,Volunteers,Labor Hours\n"
+    csvContent += "Name, Status, Start Date, Completion Date, Location,Work Items,CC,PA,SH,Partners,Cost,Volunteers,Labor Hours\n"
         {{#each payload}}
             {{#each this}}
                     csvContent += "{{escape application.name.first}} {{escape application.name.last}},"
-                    csvContent += "{{project.status}},"
+                    csvContent += "{{convertStatusProject project.status}},"
                     {{#if project.project_start}}
                         csvContent += "{{dateToLocaleDate project.project_start}},"
+                    {{else}}
+                        csvContent += ","
+                    {{/if}}
+                    {{#if project.project_end}}
+                        csvContent += "{{dateToLocaleDate project.project_end}},"
                     {{else}}
                         csvContent += ","
                     {{/if}}
