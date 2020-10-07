@@ -205,8 +205,7 @@ hbs.registerHelper('getCompletedDate', function (item, name) {
   return item.getCompletedDate(name);
 })
 
-hbs.registerHelper('convertStatus', function(statusKey) {
-  console.log(statusKey)
+hbs.registerHelper('convertStatusApplication', function(statusKey) {
   switch (statusKey){
     case 'assess':
         return 'Site Assessment - Pending';
@@ -238,6 +237,19 @@ hbs.registerHelper('convertStatus', function(statusKey) {
         return "Error"
   }
 })
+
+hbs.registerHelper('convertStatusProject', function(statusKey) {
+    switch (statusKey){
+      case 'projectGoBacks':
+          return 'Project - Go Back';
+      case 'projectCompleted':
+          return 'Project - Completed';
+      case 'handleCompleted':
+          return 'Handle-it - Completed'; 
+      default:
+          return "Error"
+    }
+});
 
 hbs.registerHelper('plus_one', function(idx){
   return idx + 1
