@@ -28,9 +28,6 @@ module.exports = function(passport){
         context.user_email = res.locals.email;
         context.user_role = res.locals.role;
         context.user_roles = res.locals.user_roles;
-        //console.log('--------------WHAT FOLLOWS ARE THE RESULTS OF OUR QUERY----------')
-        //console.log(context)
-        //console.log('---------------END 3-------------------------------------')
         res.render('projectsumreport', context); 
     })
     
@@ -107,7 +104,6 @@ module.exports = function(passport){
         payload.total_labor_count = total_labor_count
         payload.numberHandle = numberHandle
         payload.numberProj = numberProj
-        console.log(payload.total_labor_count)
 
         //Sending the result to the page
         res.send(payload)
@@ -141,12 +137,10 @@ module.exports = function(passport){
             item.project.project_advocate = 'project_advocate' in project && project.project_advocate ? project.project_advocate : 'N/A'
             item.signature.client_date = formatDate(item.signature.client_date) 
         })
-        console.log('does it get here')
         payload.total_cost = total_cost
         payload.total_volunteers = total_volunteers
 
         //Sending the result to the page
-        console.log(payload)
         res.send(payload)
     })
 
@@ -287,7 +281,6 @@ function formatStatusUpComing(element) {
 //Formats the results from our search results
 function formatStatusUpSearch(element) {
     var status;
-    console.log(element.application.name.first, element.status)
     switch (element.status){
         case 'assessComp':
             status =  'Site Assessment - Complete';
@@ -332,7 +325,6 @@ function formatStatusUpSearch(element) {
             status =  "Error"
             break;
     }
-    console.log(element.application.name.first, element.status)
     element.status = status;
     return element;
 }

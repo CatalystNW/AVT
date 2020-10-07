@@ -5,7 +5,7 @@
         {{#each payload}}
             {{#each this}}
                     csvContent += "{{escape application.name.first}} {{escape application.name.last}},"
-                    csvContent += "{{convertStatus status}},"
+                    csvContent += "{{convertStatusApplication status}},"
                     {{#if project.project_start}}
                         csvContent += "{{dateToLocaleDate project.project_start}},"
                     {{else}}

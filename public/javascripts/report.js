@@ -60,7 +60,7 @@ $(function() {
         type: 'GET',
         success: function(data){
             if(!data.length){
-                //If there is no response, 
+                //If there is no response, state that there is none
                 let row = $("<tr></tr>")
                 let emptyResultsEle = $("<td></td>").text("No results for that search")
                 row.append(emptyResultsEle)
