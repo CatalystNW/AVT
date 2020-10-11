@@ -205,26 +205,51 @@ hbs.registerHelper('getCompletedDate', function (item, name) {
   return item.getCompletedDate(name);
 })
 
-hbs.registerHelper('convertStatus', function(statusKey) {
+hbs.registerHelper('convertStatusApplication', function(statusKey) {
   switch (statusKey){
     case 'assess':
         return 'Site Assessment - Pending';
-        break;
     case 'assessComp':
         return 'Site Assessment - Complete';
-        break;
     case 'approval':
         return 'Approval Process';  
     case 'waitlist':
         return 'Waitlist';
-    case 'upComing':
-        return'Project Upcoming'; 
+    case 'phone':
+        return 'Phone Screen';
+    case 'project':
+        return 'Converted to Project';
     case 'handle':
         return "Handle-It";
+    case 'declined':
+        return "Declined";
+    case 'withdrawn':
+        return "Withdrawn";
+    case 'documents':
+        return "Documents Needed";
+    case 'withdrawnooa':
+        return "Out of Area";
+    case 'discuss':
+        return "Dicussion Phase";
+    case 'new':
+        return "New Document";
     default:
         return "Error"
   }
 })
+
+hbs.registerHelper('convertStatusProject', function(statusKey) {
+    switch (statusKey){
+      case 'projectGoBacks':
+          return 'Project - Go Back';
+      case 'projectCompleted':
+          return 'Project - Completed';
+      case 'handleCompleted':
+          return 'Handle-it - Completed'; 
+      default:
+          return "Error"
+    }
+});
 
 hbs.registerHelper('plus_one', function(idx){
   return idx + 1
