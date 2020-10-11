@@ -258,8 +258,8 @@ $(function() {
               let crew_chief = $("<td></td>").text(element.project.crew_chief)
               let project_advocate = $("<td></td>").text(element.project.project_advocate)
               let site_host = $("<td></td>").text(element.project.site_host)
-              let total_cost = $("<td></td>").text('total_cost' in estimates ? estimates.total_cost : 'None specified')
-              let volunteers = $("<td></td>").text('volunteers_needed' in estimates ? estimates.volunteers_needed : 'None specified')
+              let total_cost = $("<td></td>").text(estimates.total_cost ? estimates.total_cost : 'None specified')
+              let volunteers = $("<td></td>").text(estimates.volunteers_needed in estimates ? estimates.volunteers_needed : 'None specified')
               row.append(projectName, applicationDate, location, workItems, crew_chief, project_advocate, site_host, total_cost, volunteers)
               $("#assocPartnerTableA").append(row)
           });
