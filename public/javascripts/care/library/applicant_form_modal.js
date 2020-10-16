@@ -62,11 +62,10 @@ var applicant_form_modal = {
     });
     var that = this;
     link.on("click", function(e) {
-      var app_id = $(this).attr("value");
-      that.set_appid_and_edit_callback(app_id, edit_app_callback)
+      var application_id = $(this).attr("value");
+      that.set_appid_and_edit_callback(application_id, edit_app_callback)
       that.form_load_data();
       that.load_notes();
-      
     });
     return link;
   },
