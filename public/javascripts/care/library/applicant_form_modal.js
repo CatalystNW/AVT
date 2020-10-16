@@ -246,17 +246,14 @@ var applicant_form_modal = {
 
     $note_form.on("submit", function(e) {
       e.preventDefault();
-  
-      var formArr = $note_form.serializeArray();
-      formArr.push({name: "application_id", value: that.app_id});
-      that.submit_note(formArr);
+
+      that.submit_note();
     });
   },
   update_applicant_form(e) {
     var $app_form = $("#application-form"),
         app_id = applicant_form_modal.app_id;
 
-    console.log(app_id, $app_form);
     $.ajax({
       type: "PUT",
       url: "/carenetwork/applications/" + app_id,
@@ -439,18 +436,28 @@ var applicant_form_modal = {
     tr.append(td);
     $container.append(tr);
   },
-  submit_note(data) {
-    var $note_form = $("#note-form"),
-        that = this;
-  
+  submit_note() {
+    var $note_form = $("#note-form");
+
+    var formData = $note_form.serializeArray(),
+        app_id = applicant_form_modal.app_id;
+
+    formData.push({
+      name: "application_id", 
+      value: app_id});
+        
     $.ajax({
       type: "POST",
       url: '/carenetwork/appnote',
-      data: data,
+      data: formData,
       success: function(note_data, textstatus, xhr) {
         if (xhr.status == 201 || xhr.status == 200) {
           $note_form[0].reset();
-          that.add_note_html(note_data);
+
+          // Show the note only if current app hasn't changed
+          // due to delay between submitting note and closing (thus submit) the form
+          if (applicant_form_modal.app_id == app_id)
+            applicant_form_modal.add_note_html(note_data);
         }
       }
     });
