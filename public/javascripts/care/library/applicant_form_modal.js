@@ -1,6 +1,7 @@
 var applicant_form_modal = {
   app_id: null,
   edit_app_callback: null,
+  // Sets up handlers for the form before being used
   setup_form() {
     var $app_form = $("#application-form"),
         $note_form = $("#note-form");
@@ -12,8 +13,7 @@ var applicant_form_modal = {
 
     $("#form-reset-button").click(function(event) {
       event.preventDefault();
-      $app_form[0].reset();
-      that.form_load_data();
+      that.reset_form_data();
     });
 
     // submit app form when user closes it
@@ -26,6 +26,11 @@ var applicant_form_modal = {
 
       that.submit_note();
     });
+  },
+  reset_form_data() {
+    var $app_form = $("#application-form");
+    $app_form[0].reset();
+    applicant_form_modal.form_load_data();
   },
   update_applicant_form(e) {
     var $app_form = $("#application-form"),
