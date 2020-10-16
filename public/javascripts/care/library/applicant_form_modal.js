@@ -233,7 +233,7 @@ var applicant_form_modal = {
 
     var that = this;
 
-    $("#form-reset-button").click(event, function() {
+    $("#form-reset-button").click(function(event) {
       event.preventDefault();
       $app_form[0].reset();
       that.form_load_data();
