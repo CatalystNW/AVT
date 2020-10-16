@@ -98,27 +98,29 @@ async function update_application(req, res) {
         value = req.body[field];
         field_obj = fields_map[field];
 
-        if (value == undefined)
+        if (value == undefined || value.length == 0)
           continue;
 
         o = careApplicant;
         
         // Split path string into array. Used for navigation
         var path_arr = field_obj.path.split("/");
+        // Only update those with changed fields & set update_status
         for (var i=0; i< path_arr.length; i++) {
-          if (i == path_arr.length - 1) {
+          if (i == path_arr.length - 1) { // end of the navigation array
             // Update if the values differ
             if (value != o[path_arr[i]]) {
               o[path_arr[i]] = value;
               update_status = true
             }
           }
-          else
+          else { // Continue navigating through the data object
             o = o[path_arr[i]];
+          }
         }
       }
       if (update_status) { //update status is flagged only if value was changed
-        var result = await careApplicant.save();
+        await careApplicant.save();
       }
       // get back app thru query with populated services obj
       var app = await CareApplicant.findById(application_id).populate("services")
