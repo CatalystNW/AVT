@@ -241,21 +241,7 @@ var applicant_form_modal = {
 
     // submit app form when user closes it
     $("#applicantModal").on("hidden.bs.modal", function(e) {
-      $.ajax({
-        type: "PUT",
-        url: "/carenetwork/applications/" + that.app_id,
-        data: $app_form.serialize(),
-        success: function(data, textStatus, xhr) {
-          if (xhr.status == 200) {
-            $app_form[0].reset();
-            if (that.edit_app_callback) {
-              that.edit_app_callback(data);
-              that.edit_app_callback = null;
-            }
-            that.clear_form();
-          }
-        }
-      });
+      that.update_applicant_form();
     });
 
     $note_form.on("submit", function(e) {
@@ -264,6 +250,27 @@ var applicant_form_modal = {
       var formArr = $note_form.serializeArray();
       formArr.push({name: "application_id", value: that.app_id});
       that.submit_note(formArr);
+    });
+  },
+  update_applicant_form(e) {
+    var $app_form = $("#application-form"),
+        app_id = applicant_form_modal.app_id;
+
+    console.log(app_id, $app_form);
+    $.ajax({
+      type: "PUT",
+      url: "/carenetwork/applications/" + app_id,
+      data: $app_form.serialize(),
+      success: function(data, textStatus, xhr) {
+        if (xhr.status == 200) {
+          $app_form[0].reset();
+          if (applicant_form_modal.edit_app_callback) {
+            applicant_form_modal.edit_app_callback(data);
+            applicant_form_modal.edit_app_callback = null;
+          }
+          applicant_form_modal.clear_form();
+        }
+      }
     });
   },
   set_appid_and_edit_callback(app_id, edit_app_callback) {
