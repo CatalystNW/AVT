@@ -58,6 +58,10 @@ var applicant_form_modal = {
   },
   // Creates a link with a click handler that will open the application form modal
   create_link(app_id, name, edit_app_callback) {
+    // Prevent Missing Name not being selectable
+    if (name.length == 0 || name.replace(/\s/g, '') == 0)
+      name = "[MISSING NAME] - PLEASE CHANGE";
+
     var link = $(`<a></a>`, {
       value: app_id,
       href: "",
@@ -66,6 +70,7 @@ var applicant_form_modal = {
       "data-toggle": "modal",
     });
     var that = this;
+    // Reveals the form modal & loads the data
     link.on("click", function(e) {
       var application_id = $(this).attr("value");
       that.set_appid_and_edit_callback(application_id, edit_app_callback)
@@ -79,7 +84,6 @@ var applicant_form_modal = {
     $("#applicantModal").find('input').val('');
     $("#applicantModal").find('textarea').val('');
     $("#appnote-container").empty();
-    console.log("Modal Form was closed");
   },
   // Send GET Request to get Application data & then loads to the form
   // via this.fill_app_data()
@@ -113,7 +117,7 @@ var applicant_form_modal = {
           $(`input[name=${field}]`).val(app_data.address[field]);
         }
       } else if (field == "dob") {
-        var regex = /(\d{4}-\d{2}-\d{2})/g
+        var regex = /(\d{4}-\d{2}-\d{2})/g;
         var result = app_data[field].match(regex);
         if (result)
           $(`input[name=${field}]`).val(result[0]);
