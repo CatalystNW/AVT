@@ -72,7 +72,7 @@ var applicant_form_modal = {
     return link;
   },
   clear_form() {
-
+    applicant_form_modal.app_id = null;
     $("#applicantModal").find('input').val('');
     $("#applicantModal").find('textarea').val('');
     $("#appnote-container").empty();
