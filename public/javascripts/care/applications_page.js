@@ -148,6 +148,7 @@ var app_obj = {
     var $new_tr = app_obj.make_app_row(new_applicant_obj),
         old_applicant = app_obj.get_applicant(app_id);
     
+    // Move the application row to new status if it has changed
     if (old_applicant.application_status != new_applicant_obj.application_status) {
       $old_tr.remove();
       var $container = $("#" + new_applicant_obj.application_status+ "_container");
@@ -272,7 +273,7 @@ var service_obj ={
     var tr_classname = this.get_tr_class(app_id),
         new_tr = this.make_service_row(app_id, service);
     
-    $trs = $("." + tr_classname);
+    var $trs = $("." + tr_classname);
     var $last_tr = $trs[$trs.length - 1];
     new_tr.insertAfter($last_tr);
   },

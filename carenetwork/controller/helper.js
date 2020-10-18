@@ -19,7 +19,7 @@ function create_user_context(req) {
     var result = undefined;
     if(req.isAuthenticated()) {
       var userID = req.user._id.toString();
-      var result = User.findOne({"_id": userID}).lean();
+      result = User.findOne({"_id": userID}).lean();
     }
     resolve(result);
   });
