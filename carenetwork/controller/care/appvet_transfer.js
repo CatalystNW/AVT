@@ -171,8 +171,6 @@ async function transfer_appvet(app_id) {
         "refer_text": app.application.heard_about,
         "health_issues": app.application.special_circumstances.note,
 
-        "application_status": "appvet_transferred",
-
         "appvet_id": app._id,
 
         "home_occupants": others_text,
