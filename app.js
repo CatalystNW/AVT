@@ -1,3 +1,6 @@
+// Global Variable to disable console logging
+disable_logging = true;
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Node Modules
 // Import and Node Modules (from package.json) that the app will use)
@@ -71,6 +74,7 @@ app.set('view options', { layout: 'layout' });
 // hbs.registerPartial('partnerTab', path.join(__dirname,'views/partners.hbs'));
 
 hbs.registerHelper("debug", function(optionalValue) {
+  if (!disable_logging) {
     console.log("Current Context");
     console.log("====================");
     console.log(this);
@@ -80,6 +84,7 @@ hbs.registerHelper("debug", function(optionalValue) {
         console.log("====================");
         console.log(optionalValue);
     }
+  }
 });
 
 hbs.registerHelper('stringify', function(val) {
@@ -190,10 +195,7 @@ hbs.registerHelper('otherResidents', function(residentsObject) {
 })
 
 hbs.registerHelper('select', function(values) {
-  console.log('here');
-  console.log(values);
   var $el = $('select');
-  console.log($el);
   var i = 0;
   for(i; i<values.length; i++)
   {
@@ -277,8 +279,10 @@ hbs.registerHelper('getApplicationStartTime', function (apps, appid) {
 });
 
 hbs.registerHelper('getApplicationDueDate', function (apps, appid, ldTime) {
-  console.log("Handlebars Helper: getApplicationDueDate called");
-  console.log(ldTime);
+  if (!disable_logging) {
+    console.log("Handlebars Helper: getApplicationDueDate called");
+    console.log(ldTime);
+  }
   if (apps[appid] && apps[appid].project && apps[appid].project.project_start) {
       var myNewDate = new Date(apps[appid].project.project_start);
       
@@ -324,8 +328,6 @@ hbs.registerHelper('getPlanTaskAssignments', function(plan, userId, apps, appid)
   var labels = [];
   for (var i = 0; i < assigned.length; i++) {
     if (!assigned[i].complete) {
-      console.log("apple");
-      console.log(assigned[i]);
       labels.push(assigned[i].label);
     }
   }
@@ -393,7 +395,9 @@ app.use(function(req, res, next) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
-    console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
+    if (!disable_logging) {
+      console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
+    }
     if(req.get('X-Forwarded-Proto') == 'http'){
       res.redirect('https://' + req.get('Host') + req.url);
     }

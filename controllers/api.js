@@ -63,8 +63,10 @@ module.exports = {
      * Returns: results[array of Document Packages]
      */
     getAllDocuments: function (req, res, next) {
-        // Log what we are calling to the console
-        console.log('[ API ] getAllDocuments :: Call invoked');
+        if (!disable_logging) {
+            // Log what we are calling to the console
+            console.log('[ API ] getAllDocuments :: Call invoked');
+        }
 
         // Create an object to be filled with promises. The object will look like:
         // .then(function (<name of object here>) {...})
@@ -78,10 +80,12 @@ module.exports = {
                 // Save the results into res.locals
                 res.locals.results = results;
 
-                for (var i = 0, len = results.count; i < len; i++) {
-                    console.log('[ API ] getAllDocuments :: Found document package with _id: ' + results.application[i]._id);
+                if (!disable_logging) {
+                    for (var i = 0, len = results.count; i < len; i++) {
+                        console.log('[ API ] getAllDocuments :: Found document package with _id: ' + results.application[i]._id);
+                    }
+                    console.log('[ API ] getAllDocuments :: Document package count:', results.count);
                 }
-                console.log('[ API ] getAllDocuments :: Document package count:', results.count);
 
                 // If we are at this line all promises have executed and returned
                 // Call next() to pass all of this glorious data to the next express router
@@ -101,8 +105,10 @@ module.exports = {
      * Returns: results object (mimics documentPackage.js)
      */
     getDocumentById: function (req, res, next) {
-        // Log the api call we make along with the _id used by it
-        console.log('[ API ] getDocumentById :: Call invoked with id: ' + req.params.id);
+        if (!disable_logging) {
+            // Log the api call we make along with the _id used by it
+            console.log('[ API ] getDocumentById :: Call invoked with id: ' + req.params.id);
+        }
 		
         // Use results.DocumentPackage.<whatever you need> to access the information
         Promise.props({
@@ -123,15 +129,17 @@ module.exports = {
 			
         })
             .then(function(results) {
-				console.log("results");
-				
-				
-				console.log(results);
-                if (!results) {
-                    console.log('[ API ] getDocumentById :: Documents package found: FALSE');
-                }
-                else {
-                    console.log('[ API ] getDocumentById :: Documents package found: TRUE');
+                if (!disable_logging) {
+                    console.log("results");
+                    
+                    
+                    console.log(results);
+                    if (!results) {
+                        console.log('[ API ] getDocumentById :: Documents package found: FALSE');
+                    }
+                    else {
+                        console.log('[ API ] getDocumentById :: Documents package found: TRUE');
+                    }
                 }
 
                 res.locals.results = results;
@@ -148,8 +156,10 @@ module.exports = {
 
 	//site assessment get docs for view
 	getDocumentStatusSite: function (req, res, next) {
-        // Log the api call we make along with the _id used by it
-        console.log('[ API ] getDocumentStatusSite :: ');
+        if (!disable_logging) {
+            // Log the api call we make along with the _id used by it
+            console.log('[ API ] getDocumentStatusSite :: ');
+        }
 		
         // Use results.DocumentPackage.<whatever you need> to access the information
         Promise.props({
@@ -183,16 +193,16 @@ module.exports = {
 			).execAsync()
         })
             .then(function(results) {
-				console.log("results");
-				
-				
-				console.log(results);
-                if (!results) {
-                    console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
-                }
-                else {
-                    console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');
-
+                if (!disable_logging) {
+                    console.log("results");
+                    
+                    console.log(results);
+                    if (!results) {
+                        console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
+                    }
+                    else {
+                        console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');
+                    }
                 }
 
                 res.locals.results = results;
@@ -211,8 +221,10 @@ module.exports = {
 	
 	//site assessment get docs for view
 	getDocumentSite: function (req, res, next) {
-    // Log the api call we make along with the _id used by it
-    console.log('[ API ] getDocumentSite :: Call invoked with id: ' + req.params.id);
+    if (!disable_logging) {
+        // Log the api call we make along with the _id used by it
+        console.log('[ API ] getDocumentSite :: Call invoked with id: ' + req.params.id);
+    }
     res.locals.docId = req.params.id;
 		// Use results.DocumentPackage.<whatever you need> to access the information
     Promise.props({
@@ -231,14 +243,15 @@ module.exports = {
       assessment: AssessmentPackage.find({ applicationId: ObjectId(req.params.id) }).lean().execAsync(),
       projectNotes: ProjectNotePackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
     }).then(function(results) {
-			console.log("results\n", results);
-      if (!results) {
-        console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
-      }
-      else {
-        console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');
-        
-      }
+        if (!disable_logging) {
+            console.log("results\n", results);
+            if (!results) {
+                console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
+            }
+            else {
+                console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');    
+            }
+        }
 			res.locals.results = results;
       next();
 
@@ -248,8 +261,10 @@ module.exports = {
   },
 //site assessment get docs for view
 getDocumentPlanning: function (req, res, next) {
-    // Log the api call we make along with the _id used by it
-    console.log('[ API ] getDocumentSite :: Call invoked with id: ' + req.params.id);
+    if (!disable_logging) {
+        // Log the api call we make along with the _id used by it
+        console.log('[ API ] getDocumentSite :: Call invoked with id: ' + req.params.id);
+    }
 		// Use results.DocumentPackage.<whatever you need> to access the information
     Promise.props({
       //document: DocumentPackage.findById(req.params.id).lean().execAsync()
@@ -267,14 +282,16 @@ getDocumentPlanning: function (req, res, next) {
       planning: PlanningPackage.find({ applicationId: ObjectId(req.params.id) }).lean().execAsync()
 
     }).then(function(results) {
+        if (!disable_logging) {
 			console.log("results\n", results);
-      if (!results) {
-        console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
-      }
-      else {
-        console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');
-      }
-			res.locals.results = results;
+            if (!results) {
+                console.log('[ API ] getDocumentStatusSite :: Documents package found: FALSE');
+            }
+            else {
+                console.log('[ API ] getDocumentStatusSite :: Documents package found: TRUE');
+            }
+        }
+        res.locals.results = results;
       next();
 
     }).catch(function(err) {
@@ -282,21 +299,22 @@ getDocumentPlanning: function (req, res, next) {
     }).catch(next);
   },
 	getUsers: function(req, res, next) {
-		console.log("getting users");
 		 Promise.props({
             users: UserPackage.find().lean().execAsync()
         })
             .then(function(results) {
                 if (!results) {
-                    console.log('No users found');
+                    if (!disable_logging) {
+                        console.log('No users found');
+                    }
                 }
                 else {
-                    console.log('users found');
 					for(var x=0; x<results.users.length; x++) {
 						results.users[x].salt = "";
                         results.users[x].hash = "";
-                        console.log('here');
-                        console.log(results.users[x]);
+                        if (!disable_logging) {
+                            console.log(results.users[x]);
+                        }
                         results.users[x].user_roles_display="";
                         if (results.users[x].user_roles === undefined || results.users[x].user_roles.length===0 ) {
                             results.users[x].user_roles_display += results.users[x].user_role + " | ";
@@ -322,16 +340,17 @@ getDocumentPlanning: function (req, res, next) {
     },
 	
 	getUserRoles: function(req, res, next) {
-		console.log("getting user roles");
 		 Promise.props({
             roles: RolePackage.find().lean().execAsync()
         })
             .then(function(results) {
-                if (!results) {
-                    console.log('No roles found');
-                }
-                else {
-                    console.log('roles found');
+                if (!disable_logging) {
+                    if (!results) {
+                        console.log('No roles found');
+                    }
+                    else {
+                        console.log('roles found');
+                    }
                 }
 
                 res.locals.results = results;
@@ -347,20 +366,25 @@ getDocumentPlanning: function (req, res, next) {
     },
 
 	findUser: function (req, res, next) {
-        // Log the api call we make along with the _id used by it
-        console.log('[ API ] finduser :: Call invoked with id:');
-		console.log(req.params.id);
+        if (!disable_logging) {
+            // Log the api call we make along with the _id used by it
+            console.log('[ API ] finduser :: Call invoked with id:');
+            console.log(req.params.id);
+        }
 		//req.body.id = ObjectId("588d02d4cc6b36283886be18");
         // Use results.DocumentPackage.<whatever you need> to access the information
         Promise.props({
             user: UserPackage.findById(req.params.id).lean().execAsync()
         })
             .then(function(results) {
-                if (!results) {
-                    console.log('[ API ] findUser :: user package found: FALSE');
+                if (!results ) {
+                    if (!disable_logging) {
+                        console.log('[ API ] findUser :: user package found: FALSE');
+                    }
                 }
                 else {
-                    console.log('[ API ] findUser :: user package found: TRUE');
+                    if (!disable_logging) {
+                    console.log('[ API ] findUser :: user package found: TRUE'); }
 					results.user.hash = "";
 					results.user.salt = "";
 					if(results.user.contact_info.user_dob.dob_date != null) {
@@ -368,9 +392,11 @@ getDocumentPlanning: function (req, res, next) {
 						//get month and day with padding since they are 0 indexed
 						var dobDay = ( "00" + results.user.contact_info.user_dob.dob_date.getDate()).slice(-2);
 						var dobMon = ("00" + (results.user.contact_info.user_dob.dob_date.getMonth()+1)).slice(-2);
-						results.user.contact_info.user_dob.dob_date = dobYear + "-" + dobMon + "-" + dobDay;
-						console.log("after change");
-						console.log(results.user);
+                        results.user.contact_info.user_dob.dob_date = dobYear + "-" + dobMon + "-" + dobDay;
+                        if (!disable_logging) {
+                            console.log("after change");
+                            console.log(results.user);
+                        }
 					}
                 }
 
@@ -396,8 +422,10 @@ getDocumentPlanning: function (req, res, next) {
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
      */
     getDocumentByStatus: function(req, res, next) {
-        // Log the api call made to the console
-        console.log('[ API ] getDocumentByStatus :: Call invoked');
+        if (!disable_logging) {
+            // Log the api call made to the console
+            console.log('[ API ] getDocumentByStatus :: Call invoked');
+        }
 		var currentTime = new Date();
 		var year = currentTime.getFullYear();
         // Access the returned items as results.<status code>[array index].<what you need>
@@ -436,11 +464,13 @@ getDocumentPlanning: function (req, res, next) {
             waitlist: DocumentPackage.find({ status: "waitlist" }).lean().execAsync()
         })
             .then(function (results) {
-                if (!results) {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
-                }
-                else {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                if (!disable_logging) {
+                    if (!results) {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
+                    }
+                    else {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                    }
                 }
                 res.locals.results = results;
 
@@ -486,7 +516,9 @@ getDocumentPlanning: function (req, res, next) {
             {$sort: {"signature.client_date": 1} }
         ]).then(result => {
             res.locals.results = result
-            console.log(result)
+            if (!disable_logging) {
+                console.log(result)
+            }
             next()
         })
     },
@@ -507,7 +539,9 @@ getDocumentPlanning: function (req, res, next) {
         }
         queryObject["project"] = {$exists: true}
         queryObject["project.status"] = {$in: ['projectCompleted', 'handleCompleted', 'projectGoBacks']}
-        console.log(queryObject)
+        if (!disable_logging) {
+            console.log(queryObject)
+        }
         DocumentPackage.aggregate([
             {$match: queryObject},
             {$lookup: {from: "workitempackages", localField: "_id",
@@ -559,7 +593,9 @@ getDocumentPlanning: function (req, res, next) {
             },
             {$sort: {"endDate": 1} }
         ]).then( result => {
-            console.log(result)
+            if (!disable_logging) {
+                console.log(result)
+            }
             res.locals.projecttable = result
             next()
         })
@@ -600,7 +636,9 @@ getDocumentPlanning: function (req, res, next) {
             if (req.query.firstName) {
                 let fNameSearchObj = {'$or': [{"application.name.first": {$regex: req.query.firstName, $options: 'i'}}, 
                 {"application.name.preferred": {$regex: req.query.firstName, $options: 'i'}}]}
-                console.log(queryObject['$and'])
+                if (!disable_logging) {
+                    console.log(queryObject['$and'])
+                }
                 queryObject["$and"].push(fNameSearchObj)
             }
             if (leaderQueries.length) {
@@ -652,7 +690,9 @@ getDocumentPlanning: function (req, res, next) {
         if(Object.keys(projEndObject).length !== 0 && projEndObject.constructor === Object){
             queryObject["project.project_end"] = projEndObject
         }
-        console.log(queryObject)
+        if (!disable_logging) {
+            console.log(queryObject)
+        }
         DocumentPackage.aggregate(
             [
                 {$lookup: {
@@ -671,7 +711,9 @@ getDocumentPlanning: function (req, res, next) {
             next()
         })
         .catch(err => {
-            console.log(err)
+            if (!disable_logging) {
+                console.log(err)
+            }
             next()
         })
     },
@@ -720,7 +762,9 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     getUpcomingProjects: function(req, res, next){
-        console.log("Getting upcoming projects from API")
+        if (!disable_logging) {
+            console.log("Getting upcoming projects from API")
+        }
         DocumentPackage.aggregate([
             //match the documents that match the listed status
             {$match :
@@ -748,7 +792,9 @@ getDocumentPlanning: function (req, res, next) {
         ])
         .then((results) => {
             res.locals.upComing = results
-            console.log(results)
+            if (!disable_logging) {
+                console.log(results)
+            }
             //res.locals.upComing = results.upComing
             let ids = results.map(a => a._id.toString())
             return ProjectSummaryPackage.aggregate([
@@ -769,15 +815,19 @@ getDocumentPlanning: function (req, res, next) {
                 foreignField: "_id", as: "partners"}}
             ]).execAsync()
         }).then((results) => {
-            console.log(results)
-            console.log(res.locals.upComing)
+            if (!disable_logging) {
+                console.log(results)
+                console.log(res.locals.upComing)
+            }
             for(let i=0; i< res.locals.upComing.length; i++) {
                 let match = (results.find((itmInner) => itmInner.projectId === res.locals.upComing[i]._id.toString()))
                 res.locals.upComing[i].partners = match ? match.partners : []
             }
             next()
         }).catch((err) => {
-            console.log(err)
+            if (!disable_logging) {
+                console.log(err)
+            }
             next()
         })
     },
@@ -791,8 +841,10 @@ getDocumentPlanning: function (req, res, next) {
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
      */
     getProjectsByStatus: function(req, res, next) {
-        // Log the api call made to the console
-        console.log('[ API ] getProjectsByStatus :: Call invoked');
+        if (!disable_logging) {
+            // Log the api call made to the console
+            console.log('[ API ] getProjectsByStatus :: Call invoked');
+        }
         var currentTime = new Date();
         var year = currentTime.getFullYear();
         // Access the returned items as results.<status code>[array index].<what you need>
@@ -850,9 +902,10 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
 
         }).then(function (firstRes) {
-
-            console.log("New handle-its since last refresh: " + firstRes.updatedHandle );
-            console.log("New projects since last refresh: " + firstRes.updatedProject );
+            if (!disable_logging) {
+                console.log("New handle-its since last refresh: " + firstRes.updatedHandle );
+                console.log("New projects since last refresh: " + firstRes.updatedProject );
+            }
             // for (var i=0; i < firstRes.handle.length; i++) {
             //     if ((typeof firstRes.handle[i].project.status === 'undefined') && (firstRes.handle[i].status == "handle" || firstRes.handle[i].status == "project")){
             //         DocumentPackage.find({project: {status: "handleAssigned"}}).lean().execAsync();
@@ -894,12 +947,14 @@ getDocumentPlanning: function (req, res, next) {
 
                     })
                         .then(function (results) {
-                            console.log(results.projectUpcoming)
-                            if (!results) {
-                                console.log('[ API ] getProjectsByStatus :: Project Summary package found: FALSE');
-                            }
-                            else {
-                                console.log('[ API ] getProjectsByStatus :: Project Summary package found: TRUE');
+                            if (!disable_logging) {
+                                console.log(results.projectUpcoming)
+                                if (!results) {
+                                    console.log('[ API ] getProjectsByStatus :: Project Summary package found: FALSE');
+                                }
+                                else {
+                                    console.log('[ API ] getProjectsByStatus :: Project Summary package found: TRUE');
+                                }
                             }
 
 
@@ -1009,8 +1064,9 @@ getDocumentPlanning: function (req, res, next) {
                             
 
                             res.locals.results = results;
-
-                            console.log("API :: Results: " + JSON.stringify(results));
+                            if (!disable_logging) {
+                                console.log("API :: Results: " + JSON.stringify(results));
+                            }
 
                             // If we are at this line all promises have executed and returned
                             // Call next() to pass all of this glorious data to the next express router
@@ -1037,7 +1093,9 @@ getDocumentPlanning: function (req, res, next) {
       res.locals.projects = results.projects;
 
     }).catch(function (err) {
+    if (!disable_logging) {
       console.log(err);
+    }
       next();
     })
   },
@@ -1053,10 +1111,14 @@ getDocumentPlanning: function (req, res, next) {
         })
             .then(function (results) {
                 if (!results) {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
+                    }
                 }
                 else {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                    }
 					for(var x=0; x<results.project.length; x++) {
 						var updateYear = results.project[x].updated.getFullYear();
 						//get month and day with padding since they are 0 indexed
@@ -1101,10 +1163,14 @@ getDocumentPlanning: function (req, res, next) {
 			})
             .then(function (results) {
                 if (!results) {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
+                    }
                 }
                 else {
-                    console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
+                    }
 					
 					for(var x=0; x<results.unapproved.length; x++) {
 						var updateYear = results.unapproved[x].updated.getFullYear();
@@ -1148,37 +1214,41 @@ getDocumentPlanning: function (req, res, next) {
      */
     postDocument: function(req, res, next) {
         // Data will be submitted using req.body
-        console.log('[ API ] postDocument :: Call invoked');
-		console.log(req.body);
-        // For debugging
-        var debug = 0;
+        if (!disable_logging) {
+            console.log('[ API ] postDocument :: Call invoked');
+            console.log(req.body);
+        }
 		//var app_name;
-        if (debug == 1) {
+        if (!disable_logging) {
             console.log(req.body);
         }
 		
 		//var currentTime = new Date();
 		//var year = req.body.signature.client_date.getFullYear();
-		var year = new Date().getFullYear();
-		console.log("year " + year);
+        var year = new Date().getFullYear();
 
 		Promise.props({
 			docInSys: DocumentPackage.count({app_year : year}).lean().execAsync()
 		})
 		.then(function (results) {
                 if (!results) {
-                    console.log('[ API ] count failed');
+                    if (!disable_logging) {
+                        console.log('[ API ] count failed');
+                    }
                 }
                 else {
-                    console.log('[ API ] count sucuess');
-					console.log(results);
+                    if (!disable_logging) {
+                        console.log('[ API ] count sucuess');
+                        console.log(results);
+                    }
 					var count = results.docInSys;
 					count++;
-					console.log(count);
 					
 					
-					var app_name = "A" + year.toString() + "-" + count.toString();
-					console.log(app_name);
+                    var app_name = "A" + year.toString() + "-" + count.toString();
+                    if (!disable_logging) {
+                        console.log(app_name);
+                    }
 					// Normally we would create a new mongoose object to be instantiated
 					// var doc = new DocumentPackage();
 					// And then add data to it
@@ -1195,8 +1265,10 @@ getDocumentPlanning: function (req, res, next) {
 					// TODO: Add support for work items and site assessment
 					doc.highlightPackage = highlight._id;
 					doc.app_name = app_name;
-					doc.app_year = year;
-					console.log(doc.app_name);
+                    doc.app_year = year;
+                    if (!disable_logging) {
+                        console.log(doc.app_name);
+                    }
 					highlight.documentPackage = doc._id;
 
 					var finance = new FinancialPackage();
@@ -1214,7 +1286,9 @@ getDocumentPlanning: function (req, res, next) {
 							console.error(err);
 						}
 						else {
-							console.log('[ API ] postDocument :: Document created with _id: ' + doc._id);
+                            if (!disable_logging) {
+                                console.log('[ API ] postDocument :: Document created with _id: ' + doc._id);
+                            }
 						}
 					});
 
@@ -1224,8 +1298,10 @@ getDocumentPlanning: function (req, res, next) {
 							console.error(err);
 						}
 						else {
-							console.log('[ API ] postDocument :: highlightPackage created with _id: ' + highlight._id);
-							console.log('[ API ] postDocument :: highlightPackage references document package _id: ' + highlight.reference);
+                            if (!disable_logging) {
+                                console.log('[ API ] postDocument :: highlightPackage created with _id: ' + highlight._id);
+                                console.log('[ API ] postDocument :: highlightPackage references document package _id: ' + highlight.reference);
+                            }
 							//res.send( { status : 200 } );
 						}
 					});
@@ -1233,11 +1309,15 @@ getDocumentPlanning: function (req, res, next) {
 
 					finance.saveAsync(function (err, highlight, numAffected) {
 						if (err) {
-							console.error(err);
+                            if (!disable_logging) {
+                                console.error(err);
+                            }
 						}
 						else {
-							console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
-							console.log('[ API ] postDocument :: highlightPackage references document package _id: ' + finance.appID);
+                            if (!disable_logging) {
+                                console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
+                                console.log('[ API ] postDocument :: highlightPackage references document package _id: ' + finance.appID);
+                            }
 							//res.send( { status : 200 } );
 						}
 					});
@@ -1252,8 +1332,10 @@ getDocumentPlanning: function (req, res, next) {
 								console.error(err);
 							}
 							else {
-								console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
-								console.log('[ API ] postDocument :: finPackage references document package _id: ' + finance.appID);
+                                if (!disable_logging) {
+                                    console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
+                                    console.log('[ API ] postDocument :: finPackage references document package _id: ' + finance.appID);
+                                }
 								//res.send( { status : 200 } );
 							}
 						});
@@ -1284,8 +1366,10 @@ getDocumentPlanning: function (req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
 
         // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] putUpdateDocument :: Call invoked with _id: ' + req.params.id
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+        if (!disable_logging) {
+            console.log('[ API ] putUpdateDocument :: Call invoked with _id: ' + req.params.id
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+        }
 		var updates = {};
 		var id;
 		if(res.locals.role == "SITE") {
@@ -1346,11 +1430,13 @@ getDocumentPlanning: function (req, res, next) {
 		}
         var conditions = {};
         conditions['_id'] = mongoose.Types.ObjectId(id);
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
         updates['updated'] = Date.now();
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }      
 
         Promise.props({
             doc: DocumentPackage.findOneAndUpdate(
@@ -1375,7 +1461,9 @@ getDocumentPlanning: function (req, res, next) {
             .then(function (results) {
                 // TODO: Confirm true/false is correct
                 if (results) {
-                    console.log('[ API ] putUpdateDocument :: Documents package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateDocument :: Documents package found: TRUE');
+                    }
                 }
                 else {
                     console.log('[ API ] putUpdateDocument :: Documents package found: FALSE');
@@ -1402,10 +1490,12 @@ getDocumentPlanning: function (req, res, next) {
     putUpdateProject: function(req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
 
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] putUpdateProject :: Call invoked with _id: ' + req.params.id
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        console.log(req.body.name + ' + ' + req.body.value);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] putUpdateProject :: Call invoked with _id: ' + req.params.id
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            console.log(req.body.name + ' + ' + req.body.value);
+        }
         var updates = {};
         var id;
         // if(res.locals.role == "SITE") {
@@ -1487,12 +1577,13 @@ getDocumentPlanning: function (req, res, next) {
         //     }
         var conditions = {};
         conditions['_id'] = req.params.id || mongoose.Types.ObjectId(id);
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
         updates['updated'] = Date.now();
-        console.log(updates);
-
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
         Promise.props({
             project: DocumentPackage.findOneAndUpdate(
@@ -1515,11 +1606,15 @@ getDocumentPlanning: function (req, res, next) {
         })
             .then(function (results) {
                 // TODO: Confirm true/false is correct
-                if (results) {
-                    console.log('[ API ] putUpdateProject :: Project Doc found: TRUE');
-                }
-                else {
-                    console.log('[ API ] putUpdateProject :: Project Doc found: FALSE, Created new one!');
+                if (!disable_logging) {
+                    if (results) {
+                        if (!disable_logging) {
+                            console.log('[ API ] putUpdateProject :: Project Doc found: TRUE');
+                        }
+                    }
+                    else {
+                        console.log('[ API ] putUpdateProject :: Project Doc found: FALSE, Created new one!');
+                    }
                 }
                 res.locals.results = results;
                 //sending a status of 200 for now
@@ -1539,11 +1634,12 @@ getDocumentPlanning: function (req, res, next) {
 
     putUpdateWork: function(req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
-
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] putUpdateWork :: Call invoked with _id: ' + req.params.id
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        console.log(req.body.name + ' + ' + req.body.value);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] putUpdateWork :: Call invoked with _id: ' + req.params.id
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            console.log(req.body.name + ' + ' + req.body.value);
+        }
         var updates = {};
         var id;
  
@@ -1558,12 +1654,14 @@ getDocumentPlanning: function (req, res, next) {
 
         var conditions = {};
         conditions['_id'] = req.params.id || mongoose.Types.ObjectId(id);
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
         updates['updated'] = Date.now();
-        console.log(updates);
-
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+        
+            console.log(updates);
+        }
 
         // Promise.props({
         //     project: DocumentPackage.findOneAndUpdate(
@@ -1606,10 +1704,14 @@ getDocumentPlanning: function (req, res, next) {
             .then(function (results) {
                 // TODO: Confirm true/false is correct
                 if (results) {
-                    console.log('[ API ] putUpdateWork :: found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateWork :: found: TRUE');
+                    }
                 }
                 else {
-                    console.log('[ API ] putUpdateWork :: found: FALSE, Created new one!');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateWork :: found: FALSE, Created new one!');
+                    }
                 }
                 res.locals.results = results;
                 //sending a status of 200 for now
@@ -1628,11 +1730,11 @@ getDocumentPlanning: function (req, res, next) {
 
 	postUser: function(req, res, next) {
         // Data will be submitted using req.body
-        console.log('[ API ] postUser :: Call invoked');
-		console.log(req.body);
-        // For debugging
-        var debug = 0;
-        if (debug == 1) {
+        if (!disable_logging) {
+            console.log('[ API ] postUser :: Call invoked');
+            console.log(req.body);
+        }
+        if (!disable_logging) {
             console.log(req.body);
         }
 
@@ -1661,31 +1763,36 @@ getDocumentPlanning: function (req, res, next) {
         // When executed this will apply updates to a user and return the MODIFIED user
         // Log the _id, name, and value that are passed to the function
 
-        // Note that the _id will actually come in with the key "pk"... Sorry, it's an x-editable thing - DM
-        console.log('[ API ] updateUser :: Call invoked with _id: ' + req.body.pk
-           + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        //console.log(req.body.name + ' + ' + req.body.value);
-	   //console.log("in req body");
-        console.log(req.body)
+        if (!disable_logging) {
+            // Note that the _id will actually come in with the key "pk"... Sorry, it's an x-editable thing - DM
+            console.log('[ API ] updateUser :: Call invoked with _id: ' + req.body.pk
+            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            //console.log(req.body.name + ' + ' + req.body.value);
+        //console.log("in req body");
+            console.log(req.body)
+        }
 		//res.locals.status = 200;
 		//next();
         // Build the name:value pairs to be updated
         // Since there is only one name and one value, we can use the method below
 
 		if(req.body.name == "password") {
-			console.log("changing password");
 			var conditions = {};
 			var updates = {};
 			conditions['_id'] = req.body.pk;
-			console.log("Search Filter:");
-			console.log(conditions);
-			console.log("Update:");
+			
 			var salt = crypto.randomBytes(16).toString('hex');
 			var hash = crypto.pbkdf2Sync(req.body.value, salt, 1000, 64, 'sha512').toString('hex');
 			
 			updates.salt = salt;
-			updates.hash = hash;
-			console.log(updates);
+            updates.hash = hash;
+            if (!disable_logging) {
+                console.log("changing password");
+                console.log("Search Filter:");
+                console.log(conditions);
+                console.log("Update:");
+                console.log(updates);
+            }
 			Promise.props({
 				user: UserPackage.findOneAndUpdate(
 					// Condition
@@ -1707,13 +1814,19 @@ getDocumentPlanning: function (req, res, next) {
 				).execAsync()
 			})
 				.then(function (results) {
-					console.log(results);
+                    if (!disable_logging) {
+                        console.log(results);
+                    }
 					// TODO: Confirm true/false is correct
 					if (results) {
-						console.log('[ API ] updateUser :: Documents package found: TRUE');
+                        if (!disable_logging) {
+                            console.log('[ API ] updateUser :: Documents package found: TRUE');
+                        }
 					}
 					else {
-						console.log('[ API ] updateUser :: Documents package found: FALSE');
+                        if (!disable_logging) {
+                            console.log('[ API ] updateUser :: Documents package found: FALSE');
+                        }
 					}
 					res.locals.results = results;
 					//sending a status of 200 for now
@@ -1739,11 +1852,14 @@ getDocumentPlanning: function (req, res, next) {
 				//filters
 				var conditions = {};
 				conditions['_id'] = req.body.pk;
-				console.log("Search Filter:");
-				console.log(conditions);
-				console.log("Update:");
-				updates['updated'] = Date.now();
-				console.log(updates);
+				
+                updates['updated'] = Date.now();
+                if (!disable_logging) {
+                    console.log(updates);
+                    console.log("Search Filter:");
+                    console.log(conditions);
+                    console.log("Update:");
+                }
 
 				Promise.props({
 					user: UserPackage.findOneAndUpdate(
@@ -1766,13 +1882,19 @@ getDocumentPlanning: function (req, res, next) {
 					).execAsync()
 				})
 					.then(function (results) {
-						console.log(results);
+                        if (!disable_logging) {
+                            console.log(results);
+                        }
 						// TODO: Confirm true/false is correct
 						if (results) {
-							console.log('[ API ] updateUser :: Documents package found: TRUE');
+                            if (!disable_logging) {
+                                console.log('[ API ] updateUser :: Documents package found: TRUE');
+                            }
 						}
 						else {
-							console.log('[ API ] updateUser :: Documents package found: FALSE');
+                            if (!disable_logging) {
+                                console.log('[ API ] updateUser :: Documents package found: FALSE');
+                            }
 						}
 						res.locals.results = results;
 						//sending a status of 200 for now
@@ -1793,11 +1915,13 @@ getDocumentPlanning: function (req, res, next) {
         // When executed this will apply updates to a user and return the MODIFIED user
         // Log the _id, name, and value that are passed to the function
 
-         console.log('[ API ] updateUserRoles :: Call invoked with _id: ' + req.body.pk
-           + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        //console.log(req.body.name + ' + ' + req.body.value);
-	   //console.log("in req body");
-        console.log(req.body)
+        if (!disable_logging) {
+            console.log('[ API ] updateUserRoles :: Call invoked with _id: ' + req.body.pk
+            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            //console.log(req.body.name + ' + ' + req.body.value);
+        //console.log("in req body");
+            console.log(req.body)
+        }
 		//res.locals.status = 200;
 		//next();
         // Build the name:value pairs to be updated
@@ -1809,23 +1933,22 @@ getDocumentPlanning: function (req, res, next) {
 				//updates[req.body.name] = req.body.value;
                
                 var user_roles = JSON.parse(req.body.user_roles);
-                console.log(user_roles);
+                
               
 				// Record Update time
 				//filters
 				var conditions = {};
                 conditions['_id'] = req.body.Id;
-                console.log(req.body['user_roles']);
-				console.log("Search Filter:");
-				console.log(conditions);
-                console.log("Update:");
                 updates['user_roles'] = user_roles;
-                
-               
                 updates['updated'] = Date.now();
-                
-				console.log(updates);
-
+                if (!disable_logging) {
+                    console.log(user_roles);
+                    console.log(req.body['user_roles']);
+                    console.log("Search Filter:");
+                    console.log(conditions);
+                    console.log("Update:");
+                    console.log(updates);
+                }
 				Promise.props({
 					user: UserPackage.findOneAndUpdate(
 						// Condition
@@ -1847,13 +1970,20 @@ getDocumentPlanning: function (req, res, next) {
 					).execAsync()
 				})
 					.then(function (results) {
-						console.log(results);
+                        if (!disable_logging) {
+                            console.log(results);
+                        }
 						// TODO: Confirm true/false is correct
 						if (results) {
-							console.log('[ API ] updateUser :: Documents package found: TRUE');
+                            if (!disable_logging) {
+                                console.log('[ API ] updateUser :: Documents package found: TRUE');
+                            }
 						}
-						else {
-							console.log('[ API ] updateUser :: Documents package found: FALSE');
+                        else 
+                        {
+                            if (!disable_logging) {
+                                console.log('[ API ] updateUser :: Documents package found: FALSE');
+                            }
 						}
 						res.locals.results = results;
 						//sending a status of 200 for now
@@ -1875,12 +2005,14 @@ getDocumentPlanning: function (req, res, next) {
         // When executed this will apply updates to a user and return the MODIFIED user
         // Log the _id, name, and value that are passed to the function
 
-        // Note that the _id will actually come in with the key "pk"... Sorry, it's an x-editable thing - DM
-        console.log('[ API ] updatePassword :: Call invoked with _id: ' + req.body.pk
-           + ' | oldPass : ' + req.body.oldPass + ' | newPass: ' + req.body.newPass);
+        if (!disable_logging) {
+            // Note that the _id will actually come in with the key "pk"... Sorry, it's an x-editable thing - DM
+            console.log('[ API ] updatePassword :: Call invoked with _id: ' + req.body.pk
+            + ' | oldPass : ' + req.body.oldPass + ' | newPass: ' + req.body.newPass);
 
-	   console.log("in req body");
-       console.log(req.body)
+            console.log("in req body");
+            console.log(req.body)
+        }
 	   var passCorrect = true;
 	   var hash;
 	   var salt;
@@ -1891,16 +2023,24 @@ getDocumentPlanning: function (req, res, next) {
 				user: UserPackage.findById(req.body.pk).lean().execAsync()
 			})
             .then(function(results) {
-				console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (!results) {
-                    console.log('[ API ] findUser :: user package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] findUser :: user package found: FALSE');
+                    }
 					res.locals.status = 500;
                 }
                 else {
-                    console.log('[ API ] findUser :: user package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] findUser :: user package found: TRUE');
+                    }
 					hash = crypto.pbkdf2Sync(req.body.oldPass, results.user.salt, 1000, 64, 'sha512').toString('hex');
 					if(hash != req.user.hash) {
-						console.log("pass not correct");
+                        if (!disable_logging) {
+                            console.log("pass not correct");
+                        }
 						res.locals.status = 500;
 						next();
 						passCorrect = false;
@@ -1913,27 +2053,34 @@ getDocumentPlanning: function (req, res, next) {
 			})
 			.then(function(results) {
 						if(passCorrect == false) {
-							console.log("pass was wrong");
+                            if (!disable_logging) {
+                                console.log("pass was wrong");
+                            }
 							res.locals.status = 500;
 							next();
 						}
 						else {
-						console.log("salt in 2nd then");
-						console.log(salt);
+                            if (!disable_logging) {
+                                console.log("salt in 2nd then");
+                                console.log(salt);
+                            }
 
-						console.log("old pass correct");
 						var conditions = {};
 						var updates = {};
-						conditions['_id'] = req.body.pk;
-						console.log("Search Filter:");
-						console.log(conditions);
-						console.log("Update:");
+                        conditions['_id'] = req.body.pk;
+                            if (!disable_logging) {
+                                console.log("Search Filter:");
+                                console.log(conditions);
+                                console.log("Update:");
+                            }
 						var newsalt = crypto.randomBytes(16).toString('hex');
 						var newhash = crypto.pbkdf2Sync(req.body.newPass, newsalt, 1000, 64, 'sha512').toString('hex');
 						
 						updates.salt = newsalt;
-						updates.hash = newhash;
-						console.log(updates);
+                        updates.hash = newhash;
+                        if (!disable_logging) {
+                            console.log(updates);
+                        }
 						Promise.props({
 							userChange: UserPackage.findOneAndUpdate(
 								// Condition
@@ -1955,14 +2102,18 @@ getDocumentPlanning: function (req, res, next) {
 							).execAsync()
 						})
 							.then(function (results) {
-								console.log(results);
-								// TODO: Confirm true/false is correct
-								if (results) {
-									console.log('[ API ] updatepass :: Documents package found: TRUE');
-								}
-								else {
-									console.log('[ API ] updatepass :: Documents package found: FALSE');
-								}
+                                if (!disable_logging) {
+                                    console.log(results);
+                                }
+                                // TODO: Confirm true/false is correct
+                                if (!disable_logging) {
+                                    if (results) {
+                                        console.log('[ API ] updatepass :: Documents package found: TRUE');
+                                    }
+                                    else {
+                                        console.log('[ API ] updatepass :: Documents package found: FALSE');
+                                    }
+                                }
 								res.locals.results = results;
 								//sending a status of 200 for now
 								res.locals.status = '200';
@@ -2028,8 +2179,9 @@ getDocumentPlanning: function (req, res, next) {
                 console.error(err);
             }
             else {
-
-                console.log('[ API ] role vet created');
+                if (!disable_logging) {
+                    console.log('[ API ] role vet created');
+                }
 				//res.send( { status : 200 } );
             }
         });
@@ -2040,7 +2192,9 @@ getDocumentPlanning: function (req, res, next) {
                 console.error(err);
             }
             else {
-                console.log('[ API ] role site created');
+                if (!disable_logging) {
+                    console.log('[ API ] role site created');
+                }
 				//res.send( { status : 200 } );
             }
         });
@@ -2050,7 +2204,9 @@ getDocumentPlanning: function (req, res, next) {
                 console.error(err);
             }
             else if (numAffected == 1) {
-                console.log('[ API ] role admin created');
+                if (!disable_logging) {
+                    console.log('[ API ] role admin created');
+                }
 				next();
             }
         });
@@ -2059,10 +2215,12 @@ getDocumentPlanning: function (req, res, next) {
 	updateService: function(req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
 
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] updateService :: Call invoked with _id: ' + req.body.appId
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        console.log(req.body.name + ' + ' + req.body.value);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] updateService :: Call invoked with _id: ' + req.body.appId
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            console.log(req.body.name + ' + ' + req.body.value);
+        }
 
         // Build the name:value pairs to be updated
         // Since there is only one name and one value, we can use the method below
@@ -2078,11 +2236,14 @@ getDocumentPlanning: function (req, res, next) {
         //filters
         var conditions = {};
         conditions['_id'] = req.body.appId;
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
         updates['updated'] = Date.now();
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            
+            console.log(updates);
+        }
 
         Promise.props({
             doc: DocumentPackage.findOneAndUpdate(
@@ -2105,13 +2266,19 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-				console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 // TODO: Confirm true/false is correct
                 if (results) {
-                    console.log('[ API ] putUpdateDocument :: Documents package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateDocument :: Documents package found: TRUE');
+                    }
                 }
                 else {
-                    console.log('[ API ] putUpdateDocument :: Documents package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateDocument :: Documents package found: FALSE');
+                    }
                 }
                 res.locals.results = results;
                 //sending a status of 200 for now
@@ -2130,18 +2297,24 @@ getDocumentPlanning: function (req, res, next) {
 
     //post create Partner       //next
     createPartner: function(req, res, next) {
-        console.log('[ API ] createPartner :: Call invoked');
-        console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] createPartner :: Call invoked');
+            console.log(req.body);
+        }
         var item = new PartnerPackage(req.body);
 
         item.saveAsync(function (err, note, numAffected) {
             if (err) {
-                console.log ('[ API ] :: createPartner error.');
-                console.error(err);
+                if (!disable_logging) {
+                    console.log ('[ API ] :: createPartner error.');
+                    console.error(err);
+                }
             } else {
-                console.log("saved!");
-                console.log('[ API ] createPartner :: New Partner created with _id: ' + item._id);
-                console.log(item);
+                if (!disable_logging) {
+                    console.log("saved!");
+                    console.log('[ API ] createPartner :: New Partner created with _id: ' + item._id);
+                    console.log(item);
+                }
                 //send note ID so it can be referenced without page refresh
                 //res.send( { status : 200, _id: item._id } );
                 res.locals.status = '200';
@@ -2152,8 +2325,10 @@ getDocumentPlanning: function (req, res, next) {
 
     //post delete Partner           //next
     deletePartner: function(req, res, next) {
-        console.log('[ API ] deletePartner :: Call invoked: req.body: ');
-        console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] deletePartner :: Call invoked: req.body: ');
+            console.log(req.body);
+        }
         Promise.props({
             note: PartnerPackage.remove(
                 {
@@ -2163,13 +2338,17 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(function (results) {
             if (results) {
-                console.log('[ API ] deletePartner :: Partner found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] deletePartner :: Partner found: TRUE');
+                }
                 res.locals.results = results;
                 //sending a status of 200 for now
                 res.locals.status = '200';
             }
             else {
-                console.log('[ API ] deletePartner :: Partner found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] deletePartner :: Partner found: FALSE');
+                }
             }
             next();
         })
@@ -2181,10 +2360,12 @@ getDocumentPlanning: function (req, res, next) {
     putUpdatePartner: function(req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
 
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] putUpdatePartner :: Call invoked with _id: ' + req.params.id
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
-        console.log(req.body.name + ' + ' + req.body.value);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] putUpdatePartner :: Call invoked with _id: ' + req.params.id
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value);
+            console.log(req.body.name + ' + ' + req.body.value);
+        }
 
    
         var conditions = {};
@@ -2193,10 +2374,12 @@ getDocumentPlanning: function (req, res, next) {
         var updates = {};
         updates[req.body.name] = req.body.value;
 
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
 
         Promise.props({
@@ -2220,11 +2403,13 @@ getDocumentPlanning: function (req, res, next) {
         })
             .then(function (results) {
                 // TODO: Confirm true/false is correct
-                if (results) {
-                    console.log('[ API ] putUpdatePartner :: Partner found: TRUE');
-                }
-                else {
-                    console.log('[ API ] putUpdatePartner :: Cannot update - This Partner ID does not exist');
+                if (!disable_logging) {
+                    if (results) {
+                        console.log('[ API ] putUpdatePartner :: Partner found: TRUE');
+                    }
+                    else {
+                        console.log('[ API ] putUpdatePartner :: Cannot update - This Partner ID does not exist');
+                    }
                 }
                 res.locals.results = results;
                 //sending a status of 200 for now
@@ -2244,20 +2429,26 @@ getDocumentPlanning: function (req, res, next) {
 
     //post get all Partners
     getPartner: function(req, res, next) {
-        console.log('[ API ] getPartner :: Call invoked: req.body: ');
-        console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] getPartner :: Call invoked: req.body: ');
+            console.log(req.body);
+        }
         Promise.props({
             partner: PartnerPackage.find().execAsync(),
             count: PartnerPackage.count().execAsync()
         })
         .then(function (results) {
             if (results) {
-                console.log('[ API ] getPartner :: Partner(s) found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] getPartner :: Partner(s) found: TRUE');
+                }
                 res.locals.results = results;
                 res.locals.status = '200';
             }
             else {
-                console.log('[ API ] getPartner :: Partner(s) found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] getPartner :: Partner(s) found: FALSE');
+                }
             }
             next();
         })
@@ -2268,9 +2459,11 @@ getDocumentPlanning: function (req, res, next) {
 
     //post - GET (Retrieve) partners and leaders associated to that project
     getSummaryPartners: function(req, res, next) {
-        //console.log(req.body);
-        //var projectId =  ObjectId(req.params.id) ||req.params.id || req.body.projectId;                    
-        console.log('[ API ] getSummaryPartners :: Call invoked');
+        if (!disable_logging) {
+            //console.log(req.body);
+            //var projectId =  ObjectId(req.params.id) ||req.params.id || req.body.projectId;                    
+            console.log('[ API ] getSummaryPartners :: Call invoked');
+        }
 
         //res.locals.docId = projectId;
 
@@ -2291,12 +2484,16 @@ getDocumentPlanning: function (req, res, next) {
             var uIDs = [];
 
             var asso = assocRes.assocPartners.length;
-            console.log("RR1", asso);
+            if (!disable_logging) {
+                console.log("RR1", asso);
+            }
 
               var assocPartners;
-                console.log('[ API ] getSummaryPartners :: item(s) found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] getSummaryPartners :: item(s) found: TRUE');
 
-                console.log("Partner Associations Result: " + assocPartners);
+                    console.log("Partner Associations Result: " + assocPartners);
+                }
                 var m; 
                 var allCnt;
                 var aCnt;
@@ -2352,7 +2549,9 @@ getDocumentPlanning: function (req, res, next) {
             // req.partnerTime = sendRes;
             res.locals.status = '200';
             } else {
-                console.log('[ API ] getProjPartnersLeaders :: item(s) found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] getProjPartnersLeaders :: item(s) found: FALSE');
+                }
             }
             next();
         })
@@ -2365,8 +2564,10 @@ getDocumentPlanning: function (req, res, next) {
     getProjPartnersLeaders: function(req, res, next) {
         //console.log(req.body);
         
-        var projectId =  ObjectId(req.params.id) ||req.params.id || req.body.projectId;                    
-        console.log('[ API ] getProjPartnersLeaders :: Call invoked for: ' + projectId);
+        var projectId =  ObjectId(req.params.id) ||req.params.id || req.body.projectId;  
+        if (!disable_logging) {                  
+            console.log('[ API ] getProjPartnersLeaders :: Call invoked for: ' + projectId);
+        }
 
         res.locals.docId = projectId;
 
@@ -2394,7 +2595,9 @@ getDocumentPlanning: function (req, res, next) {
 
             if (! assocRes.assocPartners[0]) {
 
-                console.log('[ API ] getProjPartner createPartner :: Call invoked');
+                if (!disable_logging) {
+                    console.log('[ API ] getProjPartner createPartner :: Call invoked');
+                }
                 // console.log(req.body);
 
                 // var empty = [];
@@ -2408,8 +2611,10 @@ getDocumentPlanning: function (req, res, next) {
                         console.error(err);
                     }
                     else  {
-                        console.log('[ API ] getProjPartner createPartner :: New Partner created with _id: ' + item._id);
-                        console.log(item);
+                        if (!disable_logging) {
+                            console.log('[ API ] getProjPartner createPartner :: New Partner created with _id: ' + item._id);
+                            console.log(item);
+                        }
 
                         var newSendRes =   { 
                                             pAll:   allPartners, 
@@ -2418,8 +2623,10 @@ getDocumentPlanning: function (req, res, next) {
                                             projectId: projectId
                                         };
 
-                        console.log("\nCREATED Blank Document-Partner Association ----->\n");
-                        console.log(newSendRes);
+                        if (!disable_logging) {
+                            console.log("\nCREATED Blank Document-Partner Association ----->\n");
+                            console.log(newSendRes);
+                        }
 
                         if (res.locals.results === undefined) {
                             res.locals.results = {};
@@ -2434,9 +2641,11 @@ getDocumentPlanning: function (req, res, next) {
             } 
             else if (assocRes) {
               var assocPartners = assocRes.assocPartners[0].assocPartners || null;        //An array of IDS
+              if (!disable_logging) {
                 console.log('[ API ] getProjPartnersLeaders :: item(s) found: TRUE');
 
                 console.log("Partner Associations Result: " + assocPartners);
+              }
                 
                 for (var aCnt = 0; aCnt < assocPartners.length; aCnt++) {
                     for (var allCnt=0; allCnt < allPartners.length; allCnt++) {    
@@ -2463,7 +2672,9 @@ getDocumentPlanning: function (req, res, next) {
                         return (! isFound);
                     }
                 if (resArray.length > 0) {
-                    console.log(resArray.length);
+                    if (!disable_logging) {
+                        console.log(resArray.length);
+                    }
                 }
                 //res.locals.results = results;
                 // res.locals.results = { ans: JSON.stringify(resArray) };
@@ -2488,7 +2699,9 @@ getDocumentPlanning: function (req, res, next) {
                 res.locals.status = '200';
                 next();
             } else {
-                console.log('[ API ] getProjPartnersLeaders :: item(s) found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] getProjPartnersLeaders :: item(s) found: FALSE');
+                }
                 next();
             }
         })
@@ -2499,12 +2712,16 @@ getDocumentPlanning: function (req, res, next) {
     //post - SET (Store) partners and leaders associated to that project
     setProjPartnersLeaders: function(req, res, next) {
         
-        console.log("**Setting Doc-Partner Association with body: **");
-        console.log(req.body);
+        if (!disable_logging) {
+            console.log("**Setting Doc-Partner Association with body: **");
+            console.log(req.body);
+        }
 
         //console.log(req.body);
         var projectId = req.body.projectId || res.locals.docId;       
-        console.log('[ API ] setProjPartnersLeaders :: Call invoked for: ' + projectId);
+        if (!disable_logging) {
+            console.log('[ API ] setProjPartnersLeaders :: Call invoked for: ' + projectId);
+        }
         // var item = new ProjectSummaryPackage(req.body);
 
         Promise.props({
@@ -2522,13 +2739,17 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(function (thisRes) {
             if (thisRes) {
-                console.log('[ API ] setProjPartnersLeaders :: item UPDATED: TRUE');
-                console.log(thisRes.updateStatus);
+                if (!disable_logging) {
+                    console.log('[ API ] setProjPartnersLeaders :: item UPDATED: TRUE');
+                    console.log(thisRes.updateStatus);
+                }
 
             res.locals.results = thisRes;
             res.locals.status = '200';
             } else {
-                console.log('[ API ] setProjPartnersLeaders :: item UPDATED: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] setProjPartnersLeaders :: item UPDATED: FALSE');
+                }
             }
             next();
         })
@@ -2546,29 +2767,41 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: _id of newly created Vetting Note
      */
     postVettingNote: function(req, res, next) {
-        console.log('[ API ] postVettingNote :: call invoked');
-		console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] postVettingNote :: call invoked');
+            console.log(req.body);
+        }
 		var userID = req.body.user.toString();
 		Promise.props({
             user: UserPackage.findOne({'_id' : ObjectId(userID)}).lean().execAsync()
         })
             .then(function(results) {
-				console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (!results) {
                     console.log('[ API ] postVettingNote :: User package found: FALSE');
                 }
                 else {
-                    console.log('[ API ] postVettingNote :: User package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] postVettingNote :: User package found: TRUE');
+                    }
 					var note = new VettingNotePackage(req.body);
-					var firstName = results.user.contact_info.user_name.user_first;
-					console.log('first name');
-					console.log(firstName);
-					note.vetAgent = results.user.contact_info.user_name.user_first + " " + results.user.contact_info.user_name.user_last;
-					console.log(note.vetAgent);
+                    var firstName = results.user.contact_info.user_name.user_first;
+                    if (!disable_logging) {
+                        console.log('first name');
+                        console.log(firstName);
+                    }
+                    note.vetAgent = results.user.contact_info.user_name.user_first + " " + results.user.contact_info.user_name.user_last;
+                    if (!disable_logging) {
+                        console.log(note.vetAgent);
+                    }
 
 					note.saveAsync(function (err, note) {
 						if (note && note._id) {
-							console.log('[ API ] postVettingNote :: Note created with _id: ' + note._id);
+                            if (!disable_logging) {
+                                console.log('[ API ] postVettingNote :: Note created with _id: ' + note._id);
+                            }
 							//send note ID so it can be referenced without page refresh
 							res.send( { status : 200, noteId: note._id, vetAgent: note.vetAgent } );
 						} else {
@@ -2587,32 +2820,48 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     postProjectNote: function(req, res, next) {
-        console.log('[ API ] postProjectNote :: call invoked');
-		console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] postProjectNote :: call invoked');
+            console.log(req.body);
+        }
 		var userID = req.body.user.toString();
 		Promise.props({
             user: UserPackage.findOne({'_id' : ObjectId(userID)}).lean().execAsync()
         })
             .then(function(results) {
-				console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (!results) {
-                    console.log('[ API ] postProjectNote :: User package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] postProjectNote :: User package found: FALSE');
+                    }
                 }
                 else {
-                    console.log('[ API ] postProjectNote :: User package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] postProjectNote :: User package found: TRUE');
+                    }
 					var note = new ProjectNotePackage(req.body);
-					var firstName = results.user.contact_info.user_name.user_first;
-					console.log('first name');
-					console.log(firstName);
-					note.projectPlanner = results.user.contact_info.user_name.user_first + " " + results.user.contact_info.user_name.user_last;
-					console.log(note.projectPlanner);
+                    var firstName = results.user.contact_info.user_name.user_first;
+                    if (!disable_logging) {
+                        console.log('first name');
+                        console.log(firstName);
+                    }
+                    note.projectPlanner = results.user.contact_info.user_name.user_first + " " + results.user.contact_info.user_name.user_last;
+                    if (!disable_logging) {
+                        console.log(note.projectPlanner);
+                    }
 
 					note.saveAsync(function (err, note, numAffected) {
-                        console.log({ err });
-                        console.log({ note });
-                        console.log({ numAffected });
+                        if (!disable_logging) {
+                            console.log({ err });
+                            console.log({ note });
+                            console.log({ numAffected });
+                        }
 						if (note && note._id) {
-							console.log('[ API ] postVettingNote :: Note created with _id: ' + note._id);
+                            if (!disable_logging) {
+                                console.log('[ API ] postVettingNote :: Note created with _id: ' + note._id);
+                            }
 							//send note ID so it can be referenced without page refresh
 							res.send( { status : 200, noteId: note._id, projectPlanner: note.projectPlanner } );
 						} else {
@@ -2632,16 +2881,20 @@ getDocumentPlanning: function (req, res, next) {
 
 	//post new work item
 	addWorkItem: function(req, res, next) {
-        console.log('[ API ] addWorkItem :: Call invoked');
-		console.log(req.body);
+        if (!disable_logging) {
+            console.log('[ API ] addWorkItem :: Call invoked');
+            console.log(req.body);
+        }
         var item = new WorkItemPackage(req.body);
 
         item.saveAsync(function (err, note, numAffected) {
             if (err) {
                 console.error(err);
             } else {
-				console.log("saved!");
-                console.log('[ API ] add Work Item :: Note created with _id: ' + item._id);
+                if (!disable_logging) {
+                    console.log("saved!");
+                    console.log('[ API ] add Work Item :: Note created with _id: ' + item._id);
+                }
                 //send note ID so it can be referenced without page refresh
                 res.send( { status : 200, itemId: item._id } );
             }
@@ -2658,8 +2911,10 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: confirmation of delete
      */
     removeVettingNote: function(req, res, next) {
-        console.log('[ API ] removeVettingNote :: Call invoked');
-		//console.log(req.locals.status);
+        if (!disable_logging) {
+            console.log('[ API ] removeVettingNote :: Call invoked');
+            //console.log(req.locals.status);
+        }
         Promise.props({
             note: VettingNotePackage.remove(
                 {
@@ -2669,13 +2924,17 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(function (results) {
             if (results) {
-                console.log('[ API ] removeVettingNote :: Note found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] removeVettingNote :: Note found: TRUE');
+                }
                 res.locals.results = results;
                 //sending a status of 200 for now
                 res.locals.status = '200';
             }
             else {
-                console.log('[ API ] removeVettingNote :: Note found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] removeVettingNote :: Note found: FALSE');
+                }
             }
             next();
         })
@@ -2692,8 +2951,10 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: confirmation of delete
      */
     removeProjectNote: function(req, res, next) {
-        console.log('[ API ] removeProjectNote :: Call invoked');
-		//console.log(req.locals.status);
+        if (!disable_logging) {
+            console.log('[ API ] removeProjectNote :: Call invoked');
+            //console.log(req.locals.status);
+        }
         Promise.props({
             note: ProjectNotePackage.remove(
                 {
@@ -2703,13 +2964,17 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(function (results) {
             if (results) {
-                console.log('[ API ] removeProjectNote :: Note found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] removeProjectNote :: Note found: TRUE');
+                }
                 res.locals.results = results;
                 //sending a status of 200 for now
                 res.locals.status = '200';
             }
             else {
-                console.log('[ API ] removeProjectNote :: Note found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] removeProjectNote :: Note found: FALSE');
+                }
             }
             next();
         })
@@ -2720,8 +2985,10 @@ getDocumentPlanning: function (req, res, next) {
 
 	//delete work item
 	deleteWorkItem: function(req, res, next) {
-        console.log('[ API ] deleteWorkItem :: Call invoked');
-		console.log(req.body)
+        if (!disable_logging) {
+            console.log('[ API ] deleteWorkItem :: Call invoked');
+            console.log(req.body)
+        }
         Promise.props({
             note: WorkItemPackage.remove(
                 {
@@ -2731,13 +2998,17 @@ getDocumentPlanning: function (req, res, next) {
         })
         .then(function (results) {
             if (results) {
-                console.log('[ API ] deleteWorkItem :: Note found: TRUE');
+                if (!disable_logging) {
+                    console.log('[ API ] deleteWorkItem :: Note found: TRUE');
+                }
                 res.locals.results = results;
                 //sending a status of 200 for now
                 res.locals.status = '200';
             }
             else {
-                console.log('[ API ] removeVettingNote :: Note found: FALSE');
+                if (!disable_logging) {
+                    console.log('[ API ] removeVettingNote :: Note found: FALSE');
+                }
             }
             next();
         })
@@ -2753,9 +3024,11 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: results as an updated Vetting Note
      */
     updateVettingNote: function(req, res, next) {
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] updateVettingNote :: Call invoked with note _id: ' + req.body.id
-            + ' | description: ' + req.body.description);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] updateVettingNote :: Call invoked with note _id: ' + req.body.id
+                + ' | description: ' + req.body.description);
+        }
 
         var updates = {};
         updates.description = req.body.description;
@@ -2763,10 +3036,12 @@ getDocumentPlanning: function (req, res, next) {
         //filters
         var conditions = {};
         conditions['_id'] = req.body.id;
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
         Promise.props({
             note: VettingNotePackage.findOneAndUpdate(
@@ -2789,13 +3064,19 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-                console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (results.note != null) {
-                    console.log('[ API ] updateVettingNote :: Note found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateVettingNote :: Note found: TRUE');
+                    }
                     res.locals.status = '200';
                 }
                 else {
-                    console.log('[ API ] updateVettingNote :: Note found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateVettingNote :: Note found: FALSE');
+                    }
                     res.locals.status = '500';
                 }
                 res.locals.results = results;
@@ -2811,9 +3092,11 @@ getDocumentPlanning: function (req, res, next) {
     },
 
     updateProjectNote: function(req, res, next) {
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] updateProjectNote :: Call invoked with note _id: ' + req.body.id
-            + ' | description: ' + req.body.description);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] updateProjectNote :: Call invoked with note _id: ' + req.body.id
+                + ' | description: ' + req.body.description);
+        }
 
         var updates = {};
         updates.description = req.body.description;
@@ -2821,10 +3104,12 @@ getDocumentPlanning: function (req, res, next) {
         //filters
         var conditions = {};
         conditions['_id'] = req.body.id;
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
         Promise.props({
             note: ProjectNotePackage.findOneAndUpdate(
@@ -2847,13 +3132,19 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-                console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (results.note != null) {
-                    console.log('[ API ] updateProjectNote :: Note found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateProjectNote :: Note found: TRUE');
+                    }
                     res.locals.status = '200';
                 }
                 else {
-                    console.log('[ API ] updateProjectNote :: Note found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateProjectNote :: Note found: FALSE');
+                    }
                     res.locals.status = '500';
                 }
                 res.locals.results = results;
@@ -2874,13 +3165,15 @@ getDocumentPlanning: function (req, res, next) {
         // Log the _id, name, and value that are passed to the function
         //console.log('[ API ] WorkItem :: Call invoked with item _id: ' + req.body.id
        //     + ' | description: ' + req.body.description);
-		console.log("role in old function");
-		console.log(res.locals.role);
-        console.log("role in new function")
-        console.log(res.locals.user_roles.indexOf('PROJECT_MANAGEMENT') !== -1);
-        console.log(res.locals.user_roles == 'PROJECT_MANAGEMENT');
-        console.log("all locals");
-        console.log(res.locals);
+       if (!disable_logging) {
+            console.log("role in old function");
+            console.log(res.locals.role);
+            console.log("role in new function")
+            console.log(res.locals.user_roles.indexOf('PROJECT_MANAGEMENT') !== -1);
+            console.log(res.locals.user_roles == 'PROJECT_MANAGEMENT');
+            console.log("all locals");
+            console.log(res.locals);
+       }
 		//res.locals.status = 200;
 		//next();
         var updates = {};
@@ -2912,7 +3205,9 @@ getDocumentPlanning: function (req, res, next) {
        // else
        // {
 		if(res.locals.user_roles.indexOf("ADMIN") !== -1) {
-            console.log("Yes, User has an ADMIN Role");
+            if (!disable_logging) {
+                console.log("Yes, User has an ADMIN Role");
+            }
 			if(req.body.siteComments != null) {
 				updates.siteComments = req.body.siteComments;
 			}
@@ -2937,20 +3232,26 @@ getDocumentPlanning: function (req, res, next) {
         //     }
         // }
         if(res.locals.user_roles.indexOf("PROJECT_MANAGEMENT") !== -1) {
-            console.log("Yes, User has a PROJECT_MANAGEMENT Role");
+            if (!disable_logging) {
+                console.log("Yes, User has a PROJECT_MANAGEMENT Role");
+            }
             if(req.body.projectComments != null) {
                 updates.projectComments = req.body.projectComments;
             }
         }
         else if(res.locals.role == "PROJECT_MANAGEMENT") {
-            console.log("Yes, User has a PROJECT_MANAGEMENT (older) Role");
+            if (!disable_logging) {
+                console.log("Yes, User has a PROJECT_MANAGEMENT (older) Role");
+            }
             if(req.body.projectComments != null) {
                 updates.projectComments = req.body.projectComments;
             }
            
         }
 		if(res.locals.user_roles.indexOf("SITE") !== -1) {
-            console.log("Yes, User has a SITE Role");
+            if (!disable_logging) {
+                console.log("Yes, User has a SITE Role");
+            }
             if(req.body.siteComments != null) {
 				updates.siteComments = req.body.siteComments;
 			}
@@ -2981,10 +3282,12 @@ getDocumentPlanning: function (req, res, next) {
         //filters
         var conditions = {};
         conditions['_id'] = req.body.id;
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
         Promise.props({
             item: WorkItemPackage.findOneAndUpdate(
@@ -3006,14 +3309,19 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-
-                console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (results.item != null) {
-                    console.log('[ API ] updateWorkItem :: Note found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateWorkItem :: Note found: TRUE');
+                    }
                     res.locals.status = '200';
                 }
                 else {
-                    console.log('[ API ] updateWorkItem :: Note found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateWorkItem :: Note found: FALSE');
+                    }
                     res.locals.status = '500';
                 }
                 res.locals.results = results;
@@ -3034,7 +3342,9 @@ getDocumentPlanning: function (req, res, next) {
 
   // Create / Update Assessment Checklist record
   saveAssessmentDocument: function(req, res, next) {
-    console.log('saving assessment')
+    if (!disable_logging) {
+        console.log('saving assessment')
+    }
 
     Promise.props({
       assessment: AssessmentPackage.findOneAndUpdate(
@@ -3047,12 +3357,18 @@ getDocumentPlanning: function (req, res, next) {
           }
       ).execAsync()
     }).then(function (results) {
-      console.log(results);
+        if (!disable_logging) {
+            console.log(results);
+        }
       if (results.assessment !== null) {
-        console.log('[ API ] saveAssessmentDocument :: Assessment found: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveAssessmentDocument :: Assessment found: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveAssessmentDocument :: Assessment found: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveAssessmentDocument :: Assessment found: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3067,8 +3383,10 @@ getDocumentPlanning: function (req, res, next) {
 
   // Create / Update Project Plan record
   saveProjectPlanDocument: function(req, res, next) {
-    console.log('saving project plan');
-    console.log(req.body);
+    if (!disable_logging) {
+        console.log('saving project plan');
+        console.log(req.body);
+    }
     Promise.props({
       projectPlan: ProjectPlanPackage.findOneAndUpdate(
         { applicationId: req.body.applicationId },
@@ -3080,12 +3398,18 @@ getDocumentPlanning: function (req, res, next) {
         }
       ).execAsync()
     }).then(function (results) {
-      console.log(results);
+        if (!disable_logging) {
+            console.log(results);
+        }
       if (results.projectPlan !== null) {
-        console.log('[ API ] saveProjectPlanDocument :: Assessment found: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectPlanDocument :: Assessment found: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveProjectPlanDocument :: Assessment found: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectPlanDocument :: Assessment found: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3100,8 +3424,10 @@ getDocumentPlanning: function (req, res, next) {
 
   // Save Custom Checklist Note
   saveCustomChecklist: function(req, res, next) {
-    console.log('saving custom checklist note');
-    console.log(req.body);
+    if (!disable_logging) {
+        console.log('saving custom checklist note');
+        console.log(req.body);
+    }
 
     var n = req.body.name || "custom";
     var upName = n + ".note";
@@ -3120,7 +3446,9 @@ getDocumentPlanning: function (req, res, next) {
     //updates[n].note = req.body.value;
     //console.log(updates);
 
-    console.log("Saving Custom Checklist: ", upName, "value: ", req.body.value);
+    if (!disable_logging) {
+        console.log("Saving Custom Checklist: ", upName, "value: ", req.body.value);
+    }
     //var applId = req.body.applicationId || 
     //req.body.applicationId = 
 
@@ -3135,13 +3463,19 @@ getDocumentPlanning: function (req, res, next) {
         }
       ).execAsync()
     }).then(function (results) {
-      console.log("Returned results: ");
-      console.log(results);
+        if (!disable_logging) {
+            console.log("Returned results: ");
+            console.log(results);
+        }
       if (results.plan !== null) {
-        console.log('[ API ] saveCustomChecklist :: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveCustomChecklist :: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveCustomChecklist :: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveCustomChecklist :: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3160,33 +3494,43 @@ getDocumentPlanning: function (req, res, next) {
 	updateFinance: function(req, res, next) {
         // When executed this will apply updates to a doc and return the MODIFIED doc
 
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] updateFinance :: Call invoked with _id: ');
-        console.log(req.body);
-		console.log(Object.keys(req.body));
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] updateFinance :: Call invoked with _id: ');
+            console.log(req.body);
+        }
 		var userID;
-		console.log("length");
 		var name1;
 		var name2;
 		var value;
 
 		Object.keys(req.body).forEach(function(prop) {
-			console.log("in looop");
-			console.log(prop);
+            if (!disable_logging) {
+                console.log("in looop");
+                console.log(prop);
+                console.log(req.body[prop]);
+            }
 			userID = prop;
-			console.log(req.body[prop]);
 			Object.keys(req.body[prop]).forEach(function(data) {
-				console.log("in second loop");
-				//console.log(req.body[prop]);
-				console.log(data);
-				name1 = data;
-				console.log(name1);
-				console.log((req.body[prop])[data]);
+                if (!disable_logging) {
+                    console.log("in second loop");
+                    //console.log(req.body[prop]);
+                    console.log(data);
+                }
+                name1 = data;
+                if (!disable_logging) {
+                    console.log(name1);
+                    console.log((req.body[prop])[data]);
+                }
 				Object.keys((req.body[prop])[data]).forEach(function(bool) {
-					console.log("third loop");
-					console.log(bool);
-					name2 = bool;
-					console.log(((req.body[prop])[data])[bool]);
+                    if (!disable_logging) {
+                        console.log("third loop");
+                        console.log(bool);
+                    }
+                    name2 = bool;
+                    if (!disable_logging) {
+                        console.log(((req.body[prop])[data])[bool]);
+                    }
 					value = ((req.body[prop])[data])[bool];
 				});
 			});
@@ -3195,19 +3539,22 @@ getDocumentPlanning: function (req, res, next) {
         // Build the name:value pairs to be updated
 
         var updates = {};
-		console.log("data built: ");
-		console.log(userID);
-		//console.log(name).toString();
+        if (!disable_logging) {
+            console.log("data built: ");
+            console.log(userID);
+            //console.log(name).toString();
+        }
 		if (name2 != "note") {
 		var name = name1.toString() + "." + name2.toString();
 		}
 		else {
 			name = name1;
-		}
-		console.log(name);
+        }
+        if (!disable_logging) {
+		    console.log(name);
 		
-		
-		console.log(value);
+            console.log(value);
+        }
 
 
 		updates[name] = value;
@@ -3218,9 +3565,11 @@ getDocumentPlanning: function (req, res, next) {
         //filters
         var conditions = {};
         conditions['_id'] = mongoose.Types.ObjectId(userID);
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+        }
 
 
         Promise.props({
@@ -3243,14 +3592,19 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-
-				console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
 
                 if (results) {
-                    console.log('[ API ] updateFinance :: Fin package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateFinance :: Fin package found: TRUE');
+                    }
                 }
                 else {
-                    console.log('[ API ] updateFinance :: Fin package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] updateFinance :: Fin package found: FALSE');
+                    }
                 }
                 res.locals.results = results;
                 //sending a status of 200 for now
@@ -3272,16 +3626,20 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: results as a Highlight Package
      */
     getHighlightsById: function(req, res, next) {
-        console.log('[ API ] getHighlightsById :: Call invoked with highlight package _id: ' + req.params.id);
+        if (!disable_logging) {
+            console.log('[ API ] getHighlightsById :: Call invoked with highlight package _id: ' + req.params.id);
+        }
         Promise.props({
             highlight: HighlightPackage.findById(req.params.id).lean().execAsync()
         })
             .then(function(results) {
-                if (!results) {
-                    console.log('[ API ] getHighlightsById :: Highlight package found: FALSE');
-                }
-                else {
-                    console.log('[ API ] getHighlightsById :: Highlight package found: TRUE');
+                if (!disable_logging) {
+                    if (!results) {
+                        console.log('[ API ] getHighlightsById :: Highlight package found: FALSE');
+                    }
+                    else {
+                        console.log('[ API ] getHighlightsById :: Highlight package found: TRUE');
+                    }
                 }
 
                 res.locals.results = results;
@@ -3304,19 +3662,23 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: results as updated Highlight Package
      */
     toggleHighlight: function(req, res, next) {
+        if (!disable_logging) {
         console.log('[ API ] toggleHighlight :: Call invoked with highlightPackage _id: %s | name: %s | value: %s',
             req.params.id, req.body.name, req.body.value);
+        }
         // Confirm a JSON {key:value} pair was sent
         if (req.accepts('application/json')) {
             var fetchDocument = Promise.props({
                 highlight: HighlightPackage.findById(req.params.id).lean().execAsync()
             })
                 .then(function (results) {
-                    if (!results) {
-                        console.log('[ API ] toggleHighlight :: Highlight package found: FALSE');
-                    }
-                    else {
-                        console.log('[ API ] toggleHighlight :: Highlight package found: TRUE');
+                    if (!disable_logging) {
+                        if (!results) {
+                            console.log('[ API ] toggleHighlight :: Highlight package found: FALSE');
+                        }
+                        else {
+                            console.log('[ API ] toggleHighlight :: Highlight package found: TRUE');
+                        }
                     }
 
                     // Build the name:value pairs to be updated
@@ -3329,7 +3691,9 @@ getDocumentPlanning: function (req, res, next) {
                     var length = str_split.length;
 
                     if (length == 1) {
-                        console.log(results.highlight[ str_split[0] ]);
+                        if (!disable_logging) {
+                            console.log(results.highlight[ str_split[0] ]);
+                        }
                         if (results.highlight[str_split[0]] === true) {
                             updates[req.body.name] = false;
                         }
@@ -3348,7 +3712,9 @@ getDocumentPlanning: function (req, res, next) {
 
                     // Record Update time
                     updates['updated'] = Date.now();
-                    console.log("[ API ] toggleHighlight :: Items to update: ", updates);
+                    if (!disable_logging) {
+                        console.log("[ API ] toggleHighlight :: Items to update: ", updates);
+                    }
 
                     // Build variables and attach to the returned query results
                     results.id = req.params.id;
@@ -3384,11 +3750,15 @@ getDocumentPlanning: function (req, res, next) {
                 })
                     .then(function(results){
                         if (!results) {
-                            console.log('[ API ] toggleHighlight :: Highlight package updated: FALSE');
+                            if (!disable_logging) {
+                                console.log('[ API ] toggleHighlight :: Highlight package updated: FALSE');
+                            }
 
                         }
                         else {
-                            console.log('[ API ] toggleHighlight :: Highlight package updated: TRUE');
+                            if (!disable_logging) {
+                                console.log('[ API ] toggleHighlight :: Highlight package updated: TRUE');
+                            }
                             res.locals.results = results;
                             //sending a status of 200 for now
                             res.locals.status = '200';
@@ -3411,14 +3781,20 @@ getDocumentPlanning: function (req, res, next) {
      * Returns: results as modified Document Package
      */
     putUpdateArray: function(req, res, next) {
-        // Log the _id, name, and value that are passed to the function
-        console.log('[ API ] putUpdateArray :: Call invoked with _id: ' + req.params.id
-            + ' | key: ' + req.body.name + ' | value: ' + req.body.value + ' | current value: ' + req.body.pk);
+        if (!disable_logging) {
+            // Log the _id, name, and value that are passed to the function
+            console.log('[ API ] putUpdateArray :: Call invoked with _id: ' + req.params.id
+                + ' | key: ' + req.body.name + ' | value: ' + req.body.value + ' | current value: ' + req.body.pk);
+        }
         //the $ holds the index of the element
 		if(req.body.name == "application.other_residents.name") {
-			console.log("updating name");
+            if (!disable_logging) {
+                console.log("updating name");
+            }
 			if(req.body.pk == "") {
-				console.log("currently empty");
+                if (!disable_logging) {
+                    console.log("currently empty");
+                }
 			}
 		}
         var updateField = req.body.name + ".$";
@@ -3430,10 +3806,12 @@ getDocumentPlanning: function (req, res, next) {
         var conditions = {};
         conditions['_id'] = req.params.id;
         conditions[req.body.name] = req.body.pk;
-        console.log("Search Filter:");
-        console.log(conditions);
-        console.log("Update:");
-        console.log(updates);
+        if (!disable_logging) {
+            console.log("Search Filter:");
+            console.log(conditions);
+            console.log("Update:");
+            console.log(updates);
+        }
 
         Promise.props({
             doc: DocumentPackage.findOneAndUpdate(
@@ -3456,14 +3834,22 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function (results) {
-                console.log(results);
+                if (!disable_logging) {
+                    console.log(results);
+                }
                 if (results.doc != null) {
-                    console.log('[ API ] putUpdateArray :: Documents package found: TRUE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateArray :: Documents package found: TRUE');
+                    }
 					if(req.body.name == "application.other_residents.name") {
-						console.log("updating name");
+                        if (!disable_logging) {
+                            console.log("updating name");
+                        }
 						var finance = new FinancialPackage();
 						if(req.body.pk == "") {
-							console.log("currently empty");
+                            if (!disable_logging) {
+                                console.log("currently empty");
+                            }
 							finance.appID = req.params.id;
 							finance.name = req.body.value;
 							finance.saveAsync(function (err, highlight, numAffected) {
@@ -3471,17 +3857,23 @@ getDocumentPlanning: function (req, res, next) {
 									console.error(err);
 								}
 								else {
-									console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
-									console.log('[ API ] postDocument :: finPackage references document package _id: ' + finance.appID);
+                                    if (!disable_logging) {
+                                        console.log('[ API ] postDocument :: finPackage created with _id: ' + finance._id);
+                                        console.log('[ API ] postDocument :: finPackage references document package _id: ' + finance.appID);
+                                    }
 									//res.send( { status : 200 } );
 								}
 							});
 
 						}
 						else {
-							console.log("changing name");
+                            if (!disable_logging) {
+                                console.log("changing name");
+                            }
 							if(req.body.value == ""){
-								console.log("remove package");
+                                if (!disable_logging) {
+                                    console.log("remove package");
+                                }
 								Promise.props({
 								fin: FinancialPackage.remove(
 									{
@@ -3493,13 +3885,17 @@ getDocumentPlanning: function (req, res, next) {
 							})
 							.then(function (results) {
 								if (results) {
-									console.log('[ API ] deleteFinancial :: Note found: TRUE');
+                                    if (!disable_logging) {
+                                        console.log('[ API ] deleteFinancial :: Note found: TRUE');
+                                    }
 									//res.locals.results = results;
 									//sending a status of 200 for now
 									//res.locals.status = '200';
 								}
 								else {
-									console.log('[ API ] deleteFinancial :: Note found: FALSE');
+                                    if (!disable_logging) {
+                                        console.log('[ API ] deleteFinancial :: Note found: FALSE');
+                                    }
 								}
 								//next();
 							})
@@ -3516,11 +3912,13 @@ getDocumentPlanning: function (req, res, next) {
 							//filters
 							var finConditions = {};
 							finConditions['appID'] = req.params.id;
-							finConditions['name'] = req.body.pk;
-							console.log("Search Filter:");
-							console.log(finConditions);
-							console.log("Update:");
-							console.log(finUpdates);
+                            finConditions['name'] = req.body.pk;
+                            if (!disable_logging) {
+                                console.log("Search Filter:");
+                                console.log(finConditions);
+                                console.log("Update:");
+                                console.log(finUpdates);
+                            }
 
 							Promise.props({
 								fin: FinancialPackage.findOneAndUpdate(
@@ -3543,6 +3941,7 @@ getDocumentPlanning: function (req, res, next) {
 								).execAsync()
 							})
 							 .then(function (results) {
+                                if (!disable_logging) {
 
 									console.log(results);
 
@@ -3551,7 +3950,8 @@ getDocumentPlanning: function (req, res, next) {
 									}
 									else {
 										console.log('[ API ] updateFinance :: Fin package found: FALSE');
-									}
+                                    }
+                                }
 
 								})
 								.catch(function (err) {
@@ -3567,7 +3967,9 @@ getDocumentPlanning: function (req, res, next) {
                     res.locals.status = '200';
                 }
                 else {
-                    console.log('[ API ] putUpdateArray :: Documents package found: FALSE');
+                    if (!disable_logging) {
+                        console.log('[ API ] putUpdateArray :: Documents package found: FALSE');
+                    }
                     res.locals.status = '500';
                 }
                 res.locals.results = results;
@@ -3584,8 +3986,10 @@ getDocumentPlanning: function (req, res, next) {
 
     //Project Summary  get docs for view
     getDocProjectSummaryStatus: function (req, res, next) {
-        // Log the api call we make along with the _id used by it
-        console.log('[ API ] getDocProjectSummaryStatus :: ');
+        if (!disable_logging) {
+            // Log the api call we make along with the _id used by it
+            console.log('[ API ] getDocProjectSummaryStatus :: ');
+        }
         
         // Use results.ProjectSummaryPackage.<whatever you need> to access the information
         Promise.props({
@@ -3703,16 +4107,18 @@ getDocumentPlanning: function (req, res, next) {
             ).execAsync()
         })
             .then(function(results) {
-                console.log("results");
-                
-                
-                console.log(results);
-                if (!results) {
-                    console.log('[ API ] getDocProjectSummaryStatus :: Project Summary package found: FALSE');
-                }
-                else {
-                    console.log('[ API ] getDocProjectSummaryStatus :: Project Summary found: TRUE');
+                if (!disable_logging) {
+                    console.log("results");
+                    
+                    
+                    console.log(results);
+                    if (!results) {
+                        console.log('[ API ] getDocProjectSummaryStatus :: Project Summary package found: FALSE');
+                    }
+                    else {
+                        console.log('[ API ] getDocProjectSummaryStatus :: Project Summary found: TRUE');
 
+                    }
                 }
 
                 res.locals.results = results;
@@ -3729,7 +4135,9 @@ getDocumentPlanning: function (req, res, next) {
 
       // Create / Update Assessment Checklist record
   saveProjectSummaryStatus: function(req, res, next) {
-    console.log('Saving Project Summary Status for: ' + req.body.applicationId);
+    if (!disable_logging) {
+        console.log('Saving Project Summary Status for: ' + req.body.applicationId);
+    }
 
     Promise.props({
       assessment: AssessmentPackage.findOneAndUpdate(
@@ -3742,12 +4150,18 @@ getDocumentPlanning: function (req, res, next) {
           }
       ).execAsync()
     }).then(function (results) {
-      console.log(results);
+        if (!disable_logging) {
+            console.log(results);
+        }
       if (results.assessment !== null) {
-        console.log('[ API ] saveProjectSummaryStatus :: Project found: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectSummaryStatus :: Project found: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveProjectSummaryStatus :: Project found: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectSummaryStatus :: Project found: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3781,7 +4195,9 @@ getDocumentPlanning: function (req, res, next) {
 
     }).then(function (results) {
       if (results.wrapUp.length <= 0) {
-        console.log('Req Params [getWrapUpDoc] ', req.params);
+        if (!disable_logging) {
+            console.log('Req Params [getWrapUpDoc] ', req.params);
+        }
         // Create new wrapUp and set that as new wrapUp.
         ProjectWrapUpPackage.create(
           ProjectWrapUpPackage.empty( ObjectId(req.params.id) ),
@@ -3804,7 +4220,9 @@ getDocumentPlanning: function (req, res, next) {
 
   // Create / Update Project WrapUp record
   saveProjectWrapUp: function(req, res, next) {
-    console.log('Saving Project Summary Status for: ' + req.body.applicationId);
+    if (!disable_logging) {
+        console.log('Saving Project Summary Status for: ' + req.body.applicationId);
+    }
 
     Promise.props({
       projectWrapUp: ProjectWrapUpPackage.findOneAndUpdate(
@@ -3817,12 +4235,18 @@ getDocumentPlanning: function (req, res, next) {
         }
       ).execAsync()
     }).then(function (results) {
-      console.log(results);
+        if (!disable_logging) {
+            console.log(results);
+        }
       if (results.projectWrapUp !== null) {
-        console.log('[ API ] saveProjectWrapUp :: Project found: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectWrapUp :: Project found: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveProjectWrapUp :: Project found: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectWrapUp :: Project found: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3842,7 +4266,9 @@ getDocumentPlanning: function (req, res, next) {
 
     }).then(function (results) {
       if (results.plan.length <= 0) {
-        console.log('Req Params [getProjectPlanDoc] ', req.params);
+        if (!disable_logging) {
+            console.log('Req Params [getProjectPlanDoc] ', req.params);
+        }
         // Create new ProjectPlan and set that as new ProjectPlan.
         ProjectPlanPackage.create(
           ProjectPlanPackage.empty( ObjectId(req.params.id) ),
@@ -3864,8 +4290,10 @@ getDocumentPlanning: function (req, res, next) {
 
   // Create / Update Project Plan record
   saveProjectPlan: function(req, res, next) {
-    console.log('Saving Project Plan Status for: ' + req.body.applicationId);
-    console.log(req.body);
+    if (!disable_logging) {
+        console.log('Saving Project Plan Status for: ' + req.body.applicationId);
+        console.log(req.body);
+    }
     Promise.props({
       plan: ProjectPlanPackage.findOneAndUpdate(
         { applicationId: req.body.applicationId },
@@ -3877,12 +4305,18 @@ getDocumentPlanning: function (req, res, next) {
         }
       ).execAsync()
     }).then(function (results) {
-      console.log(results);
+        if (!disable_logging) {
+            console.log(results);
+        }
       if (results.plan !== null) {
-        console.log('[ API ] saveProjectPlan :: Project found: TRUE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectPlan :: Project found: TRUE');
+        }
         res.locals.status = '200';
       } else {
-        console.log('[ API ] saveProjectPlan :: Project found: FALSE');
+        if (!disable_logging) {
+            console.log('[ API ] saveProjectPlan :: Project found: FALSE');
+        }
         res.locals.status = '500';
       }
       res.locals.results = results
@@ -3915,14 +4349,18 @@ getDocumentPlanning: function (req, res, next) {
   },
 
   setLeadtimeDefaults: function (req, res, next) {
-    console.log('Finding with criteria: ', req.body)
+    if (!disable_logging) {
+        console.log('Finding with criteria: ', req.body)
+    }
     LeadtimeDefaults.findOneAndUpdate({}, { $set: req.body }, {
       'new': true,
       upsert: true,
       setDefaultsOnInsert: true
     }, function (err, lt) {
-      console.log('Lead time updated: ', lt)
-      res.locals.leadtime = lt
+        if (!disable_logging) {
+            console.log('Lead time updated: ', lt)
+        }
+        res.locals.leadtime = lt
       next()
     })
   }
