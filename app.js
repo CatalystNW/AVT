@@ -48,6 +48,7 @@ var partners = require('./routes/partners')(passport);
 var projectview = require('./routes/projectview')(passport);
 
 var care_network = require('./carenetwork/routes/care/carenetwork');
+var app_project = require('./app_project/routes/app_project/app_project');
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -423,6 +424,7 @@ app.use('/tasks/', tasks);
 app.use('/leadtime', leadtime);
 app.use('/carenetwork', care_network);
 app.use('/projectreport', report);
+app.use('/app_project', app_project);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Server Side Libraries
 // Links to jQuery and Boots strap files
