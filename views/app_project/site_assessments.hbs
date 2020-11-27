@@ -1,0 +1,47 @@
+<div>
+    <h1>Pending Assessments</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Application #</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each pending}}
+            <tr>
+                <td><a href="./view_site_assessments/{{this.id}}">{{this.app_name}}</a></td>
+                <td>{{this.name.first}} {{this.name.last}}</td>
+                <td>{{this.address.line_1}}{{#if this.address.line_2}} {{this.address.line_2}}{{/if}} |
+                    {{this.address.city}}, {{this.address.state}} {{this.address.zip}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>Complete Assessments</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Application #</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each complete}}
+            <tr>
+                <td><a href="./view_site_assessments/{{this.id}}">{{this.app_name}}</a></td>
+                <td>{{this.name.first}} {{this.name.last}}</td>
+                <td>{{this.address.line_1}}{{#if this.address.line_2}} {{this.address.line_2}}{{/if}} |
+                    {{this.address.city}}, {{this.address.state}} {{this.address.zip}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,4 @@
+#application-input-container,
+#application-info-container {
+    overflow: auto;
+}
