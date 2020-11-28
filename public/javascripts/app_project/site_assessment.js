@@ -55,17 +55,17 @@ class ApplicationInformation extends React.Component {
       <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
         id="application-info-container">
           <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
+            <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                 href="#nav-app-info" role="tab">Contact</a>
-            <a class="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
+            <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-property-info" role="tab">Property</a>
-            <a class="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
+            <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
                 href="#nav-map-info" role="tab">Map</a>
             
           </ul>
 
-          <div class="tab-content" id="nav-app-tabContent">
-            <div class="tab-pane show active" id="nav-app-info" role="tabpanel">
+          <div className="tab-content" id="nav-app-tabContent">
+            <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
               <h2>Contact Info</h2>
               <table className="table">
                 <tbody>
@@ -101,7 +101,7 @@ class ApplicationInformation extends React.Component {
                 </tbody>
               </table>
             </div>
-            <div class="tab-pane" id="nav-property-info" role="tabpanel">
+            <div className="tab-pane" id="nav-property-info" role="tabpanel">
               <h2>Property Information</h2>
               <table className="table">
                 <tbody>
