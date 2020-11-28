@@ -6,6 +6,9 @@ module.exports.view_site_assessments_page = view_site_assessments_page;
 module.exports.view_site_assessment = view_site_assessment;
 module.exports.get_application_data_api = get_application_data_api;
 
+module.exports.view_delete_manager = view_delete_manager;
+module.exports.manage_deletion = manage_deletion;
+
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
 }
@@ -29,14 +32,25 @@ async function view_site_assessments_page(req, res) {
       address: docPacks[i].application.address,
     });
   }
-  console.log(pending);
-  console.log(complete);
   res.render("app_project/site_assessments", { pending: pending, complete: complete });
 }
 
 async function view_site_assessment(req, res) {
   var id = req.params.application_id;
   res.render("app_project/site_assessment", {app_id: id,});
+}
+
+async function view_delete_manager(req, res) {
+  res.render("app_project/delete_manager", {});
+}
+
+async function manage_deletion(req, res) {
+  var command = req.query.command;
+
+  if (command == "delete_all_assessments") {
+    console.log("delete all site assessments");
+    res.status(200).json({});
+  }
 }
 
 // Manually pulling information to protect transmission of sensitive info

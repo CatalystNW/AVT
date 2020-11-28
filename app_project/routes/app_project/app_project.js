@@ -12,4 +12,7 @@ router.get('/view_site_assessments/:application_id', projects_controller.view_si
 router.route('/application/:application_id')
   .get(projects_controller.get_application_data_api);
 
+router.get('/delete_manager', projects_controller.view_delete_manager);
+router.delete('/delete_manager', projects_controller.manage_deletion);
+
 module.exports = router;
