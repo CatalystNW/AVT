@@ -25,4 +25,16 @@ const siteAssessmentSchema = new Schema({
   timestamp: true,
 });
 
+siteAssessmentSchema.statics.create = async function(app_id) {
+  if (app_id) {
+    var site_assessment = new this();
+    site_assessment.application_id = app_id;
+
+    site_assessment.save();
+    return site_assessment;
+  } else{
+    return undefined;
+  }
+}
+
 module.exports = mongoose.model("SiteAssessment", siteAssessmentSchema);

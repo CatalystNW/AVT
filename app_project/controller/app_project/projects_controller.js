@@ -1,9 +1,11 @@
 const { get } = require("jquery");
-var DocumentPackage = require("../../../models/documentPackage");
+var DocumentPackage = require("../../../models/documentPackage"),
+    SiteAssessment = require("../../models/app_project/SiteAssessment");
 
 module.exports.view_projects_page = view_projects_page;
-module.exports.view_site_assessments_page = view_site_assessments_page;
+module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
+module.exports.get_site_assessment = get_site_assessment;
 module.exports.get_application_data_api = get_application_data_api;
 
 module.exports.view_delete_manager = view_delete_manager;
@@ -13,7 +15,7 @@ async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
 }
 
-async function view_site_assessments_page(req, res) {
+async function view_site_assessments(req, res) {
   // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
   var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec();
   var complete = [],
@@ -53,8 +55,26 @@ async function manage_deletion(req, res) {
   }
 }
 
+async function get_site_assessment(req, res) {
+  var app_id = req.params.application_id;
+
+  // Make sure app_id is valid
+  var doc = await DocumentPackage.findById(app_id);
+
+  if (doc) {
+    var site_assessment = await SiteAssessment.find({application_id: app_id})
+        .populate("WorkItem").populate("ToolItems");
+    if (site_assessment.length == 0) {
+      // The other fields won't exist at creation
+      site_assessment = SiteAssessment.create(app_id);
+    }
+  }
+  res.status(200).json({site_assessment: site_assessment[0]});
+}
+
 // Manually pulling information to protect transmission of sensitive info
-// and have this layer interact with any changes in documentPackage  rather than page
+// and have this layer interact with any changes in documentPackage rather than
+// frontend portion. 
 async function get_application_data_api(req, res){
   var id = req.params.application_id;
 
