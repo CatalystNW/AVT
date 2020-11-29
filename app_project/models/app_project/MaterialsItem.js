@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
 const materialsItemSchema = new Schema({
-  timestamp: true,
   workItem: { type: Schema.Types.ObjectId, ref: "WorkItem"},
   description: String,
   quantity: Number,
@@ -10,6 +9,8 @@ const materialsItemSchema = new Schema({
   vendor: String,
   obtained: Boolean,
   transferred: Boolean,
+}, {
+  timestamp: true,
 });
 
 module.exports = mongoose.model("MaterialsItem", materialsItemSchema);

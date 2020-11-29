@@ -2,8 +2,6 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const workItemSchema = new Schema({
-  timestamp: true, // createdAt, updatedAt
-
   siteAssessment: {type: Schema.Types.ObjectId, ref: "SiteAssessment"},
 
   applicationId: {type: Schema.Types.ObjectId, ref: "DocumentPackage"},
@@ -20,6 +18,10 @@ const workItemSchema = new Schema({
   vetting_comments: String,
   assessment_comments: String,
   project_comments: String,
+}, {
+  timestamp: true, // createdAt, updatedAt
 });
+
+
 
 module.exports = mongoose.model("WorkItem", workItemSchema);

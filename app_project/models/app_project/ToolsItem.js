@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
 const toolsItemSchema = new Schema({
-  timestamp: true,
   siteAssessment: {type: Schema.Types.ObjectId, ref: "SiteAssessment"},
   description: String,
   quantity: Number,
@@ -10,6 +9,8 @@ const toolsItemSchema = new Schema({
   vendor: String,
   obtained: Boolean,
   transferred: Boolean,
+}, {
+  timestamp: true,
 });
 
 module.exports = mongoose.model("ToolsItem", toolsItemSchema);
