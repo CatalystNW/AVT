@@ -25,7 +25,7 @@ const siteAssessmentSchema = new Schema({
   safety_plan: String,
   volunteers_required: Number,
 }, {
-  timestamp: true,
+  timestamps: true,
 });
 
 siteAssessmentSchema.statics.create = async function(app_id) {

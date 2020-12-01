@@ -18,7 +18,7 @@ const workItemSchema = new Schema({
   assessment_comments: String,
   project_comments: String,
 }, {
-  timestamp: true, // createdAt, updatedAt
+  timestamps: true, // createdAt, updatedAt
 });
 
 module.exports = mongoose.model("WorkItem", workItemSchema);

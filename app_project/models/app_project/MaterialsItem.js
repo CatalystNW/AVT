@@ -10,7 +10,7 @@ const materialsItemSchema = new Schema({
   obtained: Boolean,
   transferred: Boolean,
 }, {
-  timestamp: true,
+  timestamps: true,
 });
 
 module.exports = mongoose.model("MaterialsItem", materialsItemSchema);
