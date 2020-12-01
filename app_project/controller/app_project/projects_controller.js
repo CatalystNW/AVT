@@ -68,7 +68,8 @@ async function get_site_assessment(req, res) {
 
   if (doc) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
-        .populate("workItems").populate("toolItems").populate("documentPackage").exec();
+        .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
+        .populate("toolItems").populate("documentPackage").exec();
     if (site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
