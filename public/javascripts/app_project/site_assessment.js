@@ -17,7 +17,6 @@ var funkie = {
     - document.getElementsByClassName("small")[0].offsetHeight;
   },
   get_assessment(app_id, callback) {
-    console.log("GET")
     $.ajax({
       type: "GET",
       url: "../site_assessment/" + app_id,
@@ -28,9 +27,18 @@ var funkie = {
       }
     });
   },
-  create_workitem() {
-    $("#modalMenu").modal("hide");
-  }
+  create_workitem(form_data, menu_callback, handle_data_callback) {
+    $.ajax({
+      url: "../workitems",
+      type:"POST",
+      data: form_data,
+      success: function(result, textStatus, xhr) {
+        if (menu_callback)
+          menu_callback();
+        handle_data_callback(result);
+      }
+    });
+  },
 }
 
 class ModalMenu extends React.Component {
@@ -39,21 +47,53 @@ class ModalMenu extends React.Component {
     this.state = {
       type: "",
       submit_form_callback: null,
-      title: ""
+      title: "",
+      additional_data: null,
+      handle_data_callback: null,
     }
+  }
+
+  close_menu() {
+    $("#modalMenu").modal("hide");
+    $("#modalmenu-form")[0].reset();
+  }
+
+  get_data = () => {
+    var data = {};
+    if (this.state.additional_data) {
+      for (var k in this.state.additional_data) {
+        data[k] = this.state.additional_data[k];
+      }
+    }
+
+    if (this.state.type=="create_workitem") {
+      var formData = new FormData($("#modalmenu-form")[0]);
+      formData.set("handleit", formData.get("handleit") == "on" ? true:false);
+      for (var key of formData.keys()) {
+        data[key] = formData.get(key);
+      }
+    }
+    return data;
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (this.state.submit_form_callback) {
-      this.state.submit_form_callback();
+    if (this.state.submit_form_handler) {
+      var data = this.get_data();
+      
+      this.state.submit_form_handler(
+        data, this.close_menu, this.state.handle_data_callback);
     }
   }
 
-  show_menu(type, submit_form_callback) {
+  show_menu(type, submit_form_handler, additional_data, handle_data_callback) {
     if (type == "create_workitem") {
       this.setState(
-        {type: type, title: "Create WorkItem", submit_form_callback: submit_form_callback});
+        { type: type, title: "Create WorkItem", 
+          submit_form_handler: submit_form_handler,
+          additional_data: additional_data,
+          handle_data_callback: handle_data_callback,
+      });
     }
   }
 
@@ -72,7 +112,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label>Assessment Comments</label>
-          <textarea className="form-control" name="description" id="comments-input"></textarea>
+          <textarea className="form-control" name="assessment_comments" id="comments-input"></textarea>
         </div>
         <div className="form-check">
           <input type="checkbox" name="handleit" id="handleit-check"></input>
@@ -93,7 +133,7 @@ class ModalMenu extends React.Component {
                 <span>&times;</span>
               </button>
             </div>
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit} id="modalmenu-form">
               <div className="modal-body">
                 {this.create_menu()}
               </div>
@@ -112,6 +152,13 @@ class ModalMenu extends React.Component {
 class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.state = this.props.assessment
+  }
+
+  add_workitem = (workitem) => {
+    this.setState({
+      workItems: [workitem, ...this.state.workItems],
+    });
   }
 
   render() {
@@ -123,124 +170,35 @@ class AssessmentMenu extends React.Component {
       <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
         id="assessment-container" key={this.props.id}>
           <h2>Work Items</h2>
+          {this.state.workItems.map((workitem) => {
+            return (
+            <div className="card" key={workitem._id+"-workitem-card"}>
+              <div className="card-body">
+                <h5 className="card-title">{workitem.name}</h5>
+                <b>Description</b>
+                <p className="card-text">
+                  {workitem.description}
+                </p>
+
+                <b>Vetting Comments</b>
+                <p className="card-text">
+                  {workitem.vetting_comments}
+                </p>
+
+                <b>Assessment Comments</b>
+                <p className="card-text">
+                  {workitem.assessment_comments}
+                </p>
+
+                <b>Materials List</b>
+              </div>
+            </div>);
+          })}
+
           <button type="button" className="btn btn-primary" onClick={this.props.set_workitem_menu}
             data-toggle="modal" data-target="#modalMenu">
             Create Work Item
           </button>
-        </div>
-    )
-  }
-}
-
-class ApplicationInformation extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  calculate_age = () => {
-    const dob = new Date(this.props.application.dob.year, 
-      this.props.application.dob.month, this.props.application.dob.date),
-          d = new Date();
-      var years = d.getFullYear() - dob.getFullYear();
-
-      if (d.getMonth() < dob.getMonth() || 
-        (d.getMonth() == dob.getMonth() && d.getDate() < dob.getDate() ))
-        years--;
-
-      return years;
-  }
-
-  render() {
-    // set to browser height so that overflow will show both divs with scrollbars
-    const divStyle = {
-      height: funkie.calculate_page_height().toString() + "px",
-    };
-    var app = this.props.application;
-
-    const name = app.middle_name == "" ?
-      `${app.first_name} ${app.last_name}` :
-      `${app.first_name} ${app.middle_name} ${app.last_name}`;
-    const address = app.line_2 == "" ?
-      <span>{app.line_1}<br />{app.city}, {app.state} {app.zip}</span> :
-      <span>{app.line_1}<br />{app.line_2}<br />{app.city}, {app.state} {app.zip}</span>
-
-    const owns_home = app.owns_home ? "Yes" : "No",
-          can_contribute = app.client_can_contribute ? app.client_can_contribute_description : "No",
-          ass_can_contribute = app.associates_can_contribute ? app.associates_can_contribute_description : "No";
-          
-
-    var google_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD2CmgnSECdg_g-aFgp95NUBv2QUEidDvs&q=";
-    google_url += `${app.line_1} ${app.line_2}, ${app.city}, ${app.state}, ${app.zip}`;
-
-    return (
-      <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
-        id="application-info-container">
-          <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
-            <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
-                href="#nav-app-info" role="tab">Contact</a>
-            <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
-                href="#nav-property-info" role="tab">Property</a>
-            <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
-                href="#nav-map-info" role="tab">Map</a>
-            
-          </ul>
-
-          <div className="tab-content" id="nav-app-tabContent">
-            <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
-              <h2>Contact Info</h2>
-              <table className="table">
-                <tbody>
-                  <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{name}</td></tr>
-                  <tr><th className="col-xs-3">Address</th><td className="col-xs-9">{address}</td></tr>
-                  <tr><th className="col-xs-3">Phone</th><td className="col-xs-9">{app.phone}</td></tr>
-                  <tr><th className="col-xs-3">Email</th><td className="col-xs-9">{app.email}</td></tr>
-                  <tr>
-                    <th className="col-xs-3">Emergency Contact</th>
-                    <td className="col-xs-9">
-                      {app.emergency_name}<br />{app.emergency_relationship}<br />{app.emergency_phone}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <h2>Applicant Info</h2>
-              <table className="table">
-                <tbody>
-                  <tr><th className="col-xs-3">Age</th><td className="col-xs-9">{this.calculate_age()}</td></tr>
-                  <tr><th className="col-xs-3">Owns Home</th><td className="col-xs-9">{owns_home}<br /></td></tr>
-                  <tr><th className="col-xs-3">Spouse</th><td className="col-xs-9">{app.spouse}</td></tr>
-                  <tr>
-                    <th className="col-xs-3">Other Residents</th>
-                    <td className="col-xs-9">
-                      {app.other_residents_names.map((name, index) => {
-                        return <div key={"res-" + index}>{name} ({app.other_residents_age[index]}) - {app.other_residents_relationship[index]}</div>
-                      })}
-                    </td>
-                  </tr>
-                  <tr><th className="col-xs-3">Language</th><td className="col-xs-9">{app.language}<br /></td></tr>
-                  <tr><th className="col-xs-3">Heard About</th><td className="col-xs-9">{app.heard_about}<br /></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="tab-pane" id="nav-property-info" role="tabpanel">
-              <h2>Property Information</h2>
-              <table className="table">
-                <tbody>
-                  <tr><th className="col-xs-3">Home Type</th><td className="col-xs-9">{app.home_type}</td></tr>
-                  <tr><th className="col-xs-3">Ownership Length</th><td className="col-xs-9">{app.ownership_length}</td></tr>
-                  <tr><th className="col-xs-3">Years Constructed</th><td className="col-xs-9">{app.year_constructed}</td></tr>
-                  <tr><th className="col-xs-3">Requested Repairs</th><td className="col-xs-9">{app.requested_repairs}</td></tr>
-                  <tr><th className="col-xs-3">Client Can Contribute</th><td className="col-xs-9">{can_contribute}</td></tr>
-                  <tr><th className="col-xs-3">Assoc. Can Contribute</th><td className="col-xs-9">{ass_can_contribute}</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="tab-pane" id="nav-map-info" role="tabpanel">
-              <iframe width="100%" height="280" frameBorder="0"
-                src={google_url} target="_blank">Google Maps Link</iframe>
-            </div>
-          </div>
-          
         </div>
     )
   }
@@ -258,6 +216,7 @@ class App extends React.Component {
     this.getAssessment();
     
     this.modalmenu = React.createRef();
+    this.assessmentmenu = React.createRef();
   }
 
   getAppData = () => {
@@ -275,8 +234,22 @@ class App extends React.Component {
     });
   }
 
+  add_workitem = (workitem) => {
+    this.assessmentmenu.current.add_workitem(workitem);
+  }
+
   set_workitem_menu =() => {
-    this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem);
+    var data = {
+      assessment_id: this.state.assessments[0]._id, 
+      type: "assessment",
+      application_id: app_id,
+    };
+    this.modalmenu.current.show_menu(
+      "create_workitem", 
+      funkie.create_workitem, 
+      data,
+      this.add_workitem
+    );
   }
 
   render() {
@@ -286,9 +259,10 @@ class App extends React.Component {
     });
 
     const assessment_menu = this.state.assessments.map((assessment) => {
-      console.log(assessment);
       return <AssessmentMenu 
+        ref={this.assessmentmenu}
         key={assessment._id} id={assessment._id}
+        assessment={assessment}
         application_id={app_id} 
         set_workitem_menu={this.set_workitem_menu}
       />

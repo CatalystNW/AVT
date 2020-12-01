@@ -1,6 +1,8 @@
 const { get } = require("jquery");
 var DocumentPackage = require("../../../models/documentPackage"),
-    SiteAssessment = require("../../models/app_project/SiteAssessment");
+    SiteAssessment = require("../../models/app_project/SiteAssessment"),
+    WorkItem = require("../../models/app_project/WorkItem"),
+    ToolsItem = require("../../models/app_project/ToolsItem");
 
 module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
@@ -10,6 +12,8 @@ module.exports.get_application_data_api = get_application_data_api;
 
 module.exports.view_delete_manager = view_delete_manager;
 module.exports.manage_deletion = manage_deletion;
+
+module.exports.create_workitem = create_workitem;
 
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
@@ -63,13 +67,67 @@ async function get_site_assessment(req, res) {
 
   if (doc) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
-        .populate("WorkItem").populate("ToolItems");
+        .populate("workItems").populate("toolItems").populate("documentPackage").exec();
     if (site_assessment.length == 0) {
       // The other fields won't exist at creation
-      site_assessment = SiteAssessment.create(app_id);
+      site_assessment = await SiteAssessment.create(app_id);
     }
+    // while (site_assessment[0].workItems.length > 0)
+    //   site_assessment[0].workItems.pop();
+    // await site_assessment[0].save()
+    // await WorkItem.deleteMany({});
+    res.status(200).json({site_assessment: site_assessment[0]});
+  } else {
+    res.status(404).end();
   }
-  res.status(200).json({site_assessment: site_assessment[0]});
+  
+}
+
+async function create_workitem(req, res) { 
+  var r = req.body;
+  
+  if (!r.type || !r.name || !r.description || !r.application_id)
+    res.status(400).end();
+  var doc = await DocumentPackage.findById(r.application_id);
+  if (!doc)
+    res.status(400).end();
+  
+  var workitem = new WorkItem();
+  workitem.name = r.name;
+  workitem.description = r.description;
+  workitem.type = r.type;
+  workitem.documentPackage = doc;
+  workitem.handleit = r.handleit;
+  var assessment;
+  if (r.type == "assessment") {
+    assessment = await SiteAssessment.findById(r.assessment_id);
+    if (!assessment) {
+      res.status(400).end();
+    }
+
+    if (r.assessment_comments)
+      workitem.assessment_comments = r.assessment_comments;
+    if (! r.assessment_id)
+      res.status(400).end();
+
+    workitem.siteAssessment = assessment;
+    
+  } else if (r.type == "project") {
+    if (r.project_comments) {
+      workitem.project_comments = r.project_comments;
+    }
+  } else {
+    res.status(400).end();
+  }
+  
+  await workitem.save();
+
+  if (r.type == "assessment" && assessment) {
+    assessment.workItems.push(workitem);
+    await assessment.save();
+  }
+  workitem.documentPackage = doc._id;
+  res.status(200).json(workitem);
 }
 
 // Manually pulling information to protect transmission of sensitive info
@@ -78,7 +136,7 @@ async function get_site_assessment(req, res) {
 async function get_application_data_api(req, res){
   var id = req.params.application_id;
 
-  var doc = await (await DocumentPackage.findById(id)).execPopulate();
+  var doc = await DocumentPackage.findById(id);
 
   var appData = {
     id: doc.id,

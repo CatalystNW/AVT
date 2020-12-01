@@ -17,4 +17,6 @@ router.delete('/delete_manager', projects_controller.manage_deletion);
 
 router.get('/site_assessment/:application_id', projects_controller.get_site_assessment);
 
+router.post('/workitems', projects_controller.create_workitem);
+
 module.exports = router;

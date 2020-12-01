@@ -1,3 +1,5 @@
+var DocumentPackage = require("../../../models/documentPackage");
+
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
@@ -6,7 +8,8 @@ const siteAssessmentSchema = new Schema({
   project_start_date: Date,
   project_end_date: Date,
 
-  application_id: { type: Schema.Types.ObjectId, ref: "DocumentPackage"},
+  documentPackage: { type: Schema.Types.ObjectId, ref: "DocumentPackage"},
+  application_id: String,
   workItems: [{ type: Schema.Types.ObjectId, ref: "WorkItem"}],
   other_costs: [{
     name: String,
@@ -29,8 +32,13 @@ siteAssessmentSchema.statics.create = async function(app_id) {
   if (app_id) {
     var site_assessment = new this();
     site_assessment.application_id = app_id;
+    
+    var doc = DocumentPackage.findById(app_id);
+    if (!doc)
+      return undefined;
 
-    site_assessment.save();
+    await site_assessment.save();
+    site_assessment.documentPackage = doc;
     return site_assessment;
   } else{
     return undefined;

@@ -2,13 +2,12 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const workItemSchema = new Schema({
-  siteAssessment: {type: Schema.Types.ObjectId, ref: "SiteAssessment"},
-
-  applicationId: {type: Schema.Types.ObjectId, ref: "DocumentPackage"},
+  documentPackage: {type: Schema.Types.ObjectId, ref: "DocumentPackage"},
   materialsItems: [{type: Schema.Types.ObjectId, ref: "MaterialsItem"}],
   name: String,
-  description, String,
-  
+  description: String,
+  locked: {type: Boolean, default: false,},
+   
   type: {
     type: String,
     enum: ["assessment", "project"],
@@ -21,7 +20,5 @@ const workItemSchema = new Schema({
 }, {
   timestamp: true, // createdAt, updatedAt
 });
-
-
 
 module.exports = mongoose.model("WorkItem", workItemSchema);
