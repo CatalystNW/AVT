@@ -14,6 +14,7 @@ module.exports.view_delete_manager = view_delete_manager;
 module.exports.manage_deletion = manage_deletion;
 
 module.exports.create_workitem = create_workitem;
+module.exports.edit_workitem = edit_workitem;
 
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
@@ -128,6 +129,18 @@ async function create_workitem(req, res) {
   }
   workitem.documentPackage = doc._id;
   res.status(200).json(workitem);
+}
+
+async function edit_workitem(req, res)  {
+  if (!req.body.workitem_id) {
+    res.status(400).end();
+  }
+  var workitem = await WorkItem.findById(req.body.workitem_id);
+  if (req.body.property == "handleit") {
+    workitem.handleit = (workitem.handleit) ? false : true;
+    workitem.save();
+    res.status(200).json({handleit: workitem.handleit});
+  }
 }
 
 // Manually pulling information to protect transmission of sensitive info

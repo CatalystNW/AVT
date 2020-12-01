@@ -35,13 +35,27 @@ var funkie = {
       success: function(result, textStatus, xhr) {
         if (menu_callback)
           menu_callback();
-          data_callback_handler(result);
+        data_callback_handler(result);
       }
     });
   },
   create_materialsitem(form_data, menu_callback, data_callback_handler) {
     console.log(form_data);
-  }
+  },
+  set_handleit(workitem_id, data_callback) {
+    $.ajax({
+      url: "../workitems",
+      type: "PATCH",
+      data: {
+        property: "handleit",
+        workitem_id: workitem_id,
+      },
+      success: function(result, textStatus, xhr) {
+        if (data_callback)
+          data_callback(result);
+      }
+    })
+  },
 }
 
 class ModalMenu extends React.Component {
@@ -180,6 +194,60 @@ class ModalMenu extends React.Component {
   }
 }
 
+class WorkItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = this.props.workitem;
+  }
+
+  set_handleit_handler = (server_data) => {
+    this.setState({
+      handleit: server_data.handleit,
+    });
+  }
+
+  onChange_handleit = (event) => {
+    funkie.set_handleit(event.target.getAttribute("workitem_id"), this.set_handleit_handler);
+  }
+
+  render() {
+    return (<div className="card">
+    <div className="card-body">
+      <h5 className="card-title">{this.state.name}</h5>
+      <b>Description</b>
+      <p className="card-text">
+        {this.state.description}
+      </p>
+
+      <b>Vetting Comments</b>
+      <p className="card-text">
+        {this.state.vetting_comments}
+      </p>
+
+      <b>Assessment Comments</b>
+      <p className="card-text">
+        {this.state.assessment_comments}
+      </p>
+
+      <p className="card-text">
+        <b>Handle-It </b> 
+        <input type="checkbox" name="handleit" id="handleit-check"
+          checked={this.state.handleit}
+          workitem_id={this.state._id}
+          onChange={this.onChange_handleit}></input>
+        
+      </p>
+
+      <b>Materials List</b>
+      <button type="button" className="btn btn-primary btn-sm"
+        onClick={this.props.set_create_materialsitem_menu}
+        workitem_id={this.state._id}
+        data-toggle="modal" data-target="#modalMenu">+ Item</button>
+    </div>
+  </div>);
+  }
+}
+
 class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -201,37 +269,16 @@ class AssessmentMenu extends React.Component {
       <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
         id="assessment-container" key={this.props.id}>
           <h2>Work Items</h2>
-          <button type="button" className="btn btn-primary" onClick={this.props.set_workitem_menu}
+          <button type="button" className="btn btn-primary" 
+            onClick={this.props.set_create_workitem_menu}
             data-toggle="modal" data-target="#modalMenu">
             Create Work Item
           </button>
           {this.state.workItems.map((workitem) => {
             return (
-            <div className="card" key={workitem._id+"-workitem-card"}>
-              <div className="card-body">
-                <h5 className="card-title">{workitem.name}</h5>
-                <b>Description</b>
-                <p className="card-text">
-                  {workitem.description}
-                </p>
-
-                <b>Vetting Comments</b>
-                <p className="card-text">
-                  {workitem.vetting_comments}
-                </p>
-
-                <b>Assessment Comments</b>
-                <p className="card-text">
-                  {workitem.assessment_comments}
-                </p>
-
-                <b>Materials List</b>
-                <button type="button" className="btn btn-primary btn-sm"
-                  onClick={this.props.set_create_materialsitem_menu}
-                  workitem_id={workitem._id}
-                  data-toggle="modal" data-target="#modalMenu">+ Item</button>
-              </div>
-            </div>);
+            <WorkItem 
+              workitem={workitem}
+              key={workitem._id+"-workitem-card"}></WorkItem>);
           })}
 
         </div>
@@ -269,15 +316,11 @@ class App extends React.Component {
     });
   }
 
-  add_workitem = (workitem) => {
-    this.assessmentmenu.current.add_workitem(workitem);
-  }
-
   add_materialsitem = (materialsitem) => {
     console.log(materialsitem);
   }
 
-  set_workitem_menu =() => {
+  set_create_workitem_menu =() => {
     var data = {
       assessment_id: this.state.assessments[0]._id, 
       type: "assessment",
@@ -287,7 +330,7 @@ class App extends React.Component {
       "create_workitem", 
       funkie.create_workitem, 
       data,
-      this.add_workitem,
+      this.assessmentmenu.current.add_workitem,
     );
   }
 
@@ -315,7 +358,7 @@ class App extends React.Component {
         key={assessment._id} id={assessment._id}
         assessment={assessment}
         application_id={app_id} 
-        set_workitem_menu={this.set_workitem_menu}
+        set_create_workitem_menu={this.set_create_workitem_menu}
         set_create_materialsitem_menu={this.set_create_materialsitem_menu}
       />
     });
