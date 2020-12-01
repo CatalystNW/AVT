@@ -27,7 +27,7 @@ var funkie = {
       }
     });
   },
-  create_workitem(form_data, menu_callback, handle_data_callback) {
+  create_workitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
       url: "../workitems",
       type:"POST",
@@ -35,10 +35,13 @@ var funkie = {
       success: function(result, textStatus, xhr) {
         if (menu_callback)
           menu_callback();
-        handle_data_callback(result);
+          data_callback_handler(result);
       }
     });
   },
+  create_materialsitem(form_data, menu_callback, data_callback_handler) {
+    console.log(form_data);
+  }
 }
 
 class ModalMenu extends React.Component {
@@ -94,13 +97,20 @@ class ModalMenu extends React.Component {
           additional_data: additional_data,
           handle_data_callback: handle_data_callback,
       });
+    } else if (type == "create_materialsitem") {
+      this.setState(
+        {
+          type: type, title: "Create Item",
+          submit_form_handler: submit_form_handler,
+          additional_data: additional_data,
+          handle_data_callback: handle_data_callback,
+        }
+      )
     }
   }
 
   create_menu() {
-    if (this.state.type == "") {
-      return <div></div>
-    } else if (this.state.type == "create_workitem") {
+     if (this.state.type == "create_workitem") {
       return (<div>
         <div className="form-group">
           <label>Name</label>
@@ -119,6 +129,27 @@ class ModalMenu extends React.Component {
           <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
         </div>
       </div>);
+    } else if (this.state.type == "create_materialsitem") {
+      return (<div>
+        <div className="form-group">
+          <label>Description</label>
+          <input type="text" className="form-control" name="description" id="description-input" required></input>
+        </div>
+        <div className="form-group">
+          <label>Quantity</label>
+          <input type="number" className="form-control" name="quantity" id="quantity-input" required></input>
+        </div>
+        <div className="form-group">
+          <label>Price</label>
+          <input type="number" className="form-control" name="price" id="price-input" required></input>
+        </div>
+        <div className="form-group">
+          <label>Vendor</label>
+          <input type="text" className="form-control" name="vendor" id="vendor-input" required></input>
+        </div>
+      </div>)
+    } else {
+      return <div></div>
     }
   }
 
@@ -170,6 +201,10 @@ class AssessmentMenu extends React.Component {
       <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
         id="assessment-container" key={this.props.id}>
           <h2>Work Items</h2>
+          <button type="button" className="btn btn-primary" onClick={this.props.set_workitem_menu}
+            data-toggle="modal" data-target="#modalMenu">
+            Create Work Item
+          </button>
           {this.state.workItems.map((workitem) => {
             return (
             <div className="card" key={workitem._id+"-workitem-card"}>
@@ -191,14 +226,14 @@ class AssessmentMenu extends React.Component {
                 </p>
 
                 <b>Materials List</b>
+                <button type="button" className="btn btn-primary btn-sm"
+                  onClick={this.props.set_create_materialsitem_menu}
+                  workitem_id={workitem._id}
+                  data-toggle="modal" data-target="#modalMenu">+ Item</button>
               </div>
             </div>);
           })}
 
-          <button type="button" className="btn btn-primary" onClick={this.props.set_workitem_menu}
-            data-toggle="modal" data-target="#modalMenu">
-            Create Work Item
-          </button>
         </div>
     )
   }
@@ -238,6 +273,10 @@ class App extends React.Component {
     this.assessmentmenu.current.add_workitem(workitem);
   }
 
+  add_materialsitem = (materialsitem) => {
+    console.log(materialsitem);
+  }
+
   set_workitem_menu =() => {
     var data = {
       assessment_id: this.state.assessments[0]._id, 
@@ -248,8 +287,20 @@ class App extends React.Component {
       "create_workitem", 
       funkie.create_workitem, 
       data,
-      this.add_workitem
+      this.add_workitem,
     );
+  }
+
+  set_create_materialsitem_menu = (e) => {
+    var data = {
+      workitem_id: e.target.getAttribute("workitem_id")
+    }
+    this.modalmenu.current.show_menu(
+      "create_materialsitem",
+      funkie.create_materialsitem,
+      data,
+      this.add_materialsitem,
+    )
   }
 
   render() {
@@ -265,6 +316,7 @@ class App extends React.Component {
         assessment={assessment}
         application_id={app_id} 
         set_workitem_menu={this.set_workitem_menu}
+        set_create_materialsitem_menu={this.set_create_materialsitem_menu}
       />
     });
     return (
