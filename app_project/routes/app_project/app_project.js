@@ -20,4 +20,6 @@ router.get('/site_assessment/:application_id', projects_controller.get_site_asse
 router.post('/workitems', projects_controller.create_workitem);
 router.patch('/workitems', projects_controller.edit_workitem);
 
+router.post('/materialsitem', projects_controller.create_materialsitem);
+
 module.exports = router;

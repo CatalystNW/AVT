@@ -2,6 +2,7 @@ const { get } = require("jquery");
 var DocumentPackage = require("../../../models/documentPackage"),
     SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
+    MaterialsItem = require("../../models/app_project/MaterialsItem"),
     ToolsItem = require("../../models/app_project/ToolsItem");
 
 module.exports.view_projects_page = view_projects_page;
@@ -15,6 +16,8 @@ module.exports.manage_deletion = manage_deletion;
 
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
+
+module.exports.create_materialsitem = create_materialsitem;
 
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
@@ -142,6 +145,27 @@ async function edit_workitem(req, res)  {
     workitem.save();
     res.status(200).json({handleit: workitem.handleit});
   }
+}
+
+async function create_materialsitem(req, res) {
+  if (!req.body.workitem_id)
+    res.status(400).end();
+  var workitem = await WorkItem.findById(req.body.workitem_id);
+  if (!workitem)
+    res.status(400).end();
+  var item = new MaterialsItem();
+  item.description = req.body.description;
+  item.quantity = req.body.quantity;
+  item.price = req.body.price;
+  item.vendor = req.body.vendor;
+  item.workItem = workitem;
+  item.save();
+
+  workitem.materialsItems.push(item);
+  workitem.save();
+  res.status(200).json(item);
+
+  // res.status(200).json(item);
 }
 
 // Manually pulling information to protect transmission of sensitive info
