@@ -2,3 +2,7 @@
 #application-info-container {
     overflow: auto;
 }
+
+.card {
+    padding: 10px;
+}

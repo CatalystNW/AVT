@@ -233,65 +233,97 @@ class WorkItem extends React.Component {
     this.props.set_create_materialsitem_menu(e, this.add_item);
   }
 
-  render() {
-    return (<div className="card">
-    <div className="card-body">
-      <h5 className="card-title">{this.state.name}</h5>
-      <b>Description</b>
-      <p className="card-text">
-        {this.state.description}
-      </p>
-
-      <b>Vetting Comments</b>
-      <p className="card-text">
-        {this.state.vetting_comments}
-      </p>
-
-      <b>Assessment Comments</b>
-      <p className="card-text">
-        {this.state.assessment_comments}
-      </p>
-
-      <p className="card-text">
-        <b>Handle-It </b> 
-        <input type="checkbox" name="handleit" id="handleit-check"
-          checked={this.state.handleit}
-          workitem_id={this.state._id}
-          onChange={this.onChange_handleit}></input>
-        
-      </p>
-
-      <b>Materials List</b>
-      <button type="button" className="btn btn-primary btn-sm"
-        onClick={this.onClick_create_item}
-        workitem_id={this.state._id}
-        data-toggle="modal" 
-        data-target="#modalMenu">+ Item
-      </button>
+  create_materialslist = () => {
+    var total = 0, cost;
+    return (
       <table className="table">
           <thead>
             <tr>
               <th scope="col" className="col-sm-1">#</th>
-              <th scope="col" className="col-sm-6">Description</th>
+              <th scope="col" className="col-sm-5">Description</th>
               <th scope="col" className="col-sm-1">Price</th>
-              <th scope="col" className="col-sm-4">Vendor</th>
+              <th scope="col" className="col-sm-3">Vendor</th>
+              <th scope="col" className="col-sm-2">Total</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.materialsItems.map((materialItem) => {
+            {this.state.materialsItems.map((materialsItem, index) => {
+              {cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
+                total += cost;}
               return (
-              <tr key={"row"+materialItem._id}>
-                <td className="col-sm-1" key={"quantity-"+materialItem._id}>{materialItem.quantity}</td>
-                <td className="col-sm-6" key={"desc-"+materialItem._id}>{materialItem.description}</td>
-                <td className="col-sm-1" key={"price-"+materialItem._id}>{materialItem.price}</td>
-                <td className="col-sm-4"key={"vendor-"+materialItem._id}>{materialItem.vendor}</td>
-              </tr>);
+                <tr key={"row"+materialsItem._id}>
+                  <td className="col-sm-1" key={"options-"+materialsItem._id}>
+                    {materialsItem.quantity}
+                  </td>
+                  <td className="col-sm-5" key={"desc-"+materialsItem._id}>
+                    {materialsItem.description}</td>
+                  <td className="col-sm-1" key={"price-"+materialsItem._id}>
+                    {materialsItem.price}</td>
+                  <td className="col-sm-3"key={"vendor-"+materialsItem._id}>{materialsItem.vendor}</td>
+                  <td className="col-sm-2"key={"del-"+materialsItem._id}>
+                    <div className="dropdown">
+                      <button className="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                        {cost}
+                      </button>
+                      <div className="dropdown-menu">
+                        <a className="dropdown-item" href="#">Delete</a>
+                        <a className="dropdown-item" href="#">Edit</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )
             })}
           </tbody>
-      </table>
-      
-    </div>
-  </div>);
+          <tfoot>
+            <tr>
+              <td className="col-sm-10" colSpan="4">Total</td>
+              <td className="col-sm-2" >{total}</td>
+            </tr>
+          </tfoot>
+        </table>
+    );
+  }
+  
+  render() {
+    return (
+    <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">{this.state.name}</h5>
+        <b>Description</b>
+        <p className="card-text">
+          {this.state.description}
+        </p>
+
+        <b>Vetting Comments</b>
+        <p className="card-text">
+          {this.state.vetting_comments}
+        </p>
+
+        <b>Assessment Comments</b>
+        <p className="card-text">
+          {this.state.assessment_comments}
+        </p>
+
+        <p className="card-text">
+          <b>Handle-It </b> 
+          <input type="checkbox" name="handleit" id="handleit-check"
+            checked={this.state.handleit}
+            workitem_id={this.state._id}
+            onChange={this.onChange_handleit}></input>
+          
+        </p>
+
+        <b>Materials List</b>
+        <button type="button" className="btn btn-primary btn-sm"
+          onClick={this.onClick_create_item}
+          workitem_id={this.state._id}
+          data-toggle="modal" 
+          data-target="#modalMenu">+ Item
+        </button>
+        {this.create_materialslist()}
+      </div>
+    </div>);
   }
 }
 
@@ -313,7 +345,7 @@ class AssessmentMenu extends React.Component {
     };
 
     return (
-      <div className="col-sm-12 col-lg-6 overflow-auto" style={divStyle}
+      <div className="col-sm-12 col-lg-8 overflow-auto" style={divStyle}
         id="assessment-container" key={this.props.id}>
           <h2>Work Items</h2>
           <button type="button" className="btn btn-primary" 
