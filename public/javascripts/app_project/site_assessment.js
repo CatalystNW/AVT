@@ -67,6 +67,17 @@ var funkie = {
       }
     })
   },
+  delete_item(materialsItem_id, callback) {
+    $.ajax({
+      url: "../materialsitem/" + materialsItem_id,
+      type: "DELETE",
+      success: function(result, textStatus, xhr) {
+        if (callback) {
+          callback(materialsItem_id);
+        }
+      }
+    });
+  }
 }
 
 class ModalMenu extends React.Component {
@@ -167,7 +178,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" name="price" id="price-input" required></input>
+          <input type="number" className="form-control" step="any" name="price" id="price-input" required></input>
         </div>
         <div className="form-group">
           <label>Vendor</label>
@@ -233,6 +244,30 @@ class WorkItem extends React.Component {
     this.props.set_create_materialsitem_menu(e, this.add_item);
   }
 
+  remove_item = (materialsItem_id) => {
+    var mlist = [],
+        m = this.state.materialsItems;
+    for (var i=0;i<m.length; i++) {
+      if (m[i]._id != materialsItem_id)
+        mlist.push(Object.assign({}, m[i]));
+    }
+    this.setState({materialsItems: mlist});
+  }
+
+  onClick_delete_item = (e) => {
+    e.preventDefault();
+    var description = e.target.getAttribute("description"),
+        item_id = e.target.getAttribute("item_id");
+    var result = window.confirm("Are you sure you want to delete " + description + "?");
+    if (result) {
+      funkie.delete_item(item_id, this.remove_item)
+    }
+  }
+  onClick_edit_item = (e) => {
+    e.preventDefault();
+    console.log("del");
+  }
+
   create_materialslist = () => {
     var total = 0, cost;
     return (
@@ -266,8 +301,12 @@ class WorkItem extends React.Component {
                         {cost}
                       </button>
                       <div className="dropdown-menu">
-                        <a className="dropdown-item" href="#">Delete</a>
-                        <a className="dropdown-item" href="#">Edit</a>
+                        <a className="dropdown-item" 
+                          description={materialsItem.description}
+                          item_id={materialsItem._id}
+                          onClick={this.onClick_delete_item}>Delete</a>
+                        <a className="dropdown-item" item_id={materialsItem._id}
+                          onClick={this.onClick_edit_item}>Edit</a>
                       </div>
                     </div>
                   </td>

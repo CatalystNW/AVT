@@ -6,6 +6,7 @@ const materialsItemSchema = new Schema({
   description: String,
   quantity: Number,
   price: Number,
+  cost: Number,
   vendor: String,
   obtained: Boolean,
   transferred: Boolean,

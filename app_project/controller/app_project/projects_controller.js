@@ -18,6 +18,7 @@ module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 
 module.exports.create_materialsitem = create_materialsitem;
+module.exports.delete_materialsitem = delete_materialsitem;
 
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
@@ -159,13 +160,24 @@ async function create_materialsitem(req, res) {
   item.price = req.body.price;
   item.vendor = req.body.vendor;
   item.workItem = workitem;
+  item.cost = item.quantity * item.price;
   item.save();
 
   workitem.materialsItems.push(item);
+  workitem.materials_cost += item.cost;
   workitem.save();
   res.status(200).json(item);
+}
 
-  // res.status(200).json(item);
+async function delete_materialsitem(req, res) {
+  var item = await MaterialsItem.findById(req.params.id);
+
+  var workitem = WorkItem.findById(item.workItem);
+  workitem.materials_cost -= item.cost;
+  await workitem.save();
+
+  await MaterialsItem.deleteOne({_id:req.params.id});
+  res.status(200).send();
 }
 
 // Manually pulling information to protect transmission of sensitive info
