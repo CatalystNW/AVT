@@ -77,6 +77,20 @@ var funkie = {
         }
       }
     });
+  },
+  edit_materialsitem(form_data, menu_callback, data_callback_handler) {
+    $.ajax({
+      url: "../materialsitem/" + form_data.materialsItem_id,
+      type: "PATCH",
+      data: form_data,
+      success: function(result, textStatus, xhr) {
+        if (menu_callback) 
+          menu_callback();
+        if (data_callback_handler) {
+          data_callback_handler(result);
+        }
+      }
+    });
   }
 }
 
@@ -128,7 +142,28 @@ class WorkItem extends React.Component {
   }
   onClick_edit_item = (e) => {
     e.preventDefault();
-    console.log("del");
+    var materialsItem_id = e.target.getAttribute("item_id"),
+        m = this.state.materialsItems;
+    for (var i=0;i<m.length; i++) {
+      if (m[i]._id == materialsItem_id) {
+        this.props.set_edit_materialisitem_menu(m[i], this.edit_item);
+        break;
+      }
+    }
+  }
+
+  edit_item = (materialsItem) => {
+    var new_itemlist = [],
+        id = materialsItem._id,
+        itemlist = this.state.materialsItems;
+    for (var i=0; i< itemlist.length; i++) {
+      if (itemlist[i]._id == id) {
+        new_itemlist.push(materialsItem);
+      } else {
+        new_itemlist.push(Object.assign({}, itemlist[i]));
+      }
+    }
+    this.setState({materialsItems: new_itemlist,});
   }
 
   create_materialslist = () => {
@@ -169,6 +204,7 @@ class WorkItem extends React.Component {
                           item_id={materialsItem._id}
                           onClick={this.onClick_delete_item}>Delete</a>
                         <a className="dropdown-item" item_id={materialsItem._id}
+                          item_id={materialsItem._id}
                           onClick={this.onClick_edit_item}>Edit</a>
                       </div>
                     </div>
@@ -259,10 +295,10 @@ class AssessmentMenu extends React.Component {
             return (
             <WorkItem 
               workitem={workitem}
+              set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
               set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
               key={workitem._id+"-workitem-card"}></WorkItem>);
           })}
-
         </div>
     )
   }
@@ -312,6 +348,16 @@ class App extends React.Component {
     );
   }
 
+  set_edit_materialisitem_menu = (old_data, edit_item_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_materialsitem",
+      funkie.edit_materialsitem,
+      old_data,
+      edit_item_handler, // <WorkItem> method
+    );
+    $("#modalMenu").modal("show");
+  }
+
   set_create_materialsitem_menu = (e, materialsitem_handler) => {
     var data = {
       workitem_id: e.target.getAttribute("workitem_id")
@@ -321,7 +367,7 @@ class App extends React.Component {
       funkie.create_materialsitem,
       data,
       materialsitem_handler,
-    )
+    );
   }
 
   render() {
@@ -338,6 +384,7 @@ class App extends React.Component {
         application_id={app_id} 
         set_create_workitem_menu={this.set_create_workitem_menu}
         set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+        set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}        
       />
     });
     return (

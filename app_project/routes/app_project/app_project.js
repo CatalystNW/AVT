@@ -22,5 +22,6 @@ router.patch('/workitems', projects_controller.edit_workitem);
 
 router.post('/materialsitem', projects_controller.create_materialsitem);
 router.delete('/materialsitem/:id', projects_controller.delete_materialsitem);
+router.patch('/materialsitem/:id', projects_controller.edit_materialsitem);
 
 module.exports = router;

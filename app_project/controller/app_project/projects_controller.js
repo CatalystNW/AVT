@@ -19,6 +19,7 @@ module.exports.edit_workitem = edit_workitem;
 
 module.exports.create_materialsitem = create_materialsitem;
 module.exports.delete_materialsitem = delete_materialsitem;
+module.exports.edit_materialsitem = edit_materialsitem;
 
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
@@ -143,7 +144,7 @@ async function edit_workitem(req, res)  {
   var workitem = await WorkItem.findById(req.body.workitem_id);
   if (req.body.property == "handleit") {
     workitem.handleit = (workitem.handleit) ? false : true;
-    workitem.save();
+    await workitem.save();
     res.status(200).json({handleit: workitem.handleit});
   }
 }
@@ -161,23 +162,38 @@ async function create_materialsitem(req, res) {
   item.vendor = req.body.vendor;
   item.workItem = workitem;
   item.cost = item.quantity * item.price;
-  item.save();
+  await item.save();
 
   workitem.materialsItems.push(item);
   workitem.materials_cost += item.cost;
-  workitem.save();
+  await workitem.save();
   res.status(200).json(item);
 }
 
 async function delete_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
 
-  var workitem = WorkItem.findById(item.workItem);
+  var workitem = await WorkItem.findById(item.workItem);
   workitem.materials_cost -= item.cost;
   await workitem.save();
 
   await MaterialsItem.deleteOne({_id:req.params.id});
   res.status(200).send();
+}
+
+// New cost is included into req.body.cost
+async function edit_materialsitem(req, res) {
+  var item = await MaterialsItem.findById(req.params.id);
+  if (!item)
+    res.status(404).end();
+  var old_cost = item.cost;
+  item = await MaterialsItem.findOneAndUpdate({_id: req.params.id}, req.body, {new: true,});
+
+  var workitem = await WorkItem.findById(item.workItem);
+  workitem.total -= old_cost;
+  workitem.total += item.cost;
+  await workitem.save();
+  res.status(200).json(item);
 }
 
 // Manually pulling information to protect transmission of sensitive info

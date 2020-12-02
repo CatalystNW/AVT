@@ -28,9 +28,16 @@ class ModalMenu extends React.Component {
     if (this.state.type=="create_workitem") {
       formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
     }
+
     for (var key of formData.keys()) {
       data[key] = formData.get(key);
     }
+
+    if (this.state.type=="edit_materialsitem") {
+      data["quantity"] = parseInt(formData.get("quantity"));
+      data["price"] = parseFloat(formData.get("price"));
+      data["cost"] = data["quantity"] * data["price"];
+    }    
     return data;
   }
 
@@ -65,7 +72,7 @@ class ModalMenu extends React.Component {
         {
           type: type, title: "Edit Item",
           submit_form_handler: submit_form_handler,
-          additional_data: {},
+          additional_data: {materialsItem_id: additional_data._id,},
           handle_data_callback: handle_data_callback,
           prev_data: additional_data,
         }
