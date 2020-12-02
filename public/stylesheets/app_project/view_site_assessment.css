@@ -6,3 +6,7 @@
 .card {
     padding: 10px;
 }
+
+div.dropdown-menu {
+    cursor: pointer;
+}
