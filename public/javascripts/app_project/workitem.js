@@ -2,7 +2,6 @@ class WorkItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.workitem;
-    console.log(this.state);
   }
 
   set_handleit_handler = (server_data) => {

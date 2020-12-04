@@ -101,13 +101,13 @@ class AssessmentMenu extends React.Component {
 
   change_assessment = (assessment) => {
     this.setState(assessment);
-  }
+  };
 
   add_workitem = (workitem) => {
     this.setState({
       workItems: [workitem, ...this.state.workItems],
     });
-  }
+  };
 
   render() {
     const divStyle = {
@@ -129,7 +129,6 @@ class AssessmentMenu extends React.Component {
               <AssessmentChecklist />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
-              <h2>Work Items</h2>
               <button type="button" className="btn btn-primary" 
                 onClick={this.props.set_create_workitem_menu}
                 data-toggle="modal" data-target="#modalMenu">
@@ -175,8 +174,6 @@ class App extends React.Component {
   getAssessment = () => {
     var that = this;
     funkie.get_assessment(app_id, function(data) {
-      console.log(data.site_assessment);
-      console.log(that.assessmentmenu);
       that.assessmentmenu.current.change_assessment(data.site_assessment);
       that.setState({assessment: data.site_assessment,});
     });
