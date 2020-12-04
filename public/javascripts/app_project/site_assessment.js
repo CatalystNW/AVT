@@ -59,8 +59,6 @@ var funkie = {
         workitem_id: workitem_id,
       },
       success: function(result, textStatus, xhr) {
-        if (menu_callback)
-          menu_callback();
         if (data_callback)
           data_callback(result);
       }

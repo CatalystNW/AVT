@@ -149,7 +149,7 @@ class WorkItem extends React.Component {
 
         <p className="card-text">
           <b>Handle-It </b> 
-          <input type="checkbox" name="handleit" id="handleit-check"
+          <input type="checkbox" name="handleit"
             checked={this.state.handleit}
             workitem_id={this.state._id}
             onChange={this.onChange_handleit}></input>
