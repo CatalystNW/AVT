@@ -60,7 +60,10 @@ async function manage_deletion(req, res) {
   var command = req.query.command;
 
   if (command == "delete_all_assessments") {
-    console.log("delete all site assessments");
+    await WorkItem.deleteMany({});
+    await SiteAssessment.deleteMany({});
+    await MaterialsItem.deleteMany({});
+    await ToolsItem.deleteMany({});
     res.status(200).json({});
   }
 }
@@ -79,10 +82,6 @@ async function get_site_assessment(req, res) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
     }
-    // while (site_assessment[0].workItems.length > 0)
-    //   site_assessment[0].workItems.pop();
-    // await site_assessment[0].save()
-    // await WorkItem.deleteMany({});
     res.status(200).json({site_assessment: site_assessment[0]});
   } else {
     res.status(404).end();
