@@ -126,6 +126,7 @@ class AssessmentMenu extends React.Component {
 
           <div className="tab-content" id="nav-assessment-tabContent">
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
+              <AssessmentChecklist />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
               <h2>Work Items</h2>
