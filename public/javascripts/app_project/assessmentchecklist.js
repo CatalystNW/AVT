@@ -1,24 +1,56 @@
 class AssessmentChecklist extends React.Component {
-  componentDidMount() {
-    $('.dateinput').datepicker({
-      format: 'yyyy-mm-dd',
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
   }
+  load_assessment(assessment) {
+    this.setState(assessment)
+  }
+  componentDidMount =() => {
+    $('.checklist-dateinput').datepicker({
+      format: 'yyyy-mm-dd',
+    }).on("hide", (e) => this.onHide_date(e));
+  }
+
+  onHide_date(e) {
+    var name = e.target.getAttribute("name"),
+        value = e.target.value;
+
+    if (name == "project_start_date" && value) {
+      var regex = /(\d{4})-(\d{2})-(\d{2})/g;
+      var result = regex.exec(value);
+      if (result) {
+        console.log(result);
+        funkie.edit_site_assessment({
+          assessment_id: this.state._id,
+          property: name,
+          year: result[1],
+          month: result[2],
+          day: result[3],
+        });
+      }
+    } else if (name == "project_end_date") {
+      
+    }
+  }
+
   render() {
     return (
     <div>
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Start Date</label>
         <div className="col-sm-10">
-          <input type="text" className="form-control dateinput" name="start_date" 
-            placeholder="yyyy-mm-dd" id="checklist-start-date"></input>
+          <input type="text" className="form-control checklist-dateinput" name="project_start_date" 
+            placeholder="yyyy-mm-dd" id="checklist-start-date" onChange={this.onChange_start_date}></input>
         </div>
       </div>
 
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">End Date</label>
         <div className="col-sm-10">
-          <input type="text" className="form-control dateinput" name="end_date" 
+          <input type="text" className="form-control checklist-dateinput" name="project_end_date" 
             placeholder="yyyy-mm-dd" id="checklist-end-date"></input>
         </div>
       </div>
