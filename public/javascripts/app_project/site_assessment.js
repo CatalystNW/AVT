@@ -94,7 +94,13 @@ var funkie = {
 class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.assessment
+    this.state = {
+      workItems: []
+    }
+  }
+
+  change_assessment = (assessment) => {
+    this.setState(assessment);
   }
 
   add_workitem = (workitem) => {
@@ -110,22 +116,35 @@ class AssessmentMenu extends React.Component {
 
     return (
       <div className="col-sm-12 col-lg-8 overflow-auto" style={divStyle}
-        id="assessment-container" key={this.props.id}>
-          <h2>Work Items</h2>
-          <button type="button" className="btn btn-primary" 
-            onClick={this.props.set_create_workitem_menu}
-            data-toggle="modal" data-target="#modalMenu">
-            Create Work Item
-          </button>
-          {this.state.workItems.map((workitem) => {
-            return (
-            <WorkItem 
-              workitem={workitem}
-              set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-              set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-              key={workitem._id+"-workitem-card"}></WorkItem>);
-          })}
+        id="assessment-container" key={this.state._id}>
+          <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
+            <a className="nav-item nav-link active" id="nav-checklist-tab" data-toggle="tab" 
+                href="#nav-checklist" role="tab">Checklist</a>
+            <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
+                href="#nav-workitem" role="tab">Work Items</a>
+          </ul>
+
+          <div className="tab-content" id="nav-assessment-tabContent">
+            <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
+            </div>
+            <div className="tab-pane" id="nav-workitem" role="tabpanel">
+              <h2>Work Items</h2>
+              <button type="button" className="btn btn-primary" 
+                onClick={this.props.set_create_workitem_menu}
+                data-toggle="modal" data-target="#modalMenu">
+                Create Work Item
+              </button>
+              {this.state.workItems.map((workitem) => {
+                return (
+                <WorkItem 
+                  workitem={workitem}
+                  set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+                  set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+                  key={workitem._id+"-workitem-card"}></WorkItem>);
+              })}
+            </div>
         </div>
+      </div>
     )
   }
 }
@@ -136,7 +155,7 @@ class App extends React.Component {
     this.state = {
       // both apps and assessments should be length 1, but use map to create them
       applications: [],
-      assessments: [],
+      assessment: {},
     }
     this.getAppData();
     this.getAssessment();
@@ -156,13 +175,15 @@ class App extends React.Component {
     var that = this;
     funkie.get_assessment(app_id, function(data) {
       console.log(data.site_assessment);
-      that.setState({assessments: [data.site_assessment,]});
+      console.log(that.assessmentmenu);
+      that.assessmentmenu.current.change_assessment(data.site_assessment);
+      that.setState({assessment: data.site_assessment,});
     });
   }
 
   set_create_workitem_menu =() => {
     var data = {
-      assessment_id: this.state.assessments[0]._id, 
+      assessment_id: this.state.assessment._id, 
       type: "assessment",
       application_id: app_id,
     };
@@ -202,20 +223,16 @@ class App extends React.Component {
         application={application}></ApplicationInformation>
     });
 
-    const assessment_menu = this.state.assessments.map((assessment) => {
-      return <AssessmentMenu 
-        ref={this.assessmentmenu}
-        key={assessment._id} id={assessment._id}
-        assessment={assessment}
-        application_id={app_id} 
-        set_create_workitem_menu={this.set_create_workitem_menu}
-        set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-        set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}        
-      />
-    });
     return (
       <div>
-        {assessment_menu}
+        <AssessmentMenu 
+          ref={this.assessmentmenu}
+          assessment={{}}
+          application_id={app_id} 
+          set_create_workitem_menu={this.set_create_workitem_menu}
+          set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+          set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}        
+        />
         {application_information}
 
         <ModalMenu ref={this.modalmenu} />
