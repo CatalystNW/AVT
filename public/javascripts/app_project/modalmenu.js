@@ -108,11 +108,13 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label>Quantity</label>
-          <input type="number" className="form-control" name="quantity" id="quantity-input" required></input>
+          <input type="number" className="form-control" name="quantity" 
+            id="quantity-input" min="0" required></input>
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" step="any" name="price" id="price-input" required></input>
+          <input type="number" className="form-control" step="any" name="price" 
+            id="price-input" min="0" required></input>
         </div>
         <div className="form-group">
           <label>Vendor</label>
@@ -128,12 +130,12 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label>Quantity</label>
-          <input type="number" className="form-control" name="quantity" 
+          <input type="number" className="form-control" name="quantity" min="0"
             defaultValue={this.state.prev_data.quantity} id="quantity-input" required></input>
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" step="any" name="price" 
+          <input type="number" className="form-control" step="any" name="price" min="0"
             defaultValue={this.state.prev_data.price} id="price-input" required></input>
         </div>
         <div className="form-group">

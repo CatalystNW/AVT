@@ -105,7 +105,7 @@ class AssessmentChecklist extends React.Component {
         </div>
         <div className="col">
           <label>Cost</label>
-          <input type="number" className="form-control"></input>
+          <input type="number" className="form-control" min="0" step="0.01"></input>
         </div>
       </div>
 
@@ -117,7 +117,7 @@ class AssessmentChecklist extends React.Component {
         </div>
         <div className="col">
           <label>Cost</label>
-          <input type="number" className="form-control"></input>
+          <input type="number" className="form-control" min="0" step="0.01"></input>
         </div>
       </div>
     </div>);
