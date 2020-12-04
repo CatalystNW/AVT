@@ -78,11 +78,14 @@ async function get_site_assessment(req, res) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
         .populate("toolItems").populate("documentPackage").exec();
-    if (site_assessment.length == 0) {
+    if (!site_assessment || site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
+      res.status(200).json({site_assessment: site_assessment});
+    } else {
+      res.status(200).json({site_assessment: site_assessment[0]});
     }
-    res.status(200).json({site_assessment: site_assessment[0]});
+    
   } else {
     res.status(404).end();
   }
