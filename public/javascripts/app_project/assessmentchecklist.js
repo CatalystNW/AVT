@@ -32,11 +32,24 @@ class AssessmentChecklist extends React.Component {
         });
       }
     } else if (name == "project_end_date") {
-      
+      ;
     }
   }
 
   render() {
+    var hours = [],
+        i;
+    for(i=1; i<13;i++) {
+      hours.push([
+        <option key={"hour-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
+      ]);
+    }
+    var minutes = [];
+    for(i=1; i<61;i++) {
+      minutes.push([
+        <option key={"min-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
+      ]);
+    }
     return (
     <div>
       <div className="form-group row">
@@ -48,10 +61,46 @@ class AssessmentChecklist extends React.Component {
       </div>
 
       <div className="form-group row">
+        <label className="col-sm-2 col-form-label">Start Time</label>
+        <div className="col-sm-10">
+          <div className="form-inline">
+            <select className="form-control">
+              {hours}
+            </select>
+            <select className="form-control">
+              {minutes}
+            </select>
+            <select className="form-control">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="form-group row">
         <label className="col-sm-2 col-form-label">End Date</label>
         <div className="col-sm-10">
           <input type="text" className="form-control checklist-dateinput" name="project_end_date" 
             placeholder="yyyy-mm-dd" id="checklist-end-date"></input>
+        </div>
+      </div>
+
+      <div className="form-group row">
+        <label className="col-sm-2 col-form-label">End Time</label>
+        <div className="col-sm-10">
+          <div className="form-inline">
+            <select className="form-control">
+              {hours}
+            </select>
+            <select className="form-control">
+              {minutes}
+            </select>
+            <select className="form-control">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+          </div>
         </div>
       </div>
       
