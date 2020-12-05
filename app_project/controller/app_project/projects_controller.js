@@ -9,6 +9,8 @@ module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
 module.exports.get_site_assessment = get_site_assessment;
+module.exports.edit_site_assessment = edit_site_assessment;
+
 module.exports.get_application_data_api = get_application_data_api;
 
 module.exports.view_delete_manager = view_delete_manager;
@@ -89,7 +91,30 @@ async function get_site_assessment(req, res) {
   } else {
     res.status(404).end();
   }
-  
+}
+
+async function edit_site_assessment(req, res) {
+  console.log(req.body);
+  var property = req.body.property,
+      assessment_id = req.body.assessment_id;
+  var site_assessment = await SiteAssessment.findById(assessment_id);
+  if (property == "project_start_date" || property == "project_end_date") {
+    var d = new Date(
+      parseInt(req.body.year),
+      parseInt(req.body.month)-1,
+      parseInt(req.body.day),
+      parseInt(req.body.hours),
+      parseInt(req.body.minutes),
+    );
+    if (property == "project_start_date") {
+      site_assessment.project_start_date = d;
+    } else {
+      site_assessment.project_end_date = d;
+    }
+    var s = await site_assessment.save();
+    console.log(s);
+  }
+  res.status(200).send();
 }
 
 async function create_workitem(req, res) { 

@@ -15,7 +15,9 @@ router.route('/application/:application_id')
 router.get('/delete_manager', projects_controller.view_delete_manager);
 router.delete('/delete_manager', projects_controller.manage_deletion);
 
-router.get('/site_assessment/:application_id', projects_controller.get_site_assessment);
+router.route('/site_assessment/:application_id')
+  .get(projects_controller.get_site_assessment)
+  .patch(projects_controller.edit_site_assessment);
 
 router.post('/workitems', projects_controller.create_workitem);
 router.patch('/workitems', projects_controller.edit_workitem);

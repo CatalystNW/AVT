@@ -88,19 +88,31 @@ var funkie = {
         }
       }
     });
-  }
+  },
+  edit_site_assessment(data) {
+    $.ajax({
+      type: "PATCH",
+      url: "../site_assessment/" + data.assessment_id,
+      data: data,
+      success: function(returnData, textStatus, xhr) {
+        console.log(returnData);
+      }
+    });
+  },
 }
 
 class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      workItems: []
+      workItems: [],
     }
+    this.checklist = React.createRef();
   }
 
   change_assessment = (assessment) => {
     this.setState(assessment);
+    this.checklist.current.load_assessment(assessment);
   };
 
   add_workitem = (workitem) => {
@@ -126,7 +138,9 @@ class AssessmentMenu extends React.Component {
 
           <div className="tab-content" id="nav-assessment-tabContent">
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
-              <AssessmentChecklist />
+              <AssessmentChecklist ref={this.checklist}
+                assessment={{}}
+              />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
               <button type="button" className="btn btn-primary" 
@@ -174,6 +188,7 @@ class App extends React.Component {
   getAssessment = () => {
     var that = this;
     funkie.get_assessment(app_id, function(data) {
+      console.log(data.site_assessment);
       that.assessmentmenu.current.change_assessment(data.site_assessment);
       that.setState({assessment: data.site_assessment,});
     });
