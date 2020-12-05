@@ -27,14 +27,18 @@ class AssessmentChecklist extends React.Component {
     var regex = /(\d{4})-(\d{2})-(\d{2})/g,
         result = regex.exec(value);
     if (result) { // Have to test since dates could be null
-      return {
+      var obj = {
         year: result[1],
         month: result[2],
         day: result[3],
-        hours: $("#" + modifier + "-hour-select").val(),
+        hours: parseInt($("#" + modifier + "-hour-select").val()),
         minutes: $("#" + modifier + "-minute-select").val(),
-        period: $("#" + modifier + "-period-select").val(),
       };
+      var period = $("#" + modifier + "-period-select").val();
+      if (period == "pm") {
+        obj.hours += 12;
+      }
+      return obj;
     }
     return null;
   }
@@ -55,7 +59,7 @@ class AssessmentChecklist extends React.Component {
   render() {
     var hours = [],
         i;
-    for(i=1; i<13;i++) {
+    for(i=0; i<12;i++) {
       hours.push([
         <option key={"hour-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
       ]);
