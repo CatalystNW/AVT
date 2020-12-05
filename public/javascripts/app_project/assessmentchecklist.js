@@ -11,28 +11,44 @@ class AssessmentChecklist extends React.Component {
   componentDidMount =() => {
     $('.checklist-dateinput').datepicker({
       format: 'yyyy-mm-dd',
-    }).on("hide", (e) => this.onHide_date(e));
+    }).on("hide", (e) => this.onChange_date(e));
   }
 
-  onHide_date(e) {
-    var name = e.target.getAttribute("name"),
-        value = e.target.value;
-
-    if (name == "project_start_date" && value) {
-      var regex = /(\d{4})-(\d{2})-(\d{2})/g;
-      var result = regex.exec(value);
+  get_date(type) {
+    var date_input_id, modifier;
+    if (type == "start") {
+      date_input_id = "checklist-start-date";
+      modifier = "start";
+    } else if (type == "end") {
+      date_input_id = "checklist-end-date";
+      modifier = "end";
+    }
+    var value = $("#" + date_input_id).val();
+    var regex = /(\d{4})-(\d{2})-(\d{2})/g,
+        result = regex.exec(value);
+    if (result) { // Have to test since dates could be null
+      return {
+        year: result[1],
+        month: result[2],
+        day: result[3],
+        hours: $("#" + modifier + "-hour-select").val(),
+        minutes: $("#" + modifier + "-minute-select").val(),
+        period: $("#" + modifier + "-period-select").val(),
+      };
+    }
+    return null;
+  }
+  // Either change date or times
+  onChange_date = (e) => {
+    var timetype = e.target.getAttribute("timetype");
+    
+    if (timetype == "start" || timetype == "end") {
+      var result = this.get_date(timetype);
       if (result) {
-        console.log(result);
-        funkie.edit_site_assessment({
-          assessment_id: this.state._id,
-          property: name,
-          year: result[1],
-          month: result[2],
-          day: result[3],
-        });
+        result.assessment_id = this.state._id;
+        result.property = "project_" + timetype + "_date"
+        funkie.edit_site_assessment(result);
       }
-    } else if (name == "project_end_date") {
-      ;
     }
   }
 
@@ -55,22 +71,27 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Start Date</label>
         <div className="col-sm-10">
-          <input type="text" className="form-control checklist-dateinput" name="project_start_date" 
-            placeholder="yyyy-mm-dd" id="checklist-start-date" onChange={this.onChange_start_date}></input>
+          <input type="text" className="form-control checklist-dateinput" 
+            name="project_start_date" placeholder="yyyy-mm-dd" timetype="start"
+            id="checklist-start-date"></input>
         </div>
       </div>
 
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">Start Time</label>
+        <label className="col-sm-2 col-form-label" htmlFor="start-hour-select">
+          Start Time</label>
         <div className="col-sm-10">
           <div className="form-inline">
-            <select className="form-control">
+            <select className="form-control" id="start-hour-select" 
+              timetype="start" onChange={this.onChange_date}>
               {hours}
             </select>
-            <select className="form-control">
+            <select className="form-control" id="start-minute-select" 
+              timetype="start" onChange={this.onChange_date}>
               {minutes}
             </select>
-            <select className="form-control">
+            <select className="form-control" id="start-period-select" 
+              timetype="start" onChange={this.onChange_date}>
               <option value="am">AM</option>
               <option value="pm">PM</option>
             </select>
@@ -81,22 +102,27 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">End Date</label>
         <div className="col-sm-10">
-          <input type="text" className="form-control checklist-dateinput" name="project_end_date" 
-            placeholder="yyyy-mm-dd" id="checklist-end-date"></input>
+          <input type="text" className="form-control checklist-dateinput" 
+            name="project_end_date" placeholder="yyyy-mm-dd" timetype="end"
+            id="checklist-end-date"></input>
         </div>
       </div>
 
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">End Time</label>
+        <label className="col-sm-2 col-form-label" htmlFor="end-hour-select">
+          End Time</label>
         <div className="col-sm-10">
           <div className="form-inline">
-            <select className="form-control">
+            <select className="form-control" id="end-hour-select" 
+              timetype="end" onChange={this.onChange_date}>
               {hours}
             </select>
-            <select className="form-control">
+            <select className="form-control" id="end-minute-select"
+              timetype="end" onChange={this.onChange_date}>
               {minutes}
             </select>
-            <select className="form-control">
+            <select className="form-control" id="end-period-select"
+              timetype="end" onChange={this.onChange_date}>
               <option value="am">AM</option>
               <option value="pm">PM</option>
             </select>
