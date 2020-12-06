@@ -83,11 +83,10 @@ async function get_site_assessment(req, res) {
     if (!site_assessment || site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
-      res.status(200).json({site_assessment: site_assessment});
     } else {
-      res.status(200).json({site_assessment: site_assessment[0]});
+      site_assessment = site_assessment[0];
     }
-    
+    res.status(200).json({site_assessment: site_assessment});
   } else {
     res.status(404).end();
   }
@@ -111,8 +110,7 @@ async function edit_site_assessment(req, res) {
     } else {
       site_assessment.project_end_date = d;
     }
-    var s = await site_assessment.save();
-    console.log(s);
+    await site_assessment.save();
   }
   res.status(200).send();
 }
