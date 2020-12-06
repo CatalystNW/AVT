@@ -111,8 +111,10 @@ async function edit_site_assessment(req, res) {
       site_assessment.project_end_date = d;
     }
     await site_assessment.save();
+    res.status(200).send({"date": d,});
+  } else {
+    res.status(400).end();
   }
-  res.status(200).send();
 }
 
 async function create_workitem(req, res) { 

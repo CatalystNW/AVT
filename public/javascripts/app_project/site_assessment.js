@@ -89,13 +89,15 @@ var funkie = {
       }
     });
   },
-  edit_site_assessment(data) {
+  edit_site_assessment(data, callback) {
     $.ajax({
       type: "PATCH",
       url: "../site_assessment/" + data.assessment_id,
       data: data,
       success: function(returnData, textStatus, xhr) {
-        console.log(returnData);
+        if (callback) {
+          callback(returnData);
+        }
       }
     });
   },
