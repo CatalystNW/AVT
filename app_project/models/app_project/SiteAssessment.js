@@ -4,9 +4,9 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const siteAssessmentSchema = new Schema({
-  assessment_date: Date,
-  project_start_date: Date,
-  project_end_date: Date,
+  assessment_date: { type: Date, default: Date.now },
+  project_start_date: { type: Date, default: Date.now },
+  project_end_date: { type: Date, default: Date.now },
 
   documentPackage: { type: Schema.Types.ObjectId, ref: "DocumentPackage"},
   application_id: String,
