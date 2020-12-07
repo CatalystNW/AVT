@@ -112,6 +112,13 @@ async function edit_site_assessment(req, res) {
     }
     await site_assessment.save();
     res.status(200).send({"date": d,});
+  } else if (property == "lead" || property ==  "asbestos" || 
+      property == "safety_plan") {
+    if (req.body.value) {
+      site_assessment[property] = req.body.value;
+      await site_assessment.save();
+    }
+    res.status(200).end();
   } else {
     res.status(400).end();
   }

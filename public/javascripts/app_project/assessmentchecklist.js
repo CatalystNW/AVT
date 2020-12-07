@@ -2,6 +2,7 @@ class AssessmentChecklist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.safety_plan_timer = null;
   }
   // Convert the date given by server (UTC) to local date & time
   // Returns as a Date object
@@ -71,6 +72,38 @@ class AssessmentChecklist extends React.Component {
         });
       }
     }
+  }
+  onChange_select = (e) => {
+    var assessment_id = this.state._id,
+        value = $(e.target).val(),
+        property_type = e.target.getAttribute("property_type");
+    if (property_type == "lead" || property_type == "asbestos") {
+      var data = {
+        property: property_type,
+        value: value,
+        assessment_id: assessment_id,
+      };
+      funkie.edit_site_assessment(data, (returnData) => {
+        this.setState({[property_type]: value});
+      });
+    }
+  };
+  onChange_inputs_timer = (e) => {
+    var property_type = e.target.getAttribute("property_type"),
+        value = e.target.value;
+
+    clearTimeout(this[property_type + "_timer"]);
+
+    this.setState({[property_type]: value});
+
+    this[property_type + "_timer"] = setTimeout(() => {
+      var data = {
+        assessment_id: this.state._id,
+        property: property_type,
+        value: value,
+      }
+      funkie.edit_site_assessment(data); // No callback
+    }, 1000);
   }
 
   create_hour_options(type) {
@@ -202,7 +235,8 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Lead</label>
         <div className="col-sm-10">
-          <select className="form-control">
+          <select className="form-control" onChange={this.onChange_select}
+            value={this.state.lead} property_type="lead">
             <option value="yes">Yes</option>
             <option value="no">No</option>
             <option value="unsure">Unsure</option>
@@ -212,7 +246,8 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Asbestos</label>
         <div className="col-sm-10">
-          <select className="form-control">
+          <select className="form-control" onChange={this.onChange_select}
+            value={this.state.asbestos} property_type="asbestos">
             <option value="yes">Yes</option>
             <option value="no">No</option>
             <option value="unsure">Unsure</option>
@@ -222,7 +257,9 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Safety Plan</label>
         <div className="col-sm-10">
-          <textarea className="form-control" rows='4'></textarea>
+          <textarea className="form-control" rows='4'
+            value={this.state.safety_plan} property_type="safety_plan"
+            onChange={this.onChange_inputs_timer}></textarea>
         </div>
       </div>
 
