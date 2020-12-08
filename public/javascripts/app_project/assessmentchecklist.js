@@ -1,8 +1,10 @@
 class AssessmentChecklist extends React.Component {
   constructor(props) {
+    // site_assessment directly loaded into state later (w/ ajax call)
     super(props);
     this.state = {};
     this.safety_plan_timer = null;
+    this.toolstable = React.createRef();
   }
   // Convert the date given by server (UTC) to local date & time
   // Returns as a Date object
@@ -15,12 +17,14 @@ class AssessmentChecklist extends React.Component {
     }
     return null;
   }
-  load_assessment(assessment) {
+  load_assessment = (assessment) => {
     if (assessment.project_start_date)
       assessment.project_start_date = this.convert_date(assessment.project_start_date);
     if (assessment.project_end_date)
       assessment.project_end_date = this.convert_date(assessment.project_end_date);
     this.setState(assessment);
+    if (assessment.toolItems)
+      this.toolstable.current.setTools(assessment.toolItems);
   }
   componentDidMount =() => {
     $('.checklist-dateinput').datepicker({
@@ -269,23 +273,7 @@ class AssessmentChecklist extends React.Component {
           <button type="button" className="btn btn-sm"
             onClick={this.props.set_create_tools_menu}>Create</button>
         </label>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Description</th>
-              <th scope="col">Cost</th>
-              <th scope="col">Vendor</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <td>Total</td>
-              <td>#Cost</td>
-            </tr>
-          </tfoot>
-        </table>
+        <ToolsTable ref={this.toolstable} />
       </div>
 
       <div className="form-group">
