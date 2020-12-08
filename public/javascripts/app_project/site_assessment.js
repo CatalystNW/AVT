@@ -112,7 +112,6 @@ class App extends React.Component {
       old_data,
       edit_item_handler, // <WorkItem> method
     );
-    // $("#modalMenu").modal("show");
   }
 
   // materialsitem_handler handles showing the element
