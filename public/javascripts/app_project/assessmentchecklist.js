@@ -129,6 +129,10 @@ class AssessmentChecklist extends React.Component {
     return minutes;
   }
 
+  set_create_tools_menu = () => {
+    this.props.set_create_tools_menu(this.toolstable.current.addTool);
+  }
+
   render() {
     var start_date = (this.state && this.state.project_start_date) ?
       this.state.project_start_date.toISOString().slice(0,10) :
@@ -271,7 +275,7 @@ class AssessmentChecklist extends React.Component {
         <label>
           Tools/Rentals
           <button type="button" className="btn btn-sm"
-            onClick={this.props.set_create_tools_menu}>Create</button>
+            onClick={this.set_create_tools_menu}>Create</button>
         </label>
         <ToolsTable ref={this.toolstable} />
       </div>

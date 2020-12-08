@@ -51,6 +51,14 @@ class ModalMenu extends React.Component {
     }
   }
 
+  /**
+   * Creates the modal menu and then uses modal.show to reveal it
+   * @param {*} type : type of menu to create
+   * @param {*} submit_form_handler : handler that will handle form submission
+   * @param {*} additional_data : any additional data Obj passed to submit form handler
+   * @param {*} handle_data_callback : callback passed to submit form handler
+   *    that will edit the HTML elements after ajax success
+   */
   show_menu(type, submit_form_handler, additional_data, handle_data_callback) {
     if (type == "create_workitem") {
       this.setState(
@@ -82,6 +90,7 @@ class ModalMenu extends React.Component {
         type: type, title: "Create Tools Item",
         submit_form_handler: submit_form_handler,
         additional_data: additional_data,
+        handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     }
   }

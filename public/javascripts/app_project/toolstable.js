@@ -8,9 +8,16 @@ class ToolsTable extends React.Component {
   }
 
   setTools = (toolsItems) => {
-    console.log(toolsItems);
     this.setState({toolsItems: toolsItems});
   }
+
+  addTool =(toolItem) => {
+    var t = [...this.state.toolsItems];
+    t.push(toolItem);
+    this.setState({
+      toolsItems: t,
+    });
+  };
 
   render() {
     var total = 0;
