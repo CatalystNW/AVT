@@ -158,9 +158,7 @@ class WorkItem extends React.Component {
         <b>Materials List</b>
         <button type="button" className="btn btn-primary btn-sm"
           onClick={this.onClick_create_item}
-          workitem_id={this.state._id}
-          data-toggle="modal" 
-          data-target="#modalMenu">+ Item
+          workitem_id={this.state._id}>+ Item
         </button>
         {this.create_materialslist()}
       </div>

@@ -58,7 +58,7 @@ class ModalMenu extends React.Component {
           submit_form_handler: submit_form_handler,
           additional_data: additional_data,
           handle_data_callback: handle_data_callback,
-      });
+      }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "create_materialsitem") {
       this.setState(
         {
@@ -66,7 +66,7 @@ class ModalMenu extends React.Component {
           submit_form_handler: submit_form_handler,
           additional_data: additional_data,
           handle_data_callback: handle_data_callback,
-        });
+        }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "edit_materialsitem") {
       this.setState(
         {
@@ -75,9 +75,14 @@ class ModalMenu extends React.Component {
           additional_data: {materialsItem_id: additional_data._id,},
           handle_data_callback: handle_data_callback,
           prev_data: additional_data,
-        }
+        }, ()=> {$("#modalMenu").modal("show");}
       )
+    } else if (type == "create_tools") {
+      this.setState({
+        type: type,
+      }, ()=> {$("#modalMenu").modal("show");});
     }
+    // $("#modalMenu").modal("show");
   }
 
   create_menu() {
@@ -144,6 +149,13 @@ class ModalMenu extends React.Component {
             defaultValue={this.state.prev_data.vendor} id="vendor-input" required></input>
         </div>
       </div>);
+    } else if (this.state.type == "create_tools") {
+      return (<div>
+        <div className="form-group">
+          <label>Description</label>
+          <input type="text" className="form-control" name="description"></input>
+        </div>
+      </div>)
     } else {
       return <div></div>
     }

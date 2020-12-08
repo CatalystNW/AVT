@@ -142,12 +142,12 @@ class AssessmentMenu extends React.Component {
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
                 assessment={{}}
+                set_create_tools_menu = {this.props.set_create_tools_menu}
               />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
               <button type="button" className="btn btn-primary" 
-                onClick={this.props.set_create_workitem_menu}
-                data-toggle="modal" data-target="#modalMenu">
+                onClick={this.props.set_create_workitem_menu}>
                 Create Work Item
               </button>
               {this.state.workItems.map((workitem) => {
@@ -217,9 +217,10 @@ class App extends React.Component {
       old_data,
       edit_item_handler, // <WorkItem> method
     );
-    $("#modalMenu").modal("show");
+    // $("#modalMenu").modal("show");
   }
 
+  // materialsitem_handler handles showing the element
   set_create_materialsitem_menu = (e, materialsitem_handler) => {
     var data = {
       workitem_id: e.target.getAttribute("workitem_id")
@@ -230,6 +231,11 @@ class App extends React.Component {
       data,
       materialsitem_handler,
     );
+  }
+
+  set_create_tools_menu = () => {
+    var data = {};
+    this.modalmenu.current.show_menu("create_tools");
   }
 
   render() {
@@ -246,7 +252,8 @@ class App extends React.Component {
           application_id={app_id} 
           set_create_workitem_menu={this.set_create_workitem_menu}
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-          set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}        
+          set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
+          set_create_tools_menu = {this.set_create_tools_menu}
         />
         {application_information}
 
