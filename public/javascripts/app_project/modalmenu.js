@@ -79,10 +79,11 @@ class ModalMenu extends React.Component {
       )
     } else if (type == "create_tools") {
       this.setState({
-        type: type,
+        type: type, title: "Create Tools Item",
+        submit_form_handler: submit_form_handler,
+        additional_data: additional_data,
       }, ()=> {$("#modalMenu").modal("show");});
     }
-    // $("#modalMenu").modal("show");
   }
 
   create_menu() {
@@ -153,7 +154,15 @@ class ModalMenu extends React.Component {
       return (<div>
         <div className="form-group">
           <label>Description</label>
-          <input type="text" className="form-control" name="description"></input>
+          <input type="text" className="form-control" name="description" required></input>
+        </div>
+        <div className="form-group">
+          <label>Price</label>
+          <input type="number" className="form-control" step="any" min="0" name="price"></input>
+        </div>
+        <div className="form-group">
+          <label>Vendor</label>
+          <input type="text" className="form-control" name="vendor"></input>
         </div>
       </div>)
     } else {

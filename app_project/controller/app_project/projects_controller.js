@@ -11,6 +11,8 @@ module.exports.view_site_assessment = view_site_assessment;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
+module.exports.create_tool = create_tool
+
 module.exports.get_application_data_api = get_application_data_api;
 
 module.exports.view_delete_manager = view_delete_manager;
@@ -180,6 +182,26 @@ async function edit_workitem(req, res)  {
     workitem.handleit = (workitem.handleit) ? false : true;
     await workitem.save();
     res.status(200).json({handleit: workitem.handleit});
+  } else {
+    res.status(400).end();
+  }
+}
+
+async function create_tool(req, res) {
+  console.log(req.body);
+  if (req.params.assessment_id) {
+    var site_assessment = await SiteAssessment.findById(req.body.assessment_id);
+    var tool = new ToolsItem;
+    tool.price = req.body.price;
+    tool.vendor = req.body.vendor;
+    tool.description = req.body.description;
+    tool.siteAssessment = site_assessment;
+    await tool.save();
+    site_assessment.toolItems.push(tool);
+    await site_assessment.save();
+    res.status(200).json(tool);
+  } else {
+    res.status(400).end();
   }
 }
 

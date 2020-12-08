@@ -128,8 +128,14 @@ class App extends React.Component {
   }
 
   set_create_tools_menu = () => {
-    var data = {};
-    this.modalmenu.current.show_menu("create_tools");
+    var data = {
+      assessment_id: this.state.assessment._id, 
+    };
+    this.modalmenu.current.show_menu(
+      "create_tools",
+      funkie.create_tool,
+      data,
+      );
   }
 
   render() {

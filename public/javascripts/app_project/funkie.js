@@ -101,4 +101,18 @@ var funkie = {
       }
     });
   },
+  create_tool(data, menu_callback, data_callback_handler) {
+    $.ajax({
+      type: "POST",
+      url: "../site_assessment/" + data.assessment_id +"/tools",
+      data: data,
+      success: function(result, textStatus, xhr) {
+        if (menu_callback) 
+          menu_callback();
+        if (data_callback_handler) {
+          data_callback_handler(result);
+        }
+      },
+    });
+  }
 }

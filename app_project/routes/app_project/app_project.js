@@ -19,6 +19,9 @@ router.route('/site_assessment/:application_id')
   .get(projects_controller.get_site_assessment)
   .patch(projects_controller.edit_site_assessment);
 
+router.route('/site_assessment/:assessment_id/tools')
+  .post(projects_controller.create_tool);
+
 router.post('/workitems', projects_controller.create_workitem);
 router.patch('/workitems', projects_controller.edit_workitem);
 
