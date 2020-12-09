@@ -23,8 +23,8 @@ class AssessmentChecklist extends React.Component {
     if (assessment.project_end_date)
       assessment.project_end_date = this.convert_date(assessment.project_end_date);
     this.setState(assessment);
-    if (assessment.toolItems)
-      this.toolstable.current.setTools(assessment.toolItems);
+    if (assessment.toolsItems)
+      this.toolstable.current.setTools(assessment.toolsItems);
   }
   componentDidMount =() => {
     $('.checklist-dateinput').datepicker({

@@ -81,7 +81,7 @@ async function get_site_assessment(req, res) {
   if (doc) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-        .populate("toolItems").populate("documentPackage").exec();
+        .populate("toolsItems").populate("documentPackage").exec();
     if (!site_assessment || site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
@@ -191,13 +191,15 @@ async function create_tool(req, res) {
   console.log(req.body);
   if (req.params.assessment_id) {
     var site_assessment = await SiteAssessment.findById(req.body.assessment_id);
-    var tool = new ToolsItem;
+
+    var tool = new ToolsItem();
     tool.price = req.body.price;
     tool.vendor = req.body.vendor;
     tool.description = req.body.description;
     tool.siteAssessment = site_assessment;
     await tool.save();
-    site_assessment.toolItems.push(tool);
+
+    site_assessment.toolsItems.push(tool);
     await site_assessment.save();
     res.status(200).json(tool);
   } else {
