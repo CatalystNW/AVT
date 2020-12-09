@@ -188,15 +188,15 @@ async function edit_workitem(req, res)  {
 }
 
 async function create_tool(req, res) {
-  console.log(req.body);
   if (req.params.assessment_id) {
     var site_assessment = await SiteAssessment.findById(req.body.assessment_id);
 
-    var tool = new ToolsItem();
-    tool.price = req.body.price;
-    tool.vendor = req.body.vendor;
-    tool.description = req.body.description;
-    tool.siteAssessment = site_assessment;
+    var tool = new ToolsItem({
+      price: req.body.price,
+      vendor: req.body.vendor,
+      description: req.body.description,
+      siteAssessment: site_assessment,
+    });
     await tool.save();
 
     site_assessment.toolsItems.push(tool);
