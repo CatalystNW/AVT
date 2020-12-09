@@ -11,7 +11,8 @@ module.exports.view_site_assessment = view_site_assessment;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
-module.exports.create_tool = create_tool
+module.exports.create_tool = create_tool;
+module.exports.delete_tool = delete_tool;
 
 module.exports.get_application_data_api = get_application_data_api;
 
@@ -207,6 +208,21 @@ async function create_tool(req, res) {
   }
 }
 
+async function delete_tool(req, res) {
+  if ( req.params.toolsitem_id) {
+    var toolsItem = await ToolsItem.findById(req.params.toolsitem_id);
+
+    var site_assessment = await SiteAssessment.findById(toolsItem.siteAssessment);
+    site_assessment.toolsItems.pull({_id: req.params.toolsitem_id});
+    await site_assessment.save();
+
+    await ToolsItem.deleteOne({_id: req.param.toolsitem_id});
+    res.status(200).send();
+  } else {
+    res.status(400).end();
+  }
+}
+
 async function create_materialsitem(req, res) {
   if (!req.body.workitem_id)
     res.status(400).end();
@@ -233,7 +249,7 @@ async function delete_materialsitem(req, res) {
 
   var workitem = await WorkItem.findById(item.workItem);
   workitem.materials_cost -= item.cost;
-  workitem.materialsItems.pull(item._id);
+  workitem.materialsItems.pull({_id: item._id});
   await workitem.save();
 
   await MaterialsItem.deleteOne({_id:req.params.id});

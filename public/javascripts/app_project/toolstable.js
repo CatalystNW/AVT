@@ -19,6 +19,39 @@ class ToolsTable extends React.Component {
     });
   };
 
+  delTool = (e) => {
+    var toolitem_id = e.target.getAttribute("toolitem_id");
+    var desc = "";
+    for (var i=0; i<this.state.toolsItems.length; i++) {
+      if (this.state.toolsItems[i]._id == toolitem_id) {
+        desc = this.state.toolsItems[i].description;
+        break;
+      }
+    }
+
+    var reply = window.confirm("Are you sure you want to delete " + desc + "?");
+    if (reply) {
+      funkie.del_tool(
+        {
+          toolitem_id: toolitem_id,
+        }, 
+        () =>  {
+          var new_tools = [...this.state.toolsItems];
+          for (var i=0; i<new_tools.length; i++) {
+            if (new_tools[i]._id == toolitem_id) {
+              new_tools.splice(i, 1);
+              break;
+            }
+          }
+          this.setState({toolsItems: new_tools});
+      });
+    }
+  }
+
+  editTool() {
+
+  }
+
   render() {
     var total = 0;
     for (var i=0; i<this.state.toolsItems.length; i++) {
@@ -41,7 +74,14 @@ class ToolsTable extends React.Component {
             <td>{item.description}</td>
             <td>{item.price}</td>
             <td>{item.vendor}</td>
-            <td></td>
+            <td>
+              <button type="button" className="btn btn-sm btn-danger"
+                toolitem_id={item._id} onClick={this.delTool}
+                >Del</button>
+              <button type="button" className="btn btn-sm btn-warning"
+                toolitem_id={item._id} onClick={this.editTool}
+                >Edit</button>
+            </td>
           </tr>);
         })}
       </tbody>

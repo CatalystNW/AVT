@@ -128,7 +128,6 @@ class App extends React.Component {
   }
 
   set_create_tools_menu = (add_element_handler) => {
-    console.log(add_element_handler);
     var data = {
       assessment_id: this.state.assessment._id, 
     };

@@ -114,5 +114,16 @@ var funkie = {
         }
       },
     });
-  }
+  },
+  del_tool(data, callback) {
+    $.ajax({
+      type: "DELETE",
+      url: "../toolsitems/" + data.toolitem_id,
+      success: function(result, textStats, xhr) {
+        if (callback) {
+          callback();
+        }
+      }
+    });
+  },
 }
