@@ -231,6 +231,7 @@ async function delete_materialsitem(req, res) {
 
   var workitem = await WorkItem.findById(item.workItem);
   workitem.materials_cost -= item.cost;
+  workitem.materialsItems.pull(item._id);
   await workitem.save();
 
   await MaterialsItem.deleteOne({_id:req.params.id});
