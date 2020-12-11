@@ -65,20 +65,22 @@ class ModalMenu extends React.Component {
         { type: type, title: "Create WorkItem", 
           submit_form_handler: submit_form_handler,
           additional_data: additional_data,
+          prev_data: {},
           handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "create_materialsitem") {
       this.setState(
         {
-          type: type, title: "Create Item",
+          type: type, title: "Create Materials Item",
           submit_form_handler: submit_form_handler,
           additional_data: additional_data,
+          prev_data: {},
           handle_data_callback: handle_data_callback,
         }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "edit_materialsitem") {
       this.setState(
         {
-          type: type, title: "Edit Item",
+          type: type, title: "Edit Materials Item",
           submit_form_handler: submit_form_handler,
           additional_data: {materialsItem_id: additional_data._id,},
           handle_data_callback: handle_data_callback,
@@ -86,10 +88,21 @@ class ModalMenu extends React.Component {
         }, ()=> {$("#modalMenu").modal("show");}
       )
     } else if (type == "create_tools") {
+      console.log("c");
       this.setState({
         type: type, title: "Create Tools Item",
         submit_form_handler: submit_form_handler,
+        prev_data: {},
         additional_data: additional_data,
+        handle_data_callback: handle_data_callback,
+      }, ()=> {$("#modalMenu").modal("show");});
+    } else if (type=="edit_tool") {
+      console.log("e")
+      this.setState({
+        type: type, title: "Edit Tools Item",
+        submit_form_handler: submit_form_handler,
+        prev_data: additional_data,
+        additional_data: {},
         handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     }
@@ -119,21 +132,21 @@ class ModalMenu extends React.Component {
       return (<div>
         <div className="form-group">
           <label>Description</label>
-          <input type="text" className="form-control" name="description" id="description-input" required></input>
+          <input type="text" className="form-control" name="description" id="description-input" defaultValue="" required></input>
         </div>
         <div className="form-group">
           <label>Quantity</label>
-          <input type="number" className="form-control" name="quantity" 
+          <input type="number" className="form-control" defaultValue="" name="quantity" 
             id="quantity-input" min="0" required></input>
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" step="any" name="price" 
+          <input type="number" className="form-control" step="any" defaultValue="" name="price" 
             id="price-input" min="0" required></input>
         </div>
         <div className="form-group">
           <label>Vendor</label>
-          <input type="text" className="form-control" name="vendor" id="vendor-input" required></input>
+          <input type="text" className="form-control" name="vendor" id="vendor-input" defaultValue="" required></input>
         </div>
       </div>);
     } else if (this.state.type == "edit_materialsitem") {
@@ -159,23 +172,29 @@ class ModalMenu extends React.Component {
             defaultValue={this.state.prev_data.vendor} id="vendor-input" required></input>
         </div>
       </div>);
-    } else if (this.state.type == "create_tools") {
+    } else if (this.state.type == "create_tools" || this.state.type == "edit_tool") {
       return (<div>
         <div className="form-group">
           <label>Description</label>
-          <input type="text" className="form-control" name="description" required></input>
+          <input type="text" className="form-control" name="description" 
+            defaultValue={this.state.type == "edit_tool" ? this.state.prev_data.description : ""} 
+            required></input>
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" step="any" min="0" name="price"></input>
+          <input type="number" className="form-control" step="any" min="0" 
+            defaultValue={this.state.type == "edit_tool" ? this.state.prev_data.price : ""} 
+            name="price"></input>
         </div>
         <div className="form-group">
           <label>Vendor</label>
-          <input type="text" className="form-control" name="vendor"></input>
+          <input type="text" className="form-control" name="vendor"
+            defaultValue={this.state.type == "edit_tool" ? this.state.prev_data.vendor : ""}
+            ></input>
         </div>
-      </div>)
+      </div>);
     } else {
-      return <div></div>
+      return (<div></div>);
     }
   }
 

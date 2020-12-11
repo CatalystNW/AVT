@@ -277,7 +277,10 @@ class AssessmentChecklist extends React.Component {
           <button type="button" className="btn btn-sm"
             onClick={this.set_create_tools_menu}>Create</button>
         </label>
-        <ToolsTable ref={this.toolstable} />
+        <ToolsTable 
+          ref={this.toolstable} 
+          set_edit_toolsitem_menu = {this.props.set_edit_toolsitem_menu}
+        />
       </div>
 
       <div className="form-group">

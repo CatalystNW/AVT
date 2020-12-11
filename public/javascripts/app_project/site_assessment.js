@@ -38,6 +38,7 @@ class AssessmentMenu extends React.Component {
               <AssessmentChecklist ref={this.checklist}
                 assessment={{}}
                 set_create_tools_menu = {this.props.set_create_tools_menu}
+                set_edit_toolsitem_menu = {this.props.set_edit_toolsitem_menu}
               />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
@@ -80,7 +81,7 @@ class App extends React.Component {
     funkie.load_application(app_id, function(data) {
       that.setState({applications: [data,]});
     });
-  }
+  };
 
   getAssessment = () => {
     var that = this;
@@ -89,7 +90,7 @@ class App extends React.Component {
       that.assessmentmenu.current.change_assessment(data.site_assessment);
       that.setState({assessment: data.site_assessment,});
     });
-  }
+  };
 
   set_create_workitem_menu =() => {
     var data = {
@@ -103,7 +104,7 @@ class App extends React.Component {
       data,
       this.assessmentmenu.current.add_workitem,
     );
-  }
+  };
 
   set_edit_materialisitem_menu = (old_data, edit_item_handler) => {
     this.modalmenu.current.show_menu(
@@ -112,7 +113,7 @@ class App extends React.Component {
       old_data,
       edit_item_handler, // <WorkItem> method
     );
-  }
+  };
 
   // materialsitem_handler handles showing the element
   set_create_materialsitem_menu = (e, materialsitem_handler) => {
@@ -125,7 +126,7 @@ class App extends React.Component {
       data,
       materialsitem_handler,
     );
-  }
+  };
 
   set_create_tools_menu = (add_element_handler) => {
     var data = {
@@ -137,7 +138,16 @@ class App extends React.Component {
       data,
       add_element_handler,
     );
-  }
+  };
+
+  set_edit_toolsitem_menu  = (old_data, edit_toolsitem_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_tool",
+      funkie.edit_tool,
+      old_data,
+      edit_toolsitem_handler,
+    );
+  };
 
   render() {
     const application_information = this.state.applications.map((application) => {
@@ -155,6 +165,7 @@ class App extends React.Component {
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
           set_create_tools_menu = {this.set_create_tools_menu}
+          set_edit_toolsitem_menu = {this.set_edit_toolsitem_menu}
         />
         {application_information}
 

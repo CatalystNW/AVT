@@ -126,4 +126,15 @@ var funkie = {
       }
     });
   },
+  edit_tool(data, callback) {
+    $.ajax({
+      type: "PATCH",
+      url: "../toolsitems/" + data.toolitem_id,
+      success: function(result, textStats, xhr) {
+        if (callback) {
+          callback();
+        }
+      }
+    });
+  } 
 }

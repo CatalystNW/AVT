@@ -46,10 +46,43 @@ class ToolsTable extends React.Component {
           this.setState({toolsItems: new_tools});
       });
     }
-  }
+  };
 
-  editTool() {
+  editTool = (e) => {
+    var toolitem_id = e.target.getAttribute("toolitem_id");
+    var tool = "";
+    for (var i=0; i<this.state.toolsItems.length; i++) {
+      if (this.state.toolsItems[i]._id == toolitem_id) {
+        tool = this.state.toolsItems[i];
+        break;
+      }
+    }
 
+    var prevData = {
+      toolitem_id: toolitem_id,
+      description: tool.description,
+      price: tool.price,
+      vendor: tool.vendor,
+    };
+
+    this.props.set_edit_toolsitem_menu(prevData, () => {
+      console.log("edit");
+    });
+
+    // funkie.edit_tool(
+    //   {
+    //     toolitem_id: toolitem_id,
+    //   }, 
+    //   () =>  {
+    //     var new_tools = [...this.state.toolsItems];
+    //     for (var i=0; i<new_tools.length; i++) {
+    //       if (new_tools[i]._id == toolitem_id) {
+    //         new_tools.splice(i, 1);
+    //         break;
+    //       }
+    //     }
+    //     this.setState({toolsItems: new_tools});
+    // });
   }
 
   render() {

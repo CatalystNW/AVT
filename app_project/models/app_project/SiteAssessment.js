@@ -44,6 +44,6 @@ siteAssessmentSchema.statics.create = async function(app_id) {
   } else{
     return undefined;
   }
-}
+};
 
 module.exports = mongoose.model("SiteAssessment", siteAssessmentSchema);
