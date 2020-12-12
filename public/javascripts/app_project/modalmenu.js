@@ -190,6 +190,15 @@ class ModalMenu extends React.Component {
             defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.vendor : ""}
             ></input>
         </div>
+        <div className="form-group">
+          <label>Item Type</label>
+          <select className="form-control" 
+            defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.item_type : "tools"}
+            name="item_type">
+            <option value="tools">Tools</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
       </div>);
     } else {
       return (<div></div>);

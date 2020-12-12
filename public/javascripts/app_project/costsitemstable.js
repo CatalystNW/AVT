@@ -58,12 +58,9 @@ class CostsItemsTable extends React.Component {
       }
     }
 
-    var prevData = {
-      costsitem_id: costsitem_id,
-      description: costItem.description,
-      price: costItem.price,
-      vendor: costItem.vendor,
-    };
+    var prevData = Object.assign({}, costItem);
+    prevData.costsitem_id = costsitem_id;
+    console.log(prevData);
 
     this.props.set_edit_costsitem_menu(prevData, (new_costsitem) => {
       var new_costsitems = [...this.state.costsItems];
@@ -86,6 +83,7 @@ class CostsItemsTable extends React.Component {
       <thead>
         <tr>
           <th scope="col">Description</th>
+          <th scope="col">Type</th>
           <th scope="col">Cost</th>
           <th scope="col">Vendor</th>
           <th scope="col">Options</th>
@@ -96,6 +94,7 @@ class CostsItemsTable extends React.Component {
           return (
           <tr key={item._id}>
             <td>{item.description}</td>
+            <td>{item.item_type}</td>
             <td>{item.price}</td>
             <td>{item.vendor}</td>
             <td>
