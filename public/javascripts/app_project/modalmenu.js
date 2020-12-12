@@ -10,9 +10,17 @@ class ModalMenu extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    var that = this;
+    $("#modalMenu").on('hidden.bs.modal', function() {
+      that.setState({type: ""});
+    });
+  }
+
   close_menu() {
     $("#modalMenu").modal("hide");
-    $("#modalmenu-form")[0].reset();
+    this.setState({type: ""});
+    // $("#modalmenu-form")[0].reset();
   }
 
   get_data = () => {
@@ -111,15 +119,15 @@ class ModalMenu extends React.Component {
       return (<div>
         <div className="form-group">
           <label>Name</label>
-          <input type="text" className="form-control" name="name" id="name-input" required></input>
+          <input type="text" className="form-control" name="name" id="name-input" defaultValue="" required></input>
         </div>
         <div className="form-group">
           <label>Description</label>
-          <textarea className="form-control" name="description" id="desc-input" required></textarea>
+          <textarea className="form-control" name="description" id="desc-input" defaultValue="" required></textarea>
         </div>
         <div className="form-group">
           <label>Assessment Comments</label>
-          <textarea className="form-control" name="assessment_comments" id="comments-input"></textarea>
+          <textarea className="form-control" name="assessment_comments" defaultValue="" id="comments-input"></textarea>
         </div>
         <div className="form-check">
           <input type="checkbox" name="handleit" id="handleit-check"></input>

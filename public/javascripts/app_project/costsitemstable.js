@@ -60,7 +60,6 @@ class CostsItemsTable extends React.Component {
 
     var prevData = Object.assign({}, costItem);
     prevData.costsitem_id = costsitem_id;
-    console.log(prevData);
 
     this.props.set_edit_costsitem_menu(prevData, (new_costsitem) => {
       var new_costsitems = [...this.state.costsItems];
