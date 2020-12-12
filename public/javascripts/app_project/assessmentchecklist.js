@@ -4,7 +4,7 @@ class AssessmentChecklist extends React.Component {
     super(props);
     this.state = {};
     this.safety_plan_timer = null;
-    this.toolstable = React.createRef();
+    this.costsItems_table = React.createRef();
   }
   // Convert the date given by server (UTC) to local date & time
   // Returns as a Date object
@@ -23,8 +23,9 @@ class AssessmentChecklist extends React.Component {
     if (assessment.project_end_date)
       assessment.project_end_date = this.convert_date(assessment.project_end_date);
     this.setState(assessment);
-    if (assessment.toolsItems)
-      this.toolstable.current.setTools(assessment.toolsItems);
+    if (assessment.costsItems){
+      this.costsItems_table.current.setItems(assessment.costsItems);
+    }
   }
   componentDidMount =() => {
     $('.checklist-dateinput').datepicker({
@@ -129,8 +130,8 @@ class AssessmentChecklist extends React.Component {
     return minutes;
   }
 
-  set_create_tools_menu = () => {
-    this.props.set_create_tools_menu(this.toolstable.current.addTool);
+  set_create_costsitem_menu = () => {
+    this.props.set_create_costsitem_menu(this.costsItems_table.current.add_item);
   }
 
   render() {
@@ -273,39 +274,16 @@ class AssessmentChecklist extends React.Component {
 
       <div className="form-group">
         <label>
-          Tools/Rentals
+          Other Costs
           <button type="button" className="btn btn-sm"
-            onClick={this.set_create_tools_menu}>Create</button>
+            onClick={this.set_create_costsitem_menu}>Create</button>
         </label>
-        <ToolsTable 
-          ref={this.toolstable} 
-          set_edit_toolsitem_menu = {this.props.set_edit_toolsitem_menu}
+        <CostsItemsTable 
+          ref={this.costsItems_table} 
+          set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
         />
       </div>
 
-      <div className="form-group">
-        <label>
-          Other Costs
-          <button type="button" className="btn btn-sm">Create</button>
-        </label>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Description</th>
-              <th scope="col">Cost</th>
-              <th scope="col">Vendor</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <td>Total</td>
-              <td>#Cost</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
       <div className="form-group">
         <label>Porta Potty</label>
         <div className="col form-check">

@@ -19,7 +19,7 @@ const siteAssessmentSchema = new Schema({
 
   partners: [{ type: Schema.Types.ObjectId, ref: "partnerPackage"}],
 
-  toolsItems: [{ type: Schema.Types.ObjectId, ref: "ToolsItem"}],
+  costsItems: [{ type: Schema.Types.ObjectId, ref: "CostsItem"}],
   
   lead: { type: String, default: "no", enum: ["yes", "no", "unsure"]},
   asbestos: { type: String, default: "no", enum: ["yes", "no", "unsure"]},

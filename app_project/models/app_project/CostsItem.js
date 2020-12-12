@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
-const toolsItemSchema = new Schema({
+const costsItemSchema = new Schema({
   siteAssessment: {type: Schema.Types.ObjectId, ref: "SiteAssessment"},
   description: String,
   price: Number,
@@ -15,4 +15,4 @@ const toolsItemSchema = new Schema({
   timestamps: true,
 });
 
-module.exports = mongoose.model("ToolsItem", toolsItemSchema);
+module.exports = mongoose.model("CostsItem", costsItemSchema);

@@ -37,8 +37,8 @@ class AssessmentMenu extends React.Component {
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
                 assessment={{}}
-                set_create_tools_menu = {this.props.set_create_tools_menu}
-                set_edit_toolsitem_menu = {this.props.set_edit_toolsitem_menu}
+                set_create_costsitem_menu = {this.props.set_create_costsitem_menu}
+                set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
               />
             </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
@@ -128,24 +128,24 @@ class App extends React.Component {
     );
   };
 
-  set_create_tools_menu = (add_element_handler) => {
+  set_create_costsitem_menu = (add_element_handler) => {
     var data = {
       assessment_id: this.state.assessment._id, 
     };
     this.modalmenu.current.show_menu(
-      "create_tools",
-      funkie.create_tool,
+      "create_costsitem",
+      funkie.create_costsitem,
       data,
       add_element_handler,
     );
   };
 
-  set_edit_toolsitem_menu  = (old_data, edit_toolsitem_handler) => {
+  set_edit_costsitem_menu  = (old_data, edit_costsitem_handler) => {
     this.modalmenu.current.show_menu(
-      "edit_tool",
-      funkie.edit_tool,
+      "edit_costsitem",
+      funkie.edit_costsitem,
       old_data,
-      edit_toolsitem_handler,
+      edit_costsitem_handler,
     );
   };
 
@@ -164,8 +164,8 @@ class App extends React.Component {
           set_create_workitem_menu={this.set_create_workitem_menu}
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
-          set_create_tools_menu = {this.set_create_tools_menu}
-          set_edit_toolsitem_menu = {this.set_edit_toolsitem_menu}
+          set_create_costsitem_menu = {this.set_create_costsitem_menu}
+          set_edit_costsitem_menu = {this.set_edit_costsitem_menu}
         />
         {application_information}
 

@@ -101,10 +101,10 @@ var funkie = {
       }
     });
   },
-  create_tool(data, menu_callback, data_callback_handler) {
+  create_costsitem(data, menu_callback, data_callback_handler) {
     $.ajax({
       type: "POST",
-      url: "../site_assessment/" + data.assessment_id +"/tools",
+      url: "../site_assessment/" + data.assessment_id +"/costsitems",
       data: data,
       success: function(result, textStatus, xhr) {
         if (menu_callback) 
@@ -115,10 +115,10 @@ var funkie = {
       },
     });
   },
-  del_tool(data, callback) {
+  del_costsitem(data, callback) {
     $.ajax({
       type: "DELETE",
-      url: "../toolsitems/" + data.toolitem_id,
+      url: "../costsitems/" + data.costsitem_id,
       success: function(result, textStats, xhr) {
         if (callback) {
           callback();
@@ -126,10 +126,10 @@ var funkie = {
       }
     });
   },
-  edit_tool(data, menu_callback, data_callback_handler) {
+  edit_costsitem(data, menu_callback, data_callback_handler) {
     $.ajax({
       type: "PATCH",
-      url: "../toolsitems/" + data.toolitem_id,
+      url: "../costsitems/" + data.costsitem_id,
       data: data,
       success: function(result, textStats, xhr) {
         if (menu_callback)

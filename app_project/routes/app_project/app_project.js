@@ -19,11 +19,11 @@ router.route('/site_assessment/:application_id')
   .get(projects_controller.get_site_assessment)
   .patch(projects_controller.edit_site_assessment);
 
-router.route('/site_assessment/:assessment_id/tools')
-  .post(projects_controller.create_tool);
-router.route('/toolsitems/:toolsitem_id')
-  .delete(projects_controller.delete_tool)
-  .patch(projects_controller.edit_tool);
+router.route('/site_assessment/:assessment_id/costsitems')
+  .post(projects_controller.create_costsitem);
+router.route('/costsitems/:costsitem_id')
+  .delete(projects_controller.delete_costsitem)
+  .patch(projects_controller.edit_costsitem);
 
 router.post('/workitems', projects_controller.create_workitem);
 router.patch('/workitems', projects_controller.edit_workitem);
