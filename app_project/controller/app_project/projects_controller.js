@@ -13,6 +13,7 @@ module.exports.edit_site_assessment = edit_site_assessment;
 
 module.exports.create_tool = create_tool;
 module.exports.delete_tool = delete_tool;
+module.exports.edit_tool = edit_tool;
 
 module.exports.get_application_data_api = get_application_data_api;
 
@@ -221,6 +222,18 @@ async function delete_tool(req, res) {
   } else {
     res.status(400).end();
   }
+}
+
+async function edit_tool(req, res) {
+  if (req.params.toolsitem_id) {
+    var tool = await ToolsItem.findOneAndUpdate(
+      {_id: req.params.toolsitem_id}, req.body, {new: true});
+    
+    res.status(200).json(tool);
+  } else {
+    res.status(400).end();
+  }
+  
 }
 
 async function create_materialsitem(req, res) {

@@ -88,7 +88,6 @@ class ModalMenu extends React.Component {
         }, ()=> {$("#modalMenu").modal("show");}
       )
     } else if (type == "create_tools") {
-      console.log("c");
       this.setState({
         type: type, title: "Create Tools Item",
         submit_form_handler: submit_form_handler,
@@ -97,12 +96,11 @@ class ModalMenu extends React.Component {
         handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     } else if (type=="edit_tool") {
-      console.log("e")
       this.setState({
         type: type, title: "Edit Tools Item",
         submit_form_handler: submit_form_handler,
         prev_data: additional_data,
-        additional_data: {},
+        additional_data: additional_data,
         handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     }

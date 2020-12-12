@@ -21,8 +21,9 @@ router.route('/site_assessment/:application_id')
 
 router.route('/site_assessment/:assessment_id/tools')
   .post(projects_controller.create_tool);
-  router.route('/toolsitems/:toolsitem_id')
-  .delete(projects_controller.delete_tool);
+router.route('/toolsitems/:toolsitem_id')
+  .delete(projects_controller.delete_tool)
+  .patch(projects_controller.edit_tool);
 
 router.post('/workitems', projects_controller.create_workitem);
 router.patch('/workitems', projects_controller.edit_workitem);

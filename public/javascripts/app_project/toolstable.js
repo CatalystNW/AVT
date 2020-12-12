@@ -65,24 +65,15 @@ class ToolsTable extends React.Component {
       vendor: tool.vendor,
     };
 
-    this.props.set_edit_toolsitem_menu(prevData, () => {
-      console.log("edit");
+    this.props.set_edit_toolsitem_menu(prevData, (new_toolsItem) => {
+      var new_tools = [...this.state.toolsItems];
+      for (i=0; i<new_tools.length; i++) {
+        if (new_tools[i]._id == toolitem_id) {
+          new_tools[i] = new_toolsItem;
+        }
+      }
+      this.setState({toolsItems: new_tools});
     });
-
-    // funkie.edit_tool(
-    //   {
-    //     toolitem_id: toolitem_id,
-    //   }, 
-    //   () =>  {
-    //     var new_tools = [...this.state.toolsItems];
-    //     for (var i=0; i<new_tools.length; i++) {
-    //       if (new_tools[i]._id == toolitem_id) {
-    //         new_tools.splice(i, 1);
-    //         break;
-    //       }
-    //     }
-    //     this.setState({toolsItems: new_tools});
-    // });
   }
 
   render() {

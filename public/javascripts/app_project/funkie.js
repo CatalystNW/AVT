@@ -126,13 +126,16 @@ var funkie = {
       }
     });
   },
-  edit_tool(data, callback) {
+  edit_tool(data, menu_callback, data_callback_handler) {
     $.ajax({
       type: "PATCH",
       url: "../toolsitems/" + data.toolitem_id,
+      data: data,
       success: function(result, textStats, xhr) {
-        if (callback) {
-          callback();
+        if (menu_callback)
+          menu_callback();
+        if (data_callback_handler) {
+          data_callback_handler(result);
         }
       }
     });
