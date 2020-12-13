@@ -17,6 +17,11 @@ const siteAssessmentSchema = new Schema({
     cost: Number,
   }],
 
+  porta_potty_required: Boolean,
+  waste_required: Boolean,
+  porta_potty_cost: Number,
+  waste_cost: Number,
+
   partners: [{ type: Schema.Types.ObjectId, ref: "partnerPackage"}],
 
   costsItems: [{ type: Schema.Types.ObjectId, ref: "CostsItem"}],
