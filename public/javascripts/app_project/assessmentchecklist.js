@@ -130,6 +130,17 @@ class AssessmentChecklist extends React.Component {
     return minutes;
   }
 
+  onChange_porta_checkbox = (e) => {
+    this.setState({
+      porta_potty_required: e.target.checked,
+    });
+  }
+  onChange_waste_checkbox = (e) => {
+    this.setState({
+      waste_required: e.target.checked,
+    });
+  }
+
   set_create_costsitem_menu = () => {
     this.props.set_create_costsitem_menu(this.costsItems_table.current.add_item);
   }
@@ -287,12 +298,17 @@ class AssessmentChecklist extends React.Component {
       <div className="form-group">
         <label>Porta Potty</label>
         <div className="col form-check">
-          <label>Required </label>
-          <input type="checkbox" />
+          <label htmlFor="porta-potty-required-checkbox">Required </label>
+          <input type="checkbox" id="porta-potty-required-checkbox"
+            checked={this.state.porta_potty_required}
+            onChange={this.onChange_porta_checkbox}
+          />
         </div>
         <div className="col">
           <label>Cost</label>
-          <input type="number" className="form-control" min="0" step="0.01"></input>
+          <input type="number" className="form-control" min="0" step="0.01"
+            disabled={!this.state.porta_potty_required}
+          ></input>
         </div>
       </div>
 
@@ -300,11 +316,16 @@ class AssessmentChecklist extends React.Component {
         <label>Waste/Dump Trailer</label>
         <div className="col form-check">
           <label>Required </label>
-          <input type="checkbox" />
+          <input type="checkbox" 
+            checked={this.state.waste_required}
+            onChange={this.onChange_waste_checkbox}
+          />
         </div>
         <div className="col">
           <label>Cost</label>
-          <input type="number" className="form-control" min="0" step="0.01"></input>
+          <input type="number" className="form-control" min="0" step="0.01"
+            disabled={!this.state.waste_required}
+          ></input>
         </div>
       </div>
     </div>);
