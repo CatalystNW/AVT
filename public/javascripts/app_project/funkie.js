@@ -139,5 +139,8 @@ var funkie = {
         }
       }
     });
-  } 
+  },
+  edit_workitem() {
+    console.log("edit workitem");
+  }
 }

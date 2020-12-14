@@ -56,7 +56,14 @@ class WorkItem extends React.Component {
     }
   }
 
-  edit_item = (materialsItem) => {
+  onClick_edit_workitem_btn = () => {
+    console.log("click", this)
+    this.props.set_edit_workitem_menu({}, ()=> {
+      console.log("submitted edit form");
+    });
+  }
+
+  edit_materialsitem_handler = (materialsItem) => {
     var new_itemlist = [],
         id = materialsItem._id,
         itemlist = this.state.materialsItems;
@@ -109,7 +116,7 @@ class WorkItem extends React.Component {
                           onClick={this.onClick_delete_item}>Delete</a>
                         <a className="dropdown-item" item_id={materialsItem._id}
                           item_id={materialsItem._id}
-                          onClick={this.onClick_edit_item}>Edit</a>
+                          onClick={this.onClick_edit_material_item}>Edit</a>
                       </div>
                     </div>
                   </td>
@@ -131,7 +138,10 @@ class WorkItem extends React.Component {
     return (
     <div className="card">
       <div className="card-body">
-        <h5 className="card-title">{this.state.name}</h5>
+        <h5 className="card-title">{this.state.name}
+          <button type="button" className="btn btn-sm btn-secondary"
+            onClick={this.onClick_edit_workitem_btn}>Edit</button>
+        </h5>
         <b>Description</b>
         <p className="card-text">
           {this.state.description}

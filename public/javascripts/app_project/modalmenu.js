@@ -76,6 +76,14 @@ class ModalMenu extends React.Component {
           prev_data: {},
           handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
+    } else if (type == "edit_workitem") {
+      this.setState({
+        type: type, title: "Edit WorkItem",
+        submit_form_handler: submit_form_handler,
+        additional_data: additional_data,
+        prev_data: {},
+        handle_data_callback: handle_data_callback,
+      }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "create_materialsitem") {
       this.setState(
         {
@@ -115,7 +123,7 @@ class ModalMenu extends React.Component {
   }
 
   create_menu() {
-     if (this.state.type == "create_workitem") {
+     if (this.state.type == "create_workitem" || this.state.type == "edit_workitem") {
       return (<div>
         <div className="form-group">
           <label>Name</label>
