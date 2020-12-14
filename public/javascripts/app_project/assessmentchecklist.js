@@ -2,7 +2,10 @@ class AssessmentChecklist extends React.Component {
   constructor(props) {
     // site_assessment directly loaded into state later (w/ ajax call)
     super(props);
-    this.state = {};
+    this.state = {
+      porta_potty_required: false,
+      waste_required: false,
+    };
     this.safety_plan_timer = null;
     this.costsItems_table = React.createRef();
   }
@@ -131,11 +134,21 @@ class AssessmentChecklist extends React.Component {
   }
 
   onChange_porta_checkbox = (e) => {
+    funkie.edit_site_assessment({
+      assessment_id: this.state._id,
+      property: "porta_potty_required",
+      value: e.target.checked,
+    });
     this.setState({
       porta_potty_required: e.target.checked,
     });
   }
   onChange_waste_checkbox = (e) => {
+    funkie.edit_site_assessment({
+      assessment_id: this.state._id,
+      property: "waste_required",
+      value: e.target.checked,
+    });
     this.setState({
       waste_required: e.target.checked,
     });
@@ -321,6 +334,7 @@ class AssessmentChecklist extends React.Component {
             onChange={this.onChange_waste_checkbox}
           />
         </div>
+
         <div className="col">
           <label>Cost</label>
           <input type="number" className="form-control" min="0" step="0.01"
