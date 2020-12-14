@@ -43,13 +43,14 @@ class WorkItem extends React.Component {
       funkie.delete_item(item_id, this.remove_item)
     }
   }
-  onClick_edit_item = (e) => {
+  // Finds the material item in state & then runs edit_materialsitem on it
+  onClick_edit_material_item = (e) => {
     e.preventDefault();
     var materialsItem_id = e.target.getAttribute("item_id"),
         m = this.state.materialsItems;
     for (var i=0;i<m.length; i++) {
       if (m[i]._id == materialsItem_id) {
-        this.props.set_edit_materialisitem_menu(m[i], this.edit_item);
+        this.props.set_edit_materialisitem_menu(m[i], this.edit_materialsitem_handler);
         break;
       }
     }

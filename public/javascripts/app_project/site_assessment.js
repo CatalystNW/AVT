@@ -106,12 +106,12 @@ class App extends React.Component {
     );
   };
 
-  set_edit_materialisitem_menu = (old_data, edit_item_handler) => {
+  set_edit_materialisitem_menu = (old_data, edit_materialsitem_handler) => {
     this.modalmenu.current.show_menu(
       "edit_materialsitem",
       funkie.edit_materialsitem,
       old_data,
-      edit_item_handler, // <WorkItem> method
+      edit_materialsitem_handler, // <WorkItem> method
     );
   };
 
