@@ -5,8 +5,12 @@ class AssessmentChecklist extends React.Component {
     this.state = {
       porta_potty_required: false,
       waste_required: false,
+      porta_potty_cost: 0,
+      waste_cost: 0,
     };
     this.safety_plan_timer = null;
+    this.porta_potty_cost_timer = null;
+    this.waste_cost_timer = null;
     this.costsItems_table = React.createRef();
   }
   // Convert the date given by server (UTC) to local date & time
@@ -320,6 +324,9 @@ class AssessmentChecklist extends React.Component {
         <div className="col">
           <label>Cost</label>
           <input type="number" className="form-control" min="0" step="0.01"
+            property_type="porta_potty_cost"
+            value={this.state.porta_potty_cost}
+            onChange={this.onChange_inputs_timer}
             disabled={!this.state.porta_potty_required}
           ></input>
         </div>
@@ -338,6 +345,9 @@ class AssessmentChecklist extends React.Component {
         <div className="col">
           <label>Cost</label>
           <input type="number" className="form-control" min="0" step="0.01"
+            value={this.state.waste_cost}
+            property_type="waste_cost"
+            onChange={this.onChange_inputs_timer}
             disabled={!this.state.waste_required}
           ></input>
         </div>
