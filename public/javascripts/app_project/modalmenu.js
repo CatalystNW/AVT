@@ -17,7 +17,7 @@ class ModalMenu extends React.Component {
     });
   }
 
-  close_menu() {
+  close_menu = () => {
     $("#modalMenu").modal("hide");
     this.setState({
       type: "", prev_data: null,
