@@ -63,20 +63,6 @@ var funkie = {
       }
     })
   },
-  set_handleit(workitem_id, data_callback) {
-    $.ajax({
-      url: "../workitems/" + workitem_id,
-      type: "PATCH",
-      data: {
-        property: "handleit",
-        workitem_id: workitem_id,
-      },
-      success: function(result, textStatus, xhr) {
-        if (data_callback)
-          data_callback(result);
-      }
-    })
-  },
   delete_item(materialsItem_id, callback) {
     $.ajax({
       url: "../materialsitem/" + materialsItem_id,
