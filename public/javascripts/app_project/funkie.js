@@ -38,6 +38,19 @@ var funkie = {
       }
     });
   },
+  edit_workitem(form_data, menu_callback, data_callback_handler) {
+    $.ajax({
+      url: "../workitems/" + form_data.workitem_id,
+      type: "PATCH",
+      data: form_data,
+      success: function(result) {
+        if (menu_callback)
+          menu_callback();
+        if (data_callback_handler)
+          data_callback_handler(result);
+      },
+    })
+  },
   create_materialsitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
       url: "../materialsitem",
@@ -52,7 +65,7 @@ var funkie = {
   },
   set_handleit(workitem_id, data_callback) {
     $.ajax({
-      url: "../workitems",
+      url: "../workitems/" + workitem_id,
       type: "PATCH",
       data: {
         property: "handleit",
@@ -140,7 +153,4 @@ var funkie = {
       }
     });
   },
-  edit_workitem() {
-    console.log("edit workitem");
-  }
 }

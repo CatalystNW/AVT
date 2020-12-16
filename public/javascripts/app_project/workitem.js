@@ -11,7 +11,7 @@ class WorkItem extends React.Component {
   }
 
   onChange_handleit = (event) => {
-    funkie.set_handleit(event.target.getAttribute("workitem_id"), this.set_handleit_handler);
+    // funkie.set_handleit(event.target.getAttribute("workitem_id"), this.set_handleit_handler);
   }
 
   add_item = (materialsItem_data) => {

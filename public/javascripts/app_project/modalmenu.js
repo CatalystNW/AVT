@@ -85,7 +85,7 @@ class ModalMenu extends React.Component {
       this.setState({
         type: type, title: "Edit WorkItem",
         submit_form_handler: submit_form_handler,
-        additional_data: additional_data,
+        additional_data: {workitem_id: additional_data._id},
         prev_data: additional_data,
         handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
@@ -129,6 +129,11 @@ class ModalMenu extends React.Component {
 
   create_menu() {
      if (this.state.type == "create_workitem" || this.state.type == "edit_workitem") {
+      var handleit_form = (this.state.type == "create_workitem") ?
+        (<div className="form-check">
+          <input type="checkbox" name="handleit" id="handleit-check"></input>
+          <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
+        </div>) : null;
       return (<div>
         <div className="form-group">
           <label>Name</label>
@@ -145,11 +150,7 @@ class ModalMenu extends React.Component {
           <textarea className="form-control" name="assessment_comments" 
             defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : ""} id="comments-input"></textarea>
         </div>
-        <div className="form-check">
-          <input type="checkbox" name="handleit" id="handleit-check"
-            defaultChecked={this.state.type == "edit_workitem" ? this.state.prev_data.handleit : false}></input>
-          <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
-        </div>
+        {handleit_form}
       </div>);
     } else if (this.state.type == "create_materialsitem") {
       return (<div>

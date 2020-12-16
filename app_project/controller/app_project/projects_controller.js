@@ -97,7 +97,6 @@ async function get_site_assessment(req, res) {
 }
 
 async function edit_site_assessment(req, res) {
-  console.log(req.body);
   var property = req.body.property,
       assessment_id = req.body.assessment_id;
   var site_assessment = await SiteAssessment.findById(assessment_id);
@@ -175,16 +174,18 @@ async function create_workitem(req, res) {
 }
 
 async function edit_workitem(req, res)  {
-  if (!req.body.workitem_id) {
+  console.log(req.params.workitem_id);
+  console.log(req.body);
+  if (!req.params.workitem_id) {
     res.status(400).end();
-  }
-  var workitem = await WorkItem.findById(req.body.workitem_id);
-  if (req.body.property == "handleit") {
-    workitem.handleit = (workitem.handleit) ? false : true;
-    await workitem.save();
-    res.status(200).json({handleit: workitem.handleit});
   } else {
-    res.status(400).end();
+    try {
+      var workitem = await WorkItem.updateOne({_id: req.params.workitem_id,}, req.body, {new: true})
+      res.status(200).json(workitem);
+    } catch (err) {
+      console.log(err);
+      res.status(400).end();
+    }
   }
 }
 
