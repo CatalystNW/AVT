@@ -86,7 +86,7 @@ class ModalMenu extends React.Component {
         type: type, title: "Edit WorkItem",
         submit_form_handler: submit_form_handler,
         additional_data: additional_data,
-        prev_data: {},
+        prev_data: additional_data,
         handle_data_callback: handle_data_callback,
       }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "create_materialsitem") {
@@ -132,18 +132,22 @@ class ModalMenu extends React.Component {
       return (<div>
         <div className="form-group">
           <label>Name</label>
-          <input type="text" className="form-control" name="name" id="name-input" defaultValue="" required></input>
+          <input type="text" className="form-control" name="name" id="name-input" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.name : ""}  required></input>
         </div>
         <div className="form-group">
           <label>Description</label>
-          <textarea className="form-control" name="description" id="desc-input" defaultValue="" required></textarea>
+          <textarea className="form-control" name="description" id="desc-input" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""} required></textarea>
         </div>
         <div className="form-group">
           <label>Assessment Comments</label>
-          <textarea className="form-control" name="assessment_comments" defaultValue="" id="comments-input"></textarea>
+          <textarea className="form-control" name="assessment_comments" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : ""} id="comments-input"></textarea>
         </div>
         <div className="form-check">
-          <input type="checkbox" name="handleit" id="handleit-check"></input>
+          <input type="checkbox" name="handleit" id="handleit-check"
+            defaultChecked={this.state.type == "edit_workitem" ? this.state.prev_data.handleit : false}></input>
           <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
         </div>
       </div>);

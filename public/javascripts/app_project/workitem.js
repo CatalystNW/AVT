@@ -57,8 +57,7 @@ class WorkItem extends React.Component {
   }
 
   onClick_edit_workitem_btn = () => {
-    console.log("click", this)
-    this.props.set_edit_workitem_menu({}, ()=> {
+    this.props.set_edit_workitem_menu(this.state, ()=> {
       console.log("submitted edit form");
     });
   }
