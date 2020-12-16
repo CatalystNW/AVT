@@ -180,7 +180,7 @@ async function edit_workitem(req, res)  {
     res.status(400).end();
   } else {
     try {
-      var workitem = await WorkItem.updateOne({_id: req.params.workitem_id,}, req.body, {new: true})
+      var workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true})
       res.status(200).json(workitem);
     } catch (err) {
       console.log(err);

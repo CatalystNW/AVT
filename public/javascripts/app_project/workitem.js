@@ -56,10 +56,16 @@ class WorkItem extends React.Component {
     }
   }
 
-  onClick_edit_workitem_btn = () => {
-    this.props.set_edit_workitem_menu(this.state, ()=> {
-      console.log("submitted edit form");
+  edit_menu_workitems_handler = (data) => {
+    this.setState({
+      name: data.name,
+      description: data.description,
+      assessment_comments: data.assessment_comments,
     });
+  }
+
+  onClick_edit_workitem_btn = () => {
+    this.props.set_edit_workitem_menu(this.state, this.edit_menu_workitems_handler);
   }
 
   edit_materialsitem_handler = (materialsItem) => {
