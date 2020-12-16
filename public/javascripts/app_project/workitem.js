@@ -141,6 +141,10 @@ class WorkItem extends React.Component {
         </table>
     );
   }
+
+  onChange_workitem_status = (e) => {
+    this.setState({status: e.target.value});
+  };
   
   render() {
     return (
@@ -170,9 +174,24 @@ class WorkItem extends React.Component {
           <input type="checkbox" name="handleit"
             checked={this.state.handleit}
             workitem_id={this.state._id}
-            onChange={this.onChange_handleit}></input>
-          
+            onChange={this.onChange_handleit}>
+          </input>
         </p>
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label"
+            htmlFor="workitem-status-select">Status</label>
+          <div className="col-sm-8">
+            <select className="form-control" value={this.state.status}
+              id="workitem-status-select" 
+              onChange={this.onChange_workitem_status}
+              >
+              <option value="to_review">To Review</option>
+              <option value="handleit">Handleit</option>
+              <option value="accepted">Declined</option>
+              <option value="declined">Accepted</option>
+            </select>
+          </div>
+        </div>
 
         <b>Materials List</b>
         <button type="button" className="btn btn-primary btn-sm"
