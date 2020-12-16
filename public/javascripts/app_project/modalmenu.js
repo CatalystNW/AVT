@@ -19,7 +19,12 @@ class ModalMenu extends React.Component {
 
   close_menu() {
     $("#modalMenu").modal("hide");
-    this.setState({type: ""});
+    this.setState({
+      type: "", prev_data: null,
+      additional_data: null,
+      submit_form_handler: null,
+      handle_data_callback: null,
+    });
     // $("#modalmenu-form")[0].reset();
   }
 
