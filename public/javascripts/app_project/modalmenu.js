@@ -25,6 +25,7 @@ class ModalMenu extends React.Component {
       submit_form_handler: null,
       handle_data_callback: null,
     });
+    $("#save-btn").prop("disabled", false);
     // $("#modalmenu-form")[0].reset();
   }
 
@@ -56,11 +57,14 @@ class ModalMenu extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    $("#save-btn").prop("disabled", true);
     if (this.state.submit_form_handler) {
       var data = this.get_data();
       
       this.state.submit_form_handler(
         data, this.close_menu, this.state.handle_data_callback);
+    } else {
+      this.close_menu();
     }
   }
 
@@ -247,7 +251,7 @@ class ModalMenu extends React.Component {
                 {this.create_menu()}
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">Save</button>
+                <button type="submit" className="btn btn-primary" id="save-btn">Save</button>
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
