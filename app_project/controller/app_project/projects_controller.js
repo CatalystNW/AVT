@@ -22,6 +22,7 @@ module.exports.manage_deletion = manage_deletion;
 
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
+module.exports.delete_workitem = delete_workitem;
 
 module.exports.create_materialsitem = create_materialsitem;
 module.exports.delete_materialsitem = delete_materialsitem;
@@ -174,8 +175,6 @@ async function create_workitem(req, res) {
 }
 
 async function edit_workitem(req, res)  {
-  console.log(req.params.workitem_id);
-  console.log(req.body);
   if (!req.params.workitem_id) {
     res.status(400).end();
   } else {
@@ -186,6 +185,22 @@ async function edit_workitem(req, res)  {
       console.log(err);
       res.status(400).end();
     }
+  }
+}
+
+async function delete_workitem(req, res) {
+  if (!req.params.workitem_id) {
+    res.status(400).end();
+  } else {
+    console.log(req.params.workitem_id);
+    await WorkItem.deleteOne({_id: req.params.workitem_id}, function(err) {
+      if (err) {
+        res.status(400).send();
+        console.log(err);
+      } else {
+        res.status(200).send(); 
+      }
+    });
   }
 }
 
