@@ -51,6 +51,17 @@ var funkie = {
       },
     })
   },
+  delete_workitem(form_data, data_callback_handler) {
+    $.ajax({
+      url: "../workitems/" + form_data.workitem_id,
+      type: "DELETE",
+      success: function() {
+        if (data_callback_handler) {
+          data_callback_handler();
+        }
+      },
+    });
+  },
   create_materialsitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
       url: "../materialsitem",
@@ -61,7 +72,7 @@ var funkie = {
           menu_callback();
         data_callback_handler(result);
       }
-    })
+    });
   },
   delete_materialsitem(materialsItem_id, callback) {
     $.ajax({

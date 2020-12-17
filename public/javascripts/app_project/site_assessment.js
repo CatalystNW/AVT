@@ -17,6 +17,19 @@ class AssessmentMenu extends React.Component {
       workItems: [workitem, ...this.state.workItems],
     });
   };
+  remove_workitem = (workitem_id) => {
+    // I'm not sure if the workitems themselves should be copied
+    // But this is appending the original workitems to a new list
+    var new_workitems = [];
+    for(var i=0; i< this.state.workItems.length; i++) {
+      if (this.state.workItems[i]._id != workitem_id) {
+        new_workitems.push(this.state.workItems[i]);
+      }
+    }
+    this.setState({
+      workItems: new_workitems,
+    });
+  };
 
   render() {
     const divStyle = {
@@ -50,6 +63,7 @@ class AssessmentMenu extends React.Component {
                 return (
                 <WorkItem 
                   workitem={workitem}
+                  remove_workitem={this.remove_workitem}
                   set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
                   set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
                   set_edit_workitem_menu = {this.props.set_edit_workitem_menu}

@@ -67,9 +67,20 @@ class WorkItem extends React.Component {
     });
   }
 
+  delete_workitem = () => {
+    funkie.delete_workitem({workitem_id: this.state._id}, () => {
+      this.props.remove_workitem(this.state._id);
+    });
+  };
   onClick_edit_workitem_btn = () => {
     this.props.set_edit_workitem_menu(this.state, this.edit_menu_workitems_handler);
-  }
+  };
+  onClick_del_workitem_btn = () => {
+    var result = window.confirm(`Are you sure you want to delete ${this.name}?`);
+    if (result) {
+      this.delete_workitem();
+    }
+  };  
 
   edit_materialsitem_handler = (materialsItem) => {
     var new_itemlist = [],
@@ -160,6 +171,8 @@ class WorkItem extends React.Component {
         <h5 className="card-title">{this.state.name}
           <button type="button" className="btn btn-sm btn-secondary"
             onClick={this.onClick_edit_workitem_btn}>Edit</button>
+          <button type="button" className="btn btn-sm btn-warning"
+            onClick={this.onClick_del_workitem_btn}>Delete</button>
         </h5>
         <b>Description</b>
         <p className="card-text">
