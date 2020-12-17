@@ -143,7 +143,14 @@ class WorkItem extends React.Component {
   }
 
   onChange_workitem_status = (e) => {
-    this.setState({status: e.target.value});
+    var that = this,
+        status = e.target.value;
+    funkie.edit_workitem({
+      workitem_id: this.state._id,
+      status: status,
+    }, () => {
+      that.setState({status: status});
+    });
   };
   
   render() {
