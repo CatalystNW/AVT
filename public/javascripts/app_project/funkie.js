@@ -63,7 +63,7 @@ var funkie = {
       }
     })
   },
-  delete_item(materialsItem_id, callback) {
+  delete_materialsitem(materialsItem_id, callback) {
     $.ajax({
       url: "../materialsitem/" + materialsItem_id,
       type: "DELETE",

@@ -37,13 +37,13 @@ class WorkItem extends React.Component {
     this.setState({materialsItems: mlist});
   }
 
-  onClick_delete_item = (e) => {
+  onClick_delete_materialsitem = (e) => {
     e.preventDefault();
     var description = e.target.getAttribute("description"),
         item_id = e.target.getAttribute("item_id");
     var result = window.confirm("Are you sure you want to delete " + description + "?");
     if (result) {
-      funkie.delete_item(item_id, this.remove_item)
+      funkie.delete_materialsitem(item_id, this.remove_item)
     }
   }
   // Finds the material item in state & then runs edit_materialsitem on it
@@ -121,7 +121,7 @@ class WorkItem extends React.Component {
                         <a className="dropdown-item" 
                           description={materialsItem.description}
                           item_id={materialsItem._id}
-                          onClick={this.onClick_delete_item}>Delete</a>
+                          onClick={this.onClick_delete_materialsitem}>Delete</a>
                         <a className="dropdown-item" item_id={materialsItem._id}
                           item_id={materialsItem._id}
                           onClick={this.onClick_edit_material_item}>Edit</a>
