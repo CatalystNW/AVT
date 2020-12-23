@@ -50,11 +50,7 @@ class AssessmentMenu extends React.Component {
         id="assessment-container" key={this.state._id}>
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link active" id="nav-summary-tab" data-toggle="tab" 
-                href="#nav-summary" role="tab">Summary</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" id="nav-checklist-tab" data-toggle="tab" 
+              <a className="nav-link active" id="nav-checklist-tab" data-toggle="tab" 
                 href="#nav-checklist" role="tab">Checklist</a>
             </li>
             <li className="nav-item">
@@ -64,10 +60,7 @@ class AssessmentMenu extends React.Component {
           </ul>
 
           <div className="tab-content" id="nav-assessment-tabContent">
-            <div className="tab-pane show active" id="nav-summary" role="tabpanel">
-              <AssessmentSummary />
-            </div>
-            <div className="tab-pane" id="nav-checklist" role="tabpanel">
+            <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
                 assessment={{}}
                 set_create_costsitem_menu = {this.props.set_create_costsitem_menu}
