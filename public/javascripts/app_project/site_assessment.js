@@ -12,6 +12,15 @@ class AssessmentMenu extends React.Component {
     this.checklist.current.load_assessment(assessment);
   };
 
+  componentDidMount() {
+    // Tab changed. Newer versions of Bootstrap has a slight change in this
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+      console.log(e.target);
+      console.log(e.relatedTarget);
+    })
+    
+  }
+
   add_workitem = (workitem) => {
     this.setState({
       workItems: [workitem, ...this.state.workItems],
@@ -56,6 +65,7 @@ class AssessmentMenu extends React.Component {
 
           <div className="tab-content" id="nav-assessment-tabContent">
             <div className="tab-pane show active" id="nav-summary" role="tabpanel">
+              <AssessmentSummary />
             </div>
             <div className="tab-pane" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
