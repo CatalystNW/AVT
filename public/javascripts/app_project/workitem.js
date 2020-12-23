@@ -102,8 +102,8 @@ class WorkItem extends React.Component {
       <table className="table">
           <thead>
             <tr>
-              <th scope="col" className="col-sm-1">#</th>
               <th scope="col" className="col-sm-5">Description</th>
+              <th scope="col" className="col-sm-1">Count</th>
               <th scope="col" className="col-sm-1">Price</th>
               <th scope="col" className="col-sm-3">Vendor</th>
               <th scope="col" className="col-sm-2">Total</th>
@@ -115,11 +115,11 @@ class WorkItem extends React.Component {
                 total += cost;}
               return (
                 <tr key={"row"+materialsItem._id}>
+                  <td className="col-sm-5" key={"desc-"+materialsItem._id}>
+                    {materialsItem.description}</td>
                   <td className="col-sm-1" key={"options-"+materialsItem._id}>
                     {materialsItem.quantity}
                   </td>
-                  <td className="col-sm-5" key={"desc-"+materialsItem._id}>
-                    {materialsItem.description}</td>
                   <td className="col-sm-1" key={"price-"+materialsItem._id}>
                     {materialsItem.price}</td>
                   <td className="col-sm-3"key={"vendor-"+materialsItem._id}>{materialsItem.vendor}</td>
