@@ -209,7 +209,9 @@ class AssessmentChecklist extends React.Component {
         <tbody>
           <tr>
             <th className="col-xs-3">Vetting Summary</th>
-            <td className="col-xs-9"></td>
+            <td className="col-xs-9">
+              {this.props.vetting_summary}
+            </td>
           </tr>
           <tr>
             <th className="col-xs-3">Assessment Summary</th>

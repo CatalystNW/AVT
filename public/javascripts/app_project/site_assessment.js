@@ -17,6 +17,7 @@ class App extends React.Component {
   getAppData = () => {
     var that = this;
     funkie.load_application(app_id, function(data) {
+      console.log(data);
       that.setState({application: data});
     });
   };
@@ -97,13 +98,17 @@ class App extends React.Component {
   };
 
   render() {
+    var vetting_summary;
+    if (this.state.application !== null) {
+      vetting_summary = this.state.application.vetting_summary
+    }
     return (
       <div>
         <AssessmentMenu 
           ref={this.assessmentmenu}
           assessment={{}}
+          vetting_summary = {vetting_summary}
           application_id={app_id}
-          
           set_create_workitem_menu={this.set_create_workitem_menu}
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
@@ -112,7 +117,8 @@ class App extends React.Component {
           set_edit_workitem_menu = {this.set_edit_workitem_menu}
         />
         <ApplicationInformation
-          application={this.state.application}></ApplicationInformation>
+          application={this.state.application} 
+        />
 
         <ModalMenu ref={this.modalmenu} />
       </div>);
