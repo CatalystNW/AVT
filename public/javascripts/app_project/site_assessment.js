@@ -94,7 +94,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       // both apps and assessments should be length 1, but use map to create them
-      applications: [],
+      application: null,
       assessment: {},
     }
     this.getAppData();
@@ -102,12 +102,13 @@ class App extends React.Component {
     
     this.modalmenu = React.createRef();
     this.assessmentmenu = React.createRef();
+    this.applicationinfo = React.createRef();
   }
 
   getAppData = () => {
     var that = this;
     funkie.load_application(app_id, function(data) {
-      that.setState({applications: [data,]});
+      that.setState({application: data});
     });
   };
 
@@ -187,11 +188,6 @@ class App extends React.Component {
   }
 
   render() {
-    const application_information = this.state.applications.map((application) => {
-      return <ApplicationInformation key={application.id} 
-        application={application}></ApplicationInformation>
-    });
-
     return (
       <div>
         <AssessmentMenu 
@@ -205,7 +201,8 @@ class App extends React.Component {
           set_edit_costsitem_menu = {this.set_edit_costsitem_menu}
           set_edit_workitem_menu = {this.set_edit_workitem_menu}
         />
-        {application_information}
+        <ApplicationInformation
+          application={this.state.application}></ApplicationInformation>
 
         <ModalMenu ref={this.modalmenu} />
       </div>);
