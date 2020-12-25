@@ -40,23 +40,40 @@ class CostSummary extends React.Component {
     });
   }
 
-  get_items_tbody = (workitem_type) => {
+  create_table = (workitem_type) => {
     var arr = (workitem_type == "project") ? 
       this.state.project_materials : this.state.handleit_materials;
+    var total = 0
     return (
-      <tbody>
-        {arr.map((item, index) => {
-          return (
-            <tr key={workitem_type + "_" + index}>
-              <td>{item.description}</td>
-              <td>{item.price}</td>
-              <td>{item.quantity}</td>
-              <td>{item.vendor}</td>
-              <td>{item.quantity * item.price}</td>
-            </tr>
-          )
-        })}
-      </tbody>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Count</th>
+            <th scope="col">Vendor</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {arr.map((item, index) => {
+            total += item.quantity * item.price;
+            return (
+              <tr key={workitem_type + "_" + index}>
+                <td>{item.description}</td>
+                <td>{item.price}</td>
+                <td>{item.quantity}</td>
+                <td>{item.vendor}</td>
+                <td>{item.quantity * item.price}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+        <tfoot>
+          <td>Total</td>
+          <td>{total}</td>
+        </tfoot>
+      </table>
     );
   }
 
@@ -78,12 +95,7 @@ class CostSummary extends React.Component {
           <tr>
             <td>
               <h2>Materials Lists</h2>
-              <table className="table">
-                <thead>
-                  {header}
-                </thead>
-                {this.get_items_tbody("handleit")}
-              </table>
+              {this.create_table("handleit")}
             </td>
           </tr>
           <tr>
@@ -97,12 +109,7 @@ class CostSummary extends React.Component {
           <tr>
             <td>
               <h2>Materials Lists</h2>
-              <table className="table">
-                <thead>
-                  {header}
-                </thead>
-                {this.get_items_tbody("project")}
-              </table>
+              {this.create_table("project")}
             </td>
           </tr>
           <tr>
