@@ -30,11 +30,24 @@ class AssessmentChecklist extends React.Component {
       assessment.project_start_date = this.convert_date(assessment.project_start_date);
     if (assessment.project_end_date)
       assessment.project_end_date = this.convert_date(assessment.project_end_date);
-    this.setState(assessment);
+    this.setState(assessment, () => {
+      // Set safety plan coloring after assessment is loaded
+      this.color_safety_plan_textarea();
+    });
     if (assessment.costsItems){
       this.costsItems_table.current.setItems(assessment.costsItems);
     }
   }
+  // Change the textarea background color if there is no safety plan
+  color_safety_plan_textarea = () => {
+    var textarea = document.getElementById("safety-plan-textarea");
+    if (textarea.value.length < 6) {
+      textarea.classList.add("warning-box");
+    } else {
+      textarea.classList.remove("warning-box");
+    }
+  }
+
   componentDidMount =() => {
     $('.checklist-dateinput').datepicker({
       format: 'yyyy-mm-dd',
@@ -101,11 +114,14 @@ class AssessmentChecklist extends React.Component {
       });
     }
   };
+  // Set timer when text is typed
   onChange_inputs_timer = (e) => {
     var property_type = e.target.getAttribute("property_type"),
         value = e.target.value;
 
     clearTimeout(this[property_type + "_timer"]);
+
+    this.color_safety_plan_textarea();
 
     this.setState({[property_type]: value});
 
@@ -289,10 +305,7 @@ class AssessmentChecklist extends React.Component {
             </div>
           </div>
         </div>
-
       </div>
-
-      
       
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Lead</label>
@@ -320,6 +333,7 @@ class AssessmentChecklist extends React.Component {
         <label className="col-sm-2 col-form-label">Safety Plan</label>
         <div className="col-sm-10">
           <textarea className="form-control" rows='4'
+            id="safety-plan-textarea"
             value={this.state.safety_plan} property_type="safety_plan"
             onChange={this.onChange_inputs_timer}></textarea>
         </div>

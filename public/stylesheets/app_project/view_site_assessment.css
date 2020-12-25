@@ -10,3 +10,7 @@
 div.dropdown-menu {
     cursor: pointer;
 }
+
+.warning-box {
+    background-color: red;
+}
