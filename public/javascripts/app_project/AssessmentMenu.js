@@ -1,3 +1,5 @@
+// Note: WorkItem uses the data in props saves it in state
+// and updates it in state, thus becomes disconnected with the data here
 class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -5,6 +7,7 @@ class AssessmentMenu extends React.Component {
       workItems: [],
     }
     this.checklist = React.createRef();
+    this.costsummary = React.createRef();
   }
 
   change_assessment = (assessment) => {
@@ -15,10 +18,10 @@ class AssessmentMenu extends React.Component {
   componentDidMount() {
     // Tab changed. Newer versions of Bootstrap has a slight change in this
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-      console.log(e.target);
-      console.log(e.relatedTarget);
-    })
-    
+      if (e.target.id == "nav-cost-summary-tab") {
+        console.log("load");
+      }
+    });
   }
 
   add_workitem = (workitem) => {
@@ -54,6 +57,10 @@ class AssessmentMenu extends React.Component {
                 href="#nav-checklist" role="tab">Checklist</a>
             </li>
             <li className="nav-item">
+              <a className="nav-link" id="nav-cost-summary-tab" data-toggle="tab" 
+                href="#nav-cost-summary" role="tab">Cost Summary</a>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-workitem" role="tab">Work Items</a>
             </li>
@@ -68,14 +75,17 @@ class AssessmentMenu extends React.Component {
                 set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
               />
             </div>
+            <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
+              <CostSummary ref={this.costsummary}/>
+            </div>
             <div className="tab-pane" id="nav-workitem" role="tabpanel">
               <button type="button" className="btn btn-primary" 
                 onClick={this.props.set_create_workitem_menu}>
                 Create Work Item
               </button>
-              {this.state.workItems.map((workitem) => {
+              {this.state.workItems.map((workitem, index) => {
                 return (
-                <WorkItem 
+                <WorkItem
                   workitem={workitem}
                   remove_workitem={this.remove_workitem}
                   set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
