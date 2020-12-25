@@ -40,7 +40,7 @@ class CostSummary extends React.Component {
     });
   }
 
-  create_table = (workitem_type) => {
+  create_materialsitems_table = (workitem_type) => {
     var arr = (workitem_type == "project") ? 
       this.state.project_materials : this.state.handleit_materials;
     var total = 0
@@ -66,7 +66,7 @@ class CostSummary extends React.Component {
                 <td>{item.vendor}</td>
                 <td>{item.quantity * item.price}</td>
               </tr>
-            )
+            );
           })}
         </tbody>
         <tfoot>
@@ -78,13 +78,6 @@ class CostSummary extends React.Component {
   }
 
   render() {
-    var header = (<tr>
-      <th scope="col">Description</th>
-      <th scope="col">Price</th>
-      <th scope="col">Count</th>
-      <th scope="col">Vendor</th>
-      <th scope="col">Total</th>
-    </tr>);
     return(
       <table className="table">
         <tbody>
@@ -95,7 +88,7 @@ class CostSummary extends React.Component {
           <tr>
             <td>
               <h2>Materials Lists</h2>
-              {this.create_table("handleit")}
+              {this.create_materialsitems_table("handleit")}
             </td>
           </tr>
           <tr>
@@ -109,7 +102,7 @@ class CostSummary extends React.Component {
           <tr>
             <td>
               <h2>Materials Lists</h2>
-              {this.create_table("project")}
+              {this.create_materialsitems_table("project")}
             </td>
           </tr>
           <tr>
