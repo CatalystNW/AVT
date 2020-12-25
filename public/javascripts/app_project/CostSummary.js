@@ -70,8 +70,10 @@ class CostSummary extends React.Component {
           })}
         </tbody>
         <tfoot>
-          <td>Total</td>
-          <td>{total}</td>
+          <tr>
+            <td>Total</td>
+            <td>{total}</td>
+          </tr>
         </tfoot>
       </table>
     );
