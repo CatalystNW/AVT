@@ -16,10 +16,11 @@ class AssessmentMenu extends React.Component {
   };
 
   componentDidMount() {
+    var that = this;
     // Tab changed. Newer versions of Bootstrap has a slight change in this
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
       if (e.target.id == "nav-cost-summary-tab") {
-        console.log("load");
+        that.costsummary.current.load_data();
       }
     });
   }
