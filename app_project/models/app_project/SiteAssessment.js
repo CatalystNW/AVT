@@ -16,6 +16,7 @@ const siteAssessmentSchema = new Schema({
     name: String,
     cost: Number,
   }],
+  summary: String,
 
   porta_potty_required: {type: Boolean, default: false,},
   waste_required: {type: Boolean, default: false, },

@@ -11,6 +11,7 @@ class AssessmentChecklist extends React.Component {
     this.safety_plan_timer = null;
     this.porta_potty_cost_timer = null;
     this.waste_cost_timer = null;
+    this.summary_timer = null;
     this.costsItems_table = React.createRef();
   }
   // Convert the date given by server (UTC) to local date & time
@@ -216,7 +217,10 @@ class AssessmentChecklist extends React.Component {
           <tr>
             <th className="col-xs-3">Assessment Summary</th>
             <td className="col-xs-9">
-              <textarea className="form-control"></textarea>
+              <textarea className="form-control" value={this.state.summary}
+              property_type="summary"
+              onChange={this.onChange_inputs_timer}
+            ></textarea>
             </td>
           </tr>
           <tr>
