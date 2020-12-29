@@ -1,4 +1,3 @@
-const { get } = require("jquery");
 var DocumentPackage = require("../../../models/documentPackage"),
     SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
