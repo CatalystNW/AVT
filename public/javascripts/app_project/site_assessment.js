@@ -103,7 +103,7 @@ class App extends React.Component {
       vetting_summary = this.state.application.vetting_summary
     }
     return (
-      <div>
+      <div className="row">
         <AssessmentMenu 
           ref={this.assessmentmenu}
           assessment={{}}
