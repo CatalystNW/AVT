@@ -17,6 +17,11 @@ const siteAssessmentSchema = new Schema({
     cost: Number,
   }],
   summary: String,
+  status: {
+    type: String,
+    enum: ["complete", "pending"],
+    default: "pending",
+  },
 
   porta_potty_required: {type: Boolean, default: false,},
   waste_required: {type: Boolean, default: false, },
