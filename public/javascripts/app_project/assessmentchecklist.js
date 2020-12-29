@@ -239,6 +239,17 @@ class AssessmentChecklist extends React.Component {
             ></textarea>
             </td>
           </tr>
+          <tr>
+          <th className="col-xs-3">
+            <label htmlFor="assessment-status-select">Status</label></th>
+            <td className="col-xs-9">
+              <select name="assessment_status" className="form-control"
+                id="assessment-status-select">
+                <option value="pending">Pending</option>
+                <option value="complete">Complete</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
       <div className="form-group row">
