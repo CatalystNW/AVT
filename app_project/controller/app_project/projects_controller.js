@@ -121,6 +121,20 @@ async function edit_site_assessment(req, res) {
     }
     await site_assessment.save();
     res.status(200).send({"date": d,});
+  } else if (property == "status") {
+    var doc = await DocumentPackage.findById(site_assessment.application_id);
+    if (req.body.value == "pending") {
+      doc.status = "assess";
+    } else if (req.body.value == "complete") {
+      doc.status = "assessComp";
+    } else {
+      res.status(400).send("Wrong parameter field for status given");
+      return;
+    }
+    site_assessment[property] = req.body.value;
+    await site_assessment.save();
+    await doc.save();
+    res.status(200).end();
   } else if (property in site_assessment) {
     if (req.body.value) {
       site_assessment[property] = req.body.value;
