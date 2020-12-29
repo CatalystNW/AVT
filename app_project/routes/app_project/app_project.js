@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var assessment_controller = require('../../controller/app_project/assessment_controller.js');
+var assessment_controller = require('../../controller/app_project/assessment_controller.js'),
+    project_controller = require('../../controller/app_project/project_controller.js');
 
 router.get('/projects_page', assessment_controller.view_projects_page);
 
@@ -34,4 +35,6 @@ router.post('/materialsitem', assessment_controller.create_materialsitem);
 router.delete('/materialsitem/:id', assessment_controller.delete_materialsitem);
 router.patch('/materialsitem/:id', assessment_controller.edit_materialsitem);
 
+
+router.get('/view_project_transfer', project_controller.view_project_assessment_transfer);
 module.exports = router;
