@@ -14,3 +14,7 @@ div.dropdown-menu {
 .warning-box {
     background-color: red;
 }
+
+.checkbox-label {
+    padding-right: 10px;
+}

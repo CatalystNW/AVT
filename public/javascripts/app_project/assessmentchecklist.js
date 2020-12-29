@@ -351,17 +351,16 @@ class AssessmentChecklist extends React.Component {
         />
       </div>
 
-      <div className="form-group">
-        <label>Porta Potty</label>
-        <div className="col form-check">
-          <label htmlFor="porta-potty-required-checkbox">Required </label>
+      <div className="form-group row">
+        <div className="col-sm-6 col-md-4">
+          <label className="checkbox-label">Porta Potty </label>
           <input type="checkbox" id="porta-potty-required-checkbox"
             checked={this.state.porta_potty_required}
             onChange={this.onChange_porta_checkbox}
           />
         </div>
-        <div className="col">
-          <div className="input-group mb-3">
+        <div className="col-sm-6 col-md-4">
+          <div className="input-group input-group-sm">
             <span className="input-group-addon">Cost</span>
             <input type="number" className="form-control" min="0" step="0.01"
               property_type="porta_potty_cost"
@@ -373,17 +372,16 @@ class AssessmentChecklist extends React.Component {
         </div>
       </div>
 
-      <div className="form-group">
-        <label>Waste/Dump Trailer</label>
-        <div className="col form-check">
-          <label>Required </label>
+      <div className="form-group row">
+        <div className="col-sm-6 col-md-4">
+          <label className="checkbox-label">Waste/Dump Trailer </label>
           <input type="checkbox" 
             checked={this.state.waste_required}
             onChange={this.onChange_waste_checkbox}
           />
         </div>
-        <div className="col">
-          <div className="input-group mb-3">
+        <div className="col-sm-6 col-md-4">
+          <div className="input-group input-group-sm">
             <span className="input-group-addon">Cost</span>
             <input type="number" className="form-control" min="0" step="0.01"
               value={this.state.waste_cost}
