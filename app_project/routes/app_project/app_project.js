@@ -1,37 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
-var projects_controller = require('../../controller/app_project/projects_controller.js');
+var assessment_controller = require('../../controller/app_project/assessment_controller.js');
 
-router.get('/projects_page', projects_controller.view_projects_page);
+router.get('/projects_page', assessment_controller.view_projects_page);
 
-router.get('/view_site_assessments', projects_controller.view_site_assessments);
+router.get('/view_site_assessments', assessment_controller.view_site_assessments);
 
-router.get('/view_site_assessments/:application_id', projects_controller.view_site_assessment);
+router.get('/view_site_assessments/:application_id', assessment_controller.view_site_assessment);
 
 router.route('/application/:application_id')
-  .get(projects_controller.get_application_data_api);
+  .get(assessment_controller.get_application_data_api);
 
-router.get('/delete_manager', projects_controller.view_delete_manager);
-router.delete('/delete_manager', projects_controller.manage_deletion);
+router.get('/delete_manager', assessment_controller.view_delete_manager);
+router.delete('/delete_manager', assessment_controller.manage_deletion);
 
 router.route('/site_assessment/:application_id')
-  .get(projects_controller.get_site_assessment)
-  .patch(projects_controller.edit_site_assessment);
+  .get(assessment_controller.get_site_assessment)
+  .patch(assessment_controller.edit_site_assessment);
 
 router.route('/site_assessment/:assessment_id/costsitems')
-  .post(projects_controller.create_costsitem);
+  .post(assessment_controller.create_costsitem);
 router.route('/costsitems/:costsitem_id')
-  .delete(projects_controller.delete_costsitem)
-  .patch(projects_controller.edit_costsitem);
+  .delete(assessment_controller.delete_costsitem)
+  .patch(assessment_controller.edit_costsitem);
 
-router.post('/workitems', projects_controller.create_workitem);
+router.post('/workitems', assessment_controller.create_workitem);
 router.route('/workitems/:workitem_id')
-  .patch(projects_controller.edit_workitem)
-  .delete(projects_controller.delete_workitem);
+  .patch(assessment_controller.edit_workitem)
+  .delete(assessment_controller.delete_workitem);
 
-router.post('/materialsitem', projects_controller.create_materialsitem);
-router.delete('/materialsitem/:id', projects_controller.delete_materialsitem);
-router.patch('/materialsitem/:id', projects_controller.edit_materialsitem);
+router.post('/materialsitem', assessment_controller.create_materialsitem);
+router.delete('/materialsitem/:id', assessment_controller.delete_materialsitem);
+router.patch('/materialsitem/:id', assessment_controller.edit_materialsitem);
 
 module.exports = router;
