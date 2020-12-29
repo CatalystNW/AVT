@@ -361,13 +361,15 @@ class AssessmentChecklist extends React.Component {
           />
         </div>
         <div className="col">
-          <label>Cost</label>
-          <input type="number" className="form-control" min="0" step="0.01"
-            property_type="porta_potty_cost"
-            value={this.state.porta_potty_cost}
-            onChange={this.onChange_inputs_timer}
-            disabled={!this.state.porta_potty_required}
-          ></input>
+          <div className="input-group mb-3">
+            <span className="input-group-addon">Cost</span>
+            <input type="number" className="form-control" min="0" step="0.01"
+              property_type="porta_potty_cost"
+              value={this.state.porta_potty_cost}
+              onChange={this.onChange_inputs_timer}
+              disabled={!this.state.porta_potty_required}
+            ></input>
+          </div>
         </div>
       </div>
 
@@ -380,15 +382,16 @@ class AssessmentChecklist extends React.Component {
             onChange={this.onChange_waste_checkbox}
           />
         </div>
-
         <div className="col">
-          <label>Cost</label>
-          <input type="number" className="form-control" min="0" step="0.01"
-            value={this.state.waste_cost}
-            property_type="waste_cost"
-            onChange={this.onChange_inputs_timer}
-            disabled={!this.state.waste_required}
-          ></input>
+          <div className="input-group mb-3">
+            <span className="input-group-addon">Cost</span>
+            <input type="number" className="form-control" min="0" step="0.01"
+              value={this.state.waste_cost}
+              property_type="waste_cost"
+              onChange={this.onChange_inputs_timer}
+              disabled={!this.state.waste_required}
+            ></input>
+          </div>
         </div>
       </div>
     </div>);
