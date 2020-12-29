@@ -88,6 +88,11 @@ async function get_site_assessment(req, res) {
     if (!site_assessment || site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
+      if (doc.status == "assess") {
+        site_assessment.status = "pending";
+      } else if (doc.status == "assessComp") {
+        site_assessment.status = "complete";
+      }
     } else {
       site_assessment = site_assessment[0];
     }
