@@ -175,6 +175,19 @@ class AssessmentChecklist extends React.Component {
     });
   }
 
+  onChange_status = (e) => {
+    funkie.edit_site_assessment({
+      assessment_id: this.state._id,
+      property: "status",
+      value: e.target.value,
+    }, (data)=> {
+      console.log(data);
+    });
+    this.setState({
+      status: e.target.value,
+    })
+  };
+
   set_create_costsitem_menu = () => {
     this.props.set_create_costsitem_menu(this.costsItems_table.current.add_item);
   }
@@ -244,6 +257,8 @@ class AssessmentChecklist extends React.Component {
             <label htmlFor="assessment-status-select">Status</label></th>
             <td className="col-xs-9">
               <select name="assessment_status" className="form-control"
+                onChange={this.onChange_status}
+                value={this.state.status}
                 id="assessment-status-select">
                 <option value="pending">Pending</option>
                 <option value="complete">Complete</option>
