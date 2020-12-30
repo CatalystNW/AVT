@@ -10,7 +10,9 @@ async function view_project_transfers(req, res) {
   var assessments = await SiteAssessment.find({status: "complete",})
                       .populate("documentPackage");
   console.log(assessments);
-  res.render("app_project/project_transfer", {assessments: assessments,});
+  res.render("app_project/project_transfers", {assessments: assessments,});
 }
 
-async function 
+async function view_project_transfer(req, res) {
+
+}
