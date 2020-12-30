@@ -4,11 +4,13 @@ var DocumentPackage = require("../../../models/documentPackage"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
     CostsItem = require("../../models/app_project/CostsItem");
 
-module.exports.view_project_assessment_transfer = view_project_assessment_transfer;
+module.exports.view_project_transfers = view_project_transfers;
 
-async function view_project_assessment_transfer(req, res) {
+async function view_project_transfers(req, res) {
   var assessments = await SiteAssessment.find({status: "complete",})
                       .populate("documentPackage");
   console.log(assessments);
   res.render("app_project/project_transfer", {assessments: assessments,});
 }
+
+async function 
