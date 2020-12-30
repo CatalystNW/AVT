@@ -45,12 +45,12 @@ siteAssessmentSchema.statics.create = async function(app_id) {
     var site_assessment = new this();
     site_assessment.application_id = app_id;
     
-    var doc = DocumentPackage.findById(app_id);
+    var doc = await DocumentPackage.findById(app_id);
     if (!doc)
       return undefined;
 
-    await site_assessment.save();
     site_assessment.documentPackage = doc;
+    await site_assessment.save();
     return site_assessment;
   } else{
     return undefined;
