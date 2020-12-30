@@ -13,7 +13,6 @@ const materialsItemSchema = new Schema({
   cost: Number,
   vendor: String,
   obtained: Boolean,
-  transferred: Boolean,
 }, {
   timestamps: true,
 });
