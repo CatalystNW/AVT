@@ -153,7 +153,7 @@ async function create_workitem(req, res) {
   workitem.name = r.name;
   workitem.description = r.description;
   workitem.type = r.type;
-  workitem.documentPackage = doc;
+  workitem.documentPackage = doc.id;
   workitem.handleit = r.handleit;
   var assessment;
   if (r.type == "assessment") {
@@ -180,7 +180,7 @@ async function create_workitem(req, res) {
   await workitem.save();
 
   if (r.type == "assessment" && assessment) {
-    assessment.workItems.push(workitem);
+    assessment.workItems.push(workitem.id);
     await assessment.save();
   }
   workitem.documentPackage = doc._id;
@@ -225,11 +225,11 @@ async function create_costsitem(req, res) {
       price: req.body.price,
       vendor: req.body.vendor,
       description: req.body.description,
-      siteAssessment: site_assessment,
+      siteAssessment: site_assessment.id,
     });
     await costItem.save();
 
-    site_assessment.costsItems.push(costItem);
+    site_assessment.costsItems.push(costItem.id);
     await site_assessment.save();
     res.status(200).json(costItem);
   } else {
@@ -265,21 +265,25 @@ async function edit_costsitem(req, res) {
 }
 
 async function create_materialsitem(req, res) {
-  if (!req.body.workitem_id)
+  if (!req.body.workitem_id) {
     res.status(400).end();
+    return;
+  }
   var workitem = await WorkItem.findById(req.body.workitem_id);
-  if (!workitem)
+  if (!workitem) {
     res.status(400).end();
+    return;
+  }
   var item = new MaterialsItem();
   item.description = req.body.description;
   item.quantity = req.body.quantity;
   item.price = req.body.price;
   item.vendor = req.body.vendor;
-  item.workItem = workitem;
   item.cost = item.quantity * item.price;
-  await item.save();
+  item.workItem = workitem.id;
+  item.save();
 
-  workitem.materialsItems.push(item);
+  workitem.materialsItems.push(item.id);
   workitem.materials_cost += item.cost;
   await workitem.save();
   res.status(200).json(item);
