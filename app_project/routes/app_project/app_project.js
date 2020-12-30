@@ -35,6 +35,7 @@ router.post('/materialsitem', assessment_controller.create_materialsitem);
 router.delete('/materialsitem/:id', assessment_controller.delete_materialsitem);
 router.patch('/materialsitem/:id', assessment_controller.edit_materialsitem);
 
+router.get('/project_transfer/:assessment_id', project_controller.view_project_transfer);
 router.get('/project_transfer', project_controller.view_project_transfers);
 
 module.exports = router;
