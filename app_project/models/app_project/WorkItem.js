@@ -20,6 +20,10 @@ const workItemSchema = new Schema({
     default: "to_review",
     setDefaultsOnInsert: true,
   },
+  transferred: {
+    type: Boolean,
+    default: false,
+  },
 
   vetting_comments: String,
   assessment_comments: String,

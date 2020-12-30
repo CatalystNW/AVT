@@ -22,6 +22,10 @@ const siteAssessmentSchema = new Schema({
     enum: ["complete", "pending"],
     default: "pending",
   },
+  transferred: {
+    type: Boolean,
+    default: false,
+  },
 
   porta_potty_required: {type: Boolean, default: false,},
   waste_required: {type: Boolean, default: false, },
