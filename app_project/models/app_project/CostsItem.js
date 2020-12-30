@@ -12,7 +12,6 @@ const costsItemSchema = new Schema({
   price: Number,
   vendor: String,
   obtained: Boolean,
-  transferred: Boolean,
   returned: Boolean,
   return_date: Date,
   borrow_date: Date,
