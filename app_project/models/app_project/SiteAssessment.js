@@ -50,7 +50,15 @@ siteAssessmentSchema.statics.create = async function(app_id) {
       return undefined;
 
     site_assessment.documentPackage = doc;
+
+    if (doc.status == "assess") {
+      site_assessment.status = "pending";
+    } else if (doc.status == "assessComp") {
+      site_assessment.status = "complete";
+    }
+
     await site_assessment.save();
+    await doc.save();
     return site_assessment;
   } else{
     return undefined;
