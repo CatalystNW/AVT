@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
 
 const AppProjectSchema = new mongoose.Schema({
   name: String,
@@ -12,15 +13,21 @@ const AppProjectSchema = new mongoose.Schema({
   end: Date,
 
   partners: [{
-    type: mongoose.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "partnerPackage",
   }],
 
   planlist: {
-    type: mongoose.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "AppProjectPlanList"
-  }
+  },
+  siteAssessment : {
+    type: Schema.Types.ObjectId,
+    ref: "SiteAssessment",
+  },
 
+}, {
+  timestamps: true,
 });
 
 module.exports = mongoose.model("AppProject", AppProjectSchema);
