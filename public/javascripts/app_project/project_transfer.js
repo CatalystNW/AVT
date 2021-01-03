@@ -37,6 +37,19 @@ class ProjectTransferApp extends React.Component {
     });
   }
 
+  create_project_options = (handleit, workitem) => {
+    if (handleit) {
+      return (<td>{workitem.name}</td>);
+    } else {
+      return (
+        <td><select>
+          {this.state.projects.map((project,index)=> {
+            return (<option key={workitem._id + "-proj-" + index}>{project}</option>);
+          })}
+        </select></td>);
+    }
+  }
+
   create_workItems = (handleit) => {
     var workitems = handleit ? 
       this.state.handleit_workitems : this.state.proj_workitems,
@@ -55,11 +68,7 @@ class ProjectTransferApp extends React.Component {
             <tr key={keyname + workitem._id}>
               <td>{workitem.name}</td>
               <td>{workitem.description}</td>
-              <td><select>
-                {this.state.projects.map((project,index)=> {
-                  return (<option key={workitem._id + "-proj-" + index}>{project}</option>);
-                })}
-                </select></td>
+              {this.create_project_options(handleit, workitem)}
             </tr>
           );
         })}
@@ -67,8 +76,19 @@ class ProjectTransferApp extends React.Component {
     </table>);
   }
 
+  onClick_create_project = () => {
+    var name = window.prompt("Project Name");
+    if (name.length > 0) {
+      this.setState({
+        projects: [...this.state.projects, name],
+      });
+    }
+  }
+
   render() {
     return (<div>
+      <button className="btn btn-sm btn-outline-primary" type="button"
+        onClick={this.onClick_create_project}>Create Project</button>
       <h2>Handle-It Work Items</h2>
       {this.create_workItems(true)}
       <h2>Project Work Items</h2>
