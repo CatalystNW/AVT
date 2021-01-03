@@ -205,7 +205,6 @@ class WorkItem extends React.Component {
               onChange={this.onChange_workitem_status}
               >
               <option value="to_review">To Review</option>
-              <option value="handleit">Handleit</option>
               <option value="accepted">Declined</option>
               <option value="declined">Accepted</option>
             </select>
