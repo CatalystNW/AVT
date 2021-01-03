@@ -15,6 +15,8 @@ async function view_project_transfers(req, res) {
 }
 
 async function view_project_transfer(req, res) {
-  console.log(req.params.assessment_id);
-  res.render("app_project/project_transfer");
+  // var assessment = await SiteAssessment.findById(req.params.assessment_id)
+  //     .populate("documentPackage")
+  //     .populate({path: "workItems", model: "WorkItem", populate: {path: "materialsItems", model: "MaterialsItem"}});
+  res.render("app_project/project_transfer", {assessment_id: req.params.assessment_id,});
 }
