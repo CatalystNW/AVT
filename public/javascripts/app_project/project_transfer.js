@@ -5,7 +5,7 @@ class ProjectTransferApp extends React.Component {
       assessment_id: assessment_id,
       handleit_workitems: [],
       proj_workitems: [],
-      projects: ["test", "test1"],
+      projects: [],
     }
     this.load_assessment();
   }
@@ -78,7 +78,7 @@ class ProjectTransferApp extends React.Component {
 
   onClick_create_project = () => {
     var name = window.prompt("Project Name");
-    if (name.length > 0) {
+    if (name != null && name.length > 0) {
       this.setState({
         projects: [...this.state.projects, name],
       });
