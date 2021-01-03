@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-      Schema = mongoose.Schema;
+        
 
 const AppProjectSchema = new mongoose.Schema({
   name: String,
@@ -25,7 +25,13 @@ const AppProjectSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "SiteAssessment",
   },
-
+  users: [{
+    type: Schema.Types.ObjectId,
+    ref: "UserPackage",
+  }],
+  crew_chief: String,
+  project_advocate: String,
+  site_host: String,
 }, {
   timestamps: true,
 });
