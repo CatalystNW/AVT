@@ -7,6 +7,7 @@ class ProjectTransferApp extends React.Component {
       proj_workitems: [],
       projects: [],
     }
+    this.project_select_class = "project-select";
     this.load_assessment();
   }
   load_assessment = () => {
@@ -42,7 +43,7 @@ class ProjectTransferApp extends React.Component {
       return (<td>{workitem.name}</td>);
     } else {
       return (
-        <td><select>
+        <td><select className={this.project_select_class}>
           {this.state.projects.map((project,index)=> {
             return (<option key={workitem._id + "-proj-" + index}>{project}</option>);
           })}
@@ -84,10 +85,20 @@ class ProjectTransferApp extends React.Component {
       });
     }
   }
+  onClick_transfer = () => {
+    if (this.state.projects.length > 0) {
+      var result = window.confirm("Are you sure you want to transfer?");
+      console.log(result);
+    } else {
+      window.alert("There are work items not assigned to a project");
+    }
+  }
 
   render() {
     return (<div>
       <button className="btn btn-sm btn-outline-primary" type="button"
+        onClick={this.onClick_transfer}>Transfer</button>
+      <button className="btn btn-sm btn-outline-info" type="button"
         onClick={this.onClick_create_project}>Create Project</button>
       <h2>Handle-It Work Items</h2>
       {this.create_workItems(true)}
