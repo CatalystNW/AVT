@@ -7,7 +7,8 @@ var DocumentPackage = require("../../../models/documentPackage"),
 module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
-module.exports.get_site_assessment = get_site_assessment;
+module.exports.get_site_assessment_by_appId = get_site_assessment_by_appId;
+// module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
 module.exports.create_costsitem = create_costsitem;
