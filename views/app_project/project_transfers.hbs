@@ -2,7 +2,11 @@
     <h2>Completed Site Assessments</h2>
     <ul>
         {{#each assessments}}
-        <li><a href="./project_transfer/{{this.application_id}}">Link</a></li>
+        <li>
+            <a href="./project_transfer/{{this.id}}">
+                {{this.documentPackage.application.name.first}} {{this.documentPackage.application.name.last}}
+            </a>
+        </li>
         {{/each}}
     </ul>
 </div>
