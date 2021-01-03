@@ -206,8 +206,8 @@ class WorkItem extends React.Component {
               >
               <option value="to_review">To Review</option>
               <option value="handleit">Handleit</option>
-              <option value="accepted">Declined</option>
-              <option value="declined">Accepted</option>
+              <option value="declined">Declined</option>
+              <option value="accepted">Accepted</option>
             </select>
           </div>
         </div>

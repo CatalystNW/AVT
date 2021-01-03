@@ -134,6 +134,7 @@ async function edit_site_assessment(req, res) {
     await site_assessment.save();
     res.status(200).send({"date": d,});
   } else if (property == "status") {
+    // Change status both in DocumentPackage & Site Assessment
     var doc = await DocumentPackage.findById(site_assessment.application_id);
     if (req.body.value == "pending") {
       doc.status = "assess";
@@ -211,6 +212,7 @@ async function edit_workitem(req, res)  {
   } else {
     try {
       var workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true})
+      console.log(workitem);
       res.status(200).json(workitem);
     } catch (err) {
       console.log(err);
