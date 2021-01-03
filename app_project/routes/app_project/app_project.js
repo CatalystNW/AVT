@@ -16,8 +16,10 @@ router.route('/application/:application_id')
 router.get('/delete_manager', assessment_controller.view_delete_manager);
 router.delete('/delete_manager', assessment_controller.manage_deletion);
 
-router.route('/site_assessment/:application_id')
-  .get(assessment_controller.get_site_assessment)
+router.route('/site_assessment/app_id/:application_id')
+  .get(assessment_controller.get_site_assessment_by_appId);
+
+router.route('/site_assessment/:assessment_id')
   .patch(assessment_controller.edit_site_assessment);
 
 router.route('/site_assessment/:assessment_id/costsitems')

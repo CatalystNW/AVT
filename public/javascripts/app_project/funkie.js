@@ -18,7 +18,7 @@ var funkie = {
   get_assessment(app_id, callback) {
     $.ajax({
       type: "GET",
-      url: "../site_assessment/" + app_id,
+      url: "../site_assessment/app_id/" + app_id,
       success: function(data, textStatus, xhr) {
         if (callback) {
           callback(data);

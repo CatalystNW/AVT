@@ -74,7 +74,7 @@ async function manage_deletion(req, res) {
   }
 }
 
-async function get_site_assessment(req, res) {
+async function get_site_assessment_by_appId(req, res) {
   var app_id = req.params.application_id;
 
   // Make sure app_id is valid
