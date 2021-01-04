@@ -2,6 +2,17 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const AppProjectPlanListSchema = new mongoose.Schema({
+  additional_checklist: [{
+    name: String,
+    complete: {
+      type: Boolean,
+      default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "UserPackage",
+    },
+  }],
   project: {
     type: Schema.Types.ObjectId,
     ref: "AppProjects",
