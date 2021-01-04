@@ -11,10 +11,24 @@ const AppProjectSchema = new mongoose.Schema({
   type: String,
   start: Date,
   end: Date,
+  application: {
+    type: Schema.Types.ObjectId,
+    ref: "DocumentPackage"
+  },
 
   partners: [{
     type: Schema.Types.ObjectId,
     ref: "partnerPackage",
+  }],
+
+  workItems: [{
+    type: Schema.Types.ObjectId,
+    ref: "WorkItem"
+  }],
+
+  costsItems: [{
+    type: Schema.Types.ObjectId,
+    ref: "CostsItem"
   }],
 
   planlist: {
@@ -29,6 +43,7 @@ const AppProjectSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "UserPackage",
   }],
+
   crew_chief: String,
   project_advocate: String,
   site_host: String,
