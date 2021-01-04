@@ -33,7 +33,7 @@ const AppProjectSchema = new mongoose.Schema({
 
   planlist: {
     type: Schema.Types.ObjectId,
-    ref: "AppProjectPlanList"
+    ref: "AppProjectPlanChecklist"
   },
   siteAssessment : {
     type: Schema.Types.ObjectId,
