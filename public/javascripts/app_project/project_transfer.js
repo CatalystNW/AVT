@@ -25,6 +25,7 @@ class ProjectTransferApp extends React.Component {
             if (workitem.handleit) {
               handleit_workitems.push(workitem);
             } else {
+              workitem.project = ""
               proj_workitems.push(workitem);
             }
           }
@@ -37,13 +38,18 @@ class ProjectTransferApp extends React.Component {
       },
     });
   }
+  onChange_project_select = (e) => {
+  }
 
   create_project_options = (handleit, workitem) => {
     if (handleit) {
       return (<td>{workitem.name}</td>);
     } else {
       return (
-        <td><select className={this.project_select_class}>
+        <td>
+          <select className={this.project_select_class}
+            value={workitem.project}
+            onChange={this.onChange_project_select}>
           {this.state.projects.map((project,index)=> {
             return (<option key={workitem._id + "-proj-" + index}>{project}</option>);
           })}
