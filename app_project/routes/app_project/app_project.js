@@ -40,6 +40,8 @@ router.delete('/materialsitem/:id', assessment_controller.delete_materialsitem);
 router.patch('/materialsitem/:id', assessment_controller.edit_materialsitem);
 
 router.get('/project_transfer/:assessment_id', project_transfer_controller.view_project_transfer);
+router.post('/project_transfer/:assessment_id', project_transfer_controller.transfer_project);
 router.get('/project_transfer', project_transfer_controller.view_project_transfers);
+
 
 module.exports = router;

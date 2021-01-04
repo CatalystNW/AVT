@@ -108,11 +108,25 @@ class ProjectTransferApp extends React.Component {
       });
     }
   }
+  transfer_project = () => {
+    $.ajax({
+      url: "../project_transfer/" + this.state.assessment_id,
+      method: "POST",
+      data: {
+        project_workitems: this.state.proj_workitems,
+        handleit_workitems: this.state.handleit_workitems,
+      },
+      success: function(data) {
+        console.log("transfer");
+      }
+    });
+  }
   onClick_transfer = () => {
     if (this.state.projects.length > 0) {
       var result = window.confirm("Are you sure you want to transfer?");
-      console.log(this.state.handleit_workitems);
-      console.log(this.state.proj_workitems);
+      if (result) {
+        this.transfer_project();
+      }
     } else {
       window.alert("There are work items not assigned to a project");
     }
