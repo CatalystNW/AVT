@@ -111,7 +111,7 @@ class ProjectTransferApp extends React.Component {
   onClick_transfer = () => {
     if (this.state.projects.length > 0) {
       var result = window.confirm("Are you sure you want to transfer?");
-      console.log(result);
+      console.log(this.state.handleit_workitems);
     } else {
       window.alert("There are work items not assigned to a project");
     }
