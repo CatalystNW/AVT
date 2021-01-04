@@ -88,6 +88,12 @@ class ProjectTransferApp extends React.Component {
     if (name != null && name.length > 0) {
       this.setState({
         projects: [...this.state.projects, name],
+      }, () => { // Assign project to workitems if it's the first one
+        if (this.state.projects.length == 1) {
+          for(var i=0; i<this.state.proj_workitems.length; i++) {
+            this.state.proj_workitems[i].project = name;
+          }
+        }
       });
     }
   }
