@@ -39,6 +39,16 @@ class ProjectTransferApp extends React.Component {
     });
   }
   onChange_project_select = (e) => {
+    var id = e.target.getAttribute("workitem_id");
+    for(var i=0; i<this.state.proj_workitems.length; i++) {
+      if (id == this.state.proj_workitems[i]._id) {
+        this.setState((prev_state) => {
+          prev_state.proj_workitems[i].project = e.target.value;
+          return {project_workitems: prev_state.project_workitems}
+        });
+        break;
+      }
+    }
   }
 
   create_project_options = (handleit, workitem) => {
@@ -48,6 +58,7 @@ class ProjectTransferApp extends React.Component {
       return (
         <td>
           <select className={this.project_select_class}
+            workitem_id={workitem._id}
             value={workitem.project}
             onChange={this.onChange_project_select}>
           {this.state.projects.map((project,index)=> {
