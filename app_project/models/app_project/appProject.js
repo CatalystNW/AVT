@@ -26,11 +26,6 @@ const AppProjectSchema = new mongoose.Schema({
     ref: "WorkItem"
   }],
 
-  costsItems: [{
-    type: Schema.Types.ObjectId,
-    ref: "CostsItem"
-  }],
-
   planlist: {
     type: Schema.Types.ObjectId,
     ref: "AppProjectPlanChecklist"
