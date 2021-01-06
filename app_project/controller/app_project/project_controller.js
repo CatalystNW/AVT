@@ -1,8 +1,7 @@
 var DocumentPackage = require("../../../models/documentPackage"),
     SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
-    MaterialsItem = require("../../models/app_project/MaterialsItem"),
-    CostsItem = require("../../models/app_project/CostsItem");
+    MaterialsItem = require("../../models/app_project/MaterialsItem");
 
 // module.exports.view_project_transfers = view_project_transfers;
 // module.exports.view_project_transfer = view_project_transfer;

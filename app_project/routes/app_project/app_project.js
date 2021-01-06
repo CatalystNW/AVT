@@ -24,12 +24,6 @@ router.route('/site_assessment/:assessment_id')
   .get(assessment_controller.get_site_assessment)
   .patch(assessment_controller.edit_site_assessment);
 
-router.route('/site_assessment/:assessment_id/costsitems')
-  .post(assessment_controller.create_costsitem);
-router.route('/costsitems/:costsitem_id')
-  .delete(assessment_controller.delete_costsitem)
-  .patch(assessment_controller.edit_costsitem);
-
 router.post('/workitems', assessment_controller.create_workitem);
 router.route('/workitems/:workitem_id')
   .patch(assessment_controller.edit_workitem)
