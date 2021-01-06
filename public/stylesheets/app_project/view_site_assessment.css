@@ -18,3 +18,10 @@ div.dropdown-menu {
 .checkbox-label {
     padding-right: 10px;
 }
+
+#assessment-nav-container {
+    position: fixed;
+    z-index: 100;
+    background-color: white;
+}
+

@@ -18,11 +18,16 @@ class AssessmentMenu extends React.Component {
   componentDidMount() {
     var that = this;
     // Tab changed. Newer versions of Bootstrap has a slight change in this
+    // Load data when cost-summary is shown
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
       if (e.target.id == "nav-cost-summary-tab") {
         that.costsummary.current.load_data();
       }
     });
+    $("#assessment-content-container").css(
+        "padding-top", $("#assessment-nav-container").height());
+    $("#assessment-nav-container").css(
+      "width", $("#assessment-content-container").width());
   }
 
   add_workitem = (workitem) => {
@@ -51,8 +56,8 @@ class AssessmentMenu extends React.Component {
 
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
-        id="assessment-container" key={this.state._id}>
-        <div id="assessment-menu-container" className="sticky-top">
+        id="assessment-container">
+        <div id="assessment-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" id="nav-checklist-tab" data-toggle="tab" 
@@ -69,7 +74,7 @@ class AssessmentMenu extends React.Component {
           </ul>
         </div>
 
-        <div className="overflow-auto">
+        <div className="overflow-auto" id="assessment-content-container">
           <div className="tab-content" id="nav-assessment-tabContent">
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
