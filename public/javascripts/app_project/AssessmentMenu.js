@@ -24,10 +24,10 @@ class AssessmentMenu extends React.Component {
         that.costsummary.current.load_data();
       }
     });
-    $("#assessment-content-container").css(
+    $("#nav-assessment-tabContent").css(
         "padding-top", $("#assessment-nav-container").height());
     $("#assessment-nav-container").css(
-      "width", $("#assessment-content-container").width());
+      "width", $("#nav-assessment-tabContent").width());
   }
 
   add_workitem = (workitem) => {
@@ -74,35 +74,33 @@ class AssessmentMenu extends React.Component {
           </ul>
         </div>
 
-        <div className="overflow-auto" id="assessment-content-container">
-          <div className="tab-content" id="nav-assessment-tabContent">
-            <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
-              <AssessmentChecklist ref={this.checklist}
-                assessment={{}}
-                vetting_summary = {this.props.vetting_summary}
-                set_create_costsitem_menu = {this.props.set_create_costsitem_menu}
-                set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
-              />
-            </div>
-            <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
-              <CostSummary ref={this.costsummary}/>
-            </div>
-            <div className="tab-pane" id="nav-workitem" role="tabpanel">
-              <button type="button" className="btn btn-primary" 
-                onClick={this.props.set_create_workitem_menu}>
-                Create Work Item
-              </button>
-              {this.state.workItems.map((workitem, index) => {
-                return (
-                <WorkItem
-                  workitem={workitem}
-                  remove_workitem={this.remove_workitem}
-                  set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-                  set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                  set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
-                  key={workitem._id+"-workitem-card"}></WorkItem>);
-              })}
-            </div>
+        <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
+          <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
+            <AssessmentChecklist ref={this.checklist}
+              assessment={{}}
+              vetting_summary = {this.props.vetting_summary}
+              set_create_costsitem_menu = {this.props.set_create_costsitem_menu}
+              set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
+            />
+          </div>
+          <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
+            <CostSummary ref={this.costsummary}/>
+          </div>
+          <div className="tab-pane" id="nav-workitem" role="tabpanel">
+            <button type="button" className="btn btn-primary" 
+              onClick={this.props.set_create_workitem_menu}>
+              Create Work Item
+            </button>
+            {this.state.workItems.map((workitem, index) => {
+              return (
+              <WorkItem
+                workitem={workitem}
+                remove_workitem={this.remove_workitem}
+                set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+                set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+                set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+                key={workitem._id+"-workitem-card"}></WorkItem>);
+            })}
           </div>
         </div>
       </div>
