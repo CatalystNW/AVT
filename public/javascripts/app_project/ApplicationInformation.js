@@ -10,6 +10,12 @@ class ApplicationInformation extends React.Component {
       "width", $("#nav-app-tabContent").width());
   }
 
+  componentDidUpdate() {
+    $("#nav-app-tabContent").css(
+      "padding-top", $("#application-info-nav-container").height());
+    $("#application-info-nav-container").css(
+      "width", $("#nav-app-tabContent").width());
+  }
   calculate_age = () => {
     const dob = new Date(this.props.application.dob.year, 
       this.props.application.dob.month, this.props.application.dob.date),
