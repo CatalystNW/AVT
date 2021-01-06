@@ -58,9 +58,9 @@ class AssessmentMenu extends React.Component {
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
         <div id="assessment-nav-container">
-          <ul className="nav nav-tabs active" id="nav-assessment-tabs" role="tablist">
+          <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
+              <a className="nav-link active" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-workitem" role="tab">Work Items</a>
             </li>
             <li className="nav-item">
