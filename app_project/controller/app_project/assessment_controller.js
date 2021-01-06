@@ -1,8 +1,7 @@
 var DocumentPackage = require("../../../models/documentPackage"),
     SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
-    MaterialsItem = require("../../models/app_project/MaterialsItem"),
-    CostsItem = require("../../models/app_project/CostsItem");
+    MaterialsItem = require("../../models/app_project/MaterialsItem");
 
 module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
@@ -10,10 +9,6 @@ module.exports.view_site_assessment = view_site_assessment;
 module.exports.get_site_assessment_by_appId = get_site_assessment_by_appId;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
-
-module.exports.create_costsitem = create_costsitem;
-module.exports.delete_costsitem = delete_costsitem;
-module.exports.edit_costsitem = edit_costsitem;
 
 module.exports.get_application_data_api = get_application_data_api;
 
@@ -70,7 +65,6 @@ async function manage_deletion(req, res) {
     await WorkItem.deleteMany({});
     await SiteAssessment.deleteMany({});
     await MaterialsItem.deleteMany({});
-    await CostsItem.deleteMany({});
     res.status(200).json({});
   }
 }
@@ -89,7 +83,7 @@ async function get_site_assessment_by_appId(req, res) {
   if (doc) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-        .populate("costsItems").populate("documentPackage").exec();
+        .populate("documentPackage").exec();
     if (!site_assessment || site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
@@ -106,7 +100,7 @@ async function get_site_assessment(req, res) {
   var assessment_id = req.params.assessment_id;
   var site_assessment = await SiteAssessment.findById(assessment_id)
       .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-      .populate("costsItems").exec();
+      .exec();
   if (site_assessment) {
     res.status(200).json(site_assessment);
   } else {
@@ -235,53 +229,6 @@ async function delete_workitem(req, res) {
       }
     });
   }
-}
-
-async function create_costsitem(req, res) {
-  if (req.params.assessment_id) {
-    var site_assessment = await SiteAssessment.findById(req.body.assessment_id);
-
-    var costItem = new CostsItem({
-      price: req.body.price,
-      vendor: req.body.vendor,
-      description: req.body.description,
-      siteAssessment: site_assessment.id,
-    });
-    await costItem.save();
-
-    site_assessment.costsItems.push(costItem.id);
-    await site_assessment.save();
-    res.status(200).json(costItem);
-  } else {
-    res.status(400).end();
-  }
-}
-
-async function delete_costsitem(req, res) {
-  if ( req.params.costsitem_id) {
-    var costsItem = await CostsItem.findById(req.params.costsitem_id);
-
-    var site_assessment = await SiteAssessment.findById(costsItem.siteAssessment);
-    site_assessment.costsItems.pull({_id: req.params.costsitem_id});
-    await site_assessment.save();
-
-    await CostsItem.deleteOne({_id: req.param.costsitem_id});
-    res.status(200).send();
-  } else {
-    res.status(400).end();
-  }
-}
-
-async function edit_costsitem(req, res) {
-  if (req.params.costsitem_id) {
-    var item = await CostsItem.findOneAndUpdate(
-      {_id: req.params.costsitem_id}, req.body, {new: true});
-    
-    res.status(200).json(item);
-  } else {
-    res.status(400).end();
-  }
-  
 }
 
 async function create_materialsitem(req, res) {
