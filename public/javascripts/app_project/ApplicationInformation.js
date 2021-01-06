@@ -58,6 +58,7 @@ class ApplicationInformation extends React.Component {
       <div className="col-sm-12 col-lg-4" style={divStyle}
         id="application-info-container">
           <div id="application-info-nav-container">
+            <h2>{name}</h2>
             <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                   href="#nav-app-info" role="tab">Contact</a>
@@ -71,7 +72,6 @@ class ApplicationInformation extends React.Component {
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
             <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
-              <h2>Contact Info</h2>
               <table className="table">
                 <tbody>
                   <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{name}</td></tr>
@@ -87,7 +87,7 @@ class ApplicationInformation extends React.Component {
                 </tbody>
               </table>
 
-              <h2>Applicant Info</h2>
+              <h3>Applicant Info</h3>
               <table className="table">
                 <tbody>
                   <tr><th className="col-xs-3">Age</th><td className="col-xs-9">{this.calculate_age()}</td></tr>
@@ -107,7 +107,7 @@ class ApplicationInformation extends React.Component {
               </table>
             </div>
             <div className="tab-pane" id="nav-property-info" role="tabpanel">
-              <h2>Property Information</h2>
+              <h3>Property Information</h3>
               <table className="table">
                 <tbody>
                   <tr><th className="col-xs-3">Home Type</th><td className="col-xs-9">{app.home_type}</td></tr>
