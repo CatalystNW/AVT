@@ -12,7 +12,6 @@ class AssessmentChecklist extends React.Component {
     this.porta_potty_cost_timer = null;
     this.waste_cost_timer = null;
     this.summary_timer = null;
-    this.costsItems_table = React.createRef();
   }
   // Convert the date given by server (UTC) to local date & time
   // Returns as a Date object
@@ -34,9 +33,6 @@ class AssessmentChecklist extends React.Component {
       // Set safety plan coloring after assessment is loaded
       this.color_safety_plan_textarea();
     });
-    if (assessment.costsItems){
-      this.costsItems_table.current.setItems(assessment.costsItems);
-    }
   }
   // Change the textarea background color if there is no safety plan
   color_safety_plan_textarea = () => {
@@ -188,9 +184,6 @@ class AssessmentChecklist extends React.Component {
     })
   };
 
-  set_create_costsitem_menu = () => {
-    this.props.set_create_costsitem_menu(this.costsItems_table.current.add_item);
-  }
 
   render() {
     var start_date = (this.state && this.state.project_start_date) ?
@@ -363,18 +356,6 @@ class AssessmentChecklist extends React.Component {
             value={this.state.safety_plan} property_type="safety_plan"
             onChange={this.onChange_inputs_timer}></textarea>
         </div>
-      </div>
-
-      <div className="form-group">
-        <label>
-          Other Costs
-          <button type="button" className="btn btn-sm"
-            onClick={this.set_create_costsitem_menu}>Create</button>
-        </label>
-        <CostsItemsTable 
-          ref={this.costsItems_table} 
-          set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
-        />
       </div>
 
       <div className="form-group row">

@@ -112,22 +112,6 @@ class ModalMenu extends React.Component {
           prev_data: additional_data,
         }, ()=> {$("#modalMenu").modal("show");}
       )
-    } else if (type == "create_costsitem") {
-      this.setState({
-        type: type, title: "Create Costs Item",
-        submit_form_handler: submit_form_handler,
-        prev_data: {},
-        additional_data: additional_data,
-        handle_data_callback: handle_data_callback,
-      }, ()=> {$("#modalMenu").modal("show");});
-    } else if (type=="edit_costsitem") {
-      this.setState({
-        type: type, title: "Edit Costs Item",
-        submit_form_handler: submit_form_handler,
-        prev_data: additional_data,
-        additional_data: additional_data,
-        handle_data_callback: handle_data_callback,
-      }, ()=> {$("#modalMenu").modal("show");});
     }
   }
 
@@ -198,36 +182,6 @@ class ModalMenu extends React.Component {
           <label>Vendor</label>
           <input type="text" className="form-control" name="vendor" 
             defaultValue={this.state.prev_data.vendor} id="vendor-input" required></input>
-        </div>
-      </div>);
-    } else if (this.state.type == "create_costsitem" || this.state.type == "edit_costsitem") {
-      return (<div>
-        <div className="form-group">
-          <label>Description</label>
-          <input type="text" className="form-control" name="description" 
-            defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.description : ""} 
-            required></input>
-        </div>
-        <div className="form-group">
-          <label>Price</label>
-          <input type="number" className="form-control" step="any" min="0" 
-            defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.price : ""} 
-            name="price"></input>
-        </div>
-        <div className="form-group">
-          <label>Vendor</label>
-          <input type="text" className="form-control" name="vendor"
-            defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.vendor : ""}
-            ></input>
-        </div>
-        <div className="form-group">
-          <label>Item Type</label>
-          <select className="form-control" 
-            defaultValue={this.state.type == "edit_costsitem" ? this.state.prev_data.item_type : "tools"}
-            name="item_type">
-            <option value="tools">Tools</option>
-            <option value="other">Other</option>
-          </select>
         </div>
       </div>);
     } else {

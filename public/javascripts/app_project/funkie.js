@@ -111,43 +111,4 @@ var funkie = {
       }
     });
   },
-  create_costsitem(data, menu_callback, data_callback_handler) {
-    $.ajax({
-      type: "POST",
-      url: "../site_assessment/" + data.assessment_id +"/costsitems",
-      data: data,
-      success: function(result, textStatus, xhr) {
-        if (menu_callback) 
-          menu_callback();
-        if (data_callback_handler) {
-          data_callback_handler(result);
-        }
-      },
-    });
-  },
-  del_costsitem(data, callback) {
-    $.ajax({
-      type: "DELETE",
-      url: "../costsitems/" + data.costsitem_id,
-      success: function(result, textStats, xhr) {
-        if (callback) {
-          callback();
-        }
-      }
-    });
-  },
-  edit_costsitem(data, menu_callback, data_callback_handler) {
-    $.ajax({
-      type: "PATCH",
-      url: "../costsitems/" + data.costsitem_id,
-      data: data,
-      success: function(result, textStats, xhr) {
-        if (menu_callback)
-          menu_callback();
-        if (data_callback_handler) {
-          data_callback_handler(result);
-        }
-      }
-    });
-  },
 }

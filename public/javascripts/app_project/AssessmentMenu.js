@@ -79,8 +79,6 @@ class AssessmentMenu extends React.Component {
             <AssessmentChecklist ref={this.checklist}
               assessment={{}}
               vetting_summary = {this.props.vetting_summary}
-              set_create_costsitem_menu = {this.props.set_create_costsitem_menu}
-              set_edit_costsitem_menu = {this.props.set_edit_costsitem_menu}
             />
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
