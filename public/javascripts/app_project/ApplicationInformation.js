@@ -3,6 +3,13 @@ class ApplicationInformation extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    $("#nav-app-tabContent").css(
+        "padding-top", $("#application-info-nav-container").height());
+    $("#application-info-nav-container").css(
+      "width", $("#nav-app-tabContent").width());
+  }
+
   calculate_age = () => {
     const dob = new Date(this.props.application.dob.year, 
       this.props.application.dob.month, this.props.application.dob.date),
@@ -42,19 +49,21 @@ class ApplicationInformation extends React.Component {
     google_url += `${app.line_1} ${app.line_2}, ${app.city}, ${app.state}, ${app.zip}`;
 
     return (
-      <div className="col-sm-12 col-lg-4 overflow-auto" style={divStyle}
+      <div className="col-sm-12 col-lg-4" style={divStyle}
         id="application-info-container">
-          <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
-            <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
-                href="#nav-app-info" role="tab">Contact</a>
-            <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
-                href="#nav-property-info" role="tab">Property</a>
-            <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
-                href="#nav-map-info" role="tab">Map</a>
-            
-          </ul>
+          <div id="application-info-nav-container">
+            <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
+              <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
+                  href="#nav-app-info" role="tab">Contact</a>
+              <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
+                  href="#nav-property-info" role="tab">Property</a>
+              <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
+                  href="#nav-map-info" role="tab">Map</a>
+              
+            </ul>
+          </div>
 
-          <div className="tab-content" id="nav-app-tabContent">
+          <div className="tab-content overflow-auto" id="nav-app-tabContent">
             <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
               <h2>Contact Info</h2>
               <table className="table">

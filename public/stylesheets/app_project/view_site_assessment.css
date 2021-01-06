@@ -25,3 +25,8 @@ div.dropdown-menu {
     background-color: white;
 }
 
+#application-info-nav-container {
+    position: fixed;
+    z-index: 100;
+    background-color: white;
+}
