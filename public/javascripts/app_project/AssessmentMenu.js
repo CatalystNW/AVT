@@ -50,8 +50,9 @@ class AssessmentMenu extends React.Component {
     };
 
     return (
-      <div className="col-sm-12 col-lg-8 overflow-auto" style={divStyle}
+      <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container" key={this.state._id}>
+        <div id="assessment-menu-container" className="sticky-top">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" id="nav-checklist-tab" data-toggle="tab" 
@@ -66,7 +67,9 @@ class AssessmentMenu extends React.Component {
                 href="#nav-workitem" role="tab">Work Items</a>
             </li>
           </ul>
+        </div>
 
+        <div className="overflow-auto">
           <div className="tab-content" id="nav-assessment-tabContent">
             <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
               <AssessmentChecklist ref={this.checklist}
@@ -95,6 +98,7 @@ class AssessmentMenu extends React.Component {
                   key={workitem._id+"-workitem-card"}></WorkItem>);
               })}
             </div>
+          </div>
         </div>
       </div>
     )
