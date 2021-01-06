@@ -40,8 +40,8 @@ const siteAssessmentSchema = new Schema({
 
   costsItems: [{ type: Schema.Types.ObjectId, ref: "CostsItem"}],
   
-  lead: { type: String, default: "no", enum: ["yes", "no", "unsure"]},
-  asbestos: { type: String, default: "no", enum: ["yes", "no", "unsure"]},
+  lead: { type: String, default: "unsure", enum: ["yes", "no", "unsure"]},
+  asbestos: { type: String, default: "unsure", enum: ["yes", "no", "unsure"]},
   safety_plan: String,
   volunteers_required: Number,
 }, {
