@@ -68,7 +68,6 @@ var app_obj = {
         }
         strA = strA.toUpperCase();
         strB = strB.toUpperCase();
-        console.log(strA, strB);
         if (strA < strB) {
           return -1;
         } else if (strA > strB) {
