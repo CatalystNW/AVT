@@ -120,9 +120,6 @@ var services_table = {
   load_service_rows() {
     this.empty_services();
     var servicesData = service_obj.get_data();
-    // servicesData.sort(function(a, b) {
-    //   return new Date(b.service_date) - new Date(a.service_date);
-    // });
 
     for(var  i=0; i<servicesData.length; i++) {
       this.add_service_row(servicesData[i]);
