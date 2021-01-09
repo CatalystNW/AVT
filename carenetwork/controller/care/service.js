@@ -92,7 +92,8 @@ async function get_service_api(req, res) {
     async (context) => {
       // Get Services
       var service_id = req.params.service_id;
-      service = await get_service_data(service_id);
+      
+      var service = await get_service_data(service_id);
       res.status(200).json(service);
     }
     
