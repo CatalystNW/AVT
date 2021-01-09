@@ -113,35 +113,6 @@ var services_table = {
   update_service_row(service) {
     service_obj.update_service(service);
     services_table.load_service_rows();
-    // var id = this.get_id(service._id);
-
-    // // Get app reference from old row: since only app_id is passed in service.applicant
-    // var $old_tr = $("#" + id);
-    // var old_tr_children = $old_tr[0].childNodes,
-    //     text;
-
-    // var app_ref;
-    // for (var i=0; i<old_tr_children.length; i++) {
-    //   text = old_tr_children[i].textContent;
-    //   if (text.includes("CARE-")) {
-    //     app_ref = text;
-    //     break;
-    //   }
-    // }
-    // // Get status from the card head to check if it changes after update
-    // var card_body = $old_tr.parents().eq(2),
-    //     card_head = card_body.prev();
-    // var old_status = card_head.attr("value");
-
-    // var new_tr = this.make_service_row(service, app_ref);
-    // if (old_status == service.status)
-    //   $old_tr.replaceWith(new_tr);
-    // else {
-    //   $old_tr.remove();
-    //   var tbody_id = this.get_tbody_id(service.status);
-    
-    //   $("#" + tbody_id).append(new_tr);
-    // }
   },
   get_tbody_id(app_status) {
     return app_status + "_container";
