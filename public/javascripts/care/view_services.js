@@ -19,6 +19,9 @@ window.onload = function() {
       }
     }
   );
+
+  $(".services-header-tr").on("click", 
+    services_table.sort_services_handler);
 };
 
 var service_obj = {
@@ -53,9 +56,57 @@ var service_obj = {
       }
     });
   },
+  sort_data(sort_type) {
+    if (sort_type === "service_date") {
+      service_obj.data.sort((a, b) => {
+        return new Date(a.service_date) - new Date(b.service_date);
+      });
+    } else if (sort_type === "status" || sort_type === "volunteer"
+        || sort_type === "reference") {
+          
+      service_obj.data.sort((a, b) => {
+        var strA, strB;
+        if (sort_type === "status")  {
+          strA = a.status;
+          strB = b.status;
+        } else if (sort_type === "volunteer") {
+          strA = a.volunteer;
+          strB = b.volunteer;
+        } else {
+          strA = a.applicant.reference;
+          strB = b.applicant.reference;
+        }
+        strA = strA.toUpperCase();
+        strB = strB.toUpperCase();
+        console.log(strA, strB);
+        if (strA < strB) {
+          return -1;
+        } else if (strA > strB) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_type == "create_date") {
+      service_obj.data.sort((a, b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    } else {
+      return false;
+    }
+    return true;
+  },
 };
 
 var services_table = {
+  sort_services_handler(event) {
+    var sort_type = event.target.getAttribute("name");
+    
+    if (service_obj.sort_data(sort_type)) {
+      console.log(service_obj.get_data())
+      console.log("sort", sort_type)
+      services_table.load_service_rows();
+    }
+  },
   get_id(service_id) {
     return service_id + "-service-tr";
   },
@@ -98,9 +149,9 @@ var services_table = {
   load_service_rows() {
     this.empty_services();
     var servicesData = service_obj.get_data();
-    servicesData.sort(function(a, b) {
-      return new Date(b.service_date) - new Date(a.service_date);
-    });
+    // servicesData.sort(function(a, b) {
+    //   return new Date(b.service_date) - new Date(a.service_date);
+    // });
 
     for(var  i=0; i<servicesData.length; i++) {
       this.add_service_row(servicesData[i]);
