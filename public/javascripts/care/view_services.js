@@ -23,6 +23,9 @@ window.onload = function() {
 
 var service_obj = {
   data: null,
+  get_data() {
+    return this.data;
+  },
   load_services() {
     var complete_show_cmd = card_tabler.get_appstatus_show_status("complete");
     var complete_show_status = (complete_show_cmd == "show") ? true : false;
@@ -32,7 +35,8 @@ var service_obj = {
       url: "/carenetwork/services?show_complete=" + complete_show_status,
       success: function(servicesData, textStatus, xhr) {
         if (xhr.status == 201 || xhr.status == 200) {
-          services_table.add_service_rows(servicesData);
+          service_obj.data = servicesData;
+          services_table.load_service_rows();
         }
       }
     });
@@ -77,9 +81,9 @@ var services_table = {
   get_tbody_id(app_status) {
     return app_status + "_container";
   },
-  add_service_rows(servicesData) {
+  load_service_rows(servicesData) {
     this.empty_services();
-
+    var servicesData = service_obj.get_data();
     servicesData.sort(function(a, b) {
       return new Date(b.service_date) - new Date(a.service_date);
     });
