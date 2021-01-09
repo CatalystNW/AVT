@@ -90,9 +90,18 @@ class ApplicationInformation extends React.Component {
               <h3>Applicant Info</h3>
               <table className="table">
                 <tbody>
-                  <tr><th className="col-xs-3">Age</th><td className="col-xs-9">{this.calculate_age()}</td></tr>
-                  <tr><th className="col-xs-3">Owns Home</th><td className="col-xs-9">{owns_home}<br /></td></tr>
-                  <tr><th className="col-xs-3">Spouse</th><td className="col-xs-9">{app.spouse}</td></tr>
+                  <tr>
+                    <th className="col-xs-3">Age</th>
+                    <td className="col-xs-9">{this.calculate_age()}</td>
+                  </tr>
+                  <tr>
+                    <th className="col-xs-3">Owns Home</th>
+                    <td className="col-xs-9">{owns_home}<br /></td>
+                  </tr>
+                  <tr>
+                    <th className="col-xs-3">Spouse</th>
+                    <td className="col-xs-9">{app.spouse}</td>
+                  </tr>
                   <tr>
                     <th className="col-xs-3">Other Residents</th>
                     <td className="col-xs-9">
@@ -101,8 +110,14 @@ class ApplicationInformation extends React.Component {
                       })}
                     </td>
                   </tr>
-                  <tr><th className="col-xs-3">Language</th><td className="col-xs-9">{app.language}<br /></td></tr>
-                  <tr><th className="col-xs-3">Heard About</th><td className="col-xs-9">{app.heard_about}<br /></td></tr>
+                  <tr>
+                    <th className="col-xs-3">Language</th>
+                    <td className="col-xs-9">{app.language}<br /></td>
+                  </tr>
+                  <tr>
+                    <th className="col-xs-3">Heard About</th>
+                    <td className="col-xs-9">{app.heard_about}<br /></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
