@@ -23,6 +23,18 @@ window.onload = function() {
 
 var service_obj = {
   data: null,
+  update_service(service) {
+    for (var i=0; i< this.data.length; i++) {
+      if (service._id == this.data[i]._id) {
+        for(var prop in service) {
+          if (prop != "applicant" && prop in this.data[i]) {
+            this.data[i][prop] = service[prop];
+          }
+        }
+        break;
+      }
+    }
+  },
   get_data() {
     return this.data;
   },
@@ -48,40 +60,42 @@ var services_table = {
     return service_id + "-service-tr";
   },
   update_service_row(service) {
-    var id = this.get_id(service._id);
+    service_obj.update_service(service);
+    services_table.load_service_rows();
+    // var id = this.get_id(service._id);
 
-    // Get app reference from old row: since only app_id is passed in service.applicant
-    var $old_tr = $("#" + id);
-    var old_tr_children = $old_tr[0].childNodes,
-        text;
+    // // Get app reference from old row: since only app_id is passed in service.applicant
+    // var $old_tr = $("#" + id);
+    // var old_tr_children = $old_tr[0].childNodes,
+    //     text;
 
-    var app_ref;
-    for (var i=0; i<old_tr_children.length; i++) {
-      text = old_tr_children[i].textContent;
-      if (text.includes("CARE-")) {
-        app_ref = text;
-        break;
-      }
-    }
-    // Get status from the card head to check if it changes after update
-    var card_body = $old_tr.parents().eq(2),
-        card_head = card_body.prev();
-    var old_status = card_head.attr("value");
+    // var app_ref;
+    // for (var i=0; i<old_tr_children.length; i++) {
+    //   text = old_tr_children[i].textContent;
+    //   if (text.includes("CARE-")) {
+    //     app_ref = text;
+    //     break;
+    //   }
+    // }
+    // // Get status from the card head to check if it changes after update
+    // var card_body = $old_tr.parents().eq(2),
+    //     card_head = card_body.prev();
+    // var old_status = card_head.attr("value");
 
-    var new_tr = this.make_service_row(service, app_ref);
-    if (old_status == service.status)
-      $old_tr.replaceWith(new_tr);
-    else {
-      $old_tr.remove();
-      var tbody_id = this.get_tbody_id(service.status);
+    // var new_tr = this.make_service_row(service, app_ref);
+    // if (old_status == service.status)
+    //   $old_tr.replaceWith(new_tr);
+    // else {
+    //   $old_tr.remove();
+    //   var tbody_id = this.get_tbody_id(service.status);
     
-      $("#" + tbody_id).append(new_tr);
-    }
+    //   $("#" + tbody_id).append(new_tr);
+    // }
   },
   get_tbody_id(app_status) {
     return app_status + "_container";
   },
-  load_service_rows(servicesData) {
+  load_service_rows() {
     this.empty_services();
     var servicesData = service_obj.get_data();
     servicesData.sort(function(a, b) {
@@ -114,21 +128,16 @@ var services_table = {
       "id": this.get_id(service_id)
     });
 
-    
-
     $tr.append( $(`<td class="col-lg-2">${serviceData.service_date}</td>`) );
     $tr.append( $(`<td class="col-lg-2">${serviceData.status}</td>`));
     $tr.append( $(`<td class="col-lg-2">${serviceData.volunteer}</td>`));
       
     var $td = $(`<td class="col-lg-2"></td>`);
-
     var link = applicant_form_modal.create_link(
       serviceData.applicant._id, applicant_reference);
-
+    
     $td.append(link);
-
     $tr.append($td);
-
 
     $tr.append( $(`<td class="col-lg-2">${serviceData.createdAt}</td>`));
     var option_td = $(`<td class="col-lg-2"></td>`);
