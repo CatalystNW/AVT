@@ -380,7 +380,7 @@ class AssessmentChecklist extends React.Component {
         <label className="col-sm-2 col-form-label">Safety Plan</label>
         <div className="col-sm-10">
           <textarea className="form-control" rows='4'
-            id="safety-plan-textarea"
+            id="safety-plan-textarea" placeholder="Safety Plan must be filled in"
             value={this.state.safety_plan} property_type="safety_plan"
             onChange={this.onChange_inputs_timer}></textarea>
         </div>
