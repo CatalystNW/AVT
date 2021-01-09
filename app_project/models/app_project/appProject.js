@@ -8,6 +8,7 @@ const AppProjectSchema = new mongoose.Schema({
     default: "upcoming",
     enum: ["upcoming", "complete", "in_progress", "withdrawn"]
   },
+  drive_url: String,
   type: String,
   start: Date,
   end: Date,

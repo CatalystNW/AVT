@@ -16,6 +16,7 @@ const siteAssessmentSchema = new Schema({
     name: String,
     cost: Number,
   }],
+  drive_url: String,
   projects: [{
     type: Schema.Types.ObjectId,
     ref: "AppProject"
