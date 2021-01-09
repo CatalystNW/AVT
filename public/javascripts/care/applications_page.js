@@ -56,19 +56,41 @@ var app_obj = {
 
   sort_applications_handler(event) {
     var sort_name = event.target.getAttribute("name");
-    if (sort_name === "name") {
+    if (sort_name === "name" || sort_name === "reference") {
       app_obj.applicants.sort((a, b) => {
-        var nameA = a.application.first_name.toUpperCase(),
-            nameB = b.application.first_name.toUpperCase();
-        if (nameA < nameB) {
+        var strA, strB;
+        if (sort_name === "name")  {
+          strA = a.application.first_name;
+          strB = b.application.last_name;
+        } else {
+          strA = a.reference;
+          strB = b.reference;
+        }
+        strA = strA.toUpperCase();
+        strB = strB.toUpperCase();
+        if (strA < strB) {
           return -1;
-        } else if (nameA > nameB) {
+        } else if (strA > strB) {
           return 1;
         }
         return 0;
       });
-      app_obj.load_apps_to_table();
+    } else if (sort_name === "application_date") {
+      app_obj.applicants.sort((a, b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    } else if (sort_name === "last_edit_date") {
+      app_obj.applicants.sort((a, b) => {
+        return new Date(a.updatedAt) - new Date(b.updatedAt);
+      });
+    } else if (sort_name === "num_services") {
+      app_obj.applicants.sort((a, b) => {
+        return a.services.length - b.services.length;
+      });
+    } else {
+      return;
     }
+    app_obj.load_apps_to_table();
   },
 
   load_applications() {
