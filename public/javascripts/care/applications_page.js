@@ -61,13 +61,14 @@ var app_obj = {
         var strA, strB;
         if (sort_name === "name")  {
           strA = a.application.first_name;
-          strB = b.application.last_name;
+          strB = b.application.first_name;
         } else {
           strA = a.reference;
           strB = b.reference;
         }
         strA = strA.toUpperCase();
         strB = strB.toUpperCase();
+        console.log(strA, strB);
         if (strA < strB) {
           return -1;
         } else if (strA > strB) {
