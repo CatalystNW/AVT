@@ -3,10 +3,10 @@ window.onload = function() {
     function click_callback(app_status, result) {
       if (app_status == "complete" && result == "show" && 
         $("#complete_container").children().length == 0)
-        service_obj.get_services(); // Load app data to include complete apps
+        service_obj.load_services(); // Load app data to include complete apps
     }
   );
-  this.service_obj.get_services();
+  this.service_obj.load_services();
 
   applicant_form_modal.setup_form();
 
@@ -22,7 +22,8 @@ window.onload = function() {
 };
 
 var service_obj = {
-  get_services() {
+  data: null,
+  load_services() {
     var complete_show_cmd = card_tabler.get_appstatus_show_status("complete");
     var complete_show_status = (complete_show_cmd == "show") ? true : false;
 
