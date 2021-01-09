@@ -184,6 +184,27 @@ class AssessmentChecklist extends React.Component {
     })
   };
 
+  edit_drive_url = () => {
+    var url = window.prompt("URL?", this.state.drive_url),
+        that = this;
+    console.log(url);
+    if (url === null)
+      return;
+    if (url && url.includes("drive.google.com")) {
+      funkie.edit_site_assessment({
+        assessment_id: this.state._id,
+        property: "drive_url",
+        value: url,
+      }, function() {
+        that.setState({
+          drive_url: url,
+        });
+      });
+    } else {
+      window.alert("Wrong URL format was provided");
+    }
+  };
+
 
   render() {
     var start_date = (this.state && this.state.project_start_date) ?
@@ -243,6 +264,13 @@ class AssessmentChecklist extends React.Component {
               property_type="summary"
               onChange={this.onChange_inputs_timer}
             ></textarea>
+            </td>
+          </tr>
+          <tr>
+            <th className="col-xs-3">Drive URL</th>
+            <td className="col-xs-9">
+              <a href={this.state.drive_url} target="_blank">Google Drive URL</a>
+              <button className="btn btn-sm" onClick={this.edit_drive_url}>Edit</button>
             </td>
           </tr>
           <tr>
