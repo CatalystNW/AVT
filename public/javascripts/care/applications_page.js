@@ -50,6 +50,25 @@ var app_obj = {
   onload() {
     this.load_applications();
     this.add_change_year_select_handler();
+    $(".applications_header_tr").on("click", 
+        this.sort_applications_handler);
+  },
+
+  sort_applications_handler(event) {
+    var sort_name = event.target.getAttribute("name");
+    if (sort_name === "name") {
+      app_obj.applicants.sort((a, b) => {
+        var nameA = a.application.first_name.toUpperCase(),
+            nameB = b.application.first_name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+      app_obj.load_apps_to_table();
+    }
   },
 
   load_applications() {
@@ -67,6 +86,7 @@ var app_obj = {
             });
           }
           app_obj.applicants = applicants;
+          console.log(applicants)
           app_obj.load_apps_to_table();
           app_obj.load_year_to_select();
         }
