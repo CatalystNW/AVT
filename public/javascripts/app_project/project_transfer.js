@@ -51,6 +51,7 @@ class ProjectTransferApp extends React.Component {
     }
   }
 
+  // Creates the select & option elements for the project options
   create_project_options = (handleit, workitem) => {
     if (handleit) {
       return (<td>{workitem.name}</td>);
@@ -109,12 +110,31 @@ class ProjectTransferApp extends React.Component {
     }
   }
   transfer_project = () => {
+    var handleitArr = [],
+        projArr = [],
+        i;
+    for (i=0; i<this.state.handleit_workitems.length; i++) {
+      handleitArr.push(this.state.handleit_workitems[i]._id);
+    }
+    for (i=0; i<this.state.proj_workitems.length; i++) {
+      if (this.state.proj_workitems[i].project == null ||
+        this.state.proj_workitems[i].project.length === 0){
+          window.alert(`Work item ${this.state.proj_workitems[i].name}
+            does not have a project name assigned to it.`
+          );
+          return;
+        }
+      projArr.push({
+        id: this.state.proj_workitems[i]._id,
+        project_name: this.state.proj_workitems[i].project,
+      });
+    }
     $.ajax({
       url: "../project_transfer/" + this.state.assessment_id,
       method: "POST",
       data: {
-        project_workitems: this.state.proj_workitems,
-        handleit_workitems: this.state.handleit_workitems,
+        project_workitems: projArr,
+        handleit_workitems: handleitArr,
       },
       success: function(data) {
         console.log("transfer");
