@@ -110,12 +110,15 @@ class ProjectTransferApp extends React.Component {
     }
   }
   transfer_project = () => {
-    var handleitArr = [],
-        projArr = [],
+    var handleitWorkitemObj = {},
+        projWorkItemObj = {},
         i;
+    // Get handleit workitems
     for (i=0; i<this.state.handleit_workitems.length; i++) {
-      handleitArr.push(this.state.handleit_workitems[i]._id);
+      handleitWorkitemObj[this.state.handleit_workitems[i]._id] =
+        this.state.handleit_workitems[i].name;
     }
+    // Get project workitems
     for (i=0; i<this.state.proj_workitems.length; i++) {
       if (this.state.proj_workitems[i].project == null ||
         this.state.proj_workitems[i].project.length === 0){
@@ -124,18 +127,17 @@ class ProjectTransferApp extends React.Component {
           );
           return;
         }
-      projArr.push({
-        id: this.state.proj_workitems[i]._id,
-        project_name: this.state.proj_workitems[i].project,
-      });
+
+      projWorkItemObj[this.state.proj_workitems[i]._id] =
+        this.state.proj_workitems[i].project;
     }
     $.ajax({
       url: "../project_transfer/" + this.state.assessment_id,
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify({
-        project_workitems: projArr,
-        handleit_workitems: handleitArr,
+        project_workitems: projWorkItemObj,
+        handleit_workitems: handleitWorkitemObj,
       }),
       success: function(data) {
         console.log("transfer");
