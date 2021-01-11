@@ -98,6 +98,14 @@ class ProjectTransferApp extends React.Component {
   onClick_create_project = () => {
     var name = window.prompt("Project Name");
     if (name != null && name.length > 0) {
+      // Check if the project name already exists
+      for (var i=0; i<this.state.projects.length; i++) {
+        if (this.state.projects[i] === name) {
+          window.alert("A project already exists with this name");
+          return;
+        }
+      }
+
       this.setState({
         projects: [...this.state.projects, name],
       }, () => { // Assign project to workitems if it's the first one
