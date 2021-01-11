@@ -132,10 +132,11 @@ class ProjectTransferApp extends React.Component {
     $.ajax({
       url: "../project_transfer/" + this.state.assessment_id,
       method: "POST",
-      data: {
+      contentType: "application/json",
+      data: JSON.stringify({
         project_workitems: projArr,
         handleit_workitems: handleitArr,
-      },
+      }),
       success: function(data) {
         console.log("transfer");
       }
