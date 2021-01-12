@@ -24,6 +24,7 @@ materialsItemSchema.statics.makeCopy = function(materialsItem) {
   copy.price = materialsItem.price;
   copy.vendor = materialsItem.vendor;
   copy.obtained = materialsItem.obtained;
+  // copy.save();
   return copy;
 };
 
