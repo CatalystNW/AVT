@@ -17,4 +17,14 @@ const materialsItemSchema = new Schema({
   timestamps: true,
 });
 
+materialsItemSchema.statics.makeCopy = function(materialsItem) {
+  var copy = new this();
+  copy.description = materialsItem.description;
+  copy.quantity = materialsItem.quantity;
+  copy.price = materialsItem.price;
+  copy.vendor = materialsItem.vendor;
+  copy.obtained = materialsItem.obtained;
+  return copy;
+};
+
 module.exports = mongoose.model("MaterialsItem", materialsItemSchema);
