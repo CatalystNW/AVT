@@ -12,7 +12,7 @@ const AppProjectSchema = new mongoose.Schema({
   type: String,
   start: Date,
   end: Date,
-  application: {
+  documentPackage: {
     type: Schema.Types.ObjectId,
     ref: "DocumentPackage"
   },
