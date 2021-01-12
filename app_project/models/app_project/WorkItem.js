@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
-      Schema = mongoose.Schema;
+      Schema = mongoose.Schema,
+      MaterialsItem = require("./MaterialsItem");
 
 const workItemSchema = new Schema({
   documentPackage: {type: Schema.Types.ObjectId, ref: "DocumentPackage"},
@@ -31,5 +32,26 @@ const workItemSchema = new Schema({
 }, {
   timestamps: true, // createdAt, updatedAt
 });
+
+// WorkItem to be copied needs to have materialsItems populated
+workItemSchema.statics.makeCopy = async function(workItem) {
+  var copyObj = workItem.toObject();
+  delete copyObj._id;
+  delete copyObj.materialsItems;
+  copyObj.transferred = false;
+  copyObj.type = "project";
+  
+  var copy = new this(copyObj), materialsItem;
+
+  for (var i=0; i<workItem.materialsItems.length; i++) {
+    materialsItem = MaterialsItem.makeCopy(
+      workItem.materialsItems[i]);
+    console.log(materialsItem);
+    // copy.materialsItems.push(materialsItem._id);
+  }
+
+  // await copy.save()
+  return copy;
+};
 
 module.exports = mongoose.model("WorkItem", workItemSchema);
