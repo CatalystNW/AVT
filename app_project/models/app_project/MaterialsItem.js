@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-Schema = mongoose.Schema;
+      Schema = mongoose.Schema;
 
 const materialsItemSchema = new Schema({
   workItem: { type: Schema.Types.ObjectId, ref: "WorkItem"},
