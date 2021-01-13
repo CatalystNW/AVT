@@ -17,14 +17,15 @@ const materialsItemSchema = new Schema({
   timestamps: true,
 });
 
-materialsItemSchema.statics.makeCopy = async function(materialsItem) {
+materialsItemSchema.statics.makeCopy = async function(materialsItem, workItem) {
   var copy = new this();
   copy.description = materialsItem.description;
   copy.quantity = materialsItem.quantity;
   copy.price = materialsItem.price;
   copy.vendor = materialsItem.vendor;
   copy.obtained = materialsItem.obtained;
-  // await copy.save();
+  copy.workItem = workItem._id;
+  await copy.save();
   return copy;
 };
 
