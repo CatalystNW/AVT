@@ -29,16 +29,18 @@ async function transfer_project(req, res) {
       handleit_workitems = req.body.handleit_workitems;
   var i, j, id,
       old_workItem, new_workItem,
-      projects = {}, project;
-  var siteAssessment = await SiteAssessment.findById("4124124");
+      projects = {}, project, project_name;
+  var siteAssessment = await SiteAssessment.findById(req.params.assessment_id);
   
   for (id in project_workitems) {
-    old_workItem = await (await WorkItem.findById(id))
-      .populated("materialsItems").exec();
+    old_workItem = await  WorkItem.findById(id)
+      .populate("materialsItems").exec();
     new_workItem = await WorkItem.makeCopy(old_workItem);
 
-    if (project_workitems[id] in projects) {
-      projects[project_workitems[id]].workItems.push(new_workItem._id);
+    project_name = project_workitems[id]
+
+    if (project_name in projects) {
+      projects[project_name].workItems.push(new_workItem._id);
     } else {
       project = new AppProject();
       project.name = project_workitems[id];
@@ -46,17 +48,21 @@ async function transfer_project(req, res) {
       project.documentPackage = siteAssessment.documentPackage;
       project.handleit = false;
       
-      projects.workitems.push(new_workItem);
-      
-      // await projects.save()
+      project.workItems.push(new_workItem._id);
 
-      projects[project_workitems[id]] = project;
+      projects[project_name] = project;
     }
+    old_workItem.transferred = true;
+    old_workItem.save();
+  }
+
+  for (project_name in projects) {
+    await projects[project_name].save()
   }
 
   for (id in handleit_workitems) {
-    old_workItem = await (await WorkItem.findById(id))
-      .populated("materialsItems").exec();
+    old_workItem = await WorkItem.findById(id)
+      .populate("materialsItems").exec();
     new_workItem = await WorkItem.makeCopy(old_workItem);
 
     project = new AppProject();
@@ -65,11 +71,9 @@ async function transfer_project(req, res) {
     project.documentPackage = siteAssessment.documentPackage;
     project.handleit = true;
     
-    projects.workitems.push(new_workItem);
+    project.workItems.push(new_workItem._id);
     
-    // await projects.save()
-
-    projects[project_workitems[id]] = project;
+    await project.save()
   }
 
   res.status(200).send();
