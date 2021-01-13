@@ -12,6 +12,7 @@ const AppProjectSchema = new Schema({
   type: String,
   start: Date,
   end: Date,
+  handleit: Boolean,
   documentPackage: {
     type: Schema.Types.ObjectId,
     ref: "DocumentPackage"
