@@ -25,6 +25,10 @@ const workItemSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  appProject : {
+    type: Schema.Types.ObjectId,
+    ref: "AppProject"
+  },
 
   vetting_comments: String,
   assessment_comments: String,
@@ -49,8 +53,6 @@ workItemSchema.statics.makeCopy = async function(workItem) {
     console.log(materialsItem);
     new_workItem.materialsItems.push(materialsItem._id);
   }
-
-  await new_workItem.save()
   return new_workItem;
 };
 
