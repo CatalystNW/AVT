@@ -5,6 +5,7 @@ var DocumentPackage = require("../../../models/documentPackage"),
     AppProject      = require("../../models/app_project/AppProject");
 
 module.exports.get_projects = get_projects;
+module.exports.view_projects = view_projects;
 
 // module.exports.view_project_transfers = view_project_transfers;
 // module.exports.view_project_transfer = view_project_transfer;
@@ -28,4 +29,8 @@ async function get_projects(req, res) {
     .populate({path: "workItems", model: "WorkItem",
         populate: {path: "materialsItems", model: "MaterialsItem"}});
   res.status(200).json(projects);
+}
+
+async function view_projects(req, res) {
+  res.render("app_project/view_projects", {});
 }
