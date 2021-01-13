@@ -31,6 +31,8 @@ async function transfer_project(req, res) {
       old_workItem, new_workItem,
       projects = {}, project, project_name;
   var siteAssessment = await SiteAssessment.findById(req.params.assessment_id);
+  siteAssessment.transferred = true;
+  await siteAssessment.save()
   
   for (id in project_workitems) {
     old_workItem = await  WorkItem.findById(id)
@@ -74,6 +76,9 @@ async function transfer_project(req, res) {
     project.workItems.push(new_workItem._id);
     
     await project.save()
+
+    old_workItem.transferred = true;
+    old_workItem.save();
   }
 
   res.status(200).send();
