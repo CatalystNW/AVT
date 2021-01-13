@@ -43,6 +43,7 @@ async function transfer_project(req, res) {
 
     if (project_name in projects) {
       projects[project_name].workItems.push(new_workItem._id);
+      project = projects[project_name]
     } else {
       project = new AppProject();
       project.name = project_workitems[id];
@@ -56,6 +57,9 @@ async function transfer_project(req, res) {
     }
     old_workItem.transferred = true;
     old_workItem.save();
+
+    new_workItem.appProject = project._id;
+    new_workItem.save();
   }
 
   for (project_name in projects) {
@@ -76,6 +80,9 @@ async function transfer_project(req, res) {
     project.workItems.push(new_workItem._id);
     
     await project.save()
+
+    new_workItem.appProject = project._id;
+    new_workItem.save();
 
     old_workItem.transferred = true;
     old_workItem.save();
