@@ -44,7 +44,7 @@ workItemSchema.statics.makeCopy = async function(workItem) {
   var copy = new this(copyObj), materialsItem;
 
   for (var i=0; i<workItem.materialsItems.length; i++) {
-    materialsItem = MaterialsItem.makeCopy(
+    materialsItem = await MaterialsItem.makeCopy(
       workItem.materialsItems[i]);
     console.log(materialsItem);
     // copy.materialsItems.push(materialsItem._id);

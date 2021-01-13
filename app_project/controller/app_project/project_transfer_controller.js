@@ -36,7 +36,7 @@ async function transfer_project(req, res) {
     ids.push(id);
     old_workItem = await (await WorkItem.findById(id))
       .populated("materialsItems").exec();
-    new_workItem = WorkItem.makeCopy(workItems[i])
+    new_workItem = await WorkItem.makeCopy(old_workItem);
 
     if (project_workitems[id] in projects) {
       projects[project_workitems[id]].workItems.push(new_workItem._id);
@@ -45,6 +45,7 @@ async function transfer_project(req, res) {
       project.name = project_workitems[id];
       project.siteAssessment = siteAssessment._id;
       project.documentPackage = siteAssessment.documentPackage;
+      project.handleit = false;
       
       projects.workitems.push(new_workItem);
       
