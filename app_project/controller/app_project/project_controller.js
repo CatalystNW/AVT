@@ -6,23 +6,7 @@ var DocumentPackage = require("../../../models/documentPackage"),
 
 module.exports.get_projects = get_projects;
 module.exports.view_projects = view_projects;
-
-// module.exports.view_project_transfers = view_project_transfers;
-// module.exports.view_project_transfer = view_project_transfer;
-
-// async function view_project_transfers(req, res) {
-//   var assessments = await SiteAssessment.find({status: "complete",})
-//                       .populate("documentPackage");
-//   console.log(assessments);
-//   res.render("app_project/project_transfers", {assessments: assessments,});
-// }
-
-// async function view_project_transfer(req, res) {
-//   // var assessment = await SiteAssessment.findById(req.params.assessment_id)
-//   //     .populate("documentPackage")
-//   //     .populate({path: "workItems", model: "WorkItem", populate: {path: "materialsItems", model: "MaterialsItem"}});
-//   res.render("app_project/project_transfer", {assessment_id: req.params.assessment_id,});
-// }
+module.exports.delete_all_projects = delete_all_projects;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -33,4 +17,9 @@ async function get_projects(req, res) {
 
 async function view_projects(req, res) {
   res.render("app_project/view_projects", {});
+}
+
+async function delete_all_projects(req, res) {
+  await AppProject.deleteMany({});
+  res.status(200).end();
 }

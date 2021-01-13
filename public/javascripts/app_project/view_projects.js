@@ -1,6 +1,9 @@
 class AppProjects extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      projects: [],
+    }
     this.get_projects();
   }
 
@@ -14,8 +17,26 @@ class AppProjects extends React.Component {
     });
   }
 
+  onClick_delete_all_projects = () => {
+    var result = window.confirm("Are you sure you want to delete all projects?");
+    if (result) {
+      $.ajax({
+        url: "./projects",
+        type: "DELETE",
+        success: function(data) {
+          console.log("deleted");
+        }
+      })
+    }
+  }
+
+
   render() {
-    return (<div></div>);
+    return (
+    <div>
+      <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
+      <table></table>
+    </div>);
   }
 }
 
