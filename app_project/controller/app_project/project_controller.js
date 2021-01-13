@@ -20,6 +20,15 @@ async function view_projects(req, res) {
 }
 
 async function delete_all_projects(req, res) {
+  var projects = await AppProject.find({})
+      .populate({path: "workItems", model: "WorkItem",
+        populate: {path: "materialsItems", model: "MaterialsItem"}});
+  for (var project of projects) {
+    for (var workItem of project.workItems) {
+      await MaterialsItem.deleteMany({workItem: workItem._id});
+    }
+    await WorkItem.deleteMany({appProject: project._id});
+  }
   await AppProject.deleteMany({});
   res.status(200).end();
 }
