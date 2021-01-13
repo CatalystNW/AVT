@@ -37,5 +37,6 @@ router.get('/project_transfer/:assessment_id', project_transfer_controller.view_
 router.post('/project_transfer/:assessment_id', project_transfer_controller.transfer_project);
 router.get('/project_transfer', project_transfer_controller.view_project_transfers);
 
+router.get('/projects', project_controller.get_projects);
 
 module.exports = router;
