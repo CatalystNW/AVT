@@ -41,17 +41,17 @@ workItemSchema.statics.makeCopy = async function(workItem) {
   copyObj.transferred = false;
   copyObj.type = "project";
   
-  var copy = new this(copyObj), materialsItem;
+  var new_workItem = new this(copyObj), materialsItem;
 
   for (var i=0; i<workItem.materialsItems.length; i++) {
     materialsItem = await MaterialsItem.makeCopy(
-      workItem.materialsItems[i]);
+      workItem.materialsItems[i], new_workItem);
     console.log(materialsItem);
-    // copy.materialsItems.push(materialsItem._id);
+    copy.materialsItems.push(materialsItem._id);
   }
 
-  // await copy.save()
-  return copy;
+  await new_workItem.save()
+  return new_workItem;
 };
 
 module.exports = mongoose.model("WorkItem", workItemSchema);
