@@ -27,13 +27,12 @@ async function transfer_project(req, res) {
   console.log(req.body.handleit_workitems);
   var project_workitems = req.body.project_workitems,
       handleit_workitems = req.body.handleit_workitems;
-  var i, j, id, copyObj,
-      ids = [], old_workItem, new_workItem,
+  var i, j, id,
+      old_workItem, new_workItem,
       projects = {}, project;
   var siteAssessment = await SiteAssessment.findById("4124124");
   
   for (id in project_workitems) {
-    ids.push(id);
     old_workItem = await (await WorkItem.findById(id))
       .populated("materialsItems").exec();
     new_workItem = await WorkItem.makeCopy(old_workItem);
@@ -54,15 +53,24 @@ async function transfer_project(req, res) {
       projects[project_workitems[id]] = project;
     }
   }
-  
-  // var workItems = await WorkItem.find().where('_id').in(ids)
-  //       .populate("materialsItems").exec();
-  // for(i=0; i<workItems.length; i++) {
-  //   console.log(WorkItem.makeCopy(workItems[i]) );
-  //   for (j=0; j<workItems[i].materialsItems.length; j++) {
-  //     console.log(j);
-  //   }
-  // }
+
+  for (id in handleit_workitems) {
+    old_workItem = await (await WorkItem.findById(id))
+      .populated("materialsItems").exec();
+    new_workItem = await WorkItem.makeCopy(old_workItem);
+
+    project = new AppProject();
+    project.name = old_workItem.name;
+    project.siteAssessment = siteAssessment._id;
+    project.documentPackage = siteAssessment.documentPackage;
+    project.handleit = true;
+    
+    projects.workitems.push(new_workItem);
+    
+    // await projects.save()
+
+    projects[project_workitems[id]] = project;
+  }
 
   res.status(200).send();
 }
