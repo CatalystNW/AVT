@@ -40,5 +40,8 @@ router.get('/project_transfer', project_transfer_controller.view_project_transfe
 router.get('/view_projects', project_controller.view_projects);
 router.get('/projects', project_controller.get_projects);
 router.delete('/projects', project_controller.delete_all_projects);
+router.get('/projects/:project_id', project_controller.get_project);
+
+router.get('/view_projects/:project_id', project_controller.view_project);
 
 module.exports = router;
