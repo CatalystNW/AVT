@@ -10,8 +10,8 @@ module.exports.delete_all_projects = delete_all_projects;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
-    .populate({path: "workItems", model: "WorkItem",
-        populate: {path: "materialsItems", model: "MaterialsItem"}});
+    // .populate({path: "workItems", model: "WorkItem",
+    //     populate: {path: "materialsItems", model: "MaterialsItem"}});
   res.status(200).json(projects);
 }
 
