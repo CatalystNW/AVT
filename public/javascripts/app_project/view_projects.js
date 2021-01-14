@@ -25,12 +25,11 @@ class AppProjects extends React.Component {
         url: "./projects",
         type: "DELETE",
         success: function(data) {
-          console.log("deleted");
+          window.alert("All the projects were deleted");
         }
       })
     }
   }
-
 
   render() {
     return (
