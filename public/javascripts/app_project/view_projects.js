@@ -8,11 +8,12 @@ class AppProjects extends React.Component {
   }
 
   get_projects = () => {
+    var that = this;
     $.ajax({
       url: "./projects",
       type: "GET",
       success: function(data) {
-        console.log(data);
+        that.setState({projects: data,})
       },
     });
   }
@@ -35,7 +36,27 @@ class AppProjects extends React.Component {
     return (
     <div>
       <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
-      <table></table>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"># Work Items</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.state.projects.map((project)=> {
+            return (
+            <tr key={project._id}>
+              <td>{project.name}</td>
+              <td>{project.description}</td>
+              <td>{project.workItems.length}</td>
+              <td><a href={"./view_projects/"+ project._id}>{project._id}</a></td>
+            </tr>);
+          })}
+        </tbody>
+      </table>
     </div>);
   }
 }
