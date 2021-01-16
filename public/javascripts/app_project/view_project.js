@@ -14,9 +14,14 @@ class AppProject extends React.Component {
       $.ajax({
         url: "/app_project/projects/" + project_id,
         type: "GET",
-        success: function(data) {
-          console.log(data);
-          that.load_application_data(data.documentPackage);
+        context: this,
+        success: function(project_data) {
+          console.log(project_data);
+          this.setState({
+            project: project_data, 
+          }, () => {
+            this.load_application_data(project_data.documentPackage);
+          });
         }
       });
     }
