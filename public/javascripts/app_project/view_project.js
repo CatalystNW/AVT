@@ -1,4 +1,4 @@
-class AppProject extends React.Component {
+class ProjectApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,18 +41,37 @@ class AppProject extends React.Component {
     })
   }
 
+  set_create_workitem_menu = () => {
+    var data = {
+      project_id: this.state.project._id,
+      type: "project",
+      application_id: this.state.application.id,
+    };
+    this.modalmenu.current.show_menu(
+      "create_workitem",
+      funkie.create_workitem,
+      data,
+      this.project_menu.current.add_workitem,
+    )
+  }
+
   render() {
     return (
     <div>
-      <ProjectMenu ref={this.project_menu} />
+      <ProjectMenu ref={this.project_menu} 
+        set_create_workitem_menu={this.set_create_workitem_menu}
+      />
       <ApplicationInformation
-        application={this.state.application} 
+        application={this.state.application}
       />
       <ModalMenu ref={this.modalmenu} />
     </div>);
   }
 }
 
+/**
+ * Requires props.set_create_workitem_menu(),
+ */
 class ProjectMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -60,6 +79,27 @@ class ProjectMenu extends React.Component {
       workItems: [],
     }
   }
+
+  componentDidMount() {
+    var that = this;
+    // Tab changed. Newer versions of Bootstrap has a slight change in this
+    // Load data when cost-summary is shown
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+      if (e.target.id == "nav-cost-summary-tab") {
+        that.costsummary.current.load_data();
+      }
+    });
+    $("#nav-project-tabContent").css(
+        "padding-top", $("#project-nav-container").height());
+    $("#project-nav-container").css(
+      "width", $("#nav-project-tabContent").width());
+  }
+
+  add_workitem = (workitem) => {
+    this.setState({
+      workItems: [workitem, ...this.state.workItems],
+    })
+  };
 
   load_project(project_data) {
     this.setState(state => {
@@ -74,7 +114,7 @@ class ProjectMenu extends React.Component {
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
-        <div id="assessment-nav-container">
+        <div id="project-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" id="nav-property-tab" data-toggle="tab" 
@@ -91,7 +131,7 @@ class ProjectMenu extends React.Component {
           </ul>
         </div>
 
-        <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
+        <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane" id="nav-checklist" role="tabpanel">
             {/* <AssessmentChecklist ref={this.checklist}
               assessment={{}}
@@ -103,21 +143,21 @@ class ProjectMenu extends React.Component {
           </div> 
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
-              // onClick={this.props.set_create_workitem_menu}
-            >
-              Create Work Item
-            </button>
-            {this.state.workItems.map((workitem, index) => {
-              return (
-              <WorkItem
-                workitem={workitem}
-                // remove_workitem={this.remove_workitem}
-                // set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-                // set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                // set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
-                key={workitem._id+"-workitem-card"} 
-                />);
-            })}
+              onClick={this.props.set_create_workitem_menu}
+            >Create Work Item</button>
+            <div>
+              {this.state.workItems.map((workitem, index) => {
+                return (
+                <WorkItem
+                  workitem={workitem}
+                  // remove_workitem={this.remove_workitem}
+                  // set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+                  set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+                  // set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+                  key={workitem._id+"-workitem-card"} 
+                  />);
+              })}
+            </div>
           </div>
         </div>
       </div>);
@@ -125,7 +165,7 @@ class ProjectMenu extends React.Component {
 }
 
 function loadReact() {
-  ReactDOM.render(<AppProject />, document.getElementById("project_container"));
+  ReactDOM.render(<ProjectApp />, document.getElementById("project_container"));
 }
 
 loadReact();
