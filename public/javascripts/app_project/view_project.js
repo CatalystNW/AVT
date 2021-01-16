@@ -2,15 +2,15 @@ class AppProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: {},
+      project: null,
       application: null,
     };
     this.load_project();
+    this.project_menu = React.create
   }
 
   load_project() {
     if (project_id) {
-      var that = this;
       $.ajax({
         url: "/app_project/projects/" + project_id,
         type: "GET",
@@ -28,12 +28,13 @@ class AppProject extends React.Component {
   }
 
   load_application_data(documentPackage_id) {
-    var that = this;
     $.ajax({
       url: "/app_project/application/" + documentPackage_id,
       type: "GET",
+      context: this,
       success: function(app_data) {
-        that.setState({application: app_data});
+        console.log(app_data);
+        this.setState({application: app_data});
       }
     })
   }
@@ -50,6 +51,14 @@ class AppProject extends React.Component {
 }
 
 class ProjectMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      project: {
+        workItems: [], 
+      },
+    }
+  }
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -82,23 +91,25 @@ class ProjectMenu extends React.Component {
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
-          </div>
+          </div>  */}
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
-              onClick={this.props.set_create_workitem_menu}>
+              // onClick={this.props.set_create_workitem_menu}
+            >
               Create Work Item
             </button>
-            {this.state.workItems.map((workitem, index) => {
+            {this.state.project.workItems.map((workitem, index) => {
               return (
               <WorkItem
                 workitem={workitem}
-                remove_workitem={this.remove_workitem}
-                set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-                set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
-                key={workitem._id+"-workitem-card"}></WorkItem>);
+                // remove_workitem={this.remove_workitem}
+                // set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+                // set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+                // set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+                key={workitem._id+"-workitem-card"} 
+                />);
             })}
-          </div> */}
+          </div>
         </div>
       </div>);
   }
