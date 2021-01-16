@@ -24,11 +24,14 @@ class App extends React.Component {
 
   getAssessment = () => {
     var that = this;
-    funkie.get_assessment(app_id, function(data) {
-      console.log(data.site_assessment);
-      that.assessmentmenu.current.change_assessment(data.site_assessment);
-      that.setState({assessment: data.site_assessment,});
-    });
+    funkie.get_assessment(
+      app_id, 
+      (data) => {
+        console.log(data.site_assessment);
+        that.assessmentmenu.current.change_assessment(data.site_assessment);
+        that.setState({assessment: data.site_assessment,});
+      },
+    );
   };
 
   set_create_workitem_menu =() => {
