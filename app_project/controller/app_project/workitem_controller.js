@@ -7,38 +7,36 @@ module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
 
-async function create_workitem(req, res) { 
-  var r = req.body;
-  
-  if (!r.type || !r.name || !r.description || !r.application_id)
+async function create_workitem(req, res) {  
+  if (!req.body.type || !req.body.name || !req.body.description || !req.body.application_id)
     res.status(400).end();
-  var doc = await DocumentPackage.findById(r.application_id);
+  var doc = await DocumentPackage.findById(req.body.application_id);
   if (!doc)
     res.status(400).end();
   
   var workitem = new WorkItem();
-  workitem.name = r.name;
-  workitem.description = r.description;
-  workitem.type = r.type;
+  workitem.name = req.body.name;
+  workitem.description = req.body.description;
+  workitem.type = req.body.type;
   workitem.documentPackage = doc.id;
-  workitem.handleit = r.handleit;
+  workitem.handleit = req.body.handleit;
   var assessment;
-  if (r.type == "assessment") {
-    assessment = await SiteAssessment.findById(r.assessment_id);
+  if (req.body.type == "assessment") {
+    assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {
       res.status(400).end();
     }
 
-    if (r.assessment_comments)
-      workitem.assessment_comments = r.assessment_comments;
-    if (! r.assessment_id)
+    if (req.body.assessment_comments)
+      workitem.assessment_comments = req.body.assessment_comments;
+    if (! req.body.assessment_id)
       res.status(400).end();
 
     workitem.siteAssessment = assessment;
     
-  } else if (r.type == "project") {
-    if (r.project_comments) {
-      workitem.project_comments = r.project_comments;
+  } else if (req.body.type == "project") {
+    if (req.body.project_comments) {
+      workitem.project_comments = req.body.project_comments;
     }
   } else {
     res.status(400).end();
@@ -46,7 +44,7 @@ async function create_workitem(req, res) {
   
   await workitem.save();
 
-  if (r.type == "assessment" && assessment) {
+  if (req.body.type == "assessment" && assessment) {
     assessment.workItems.push(workitem.id);
     await assessment.save();
   }
