@@ -57,15 +57,13 @@ class ProjectMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: {
-        workItems: [], 
-      },
+      workItems: [],
     }
   }
 
   load_project(project_data) {
-    this.setState({
-      project: project_data,
+    this.setState(state => {
+      return Object.assign({}, state, project_data);
     });
   }
 
@@ -73,7 +71,8 @@ class ProjectMenu extends React.Component {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
     };
-    return (<div className="col-sm-12 col-lg-8" style={divStyle}
+    return (
+      <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
         <div id="assessment-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
@@ -108,7 +107,7 @@ class ProjectMenu extends React.Component {
             >
               Create Work Item
             </button>
-            {this.state.project.workItems.map((workitem, index) => {
+            {this.state.workItems.map((workitem, index) => {
               return (
               <WorkItem
                 workitem={workitem}
