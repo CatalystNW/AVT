@@ -4,7 +4,8 @@ var router = express.Router();
 var assessment_controller = require('../../controller/app_project/assessment_controller.js'),
     project_controller = require('../../controller/app_project/project_controller.js'),
     project_transfer_controller = require('../../controller/app_project/project_transfer_controller.js'),
-    workitem_controller = require('../../controller/app_project/workitem_controller.js');
+    workitem_controller = require('../../controller/app_project/workitem_controller.js'),
+    materialsitem_controller = require('../../controller/app_project/materialsitem_controller.js');
 
 router.get('/projects_page', assessment_controller.view_projects_page);
 
@@ -30,9 +31,9 @@ router.route('/workitems/:workitem_id')
   .patch(workitem_controller.edit_workitem)
   .delete(workitem_controller.delete_workitem);
 
-router.post('/materialsitem', assessment_controller.create_materialsitem);
-router.delete('/materialsitem/:id', assessment_controller.delete_materialsitem);
-router.patch('/materialsitem/:id', assessment_controller.edit_materialsitem);
+router.post('/materialsitem', materialsitem_controller.create_materialsitem);
+router.delete('/materialsitem/:id', materialsitem_controller.delete_materialsitem);
+router.patch('/materialsitem/:id', materialsitem_controller.edit_materialsitem);
 
 router.get('/project_transfer/:assessment_id', project_transfer_controller.view_project_transfer);
 router.post('/project_transfer/:assessment_id', project_transfer_controller.transfer_project);
