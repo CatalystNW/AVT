@@ -6,7 +6,7 @@ class AppProject extends React.Component {
       application: null,
     };
     this.load_project();
-    this.project_menu = React.create
+    this.project_menu = React.createRef();
   }
 
   load_project() {
@@ -17,6 +17,7 @@ class AppProject extends React.Component {
         context: this,
         success: function(project_data) {
           console.log(project_data);
+          this.project_menu.current.load_project(project_data);
           this.setState({
             project: project_data, 
           }, () => {
@@ -42,7 +43,7 @@ class AppProject extends React.Component {
   render() {
     return (
     <div>
-      <ProjectMenu />
+      <ProjectMenu ref={this.project_menu} />
       <ApplicationInformation
         application={this.state.application} 
       />
@@ -59,6 +60,13 @@ class ProjectMenu extends React.Component {
       },
     }
   }
+
+  load_project(project_data) {
+    this.setState({
+      project: project_data,
+    });
+  }
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
