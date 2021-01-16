@@ -1,15 +1,19 @@
 var DocumentPackage = require("../../../models/documentPackage"),
     SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
-    MaterialsItem = require("../../models/app_project/MaterialsItem");
+    MaterialsItem = require("../../models/app_project/MaterialsItem"),
+    AppProject = require("../../models/app_project/AppProject");
 
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
 
 async function create_workitem(req, res) {  
-  if (!req.body.type || !req.body.name || !req.body.description || !req.body.application_id)
+  if (!req.body.type || !req.body.name || !req.body.description || 
+    !req.body.application_id || (!req.body.project_id && !req.body.assessment_id)) {
     res.status(400).end();
+    return;
+  }
   var doc = await DocumentPackage.findById(req.body.application_id);
   if (!doc) {
     res.status(400).send("Document ID not found");
