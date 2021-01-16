@@ -7,6 +7,7 @@ class AppProject extends React.Component {
     };
     this.load_project();
     this.project_menu = React.createRef();
+    this.modalmenu = React.createRef();
   }
 
   load_project() {
@@ -47,6 +48,7 @@ class AppProject extends React.Component {
       <ApplicationInformation
         application={this.state.application} 
       />
+      <ModalMenu ref={this.modalmenu} />
     </div>);
   }
 }
@@ -91,15 +93,15 @@ class ProjectMenu extends React.Component {
         </div>
 
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
-          {/* <div className="tab-pane" id="nav-checklist" role="tabpanel">
-            <AssessmentChecklist ref={this.checklist}
+          <div className="tab-pane" id="nav-checklist" role="tabpanel">
+            {/* <AssessmentChecklist ref={this.checklist}
               assessment={{}}
               vetting_summary = {this.props.vetting_summary}
-            />
+            /> */}
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
-            <CostSummary ref={this.costsummary}/>
-          </div>  */}
+            {/* <CostSummary ref={this.costsummary}/> */}
+          </div> 
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
               // onClick={this.props.set_create_workitem_menu}
