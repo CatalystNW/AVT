@@ -19,6 +19,7 @@ div.dropdown-menu {
     padding-right: 10px;
 }
 
+#project-nav-container,
 #assessment-nav-container {
     position: fixed;
     z-index: 100;
