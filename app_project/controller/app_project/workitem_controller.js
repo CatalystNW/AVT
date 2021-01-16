@@ -11,8 +11,10 @@ async function create_workitem(req, res) {
   if (!req.body.type || !req.body.name || !req.body.description || !req.body.application_id)
     res.status(400).end();
   var doc = await DocumentPackage.findById(req.body.application_id);
-  if (!doc)
-    res.status(400).end();
+  if (!doc) {
+    res.status(400).send("Document ID not found");
+    return;
+  }
   
   var workitem = new WorkItem();
   workitem.name = req.body.name;
@@ -20,35 +22,42 @@ async function create_workitem(req, res) {
   workitem.type = req.body.type;
   workitem.documentPackage = doc.id;
   workitem.handleit = req.body.handleit;
-  var assessment;
   if (req.body.type == "assessment") {
+    var assessment;
+    if (!req.body.assessment_id) {
+      res.status(400).end();
+      return;
+    }
     assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {
       res.status(400).end();
+      return;
     }
 
     if (req.body.assessment_comments)
       workitem.assessment_comments = req.body.assessment_comments;
-    if (! req.body.assessment_id)
-      res.status(400).end();
-
-    workitem.siteAssessment = assessment;
     
+    workitem.siteAssessment = assessment; 
   } else if (req.body.type == "project") {
-    if (req.body.project_comments) {
-      workitem.project_comments = req.body.project_comments;
+    if (!req.body.project_id) {
+      res.status(400).end();
+      return;
     }
+    var project = await AppProject.findById(req.body.project_id);
   } else {
     res.status(400).end();
-  }
-  
-  await workitem.save();
-
-  if (req.body.type == "assessment" && assessment) {
-    assessment.workItems.push(workitem.id);
-    await assessment.save();
+    return;
   }
   workitem.documentPackage = doc._id;
+  await workitem.save();
+
+  if (assessment) {
+    assessment.workItems.push(workitem.id);
+    await assessment.save();
+  } else if (project) {
+    project.workItems.push(workitem._id);
+    await project.save();
+  }  
   res.status(200).json(workitem);
 }
 
