@@ -101,6 +101,18 @@ class ProjectMenu extends React.Component {
     })
   };
 
+  remove_workitem = (workitem_id) => {
+    var new_workitems = [];
+    for(var i=0; i< this.state.workItems.length; i++) {
+      if (this.state.workItems[i]._id != workitem_id) {
+        new_workitems.push(this.state.workItems[i]);
+      }
+    }
+    this.setState({
+      workItems: new_workitems,
+    });
+  }
+
   load_project(project_data) {
     this.setState(state => {
       return Object.assign({}, state, project_data);
@@ -150,7 +162,7 @@ class ProjectMenu extends React.Component {
                 return (
                 <WorkItem
                   workitem={workitem}
-                  // remove_workitem={this.remove_workitem}
+                  remove_workitem={this.remove_workitem}
                   // set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
                   set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
                   // set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
