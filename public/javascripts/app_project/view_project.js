@@ -55,11 +55,45 @@ class ProjectApp extends React.Component {
     )
   }
 
+  set_edit_materialisitem_menu = (old_data, edit_materialsitem_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_materialsitem",
+      funkie.edit_materialsitem,
+      old_data,
+      edit_materialsitem_handler, // <WorkItem> method
+    );
+  };
+
+  // materialsitem_handler handles showing the element
+  set_create_materialsitem_menu = (e, materialsitem_handler) => {
+    var data = {
+      workitem_id: e.target.getAttribute("workitem_id")
+    }
+    this.modalmenu.current.show_menu(
+      "create_materialsitem",
+      funkie.create_materialsitem,
+      data,
+      materialsitem_handler,
+    );
+  };
+
+  set_edit_workitem_menu = (data, edit_workitem_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_workitem",
+      funkie.edit_workitem,
+      data,
+      edit_workitem_handler
+    );
+  };
+
   render() {
     return (
     <div>
       <ProjectMenu ref={this.project_menu} 
         set_create_workitem_menu={this.set_create_workitem_menu}
+        set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+        set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
+        set_edit_workitem_menu = {this.set_edit_workitem_menu}
       />
       <ApplicationInformation
         application={this.state.application}
@@ -163,9 +197,9 @@ class ProjectMenu extends React.Component {
                 <WorkItem
                   workitem={workitem}
                   remove_workitem={this.remove_workitem}
-                  // set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+                  set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
                   set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                  // set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+                  set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
                   key={workitem._id+"-workitem-card"} 
                   />);
               })}
