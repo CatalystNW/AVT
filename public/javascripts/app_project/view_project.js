@@ -175,6 +175,10 @@ class ProjectMenu extends React.Component {
                 href="#nav-planning" role="tab">Planning</a>
             </li>
             <li className="nav-item">
+              <a className="nav-link" id="nav-partners-tab" data-toggle="tab" 
+                href="#nav-partners" role="tab">Partners</a>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" id="nav-wrapup-tab" data-toggle="tab" 
                 href="#nav-wrapup" role="tab">Wrap-Up</a>
             </li>
