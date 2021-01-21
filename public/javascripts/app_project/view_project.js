@@ -111,6 +111,7 @@ class ProjectMenu extends React.Component {
     super(props);
     this.state = {
       workItems: [],
+
     };
     this.planning_checklist = React.createRef();
   }
@@ -154,6 +155,10 @@ class ProjectMenu extends React.Component {
     });
   }
 
+  create_select_users_table = () => {
+    return (<div></div>);
+  }
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -177,8 +182,8 @@ class ProjectMenu extends React.Component {
                 href="#nav-planning" role="tab">Planning</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" id="nav-partners-tab" data-toggle="tab" 
-                href="#nav-partners" role="tab">Partners</a>
+              <a className="nav-link" id="nav-People-tab" data-toggle="tab" 
+                href="#nav-people" role="tab">People</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" id="nav-wrapup-tab" data-toggle="tab" 
@@ -188,14 +193,11 @@ class ProjectMenu extends React.Component {
         </div>
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
-          <div className="tab-pane" id="nav-checklist" role="tabpanel">
-            {/* <AssessmentChecklist ref={this.checklist}
-              assessment={{}}
-              vetting_summary = {this.props.vetting_summary}
-            /> */}
-          </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             {/* <CostSummary ref={this.costsummary}/> */}
+          </div>
+          <div className="tab-pane" id="nav-people" role="tabpanel">
+            {this.create_select_users_table()}
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
             <PlanningChecklist ref={this.planning_checklist} 
