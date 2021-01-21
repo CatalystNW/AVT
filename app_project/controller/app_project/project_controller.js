@@ -29,7 +29,6 @@ async function get_project(req, res) {
   if (project) {
     res.status(200).json(project);
   } else {
-    res.status(4040).end();
   }
 }
 
