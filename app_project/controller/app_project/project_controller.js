@@ -31,6 +31,7 @@ async function get_project(req, res) {
   if (project) {
     res.status(200).json(project);
   } else {
+    res.status(404).end();
   }
 }
 
@@ -53,7 +54,10 @@ async function delete_all_projects(req, res) {
     await WorkItem.deleteMany({appProject: project._id});
   }
   await AppProject.deleteMany({});
+  await Checklist.deleteMany({});
   res.status(200).end();
+}
+
 async function get_plan_checklist(req, res) {
   if (req.params.project_id) {
     var project_id = req.params.project_id;
