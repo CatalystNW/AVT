@@ -34,6 +34,7 @@ async function transfer_project(req, res) {
   await siteAssessment.documentPackage.save()
   await siteAssessment.save();
   
+  // Create Non-handleit Projects
   for (id in project_workitems) {
     old_workItem = await  WorkItem.findById(id)
       .populate("materialsItems").exec();
@@ -41,10 +42,10 @@ async function transfer_project(req, res) {
 
     project_name = project_workitems[id]
 
-    if (project_name in projects) {
+    if (project_name in projects) { // Add Workitem to existing project
       projects[project_name].workItems.push(new_workItem._id);
       project = projects[project_name]
-    } else {
+    } else { // Create new AppProject
       project = new AppProject();
       project.name = project_workitems[id];
       project.siteAssessment = siteAssessment._id;
@@ -65,7 +66,7 @@ async function transfer_project(req, res) {
   for (project_name in projects) {
     await projects[project_name].save()
   }
-
+  // Create handleit AppProject
   for (id in handleit_workitems) {
     old_workItem = await WorkItem.findById(id)
       .populate("materialsItems").exec();
