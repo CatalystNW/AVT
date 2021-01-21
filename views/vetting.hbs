@@ -222,6 +222,46 @@
             </div>
         </div>
 
+        <div role="tablist" aria-multiselectable="true">
+            <div class="card">
+                <div class="card-header" role="tab" id="headingTransferred">
+
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapseTransferred" aria-expanded="true" aria-controls="collapseTransferred">
+                            Transferred
+                        </a>
+                    </h5>
+
+                </div>
+                <div id="collapseTransferred" class="collapse in" role="tabpanel" aria-labelledby="headingTransferred">
+                    <div class="card-block">
+                        <table class="table table-sm table-bordered table-hover orderTable4">
+                            <thead>
+                            <tr>
+                                <th onclick="orderTable('orderTable4', 0)" class="col-md-2">Name</th>
+                                <th onclick="orderTable('orderTable4', 1)" class="col-md-2">Last Edit</th>
+                                <th onclick="orderTable('orderTable4', 2)" class="col-md-2">Status</th>
+								<th onclick="orderTable('orderTable4', 3)" class="col-md-2">Application Date</th>
+								<th onclick="orderTable('orderTable4', 4)" class="col-md-2">Application Number</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each transferred}}
+                                <tr class="clickable-row" data-href="/view/{{_id}}">
+                                    <td class="col-md-2"><a href="/view/{{_id}}">{{#if application.name.preferred}}{{application.name.preferred}} {{application.name.last}}{{else}}{{application.name.first}} {{application.name.last}}{{/if}}</a></td>
+                                    <td class="col-md-2" fullDate="{{updated_full_date}}">{{updated}}</td>
+                                    <td class="col-md-2"><span class="text-danger">{{status}}</span></td>
+									<td class="col-md-2" fullDate="{{this.created_full_date}}">{{this.created_date}}</td>
+									<td class="col-md-2">{{app_name}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
     </div>

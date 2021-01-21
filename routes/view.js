@@ -341,6 +341,14 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 		});
     }
 
+    // Transferred applications (transferred to new projects app)
+    payload.transferred = [];
+    if (res.locals.results.transferred[0] !== null) {
+        res.locals.results.transferred.forEach((document)=> {
+            payload.transferred.push(formatElement(document));
+        })
+    }
+
     //add all other existing statuses to processing array
     payload.processing = [];
 
@@ -408,7 +416,9 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 		singleYear = {"yearValue" : x};
 		payload.year.push(singleYear);
 
-	}
+    }
+    
+
 
 	payload.user = req.user._id;
 	payload.user_email = res.locals.email;
