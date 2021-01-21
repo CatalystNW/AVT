@@ -1,6 +1,9 @@
 class PlanningChecklist extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      checklist: {},
+    };
     this.load_checklist();
     this.table_map = this.get_table_map();
   }
@@ -9,8 +12,11 @@ class PlanningChecklist extends React.Component {
     $.ajax({
       url: "../projects/" + this.props.project_id + "/plan_checklist",
       type: "GET",
-      success: function(data) {
-        console.log(data);
+      context: this,
+      success: function(checklist_data) {
+        this.setState({
+          checklist: checklist_data,
+        });
       },
     });
   };
@@ -42,7 +48,7 @@ class PlanningChecklist extends React.Component {
         <tbody>
           {Object.keys(this.table_map).map((key)=> {
             return (
-              <tr>
+              <tr key={"row-" + key}>
                 <td>{this.table_map[key]}</td>
                 <td>
                   <input type="checkbox" name={key}></input>
