@@ -22,17 +22,17 @@ async function view_project_transfer(req, res) {
 }
 
 async function transfer_project(req, res) {
-  console.log(req.params.assessment_id);
-  console.log(req.body.project_workitems);
-  console.log(req.body.handleit_workitems);
   var project_workitems = req.body.project_workitems,
       handleit_workitems = req.body.handleit_workitems;
   var i, j, id,
       old_workItem, new_workItem,
       projects = {}, project, project_name;
-  var siteAssessment = await SiteAssessment.findById(req.params.assessment_id);
+  var siteAssessment = await SiteAssessment.findById(req.params.assessment_id).populate("documentPackage");
   siteAssessment.transferred = true;
-  await siteAssessment.save()
+  siteAssessment.documentPackage.status = "transferred";
+  
+  await siteAssessment.documentPackage.save()
+  await siteAssessment.save();
   
   for (id in project_workitems) {
     old_workItem = await  WorkItem.findById(id)
