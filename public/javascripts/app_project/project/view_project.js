@@ -170,7 +170,7 @@ class ProjectMenu extends React.Component {
         <div id="project-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link active" id="nav-property-tab" data-toggle="tab" 
+              <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-workitem" role="tab">Work Items</a>
             </li>
             <li className="nav-item">
@@ -178,7 +178,7 @@ class ProjectMenu extends React.Component {
                 href="#nav-cost-summary" role="tab">Cost Summary</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" id="nav-planning-tab" data-toggle="tab" 
+              <a className="nav-link active" id="nav-planning-tab" data-toggle="tab" 
                 href="#nav-planning" role="tab">Planning</a>
             </li>
             <li className="nav-item">
@@ -199,11 +199,11 @@ class ProjectMenu extends React.Component {
           <div className="tab-pane" id="nav-people" role="tabpanel">
             {this.create_select_users_table()}
           </div>
-          <div className="tab-pane" id="nav-planning" role="tabpanel">
+          <div className="tab-pane show active" id="nav-planning" role="tabpanel">
             <PlanningChecklist ref={this.planning_checklist} 
               project_id={project_id}/>
           </div> 
-          <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
+          <div className="tab-pane" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
               onClick={this.props.set_create_workitem_menu}
             >Create Work Item</button>
