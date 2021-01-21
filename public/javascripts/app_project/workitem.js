@@ -151,7 +151,25 @@ class WorkItem extends React.Component {
         </table>
     );
   }
+  
+  // Set timer when text is typed
+  onChange_inputs_timer = (e) => {
+    var property_type = e.target.getAttribute("property_type"),
+        value = e.target.value;
 
+    clearTimeout(this[property_type + "_timer"]);
+
+    this.setState({[property_type]: value});
+
+    this[property_type + "_timer"] = setTimeout(() => {
+      var data = {
+        workitem_id: this.state._id,
+        [property_type]: value
+      };
+      funkie.edit_workitem(data); // No callback
+    }, 1000);
+  }
+  
   onChange_workitem_status = (e) => {
     var that = this,
         status = e.target.value;
@@ -209,6 +227,18 @@ class WorkItem extends React.Component {
               <option value="declined">Declined</option>
               <option value="accepted">Accepted</option>
             </select>
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label"
+            htmlFor="workitem-status-select">Volunteers Required</label>
+          <div className="col-sm-8">
+            <input type="number" className="form-control"
+              name="volunteers_required"
+              property_type="volunteers_required"
+              onChange={this.onChange_inputs_timer}
+              value={this.state.volunteers_required}></input>
           </div>
         </div>
 
