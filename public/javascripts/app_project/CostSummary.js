@@ -6,6 +6,8 @@ class CostSummary extends React.Component {
       num_project_workitems: 0,
       handleit_materials: [],
       project_materials: [],
+      handleit_volunteers: 0,
+      proj_volunteers: 0,
     };
   }
 
@@ -15,7 +17,9 @@ class CostSummary extends React.Component {
       var handleit_materials = [],
           project_materials = [],
           num_handleit_workitems = 0,
-          num_project_workitems = 0;
+          num_project_workitems = 0,
+          handleit_volunteers = 0,
+          proj_volunteers = 0;
       console.log(data.site_assessment);
       var workItems = data.site_assessment.workItems,
           i, j, item_arr;
@@ -23,19 +27,27 @@ class CostSummary extends React.Component {
         if (workItems[i].handleit) {
           item_arr = handleit_materials;
           num_handleit_workitems += 1;
+          if (workItems[i].volunteers_required) {
+            handleit_volunteers += workItems[i].volunteers_required;
+          }
         } else {
           item_arr = project_materials;
           num_project_workitems += 1
+          if (workItems[i].volunteers_required) {
+            proj_volunteers += workItems[i].volunteers_required;
+          }
         }
         for (j=0;j<workItems[i].materialsItems.length; j++) {
           item_arr.push(workItems[i].materialsItems[j]);
         }
       }
       that.setState({
-        num_handleit_workitems: num_handleit_workitems,
-        num_project_workitems: num_project_workitems,
-        handleit_materials: handleit_materials,
-        project_materials: project_materials,
+        num_handleit_workitems:   num_handleit_workitems,
+        num_project_workitems:    num_project_workitems,
+        handleit_materials:       handleit_materials,
+        project_materials:        project_materials,
+        proj_volunteers:          proj_volunteers,
+        handleit_volunteers:      handleit_volunteers
       });
     });
   }
@@ -43,7 +55,7 @@ class CostSummary extends React.Component {
   create_materialsitems_table = (workitem_type) => {
     var arr = (workitem_type == "project") ? 
       this.state.project_materials : this.state.handleit_materials;
-    var total = 0
+    var total = 0;
     return (
       <table className="table">
         <thead>
@@ -95,7 +107,7 @@ class CostSummary extends React.Component {
           </tr>
           <tr>
             <th className="col-xs-8">Volunteers Req.</th>
-            <td className="col-xs-4"></td>
+            <td className="col-xs-4">{this.state.handleit_volunteers}</td>
           </tr>
           <tr>
             <th className="col-xs-8"># Project Work Items Accepted</th>
@@ -109,7 +121,7 @@ class CostSummary extends React.Component {
           </tr>
           <tr>
             <th className="col-xs-8">Volunteers Req.</th>
-            <td className="col-xs-4"></td>
+            <td className="col-xs-4">{this.state.proj_volunteers}</td>
           </tr>
         </tbody>
       </table>
