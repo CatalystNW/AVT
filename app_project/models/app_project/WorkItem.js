@@ -29,6 +29,7 @@ const workItemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "AppProject"
   },
+  volunteers_required: {type: Number, default: 0},
 
   vetting_comments: String,
   assessment_comments: String,
