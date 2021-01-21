@@ -111,7 +111,8 @@ class ProjectMenu extends React.Component {
     super(props);
     this.state = {
       workItems: [],
-    }
+    };
+    this.planning_checklist = React.createRef();
   }
 
   componentDidMount() {
@@ -157,6 +158,7 @@ class ProjectMenu extends React.Component {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
     };
+    
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
@@ -194,6 +196,10 @@ class ProjectMenu extends React.Component {
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             {/* <CostSummary ref={this.costsummary}/> */}
+          </div>
+          <div className="tab-pane" id="nav-planning" role="tabpanel">
+            <PlanningChecklist ref={this.planning_checklist} 
+              project_id={project_id}/>
           </div> 
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
