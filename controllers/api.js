@@ -461,7 +461,8 @@ getDocumentPlanning: function (req, res, next) {
             projectGoBacks: DocumentPackage.find({status: "projectGoBacks"}).lean().execAsync(),
             projectCompleted: DocumentPackage.find({status: "projectCompleted"}).lean().execAsync(),
 
-            waitlist: DocumentPackage.find({ status: "waitlist" }).lean().execAsync()
+            waitlist: DocumentPackage.find({ status: "waitlist" }).lean().execAsync(),
+            transferred: DocumentPackage.find({ status: "transferred" }).lean().execAsync()
         })
             .then(function (results) {
                 if (!disable_logging) {
