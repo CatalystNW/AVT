@@ -94,14 +94,38 @@ async function get_plan_checklist(req, res) {
 }
 
 async function edit_checklist(req, res) {
-  var checklist = await Checklist.findById(req.params.checklist_id);
+  var checklist = await Checklist.findById(req.params.checklist_id),
+      property = req.body.property,
+      value = req.body.value,
+      i;
   if (req.body.type == "property") {
-    checklist[req.body.property].complete = req.body.value == "true" ? true : false;
-    checklist.save();
+    if (property in checklist) {
+      checklist[property].complete = value == "true" ? true : false;
+      await checklist.save();
+    } else {
+      for (i=0;i<checklist.additional_checklist.length; i++) {
+        if (checklist.additional_checklist[i].name == property) {
+          checklist.additional_checklist[i].complete = value == "true" ? true : false;
+          await checklist.save();
+          break;
+        }
+      }
+    }
   } else if (req.body.type == "owner") {
-    var owner = req.body.value == "" ? null : req.body.value;
-    checklist[req.body.property].owner = owner;
-    checklist.save();
+    var owner = value == "" ? null : value;
+    if (property in checklist) {
+      checklist[property].owner = owner;
+      await checklist.save();  
+    } else {
+      for (i=0;i<checklist.additional_checklist.length; i++) {
+        if (checklist.additional_checklist[i].name == property) {
+          checklist.additional_checklist[i].owner = owner;
+          await checklist.save();
+          break;
+        }
+      }
+    }
+    
   }
   res.status(200).send();
 }
