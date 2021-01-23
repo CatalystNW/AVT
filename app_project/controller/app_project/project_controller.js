@@ -76,7 +76,7 @@ async function get_plan_checklist(req, res) {
   if (req.params.project_id) {
     var project_id = req.params.project_id;
     
-    var checklist = await Checklist.find({project: project_id});
+    var checklist = await Checklist.find({project: project_id}).lean();
     if (checklist.length == 0) {
       checklist = new Checklist();
       checklist.project = project_id;
