@@ -14,6 +14,7 @@ class PlanningChecklist extends React.Component {
       type: "GET",
       context: this,
       success: function(checklist_data) {
+        console.log(checklist_data)
         this.setState({
           checklist: checklist_data,
         });
@@ -42,12 +43,35 @@ class PlanningChecklist extends React.Component {
     }
   }
 
-  render() {
-    var check_values = {};
-    for (var key of Object.keys(this.table_map)) {
-      check_values[key] = (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
-    }
-    
+  onChange_check_input = (e) => {
+    var property = e.target.getAttribute("name"),
+        value = e.target.checked;
+    $.ajax({
+      url: "/app_project/plan_checklist/" + this.state.checklist._id,
+      type: "PATCH",
+      data: {
+        property: property,
+        type: "property",
+        value: value,
+      },
+      context: this,
+      success: function(data) {
+        this.setState(state => {
+          var new_checklists = {...this.state.checklist};
+          new_checklists[property].complete = value;
+          return {
+            checklist: new_checklists
+          };
+        });
+      },
+    });
+  }
+
+  get_property = (key) => {
+    return (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
+  }
+
+  render() {    
     return (<div>
       <table className="table table-sm">
         <tbody>
@@ -57,7 +81,7 @@ class PlanningChecklist extends React.Component {
                 <td>{this.table_map[key]}</td>
                 <td>
                   <input type="checkbox" name={key}
-                    checked={check_values[key]}
+                    checked={this.get_property(key)}
                     onChange={this.onChange_check_input}
                   ></input>
                 </td>
