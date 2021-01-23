@@ -146,7 +146,9 @@ async function create_checklist_item(req, res) {
         name: name,
       });
       await checklist.save();
-      res.status(200).send();
+      res.status(200).json(
+        checklist.additional_checklist[checklist.additional_checklist.length -1]
+      );
     } else {
       res.status(404).end();
     }

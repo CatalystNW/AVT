@@ -157,8 +157,14 @@ class PlanningChecklist extends React.Component {
           name: name,
         },
         context: this,
-        success: function(data) {
-
+        success: function(itemData) {
+          this.setState((state)=> {
+            var new_checklist = {...state.checklist};
+            new_checklist.additional_checklist.push(itemData);
+            return {
+              checklist: new_checklist,
+            }
+          })
         },
       })
     } else {
