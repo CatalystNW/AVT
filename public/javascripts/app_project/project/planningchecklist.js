@@ -144,7 +144,19 @@ class PlanningChecklist extends React.Component {
     if (name == null) { // cancelled
       return;
     } else if (name && name.length > 4) {
-      for (let i=0; i< this.state.checklist.additional_checklist.length; i++) {
+      if (name in this.state.checklist) {
+        window.alert("Checklist item name is already in use.");
+        return;
+      }
+      console.log(this.table_map);
+      let key;
+      for (key in this.table_map) {
+        if (this.table_map[key] == name) {
+          window.alert("Checklist item name is already in use.");
+          return;
+        }
+      }
+      for (let i=0; i<this.state.checklist.additional_checklist.length; i++) {
         if (name == this.state.checklist.additional_checklist[i].name) {
           window.alert("Checklist item name is already in use.");
           return;
