@@ -67,6 +67,10 @@ class PlanningChecklist extends React.Component {
     });
   }
 
+  get_owner = (key) => {
+    return ((key in this.state.checklist) && "owner" in this.state.checklist[key]) ? 
+      this.state.checklists[key].owner : "";
+  }
   get_property = (key) => {
     return (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
   }
@@ -86,7 +90,10 @@ class PlanningChecklist extends React.Component {
                   ></input>
                 </td>
                 <td>
-                  <select className="form-control">
+                  <select className="form-control"
+                      onChange={this.onChange_owner_select}
+                      value={this.get_owner(key)}
+                      >
                     <option value="">Unassigned</option>
                     {this.props.assignable_users.map((user)=> {
                       return (<option key={key + "-option-" + user.id}
