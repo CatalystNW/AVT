@@ -104,3 +104,22 @@ async function edit_checklist(req, res) {
   }
   res.status(200).send();
 }
+
+async function create_checklist_item(req, res) {
+  var name = req.body.name;
+  if (name && typeof name == "string") {
+    var checklist = await Checklist.findById(req.params.checklist_id);
+    if (checklist) {
+      checklist.additional_checklist.push({
+        name: name,
+      });
+      await checklist.save();
+      res.status(200).send();
+    } else {
+      res.status(404).end();
+    }
+  } else {
+    res.status(400).send("Error in data given");
+  }
+  
+}

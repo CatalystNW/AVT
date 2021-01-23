@@ -48,6 +48,7 @@ router.get('/projects/:project_id', project_controller.get_project);
 router.get('/view_projects/:project_id', project_controller.view_project);
 
 router.get('/projects/:project_id/plan_checklist', project_controller.get_plan_checklist);
+router.post('/plan_checklist/:checklist_id', project_controller.create_checklist_item);
 router.patch('/plan_checklist/:checklist_id', project_controller.edit_checklist);
 
 module.exports = router;

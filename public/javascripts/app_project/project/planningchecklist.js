@@ -100,8 +100,30 @@ class PlanningChecklist extends React.Component {
     return (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
   }
 
+  onClick_add_checklist = () => {
+    var name = window.prompt("Name of item to add to checklist?");
+    if (name == null) { // cancelled
+      return;
+    } else if (name && name.length > 4) {
+      $.ajax({
+        url: "/app_project/plan_checklist/" + this.state.checklist._id,
+        type: "POST",
+        data: {
+          name: name,
+        },
+        context: this,
+        success: function(data) {
+
+        },
+      })
+    } else {
+      window.alert("Please entere something with a lenght of at least 5.");
+    }
+  }
+
   render() {    
     return (<div>
+      <button type="button" onClick={this.onClick_add_checklist}>Add to Checklist</button>
       <table className="table table-sm">
         <tbody>
           {Object.keys(this.table_map).map((key)=> {
