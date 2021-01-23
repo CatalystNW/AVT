@@ -6,14 +6,15 @@ var DocumentPackage = require("../../../models/documentPackage"),
     AppProject      = require("../../models/app_project/AppProject"),
     Checklist       = require("../../models/app_project/AppProjectPlanChecklist");
 
-module.exports.get_projects         = get_projects;
-module.exports.view_projects        = view_projects;
-module.exports.delete_all_projects  = delete_all_projects;
-module.exports.view_project         = view_project;
-module.exports.get_project          = get_project;
-module.exports.get_plan_checklist   = get_plan_checklist;
-module.exports.edit_checklist       = edit_checklist
-module.exports.get_task_assignable_users = get_task_assignable_users;
+module.exports.get_projects               = get_projects;
+module.exports.view_projects              = view_projects;
+module.exports.delete_all_projects        = delete_all_projects;
+module.exports.view_project               = view_project;
+module.exports.get_project                = get_project;
+module.exports.get_plan_checklist         = get_plan_checklist;
+module.exports.edit_checklist             = edit_checklist
+module.exports.create_checklist_item      = create_checklist_item
+module.exports.get_task_assignable_users  = get_task_assignable_users;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
