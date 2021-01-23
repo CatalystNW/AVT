@@ -126,11 +126,17 @@ class PlanningChecklist extends React.Component {
     return "";
   }
   get_property = (key) => {
-    if (key in this.state.checklist) {
-      return (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
-    } else {
-      return key;
+    var checklist = this.state.checklist;
+    if (key in checklist) {
+      return (checklist[key]) ? checklist[key].complete : false;
+    } else if (checklist.additional_checklist) {
+      for (let i=0; i<checklist.additional_checklist.length; i++) {
+        if (checklist.additional_checklist[i].name == key) {
+          return checklist.additional_checklist[i].complete;
+        }
+      }
     }
+    return false;
   }
 
   onClick_add_checklist = () => {
