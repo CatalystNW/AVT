@@ -1,4 +1,5 @@
 var DocumentPackage = require("../../../models/documentPackage"),
+    UserPackage     = require("../../../models/userPackage"),
     SiteAssessment  = require("../../models/app_project/SiteAssessment"),
     WorkItem        = require("../../models/app_project/WorkItem"),
     MaterialsItem   = require("../../models/app_project/MaterialsItem"),
@@ -11,6 +12,7 @@ module.exports.delete_all_projects  = delete_all_projects;
 module.exports.view_project         = view_project;
 module.exports.get_project          = get_project;
 module.exports.get_plan_checklist   = get_plan_checklist;
+module.exports.get_task_assignable_users = get_task_assignable_users;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -56,6 +58,18 @@ async function delete_all_projects(req, res) {
   await AppProject.deleteMany({});
   await Checklist.deleteMany({});
   res.status(200).end();
+}
+
+async function get_task_assignable_users(req, res) {
+  let users = [];
+  let userPackages = await UserPackage.find({ assign_tasks: true });
+  for (let i=0; i< userPackages.length; i++) {
+    users.push({
+      name: userPackages[i].contact_info.user_name.user_first + " " + userPackages[i].contact_info.user_name.user_last,
+      id: userPackages[i]._id,
+    });
+  }
+  res.status(200).json(users);
 }
 
 async function get_plan_checklist(req, res) {

@@ -40,6 +40,7 @@ router.post('/project_transfer/:assessment_id', project_transfer_controller.tran
 router.get('/project_transfer', project_transfer_controller.view_project_transfers);
 
 router.get('/view_projects', project_controller.view_projects);
+router.get('/projects/assignable_users', project_controller.get_task_assignable_users);
 router.get('/projects', project_controller.get_projects);
 router.delete('/projects', project_controller.delete_all_projects);
 router.get('/projects/:project_id', project_controller.get_project);
