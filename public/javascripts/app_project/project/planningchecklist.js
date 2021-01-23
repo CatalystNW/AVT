@@ -43,6 +43,11 @@ class PlanningChecklist extends React.Component {
   }
 
   render() {
+    var check_values = {};
+    for (var key of Object.keys(this.table_map)) {
+      check_values[key] = (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
+    }
+    
     return (<div>
       <table className="table table-sm">
         <tbody>
@@ -51,7 +56,10 @@ class PlanningChecklist extends React.Component {
               <tr key={"row-" + key}>
                 <td>{this.table_map[key]}</td>
                 <td>
-                  <input type="checkbox" name={key}></input>
+                  <input type="checkbox" name={key}
+                    checked={check_values[key]}
+                    onChange={this.onChange_check_input}
+                  ></input>
                 </td>
                 <td>
                   <select className="form-control">
