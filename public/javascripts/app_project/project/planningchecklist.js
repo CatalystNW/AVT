@@ -57,8 +57,17 @@ class PlanningChecklist extends React.Component {
       context: this,
       success: function(data) {
         this.setState(state => {
-          var new_checklists = {...this.state.checklist};
-          new_checklists[property].complete = value;
+          var new_checklists = {...state.checklist};
+          if (property in state.checklist) {
+            new_checklists[property].complete = value;
+          } else {
+            for(let i=0; i<new_checklists.additional_checklist.length; i++) {
+              if (new_checklists.additional_checklist[i].name == property) {
+                new_checklists.additional_checklist[i].complete = value;
+                break;
+              }
+            }
+          }
           return {
             checklist: new_checklists
           };
@@ -81,8 +90,17 @@ class PlanningChecklist extends React.Component {
       context: this,
       success: function(data) {
         this.setState(state => {
-          var new_checklists = {...this.state.checklist};
-          new_checklists[property].owner = value;
+          var new_checklists = {...state.checklist};
+          if (property in state.checklist) {
+            new_checklists[property].owner = value;
+          } else {
+            for(let i=0; i<new_checklists.additional_checklist.length; i++) {
+              if (new_checklists.additional_checklist[i].name == property) {
+                new_checklists.additional_checklist[i].owner = value;
+                break;
+              }
+            }
+          }
           return {
             checklist: new_checklists
           };
