@@ -184,20 +184,56 @@ class PlanningChecklist extends React.Component {
     }
   }
 
+  onClick_delete_additional_item = (e) => {
+    let name = e.target.getAttribute("name");
+    var result = window.confirm(`Are you sure you want to delete ${name}?`);
+    if (!result) {
+      return;
+    }
+    $.ajax({
+      url: "/app_project/plan_checklist/" + this.state.checklist._id,
+      type: "DELETE",
+      data: {
+        name: name,
+      },
+      context: this,
+      success: function() {
+        this.setState(state => {
+          var new_checklist = {...state.checklist};
+          let additional_checklist = new_checklist.additional_checklist;
+          
+          for (let i=0; i< additional_checklist.length; i++) {
+            if (additional_checklist[i].name == name) {
+              additional_checklist.splice(i, 1);
+            }
+          }
+          return {checklist: new_checklist,};
+        })
+      },
+    })
+  }
+
   create_additional_items = () => {
     if (this.state.checklist.additional_checklist) {
       return this.state.checklist.additional_checklist.map((item) => {
-          return this.create_item_row(item.name, item.name);
+          return this.create_item_row(item.name, item.name, true);
         });
     } else {
       return;
     }
   }
 
-  create_item_row = (key_name, full_name) => {
+  create_item_row = (key_name, full_name, canDelete=false) => {
+    var delBtn;
+    if (canDelete) {
+      delBtn = (<button
+        onClick={this.onClick_delete_additional_item}
+        name={key_name}
+        type="btn">Delete</button>);
+    }
     return (
       <tr key={"row-" + key_name}>
-        <td>{full_name}</td>
+        <td>{full_name} {delBtn}</td>
         <td>
           <input type="checkbox" name={key_name}
             checked={this.get_property(key_name)}

@@ -15,6 +15,7 @@ module.exports.get_plan_checklist         = get_plan_checklist;
 module.exports.edit_checklist             = edit_checklist
 module.exports.create_checklist_item      = create_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
+module.exports.delete_checklist_item      = delete_checklist_item;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -154,6 +155,28 @@ async function create_checklist_item(req, res) {
     }
   } else {
     res.status(400).send("Error in data given");
+  } 
+}
+
+async function delete_checklist_item(req, res) {
+  var name = req.body.name;
+  if (name && typeof name == "string") {
+    var checklist = await Checklist.findById(req.params.checklist_id);
+    if (checklist) {
+      // Check that the item doesn't already exists with same name
+      for (let i=0; i<checklist.additional_checklist.length; i++) {
+        if (checklist.additional_checklist[i].name == name) {
+          checklist.additional_checklist.splice(i, 1);
+          await checklist.save();
+          res.status(200).send();
+          return;
+        }
+      }
+      res.status(404).send("Item in checklist not found");
+    } else {
+      res.status(404).end();
+    }
+  } else {
+    res.status(400).send("Error in data given");
   }
-  
 }
