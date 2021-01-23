@@ -127,35 +127,40 @@ class PlanningChecklist extends React.Component {
     }
   }
 
+
+  create_item_row = (key_name, full_name) => {
+    return (
+      <tr key={"row-" + key_name}>
+        <td>{full_name}</td>
+        <td>
+          <input type="checkbox" name={key_name}
+            checked={this.get_property(key_name)}
+            onChange={this.onChange_check_input}
+          ></input>
+        </td>
+        <td>
+          <select className="form-control"
+              name={key_name}
+              onChange={this.onChange_owner_select}
+              value={this.get_owner(key_name)}
+              >
+            <option value="">Unassigned</option>
+            {this.props.assignable_users.map((user)=> {
+              return (<option key={key_name + "-option-" + user.id}
+                value={user.id}>{user.name}</option>)
+            })}
+          </select>
+        </td>
+      </tr>);
+  }
+
   render() {    
     return (<div>
       <button type="button" onClick={this.onClick_add_checklist}>Add to Checklist</button>
       <table className="table table-sm">
         <tbody>
           {Object.keys(this.table_map).map((key)=> {
-            return (
-              <tr key={"row-" + key}>
-                <td>{this.table_map[key]}</td>
-                <td>
-                  <input type="checkbox" name={key}
-                    checked={this.get_property(key)}
-                    onChange={this.onChange_check_input}
-                  ></input>
-                </td>
-                <td>
-                  <select className="form-control"
-                      name={key}
-                      onChange={this.onChange_owner_select}
-                      value={this.get_owner(key)}
-                      >
-                    <option value="">Unassigned</option>
-                    {this.props.assignable_users.map((user)=> {
-                      return (<option key={key + "-option-" + user.id}
-                        value={user.id}>{user.name}</option>)
-                    })}
-                  </select>
-                </td>
-              </tr>);
+            return this.create_item_row(key, this.table_map[key])
           })}
         </tbody>
       </table>
