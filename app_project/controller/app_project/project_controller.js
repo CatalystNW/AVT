@@ -12,6 +12,7 @@ module.exports.delete_all_projects  = delete_all_projects;
 module.exports.view_project         = view_project;
 module.exports.get_project          = get_project;
 module.exports.get_plan_checklist   = get_plan_checklist;
+module.exports.edit_checklist       = edit_checklist
 module.exports.get_task_assignable_users = get_task_assignable_users;
 
 async function get_projects(req, res) {
@@ -89,4 +90,13 @@ async function get_plan_checklist(req, res) {
     res.status(404).end();
     return;
   }
+}
+
+async function edit_checklist(req, res) {
+  var checklist = await Checklist.findById(req.params.checklist_id);
+  if (req.body.type == "property") {
+    checklist[req.body.property].complete = req.body.value == "true" ? true : false;
+    checklist.save();
+  }
+  res.status(200).send();
 }
