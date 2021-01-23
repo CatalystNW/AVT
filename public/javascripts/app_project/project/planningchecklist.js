@@ -127,6 +127,15 @@ class PlanningChecklist extends React.Component {
     }
   }
 
+  create_additional_items = () => {
+    if (this.state.checklist.additional_checklist) {
+      return this.state.checklist.additional_checklist.map((item) => {
+          return this.create_item_row(item.name, item.name);
+        });
+    } else {
+      return;
+    }
+  }
 
   create_item_row = (key_name, full_name) => {
     return (
@@ -162,6 +171,7 @@ class PlanningChecklist extends React.Component {
           {Object.keys(this.table_map).map((key)=> {
             return this.create_item_row(key, this.table_map[key])
           })}
+          {this.create_additional_items()}
         </tbody>
       </table>
     </div>);
