@@ -105,6 +105,12 @@ class PlanningChecklist extends React.Component {
     if (name == null) { // cancelled
       return;
     } else if (name && name.length > 4) {
+      for (let i=0; i< this.state.checklist.additional_checklist.length; i++) {
+        if (name == this.state.checklist.additional_checklist[i].name) {
+          window.alert("Checklist item name is already in use.");
+          return;
+        }
+      }
       $.ajax({
         url: "/app_project/plan_checklist/" + this.state.checklist._id,
         type: "POST",

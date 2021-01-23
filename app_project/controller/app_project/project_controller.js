@@ -111,6 +111,13 @@ async function create_checklist_item(req, res) {
   if (name && typeof name == "string") {
     var checklist = await Checklist.findById(req.params.checklist_id);
     if (checklist) {
+      // Check that the item doesn't already exists with same name
+      for (let i=0; i<checklist.additional_checklist.length; i++) {
+        if (checklist.additional_checklist.name == name) {
+          res.status(409).end();
+          return;
+        }
+      }
       checklist.additional_checklist.push({
         name: name,
       });
