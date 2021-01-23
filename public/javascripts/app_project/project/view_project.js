@@ -20,7 +20,7 @@ class ProjectApp extends React.Component {
           console.log(project_data);
           this.project_menu.current.load_project(project_data);
           this.setState({
-            project: project_data, 
+            project: project_data,
           }, () => {
             this.load_application_data(project_data.documentPackage);
           });
@@ -111,8 +111,9 @@ class ProjectMenu extends React.Component {
     super(props);
     this.state = {
       workItems: [],
-
+      assignable_users: [],
     };
+    this.load_assignable_users();
     this.planning_checklist = React.createRef();
   }
 
@@ -130,6 +131,19 @@ class ProjectMenu extends React.Component {
     $("#project-nav-container").css(
       "width", $("#nav-project-tabContent").width());
   }
+
+  load_assignable_users = () => {
+    $.ajax({
+      url: "/app_project/projects/assignable_users",
+      type: "GET",
+      context: this,
+      success: function(users) {
+        this.setState({
+          assignable_users: users,
+        });
+      },
+    })
+  };
 
   add_workitem = (workitem) => {
     this.setState({
@@ -201,6 +215,7 @@ class ProjectMenu extends React.Component {
           </div>
           <div className="tab-pane show active" id="nav-planning" role="tabpanel">
             <PlanningChecklist ref={this.planning_checklist} 
+              assignable_users={this.state.assignable_users}
               project_id={project_id}/>
           </div> 
           <div className="tab-pane" id="nav-workitem" role="tabpanel">

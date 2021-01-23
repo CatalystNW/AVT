@@ -56,6 +56,10 @@ class PlanningChecklist extends React.Component {
                 <td>
                   <select className="form-control">
                     <option value="">Unassigned</option>
+                    {this.props.assignable_users.map((user)=> {
+                      return (<option key={key + "-option-" + user.id}
+                        value={user.id}>{user.name}</option>)
+                    })}
                   </select>
                 </td>
               </tr>);
