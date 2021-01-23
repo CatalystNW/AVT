@@ -67,9 +67,34 @@ class PlanningChecklist extends React.Component {
     });
   }
 
+  onChange_owner_select = (e) => {
+    var property = e.target.getAttribute("name"),
+        value = e.target.value;
+    $.ajax({
+      url: "/app_project/plan_checklist/" + this.state.checklist._id,
+      type: "PATCH",
+      data: {
+        property: property,
+        type: "owner",
+        value: value,
+      },
+      context: this,
+      success: function(data) {
+        this.setState(state => {
+          var new_checklists = {...this.state.checklist};
+          new_checklists[property].owner = value;
+          return {
+            checklist: new_checklists
+          };
+        });
+      },
+    });
+  }
+
   get_owner = (key) => {
-    return ((key in this.state.checklist) && "owner" in this.state.checklist[key]) ? 
-      this.state.checklists[key].owner : "";
+    return ((key in this.state.checklist) && "owner" in this.state.checklist[key]
+              && this.state.checklist[key].owner != null) ? 
+      this.state.checklist[key].owner : "";
   }
   get_property = (key) => {
     return (this.state.checklist[key]) ? this.state.checklist[key].complete : false;
@@ -91,6 +116,7 @@ class PlanningChecklist extends React.Component {
                 </td>
                 <td>
                   <select className="form-control"
+                      name={key}
                       onChange={this.onChange_owner_select}
                       value={this.get_owner(key)}
                       >

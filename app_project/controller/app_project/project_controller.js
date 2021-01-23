@@ -97,6 +97,10 @@ async function edit_checklist(req, res) {
   if (req.body.type == "property") {
     checklist[req.body.property].complete = req.body.value == "true" ? true : false;
     checklist.save();
+  } else if (req.body.type == "owner") {
+    var owner = req.body.value == "" ? null : req.body.value;
+    checklist[req.body.property].owner = owner;
+    checklist.save();
   }
   res.status(200).send();
 }
