@@ -150,7 +150,7 @@ async function edit_checklist(req, res) {
 async function create_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string" && name.length > 4) {
-    var checklist
+    var checklist;
     if (req.body.type == "planning") {
       checklist = await PlanChecklist.findById(req.params.checklist_id);
     } else if (req.body.type == "wrapup") {
@@ -186,7 +186,7 @@ async function create_checklist_item(req, res) {
 async function delete_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string") {
-    var checklist
+    var checklist;
     if (req.body.type == "planning") {
       checklist = await PlanChecklist.findById(req.params.checklist_id);
     } else if (req.body.type == "wrapup") {
