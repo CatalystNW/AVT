@@ -115,6 +115,7 @@ class ProjectMenu extends React.Component {
     };
     this.load_assignable_users();
     this.planning_checklist = React.createRef();
+    this.wrapup_checklist = React.createRef();
   }
 
   componentDidMount() {
@@ -219,7 +220,10 @@ class ProjectMenu extends React.Component {
               project_id={project_id}/>
           </div> 
           <div className="tab-pane show active" id="nav-wrapup" role="tabpanel">
-            <WrapupChecklist />
+            <WrapupChecklist ref={this.wrapup_checklist}
+              assignable_users={this.state.assignable_users}
+              project_id={project_id}
+            />
           </div>
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
