@@ -15,7 +15,7 @@ module.exports.view_project               = view_project;
 module.exports.get_project                = get_project;
 module.exports.get_plan_checklist         = get_plan_checklist;
 module.exports.edit_plan_checklist        = edit_plan_checklist
-module.exports.create_plan_checklist_item = create_plan_checklist_item
+module.exports.create_checklist_item      = create_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
 module.exports.get_wrapup_checklist       = get_wrapup_checklist;
@@ -135,10 +135,19 @@ async function edit_plan_checklist(req, res) {
   res.status(200).send();
 }
 
-async function create_plan_checklist_item(req, res) {
+async function create_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string") {
-    var checklist = await PlanChecklist.findById(req.params.checklist_id);
+    var checklist
+    if (req.body.type == "planning") {
+      checklist = await PlanChecklist.findById(req.params.checklist_id);
+    } else if (req.body.type == "wrapup") {
+      checklist = await WrapupChecklist.findById(req.params.checklist_id);
+    } else {
+      res.status(400).end();
+      return;
+    }
+    
     if (checklist) {
       // Check that the item doesn't already exists with same name
       for (let i=0; i<checklist.additional_checklist.length; i++) {
