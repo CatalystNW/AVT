@@ -4,7 +4,7 @@ var DocumentPackage = require("../../../models/documentPackage"),
     WorkItem        = require("../../models/app_project/WorkItem"),
     MaterialsItem   = require("../../models/app_project/MaterialsItem"),
     AppProject      = require("../../models/app_project/AppProject"),
-    PlanChecklist       = require("../../models/app_project/AppProjectPlanPlanChecklist");
+    PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist");
 
 
 module.exports.get_projects               = get_projects;
