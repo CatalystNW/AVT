@@ -4,7 +4,8 @@ var DocumentPackage = require("../../../models/documentPackage"),
     WorkItem        = require("../../models/app_project/WorkItem"),
     MaterialsItem   = require("../../models/app_project/MaterialsItem"),
     AppProject      = require("../../models/app_project/AppProject"),
-    PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist");
+    PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
+    WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
 
 
 module.exports.get_projects               = get_projects;
@@ -17,6 +18,7 @@ module.exports.edit_plan_checklist        = edit_plan_checklist
 module.exports.create_plan_checklist_item = create_plan_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
+module.exports.get_wrapup_checklist       = get_wrapup_checklist;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -179,5 +181,25 @@ async function delete_checklist_item(req, res) {
     }
   } else {
     res.status(400).send("Error in data given");
+  }
+}
+
+async function get_wrapup_checklist(req, res) {
+  if (req.params.project_id) {
+    var project_id = req.params.project_id;
+    console.log(project_id);
+    
+    var checklist = await WrapupChecklist.find({project: project_id}).lean();
+    if (checklist.length == 0) {
+      checklist = new WrapupChecklist();
+      checklist.project = project_id;
+      await checklist.save();
+    } else {
+      checklist = checklist[0];
+    }
+    res.status(200).json(checklist);
+  } else {
+    res.status(404).end();
+    return;
   }
 }
