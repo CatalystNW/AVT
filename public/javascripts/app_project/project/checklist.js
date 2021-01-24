@@ -230,16 +230,11 @@ class Checklist extends React.Component {
     if (!result) {
       return;
     }
-    var url;
-    if (this.props.type == "planning") {
-      url = "/app_project/plan_checklist/" + this.state.checklist._id;
-    } else {
-      url = "/app_project/wrapup_checklist/" + this.state.checklist._id;
-    }
     $.ajax({
-      url: url,
+      url: "/app_project/checklist/" + this.state.checklist._id,
       type: "DELETE",
       data: {
+        type: this.props.type,
         name: name,
       },
       context: this,

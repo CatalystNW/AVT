@@ -174,7 +174,15 @@ async function create_checklist_item(req, res) {
 async function delete_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string") {
-    var checklist = await PlanChecklist.findById(req.params.checklist_id);
+    var checklist
+    if (req.body.type == "planning") {
+      checklist = await PlanChecklist.findById(req.params.checklist_id);
+    } else if (req.body.type == "wrapup") {
+      checklist = await WrapupChecklist.findById(req.params.checklist_id);
+    } else {
+      res.status(400).end();
+      return;
+    }
     if (checklist) {
       // Check that the item doesn't already exists with same name
       for (let i=0; i<checklist.additional_checklist.length; i++) {
