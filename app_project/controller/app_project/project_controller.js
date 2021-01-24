@@ -63,6 +63,7 @@ async function delete_all_projects(req, res) {
   }
   await AppProject.deleteMany({});
   await PlanChecklist.deleteMany({});
+  await WrapupChecklist.deleteMany({});
   res.status(200).end();
 }
 
