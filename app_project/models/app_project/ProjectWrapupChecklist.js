@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
-const AppProjectWrapupSchema = new mongoose.Schema({
+const ProjectWrapupChecklistSchema = new mongoose.Schema({
   return_signup_sheet: [{
     name: String,
     complete: {
@@ -169,4 +169,4 @@ const AppProjectWrapupSchema = new mongoose.Schema({
   }],
 });
 
-module.exports = mongoose.model("AppProjectWrapup", AppProjectWrapupSchema);
+module.exports = mongoose.model("ProjectWrapupChecklist", ProjectWrapupChecklistSchema);
