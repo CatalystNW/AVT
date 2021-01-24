@@ -1,4 +1,4 @@
-class PlanningChecklist extends React.Component {
+class Checklist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

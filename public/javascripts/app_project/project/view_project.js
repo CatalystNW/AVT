@@ -215,7 +215,7 @@ class ProjectMenu extends React.Component {
             {this.create_select_users_table()}
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
-            <PlanningChecklist ref={this.planning_checklist} 
+            <Checklist ref={this.planning_checklist} 
               type="planning"
               assignable_users={this.state.assignable_users}
               project_id={project_id}/>
