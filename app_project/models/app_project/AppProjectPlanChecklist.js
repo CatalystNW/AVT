@@ -157,6 +157,8 @@ const AppProjectPlanListSchema = new mongoose.Schema({
       ref: "UserPackage",
     },
   },
+}, {
+  timestamps: true,
 });
 
 AppProjectPlanListSchema.statics.translate = function() {

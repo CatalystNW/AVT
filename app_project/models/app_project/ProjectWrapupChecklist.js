@@ -167,6 +167,8 @@ const ProjectWrapupChecklistSchema = new mongoose.Schema({
       ref: "UserPackage",
     },
   }],
+}, {
+  timestamps: true,
 });
 
 module.exports = mongoose.model("ProjectWrapupChecklist", ProjectWrapupChecklistSchema);
