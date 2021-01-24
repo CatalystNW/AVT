@@ -4,7 +4,8 @@ var DocumentPackage = require("../../../models/documentPackage"),
     WorkItem        = require("../../models/app_project/WorkItem"),
     MaterialsItem   = require("../../models/app_project/MaterialsItem"),
     AppProject      = require("../../models/app_project/AppProject"),
-    Checklist       = require("../../models/app_project/AppProjectPlanChecklist");
+    PlanChecklist       = require("../../models/app_project/AppProjectPlanPlanChecklist");
+
 
 module.exports.get_projects               = get_projects;
 module.exports.view_projects              = view_projects;
@@ -12,8 +13,8 @@ module.exports.delete_all_projects        = delete_all_projects;
 module.exports.view_project               = view_project;
 module.exports.get_project                = get_project;
 module.exports.get_plan_checklist         = get_plan_checklist;
-module.exports.edit_checklist             = edit_checklist
-module.exports.create_checklist_item      = create_checklist_item
+module.exports.edit_plan_checklist        = edit_plan_checklist
+module.exports.create_plan_checklist_item = create_plan_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
 
@@ -59,7 +60,7 @@ async function delete_all_projects(req, res) {
     await WorkItem.deleteMany({appProject: project._id});
   }
   await AppProject.deleteMany({});
-  await Checklist.deleteMany({});
+  await PlanChecklist.deleteMany({});
   res.status(200).end();
 }
 
@@ -79,9 +80,9 @@ async function get_plan_checklist(req, res) {
   if (req.params.project_id) {
     var project_id = req.params.project_id;
     
-    var checklist = await Checklist.find({project: project_id}).lean();
+    var checklist = await PlanChecklist.find({project: project_id}).lean();
     if (checklist.length == 0) {
-      checklist = new Checklist();
+      checklist = new PlanChecklist();
       checklist.project = project_id;
       await checklist.save();
     } else {
@@ -94,8 +95,8 @@ async function get_plan_checklist(req, res) {
   }
 }
 
-async function edit_checklist(req, res) {
-  var checklist = await Checklist.findById(req.params.checklist_id),
+async function edit_plan_checklist(req, res) {
+  var checklist = await PlanChecklist.findById(req.params.checklist_id),
       property = req.body.property,
       value = req.body.value,
       i;
@@ -131,10 +132,10 @@ async function edit_checklist(req, res) {
   res.status(200).send();
 }
 
-async function create_checklist_item(req, res) {
+async function create_plan_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string") {
-    var checklist = await Checklist.findById(req.params.checklist_id);
+    var checklist = await PlanChecklist.findById(req.params.checklist_id);
     if (checklist) {
       // Check that the item doesn't already exists with same name
       for (let i=0; i<checklist.additional_checklist.length; i++) {
@@ -161,7 +162,7 @@ async function create_checklist_item(req, res) {
 async function delete_checklist_item(req, res) {
   var name = req.body.name;
   if (name && typeof name == "string") {
-    var checklist = await Checklist.findById(req.params.checklist_id);
+    var checklist = await PlanChecklist.findById(req.params.checklist_id);
     if (checklist) {
       // Check that the item doesn't already exists with same name
       for (let i=0; i<checklist.additional_checklist.length; i++) {
