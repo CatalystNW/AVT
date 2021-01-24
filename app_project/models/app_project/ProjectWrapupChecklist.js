@@ -8,6 +8,7 @@ const ProjectWrapupChecklistSchema = new mongoose.Schema({
   },
 
   additional_checklist: [{
+    name: String,
     complete: {
       type: Boolean,
       default: false,
