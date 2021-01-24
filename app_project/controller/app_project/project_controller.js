@@ -14,7 +14,7 @@ module.exports.delete_all_projects        = delete_all_projects;
 module.exports.view_project               = view_project;
 module.exports.get_project                = get_project;
 module.exports.get_plan_checklist         = get_plan_checklist;
-module.exports.edit_plan_checklist        = edit_plan_checklist
+module.exports.edit_checklist        = edit_checklist
 module.exports.create_checklist_item      = create_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
@@ -98,12 +98,24 @@ async function get_plan_checklist(req, res) {
   }
 }
 
-async function edit_plan_checklist(req, res) {
-  var checklist = await PlanChecklist.findById(req.params.checklist_id),
-      property = req.body.property,
+async function edit_checklist(req, res) {
+  var property = req.body.property,
       value = req.body.value,
       i;
-  if (req.body.type == "property") {
+  var checklist;
+  if (req.body.type == "planning") {
+    checklist = await PlanChecklist.findById(req.params.checklist_id);
+  } else if (req.body.type == "wrapup") {
+    checklist = await WrapupChecklist.findById(req.params.checklist_id);
+  } else {
+    res.status(400).end();
+    return;
+  }
+  if (!checklist) {
+    res.status(404).end();
+    return;
+  }
+  if (req.body.property_type == "property") {
     if (property in checklist) {
       checklist[property].complete = value == "true" ? true : false;
       await checklist.save();
@@ -116,7 +128,7 @@ async function edit_plan_checklist(req, res) {
         }
       }
     }
-  } else if (req.body.type == "owner") {
+  } else if (req.body.property_type == "owner") {
     var owner = value == "" ? null : value;
     if (property in checklist) {
       checklist[property].owner = owner;

@@ -73,18 +73,13 @@ class Checklist extends React.Component {
   onChange_check_input = (e) => {
     var property = e.target.getAttribute("name"),
         value = e.target.checked;
-    var url;
-    if (this.props.type == "planning") {
-      url = "/app_project/plan_checklist/" + this.state.checklist._id;
-    } else {
-      url = "/app_project/wrapup_checklist/" + this.state.checklist._id;
-    }
     $.ajax({
-      url: url,
+      url: "/app_project/checklist/" + this.state.checklist._id,
       type: "PATCH",
       data: {
+        type: this.props.type,
         property: property,
-        type: "property",
+        property_type: "property",
         value: value,
       },
       context: this,
@@ -112,18 +107,13 @@ class Checklist extends React.Component {
   onChange_owner_select = (e) => {
     var property = e.target.getAttribute("name"),
         value = e.target.value;
-    var url;
-    if (this.props.type == "planning") {
-      url = "/app_project/plan_checklist/" + this.state.checklist._id;
-    } else {
-      url = "/app_project/wrapup_checklist/" + this.state.checklist._id;
-    }
     $.ajax({
-      url: url,
+      url: "/app_project/checklist/" + this.state.checklist._id,
       type: "PATCH",
       data: {
+        type: this.props.type,
         property: property,
-        type: "owner",
+        property_type: "owner",
         value: value,
       },
       context: this,
