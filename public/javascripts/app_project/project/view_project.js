@@ -221,6 +221,10 @@ class ProjectMenu extends React.Component {
               project_id={project_id}/>
           </div> 
           <div className="tab-pane show active" id="nav-wrapup" role="tabpanel">
+            <Checklist ref={this.planning_checklist} 
+              type="wrapup"
+              assignable_users={this.state.assignable_users}
+              project_id={project_id}/>
           </div>
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
             <button type="button" className="btn btn-primary" 
