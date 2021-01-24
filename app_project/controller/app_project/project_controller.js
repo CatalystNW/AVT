@@ -137,7 +137,7 @@ async function edit_plan_checklist(req, res) {
 
 async function create_checklist_item(req, res) {
   var name = req.body.name;
-  if (name && typeof name == "string") {
+  if (name && typeof name == "string" && name.length > 4) {
     var checklist
     if (req.body.type == "planning") {
       checklist = await PlanChecklist.findById(req.params.checklist_id);
