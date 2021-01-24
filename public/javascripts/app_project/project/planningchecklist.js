@@ -228,7 +228,7 @@ class PlanningChecklist extends React.Component {
     if (canDelete) {
       delBtn = (<button
         onClick={this.onClick_delete_additional_item}
-        name={key_name}
+        name={key_name} className="btn btn-sm btn-danger"
         type="btn">Delete</button>);
     }
     return (
@@ -258,7 +258,8 @@ class PlanningChecklist extends React.Component {
 
   render() {    
     return (<div>
-      <button type="button" onClick={this.onClick_add_checklist}>Add to Checklist</button>
+      <button type="button" className="btn btn-sm btn btn-outline-primary"
+        onClick={this.onClick_add_checklist}>Add to Checklist</button>
       <table className="table table-sm">
         <tbody>
           {Object.keys(this.table_map).map((key)=> {
