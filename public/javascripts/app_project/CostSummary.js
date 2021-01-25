@@ -15,9 +15,40 @@ class CostSummary extends React.Component {
   load_data = (data_type, id) => {
     if (data_type == "site_assessment") {
       this.load_site_assessment_data(id);
-    } else {
-      console.log("project");
+    } else if (data_type == "project") {
+      this.load_project_data(id);
     }
+  }
+
+  load_project_data = (project_id) => {
+    $.ajax({
+      url: "/app_project/projects/" + project_id,
+      type: "GET",
+      context: this,
+      success: function(projectData) {
+        var workItems = projectData.workItems;
+        var project_materials = [],
+            num_project_workitems = workItems.length,
+            project_volunteers = 0;
+
+        let i, j;
+
+        for (i=0; i<workItems.length; i++) {
+          if (workItems[i].volunteers_required) {
+            project_volunteers += workItems[i].volunteers_required;
+          }
+          for (j=0;j<workItems[i].materialsItems.length; j++) {
+            project_materials.push(workItems[i].materialsItems[j]);
+          }
+        }
+        this.setState({
+          data_type: "project",
+          num_project_workitems:    num_project_workitems,
+          project_materials:        project_materials,
+          proj_volunteers:          project_volunteers
+        });
+      }
+    })
   }
 
   load_site_assessment_data = (app_id) => {
