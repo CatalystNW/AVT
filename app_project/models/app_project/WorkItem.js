@@ -25,9 +25,13 @@ const workItemSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  siteAssessment: {
+    type: Schema.Types.ObjectId,
+    ref: "SiteAssessment",
+  },
   appProject : {
     type: Schema.Types.ObjectId,
-    ref: "AppProject"
+    ref: "AppProject",
   },
   volunteers_required: {type: Number, default: 0},
 
