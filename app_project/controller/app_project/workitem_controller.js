@@ -8,6 +8,7 @@ module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
 
+// Creates WorkItem & saves it to either SiteAssessment
 async function create_workitem(req, res) {  
   if (!req.body.type || !req.body.name || !req.body.description || 
     !req.body.application_id || (!req.body.project_id && !req.body.assessment_id)) {
@@ -27,27 +28,30 @@ async function create_workitem(req, res) {
   workitem.documentPackage = doc.id;
   workitem.handleit = req.body.handleit;
   if (req.body.type == "assessment") {
-    var assessment;
     if (!req.body.assessment_id) {
       res.status(400).end();
       return;
     }
-    assessment = await SiteAssessment.findById(req.body.assessment_id);
+    var assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {
       res.status(400).end();
       return;
     }
-
     if (req.body.assessment_comments)
       workitem.assessment_comments = req.body.assessment_comments;
     
-    workitem.siteAssessment = assessment; 
+    workitem.siteAssessment = assessment._id; 
   } else if (req.body.type == "project") {
     if (!req.body.project_id) {
       res.status(400).end();
       return;
     }
     var project = await AppProject.findById(req.body.project_id);
+    if (!project) {
+      res.status(400).end();
+      return;
+    }
+    workitem.appProject = project._id;
   } else {
     res.status(400).end();
     return;
