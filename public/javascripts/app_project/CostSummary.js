@@ -8,6 +8,7 @@ class CostSummary extends React.Component {
       project_materials: [],
       handleit_volunteers: 0,
       proj_volunteers: 0,
+      data_type: "site_assessment",
     };
   }
 
@@ -55,7 +56,8 @@ class CostSummary extends React.Component {
         handleit_materials:       handleit_materials,
         project_materials:        project_materials,
         proj_volunteers:          proj_volunteers,
-        handleit_volunteers:      handleit_volunteers
+        handleit_volunteers:      handleit_volunteers,
+        data_type:                "site_assessment",
       });
     });
   }
@@ -100,39 +102,49 @@ class CostSummary extends React.Component {
   }
 
   render() {
+    let isSiteAssessment = this.state.data_type=="site_assessment";
     return(
-      <table className="table">
-        <tbody>
-          <tr>
-            <th className="col-xs-8"># Handle-It Work items</th>
-            <td className="col-xs-4">{this.state.num_handleit_workitems}</td>
-          </tr>
-          <tr>
-            <td>
-              <h2>Materials Lists</h2>
-              {this.create_materialsitems_table("handleit")}
-            </td>
-          </tr>
-          <tr>
-            <th className="col-xs-8">Volunteers Req.</th>
-            <td className="col-xs-4">{this.state.handleit_volunteers}</td>
-          </tr>
-          <tr>
-            <th className="col-xs-8"># Project Work Items Accepted</th>
-            <td className="col-xs-4">{this.state.num_project_workitems}</td>
-          </tr>
-          <tr>
-            <td>
-              <h2>Materials Lists</h2>
-              {this.create_materialsitems_table("project")}
-            </td>
-          </tr>
-          <tr>
-            <th className="col-xs-8">Volunteers Req.</th>
-            <td className="col-xs-4">{this.state.proj_volunteers}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        {isSiteAssessment ? 
+        <table className="table">
+          <tbody>
+            <tr>
+              <th className="col-xs-8"># Handle-It Work items</th>
+              <td className="col-xs-4">{this.state.num_handleit_workitems}</td>
+            </tr>
+            <tr>
+              <td>
+                <h2>Materials Lists</h2>
+                {this.create_materialsitems_table("handleit")}
+              </td>
+            </tr>
+            <tr>
+              <th className="col-xs-8">Volunteers Req.</th>
+              <td className="col-xs-4">{this.state.handleit_volunteers}</td>
+            </tr>
+          </tbody>
+        </table>
+        : <div></div>
+        }
+        <table className="table">
+          <tbody>
+            <tr>
+              <th className="col-xs-8"># Project Work Items Accepted</th>
+              <td className="col-xs-4">{this.state.num_project_workitems}</td>
+            </tr>
+            <tr>
+              <td>
+                <h2>Materials Lists</h2>
+                {this.create_materialsitems_table("project")}
+              </td>
+            </tr>
+            <tr>
+              <th className="col-xs-8">Volunteers Req.</th>
+              <td className="col-xs-4">{this.state.proj_volunteers}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
