@@ -8,6 +8,7 @@ class ProjectApp extends React.Component {
     this.load_project();
     this.project_menu = React.createRef();
     this.modalmenu = React.createRef();
+    this.costsummary = React.createRef();
   }
 
   load_project() {
@@ -209,7 +210,7 @@ class ProjectMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
-            {/* <CostSummary ref={this.costsummary}/> */}
+            <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane" id="nav-people" role="tabpanel">
             {this.create_select_users_table()}
