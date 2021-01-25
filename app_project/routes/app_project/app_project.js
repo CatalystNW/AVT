@@ -54,4 +54,6 @@ router.post('/checklist/:checklist_id', project_controller.create_checklist_item
 router.delete('/checklist/:checklist_id', project_controller.delete_checklist_item);
 router.patch('/checklist/:checklist_id', project_controller.edit_checklist);
 
+router.get('/projects/:project_id/workitems', project_controller.get_work_items);
+
 module.exports = router;

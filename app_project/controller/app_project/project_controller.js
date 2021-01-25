@@ -14,11 +14,12 @@ module.exports.delete_all_projects        = delete_all_projects;
 module.exports.view_project               = view_project;
 module.exports.get_project                = get_project;
 module.exports.get_plan_checklist         = get_plan_checklist;
-module.exports.edit_checklist        = edit_checklist
+module.exports.edit_checklist             = edit_checklist
 module.exports.create_checklist_item      = create_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
 module.exports.get_wrapup_checklist       = get_wrapup_checklist;
+module.exports.get_work_items             = get_work_items
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -230,6 +231,19 @@ async function get_wrapup_checklist(req, res) {
     res.status(200).json(checklist);
   } else {
     res.status(404).end();
+    return;
+  }
+}
+
+async function get_work_items(req, res) {
+  var project_id = req.params.project_id;
+
+  var project = await AppProject.findById(project_id.populate({path: "workItems", model: "WorkItem",
+        populate: {path: "materialsItems", model: "MaterialsItem"}});
+  if (project) {
+    res.status(200).json(project);
+  } else {
+    res.status(404).send();
     return;
   }
 }
