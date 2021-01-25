@@ -8,7 +8,6 @@ class ProjectApp extends React.Component {
     this.load_project();
     this.project_menu = React.createRef();
     this.modalmenu = React.createRef();
-    this.costsummary = React.createRef();
   }
 
   load_project() {
@@ -117,6 +116,7 @@ class ProjectMenu extends React.Component {
     this.load_assignable_users();
     this.planning_checklist = React.createRef();
     this.wrapup_checklist = React.createRef();
+    this.costsummary = React.createRef();
   }
 
   componentDidMount() {
@@ -125,7 +125,7 @@ class ProjectMenu extends React.Component {
     // Load data when cost-summary is shown
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
       if (e.target.id == "nav-cost-summary-tab") {
-        that.costsummary.current.load_data();
+        that.costsummary.current.load_data("project", project_id);
       }
     });
     $("#nav-project-tabContent").css(
