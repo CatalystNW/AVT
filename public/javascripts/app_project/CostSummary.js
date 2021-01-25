@@ -11,7 +11,15 @@ class CostSummary extends React.Component {
     };
   }
 
-  load_data = () => {
+  load_data = (data_type, id) => {
+    if (data_type == "site_assessment") {
+      this.load_site_assessment_data(id);
+    } else {
+      console.log("project");
+    }
+  }
+
+  load_site_assessment_data = (app_id) => {
     var that = this;
     funkie.get_assessment(app_id, function(data) {
       var handleit_materials = [],
