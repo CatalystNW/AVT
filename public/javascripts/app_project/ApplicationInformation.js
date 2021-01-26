@@ -29,6 +29,88 @@ class ApplicationInformation extends React.Component {
       return years;
   };
 
+  create_applicant_info_page = () => {
+    const app = this.props.application;
+    const address = app.line_2 == "" ?
+      <span>{app.line_1}<br />{app.city}, {app.state} {app.zip}</span> :
+      <span>{app.line_1}<br />{app.line_2}<br />{app.city}, {app.state} {app.zip}</span>
+    const owns_home = app.owns_home ? "Yes" : "No";
+      
+    return (
+      <div>
+        <table className="table">
+          <tbody>
+            <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{name}</td></tr>
+            <tr><th className="col-xs-3">Address</th><td className="col-xs-9">{address}</td></tr>
+            <tr><th className="col-xs-3">Phone</th><td className="col-xs-9">{app.phone}</td></tr>
+            <tr><th className="col-xs-3">Email</th><td className="col-xs-9">{app.email}</td></tr>
+            <tr>
+              <th className="col-xs-3">Emergency Contact</th>
+              <td className="col-xs-9">
+                {app.emergency_name}<br />{app.emergency_relationship}<br />{app.emergency_phone}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Applicant Info</h3>
+        <table className="table">
+          <tbody>
+            <tr>
+              <th className="col-xs-3">Age</th>
+              <td className="col-xs-9">{this.calculate_age()}</td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Owns Home</th>
+              <td className="col-xs-9">{owns_home}<br /></td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Spouse</th>
+              <td className="col-xs-9">{app.spouse}</td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Other Residents</th>
+              <td className="col-xs-9">
+                {app.other_residents_names.map((name, index) => {
+                  return <div key={"res-" + index}>{name} ({app.other_residents_age[index]}) - {app.other_residents_relationship[index]}</div>
+                })}
+              </td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Language</th>
+              <td className="col-xs-9">{app.language}<br /></td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Heard About</th>
+              <td className="col-xs-9">{app.heard_about}<br /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
+  }
+
+  create_property_page = () => {
+    const app = this.props.application;
+    const can_contribute = app.client_can_contribute ? app.client_can_contribute_description : "No",
+          ass_can_contribute = app.associates_can_contribute ? app.associates_can_contribute_description : "No";
+
+    return (
+      <div>
+        <h3>Property Information</h3>
+        <table className="table">
+          <tbody>
+            <tr><th className="col-xs-3">Home Type</th><td className="col-xs-9">{app.home_type}</td></tr>
+            <tr><th className="col-xs-3">Ownership Length</th><td className="col-xs-9">{app.ownership_length}</td></tr>
+            <tr><th className="col-xs-3">Years Constructed</th><td className="col-xs-9">{app.year_constructed}</td></tr>
+            <tr><th className="col-xs-3">Requested Repairs</th><td className="col-xs-9">{app.requested_repairs}</td></tr>
+            <tr><th className="col-xs-3">Client Can Contribute</th><td className="col-xs-9">{can_contribute}</td></tr>
+            <tr><th className="col-xs-3">Assoc. Can Contribute</th><td className="col-xs-9">{ass_can_contribute}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   render() {
     // set to browser height so that overflow will show both divs with scrollbars
     const divStyle = {
@@ -42,14 +124,6 @@ class ApplicationInformation extends React.Component {
     const name = app.middle_name == "" ?
       `${app.first_name} ${app.last_name}` :
       `${app.first_name} ${app.middle_name} ${app.last_name}`;
-    const address = app.line_2 == "" ?
-      <span>{app.line_1}<br />{app.city}, {app.state} {app.zip}</span> :
-      <span>{app.line_1}<br />{app.line_2}<br />{app.city}, {app.state} {app.zip}</span>
-
-    const owns_home = app.owns_home ? "Yes" : "No",
-          can_contribute = app.client_can_contribute ? app.client_can_contribute_description : "No",
-          ass_can_contribute = app.associates_can_contribute ? app.associates_can_contribute_description : "No";
-          
 
     var google_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD2CmgnSECdg_g-aFgp95NUBv2QUEidDvs&q=";
     google_url += `${app.line_1} ${app.line_2}, ${app.city}, ${app.state}, ${app.zip}`;
@@ -66,73 +140,15 @@ class ApplicationInformation extends React.Component {
                   href="#nav-property-info" role="tab">Property</a>
               <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
                   href="#nav-map-info" role="tab">Map</a>
-              
             </ul>
           </div>
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
             <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
-              <table className="table">
-                <tbody>
-                  <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{name}</td></tr>
-                  <tr><th className="col-xs-3">Address</th><td className="col-xs-9">{address}</td></tr>
-                  <tr><th className="col-xs-3">Phone</th><td className="col-xs-9">{app.phone}</td></tr>
-                  <tr><th className="col-xs-3">Email</th><td className="col-xs-9">{app.email}</td></tr>
-                  <tr>
-                    <th className="col-xs-3">Emergency Contact</th>
-                    <td className="col-xs-9">
-                      {app.emergency_name}<br />{app.emergency_relationship}<br />{app.emergency_phone}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <h3>Applicant Info</h3>
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <th className="col-xs-3">Age</th>
-                    <td className="col-xs-9">{this.calculate_age()}</td>
-                  </tr>
-                  <tr>
-                    <th className="col-xs-3">Owns Home</th>
-                    <td className="col-xs-9">{owns_home}<br /></td>
-                  </tr>
-                  <tr>
-                    <th className="col-xs-3">Spouse</th>
-                    <td className="col-xs-9">{app.spouse}</td>
-                  </tr>
-                  <tr>
-                    <th className="col-xs-3">Other Residents</th>
-                    <td className="col-xs-9">
-                      {app.other_residents_names.map((name, index) => {
-                        return <div key={"res-" + index}>{name} ({app.other_residents_age[index]}) - {app.other_residents_relationship[index]}</div>
-                      })}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="col-xs-3">Language</th>
-                    <td className="col-xs-9">{app.language}<br /></td>
-                  </tr>
-                  <tr>
-                    <th className="col-xs-3">Heard About</th>
-                    <td className="col-xs-9">{app.heard_about}<br /></td>
-                  </tr>
-                </tbody>
-              </table>
+              {this.create_applicant_info_page()}
             </div>
             <div className="tab-pane" id="nav-property-info" role="tabpanel">
-              <h3>Property Information</h3>
-              <table className="table">
-                <tbody>
-                  <tr><th className="col-xs-3">Home Type</th><td className="col-xs-9">{app.home_type}</td></tr>
-                  <tr><th className="col-xs-3">Ownership Length</th><td className="col-xs-9">{app.ownership_length}</td></tr>
-                  <tr><th className="col-xs-3">Years Constructed</th><td className="col-xs-9">{app.year_constructed}</td></tr>
-                  <tr><th className="col-xs-3">Requested Repairs</th><td className="col-xs-9">{app.requested_repairs}</td></tr>
-                  <tr><th className="col-xs-3">Client Can Contribute</th><td className="col-xs-9">{can_contribute}</td></tr>
-                  <tr><th className="col-xs-3">Assoc. Can Contribute</th><td className="col-xs-9">{ass_can_contribute}</td></tr>
-                </tbody>
-              </table>
+              {this.create_property_page()}
             </div>
             <div className="tab-pane" id="nav-map-info" role="tabpanel">
               <iframe width="100%" height="280" frameBorder="0"
