@@ -112,14 +112,15 @@ class ApplicationInformation extends React.Component {
   }
 
   render() {
-    // set to browser height so that overflow will show both divs with scrollbars
-    const divStyle = {
-      height: funkie.calculate_page_height().toString() + "px",
-    };
     var app = this.props.application;
     if (app === null) {
       return (<div></div>);
     }
+
+    // set to browser height so that overflow will show both divs with scrollbars
+    const divStyle = {
+      height: funkie.calculate_page_height().toString() + "px",
+    };
 
     const name = app.middle_name == "" ?
       `${app.first_name} ${app.last_name}` :
