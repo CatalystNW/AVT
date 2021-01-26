@@ -117,6 +117,17 @@ class ApplicationInformation extends React.Component {
       return (<div></div>);
     }
 
+    var assessment_tab, assessment_page;
+    if (this.props.view_type && this.props.view_type == "project") {
+      assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
+            href="#nav-site-assessment" role="tab">Assessment</a>);
+      assessment_page = (
+        <div className="tab-pane" id="nav-site-assessment" role="tabpanel">
+          Test
+        </div>
+      );
+    }
+
     // set to browser height so that overflow will show both divs with scrollbars
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -135,6 +146,7 @@ class ApplicationInformation extends React.Component {
           <div id="application-info-nav-container">
             <h2>{name}</h2>
             <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
+              { assessment_tab }
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                   href="#nav-app-info" role="tab">Contact</a>
               <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
@@ -145,6 +157,7 @@ class ApplicationInformation extends React.Component {
           </div>
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
+            {assessment_page}
             <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
               {this.create_applicant_info_page()}
             </div>
@@ -155,6 +168,7 @@ class ApplicationInformation extends React.Component {
               <iframe width="100%" height="280" frameBorder="0"
                 src={google_url} target="_blank">Google Maps Link</iframe>
             </div>
+            
           </div>
           
         </div>

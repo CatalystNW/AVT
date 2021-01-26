@@ -97,6 +97,7 @@ class ProjectApp extends React.Component {
       />
       <ApplicationInformation
         application={this.state.application}
+        view_type="project"
       />
       <ModalMenu ref={this.modalmenu} />
     </div>);
