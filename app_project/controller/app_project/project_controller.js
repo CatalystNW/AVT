@@ -238,7 +238,7 @@ async function get_wrapup_checklist(req, res) {
 async function get_work_items(req, res) {
   var project_id = req.params.project_id;
 
-  var project = await AppProject.findById(project_id.populate({path: "workItems", model: "WorkItem",
+  var project = await AppProject.findById(project_id).populate({path: "workItems", model: "WorkItem",
         populate: {path: "materialsItems", model: "MaterialsItem"}});
   if (project) {
     res.status(200).json(project);
