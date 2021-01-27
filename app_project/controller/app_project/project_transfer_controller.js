@@ -50,6 +50,10 @@ async function transfer_project(req, res) {
       project.name = project_workitems[id];
       project.siteAssessment = siteAssessment._id;
       project.documentPackage = siteAssessment.documentPackage;
+
+      project.start = siteAssessment.project_start_date;
+      project.end = siteAssessment.project_end_date;
+
       project.handleit = false;
       
       project.workItems.push(new_workItem._id);
@@ -76,6 +80,10 @@ async function transfer_project(req, res) {
     project.name = old_workItem.name;
     project.siteAssessment = siteAssessment._id;
     project.documentPackage = siteAssessment.documentPackage;
+
+    project.start = siteAssessment.project_start_date;
+    project.end = siteAssessment.project_end_date;
+
     project.handleit = true;
     
     project.workItems.push(new_workItem._id);
