@@ -209,11 +209,35 @@ class ApplicationInformation extends React.Component {
       return (<div></div>);
     }
 
-    var assessment_tab, assessment_page;
+    var assessment_tab, assessment_page, application_page,
+        property_page, property_tab;
     if (this.props.view_type && this.props.view_type == "project") {
       assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
             href="#nav-site-assessment" role="tab">Assessment</a>);
       assessment_page = this.create_assessment_page();
+
+      // Split application page into two tabs for assessment. Combine for projects
+      application_page = (
+        <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
+          {this.create_applicant_info_page()}
+          {this.create_property_page()}
+        </div>
+      );
+    } else {
+      application_page = (
+          <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
+            {this.create_applicant_info_page()}
+          </div>
+      );
+      property_tab = (
+        <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
+            href="#nav-property-info" role="tab">Property</a>
+      )
+      property_page = (
+        <div className="tab-pane" id="nav-property-info" role="tabpanel">
+          {this.create_property_page()}
+        </div>
+      );
     }
 
     // set to browser height so that overflow will show both divs with scrollbars
@@ -235,24 +259,19 @@ class ApplicationInformation extends React.Component {
             <h2>{name}</h2>
             <ul className="nav nav-tabs " id="nav-app-tab" role="tablist">
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
-                  href="#nav-app-info" role="tab">Contact</a>
+                href="#nav-app-info" role="tab">Application</a>
+              { property_tab }
               { assessment_tab }
-              <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
-                  href="#nav-property-info" role="tab">Property</a>
               <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
                   href="#nav-map-info" role="tab">Map</a>
             </ul>
           </div>
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
-            <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
-              {this.create_applicant_info_page()}
-            </div>
+            { application_page }
+            { property_page }
             <div className="tab-pane" id="nav-site-assessment" role="tabpanel">
               {assessment_page}
-            </div>
-            <div className="tab-pane" id="nav-property-info" role="tabpanel">
-              {this.create_property_page()}
             </div>
             <div className="tab-pane" id="nav-map-info" role="tabpanel">
               <iframe width="100%" height="280" frameBorder="0"
