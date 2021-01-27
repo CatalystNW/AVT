@@ -13,22 +13,11 @@ class AssessmentChecklist extends React.Component {
     this.waste_cost_timer = null;
     this.summary_timer = null;
   }
-  // Convert the date given by server (UTC) to local date & time
-  // Returns as a Date object
-  convert_date(old_date) {
-    var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
-        result = regex.exec(old_date);
-    if (result) {
-      let [year, month, date, hours, minutes] = result.slice(1,6);
-      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
-    }
-    return null;
-  }
   load_assessment = (assessment) => {
     if (assessment.project_start_date)
-      assessment.project_start_date = this.convert_date(assessment.project_start_date);
+      assessment.project_start_date = funkie.convert_date(assessment.project_start_date);
     if (assessment.project_end_date)
-      assessment.project_end_date = this.convert_date(assessment.project_end_date);
+      assessment.project_end_date = funkie.convert_date(assessment.project_end_date);
     this.setState(assessment, () => {
       // Set safety plan coloring after assessment is loaded
       this.color_safety_plan_textarea();

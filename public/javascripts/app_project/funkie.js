@@ -1,5 +1,16 @@
 // Note: app_id is a variable set by the page
 var funkie = {
+  // Convert the date given by server (UTC) to local date & time
+  // Returns as a Date object
+  convert_date(old_date) {
+    var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
+        result = regex.exec(old_date);
+    if (result) {
+      let [year, month, date, hours, minutes] = result.slice(1,6);
+      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
+    }
+    return null;
+  },
   load_application(app_id, callback) {
     $.ajax({
       type: "GET",
