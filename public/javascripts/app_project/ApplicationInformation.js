@@ -234,9 +234,9 @@ class ApplicationInformation extends React.Component {
           <div id="application-info-nav-container">
             <h2>{name}</h2>
             <ul className="nav nav-tabs " id="nav-app-tab" role="tablist">
-              { assessment_tab }
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                   href="#nav-app-info" role="tab">Contact</a>
+              { assessment_tab }
               <a className="nav-item nav-link" id="nav-property-tab" data-toggle="tab" 
                   href="#nav-property-info" role="tab">Property</a>
               <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
@@ -245,11 +245,11 @@ class ApplicationInformation extends React.Component {
           </div>
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
-            <div className="tab-pane show active" id="nav-site-assessment" role="tabpanel">
-              {assessment_page}
-            </div>
-            <div className="tab-pane" id="nav-app-info" role="tabpanel">
+            <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
               {this.create_applicant_info_page()}
+            </div>
+            <div className="tab-pane" id="nav-site-assessment" role="tabpanel">
+              {assessment_page}
             </div>
             <div className="tab-pane" id="nav-property-info" role="tabpanel">
               {this.create_property_page()}
