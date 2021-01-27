@@ -176,10 +176,6 @@ class ProjectMenu extends React.Component {
     });
   }
 
-  create_select_users_table = () => {
-    return (<div></div>);
-  }
-
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -190,6 +186,10 @@ class ProjectMenu extends React.Component {
         id="assessment-container">
         <div id="project-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
+            <li className="nav-item">
+              <a className="nav-link active" id="nav-info-tab" data-toggle="tab" 
+                href="#nav-info" role="tab">Info</a>
+            </li>
             <li className="nav-item">
               <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-workitem" role="tab">Work Items</a>
@@ -203,22 +203,31 @@ class ProjectMenu extends React.Component {
                 href="#nav-planning" role="tab">Planning</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" id="nav-People-tab" data-toggle="tab" 
-                href="#nav-people" role="tab">People</a>
+              <a className="nav-link" id="nav-partners-tab" data-toggle="tab" 
+                href="#nav-partners" role="tab">Partners</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" id="nav-wrapup-tab" data-toggle="tab" 
+              <a className="nav-link" id="nav-wrapup-tab" data-toggle="tab" 
                 href="#nav-wrapup" role="tab">Wrap-Up</a>
             </li>
           </ul>
         </div>
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
+          <div className="tab-pane show active" id="nav-info" role="tabpanel">
+            <div>Start Date</div>
+            <div>Start Date</div>
+            <div>Final Volunteer Hours</div>
+            <div>Leaders</div>
+            <div>Chief Crew</div>
+            <div>Project Advocate</div>
+            <div>Site Host</div>
+          </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
           </div>
-          <div className="tab-pane" id="nav-people" role="tabpanel">
-            {this.create_select_users_table()}
+          <div className="tab-pane" id="nav-partners" role="tabpanel">
+            Partners
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
             <Checklist ref={this.planning_checklist} 
@@ -226,7 +235,7 @@ class ProjectMenu extends React.Component {
               assignable_users={this.state.assignable_users}
               project_id={project_id}/>
           </div> 
-          <div className="tab-pane show active" id="nav-wrapup" role="tabpanel">
+          <div className="tab-pane" id="nav-wrapup" role="tabpanel">
             <Checklist ref={this.planning_checklist} 
               type="wrapup"
               assignable_users={this.state.assignable_users}
