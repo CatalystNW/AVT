@@ -53,7 +53,7 @@ class CostSummary extends React.Component {
 
   load_site_assessment_data = (app_id) => {
     var that = this;
-    funkie.get_assessment(app_id, function(data) {
+    funkie.get_assessment_by_appId(app_id, function(data) {
       var handleit_materials = [],
           project_materials = [],
           num_handleit_workitems = 0,

@@ -24,7 +24,7 @@ class App extends React.Component {
 
   getAssessment = () => {
     var that = this;
-    funkie.get_assessment(
+    funkie.get_assessment_by_appId(
       app_id, 
       (data) => {
         console.log(data.site_assessment);

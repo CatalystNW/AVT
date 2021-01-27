@@ -15,7 +15,7 @@ var funkie = {
     - document.getElementById("navbarResponsive").offsetHeight - 40
     - document.getElementsByClassName("small")[0].offsetHeight;
   },
-  get_assessment(app_id, callback) {
+  get_assessment_by_appId(app_id, callback) {
     $.ajax({
       type: "GET",
       url: "../site_assessment/app_id/" + app_id,
