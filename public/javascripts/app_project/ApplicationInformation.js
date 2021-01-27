@@ -210,10 +210,11 @@ class ApplicationInformation extends React.Component {
     }
 
     var assessment_tab, assessment_page, application_page,
-        property_page, property_tab;
+        property_page, property_tab, proj_note_tab, proj_note_page;
     if (this.props.view_type && this.props.view_type == "project") {
       assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
             href="#nav-site-assessment" role="tab">Assessment</a>);
+
       assessment_page = this.create_assessment_page();
 
       // Split application page into two tabs for assessment. Combine for projects
@@ -221,6 +222,15 @@ class ApplicationInformation extends React.Component {
         <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
           {this.create_applicant_info_page()}
           {this.create_property_page()}
+        </div>
+      );
+
+      proj_note_tab = (
+        <a className="nav-item nav-link" id="nav-proj-note-tab" data-toggle="tab" 
+            href="#nav-proj-note" role="tab">Notes</a>);
+      proj_note_page = (
+        <div className="tab-pane" id="nav-proj-note" role="tabpanel">
+          Note
         </div>
       );
     } else {
@@ -264,6 +274,7 @@ class ApplicationInformation extends React.Component {
               { assessment_tab }
               <a className="nav-item nav-link" id="nav-map-tab" data-toggle="tab" 
                   href="#nav-map-info" role="tab">Map</a>
+              { proj_note_tab }
             </ul>
           </div>
 
@@ -277,7 +288,7 @@ class ApplicationInformation extends React.Component {
               <iframe width="100%" height="280" frameBorder="0"
                 src={google_url} target="_blank">Google Maps Link</iframe>
             </div>
-            
+            { proj_note_page }
           </div>
           
         </div>
