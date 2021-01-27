@@ -87,6 +87,10 @@ class ProjectApp extends React.Component {
   };
 
   render() {
+    var assessment_id;
+    if (this.state.project) {
+      assessment_id = this.state.project.siteAssessment;
+    }
     return (
     <div>
       <ProjectMenu ref={this.project_menu} 
@@ -97,7 +101,7 @@ class ProjectApp extends React.Component {
       />
       <ApplicationInformation
         application={this.state.application}
-        view_type="project"
+        view_type="project" assessment_id={assessment_id}
       />
       <ModalMenu ref={this.modalmenu} />
     </div>);

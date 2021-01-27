@@ -1,6 +1,9 @@
 class ApplicationInformation extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      site_assessment: null,
+    }
   }
 
   componentDidMount() {
@@ -111,6 +114,95 @@ class ApplicationInformation extends React.Component {
     );
   }
 
+  get_site_assessment = () => {
+    funkie.get_assessment(this.props.assessment_id, (data)=> {
+      console.log(data);
+      this.setState({
+        site_assessment: data,
+      });
+    });
+  }
+
+  create_assessment_page = () => {
+    if (this.state.site_assessment == null) {
+      this.get_site_assessment();
+      return (<div></div>);
+    } else {
+      var assessment = this.state.site_assessment;
+      return (
+        <div>
+          <h3>Info</h3>
+          <table className="table table-sm">
+            <tbody>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Summary
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  {assessment.summary}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Lead
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  {assessment.lead}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Asbestos
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  {assessment.asbestos}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Safety Plan
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  {assessment.safety_plan}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Waste Dumpster
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  <div>Required : {assessment.waste_required ? "Yes" : "No"}</div>
+                  <div>Cost: {assessment.waste_cost}</div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Porta Potty
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  <div>Required : {assessment.porta_potty_required ? "Yes" : "No"}</div>
+                  <div>Cost: {assessment.porta_potty_cost}</div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="col-xs-6 col-md-4">
+                  Google Drive
+                </th>
+                <td className="col-xs-6 col-xs-8">
+                  {assessment.drive_url ? 
+                    <a href={assessment.drive_url} target="_blank">URL</a> :
+                    ""
+                  }
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+  };
+
   render() {
     var app = this.props.application;
     if (app === null) {
@@ -121,11 +213,7 @@ class ApplicationInformation extends React.Component {
     if (this.props.view_type && this.props.view_type == "project") {
       assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
             href="#nav-site-assessment" role="tab">Assessment</a>);
-      assessment_page = (
-        <div className="tab-pane" id="nav-site-assessment" role="tabpanel">
-          Test
-        </div>
-      );
+      assessment_page = this.create_assessment_page();
     }
 
     // set to browser height so that overflow will show both divs with scrollbars
@@ -145,7 +233,7 @@ class ApplicationInformation extends React.Component {
         id="application-info-container">
           <div id="application-info-nav-container">
             <h2>{name}</h2>
-            <ul className="nav nav-tabs" id="nav-app-tab" role="tablist">
+            <ul className="nav nav-tabs " id="nav-app-tab" role="tablist">
               { assessment_tab }
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                   href="#nav-app-info" role="tab">Contact</a>
@@ -157,8 +245,10 @@ class ApplicationInformation extends React.Component {
           </div>
 
           <div className="tab-content overflow-auto" id="nav-app-tabContent">
-            {assessment_page}
-            <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
+            <div className="tab-pane show active" id="nav-site-assessment" role="tabpanel">
+              {assessment_page}
+            </div>
+            <div className="tab-pane" id="nav-app-info" role="tabpanel">
               {this.create_applicant_info_page()}
             </div>
             <div className="tab-pane" id="nav-property-info" role="tabpanel">

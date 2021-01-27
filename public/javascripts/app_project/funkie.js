@@ -15,6 +15,17 @@ var funkie = {
     - document.getElementById("navbarResponsive").offsetHeight - 40
     - document.getElementsByClassName("small")[0].offsetHeight;
   },
+  get_assessment(assessment_id, callback) {
+    if (callback) {
+      $.ajax({
+        type: "GET",
+        url: "/app_project/site_assessment/" + assessment_id,
+        success: function(data) {
+          callback(data);
+        }
+      });
+    }
+  },
   get_assessment_by_appId(app_id, callback) {
     $.ajax({
       type: "GET",
