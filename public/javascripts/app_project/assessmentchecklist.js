@@ -78,7 +78,7 @@ class AssessmentChecklist extends React.Component {
         result.property = "project_" + timetype + "_date"
         funkie.edit_site_assessment(result, (returnData) => {
           var s = {};
-          s[result.property] = this.convert_date(returnData.date);
+          s[result.property] = funkie.convert_date(returnData.date);
           this.setState(s);
         });
       }
