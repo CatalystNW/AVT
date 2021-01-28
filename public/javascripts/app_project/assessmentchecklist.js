@@ -33,12 +33,6 @@ class AssessmentChecklist extends React.Component {
     }
   }
 
-  // componentDidMount =() => {
-  //   $('.checklist-dateinput').datepicker({
-  //     format: 'yyyy-mm-dd',
-  //   }).on("hide", (e) => this.onChange_date(e));
-  // }
-
   get_date(type) {
     var date_input_id, modifier;
     if (type == "start") {
@@ -67,23 +61,7 @@ class AssessmentChecklist extends React.Component {
     }
     return null;
   }
-  // Either change date or times
-  onChange_date = (e) => {
-    var timetype = e.target.getAttribute("timetype");
-    
-    if (timetype == "start" || timetype == "end") {
-      var result = this.get_date(timetype);
-      if (result) {
-        result.assessment_id = this.state._id;
-        result.property = "project_" + timetype + "_date"
-        funkie.edit_site_assessment(result, (returnData) => {
-          var s = {};
-          s[result.property] = funkie.convert_date(returnData.date);
-          this.setState(s);
-        });
-      }
-    }
-  }
+  
   onChange_select = (e) => {
     var assessment_id = this.state._id,
         value = $(e.target).val(),
@@ -194,6 +172,27 @@ class AssessmentChecklist extends React.Component {
     }
   };
 
+  // Either change date or times
+  onChange_date = (e) => {
+    var timetype = e.target.getAttribute("timetype");
+    
+    if (timetype == "start" || timetype == "end") {
+      var result = this.get_date(timetype);
+      if (result) {
+        result.assessment_id = this.state._id;
+        result.property = "project_" + timetype + "_date"
+        funkie.edit_site_assessment(result, (returnData) => {
+          var s = {};
+          s[result.property] = funkie.convert_date(returnData.date);
+          this.setState(s);
+        });
+      }
+    }
+  }
+  change_date_callback =(data) => {
+    console.log(data);
+  }
+
 
   render() {
     var start_date = (this.state && this.state.project_start_date) ?
@@ -278,7 +277,10 @@ class AssessmentChecklist extends React.Component {
         </tbody>
       </table>
       { this.state.project_start_date ?
-        <DateMenuRow title="test" date={this.state.project_start_date}/>  :
+        <DateMenuRow title="Start Date" 
+          date={this.state.project_start_date}
+          change_callback={this.change_date_callback}
+        />  :
         <div></div>
       }
       
