@@ -5,10 +5,21 @@ class DateMenuRow extends React.Component {
     super(props);
     this.state = {
       title: this.props.title,
-      date: this.props.date,
+      date: this.convert_date(this.props.date),
     }
     this.date_input = React.createRef();
   }
+
+  convert_date(old_date) {
+    var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
+        result = regex.exec(old_date);
+    if (result) {
+      let [year, month, date, hours, minutes] = result.slice(1,6);
+      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
+    }
+    return null;
+  }
+
   get_data =() => {
     var obj = {
       date_type: this.props.date_type,

@@ -14,10 +14,6 @@ class AssessmentChecklist extends React.Component {
     this.summary_timer = null;
   }
   load_assessment = (assessment) => {
-    if (assessment.project_start_date)
-      assessment.project_start_date = funkie.convert_date(assessment.project_start_date);
-    if (assessment.project_end_date)
-      assessment.project_end_date = funkie.convert_date(assessment.project_end_date);
     this.setState(assessment, () => {
       // Set safety plan coloring after assessment is loaded
       this.color_safety_plan_textarea();
@@ -178,6 +174,7 @@ class AssessmentChecklist extends React.Component {
           </tr>
         </tbody>
       </table>
+
       { this.state.project_start_date ?
         <DateMenuRow title="Start Date"
           date_type={"project_start_date"}
