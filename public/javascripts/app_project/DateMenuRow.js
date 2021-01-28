@@ -41,7 +41,7 @@ class DateMenuRow extends React.Component {
         }
       })
     }
-  }
+  };
   set_time = (type, value) => {
     this.setState(state => {
       var new_date = new Date(state.date);
@@ -70,8 +70,7 @@ class DateMenuRow extends React.Component {
         this.props.change_callback(this.get_data());
       }
     });
-    
-  }
+  };
 
   componentDidMount =() => {
     if (this.date_input) {
@@ -79,7 +78,7 @@ class DateMenuRow extends React.Component {
         format: 'yyyy-mm-dd',
       }).on("hide", (e) => this.onChange_date(e));
     }
-  }
+  };
   // Either change date or times
   onChange_date = (e) => {
     var name = e.target.name,
@@ -89,17 +88,7 @@ class DateMenuRow extends React.Component {
     } else {
       this.set_time(name, value);
     }
-    // var result = this.get_date(timetype);
-    // if (result) {
-      // result.assessment_id = this.state._id;
-      // result.property = "project_" + timetype + "_date"
-      // funkie.edit_site_assessment(result, (returnData) => {
-      //   var s = {};
-      //   s[result.property] = funkie.convert_date(returnData.date);
-      //   this.setState(s);
-      // });
-    // }
-  }
+  };
 
   create_hour_options(type) {
     var hours = [];
