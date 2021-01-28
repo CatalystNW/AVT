@@ -1,5 +1,5 @@
 // Needs to use Bootstrap datepicker
-
+// this.props: title, date, change_callback
 class DateMenuRow extends React.Component {
   constructor(props) {
     super(props);
@@ -9,24 +9,15 @@ class DateMenuRow extends React.Component {
     }
     this.date_input = React.createRef();
   }
-  get_date =(value) => {
-    var regex = /(\d{4})-(\d{2})-(\d{2})/g,
-        result = regex.exec(value);
-    if (result) { // Have to test since dates could be null
-      var obj = {
-        year: result[1],
-        month: result[2],
-        day: result[3],
-        hours: this.state.date.getHours(),
-        minutes: this.state.date.getMinutes(),
-      };
-      var period = $("#" + modifier + "-period-select").val();
-      if (period == "pm") {
-        obj.hours += 12;
-      }
-      return obj;
-    }
-    return null;
+  get_data =() => {
+    var obj = {
+      year: this.state.date.getFullYear(),
+      month: this.state.date.getMonth() + 1,
+      day: this.state.date.getDate(),
+      hours: this.state.date.getHours(),
+      minutes: this.state.date.getMinutes(),
+    };
+    return obj;
   };
   set_date_from_dateInput = (value) => {
     var regex = /(\d{4})-(\d{2})-(\d{2})/g,
