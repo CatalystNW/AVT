@@ -34,6 +34,10 @@ class DateMenuRow extends React.Component {
         return {
           date: new_date,
         };
+      }, () => {
+        if (this.props.change_callback) {
+          this.props.change_callback(this.get_data());
+        }
       })
     }
   }
@@ -60,6 +64,10 @@ class DateMenuRow extends React.Component {
       return {
         date: new_date,
       };
+    }, () => {
+      if (this.props.change_callback) {
+        this.props.change_callback(this.get_data());
+      }
     });
     
   }
