@@ -114,7 +114,7 @@ class ProjectApp extends React.Component {
 class ProjectMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { // Project data saved directly to state
       workItems: [],
       assignable_users: [],
     };
@@ -176,11 +176,21 @@ class ProjectMenu extends React.Component {
     });
   }
 
+  onChange_date_callback = (data) => {
+    data.property = data.date_type;
+    $.ajax({
+      url: "/app_project/projects/" + this.state._id,
+      type: "PATCH",
+      data: data,
+      context: this,
+    });
+  };
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
     };
-    
+    console.log(funkie.convert_date(this.state.start))
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
@@ -215,8 +225,22 @@ class ProjectMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane show active" id="nav-info" role="tabpanel">
-            <div>Start Date</div>
-            <div>Start Date</div>
+            { this.state.start ?
+              <DateMenuRow title="Start Date" 
+                date_type="project_start_date"
+                date={this.state.start}
+                change_callback={this.onChange_date_callback}
+              /> : <div></div>
+            }
+
+            { this.state.end ?
+              <DateMenuRow title="End Date" 
+                date_type="project_end_date"
+                date={this.state.end}
+                change_callback={this.onChange_date_callback}
+              /> : <div></div>
+            }
+
             <div>Final Volunteer Hours</div>
             <div>Leaders</div>
             <div>Chief Crew</div>

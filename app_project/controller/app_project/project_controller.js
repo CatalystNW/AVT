@@ -12,6 +12,7 @@ module.exports.get_projects               = get_projects;
 module.exports.view_projects              = view_projects;
 module.exports.delete_all_projects        = delete_all_projects;
 module.exports.view_project               = view_project;
+module.exports.edit_project               = edit_project;
 module.exports.get_project                = get_project;
 module.exports.get_plan_checklist         = get_plan_checklist;
 module.exports.edit_checklist             = edit_checklist
@@ -143,9 +144,35 @@ async function edit_checklist(req, res) {
         }
       }
     }
-    
   }
   res.status(200).send();
+}
+
+async function edit_project(req, res) {
+  var project_id = req.params.project_id;
+  var project = await AppProject.findById(project_id);
+  if (project) {
+    if (req.body.property == "project_start_date" 
+      || req.body.property == "project_end_date") {
+      var d = new Date(
+        parseInt(req.body.year),
+        parseInt(req.body.month)-1,
+        parseInt(req.body.day),
+        parseInt(req.body.hours),
+        parseInt(req.body.minutes),
+      );
+      if (req.body.property == "project_start_date") {
+        project.start = d;
+      } else {
+        project.end = d;
+      }
+      await project.save();
+      res.status(200).send({"date": d});
+    }
+  } else {
+    res.status(404).end();
+  }
+  
 }
 
 async function create_checklist_item(req, res) {
