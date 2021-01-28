@@ -33,11 +33,11 @@ class AssessmentChecklist extends React.Component {
     }
   }
 
-  componentDidMount =() => {
-    $('.checklist-dateinput').datepicker({
-      format: 'yyyy-mm-dd',
-    }).on("hide", (e) => this.onChange_date(e));
-  }
+  // componentDidMount =() => {
+  //   $('.checklist-dateinput').datepicker({
+  //     format: 'yyyy-mm-dd',
+  //   }).on("hide", (e) => this.onChange_date(e));
+  // }
 
   get_date(type) {
     var date_input_id, modifier;
@@ -277,6 +277,11 @@ class AssessmentChecklist extends React.Component {
           </tr>
         </tbody>
       </table>
+      { this.state.project_start_date ?
+        <DateMenuRow title="test" date={this.state.project_start_date}/>  :
+        <div></div>
+      }
+      
       <div className="form-group row">
         <div className="form-group row col-md-6 col-sm-12">
           <label className="col-sm-5 col-form-label">Start Date</label>
