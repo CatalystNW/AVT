@@ -11,6 +11,7 @@ class DateMenuRow extends React.Component {
   }
   get_data =() => {
     var obj = {
+      date_type: this.props.date_type,
       year: this.state.date.getFullYear(),
       month: this.state.date.getMonth() + 1,
       day: this.state.date.getDate(),

@@ -189,7 +189,8 @@ class AssessmentChecklist extends React.Component {
         </tbody>
       </table>
       { this.state.project_start_date ?
-        <DateMenuRow title="Start Date" 
+        <DateMenuRow title="Start Date"
+          date_type={"assessment_project_start"}
           date={this.state.project_start_date}
           change_callback={this.change_date_callback}
         />  :
@@ -197,7 +198,8 @@ class AssessmentChecklist extends React.Component {
       }
       
       { this.state.project_start_date ?
-        <DateMenuRow title="End Date" 
+        <DateMenuRow title="End Date"
+          date_type={"assessment_project_end"}
           date={this.state.project_end_date}
           change_callback={this.change_date_callback}
         />  :
