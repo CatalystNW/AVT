@@ -32,35 +32,6 @@ class AssessmentChecklist extends React.Component {
       textarea.classList.remove("warning-box");
     }
   }
-
-  get_date(type) {
-    var date_input_id, modifier;
-    if (type == "start") {
-      date_input_id = "checklist-start-date";
-      modifier = "start";
-    } else if (type == "end") {
-      date_input_id = "checklist-end-date";
-      modifier = "end";
-    }
-    var value = $("#" + date_input_id).val();
-    var regex = /(\d{4})-(\d{2})-(\d{2})/g,
-        result = regex.exec(value);
-    if (result) { // Have to test since dates could be null
-      var obj = {
-        year: result[1],
-        month: result[2],
-        day: result[3],
-        hours: parseInt($("#" + modifier + "-hour-select").val()),
-        minutes: $("#" + modifier + "-minute-select").val(),
-      };
-      var period = $("#" + modifier + "-period-select").val();
-      if (period == "pm") {
-        obj.hours += 12;
-      }
-      return obj;
-    }
-    return null;
-  }
   
   onChange_select = (e) => {
     var assessment_id = this.state._id,
@@ -96,25 +67,6 @@ class AssessmentChecklist extends React.Component {
       }
       funkie.edit_site_assessment(data); // No callback
     }, 1000);
-  }
-
-  create_hour_options(type) {
-    var hours = [];
-    for(var i=0; i<12;i++) {
-      hours.push([
-        <option key={"hour-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
-      ]);  
-    }
-    return hours
-  }
-  create_minute_options() {
-    var minutes = [];
-    for(var i=0; i<60;i++) {
-      minutes.push([
-        <option key={"min-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
-      ]);
-    }
-    return minutes;
   }
 
   onChange_porta_checkbox = (e) => {
@@ -173,22 +125,22 @@ class AssessmentChecklist extends React.Component {
   };
 
   // Either change date or times
-  onChange_date = (e) => {
-    var timetype = e.target.getAttribute("timetype");
+  // onChange_date = (e) => {
+  //   var timetype = e.target.getAttribute("timetype");
     
-    if (timetype == "start" || timetype == "end") {
-      var result = this.get_date(timetype);
-      if (result) {
-        result.assessment_id = this.state._id;
-        result.property = "project_" + timetype + "_date"
-        funkie.edit_site_assessment(result, (returnData) => {
-          var s = {};
-          s[result.property] = funkie.convert_date(returnData.date);
-          this.setState(s);
-        });
-      }
-    }
-  }
+  //   if (timetype == "start" || timetype == "end") {
+  //     var result = this.get_date(timetype);
+  //     if (result) {
+  //       result.assessment_id = this.state._id;
+  //       result.property = "project_" + timetype + "_date"
+  //       funkie.edit_site_assessment(result, (returnData) => {
+  //         var s = {};
+  //         s[result.property] = funkie.convert_date(returnData.date);
+  //         this.setState(s);
+  //       });
+  //     }
+  //   }
+  // }
   change_date_callback =(data) => {
     console.log(data);
   }
