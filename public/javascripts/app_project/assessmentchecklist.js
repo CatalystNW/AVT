@@ -124,23 +124,6 @@ class AssessmentChecklist extends React.Component {
     }
   };
 
-  // Either change date or times
-  // onChange_date = (e) => {
-  //   var timetype = e.target.getAttribute("timetype");
-    
-  //   if (timetype == "start" || timetype == "end") {
-  //     var result = this.get_date(timetype);
-  //     if (result) {
-  //       result.assessment_id = this.state._id;
-  //       result.property = "project_" + timetype + "_date"
-  //       funkie.edit_site_assessment(result, (returnData) => {
-  //         var s = {};
-  //         s[result.property] = funkie.convert_date(returnData.date);
-  //         this.setState(s);
-  //       });
-  //     }
-  //   }
-  // }
   change_date_callback =(data) => {
     data.assessment_id = this.state._id;
     if (data.date_type == "project_start_date" || 
