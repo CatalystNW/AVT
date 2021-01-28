@@ -195,46 +195,6 @@ class AssessmentChecklist extends React.Component {
 
 
   render() {
-    var start_date = (this.state && this.state.project_start_date) ?
-      this.state.project_start_date.toISOString().slice(0,10) :
-      "",
-      end_date = (this.state && this.state.project_end_date) ?
-      this.state.project_end_date.toISOString().slice(0,10) :
-      "";
-
-    var start_hour = "",
-        end_hour = "";
-    if (this.state && this.state.project_start_date) {
-      start_hour = this.state.project_start_date.getHours();
-      if (start_hour >= 12) {
-        start_hour -= 12;
-      }
-    }
-    if (this.state && this.state.project_end_date) {
-      end_hour = this.state.project_end_date.getHours();
-      if (end_hour >= 12) {
-        end_hour -= 12;
-      }
-    }
-    var start_period = "",
-        end_period ="";
-    if (this.state && this.state.project_start_date) {
-      start_period = (this.state.project_start_date.getHours() >= 12) ?
-        "pm" : "am";
-    }
-    if (this.state && this.state.project_end_date) {
-      end_period = (this.state.project_end_date.getHours() >= 12) ?
-        "pm" : "am";
-    }
-    var start_minute = (this.state && this.state.project_start_date) ?
-          this.state.project_start_date.getMinutes() : "",
-        end_minute = (this.state && this.state.project_end_date) ?
-          this.state.project_end_date.getMinutes() : "";
-
-
-    var start_hours = this.create_hour_options("start"),
-        end_hours = this.create_hour_options("end");
-    var minutes = this.create_minute_options();
     return (
     <div>
       <table className="table">
@@ -284,71 +244,13 @@ class AssessmentChecklist extends React.Component {
         <div></div>
       }
       
-      <div className="form-group row">
-        <div className="form-group row col-md-6 col-sm-12">
-          <label className="col-sm-5 col-form-label">Start Date</label>
-          <div className="col-sm-7">
-            <input type="text" className="form-control checklist-dateinput" 
-              name="project_start_date" placeholder="yyyy-mm-dd" timetype="start"
-              id="checklist-start-date" value={start_date}
-              onChange={this.onChange_date}></input>
-          </div>
-        </div>
-        <div className="form-group row col-md-6 col-sm-12">
-          <label className="col-sm-2 col-form-label" htmlFor="start-hour-select">
-            Time</label>
-          <div className="col-sm-10">
-            <div className="form-inline">
-              <select className="form-control" id="start-hour-select" 
-                timetype="start" onChange={this.onChange_date} value={start_hour}>
-                {start_hours}
-              </select>
-              <select className="form-control" id="start-minute-select" 
-                timetype="start" onChange={this.onChange_date} value={start_minute}>
-                {minutes}
-              </select>
-              <select className="form-control" id="start-period-select" 
-                timetype="start" onChange={this.onChange_date} value={start_period}>
-                <option value="am">AM</option>
-                <option value="pm">PM</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="form-group row">
-        <div className="form-group row col-md-6 col-sm-12">
-          <label className="col-sm-5 col-form-label">End Date</label>
-          <div className="col-sm-7">
-            <input type="text" className="form-control checklist-dateinput" 
-              name="project_end_date" placeholder="yyyy-mm-dd" timetype="end"
-              id="checklist-end-date" value={end_date}
-              onChange={this.onChange_date}></input>
-          </div>
-        </div>
-
-        <div className="form-group row col-md-6 col-sm-12">
-          <label className="col-sm-2 col-form-label" htmlFor="end-hour-select">
-            Time</label>
-          <div className="col-sm-10">
-            <div className="form-inline">
-              <select className="form-control" id="end-hour-select" 
-                timetype="end" onChange={this.onChange_date} value={end_hour}>
-                {end_hours}
-              </select>
-              <select className="form-control" id="end-minute-select"
-                timetype="end" onChange={this.onChange_date} value={end_minute}>
-                {minutes}
-              </select>
-              <select className="form-control" id="end-period-select"
-                timetype="end" onChange={this.onChange_date} value={end_period}>
-                <option value="am">AM</option>
-                <option value="pm">PM</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
+      { this.state.project_start_date ?
+        <DateMenuRow title="End Date" 
+          date={this.state.project_end_date}
+          change_callback={this.change_date_callback}
+        />  :
+        <div></div>
+      }
       
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">Lead</label>
