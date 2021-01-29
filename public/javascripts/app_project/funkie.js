@@ -30,7 +30,8 @@ var funkie = {
     });
   },
   calculate_page_height: function calculate_page_height() {
-    return window.innerHeight - document.getElementById("cPart").offsetHeight - document.getElementById("navbarResponsive").offsetHeight - 40 - document.getElementsByClassName("small")[0].offsetHeight;
+    return window.innerHeight - document.getElementById("cPart").offsetHeight - document.getElementById("navbarResponsive").offsetHeight - 40 - 36; // Manually put in footer height;
+    // - document.getElementsByClassName("small")[0].offsetHeight;
   },
   get_assessment: function get_assessment(assessment_id, callback) {
     if (callback) {
