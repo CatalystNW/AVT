@@ -168,6 +168,10 @@ async function edit_project(req, res) {
       }
       await project.save();
       res.status(200).send({"date": d});
+    } else if (req.body.property == "volunteer_hours") {
+      project.volunteer_hours = req.body.value;
+      await project.save();
+      res.status(200).send({"volunteer_hours": req.body.value});
     }
   } else {
     res.status(404).end();

@@ -117,11 +117,13 @@ class ProjectMenu extends React.Component {
     this.state = { // Project data saved directly to state
       workItems: [],
       assignable_users: [],
+      volunteer_hours: 0,
     };
     this.load_assignable_users();
     this.planning_checklist = React.createRef();
     this.wrapup_checklist = React.createRef();
     this.costsummary = React.createRef();
+    this.volunteer_hours_timer = null;
   }
 
   componentDidMount() {
@@ -186,11 +188,37 @@ class ProjectMenu extends React.Component {
     });
   };
 
+  onChange_inputs_timer = (e) => {
+    var property_type = e.target.getAttribute("property_type"),
+        value = e.target.value;
+
+    clearTimeout(this[property_type + "_timer"]);
+
+    this.setState({[property_type]: value});
+
+    this[property_type + "_timer"] = setTimeout(() => {
+      var data = {
+        property: property_type,
+        value: value,
+      }
+      $.ajax({
+        url: "/app_project/projects/" + this.state._id,
+        type: "PATCH",
+        data: data,
+        context: this,
+        success: function() {
+          this.setState({
+            volunteer_hours: value,
+          })
+        }
+      });
+    }, 1000);
+  };
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
     };
-    console.log(funkie.convert_date(this.state.start))
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
@@ -241,7 +269,15 @@ class ProjectMenu extends React.Component {
               /> : <div></div>
             }
 
-            <div>Final Volunteer Hours</div>
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Volunteer Hours</label>
+              <div className="col-sm-4">
+                <input type="number" className="form-control" 
+                  property_type="volunteer_hours"
+                  onChange={this.onChange_inputs_timer}
+                  value={this.state.volunteer_hours}></input>
+              </div>
+            </div>
             <div>Leaders</div>
             <div>Chief Crew</div>
             <div>Project Advocate</div>
