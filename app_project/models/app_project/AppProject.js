@@ -41,6 +41,10 @@ const AppProjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "UserPackage",
   }],
+  notes: [{
+    type: Schema.Types.ObjectId,
+    ref: "AppProjectNote",
+  }],
 
   crew_chief: String,
   project_advocate: String,
