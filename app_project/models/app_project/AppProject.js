@@ -17,6 +17,7 @@ const AppProjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "DocumentPackage"
   },
+  volunteer_hours: {type: Number, default: 0},
 
   partners: [{
     type: Schema.Types.ObjectId,
