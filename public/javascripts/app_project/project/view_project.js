@@ -118,12 +118,19 @@ class ProjectMenu extends React.Component {
       workItems: [],
       assignable_users: [],
       volunteer_hours: 0,
+      site_host: "",
+      crew_chief: "",
+      project_advocate: "",
     };
     this.load_assignable_users();
     this.planning_checklist = React.createRef();
     this.wrapup_checklist = React.createRef();
     this.costsummary = React.createRef();
+
     this.volunteer_hours_timer = null;
+    this.site_host_timer = null;
+    this.crew_chief_timer = null;
+    this.project_advocate_timer = null;
   }
 
   componentDidMount() {
@@ -191,7 +198,6 @@ class ProjectMenu extends React.Component {
   onChange_inputs_timer = (e) => {
     var property_type = e.target.getAttribute("property_type"),
         value = e.target.value;
-
     clearTimeout(this[property_type + "_timer"]);
 
     this.setState({[property_type]: value});
@@ -206,13 +212,8 @@ class ProjectMenu extends React.Component {
         type: "PATCH",
         data: data,
         context: this,
-        success: function() {
-          this.setState({
-            volunteer_hours: value,
-          })
-        }
       });
-    }, 1000);
+    }, 700);
   };
 
   render () {
@@ -278,10 +279,34 @@ class ProjectMenu extends React.Component {
                   value={this.state.volunteer_hours}></input>
               </div>
             </div>
-            <div>Leaders</div>
-            <div>Chief Crew</div>
-            <div>Project Advocate</div>
-            <div>Site Host</div>
+            <h2>Leaders</h2>
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Crew Chief</label>
+              <div className="col-sm-4">
+                <input type="type" className="form-control" 
+                  property_type="crew_chief"
+                  onChange={this.onChange_inputs_timer}
+                  value={this.state.crew_chief}></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Project Advocate</label>
+              <div className="col-sm-4">
+                <input type="type" className="form-control" 
+                  property_type="project_advocate"
+                  onChange={this.onChange_inputs_timer}
+                  value={this.state.project_advocate}></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Site Host</label>
+              <div className="col-sm-4">
+                <input type="type" className="form-control" 
+                  property_type="site_host"
+                  onChange={this.onChange_inputs_timer}
+                  value={this.state.site_host}></input>
+              </div>
+            </div>
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
