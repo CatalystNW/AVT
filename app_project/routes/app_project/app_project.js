@@ -58,6 +58,6 @@ router.patch('/checklist/:checklist_id', project_controller.edit_checklist);
 
 router.get('/projects/:project_id/workitems', project_controller.get_work_items);
 
-router.get('/project_notes/:project_id', proj)
+router.get('/projects/:project_id/notes', project_note_controller.get_project_notes);
 
 module.exports = router;
