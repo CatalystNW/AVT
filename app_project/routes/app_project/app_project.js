@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-var assessment_controller = require('../../controller/app_project/assessment_controller.js'),
-    project_controller = require('../../controller/app_project/project_controller.js'),
+var assessment_controller       = require('../../controller/app_project/assessment_controller.js'),
+    project_controller          = require('../../controller/app_project/project_controller.js'),
     project_transfer_controller = require('../../controller/app_project/project_transfer_controller.js'),
-    workitem_controller = require('../../controller/app_project/workitem_controller.js'),
-    materialsitem_controller = require('../../controller/app_project/materialsitem_controller.js');
+    workitem_controller         = require('../../controller/app_project/workitem_controller.js'),
+    materialsitem_controller    = require('../../controller/app_project/materialsitem_controller.js'),
+    project_note_controller     = require('../../controller/app_project/project_note_controller.js');
 
 router.get('/projects_page', assessment_controller.view_projects_page);
 
@@ -56,5 +57,7 @@ router.delete('/checklist/:checklist_id', project_controller.delete_checklist_it
 router.patch('/checklist/:checklist_id', project_controller.edit_checklist);
 
 router.get('/projects/:project_id/workitems', project_controller.get_work_items);
+
+router.get('/project_notes/:project_id', proj)
 
 module.exports = router;
