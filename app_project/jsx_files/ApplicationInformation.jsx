@@ -230,7 +230,7 @@ class ApplicationInformation extends React.Component {
             href="#nav-proj-note" role="tab">Notes</a>);
       proj_note_page = (
         <div className="tab-pane" id="nav-proj-note" role="tabpanel">
-          <ProjectNotes />
+          <ProjectNotes project_id={this.props.project_id}/>
         </div>
       );
     } else {

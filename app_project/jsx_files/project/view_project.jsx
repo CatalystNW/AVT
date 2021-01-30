@@ -102,6 +102,7 @@ class ProjectApp extends React.Component {
         set_edit_workitem_menu = {this.set_edit_workitem_menu}
       />
       <ApplicationInformation
+        project_id={project_id}
         application={this.state.application}
         view_type="project" assessment_id={assessment_id}
       />

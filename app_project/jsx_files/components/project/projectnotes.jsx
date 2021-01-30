@@ -1,5 +1,5 @@
 class ProjectNotes extends React.Component {
   render() {
-    return (<div>HI</div>);
+    return (<div>{this.props.project_id}</div>);
   }
 }

@@ -21,7 +21,7 @@ var ProjectNotes = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        "HI"
+        this.props.project_id
       );
     }
   }]);

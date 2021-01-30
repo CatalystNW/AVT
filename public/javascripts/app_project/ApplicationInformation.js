@@ -570,7 +570,7 @@ var ApplicationInformation = function (_React$Component) {
         proj_note_page = React.createElement(
           "div",
           { className: "tab-pane", id: "nav-proj-note", role: "tabpanel" },
-          React.createElement(ProjectNotes, null)
+          React.createElement(ProjectNotes, { project_id: this.props.project_id })
         );
       } else {
         application_page = React.createElement(
