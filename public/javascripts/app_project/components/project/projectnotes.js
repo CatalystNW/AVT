@@ -9,10 +9,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProjectNotes = function (_React$Component) {
   _inherits(ProjectNotes, _React$Component);
 
-  function ProjectNotes() {
+  function ProjectNotes(props) {
     _classCallCheck(this, ProjectNotes);
 
-    return _possibleConstructorReturn(this, (ProjectNotes.__proto__ || Object.getPrototypeOf(ProjectNotes)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ProjectNotes.__proto__ || Object.getPrototypeOf(ProjectNotes)).call(this, props));
+
+    _this.get_notes = function () {
+      funkie.get_notes(_this.props.project_id, function (data) {
+        console.log(data);
+      });
+    };
+
+    _this.state = {
+      project_notes: []
+    };
+    _this.get_notes();
+    return _this;
   }
 
   _createClass(ProjectNotes, [{

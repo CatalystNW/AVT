@@ -134,4 +134,14 @@ var funkie = {
       }
     });
   },
+  get_notes(project_id, callback) {
+    $.ajax({
+      url: "../projects/" + project_id + "/notes",
+      success: function(returnData) {
+        if (callback) {
+          callback(returnData);
+        }
+      },
+    })
+  }
 }
