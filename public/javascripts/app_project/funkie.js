@@ -138,6 +138,7 @@ var funkie = {
   get_notes: function get_notes(project_id, callback) {
     $.ajax({
       url: "../projects/" + project_id + "/notes",
+      type: "GET",
       success: function success(returnData) {
         if (callback) {
           callback(returnData);
