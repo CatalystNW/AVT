@@ -16,13 +16,55 @@ var ProjectNotes = function (_React$Component) {
 
     _this.get_notes = function () {
       funkie.get_notes(_this.props.project_id, function (data) {
-        console.log(data);
+        _this.setState({
+          project_notes: data
+        });
       });
+    };
+
+    _this.getData = function () {
+      var data = {};
+
+      var formData = new FormData($("#" + _this.addNoteFormId)[0]);
+      console.log(formData);
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = formData.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var key = _step.value;
+
+          data[key] = formData.get(key);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    _this.submitNote = function (e) {
+      e.preventDefault();
+      console.log(_this.getData());
     };
 
     _this.state = {
       project_notes: []
     };
+    _this.addNoteFormId = "add-note-form";
     _this.get_notes();
     return _this;
   }
@@ -33,7 +75,27 @@ var ProjectNotes = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        this.props.project_id
+        React.createElement(
+          "form",
+          { id: this.addNoteFormId, onSubmit: this.submitNote },
+          React.createElement("textarea", { name: "text" }),
+          React.createElement(
+            "button",
+            { type: "submit" },
+            "Submit"
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          this.state.project_notes.map(function (note) {
+            return React.createElement(
+              "div",
+              null,
+              note.text
+            );
+          })
+        )
       );
     }
   }]);
