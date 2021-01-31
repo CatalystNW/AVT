@@ -18,6 +18,7 @@ var ProjectNotes = function (_React$Component) {
 
     _this.get_notes = function () {
       funkie.get_notes(_this.props.project_id, function (data) {
+        data.reverse();
         _this.setState({
           project_notes: data
         });

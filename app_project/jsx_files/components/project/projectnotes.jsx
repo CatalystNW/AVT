@@ -11,6 +11,7 @@ class ProjectNotes extends React.Component {
 
   get_notes = () => {
     funkie.get_notes(this.props.project_id, (data)=> {
+      data.reverse();
       this.setState({
         project_notes: data,
       });
