@@ -556,20 +556,20 @@ var ApplicationInformation = function (_React$Component) {
         // Split application page into two tabs for assessment. Combine for projects
         application_page = React.createElement(
           "div",
-          { className: "tab-pane show active", id: "nav-app-info", role: "tabpanel" },
+          { className: "tab-pane", id: "nav-app-info", role: "tabpanel" },
           this.create_applicant_info_page(),
           this.create_property_page()
         );
 
         proj_note_tab = React.createElement(
           "a",
-          { className: "nav-item nav-link", id: "nav-proj-note-tab", "data-toggle": "tab",
+          { className: "nav-item nav-link active", id: "nav-proj-note-tab", "data-toggle": "tab",
             href: "#nav-proj-note", role: "tab" },
           "Notes"
         );
         proj_note_page = React.createElement(
           "div",
-          { className: "tab-pane", id: "nav-proj-note", role: "tabpanel" },
+          { className: "tab-pane show active", id: "nav-proj-note", role: "tabpanel" },
           React.createElement(ProjectNotes, { project_id: this.props.project_id })
         );
       } else {
@@ -618,7 +618,7 @@ var ApplicationInformation = function (_React$Component) {
             { className: "nav nav-tabs ", id: "nav-app-tab", role: "tablist" },
             React.createElement(
               "a",
-              { className: "nav-item nav-link active", id: "nav-app-tab", "data-toggle": "tab",
+              { className: "nav-item nav-link", id: "nav-app-tab", "data-toggle": "tab",
                 href: "#nav-app-info", role: "tab" },
               "Application"
             ),

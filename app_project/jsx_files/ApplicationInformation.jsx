@@ -219,17 +219,17 @@ class ApplicationInformation extends React.Component {
 
       // Split application page into two tabs for assessment. Combine for projects
       application_page = (
-        <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
+        <div className="tab-pane" id="nav-app-info" role="tabpanel">
           {this.create_applicant_info_page()}
           {this.create_property_page()}
         </div>
       );
 
       proj_note_tab = (
-        <a className="nav-item nav-link" id="nav-proj-note-tab" data-toggle="tab" 
+        <a className="nav-item nav-link active" id="nav-proj-note-tab" data-toggle="tab" 
             href="#nav-proj-note" role="tab">Notes</a>);
       proj_note_page = (
-        <div className="tab-pane" id="nav-proj-note" role="tabpanel">
+        <div className="tab-pane show active" id="nav-proj-note" role="tabpanel">
           <ProjectNotes project_id={this.props.project_id}/>
         </div>
       );
@@ -268,7 +268,7 @@ class ApplicationInformation extends React.Component {
           <div id="application-info-nav-container">
             <h2>{name}</h2>
             <ul className="nav nav-tabs " id="nav-app-tab" role="tablist">
-              <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
+              <a className="nav-item nav-link" id="nav-app-tab" data-toggle="tab" 
                 href="#nav-app-info" role="tab">Application</a>
               { property_tab }
               { assessment_tab }
