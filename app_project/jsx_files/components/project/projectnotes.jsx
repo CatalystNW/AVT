@@ -31,7 +31,6 @@ class ProjectNotes extends React.Component {
   submitNote = (e) => {
     e.preventDefault();
     var data = this.getData(this.addNoteFormId);
-    console.log(data);
     $.ajax({
       url: "/app_project/projects/" + project_id + "/notes",
       type: "POST",

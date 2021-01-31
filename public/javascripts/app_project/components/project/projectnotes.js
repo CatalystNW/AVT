@@ -60,7 +60,6 @@ var ProjectNotes = function (_React$Component) {
     _this.submitNote = function (e) {
       e.preventDefault();
       var data = _this.getData(_this.addNoteFormId);
-      console.log(data);
       $.ajax({
         url: "/app_project/projects/" + project_id + "/notes",
         type: "POST",

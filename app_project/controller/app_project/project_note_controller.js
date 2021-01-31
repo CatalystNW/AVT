@@ -18,7 +18,7 @@ var AppProject      = require("../../models/app_project/AppProject"),
       note.project = req.params.project_id;
       await note.save();
       project.notes.push(note._id);
-      project.save();
+      await project.save();
       res.status(200).json(note);
     } else {
       res.status(400).end();
