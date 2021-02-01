@@ -81,6 +81,9 @@ class ProjectNotes extends React.Component {
     } else {
       this.setState({
         edit_id: e.target.getAttribute('note_id'),
+      }, () => { // focus on new textarea
+        const textarea = document.getElementById(this.editTextareaId);
+        textarea.focus();
       });
     }
   };
@@ -91,7 +94,7 @@ class ProjectNotes extends React.Component {
     const note_id = textarea.getAttribute("note_id"),
           index = textarea.getAttribute("index"),
           value = textarea.value;
-          
+
     this.toggleEditNote();
     $.ajax({
       url: "/app_project/projects/" + this.props.project_id + "/notes/" + note_id,
