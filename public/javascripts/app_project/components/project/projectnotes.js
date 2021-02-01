@@ -59,6 +59,7 @@ var ProjectNotes = function (_React$Component) {
     };
 
     _this.submitNote = function (e) {
+
       e.preventDefault();
       var data = _this.getData(_this.addNoteFormId);
       $.ajax({
@@ -77,6 +78,27 @@ var ProjectNotes = function (_React$Component) {
       });
     };
 
+    _this.deleteNote = function (e) {
+      var note_id = e.target.getAttribute("note_id"),
+          index = e.target.getAttribute("index");
+
+      var result = window.confirm("Are you sure you want to delete project note " + _this.state.project_notes[index].name + "?");
+      if (result) {
+        $.ajax({
+          url: "/app_project/projects/" + _this.props.project_id + "/notes/" + note_id,
+          type: "DELETE",
+          context: _this,
+          success: function success() {
+            this.setState(function (state) {
+              var new_notes = [].concat(_toConsumableArray(state.project_notes));
+              new_notes.splice(index, 1);
+              return { project_notes: new_notes };
+            });
+          }
+        });
+      }
+    };
+
     _this.state = {
       project_notes: []
     };
@@ -89,6 +111,8 @@ var ProjectNotes = function (_React$Component) {
   _createClass(ProjectNotes, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return React.createElement(
         "div",
         null,
@@ -114,11 +138,18 @@ var ProjectNotes = function (_React$Component) {
         React.createElement(
           "div",
           null,
-          this.state.project_notes.map(function (note) {
+          this.state.project_notes.map(function (note, index) {
             return React.createElement(
               "div",
               { key: note._id },
-              note.text
+              note.text,
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm",
+                  note_id: note._id, index: index,
+                  onClick: _this2.deleteNote },
+                "Delete"
+              )
             );
           })
         )

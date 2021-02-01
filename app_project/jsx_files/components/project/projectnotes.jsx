@@ -30,6 +30,7 @@ class ProjectNotes extends React.Component {
   }; 
 
   submitNote = (e) => {
+
     e.preventDefault();
     var data = this.getData(this.addNoteFormId);
     $.ajax({
@@ -48,6 +49,27 @@ class ProjectNotes extends React.Component {
     });
   };
 
+  deleteNote = (e) => {
+    const note_id = e.target.getAttribute("note_id"),
+          index = e.target.getAttribute("index");
+    
+    const result = window.confirm(`Are you sure you want to delete project note ${this.state.project_notes[index].name}?`);
+    if (result ) {
+      $.ajax({
+        url: "/app_project/projects/" + this.props.project_id + "/notes/" + note_id,
+        type: "DELETE",
+        context: this,
+        success: function() {
+          this.setState(state => {
+            var new_notes = [...state.project_notes];
+            new_notes.splice(index,1);
+            return {project_notes: new_notes};
+          });
+        }
+      });
+    }
+  };
+
   render() {
     return (
     <div>
@@ -60,8 +82,14 @@ class ProjectNotes extends React.Component {
         <button type="submit">Submit</button>
       </form>
       <div>
-        {this.state.project_notes.map((note)=> {
-          return (<div key={note._id}>{note.text}</div>);
+        {this.state.project_notes.map((note, index)=> {
+          return (
+            <div key={note._id}>
+              {note.text}
+              <button type="button" className="btn btn-sm"
+                note_id={note._id} index={index}
+                onClick={this.deleteNote}>Delete</button>
+            </div>);
         })}
       </div>
     </div>);
