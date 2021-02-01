@@ -8,6 +8,7 @@ class ProjectNotes extends React.Component {
     this.addNoteFormId = "add-note-form";
     this.noteInputId = "add-note-textarea";
     this.editNoteFormId = "edit-note-form";
+    this.editTextareaId = "edit-note-textarea";
     this.get_notes();
   }
 
@@ -73,20 +74,41 @@ class ProjectNotes extends React.Component {
   };
 
   toggleEditNote = (e) => {
-    const note_id = e.target.getAttribute('note_id');
-    if (note_id == -1) {
+    if (!e || e.target.getAttribute('note_id') == -1) {
       this.setState({
         edit_id: null,
       });
     } else {
       this.setState({
-        edit_id: note_id,
+        edit_id: e.target.getAttribute('note_id'),
       });
     }
   };
 
   editNote = (e) => {
     e.preventDefault();
+    const textarea = document.getElementById(this.editTextareaId);
+    const note_id = textarea.getAttribute("note_id"),
+          index = textarea.getAttribute("index"),
+          value = textarea.value;
+          
+    this.toggleEditNote();
+    $.ajax({
+      url: "/app_project/projects/" + this.props.project_id + "/notes/" + note_id,
+      type: "PATCH",
+      context: this,
+      data: {
+        property: "text",
+        value: value,
+      },
+      success: function() {
+        this.setState(state => {
+          var new_notes = [...state.project_notes];
+          new_notes[index].text = value;
+          return {project_notes: new_notes};
+        });
+      }
+    });
   }
 
   render() {
@@ -110,7 +132,9 @@ class ProjectNotes extends React.Component {
                     <div>
                       <form id={this.editNoteFormId}
                         onSubmit={this.editNote}>
-                        <textarea className="form-control" 
+                        <textarea className="form-control"
+                          id={this.editTextareaId}
+                          note_id={note._id} index={index}
                           defaultValue={note.text}></textarea>
                         <button type="submit" className="btn btn-sm">
                           Save

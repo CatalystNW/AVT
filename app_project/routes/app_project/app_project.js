@@ -61,5 +61,6 @@ router.get('/projects/:project_id/workitems', project_controller.get_work_items)
 router.get('/projects/:project_id/notes', project_note_controller.get_project_notes);
 router.post('/projects/:project_id/notes', project_note_controller.create_project_note);
 router.delete('/projects/:project_id/notes/:note_id', project_note_controller.delete_project_note);
+router.patch('/projects/:project_id/notes/:note_id', project_note_controller.edit_project_note);
 
 module.exports = router;

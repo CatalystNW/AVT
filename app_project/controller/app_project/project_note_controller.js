@@ -3,7 +3,8 @@ var AppProject      = require("../../models/app_project/AppProject"),
 
 module.exports.get_project_notes      = get_project_notes;
 module.exports.create_project_note    = create_project_note;
-module.exports.delete_project_note    = delete_project_note
+module.exports.delete_project_note    = delete_project_note;
+module.exports.edit_project_note      = edit_project_note;
 
 async function get_project_notes(req, res) {
   let notes = await AppProjectNote.find({project: req.params.project_id});
@@ -48,5 +49,21 @@ async function delete_project_note(req, res) {
     return;
   }
   await AppProjectNote.findByIdAndDelete(note_id);
+  res.status(200).end();
+}
+
+async function edit_project_note(req, res) {
+  const note_id = req.params.note_id;
+  let project = await AppProject.findById(req.params.project_id),
+      note = await AppProjectNote.findById(note_id);
+  if (!project || !note) { // Want to make sure both exists before remove
+    res.status(400).end();
+    return;
+  }
+  if (req.body.property == "text") {
+    note.text = req.body.value;
+    await note.save();
+  }
+  
   res.status(200).end();
 }
