@@ -99,11 +99,30 @@ var ProjectNotes = function (_React$Component) {
       }
     };
 
+    _this.toggleEditNote = function (e) {
+      var note_id = e.target.getAttribute('note_id');
+      if (note_id == -1) {
+        _this.setState({
+          edit_id: null
+        });
+      } else {
+        _this.setState({
+          edit_id: note_id
+        });
+      }
+    };
+
+    _this.editNote = function (e) {
+      e.preventDefault();
+    };
+
     _this.state = {
-      project_notes: []
+      project_notes: [],
+      edit_id: null
     };
     _this.addNoteFormId = "add-note-form";
     _this.noteInputId = "add-note-textarea";
+    _this.editNoteFormId = "edit-note-form";
     _this.get_notes();
     return _this;
   }
@@ -142,13 +161,53 @@ var ProjectNotes = function (_React$Component) {
             return React.createElement(
               "div",
               { key: note._id },
-              note.text,
               React.createElement(
-                "button",
-                { type: "button", className: "btn btn-sm",
-                  note_id: note._id, index: index,
-                  onClick: _this2.deleteNote },
-                "Delete"
+                "div",
+                null,
+                _this2.state.edit_id == note._id ? React.createElement(
+                  "div",
+                  null,
+                  React.createElement(
+                    "form",
+                    { id: _this2.editNoteFormId,
+                      onSubmit: _this2.editNote },
+                    React.createElement("textarea", { className: "form-control",
+                      defaultValue: note.text }),
+                    React.createElement(
+                      "button",
+                      { type: "submit", className: "btn btn-sm" },
+                      "Save"
+                    ),
+                    React.createElement(
+                      "button",
+                      { type: "button", className: "btn btn-sm",
+                        onClick: _this2.toggleEditNote, note_id: "-1" },
+                      "Cancel"
+                    )
+                  )
+                ) : React.createElement(
+                  "div",
+                  null,
+                  React.createElement(
+                    "div",
+                    null,
+                    note.text
+                  ),
+                  React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-sm",
+                      note_id: note._id, index: index,
+                      onClick: _this2.toggleEditNote },
+                    "Update"
+                  ),
+                  React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-sm",
+                      note_id: note._id, index: index,
+                      onClick: _this2.deleteNote },
+                    "Delete"
+                  )
+                )
               )
             );
           })

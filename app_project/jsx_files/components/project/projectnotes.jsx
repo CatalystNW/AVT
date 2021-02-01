@@ -3,9 +3,11 @@ class ProjectNotes extends React.Component {
     super(props);
     this.state = {
       project_notes: [],
+      edit_id: null,
     };
     this.addNoteFormId = "add-note-form";
     this.noteInputId = "add-note-textarea";
+    this.editNoteFormId = "edit-note-form";
     this.get_notes();
   }
 
@@ -70,6 +72,23 @@ class ProjectNotes extends React.Component {
     }
   };
 
+  toggleEditNote = (e) => {
+    const note_id = e.target.getAttribute('note_id');
+    if (note_id == -1) {
+      this.setState({
+        edit_id: null,
+      });
+    } else {
+      this.setState({
+        edit_id: note_id,
+      });
+    }
+  };
+
+  editNote = (e) => {
+    e.preventDefault();
+  }
+
   render() {
     return (
     <div>
@@ -85,10 +104,35 @@ class ProjectNotes extends React.Component {
         {this.state.project_notes.map((note, index)=> {
           return (
             <div key={note._id}>
-              {note.text}
-              <button type="button" className="btn btn-sm"
-                note_id={note._id} index={index}
-                onClick={this.deleteNote}>Delete</button>
+              <div>
+                {(this.state.edit_id == note._id) ?
+                  (
+                    <div>
+                      <form id={this.editNoteFormId}
+                        onSubmit={this.editNote}>
+                        <textarea className="form-control" 
+                          defaultValue={note.text}></textarea>
+                        <button type="submit" className="btn btn-sm">
+                          Save
+                        </button>
+                        <button type="button" className="btn btn-sm"
+                          onClick={this.toggleEditNote} note_id="-1">
+                          Cancel
+                        </button>
+                      </form>
+                    </div>
+                  ) :
+                  (<div>
+                    <div>{note.text}</div>
+                    <button type="button" className="btn btn-sm"
+                      note_id={note._id} index={index}
+                      onClick={this.toggleEditNote}>Update</button>
+                    <button type="button" className="btn btn-sm"
+                      note_id={note._id} index={index}
+                      onClick={this.deleteNote}>Delete</button>
+                  </div>)
+                }
+              </div>
             </div>);
         })}
       </div>
