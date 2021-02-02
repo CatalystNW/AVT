@@ -305,7 +305,9 @@ var ProjectMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-partners", role: "tabpanel" },
-            "Partners"
+            React.createElement(PartnerMenu, {
+              type: "project"
+            })
           ),
           React.createElement(
             "div",

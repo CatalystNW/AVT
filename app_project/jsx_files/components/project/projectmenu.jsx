@@ -206,7 +206,9 @@ class ProjectMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane" id="nav-partners" role="tabpanel">
-            Partners
+            <PartnerMenu 
+              type="project"
+            />
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
             <Checklist ref={this.planning_checklist} 
