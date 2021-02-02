@@ -1,4 +1,5 @@
 var DocumentPackage = require("../../../models/documentPackage"),
+    PartnerPackage  = require("../../../models/partnerPackage"),
     UserPackage     = require("../../../models/userPackage"),
     SiteAssessment  = require("../../models/app_project/SiteAssessment"),
     WorkItem        = require("../../models/app_project/WorkItem"),
@@ -20,7 +21,9 @@ module.exports.create_checklist_item      = create_checklist_item
 module.exports.get_task_assignable_users  = get_task_assignable_users;
 module.exports.delete_checklist_item      = delete_checklist_item;
 module.exports.get_wrapup_checklist       = get_wrapup_checklist;
-module.exports.get_work_items             = get_work_items
+module.exports.get_work_items             = get_work_items;
+
+module.exports.get_all_partners           = get_all_partners;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -281,4 +284,9 @@ async function get_work_items(req, res) {
     res.status(404).send();
     return;
   }
+}
+
+async function get_all_partners(req, res) {
+  var partners = await PartnerPackage.find({});
+  res.status(200).json(partners);
 }
