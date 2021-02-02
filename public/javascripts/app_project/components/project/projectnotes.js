@@ -100,20 +100,45 @@ var ProjectNotes = function (_React$Component) {
     };
 
     _this.toggleEditNote = function (e) {
-      var note_id = e.target.getAttribute('note_id');
-      if (note_id == -1) {
+      if (!e || e.target.getAttribute('note_id') == -1) {
         _this.setState({
           edit_id: null
         });
       } else {
         _this.setState({
-          edit_id: note_id
+          edit_id: e.target.getAttribute('note_id')
+        }, function () {
+          // focus on new textarea
+          var textarea = document.getElementById(_this.editTextareaId);
+          textarea.focus();
         });
       }
     };
 
     _this.editNote = function (e) {
       e.preventDefault();
+      var textarea = document.getElementById(_this.editTextareaId);
+      var note_id = textarea.getAttribute("note_id"),
+          index = textarea.getAttribute("index"),
+          value = textarea.value;
+
+      _this.toggleEditNote();
+      $.ajax({
+        url: "/app_project/projects/" + _this.props.project_id + "/notes/" + note_id,
+        type: "PATCH",
+        context: _this,
+        data: {
+          property: "text",
+          value: value
+        },
+        success: function success() {
+          this.setState(function (state) {
+            var new_notes = [].concat(_toConsumableArray(state.project_notes));
+            new_notes[index].text = value;
+            return { project_notes: new_notes };
+          });
+        }
+      });
     };
 
     _this.state = {
@@ -123,6 +148,7 @@ var ProjectNotes = function (_React$Component) {
     _this.addNoteFormId = "add-note-form";
     _this.noteInputId = "add-note-textarea";
     _this.editNoteFormId = "edit-note-form";
+    _this.editTextareaId = "edit-note-textarea";
     _this.get_notes();
     return _this;
   }
@@ -172,6 +198,8 @@ var ProjectNotes = function (_React$Component) {
                     { id: _this2.editNoteFormId,
                       onSubmit: _this2.editNote },
                     React.createElement("textarea", { className: "form-control",
+                      id: _this2.editTextareaId,
+                      note_id: note._id, index: index,
                       defaultValue: note.text }),
                     React.createElement(
                       "button",
