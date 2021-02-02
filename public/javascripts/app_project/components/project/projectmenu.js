@@ -150,7 +150,7 @@ var ProjectMenu = function (_React$Component) {
               { className: "nav-item" },
               React.createElement(
                 "a",
-                { className: "nav-link active", id: "nav-info-tab", "data-toggle": "tab",
+                { className: "nav-link", id: "nav-info-tab", "data-toggle": "tab",
                   href: "#nav-info", role: "tab" },
                 "Info"
               )
@@ -190,7 +190,7 @@ var ProjectMenu = function (_React$Component) {
               { className: "nav-item" },
               React.createElement(
                 "a",
-                { className: "nav-link", id: "nav-partners-tab", "data-toggle": "tab",
+                { className: "nav-link active", id: "nav-partners-tab", "data-toggle": "tab",
                   href: "#nav-partners", role: "tab" },
                 "Partners"
               )
@@ -212,7 +212,7 @@ var ProjectMenu = function (_React$Component) {
           { className: "tab-content overflow-auto", id: "nav-project-tabContent" },
           React.createElement(
             "div",
-            { className: "tab-pane show active", id: "nav-info", role: "tabpanel" },
+            { className: "tab-pane", id: "nav-info", role: "tabpanel" },
             this.state.start ? React.createElement(DateMenuRow, { title: "Start Date",
               date_type: "project_start_date",
               date: this.state.start,
@@ -304,7 +304,7 @@ var ProjectMenu = function (_React$Component) {
           ),
           React.createElement(
             "div",
-            { className: "tab-pane", id: "nav-partners", role: "tabpanel" },
+            { className: "tab-pane show active", id: "nav-partners", role: "tabpanel" },
             React.createElement(PartnerMenu, {
               type: "project"
             })
