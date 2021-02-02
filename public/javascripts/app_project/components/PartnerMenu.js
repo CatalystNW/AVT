@@ -18,27 +18,27 @@ var PartnerMenu = function (_React$Component) {
 
     _this.loadAllPartners = function () {};
 
-    _this.state = {
-      partners: []
+    _this.change_status = function () {
+      var new_status = _this.state.status == "show_current_partners" ? "show_all_partners" : "show_current_partners";
+      _this.setState({
+        status: new_status
+      });
     };
-    return _this;
-  }
 
-  _createClass(PartnerMenu, [{
-    key: "render",
-    value: function render() {
+    _this.show_current_partners = function () {
       return React.createElement(
         "div",
         null,
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm" },
+          { type: "button", className: "btn btn-sm",
+            onClick: _this.change_status },
           "Add Partner"
         ),
         React.createElement(
           "h3",
           null,
-          "Partners"
+          "Current Partners"
         ),
         React.createElement(
           "table",
@@ -59,7 +59,7 @@ var PartnerMenu = function (_React$Component) {
           React.createElement(
             "tbody",
             null,
-            this.state.partners.map(function (partner, index) {
+            _this.state.partners.map(function (partner, index) {
               return React.createElement(
                 "tr",
                 null,
@@ -73,6 +73,41 @@ var PartnerMenu = function (_React$Component) {
           )
         )
       );
+    };
+
+    _this.show_all_partners = function () {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "button",
+          { type: "button", className: "btn btn-sm",
+            onClick: _this.change_status },
+          "Submit"
+        ),
+        React.createElement(
+          "h3",
+          null,
+          "Available Partners"
+        )
+      );
+    };
+
+    _this.state = {
+      partners: [],
+      status: "show_current_partners"
+    };
+    return _this;
+  }
+
+  _createClass(PartnerMenu, [{
+    key: "render",
+    value: function render() {
+      if (this.state.status == "show_all_partners") {
+        return this.show_all_partners();
+      } else {
+        return this.show_current_partners();
+      }
     }
   }]);
 
