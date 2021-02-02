@@ -88,14 +88,39 @@ async function delete_workitem(req, res) {
   if (!req.params.workitem_id) {
     res.status(400).end();
   } else {
-    console.log(req.params.workitem_id);
-    await WorkItem.deleteOne({_id: req.params.workitem_id}, function(err) {
-      if (err) {
-        res.status(400).send();
-        console.log(err);
-      } else {
-        res.status(200).send(); 
+    const workItem_id = req.params.workitem_id;
+    let workitem = await WorkItem.findById(workItem_id),
+        i; 
+    if (workitem) {
+      if (workitem.type == "assessment") {
+        let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
+        for (i=0; i<siteAssessment.workItems.length; i++) {
+          if (siteAssessment.workItems[i] == workItem_id) {
+            siteAssessment.workItems.splice(i, 1);
+            break;
+          }
+        }
+        await siteAssessment.save();
+      } else if (workitem.type == "project") {
+        let appProject = await AppProject.findById(workitem.appProject);
+        for (i=0; i<appProject.workItems.length; i++) {
+          if (appProject.workItems[i] == workItem_id) {
+            appProject.workItems.splice(i, 1);
+            break;
+          }
+        }
+        appProject.save();
       }
-    });
+      await WorkItem.deleteOne({_id: workItem_id}, function(err) {
+        if (err) {
+          res.status(400).send();
+          console.log(err);
+        } else {
+          res.status(200).send(); 
+        }
+      });
+    } else {
+      res.status(404).end();
+    }
   }
 }
