@@ -14,7 +14,13 @@ var PartnerMenu = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (PartnerMenu.__proto__ || Object.getPrototypeOf(PartnerMenu)).call(this, props));
 
-    _this.state = {};
+    _this.loadPartners = function () {};
+
+    _this.loadAllPartners = function () {};
+
+    _this.state = {
+      partners: []
+    };
     return _this;
   }
 
@@ -24,7 +30,48 @@ var PartnerMenu = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        "Partners"
+        React.createElement(
+          "button",
+          { type: "button", className: "btn btn-sm" },
+          "Add Partner"
+        ),
+        React.createElement(
+          "h3",
+          null,
+          "Partners"
+        ),
+        React.createElement(
+          "table",
+          null,
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "ID"
+              )
+            )
+          ),
+          React.createElement(
+            "tbody",
+            null,
+            this.state.partners.map(function (partner, index) {
+              return React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "td",
+                  null,
+                  partner._id
+                )
+              );
+            })
+          )
+        )
       );
     }
   }]);
