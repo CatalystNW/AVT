@@ -16,10 +16,24 @@ var PartnerMenu = function (_React$Component) {
 
     _this.loadPartners = function () {};
 
-    _this.loadAllPartners = function () {};
+    _this.loadAllPartners = function () {
+      $.ajax({
+        url: "/app_project/partners",
+        type: "GET",
+        context: _this,
+        success: function success(partnersData) {
+          this.setState({
+            allPartners: partnersData
+          });
+        }
+      });
+    };
 
     _this.change_status = function () {
       var new_status = _this.state.status == "show_current_partners" ? "show_all_partners" : "show_current_partners";
+      if (new_status == "show_all_partners") {
+        _this.loadAllPartners();
+      }
       _this.setState({
         status: new_status
       });
@@ -62,7 +76,7 @@ var PartnerMenu = function (_React$Component) {
             _this.state.partners.map(function (partner, index) {
               return React.createElement(
                 "tr",
-                null,
+                { key: "current-" + partner._id },
                 React.createElement(
                   "td",
                   null,
@@ -89,12 +103,45 @@ var PartnerMenu = function (_React$Component) {
           "h3",
           null,
           "Available Partners"
+        ),
+        React.createElement(
+          "table",
+          null,
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "ID"
+              )
+            )
+          ),
+          React.createElement(
+            "tbody",
+            null,
+            _this.state.allPartners.map(function (partner, index) {
+              return React.createElement(
+                "tr",
+                { key: "all-" + partner._id },
+                React.createElement(
+                  "td",
+                  null,
+                  partner._id
+                )
+              );
+            })
+          )
         )
       );
     };
 
     _this.state = {
       partners: [],
+      allPartners: [],
       status: "show_current_partners"
     };
     return _this;
