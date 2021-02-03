@@ -293,7 +293,15 @@ async function get_all_partners(req, res) {
 }
 
 async function set_partners(req, res) {
-  console.log(req.params.project_id);
-  console.log(req.body);
-  res.status(200).end();
+  const project_id = req.params.project_id;
+  const project = await AppProject.findById(project_id);
+  if (project) {
+    let new_partners = req.body["selectedPartnerIds[]"]
+    project.partners = new_partners;
+    project.save();
+    res.status(200).end();
+  } else {
+    res.status(404).end();
+  }
+  
 }

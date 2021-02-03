@@ -53,7 +53,8 @@ class PartnerMenu extends React.Component {
 
   submitNewPartners = () => {
     let inputs = document.querySelectorAll("input[name=partnerId]:checked")
-    const selectedPartners = [], 
+    const selectedPartners = [],
+          selectedPartnerIds = [], 
           checkedId_AllPartners = this.state.allPartners.map(()=>{ return false;});
     let id, index;
     for (let i=0; i<inputs.length; i++) {
@@ -62,20 +63,25 @@ class PartnerMenu extends React.Component {
       selectedPartners.push(
         this.state.allPartners[index]
       );
+      selectedPartnerIds.push(
+        this.state.allPartners[index]._id
+      );
       checkedId_AllPartners[index] = true;
     }
-    this.setState({
-      partners: selectedPartners,
-      checkedId_AllPartners: checkedId_AllPartners,
-    });
 
     if (this.props.type == "project") {
       $.ajax({
         url: "/app_project/projects/" + this.props.project_id + "/partners",
         type: "PATCH",
+        data: {
+          selectedPartnerIds: selectedPartnerIds,
+        },
         context: this,
         success: function(data) {
-          console.log(data);
+          this.setState({
+            partners: selectedPartners,
+            checkedId_AllPartners: checkedId_AllPartners,
+          });
         }
       });
     }

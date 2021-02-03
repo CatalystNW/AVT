@@ -57,6 +57,7 @@ var PartnerMenu = function (_React$Component) {
     _this.submitNewPartners = function () {
       var inputs = document.querySelectorAll("input[name=partnerId]:checked");
       var selectedPartners = [],
+          selectedPartnerIds = [],
           checkedId_AllPartners = _this.state.allPartners.map(function () {
         return false;
       });
@@ -66,20 +67,23 @@ var PartnerMenu = function (_React$Component) {
         id = inputs[i].value;
         index = inputs[i].getAttribute("index");
         selectedPartners.push(_this.state.allPartners[index]);
+        selectedPartnerIds.push(_this.state.allPartners[index]._id);
         checkedId_AllPartners[index] = true;
       }
-      _this.setState({
-        partners: selectedPartners,
-        checkedId_AllPartners: checkedId_AllPartners
-      });
 
       if (_this.props.type == "project") {
         $.ajax({
           url: "/app_project/projects/" + _this.props.project_id + "/partners",
           type: "PATCH",
+          data: {
+            selectedPartnerIds: selectedPartnerIds
+          },
           context: _this,
           success: function success(data) {
-            console.log(data);
+            this.setState({
+              partners: selectedPartners,
+              checkedId_AllPartners: checkedId_AllPartners
+            });
           }
         });
       }
