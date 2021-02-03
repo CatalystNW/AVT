@@ -68,6 +68,18 @@ class PartnerMenu extends React.Component {
       partners: selectedPartners,
       checkedId_AllPartners: checkedId_AllPartners,
     });
+
+    if (this.props.type == "project") {
+      $.ajax({
+        url: "/app_project/projects/" + this.props.project_id + "/partners",
+        type: "PATCH",
+        context: this,
+        success: function(data) {
+          console.log(data);
+        }
+      });
+    }
+
     this.change_status();
   };
 
@@ -111,11 +123,9 @@ class PartnerMenu extends React.Component {
       element = element.parentNode;
     }
     const index = element.getAttribute("index");
-    console.log(index);
     this.setState(state => {
       const new_checkedId_AllPartners =  [...state.checkedId_AllPartners];
       new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
-      console.log(new_checkedId_AllPartners);
       return { checkedId_AllPartners: new_checkedId_AllPartners }
     });
   };

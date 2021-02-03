@@ -24,6 +24,7 @@ module.exports.get_wrapup_checklist       = get_wrapup_checklist;
 module.exports.get_work_items             = get_work_items;
 
 module.exports.get_all_partners           = get_all_partners;
+module.exports.set_partners               = set_partners;
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -289,4 +290,10 @@ async function get_work_items(req, res) {
 async function get_all_partners(req, res) {
   var partners = await PartnerPackage.find({});
   res.status(200).json(partners);
+}
+
+async function set_partners(req, res) {
+  console.log(req.params.project_id);
+  console.log(req.body);
+  res.status(200).end();
 }

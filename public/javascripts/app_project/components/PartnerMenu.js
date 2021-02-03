@@ -72,6 +72,18 @@ var PartnerMenu = function (_React$Component) {
         partners: selectedPartners,
         checkedId_AllPartners: checkedId_AllPartners
       });
+
+      if (_this.props.type == "project") {
+        $.ajax({
+          url: "/app_project/projects/" + _this.props.project_id + "/partners",
+          type: "PATCH",
+          context: _this,
+          success: function success(data) {
+            console.log(data);
+          }
+        });
+      }
+
       _this.change_status();
     };
 
@@ -175,11 +187,9 @@ var PartnerMenu = function (_React$Component) {
         element = element.parentNode;
       }
       var index = element.getAttribute("index");
-      console.log(index);
       _this.setState(function (state) {
         var new_checkedId_AllPartners = [].concat(_toConsumableArray(state.checkedId_AllPartners));
         new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
-        console.log(new_checkedId_AllPartners);
         return { checkedId_AllPartners: new_checkedId_AllPartners };
       });
     };

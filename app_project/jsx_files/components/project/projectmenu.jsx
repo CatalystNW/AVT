@@ -207,7 +207,7 @@ class ProjectMenu extends React.Component {
           </div>
           <div className="tab-pane show active" id="nav-partners" role="tabpanel">
             <PartnerMenu 
-              type="project"
+              type="project" project_id={this.state._id}
             />
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
