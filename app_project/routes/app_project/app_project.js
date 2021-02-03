@@ -6,7 +6,8 @@ var assessment_controller       = require('../../controller/app_project/assessme
     project_transfer_controller = require('../../controller/app_project/project_transfer_controller.js'),
     workitem_controller         = require('../../controller/app_project/workitem_controller.js'),
     materialsitem_controller    = require('../../controller/app_project/materialsitem_controller.js'),
-    project_note_controller     = require('../../controller/app_project/project_note_controller.js');
+    project_note_controller     = require('../../controller/app_project/project_note_controller.js'),
+    partner_controller          = require('../../controller/app_project/partner_controller.js');
 
 router.get('/projects_page', assessment_controller.view_projects_page);
 
@@ -63,7 +64,8 @@ router.post('/projects/:project_id/notes', project_note_controller.create_projec
 router.delete('/projects/:project_id/notes/:note_id', project_note_controller.delete_project_note);
 router.patch('/projects/:project_id/notes/:note_id', project_note_controller.edit_project_note);
 
-router.get('/partners/', project_controller.get_all_partners);
 router.patch('/projects/:project_id/partners', project_controller.set_partners);
+
+router.get('/partners/', partner_controller.get_all_partners);
 
 module.exports = router;
