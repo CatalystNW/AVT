@@ -89,6 +89,35 @@ var PartnerMenu = function (_React$Component) {
       _this.change_status();
     };
 
+    _this.onClick_editPartner = function () {
+      console.log("edit");
+    };
+
+    _this.onClick_createPartner = function () {
+      console.log("create");
+    };
+
+    _this.onClick_deletePartner = function () {
+      console.log("delete");
+    };
+
+    _this.selectRow = function (e) {
+      var element = e.target;
+      for (var i = 0; i < 5; i++) {
+        // Limit search to 5 elements
+        if (element.tagName == "TR") {
+          break;
+        }
+        element = element.parentNode;
+      }
+      var index = element.getAttribute("index");
+      _this.setState(function (state) {
+        var new_checkedId_AllPartners = [].concat(_toConsumableArray(state.checkedId_AllPartners));
+        new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
+        return { checkedId_AllPartners: new_checkedId_AllPartners };
+      });
+    };
+
     _this.show_current_partners = function () {
       return React.createElement(
         "div",
@@ -198,35 +227,6 @@ var PartnerMenu = function (_React$Component) {
           )
         )
       );
-    };
-
-    _this.onClick_editPartner = function () {
-      console.log("edit");
-    };
-
-    _this.onClick_createPartner = function () {
-      console.log("create");
-    };
-
-    _this.onClick_deletePartner = function () {
-      console.log("delete");
-    };
-
-    _this.selectRow = function (e) {
-      var element = e.target;
-      for (var i = 0; i < 5; i++) {
-        // Limit search to 5 elements
-        if (element.tagName == "TR") {
-          break;
-        }
-        element = element.parentNode;
-      }
-      var index = element.getAttribute("index");
-      _this.setState(function (state) {
-        var new_checkedId_AllPartners = [].concat(_toConsumableArray(state.checkedId_AllPartners));
-        new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
-        return { checkedId_AllPartners: new_checkedId_AllPartners };
-      });
     };
 
     _this.show_all_partners = function () {

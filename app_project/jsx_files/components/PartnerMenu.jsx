@@ -85,6 +85,32 @@ class PartnerMenu extends React.Component {
     this.change_status();
   };
 
+  onClick_editPartner = () => {
+    console.log("edit");
+  };
+  onClick_createPartner = () => {
+    console.log("create");
+  }
+  onClick_deletePartner = () => {
+    console.log("delete");
+  };
+
+  selectRow = (e) => {
+    let element = e.target;
+    for (let i=0; i<5; i++) { // Limit search to 5 elements
+      if (element.tagName == "TR") {
+        break;
+      }
+      element = element.parentNode;
+    }
+    const index = element.getAttribute("index");
+    this.setState(state => {
+      const new_checkedId_AllPartners =  [...state.checkedId_AllPartners];
+      new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
+      return { checkedId_AllPartners: new_checkedId_AllPartners }
+    });
+  };
+
   show_current_partners = () => {
     return (
       <div>
@@ -121,32 +147,6 @@ class PartnerMenu extends React.Component {
           </tbody>
         </table>
       </div>);
-  }
-
-  onClick_editPartner = () => {
-    console.log("edit");
-  };
-  onClick_createPartner = () => {
-    console.log("create");
-  }
-  onClick_deletePartner = () => {
-    console.log("delete");
-  };
-
-  selectRow = (e) => {
-    let element = e.target;
-    for (let i=0; i<5; i++) { // Limit search to 5 elements
-      if (element.tagName == "TR") {
-        break;
-      }
-      element = element.parentNode;
-    }
-    const index = element.getAttribute("index");
-    this.setState(state => {
-      const new_checkedId_AllPartners =  [...state.checkedId_AllPartners];
-      new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
-      return { checkedId_AllPartners: new_checkedId_AllPartners }
-    });
   };
 
   show_all_partners = () => {
@@ -198,7 +198,7 @@ class PartnerMenu extends React.Component {
           </tbody>
         </table>
     </div>);
-  }
+  };
   
   render() {
     if (this.state.status == "show_all_partners") {
