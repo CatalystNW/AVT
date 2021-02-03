@@ -1,5 +1,7 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -163,6 +165,25 @@ var PartnerMenu = function (_React$Component) {
       );
     };
 
+    _this.selectRow = function (e) {
+      var element = e.target;
+      for (var i = 0; i < 5; i++) {
+        // Limit search to 5 elements
+        if (element.tagName == "TR") {
+          break;
+        }
+        element = element.parentNode;
+      }
+      var index = element.getAttribute("index");
+      console.log(index);
+      _this.setState(function (state) {
+        var new_checkedId_AllPartners = [].concat(_toConsumableArray(state.checkedId_AllPartners));
+        new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
+        console.log(new_checkedId_AllPartners);
+        return { checkedId_AllPartners: new_checkedId_AllPartners };
+      });
+    };
+
     _this.show_all_partners = function () {
       return React.createElement(
         "div",
@@ -227,12 +248,15 @@ var PartnerMenu = function (_React$Component) {
             _this.state.allPartners.map(function (partner, index) {
               return React.createElement(
                 "tr",
-                { key: "all-" + partner._id },
+                { key: "all-" + partner._id, index: index, onClick: _this.selectRow },
                 React.createElement(
                   "td",
                   null,
                   React.createElement("input", { type: "checkbox", index: index,
-                    value: partner._id, name: "partnerId" })
+                    value: partner._id, name: "partnerId",
+                    onChange: _this.selectRow,
+                    checked: _this.state.checkedId_AllPartners[index]
+                  })
                 ),
                 React.createElement(
                   "td",

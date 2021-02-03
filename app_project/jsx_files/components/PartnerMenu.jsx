@@ -101,6 +101,25 @@ class PartnerMenu extends React.Component {
         </table>
       </div>);
   }
+
+  selectRow = (e) => {
+    let element = e.target;
+    for (let i=0; i<5; i++) { // Limit search to 5 elements
+      if (element.tagName == "TR") {
+        break;
+      }
+      element = element.parentNode;
+    }
+    const index = element.getAttribute("index");
+    console.log(index);
+    this.setState(state => {
+      const new_checkedId_AllPartners =  [...state.checkedId_AllPartners];
+      new_checkedId_AllPartners[index] = !state.checkedId_AllPartners[index];
+      console.log(new_checkedId_AllPartners);
+      return { checkedId_AllPartners: new_checkedId_AllPartners }
+    });
+  };
+
   show_all_partners = () => {
     return (
     <div>
@@ -122,10 +141,14 @@ class PartnerMenu extends React.Component {
           </thead>
           <tbody>
             {this.state.allPartners.map((partner,index) => {
-              return (<tr key={"all-" + partner._id}>
+              return (
+              <tr key={"all-" + partner._id} index={index} onClick={this.selectRow}>
                 <td>
                   <input type="checkbox" index={index}
-                    value={partner._id} name="partnerId"></input>
+                    value={partner._id} name="partnerId"
+                    onChange={this.selectRow}
+                    checked={this.state.checkedId_AllPartners[index]}
+                  ></input>
                 </td>
                 <td>{partner.org_name}</td>
                 <td>{partner.org_address}</td>
