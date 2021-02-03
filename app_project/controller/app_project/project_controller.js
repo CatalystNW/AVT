@@ -25,7 +25,6 @@ module.exports.get_work_items             = get_work_items;
 
 module.exports.get_all_partners           = get_all_partners;
 module.exports.set_partners               = set_partners;
-module.exports.get_project_partners       = get_project_partners
 
 async function get_projects(req, res) {
   var projects = await AppProject.find({})
@@ -291,12 +290,6 @@ async function get_work_items(req, res) {
 async function get_all_partners(req, res) {
   var partners = await PartnerPackage.find({});
   res.status(200).json(partners);
-}
-
-async function get_project_partners(req, res) {
-  const project_id = req.params.project_id;
-  const project = await AppProject.findById(project_id).populate("partners");
-  res.status(200).json(project.partners);
 }
 
 async function set_partners(req, res) {

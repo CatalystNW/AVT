@@ -64,7 +64,6 @@ router.delete('/projects/:project_id/notes/:note_id', project_note_controller.de
 router.patch('/projects/:project_id/notes/:note_id', project_note_controller.edit_project_note);
 
 router.get('/partners/', project_controller.get_all_partners);
-router.get('/projects/:project_id/partners', project_controller.get_project_partners);
 router.patch('/projects/:project_id/partners', project_controller.set_partners);
 
 module.exports = router;
