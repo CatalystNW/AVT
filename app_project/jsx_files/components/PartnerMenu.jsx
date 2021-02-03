@@ -2,16 +2,12 @@ class PartnerMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      partners: [],
+      partners: this.props.partners,
       allPartners: [],
       checkedId_AllPartners: [],
       status: "show_current_partners"
     };
   }
-
-  loadPartners = () => {
-
-  };
 
   loadAllPartners = () => {
     $.ajax({

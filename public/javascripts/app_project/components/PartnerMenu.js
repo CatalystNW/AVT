@@ -16,8 +16,6 @@ var PartnerMenu = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (PartnerMenu.__proto__ || Object.getPrototypeOf(PartnerMenu)).call(this, props));
 
-    _this.loadPartners = function () {};
-
     _this.loadAllPartners = function () {
       $.ajax({
         url: "/app_project/partners",
@@ -305,7 +303,7 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.state = {
-      partners: [],
+      partners: _this.props.partners,
       allPartners: [],
       checkedId_AllPartners: [],
       status: "show_current_partners"
