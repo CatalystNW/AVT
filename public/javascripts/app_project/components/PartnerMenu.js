@@ -54,15 +54,22 @@ var PartnerMenu = function (_React$Component) {
 
     _this.submitNewPartners = function () {
       var inputs = document.querySelectorAll("input[name=partnerId]:checked");
-      var selectedPartners = [];
+      var selectedPartners = [],
+          checkedId_AllPartners = _this.state.allPartners.map(function () {
+        return false;
+      });
       var id = void 0,
           index = void 0;
       for (var i = 0; i < inputs.length; i++) {
         id = inputs[i].value;
         index = inputs[i].getAttribute("index");
         selectedPartners.push(_this.state.allPartners[index]);
+        checkedId_AllPartners[index] = true;
       }
-      _this.setState({ partners: selectedPartners });
+      _this.setState({
+        partners: selectedPartners,
+        checkedId_AllPartners: checkedId_AllPartners
+      });
       _this.change_status();
     };
 
