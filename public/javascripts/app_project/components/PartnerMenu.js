@@ -22,6 +22,7 @@ var PartnerMenu = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(partnersData) {
+          console.log(partnersData);
           this.setState({
             allPartners: partnersData
           });
@@ -100,6 +101,12 @@ var PartnerMenu = function (_React$Component) {
           "Submit"
         ),
         React.createElement(
+          "button",
+          { type: "button", className: "btn btn-sm",
+            onClick: _this.change_status },
+          "Cancel"
+        ),
+        React.createElement(
           "h3",
           null,
           "Available Partners"
@@ -113,10 +120,31 @@ var PartnerMenu = function (_React$Component) {
             React.createElement(
               "tr",
               null,
+              React.createElement("th", { scope: "col" }),
               React.createElement(
                 "th",
                 { scope: "col" },
-                "ID"
+                "Name"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Address"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Contact"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Phone"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Email"
               )
             )
           ),
@@ -130,7 +158,32 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner._id
+                  React.createElement("input", { type: "checkbox", value: partner._id })
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.org_name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.org_address
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_email
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_phone
                 )
               );
             })

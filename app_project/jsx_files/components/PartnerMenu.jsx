@@ -18,6 +18,7 @@ class PartnerMenu extends React.Component {
       type: "GET",
       context: this,
       success: function(partnersData) {
+        console.log(partnersData)
         this.setState({
           allPartners: partnersData,
         })
@@ -63,17 +64,31 @@ class PartnerMenu extends React.Component {
     <div>
       <button type="button" className="btn btn-sm"
         onClick={this.change_status}>Submit</button>
+      <button type="button" className="btn btn-sm"
+        onClick={this.change_status}>Cancel</button>
       <h3>Available Partners</h3>
       <table>
           <thead>
             <tr>
-              <th scope="col">ID</th>
+              <th scope="col"></th>
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Email</th>
             </tr>
           </thead>
           <tbody>
             {this.state.allPartners.map((partner,index) => {
               return (<tr key={"all-" + partner._id}>
-                <td>{partner._id}</td>
+                <td>
+                  <input type="checkbox" value={partner._id}></input>
+                </td>
+                <td>{partner.org_name}</td>
+                <td>{partner.org_address}</td>
+                <td>{partner.contact_name}</td>
+                <td>{partner.contact_email}</td>
+                <td>{partner.contact_phone}</td>
               </tr>);
             })}
           </tbody>
