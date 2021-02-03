@@ -37,6 +37,21 @@ class PartnerMenu extends React.Component {
     });
   }
 
+  submitNewPartners = () => {
+    let inputs = document.querySelectorAll("input[name=partnerId]:checked")
+    const selectedPartners = [];
+    let id, index;
+    for (let i=0; i<inputs.length; i++) {
+      id = inputs[i].value;
+      index = inputs[i].getAttribute("index");
+      selectedPartners.push(
+        this.state.allPartners[index]
+      );
+    }
+    this.setState({partners: selectedPartners});
+    this.change_status();
+  };
+
   show_current_partners = () => {
     return (
       <div>
@@ -63,7 +78,7 @@ class PartnerMenu extends React.Component {
     return (
     <div>
       <button type="button" className="btn btn-sm"
-        onClick={this.change_status}>Submit</button>
+        onClick={this.submitNewPartners}>Submit</button>
       <button type="button" className="btn btn-sm"
         onClick={this.change_status}>Cancel</button>
       <h3>Available Partners</h3>
@@ -82,7 +97,8 @@ class PartnerMenu extends React.Component {
             {this.state.allPartners.map((partner,index) => {
               return (<tr key={"all-" + partner._id}>
                 <td>
-                  <input type="checkbox" value={partner._id}></input>
+                  <input type="checkbox" index={index}
+                    value={partner._id} name="partnerId"></input>
                 </td>
                 <td>{partner.org_name}</td>
                 <td>{partner.org_address}</td>

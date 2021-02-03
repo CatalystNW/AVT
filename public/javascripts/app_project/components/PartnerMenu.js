@@ -40,6 +40,20 @@ var PartnerMenu = function (_React$Component) {
       });
     };
 
+    _this.submitNewPartners = function () {
+      var inputs = document.querySelectorAll("input[name=partnerId]:checked");
+      var selectedPartners = [];
+      var id = void 0,
+          index = void 0;
+      for (var i = 0; i < inputs.length; i++) {
+        id = inputs[i].value;
+        index = inputs[i].getAttribute("index");
+        selectedPartners.push(_this.state.allPartners[index]);
+      }
+      _this.setState({ partners: selectedPartners });
+      _this.change_status();
+    };
+
     _this.show_current_partners = function () {
       return React.createElement(
         "div",
@@ -97,7 +111,7 @@ var PartnerMenu = function (_React$Component) {
         React.createElement(
           "button",
           { type: "button", className: "btn btn-sm",
-            onClick: _this.change_status },
+            onClick: _this.submitNewPartners },
           "Submit"
         ),
         React.createElement(
@@ -158,7 +172,8 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  React.createElement("input", { type: "checkbox", value: partner._id })
+                  React.createElement("input", { type: "checkbox", index: index,
+                    value: partner._id, name: "partnerId" })
                 ),
                 React.createElement(
                   "td",
