@@ -23,8 +23,20 @@ var PartnerMenu = function (_React$Component) {
         context: _this,
         success: function success(partnersData) {
           console.log(partnersData);
+
+          // Set checkedId_AllPartners to true/false if selected
+          var selectedPartners = this.state.partners;
+          var partnerSet = new Set();
+          for (var i = 0; i < selectedPartners.length; i++) {
+            partnerSet.add(selectedPartners[i]._id);
+          }
+          var checkedId_AllPartners = partnersData.map(function (partner) {
+            return partnerSet.has(partner._id);
+          });
+
           this.setState({
-            allPartners: partnersData
+            allPartners: partnersData,
+            checkedId_AllPartners: checkedId_AllPartners
           });
         }
       });
@@ -250,6 +262,7 @@ var PartnerMenu = function (_React$Component) {
     _this.state = {
       partners: [],
       allPartners: [],
+      checkedId_AllPartners: [],
       status: "show_current_partners"
     };
     return _this;

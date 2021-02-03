@@ -4,6 +4,7 @@ class PartnerMenu extends React.Component {
     this.state ={
       partners: [],
       allPartners: [],
+      checkedId_AllPartners: [],
       status: "show_current_partners"
     };
   }
@@ -19,9 +20,22 @@ class PartnerMenu extends React.Component {
       context: this,
       success: function(partnersData) {
         console.log(partnersData)
+        
+        // Set checkedId_AllPartners to true/false if selected
+        let selectedPartners = this.state.partners;
+        let partnerSet = new Set();
+        for (let i=0; i<selectedPartners.length; i++) {
+          partnerSet.add(selectedPartners[i]._id);
+        }
+        var checkedId_AllPartners = partnersData.map(
+          (partner) => {
+            return partnerSet.has(partner._id);
+          });
+
         this.setState({
           allPartners: partnersData,
-        })
+          checkedId_AllPartners: checkedId_AllPartners,
+        });
       },
     });
   };
