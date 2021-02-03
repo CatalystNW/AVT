@@ -99,6 +99,7 @@ class PartnerMenu extends React.Component {
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
@@ -109,12 +110,28 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_name}</td>
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>
+                  <button type="button" className="btn btn-sm"
+                    onClick={this.onClick_editPartner}>Edit</button>
+                  <button type="button" className="btn btn-sm"
+                    onClick={this.onClick_deletePartner}>Delete</button>
+                </td>
               </tr>);
             })}
           </tbody>
         </table>
       </div>);
   }
+
+  onClick_editPartner = () => {
+    console.log("edit");
+  };
+  onClick_createPartner = () => {
+    console.log("create");
+  }
+  onClick_deletePartner = () => {
+    console.log("delete");
+  };
 
   selectRow = (e) => {
     let element = e.target;
@@ -139,6 +156,8 @@ class PartnerMenu extends React.Component {
         onClick={this.submitNewPartners}>Submit</button>
       <button type="button" className="btn btn-sm"
         onClick={this.change_status}>Cancel</button>
+      <button type="button" className="btn btn-sm"
+        onClick={this.onClick_createPartner}>Create Partner</button>
       <h3>Available Partners</h3>
       <table>
           <thead>
@@ -149,6 +168,7 @@ class PartnerMenu extends React.Component {
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
@@ -167,6 +187,12 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_name}</td>
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>
+                  <button type="button" className="btn btn-sm"
+                    onClick={this.onClick_editPartner}>Edit</button>
+                  <button type="button" className="btn btn-sm"
+                    onClick={this.onClick_deletePartner}>Delete</button>
+                </td>
               </tr>);
             })}
           </tbody>
