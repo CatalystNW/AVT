@@ -81,7 +81,27 @@ var PartnerMenu = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "ID"
+                "Name"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Address"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Contact"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Phone"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Email"
               )
             )
           ),
@@ -95,7 +115,27 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner._id
+                  partner.org_name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.org_address
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_email
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  partner.contact_phone
                 )
               );
             })
