@@ -104,8 +104,40 @@ class PartnerMenu extends React.Component {
       }
     );
   }
-  onClick_deletePartner = () => {
-    console.log("delete");
+  onClick_deletePartner = (e) => {
+    const partner_id = e.target.getAttribute("partner_id"),
+          index = e.target.getAttribute("index");
+    $.ajax({
+      url: "/app_project/partners/" + partner_id,
+      type: "DELETE",
+      context: this,
+      success: function() {
+        this.setState(state => {
+          let new_allPartners = [...state.allPartners];
+          let new_checkedId = [...state.checkedId_AllPartners];
+          let new_partners = [...state.partners];
+          let i;
+          for (i=0; i<new_allPartners.length; i++) {
+            if (new_allPartners[i]._id == partner_id) {
+              new_allPartners.splice(i, 1);
+              new_checkedId.splice(i, 1);
+              break;
+            }
+          }
+          for (i=0; i<new_partners.length; i++) {
+            if (new_partners[i]._id == partner_id) {
+              new_partners.splice(i, 1);
+              break;
+            }
+          }
+          return {
+            allPartners: new_allPartners,
+            checkedId_AllPartners: new_checkedId,
+            partners: new_partners,
+          };
+        });
+      }
+    });
   };
 
   selectRow = (e) => {
