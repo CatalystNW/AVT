@@ -107,7 +107,9 @@ var ModalMenu = function (_React$Component) {
 
 
     /**
-     * Creates the modal menu and then uses modal.show to reveal it
+     * Creates the modal menu and then uses modal.show to reveal it.
+     * Needs to separate submit & handle callbacks because need to also run
+     *  function to close and clean up menu.
      * @param {*} type : type of menu to create
      * @param {*} submit_form_handler : handler that will handle form submission
      * @param {*} additional_data : any additional data Obj passed to submit form handler
@@ -149,6 +151,16 @@ var ModalMenu = function (_React$Component) {
           type: type, title: "Edit Materials Item",
           submit_form_handler: submit_form_handler,
           additional_data: { materialsItem_id: additional_data._id },
+          handle_data_callback: handle_data_callback,
+          prev_data: additional_data
+        }, function () {
+          $("#modalMenu").modal("show");
+        });
+      } else if (type == "create_partner") {
+        this.setState({
+          type: type, title: "Create Partner",
+          submit_form_handler: submit_form_handler,
+          additional_data: additional_data,
           handle_data_callback: handle_data_callback,
           prev_data: additional_data
         }, function () {
@@ -302,6 +314,71 @@ var ModalMenu = function (_React$Component) {
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "vendor",
               defaultValue: this.state.prev_data.vendor, id: "vendor-input", required: true })
+          )
+        );
+      } else if (this.state.type == "create_partner") {
+        return React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "name-input" },
+              "Partner Name"
+            ),
+            React.createElement("input", { type: "text", className: "form-control", name: "name",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "",
+              id: "name-input", required: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "contact-input" },
+              "Contact Name"
+            ),
+            React.createElement("input", { type: "text", className: "form-control", name: "contact",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "",
+              id: "contact-input", required: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "address-input" },
+              "Address"
+            ),
+            React.createElement("input", { type: "text", className: "form-control", name: "address",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "",
+              id: "address-input", required: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "phone-input" },
+              "Phone"
+            ),
+            React.createElement("input", { type: "text", className: "form-control", name: "phone",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "",
+              id: "phone-input", required: true })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              { htmlFor: "email-input" },
+              "Email"
+            ),
+            React.createElement("input", { type: "text", className: "form-control", name: "email",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "",
+              id: "email-input", required: true })
           )
         );
       } else {

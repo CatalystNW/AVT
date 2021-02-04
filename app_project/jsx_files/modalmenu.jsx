@@ -69,7 +69,9 @@ class ModalMenu extends React.Component {
   }
 
   /**
-   * Creates the modal menu and then uses modal.show to reveal it
+   * Creates the modal menu and then uses modal.show to reveal it.
+   * Needs to separate submit & handle callbacks because need to also run
+   *  function to close and clean up menu.
    * @param {*} type : type of menu to create
    * @param {*} submit_form_handler : handler that will handle form submission
    * @param {*} additional_data : any additional data Obj passed to submit form handler
@@ -108,6 +110,16 @@ class ModalMenu extends React.Component {
           type: type, title: "Edit Materials Item",
           submit_form_handler: submit_form_handler,
           additional_data: {materialsItem_id: additional_data._id,},
+          handle_data_callback: handle_data_callback,
+          prev_data: additional_data,
+        }, ()=> {$("#modalMenu").modal("show");}
+      )
+    } else if (type == "create_partner") {
+      this.setState(
+        {
+          type: type, title: "Create Partner",
+          submit_form_handler: submit_form_handler,
+          additional_data: additional_data,
           handle_data_callback: handle_data_callback,
           prev_data: additional_data,
         }, ()=> {$("#modalMenu").modal("show");}
@@ -182,6 +194,39 @@ class ModalMenu extends React.Component {
           <label>Vendor</label>
           <input type="text" className="form-control" name="vendor" 
             defaultValue={this.state.prev_data.vendor} id="vendor-input" required></input>
+        </div>
+      </div>);
+    } else if (this.state.type == "create_partner") {
+      return (<div>
+        <div className="form-group">
+          <label htmlFor="name-input">Partner Name</label>
+          <input type="text" className="form-control" name="name" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            id="name-input" required></input>
+        </div>
+        <div className="form-group">
+          <label htmlFor="contact-input">Contact Name</label>
+          <input type="text" className="form-control" name="contact" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            id="contact-input" required></input>
+        </div>
+        <div className="form-group">
+          <label htmlFor="address-input">Address</label>
+          <input type="text" className="form-control" name="address" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            id="address-input" required></input>
+        </div>
+        <div className="form-group">
+          <label htmlFor="phone-input">Phone</label>
+          <input type="text" className="form-control" name="phone" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            id="phone-input" required></input>
+        </div>
+        <div className="form-group">
+          <label htmlFor="email-input">Email</label>
+          <input type="text" className="form-control" name="email" 
+            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            id="email-input" required></input>
         </div>
       </div>);
     } else {
