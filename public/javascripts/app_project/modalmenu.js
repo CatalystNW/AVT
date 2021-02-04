@@ -166,6 +166,16 @@ var ModalMenu = function (_React$Component) {
         }, function () {
           $("#modalMenu").modal("show");
         });
+      } else if (type == "edit_partner") {
+        this.setState({
+          type: type, title: "Edit Partner",
+          submit_form_handler: submit_form_handler,
+          additional_data: { partner_id: additional_data.partner_id },
+          handle_data_callback: handle_data_callback,
+          prev_data: additional_data
+        }, function () {
+          $("#modalMenu").modal("show");
+        });
       }
     }
   }, {
@@ -329,7 +339,7 @@ var ModalMenu = function (_React$Component) {
               "Partner Name"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "name",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.name : "",
+              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.org_name : "",
               id: "name-input", required: true })
           ),
           React.createElement(
@@ -341,7 +351,7 @@ var ModalMenu = function (_React$Component) {
               "Contact Name"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "contact",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact : "",
+              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_name : "",
               id: "contact-input", required: true })
           ),
           React.createElement(
@@ -353,7 +363,7 @@ var ModalMenu = function (_React$Component) {
               "Address"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "address",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.address : "",
+              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.org_address : "",
               id: "address-input", required: true })
           ),
           React.createElement(
@@ -365,7 +375,7 @@ var ModalMenu = function (_React$Component) {
               "Phone"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "phone",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.phone : "",
+              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_phone : "",
               id: "phone-input", required: true })
           ),
           React.createElement(
@@ -377,7 +387,7 @@ var ModalMenu = function (_React$Component) {
               "Email"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "email",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.email : "",
+              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_email : "",
               id: "email-input", required: true })
           )
         );
