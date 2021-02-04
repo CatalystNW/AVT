@@ -210,6 +210,7 @@ class ProjectMenu extends React.Component {
             (<PartnerMenu 
               type="project" project_id={this.state._id}
               partners={this.state.partners}
+              set_create_partner_menu={this.props.set_create_partner_menu}
             />) : (<div></div>)}
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">

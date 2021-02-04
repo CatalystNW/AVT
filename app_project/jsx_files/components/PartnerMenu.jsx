@@ -89,7 +89,13 @@ class PartnerMenu extends React.Component {
     console.log("edit");
   };
   onClick_createPartner = () => {
-    console.log("create");
+    this.props.set_create_partner_menu(
+      {type: "project", project_id: this.props.project_id, },
+      funkie.create_partner,
+      (createdPartner) => {
+
+      }
+    );
   }
   onClick_deletePartner = () => {
     console.log("delete");

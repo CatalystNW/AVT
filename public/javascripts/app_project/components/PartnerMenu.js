@@ -94,7 +94,7 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.onClick_createPartner = function () {
-      console.log("create");
+      _this.props.set_create_partner_menu({ type: "project", project_id: _this.props.project_id }, funkie.create_partner, function (createdPartner) {});
     };
 
     _this.onClick_deletePartner = function () {
