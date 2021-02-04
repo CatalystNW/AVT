@@ -145,5 +145,18 @@ var funkie = {
         }
       }
     });
+  },
+  create_partner: function create_partner(data, menu_callback, data_callback_handler) {
+    $.ajax({
+      url: "/app_project/partners",
+      type: "POST",
+      data: data,
+      success: function success(result) {
+        if (menu_callback) menu_callback();
+        if (data_callback_handler) {
+          data_callback_handler(result);
+        }
+      }
+    });
   }
 };
