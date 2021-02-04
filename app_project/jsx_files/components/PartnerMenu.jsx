@@ -106,38 +106,43 @@ class PartnerMenu extends React.Component {
   }
   onClick_deletePartner = (e) => {
     const partner_id = e.target.getAttribute("partner_id"),
-          index = e.target.getAttribute("index");
-    $.ajax({
-      url: "/app_project/partners/" + partner_id,
-      type: "DELETE",
-      context: this,
-      success: function() {
-        this.setState(state => {
-          let new_allPartners = [...state.allPartners];
-          let new_checkedId = [...state.checkedId_AllPartners];
-          let new_partners = [...state.partners];
-          let i;
-          for (i=0; i<new_allPartners.length; i++) {
-            if (new_allPartners[i]._id == partner_id) {
-              new_allPartners.splice(i, 1);
-              new_checkedId.splice(i, 1);
-              break;
+          index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+    const confirm = window.confirm(`Are you sure you want to delete ${this.state[location][index].org_name}?`)
+    if (confirm) {
+      $.ajax({
+        url: "/app_project/partners/" + partner_id,
+        type: "DELETE",
+        context: this,
+        success: function() {
+          // Deletes partners if selected & from all partners list
+          this.setState(state => {
+            let new_allPartners = [...state.allPartners];
+            let new_checkedId = [...state.checkedId_AllPartners];
+            let new_partners = [...state.partners];
+            let i;
+            for (i=0; i<new_allPartners.length; i++) {
+              if (new_allPartners[i]._id == partner_id) {
+                new_allPartners.splice(i, 1);
+                new_checkedId.splice(i, 1);
+                break;
+              }
             }
-          }
-          for (i=0; i<new_partners.length; i++) {
-            if (new_partners[i]._id == partner_id) {
-              new_partners.splice(i, 1);
-              break;
+            for (i=0; i<new_partners.length; i++) {
+              if (new_partners[i]._id == partner_id) {
+                new_partners.splice(i, 1);
+                break;
+              }
             }
-          }
-          return {
-            allPartners: new_allPartners,
-            checkedId_AllPartners: new_checkedId,
-            partners: new_partners,
-          };
-        });
-      }
-    });
+            return {
+              allPartners: new_allPartners,
+              checkedId_AllPartners: new_checkedId,
+              partners: new_partners,
+            };
+          });
+        }
+      });
+    }
   };
 
   selectRow = (e) => {
@@ -188,9 +193,11 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_phone}</td>
                 <td>
                   <button type="button" className="btn btn-sm"
+                    location={"partners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
                   <button type="button" className="btn btn-sm"
+                    location={"partners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_deletePartner}>Delete</button>
                 </td>
@@ -241,9 +248,11 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_phone}</td>
                 <td>
                   <button type="button" className="btn btn-sm"
+                    location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
                   <button type="button" className="btn btn-sm"
+                    location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_deletePartner}>Delete</button>
                 </td>

@@ -108,38 +108,43 @@ var PartnerMenu = function (_React$Component) {
 
     _this.onClick_deletePartner = function (e) {
       var partner_id = e.target.getAttribute("partner_id"),
-          index = e.target.getAttribute("index");
-      $.ajax({
-        url: "/app_project/partners/" + partner_id,
-        type: "DELETE",
-        context: _this,
-        success: function success() {
-          this.setState(function (state) {
-            var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
-            var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners));
-            var new_partners = [].concat(_toConsumableArray(state.partners));
-            var i = void 0;
-            for (i = 0; i < new_allPartners.length; i++) {
-              if (new_allPartners[i]._id == partner_id) {
-                new_allPartners.splice(i, 1);
-                new_checkedId.splice(i, 1);
-                break;
+          index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+      var confirm = window.confirm("Are you sure you want to delete " + _this.state[location][index].org_name + "?");
+      if (confirm) {
+        $.ajax({
+          url: "/app_project/partners/" + partner_id,
+          type: "DELETE",
+          context: _this,
+          success: function success() {
+            // Deletes partners if selected & from all partners list
+            this.setState(function (state) {
+              var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
+              var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners));
+              var new_partners = [].concat(_toConsumableArray(state.partners));
+              var i = void 0;
+              for (i = 0; i < new_allPartners.length; i++) {
+                if (new_allPartners[i]._id == partner_id) {
+                  new_allPartners.splice(i, 1);
+                  new_checkedId.splice(i, 1);
+                  break;
+                }
               }
-            }
-            for (i = 0; i < new_partners.length; i++) {
-              if (new_partners[i]._id == partner_id) {
-                new_partners.splice(i, 1);
-                break;
+              for (i = 0; i < new_partners.length; i++) {
+                if (new_partners[i]._id == partner_id) {
+                  new_partners.splice(i, 1);
+                  break;
+                }
               }
-            }
-            return {
-              allPartners: new_allPartners,
-              checkedId_AllPartners: new_checkedId,
-              partners: new_partners
-            };
-          });
-        }
-      });
+              return {
+                allPartners: new_allPartners,
+                checkedId_AllPartners: new_checkedId,
+                partners: new_partners
+              };
+            });
+          }
+        });
+      }
     };
 
     _this.selectRow = function (e) {
@@ -258,6 +263,7 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      location: "partners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
                     "Edit"
@@ -265,6 +271,7 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      location: "partners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_deletePartner },
                     "Delete"
@@ -393,6 +400,7 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
                     "Edit"
@@ -400,6 +408,7 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_deletePartner },
                     "Delete"
