@@ -93,7 +93,14 @@ class PartnerMenu extends React.Component {
       {type: "project", project_id: this.props.project_id, },
       funkie.create_partner,
       (createdPartner) => {
-
+        this.setState(state=> {
+          let new_allPartners = [...state.allPartners, createdPartner];
+          let new_checkedId = [...state.checkedId_AllPartners, false];
+          return {
+            allPartners: new_allPartners,
+            checkedId_AllPartners: new_checkedId,
+          };
+        });
       }
     );
   }

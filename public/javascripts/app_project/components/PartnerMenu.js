@@ -94,7 +94,16 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.onClick_createPartner = function () {
-      _this.props.set_create_partner_menu({ type: "project", project_id: _this.props.project_id }, funkie.create_partner, function (createdPartner) {});
+      _this.props.set_create_partner_menu({ type: "project", project_id: _this.props.project_id }, funkie.create_partner, function (createdPartner) {
+        _this.setState(function (state) {
+          var new_allPartners = [].concat(_toConsumableArray(state.allPartners), [createdPartner]);
+          var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners), [false]);
+          return {
+            allPartners: new_allPartners,
+            checkedId_AllPartners: new_checkedId
+          };
+        });
+      });
     };
 
     _this.onClick_deletePartner = function () {

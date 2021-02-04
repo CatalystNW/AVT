@@ -66,6 +66,7 @@ router.patch('/projects/:project_id/notes/:note_id', project_note_controller.edi
 
 router.patch('/projects/:project_id/partners', project_controller.set_partners);
 
-router.get('/partners/', partner_controller.get_all_partners);
+router.get('/partners', partner_controller.get_all_partners);
+router.post('/partners', partner_controller.create_partner);
 
 module.exports = router;
