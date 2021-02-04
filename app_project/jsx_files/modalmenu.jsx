@@ -196,36 +196,37 @@ class ModalMenu extends React.Component {
             defaultValue={this.state.prev_data.vendor} id="vendor-input" required></input>
         </div>
       </div>);
-    } else if (this.state.type == "create_partner") {
+    } else if (this.state.type == "create_partner" ||
+                this.state.type == "edit_partner") {
       return (<div>
         <div className="form-group">
           <label htmlFor="name-input">Partner Name</label>
           <input type="text" className="form-control" name="name" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.name : ""}
             id="name-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="contact-input">Contact Name</label>
           <input type="text" className="form-control" name="contact" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.contact : ""}
             id="contact-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="address-input">Address</label>
           <input type="text" className="form-control" name="address" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.address : ""}
             id="address-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="phone-input">Phone</label>
           <input type="text" className="form-control" name="phone" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.phone : ""}
             id="phone-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="email-input">Email</label>
           <input type="text" className="form-control" name="email" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""}
+            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.email : ""}
             id="email-input" required></input>
         </div>
       </div>);
