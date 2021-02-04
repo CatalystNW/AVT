@@ -29,6 +29,10 @@ var ProjectApp = function (_React$Component) {
       _this.modalmenu.current.show_menu("create_partner", submit_handler, data, data_callback);
     };
 
+    _this.set_edit_partner_menu = function (data, submit_handler, data_callback) {
+      _this.modalmenu.current.show_menu("edit_partner", submit_handler, data, data_callback);
+    };
+
     _this.set_edit_materialisitem_menu = function (old_data, edit_materialsitem_handler) {
       _this.modalmenu.current.show_menu("edit_materialsitem", funkie.edit_materialsitem, old_data, edit_materialsitem_handler // <WorkItem> method
       );
@@ -108,7 +112,8 @@ var ProjectApp = function (_React$Component) {
           set_create_materialsitem_menu: this.set_create_materialsitem_menu,
           set_edit_materialisitem_menu: this.set_edit_materialisitem_menu,
           set_edit_workitem_menu: this.set_edit_workitem_menu,
-          set_create_partner_menu: this.set_create_partner_menu
+          set_create_partner_menu: this.set_create_partner_menu,
+          set_edit_partner_menu: this.set_edit_partner_menu
         }),
         React.createElement(ApplicationInformation, {
           project_id: project_id,

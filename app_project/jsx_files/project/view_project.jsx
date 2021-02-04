@@ -64,7 +64,15 @@ class ProjectApp extends React.Component {
       data,
       data_callback,
     );
-  }
+  };
+  set_edit_partner_menu = (data, submit_handler, data_callback) => {
+    this.modalmenu.current.show_menu(
+      "edit_partner",
+      submit_handler,
+      data,
+      data_callback,
+    );
+  };
 
   set_edit_materialisitem_menu = (old_data, edit_materialsitem_handler) => {
     this.modalmenu.current.show_menu(
@@ -110,6 +118,7 @@ class ProjectApp extends React.Component {
         set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
         set_edit_workitem_menu = {this.set_edit_workitem_menu}
         set_create_partner_menu = {this.set_create_partner_menu}
+        set_edit_partner_menu = {this.set_edit_partner_menu}
       />
       <ApplicationInformation
         project_id={project_id}

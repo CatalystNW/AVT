@@ -308,7 +308,8 @@ var ProjectMenu = function (_React$Component) {
             this.state._id ? React.createElement(PartnerMenu, {
               type: "project", project_id: this.state._id,
               partners: this.state.partners,
-              set_create_partner_menu: this.props.set_create_partner_menu
+              set_create_partner_menu: this.props.set_create_partner_menu,
+              set_edit_partner_menu: this.props.set_edit_partner_menu
             }) : React.createElement("div", null)
           ),
           React.createElement(
