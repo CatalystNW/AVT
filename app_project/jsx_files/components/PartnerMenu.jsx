@@ -85,8 +85,40 @@ class PartnerMenu extends React.Component {
     this.change_status();
   };
 
-  onClick_editPartner = () => {
-    console.log("edit");
+  onClick_editPartner = (e) => {
+    const partner_id = e.target.getAttribute("partner_id"),
+          index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+    var data = {...this.state[location][index]};
+    data.type = "project";
+    data.partner_id = data._id;
+    this.props.set_edit_partner_menu(
+      data,
+      funkie.edit_partner,
+      (editPartner) => {
+        this.setState(state => {
+          let new_allPartners = [...state.allPartners];
+          let new_partners = [...state.partners];
+          let i;
+          for (i=0; i<new_allPartners.length; i++) {
+            if (new_allPartners[i]._id == partner_id) {
+              new_allPartners[i] = editPartner;
+              break;
+            }
+          }
+          for (i=0; i<new_partners.length; i++) {
+            if (new_partners[i]._id == partner_id) {
+              new_partners[i] = editPartner;
+              break;
+            }
+          }
+          return {
+            allPartners: new_allPartners,
+            partners: new_partners,
+          };
+        });
+      }
+    );
   };
   onClick_createPartner = () => {
     this.props.set_create_partner_menu(

@@ -89,8 +89,36 @@ var PartnerMenu = function (_React$Component) {
       _this.change_status();
     };
 
-    _this.onClick_editPartner = function () {
-      console.log("edit");
+    _this.onClick_editPartner = function (e) {
+      var partner_id = e.target.getAttribute("partner_id"),
+          index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+      var data = Object.assign({}, _this.state[location][index]);
+      data.type = "project";
+      data.partner_id = data._id;
+      _this.props.set_edit_partner_menu(data, funkie.edit_partner, function (editPartner) {
+        _this.setState(function (state) {
+          var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
+          var new_partners = [].concat(_toConsumableArray(state.partners));
+          var i = void 0;
+          for (i = 0; i < new_allPartners.length; i++) {
+            if (new_allPartners[i]._id == partner_id) {
+              new_allPartners[i] = editPartner;
+              break;
+            }
+          }
+          for (i = 0; i < new_partners.length; i++) {
+            if (new_partners[i]._id == partner_id) {
+              new_partners[i] = editPartner;
+              break;
+            }
+          }
+          return {
+            allPartners: new_allPartners,
+            partners: new_partners
+          };
+        });
+      });
     };
 
     _this.onClick_createPartner = function () {
