@@ -111,6 +111,11 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.selectRow = function (e) {
+      if (e.target.tagName == "BUTTON") {
+        e.target.click();
+        return;
+      }
+
       var element = e.target;
       for (var i = 0; i < 5; i++) {
         // Limit search to 5 elements

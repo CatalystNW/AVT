@@ -109,6 +109,11 @@ class PartnerMenu extends React.Component {
   };
 
   selectRow = (e) => {
+    if (e.target.tagName == "BUTTON") {
+      e.target.click();
+      return; 
+    }
+    
     let element = e.target;
     for (let i=0; i<5; i++) { // Limit search to 5 elements
       if (element.tagName == "TR") {
