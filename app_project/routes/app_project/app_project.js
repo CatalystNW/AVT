@@ -67,6 +67,7 @@ router.patch('/projects/:project_id/notes/:note_id', project_note_controller.edi
 router.patch('/projects/:project_id/partners', project_controller.set_partners);
 
 router.delete('/partners/:partner_id', partner_controller.delete_partner);
+router.patch('/partners/:partner_id', partner_controller.edit_partner);
 router.get('/partners', partner_controller.get_all_partners);
 router.post('/partners', partner_controller.create_partner);
 
