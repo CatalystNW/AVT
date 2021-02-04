@@ -156,8 +156,10 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_phone}</td>
                 <td>
                   <button type="button" className="btn btn-sm"
+                    partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
                   <button type="button" className="btn btn-sm"
+                    partner_id={partner._id} index={index}
                     onClick={this.onClick_deletePartner}>Delete</button>
                 </td>
               </tr>);
@@ -207,8 +209,10 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_phone}</td>
                 <td>
                   <button type="button" className="btn btn-sm"
+                    partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
                   <button type="button" className="btn btn-sm"
+                    partner_id={partner._id} index={index}
                     onClick={this.onClick_deletePartner}>Delete</button>
                 </td>
               </tr>);

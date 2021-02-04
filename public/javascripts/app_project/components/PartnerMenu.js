@@ -226,12 +226,14 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
                     "Edit"
                   ),
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      partner_id: partner._id, index: index,
                       onClick: _this.onClick_deletePartner },
                     "Delete"
                   )
@@ -359,12 +361,14 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
                     "Edit"
                   ),
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
+                      partner_id: partner._id, index: index,
                       onClick: _this.onClick_deletePartner },
                     "Delete"
                   )
