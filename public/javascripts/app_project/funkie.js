@@ -158,5 +158,18 @@ var funkie = {
         }
       }
     });
+  },
+  edit_partner: function edit_partner(data, menu_callback, data_callback_handler) {
+    $.ajax({
+      url: "/app_project/partners/" + data.partner_id,
+      type: "PATCH",
+      data: data,
+      success: function success(result) {
+        if (menu_callback) menu_callback();
+        if (data_callback_handler) {
+          data_callback_handler(result);
+        }
+      }
+    });
   }
 };
