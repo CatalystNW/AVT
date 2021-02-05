@@ -73,6 +73,23 @@ var ProjectMenu = function (_React$Component) {
       });
     };
 
+    _this.onChange_projectData = function (e) {
+      var property = e.target.name,
+          value = e.target.value;
+      $.ajax({
+        url: "/app_project/projects/" + _this.state._id,
+        type: "PATCH",
+        data: {
+          property: property,
+          value: value
+        },
+        context: _this,
+        success: function success() {
+          this.setState(_defineProperty({}, property, value));
+        }
+      });
+    };
+
     _this.onChange_inputs_timer = function (e) {
       var property_type = e.target.getAttribute("property_type"),
           value = e.target.value;
@@ -223,6 +240,48 @@ var ProjectMenu = function (_React$Component) {
               date: this.state.end,
               change_callback: this.onChange_date_callback
             }),
+            React.createElement(
+              "div",
+              { className: "form-group row" },
+              React.createElement(
+                "label",
+                { className: "col-sm-4 col-form-label",
+                  htmlFor: "status-select" },
+                "Project Status"
+              ),
+              React.createElement(
+                "div",
+                { className: "col-sm-4" },
+                React.createElement(
+                  "select",
+                  { className: "form-control",
+                    onChange: this.onChange_projectData,
+                    id: "status-select",
+                    name: "status",
+                    value: this.state.status },
+                  React.createElement(
+                    "option",
+                    { value: "upcoming" },
+                    "Upcoming"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "complete" },
+                    "Complete"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "in_progress" },
+                    "In Progress"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "withdrawn" },
+                    "Withdrawn"
+                  )
+                )
+              )
+            ),
             React.createElement(
               "div",
               { className: "form-group row" },

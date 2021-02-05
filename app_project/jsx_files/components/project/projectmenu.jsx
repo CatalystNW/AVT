@@ -88,6 +88,25 @@ class ProjectMenu extends React.Component {
     });
   };
 
+  onChange_projectData = (e) => {
+    const property = e.target.name,
+          value = e.target.value;
+    $.ajax({
+      url: "/app_project/projects/" + this.state._id,
+      type: "PATCH",
+      data: {
+        property: property,
+        value: value,
+      },
+      context: this,
+      success: function() {
+        this.setState({
+          [property]: value,
+        });
+      }
+    });
+  }
+
   onChange_inputs_timer = (e) => {
     var property_type = e.target.getAttribute("property_type"),
         value = e.target.value;
@@ -147,6 +166,7 @@ class ProjectMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane show active" id="nav-info" role="tabpanel">
+            
             <DateMenuRow title="Start Date" 
               date_type="project_start_date"
               date={this.state.start}
@@ -157,7 +177,22 @@ class ProjectMenu extends React.Component {
               date={this.state.end}
               change_callback={this.onChange_date_callback}
             />
-
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label" 
+                htmlFor="status-select">Project Status</label>
+              <div className="col-sm-4">
+                <select className="form-control" 
+                    onChange={this.onChange_projectData}
+                    id="status-select"
+                    name="status"
+                    value={this.state.status}>
+                  <option value="upcoming">Upcoming</option>
+                  <option value="complete">Complete</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="withdrawn">Withdrawn</option>
+                </select>
+              </div>
+            </div>
             <div className="form-group row">
               <label className="col-sm-4 col-form-label">Volunteer Hours</label>
               <div className="col-sm-4">

@@ -175,7 +175,8 @@ async function edit_project(req, res) {
     } else if (req.body.property == "volunteer_hours" ||
         req.body.property == "crew_chief" ||
         req.body.property == "project_advocate" ||
-        req.body.property == "site_host") {
+        req.body.property == "site_host" ||
+        req.body.property == "status") {
       project[req.body.property] = req.body.value;
       await project.save();
       res.status(200).send({"volunteer_hours": req.body.value});
