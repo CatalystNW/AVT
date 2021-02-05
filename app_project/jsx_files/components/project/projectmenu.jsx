@@ -42,12 +42,14 @@ class ProjectMenu extends React.Component {
         that.costsummary.current.load_data("project", project_id);
       }
     });
+    // Set CSS for the fixed nav tabs
     $("#nav-project-tabContent").css(
         "padding-top", $("#project-nav-container").height());
     $("#project-nav-container").css(
       "width", $("#nav-project-tabContent").width());
   }
 
+  // Load users for checklists select elements (as possible owners)
   load_assignable_users = () => {
     $.ajax({
       url: "/app_project/projects/assignable_users",

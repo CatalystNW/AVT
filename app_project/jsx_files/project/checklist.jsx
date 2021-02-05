@@ -1,5 +1,9 @@
 export { Checklist }
 
+/**
+ * Checklists loads the data checklist corresponding to AppProject
+ * (either plan_checklist or wrapup_checklist) on constructor
+ */
 class Checklist extends React.Component {
   constructor(props) {
     super(props);

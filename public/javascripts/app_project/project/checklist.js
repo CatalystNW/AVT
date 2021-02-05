@@ -8,6 +8,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { Checklist };
 
+/**
+ * Checklists loads the data checklist corresponding to AppProject
+ * (either plan_checklist or wrapup_checklist) on constructor
+ */
+
 var Checklist = function (_React$Component) {
   _inherits(Checklist, _React$Component);
 
