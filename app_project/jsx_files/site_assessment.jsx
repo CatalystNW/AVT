@@ -1,3 +1,5 @@
+import { AssessmentMenu } from "./AssessmentMenu.js"
+
 class App extends React.Component {
   constructor(props){
     super(props);

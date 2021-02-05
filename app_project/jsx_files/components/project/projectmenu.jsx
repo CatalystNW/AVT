@@ -1,4 +1,5 @@
 import { Checklist } from "../../project/checklist.js"
+import { WorkItem } from "../../workitem.js"
 
 export {
   ProjectMenu,

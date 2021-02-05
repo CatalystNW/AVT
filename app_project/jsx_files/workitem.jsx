@@ -1,3 +1,5 @@
+export { WorkItem }
+
 class WorkItem extends React.Component {
   constructor(props) {
     super(props);

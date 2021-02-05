@@ -1,3 +1,7 @@
+import { WorkItem } from "./workitem.js"
+
+export { AssessmentMenu }
+
 // Note: WorkItem uses the data in props saves it in state
 // and updates it in state, thus becomes disconnected with the data here
 class AssessmentMenu extends React.Component {
