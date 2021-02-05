@@ -1,3 +1,5 @@
+import { DateMenuRow } from "./DateMenuRow.js"
+
 export { AssessmentChecklist }
 
 class AssessmentChecklist extends React.Component {

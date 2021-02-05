@@ -1,3 +1,5 @@
+export { DateMenuRow }
+
 // Needs to use Bootstrap datepicker
 // this.props: title, date, change_callback
 class DateMenuRow extends React.Component {
