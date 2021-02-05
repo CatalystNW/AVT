@@ -1,4 +1,5 @@
 import { ProjectMenu } from "../components/project/projectmenu.js"
+import { ApplicationInformation } from "../ApplicationInformation.js"
 
 class ProjectApp extends React.Component {
   constructor(props) {

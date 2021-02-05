@@ -1,3 +1,5 @@
+export { ApplicationInformation }
+
 class ApplicationInformation extends React.Component {
   constructor(props) {
     super(props);
