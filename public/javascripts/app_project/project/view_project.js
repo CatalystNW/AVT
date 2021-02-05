@@ -18,6 +18,36 @@ var ProjectApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ProjectApp.__proto__ || Object.getPrototypeOf(ProjectApp)).call(this, props));
 
+    _this.load_project = function (callback) {
+      if (project_id) {
+        $.ajax({
+          url: "/app_project/projects/" + project_id,
+          type: "GET",
+          context: _this,
+          success: function success(project_data) {
+            console.log(project_data);
+            this.setState({
+              project: project_data
+            }, function () {
+              if (callback) callback();
+            });
+          }
+        });
+      }
+    };
+
+    _this.load_application_data = function () {
+      $.ajax({
+        url: "/app_project/application/" + _this.state.project.documentPackage,
+        type: "GET",
+        context: _this,
+        success: function success(app_data) {
+          console.log("app", app_data);
+          this.setState({ application: app_data });
+        }
+      });
+    };
+
     _this.set_create_workitem_menu = function () {
       var data = {
         project_id: _this.state.project._id,
@@ -55,47 +85,20 @@ var ProjectApp = function (_React$Component) {
       project: null,
       application: null
     };
-    _this.load_project();
+    _this.loadProjectAndApplication();
     _this.project_menu = React.createRef();
     _this.modalmenu = React.createRef();
     return _this;
   }
 
   _createClass(ProjectApp, [{
-    key: "load_project",
-    value: function load_project() {
-      if (project_id) {
-        $.ajax({
-          url: "/app_project/projects/" + project_id,
-          type: "GET",
-          context: this,
-          success: function success(project_data) {
-            var _this2 = this;
+    key: "loadProjectAndApplication",
+    value: function loadProjectAndApplication() {
+      this.load_project(this.load_application_data);
+    }
 
-            console.log(project_data);
-            // this.project_menu.current.load_project(project_data);
-            this.setState({
-              project: project_data
-            }, function () {
-              _this2.load_application_data(project_data.documentPackage);
-            });
-          }
-        });
-      }
-    }
-  }, {
-    key: "load_application_data",
-    value: function load_application_data(documentPackage_id) {
-      $.ajax({
-        url: "/app_project/application/" + documentPackage_id,
-        type: "GET",
-        context: this,
-        success: function success(app_data) {
-          console.log(app_data);
-          this.setState({ application: app_data });
-        }
-      });
-    }
+    // Loads project data, sets state to the data, and then runs callback
+
 
     // materialsitem_handler handles showing the element
 

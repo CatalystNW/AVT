@@ -9,12 +9,17 @@ class ProjectApp extends React.Component {
       project: null,
       application: null,
     };
-    this.load_project();
+    this.loadProjectAndApplication();
     this.project_menu = React.createRef();
     this.modalmenu = React.createRef();
   }
 
-  load_project() {
+  loadProjectAndApplication() {
+    this.load_project(this.load_application_data);
+  }
+
+  // Loads project data, sets state to the data, and then runs callback
+  load_project = (callback) => {
     if (project_id) {
       $.ajax({
         url: "/app_project/projects/" + project_id,
@@ -22,24 +27,24 @@ class ProjectApp extends React.Component {
         context: this,
         success: function(project_data) {
           console.log(project_data);
-          // this.project_menu.current.load_project(project_data);
           this.setState({
             project: project_data,
           }, () => {
-            this.load_application_data(project_data.documentPackage);
+            if (callback)
+              callback();
           });
         }
       });
     }
   }
 
-  load_application_data(documentPackage_id) {
+  load_application_data = () => {
     $.ajax({
-      url: "/app_project/application/" + documentPackage_id,
+      url: "/app_project/application/" + this.state.project.documentPackage,
       type: "GET",
       context: this,
       success: function(app_data) {
-        console.log(app_data);
+        console.log("app", app_data);
         this.setState({application: app_data});
       }
     })
