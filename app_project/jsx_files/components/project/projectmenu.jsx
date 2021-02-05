@@ -14,14 +14,17 @@ export {
 class ProjectMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { // Project data saved directly to state
-      workItems: [],
-      assignable_users: [],
-      volunteer_hours: 0,
-      site_host: "",
-      crew_chief: "",
-      project_advocate: "",
-    };
+    // this.state = { // Project data saved directly to state
+    //   workItems: [],
+    //   assignable_users: [],
+    //   volunteer_hours: 0,
+    //   site_host: "",
+    //   crew_chief: "",
+    //   project_advocate: "",
+    // };
+    this.state = this.props.project_data;
+    this.state.assignable_users = [];
+
     this.load_assignable_users();
     this.planning_checklist = React.createRef();
     this.wrapup_checklist = React.createRef();
@@ -56,6 +59,7 @@ class ProjectMenu extends React.Component {
       type: "GET",
       context: this,
       success: function(users) {
+        console.log("user", users);
         this.setState({
           assignable_users: users,
         });
@@ -78,12 +82,6 @@ class ProjectMenu extends React.Component {
     }
     this.setState({
       workItems: new_workitems,
-    });
-  }
-
-  load_project(project_data) {
-    this.setState(state => {
-      return Object.assign({}, state, project_data);
     });
   }
 

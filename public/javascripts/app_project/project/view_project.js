@@ -73,7 +73,7 @@ var ProjectApp = function (_React$Component) {
             var _this2 = this;
 
             console.log(project_data);
-            this.project_menu.current.load_project(project_data);
+            // this.project_menu.current.load_project(project_data);
             this.setState({
               project: project_data
             }, function () {
@@ -109,14 +109,15 @@ var ProjectApp = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        React.createElement(ProjectMenu, { ref: this.project_menu,
+        this.state.project ? React.createElement(ProjectMenu, { ref: this.project_menu,
           set_create_workitem_menu: this.set_create_workitem_menu,
           set_create_materialsitem_menu: this.set_create_materialsitem_menu,
           set_edit_materialisitem_menu: this.set_edit_materialisitem_menu,
           set_edit_workitem_menu: this.set_edit_workitem_menu,
           set_create_partner_menu: this.set_create_partner_menu,
-          set_edit_partner_menu: this.set_edit_partner_menu
-        }),
+          set_edit_partner_menu: this.set_edit_partner_menu,
+          project_data: this.state.project
+        }) : React.createElement("div", null),
         React.createElement(ApplicationInformation, {
           project_id: project_id,
           application: this.state.application,

@@ -28,6 +28,14 @@ var ProjectMenu = function (_React$Component) {
   function ProjectMenu(props) {
     _classCallCheck(this, ProjectMenu);
 
+    // this.state = { // Project data saved directly to state
+    //   workItems: [],
+    //   assignable_users: [],
+    //   volunteer_hours: 0,
+    //   site_host: "",
+    //   crew_chief: "",
+    //   project_advocate: "",
+    // };
     var _this = _possibleConstructorReturn(this, (ProjectMenu.__proto__ || Object.getPrototypeOf(ProjectMenu)).call(this, props));
 
     _this.load_assignable_users = function () {
@@ -36,6 +44,7 @@ var ProjectMenu = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(users) {
+          console.log("user", users);
           this.setState({
             assignable_users: users
           });
@@ -92,14 +101,9 @@ var ProjectMenu = function (_React$Component) {
       }, 700);
     };
 
-    _this.state = { // Project data saved directly to state
-      workItems: [],
-      assignable_users: [],
-      volunteer_hours: 0,
-      site_host: "",
-      crew_chief: "",
-      project_advocate: ""
-    };
+    _this.state = _this.props.project_data;
+    _this.state.assignable_users = [];
+
     _this.load_assignable_users();
     _this.planning_checklist = React.createRef();
     _this.wrapup_checklist = React.createRef();
@@ -130,13 +134,6 @@ var ProjectMenu = function (_React$Component) {
 
     // Load users for checklists select elements (as possible owners)
 
-  }, {
-    key: "load_project",
-    value: function load_project(project_data) {
-      this.setState(function (state) {
-        return Object.assign({}, state, project_data);
-      });
-    }
   }, {
     key: "render",
     value: function render() {

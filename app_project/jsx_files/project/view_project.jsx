@@ -22,7 +22,7 @@ class ProjectApp extends React.Component {
         context: this,
         success: function(project_data) {
           console.log(project_data);
-          this.project_menu.current.load_project(project_data);
+          // this.project_menu.current.load_project(project_data);
           this.setState({
             project: project_data,
           }, () => {
@@ -114,14 +114,18 @@ class ProjectApp extends React.Component {
     }
     return (
     <div>
-      <ProjectMenu ref={this.project_menu} 
-        set_create_workitem_menu={this.set_create_workitem_menu}
-        set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-        set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
-        set_edit_workitem_menu = {this.set_edit_workitem_menu}
-        set_create_partner_menu = {this.set_create_partner_menu}
-        set_edit_partner_menu = {this.set_edit_partner_menu}
-      />
+      
+      { this.state.project ? 
+        (<ProjectMenu ref={this.project_menu} 
+          set_create_workitem_menu={this.set_create_workitem_menu}
+          set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+          set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
+          set_edit_workitem_menu = {this.set_edit_workitem_menu}
+          set_create_partner_menu = {this.set_create_partner_menu}
+          set_edit_partner_menu = {this.set_edit_partner_menu}
+          project_data={this.state.project}
+        />) : (<div></div>)
+      }
       <ApplicationInformation
         project_id={project_id}
         application={this.state.application}
