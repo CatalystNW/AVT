@@ -213,16 +213,16 @@ var ProjectMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane show active", id: "nav-info", role: "tabpanel" },
-            this.state.start ? React.createElement(DateMenuRow, { title: "Start Date",
+            React.createElement(DateMenuRow, { title: "Start Date",
               date_type: "project_start_date",
               date: this.state.start,
               change_callback: this.onChange_date_callback
-            }) : React.createElement("div", null),
-            this.state.end ? React.createElement(DateMenuRow, { title: "End Date",
+            }),
+            React.createElement(DateMenuRow, { title: "End Date",
               date_type: "project_end_date",
               date: this.state.end,
               change_callback: this.onChange_date_callback
-            }) : React.createElement("div", null),
+            }),
             React.createElement(
               "div",
               { className: "form-group row" },
@@ -305,12 +305,12 @@ var ProjectMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-partners", role: "tabpanel" },
-            this.state._id ? React.createElement(PartnerMenu, {
+            React.createElement(PartnerMenu, {
               type: "project", project_id: this.state._id,
               partners: this.state.partners,
               set_create_partner_menu: this.props.set_create_partner_menu,
               set_edit_partner_menu: this.props.set_edit_partner_menu
-            }) : React.createElement("div", null)
+            })
           ),
           React.createElement(
             "div",

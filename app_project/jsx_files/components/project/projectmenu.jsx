@@ -147,21 +147,16 @@ class ProjectMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane show active" id="nav-info" role="tabpanel">
-            { this.state.start ?
-              <DateMenuRow title="Start Date" 
-                date_type="project_start_date"
-                date={this.state.start}
-                change_callback={this.onChange_date_callback}
-              /> : <div></div>
-            }
-
-            { this.state.end ?
-              <DateMenuRow title="End Date" 
-                date_type="project_end_date"
-                date={this.state.end}
-                change_callback={this.onChange_date_callback}
-              /> : <div></div>
-            }
+            <DateMenuRow title="Start Date" 
+              date_type="project_start_date"
+              date={this.state.start}
+              change_callback={this.onChange_date_callback}
+            /> 
+            <DateMenuRow title="End Date" 
+              date_type="project_end_date"
+              date={this.state.end}
+              change_callback={this.onChange_date_callback}
+            />
 
             <div className="form-group row">
               <label className="col-sm-4 col-form-label">Volunteer Hours</label>
@@ -205,13 +200,12 @@ class ProjectMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane" id="nav-partners" role="tabpanel">
-            { this.state._id ?
-            (<PartnerMenu 
+            <PartnerMenu 
               type="project" project_id={this.state._id}
               partners={this.state.partners}
               set_create_partner_menu={this.props.set_create_partner_menu}
               set_edit_partner_menu={this.props.set_edit_partner_menu}
-            />) : (<div></div>)}
+            />
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">
             <Checklist ref={this.planning_checklist} 
