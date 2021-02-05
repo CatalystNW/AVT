@@ -88,6 +88,7 @@ class DateMenuRow extends React.Component {
   componentDidMount =() => {
     if (this.date_input) {
       $(this.date_input.current).datepicker({
+        orientation: 'bottom',
         format: 'yyyy-mm-dd',
       }).on("hide", (e) => this.onChange_date(e));
     }

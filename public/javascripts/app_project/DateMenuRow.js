@@ -90,6 +90,7 @@ var DateMenuRow = function (_React$Component) {
     _this.componentDidMount = function () {
       if (_this.date_input) {
         $(_this.date_input.current).datepicker({
+          orientation: 'bottom',
           format: 'yyyy-mm-dd'
         }).on("hide", function (e) {
           return _this.onChange_date(e);
