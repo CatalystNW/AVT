@@ -124,13 +124,15 @@ class ProjectApp extends React.Component {
           set_create_partner_menu = {this.set_create_partner_menu}
           set_edit_partner_menu = {this.set_edit_partner_menu}
           project_data={this.state.project}
-        />) : (<div></div>)
-      }
+        />) : (<div></div>)}
+
+      { this.state.application ? (
       <ApplicationInformation
         project_id={project_id}
         application={this.state.application}
         view_type="project" assessment_id={assessment_id}
-      />
+      />) : (<div></div>)}
+      
       <ModalMenu ref={this.modalmenu} />
     </div>);
   }

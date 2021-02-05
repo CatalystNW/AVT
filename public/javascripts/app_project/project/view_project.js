@@ -118,11 +118,11 @@ var ProjectApp = function (_React$Component) {
           set_edit_partner_menu: this.set_edit_partner_menu,
           project_data: this.state.project
         }) : React.createElement("div", null),
-        React.createElement(ApplicationInformation, {
+        this.state.application ? React.createElement(ApplicationInformation, {
           project_id: project_id,
           application: this.state.application,
           view_type: "project", assessment_id: assessment_id
-        }),
+        }) : React.createElement("div", null),
         React.createElement(ModalMenu, { ref: this.modalmenu })
       );
     }
