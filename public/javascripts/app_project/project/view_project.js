@@ -8,6 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 import { ProjectMenu } from "../components/project/projectmenu.js";
 import { ApplicationInformation } from "../ApplicationInformation.js";
+import { ModalMenu } from "../modalmenu.js";
 
 var ProjectApp = function (_React$Component) {
   _inherits(ProjectApp, _React$Component);

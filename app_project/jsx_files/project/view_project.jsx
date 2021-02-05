@@ -1,5 +1,6 @@
 import { ProjectMenu } from "../components/project/projectmenu.js"
 import { ApplicationInformation } from "../ApplicationInformation.js"
+import { ModalMenu } from "../modalmenu.js"
 
 class ProjectApp extends React.Component {
   constructor(props) {
