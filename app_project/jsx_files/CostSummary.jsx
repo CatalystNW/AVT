@@ -1,3 +1,5 @@
+export { CostSummary }
+
 class CostSummary extends React.Component {
   constructor(props) {
     super(props);

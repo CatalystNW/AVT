@@ -9,6 +9,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 import { WorkItem } from "./workitem.js";
+import { CostSummary } from "./CostSummary.js";
 
 export { AssessmentMenu };
 
@@ -57,7 +58,7 @@ var AssessmentMenu = function (_React$Component) {
   }
 
   _createClass(AssessmentMenu, [{
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       var that = this;
       // Tab changed. Newer versions of Bootstrap has a slight change in this
@@ -71,7 +72,7 @@ var AssessmentMenu = function (_React$Component) {
       $("#assessment-nav-container").css("width", $("#nav-assessment-tabContent").width());
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
@@ -80,71 +81,71 @@ var AssessmentMenu = function (_React$Component) {
       };
 
       return React.createElement(
-        'div',
-        { className: 'col-sm-12 col-lg-8', style: divStyle,
-          id: 'assessment-container' },
+        "div",
+        { className: "col-sm-12 col-lg-8", style: divStyle,
+          id: "assessment-container" },
         React.createElement(
-          'div',
-          { id: 'assessment-nav-container' },
+          "div",
+          { id: "assessment-nav-container" },
           React.createElement(
-            'ul',
-            { className: 'nav nav-tabs', id: 'nav-assessment-tabs', role: 'tablist' },
+            "ul",
+            { className: "nav nav-tabs", id: "nav-assessment-tabs", role: "tablist" },
             React.createElement(
-              'li',
-              { className: 'nav-item' },
+              "li",
+              { className: "nav-item" },
               React.createElement(
-                'a',
-                { className: 'nav-link active', id: 'nav-property-tab', 'data-toggle': 'tab',
-                  href: '#nav-workitem', role: 'tab' },
-                'Work Items'
+                "a",
+                { className: "nav-link active", id: "nav-property-tab", "data-toggle": "tab",
+                  href: "#nav-workitem", role: "tab" },
+                "Work Items"
               )
             ),
             React.createElement(
-              'li',
-              { className: 'nav-item' },
+              "li",
+              { className: "nav-item" },
               React.createElement(
-                'a',
-                { className: 'nav-link', id: 'nav-cost-summary-tab', 'data-toggle': 'tab',
-                  href: '#nav-cost-summary', role: 'tab' },
-                'Cost Summary'
+                "a",
+                { className: "nav-link", id: "nav-cost-summary-tab", "data-toggle": "tab",
+                  href: "#nav-cost-summary", role: "tab" },
+                "Cost Summary"
               )
             ),
             React.createElement(
-              'li',
-              { className: 'nav-item' },
+              "li",
+              { className: "nav-item" },
               React.createElement(
-                'a',
-                { className: 'nav-link', id: 'nav-checklist-tab', 'data-toggle': 'tab',
-                  href: '#nav-checklist', role: 'tab' },
-                'Checklist'
+                "a",
+                { className: "nav-link", id: "nav-checklist-tab", "data-toggle": "tab",
+                  href: "#nav-checklist", role: "tab" },
+                "Checklist"
               )
             )
           )
         ),
         React.createElement(
-          'div',
-          { className: 'tab-content overflow-auto', id: 'nav-assessment-tabContent' },
+          "div",
+          { className: "tab-content overflow-auto", id: "nav-assessment-tabContent" },
           React.createElement(
-            'div',
-            { className: 'tab-pane', id: 'nav-checklist', role: 'tabpanel' },
+            "div",
+            { className: "tab-pane", id: "nav-checklist", role: "tabpanel" },
             React.createElement(AssessmentChecklist, { ref: this.checklist,
               assessment: {},
               vetting_summary: this.props.vetting_summary
             })
           ),
           React.createElement(
-            'div',
-            { className: 'tab-pane', id: 'nav-cost-summary', role: 'tabpanel' },
+            "div",
+            { className: "tab-pane", id: "nav-cost-summary", role: "tabpanel" },
             React.createElement(CostSummary, { ref: this.costsummary })
           ),
           React.createElement(
-            'div',
-            { className: 'tab-pane show active', id: 'nav-workitem', role: 'tabpanel' },
+            "div",
+            { className: "tab-pane show active", id: "nav-workitem", role: "tabpanel" },
             React.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-primary',
+              "button",
+              { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu },
-              'Create Work Item'
+              "Create Work Item"
             ),
             this.state.workItems.map(function (workitem, index) {
               return React.createElement(WorkItem, {

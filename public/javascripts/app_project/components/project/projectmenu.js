@@ -12,6 +12,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 import { Checklist } from "../../project/checklist.js";
 import { WorkItem } from "../../workitem.js";
+import { CostSummary } from "../../CostSummary.js";
 
 export { ProjectMenu };
 
