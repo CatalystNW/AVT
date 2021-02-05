@@ -28,14 +28,8 @@ var ProjectMenu = function (_React$Component) {
   function ProjectMenu(props) {
     _classCallCheck(this, ProjectMenu);
 
-    // this.state = { // Project data saved directly to state
-    //   workItems: [],
-    //   assignable_users: [],
-    //   volunteer_hours: 0,
-    //   site_host: "",
-    //   crew_chief: "",
-    //   project_advocate: "",
-    // };
+    // Reference of State: { workItems: [], assignable_users: [],  volunteer_hours: 0,
+    //   site_host: "", crew_chief: "", project_advocate: "", };
     var _this = _possibleConstructorReturn(this, (ProjectMenu.__proto__ || Object.getPrototypeOf(ProjectMenu)).call(this, props));
 
     _this.load_assignable_users = function () {
@@ -44,7 +38,6 @@ var ProjectMenu = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(users) {
-          console.log("user", users);
           this.setState({
             assignable_users: users
           });

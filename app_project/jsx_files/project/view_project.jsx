@@ -36,7 +36,7 @@ class ProjectApp extends React.Component {
         }
       });
     }
-  }
+  };
 
   load_application_data = () => {
     $.ajax({
@@ -47,8 +47,8 @@ class ProjectApp extends React.Component {
         console.log("app", app_data);
         this.setState({application: app_data});
       }
-    })
-  }
+    });
+  };
 
   set_create_workitem_menu = () => {
     var data = {
@@ -142,8 +142,6 @@ class ProjectApp extends React.Component {
     </div>);
   }
 }
-
-
 
 function loadReact() {
   ReactDOM.render(<ProjectApp />, document.getElementById("project_container"));
