@@ -1,3 +1,5 @@
+export { PartnerMenu }
+
 class PartnerMenu extends React.Component {
   constructor(props) {
     super(props);
