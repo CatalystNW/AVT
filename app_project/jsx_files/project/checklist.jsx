@@ -1,3 +1,5 @@
+export { Checklist }
+
 class Checklist extends React.Component {
   constructor(props) {
     super(props);

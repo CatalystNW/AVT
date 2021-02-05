@@ -1,3 +1,5 @@
+import { Checklist } from "../../project/checklist.js"
+
 export {
   ProjectMenu,
 }
