@@ -1,3 +1,5 @@
+export { AssessmentChecklist }
+
 class AssessmentChecklist extends React.Component {
   constructor(props) {
     // site_assessment directly loaded into state later (w/ ajax call)

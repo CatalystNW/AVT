@@ -1,5 +1,6 @@
 import { WorkItem } from "./workitem.js"
 import { CostSummary } from "./CostSummary.js"
+import { AssessmentChecklist } from "./assessmentchecklist.js"
 
 export { AssessmentMenu }
 
