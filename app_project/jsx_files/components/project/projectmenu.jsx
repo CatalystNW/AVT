@@ -126,7 +126,7 @@ class ProjectMenu extends React.Component {
         <div id="project-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link" id="nav-info-tab" data-toggle="tab" 
+              <a className="nav-link active" id="nav-info-tab" data-toggle="tab" 
                 href="#nav-info" role="tab">Info</a>
             </li>
             <li className="nav-item">
@@ -142,7 +142,7 @@ class ProjectMenu extends React.Component {
                 href="#nav-planning" role="tab">Planning</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" id="nav-partners-tab" data-toggle="tab" 
+              <a className="nav-link" id="nav-partners-tab" data-toggle="tab" 
                 href="#nav-partners" role="tab">Partners</a>
             </li>
             <li className="nav-item">
@@ -153,7 +153,7 @@ class ProjectMenu extends React.Component {
         </div>
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
-          <div className="tab-pane" id="nav-info" role="tabpanel">
+          <div className="tab-pane show active" id="nav-info" role="tabpanel">
             { this.state.start ?
               <DateMenuRow title="Start Date" 
                 date_type="project_start_date"
@@ -211,7 +211,7 @@ class ProjectMenu extends React.Component {
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
           </div>
-          <div className="tab-pane show active" id="nav-partners" role="tabpanel">
+          <div className="tab-pane" id="nav-partners" role="tabpanel">
             { this.state._id ?
             (<PartnerMenu 
               type="project" project_id={this.state._id}
