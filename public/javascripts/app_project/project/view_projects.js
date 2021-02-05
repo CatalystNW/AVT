@@ -20,6 +20,7 @@ var AppProjects = function (_React$Component) {
         url: "./projects",
         type: "GET",
         success: function success(data) {
+          console.log(data);
           that.setState({ projects: data });
         }
       });
@@ -73,6 +74,11 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
+                "Status"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
                 "Description"
               ),
               React.createElement(
@@ -98,6 +104,11 @@ var AppProjects = function (_React$Component) {
                   "td",
                   null,
                   project.name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.status
                 ),
                 React.createElement(
                   "td",

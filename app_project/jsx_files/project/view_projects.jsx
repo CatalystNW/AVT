@@ -13,6 +13,7 @@ class AppProjects extends React.Component {
       url: "./projects",
       type: "GET",
       success: function(data) {
+        console.log(data);
         that.setState({projects: data,})
       },
     });
@@ -39,6 +40,7 @@ class AppProjects extends React.Component {
         <thead>
           <tr>
             <th scope="col">Name</th>
+            <th scope="col">Status</th>
             <th scope="col">Description</th>
             <th scope="col"># Work Items</th>
             <th scope="col">Link</th>
@@ -49,6 +51,7 @@ class AppProjects extends React.Component {
             return (
             <tr key={project._id}>
               <td>{project.name}</td>
+              <td>{project.status}</td>
               <td>{project.description}</td>
               <td>{project.workItems.length}</td>
               <td><a href={"./view_projects/"+ project._id}>{project._id}</a></td>
