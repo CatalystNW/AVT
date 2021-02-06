@@ -15,6 +15,7 @@ import { WorkItem } from "../../workitem.js";
 import { CostSummary } from "../../CostSummary.js";
 import { PartnerMenu } from "../PartnerMenu.js";
 import { DateMenuRow } from "../../DateMenuRow.js";
+import { PdfButtons } from "../PdfButtons.js";
 
 export { ProjectMenu };
 
@@ -299,6 +300,7 @@ var ProjectMenu = function (_React$Component) {
                   value: this.state.volunteer_hours })
               )
             ),
+            React.createElement(PdfButtons, null),
             React.createElement(
               "h2",
               null,

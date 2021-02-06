@@ -3,6 +3,7 @@ import { WorkItem } from "../../workitem.js"
 import { CostSummary } from "../../CostSummary.js"
 import { PartnerMenu } from "../PartnerMenu.js"
 import { DateMenuRow } from "../../DateMenuRow.js"
+import { PdfButtons } from "../PdfButtons.js"
 
 export {
   ProjectMenu,
@@ -202,6 +203,9 @@ class ProjectMenu extends React.Component {
                   value={this.state.volunteer_hours}></input>
               </div>
             </div>
+
+            <PdfButtons/>
+
             <h2>Leaders</h2>
             <div className="form-group row">
               <label className="col-sm-4 col-form-label">Crew Chief</label>
