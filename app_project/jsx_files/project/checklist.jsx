@@ -277,6 +277,7 @@ class Checklist extends React.Component {
         <td checklist_type={type} index={index}
           onClick={this.onChange_check_input}
           name={key_name}
+          className="checklists-checkbox-td"
         >
           <input type="checkbox" name={key_name}
             checked={this.get_property(key_name)}

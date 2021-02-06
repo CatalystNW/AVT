@@ -292,7 +292,8 @@ var Checklist = function (_React$Component) {
           "td",
           { checklist_type: type, index: index,
             onClick: _this.onChange_check_input,
-            name: key_name
+            name: key_name,
+            className: "checklists-checkbox-td"
           },
           React.createElement("input", { type: "checkbox", name: key_name,
             checked: _this.get_property(key_name),

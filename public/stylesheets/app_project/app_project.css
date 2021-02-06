@@ -39,3 +39,8 @@ h3 {
     font-size: 1.25rem;
 }
 
+.checklists-checkbox-td,
+.checklists-checkbox-td > input {
+    cursor: pointer;
+}
+
