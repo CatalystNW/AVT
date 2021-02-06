@@ -14,7 +14,16 @@ var PdfButtons = function (_React$Component) {
   function PdfButtons(props) {
     _classCallCheck(this, PdfButtons);
 
-    return _possibleConstructorReturn(this, (PdfButtons.__proto__ || Object.getPrototypeOf(PdfButtons)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (PdfButtons.__proto__ || Object.getPrototypeOf(PdfButtons)).call(this, props));
+
+    _this.onClick_PAF = function () {
+      console.log(jspdf);
+      var doc = new jspdf.jsPDF();
+      doc.text("Hello world", 10, 10);
+      doc.save("test.pdf");
+    };
+
+    return _this;
   }
 
   _createClass(PdfButtons, [{
@@ -25,7 +34,8 @@ var PdfButtons = function (_React$Component) {
         null,
         React.createElement(
           "button",
-          { type: "button" },
+          { type: "button",
+            onClick: this.onClick_PAF },
           "PAF Report"
         ),
         React.createElement(
