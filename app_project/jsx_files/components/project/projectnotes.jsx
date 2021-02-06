@@ -1,3 +1,5 @@
+export { ProjectNotes }
+
 class ProjectNotes extends React.Component {
   constructor(props) {
     super(props);

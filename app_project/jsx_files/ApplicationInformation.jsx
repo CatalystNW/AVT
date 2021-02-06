@@ -1,3 +1,5 @@
+import { ProjectNotes } from "./components/project/projectnotes.js"
+
 export { ApplicationInformation }
 
 class ApplicationInformation extends React.Component {
