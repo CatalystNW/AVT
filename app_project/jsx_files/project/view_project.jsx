@@ -62,7 +62,7 @@ class ProjectApp extends React.Component {
       data,
       this.project_menu.current.add_workitem,
     )
-  }
+  };
 
   set_create_partner_menu = (data, submit_handler, data_callback) => {
     this.modalmenu.current.show_menu(
@@ -119,7 +119,6 @@ class ProjectApp extends React.Component {
     }
     return (
     <div>
-      
       { this.state.project ? 
         (<ProjectMenu ref={this.project_menu} 
           set_create_workitem_menu={this.set_create_workitem_menu}
