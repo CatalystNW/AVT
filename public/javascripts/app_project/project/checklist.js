@@ -82,7 +82,10 @@ var Checklist = function (_React$Component) {
 
     _this.onChange_check_input = function (e) {
       var property = e.target.getAttribute("name"),
-          value = e.target.checked;
+          index = e.target.getAttribute("index"),
+          type = e.target.getAttribute("checklist_type");
+      var value = type == "additional" ? !_this.state.checklist.additional_checklist[index].complete : !_this.state.checklist[property].complete;
+
       $.ajax({
         url: "/app_project/checklist/" + _this.state.checklist._id,
         type: "PATCH",
@@ -96,15 +99,11 @@ var Checklist = function (_React$Component) {
         success: function success(data) {
           this.setState(function (state) {
             var new_checklists = Object.assign({}, state.checklist);
-            if (property in state.checklist) {
-              new_checklists[property].complete = value;
+            // Check if it's a pre-defined property or an user added one
+            if (type == "additional") {
+              new_checklists.additional_checklist[index].complete = value;
             } else {
-              for (var i = 0; i < new_checklists.additional_checklist.length; i++) {
-                if (new_checklists.additional_checklist[i].name == property) {
-                  new_checklists.additional_checklist[i].complete = value;
-                  break;
-                }
-              }
+              new_checklists[property].complete = value;
             }
             return {
               checklist: new_checklists
@@ -255,18 +254,20 @@ var Checklist = function (_React$Component) {
 
     _this.create_additional_items = function () {
       if (_this.state.checklist.additional_checklist) {
-        return _this.state.checklist.additional_checklist.map(function (item) {
-          return _this.create_item_row(item.name, item.name, true);
+        return _this.state.checklist.additional_checklist.map(function (item, index) {
+          return _this.create_item_row(item.name, item.name, index, true);
         });
       } else {
         return;
       }
     };
 
-    _this.create_item_row = function (key_name, full_name) {
-      var canDelete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    _this.create_item_row = function (key_name, full_name, index) {
+      var canDelete = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      var delBtn;
+      var delBtn,
+          type = canDelete ? "additional" : "regular";
+
       if (canDelete) {
         delBtn = React.createElement(
           "button",
@@ -292,6 +293,7 @@ var Checklist = function (_React$Component) {
           null,
           React.createElement("input", { type: "checkbox", name: key_name,
             checked: _this.get_property(key_name),
+            checklist_type: type, index: index,
             onChange: _this.onChange_check_input
           })
         ),
@@ -355,8 +357,8 @@ var Checklist = function (_React$Component) {
           React.createElement(
             "tbody",
             null,
-            Object.keys(this.table_map).map(function (key) {
-              return _this2.create_item_row(key, _this2.table_map[key]);
+            Object.keys(this.table_map).map(function (key, index) {
+              return _this2.create_item_row(key, _this2.table_map[key], index);
             }),
             this.create_additional_items()
           )

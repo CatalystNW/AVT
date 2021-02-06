@@ -78,7 +78,12 @@ class Checklist extends React.Component {
 
   onChange_check_input = (e) => {
     var property = e.target.getAttribute("name"),
-        value = e.target.checked;
+        index = e.target.getAttribute("index"),
+        type = e.target.getAttribute("checklist_type");
+    let value = (type == "additional") ?
+          !this.state.checklist.additional_checklist[index].complete :
+          !this.state.checklist[property].complete;
+
     $.ajax({
       url: "/app_project/checklist/" + this.state.checklist._id,
       type: "PATCH",
@@ -92,15 +97,11 @@ class Checklist extends React.Component {
       success: function(data) {
         this.setState(state => {
           var new_checklists = {...state.checklist};
-          if (property in state.checklist) {
-            new_checklists[property].complete = value;
+          // Check if it's a pre-defined property or an user added one
+          if (type == "additional") {
+            new_checklists.additional_checklist[index].complete = value;
           } else {
-            for(let i=0; i<new_checklists.additional_checklist.length; i++) {
-              if (new_checklists.additional_checklist[i].name == property) {
-                new_checklists.additional_checklist[i].complete = value;
-                break;
-              }
-            }
+            new_checklists[property].complete = value;
           }
           return {
             checklist: new_checklists
@@ -252,16 +253,18 @@ class Checklist extends React.Component {
 
   create_additional_items = () => {
     if (this.state.checklist.additional_checklist) {
-      return this.state.checklist.additional_checklist.map((item) => {
-          return this.create_item_row(item.name, item.name, true);
+      return this.state.checklist.additional_checklist.map((item, index) => {
+          return this.create_item_row(item.name, item.name, index, true);
         });
     } else {
       return;
     }
   }
 
-  create_item_row = (key_name, full_name, canDelete=false) => {
-    var delBtn;
+  create_item_row = (key_name, full_name, index, canDelete=false) => {
+    var delBtn,
+        type = (canDelete) ? "additional" : "regular";
+
     if (canDelete) {
       delBtn = (<button
         onClick={this.onClick_delete_additional_item}
@@ -274,6 +277,7 @@ class Checklist extends React.Component {
         <td>
           <input type="checkbox" name={key_name}
             checked={this.get_property(key_name)}
+            checklist_type={type} index={index}
             onChange={this.onChange_check_input}
           ></input>
         </td>
@@ -299,8 +303,8 @@ class Checklist extends React.Component {
         onClick={this.onClick_add_checklist}>Add to Checklist</button>
       <table className="table table-sm">
         <tbody>
-          {Object.keys(this.table_map).map((key)=> {
-            return this.create_item_row(key, this.table_map[key])
+          {Object.keys(this.table_map).map((key, index)=> {
+            return this.create_item_row(key, this.table_map[key], index)
           })}
           {this.create_additional_items()}
         </tbody>
