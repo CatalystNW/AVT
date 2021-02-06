@@ -274,11 +274,13 @@ class Checklist extends React.Component {
     return (
       <tr key={"row-" + key_name}>
         <td>{full_name} {delBtn}</td>
-        <td>
+        <td checklist_type={type} index={index}
+          onClick={this.onChange_check_input}
+          name={key_name}
+        >
           <input type="checkbox" name={key_name}
             checked={this.get_property(key_name)}
-            checklist_type={type} index={index}
-            onChange={this.onChange_check_input}
+            readOnly
           ></input>
         </td>
         <td>

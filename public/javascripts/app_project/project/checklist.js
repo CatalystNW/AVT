@@ -290,11 +290,13 @@ var Checklist = function (_React$Component) {
         ),
         React.createElement(
           "td",
-          null,
+          { checklist_type: type, index: index,
+            onClick: _this.onChange_check_input,
+            name: key_name
+          },
           React.createElement("input", { type: "checkbox", name: key_name,
             checked: _this.get_property(key_name),
-            checklist_type: type, index: index,
-            onChange: _this.onChange_check_input
+            readOnly: true
           })
         ),
         React.createElement(
