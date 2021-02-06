@@ -18,6 +18,16 @@ const ProjectWrapupChecklistSchema = new mongoose.Schema({
       ref: "UserPackage",
     },
   }],
+  update_project_page: {
+    complete: {
+      type: Boolean,
+      default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "UserPackage",
+    },
+  },
   return_signup_sheet: {
     complete: {
       type: Boolean,

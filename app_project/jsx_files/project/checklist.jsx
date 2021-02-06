@@ -54,8 +54,9 @@ class Checklist extends React.Component {
         send_final_volunteer_email: "Send final email to signed up volunteers 3-5 days before project",
         send_followup_volunteer_email: "Send follow-up emails to volunteers via Endis as needed",
       }
-    } else {
+    } else { // Wrap-up checklist
       return {
+        update_project_page: "Updating Project Page with Project, Leaders, Partners, etc",
         return_signup_sheet: "Return volunteer sign-up sheet to office",
         record_volunteer_info: "Record volunteer hours & info",
         schedule_porta_pickup: "Schedule porta potty pickup",
