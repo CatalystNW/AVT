@@ -17,10 +17,42 @@ var PdfButtons = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (PdfButtons.__proto__ || Object.getPrototypeOf(PdfButtons)).call(this, props));
 
     _this.onClick_PAF = function () {
-      console.log(jspdf);
-      var doc = new jspdf.jsPDF();
-      doc.text("Hello world", 10, 10);
-      doc.save("test.pdf");
+      var project_id = _this.props.project_id;
+      $.ajax({
+        url: "/app_project/projects/" + project_id,
+        type: "GET",
+        success: function success(data) {
+          console.log(data);
+          var docApp = data.documentPackage.application;
+
+          var startY = 15,
+              startX = 10,
+              fontSize = 12;
+          var doc = new jspdf.jsPDF();
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(fontSize);
+
+          var lineHeight = doc.getLineHeight(text) / doc.internal.scaleFactor;
+
+          var d = new Date();
+          var date_string = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+          var text = "CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM - " + date_string;
+          doc.text(text, startX, startY);
+          doc.setFont("helvetica", "normal");
+          console.log(doc.getLineHeight(text) / doc.internal.scaleFactor);
+          startY += lineHeight * 2;
+
+          var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + " " + docApp.name.middle + " " + docApp.name.last : docApp.name.first + " " + docApp.name.last;
+          if (docApp.name.preferred && docApp.name.preferred.length > 0) name += " (Preferred: " + docApp.name.preferred + ")";
+
+          var address = docApp.address.line_1;
+          if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
+            address += "| " + docApp.address.line_2 + "\n";
+          }
+          doc.text(["Name: " + name, "Address: " + address, "          " + docApp.address.city + ", " + docApp.address.state + " " + docApp.address.zip], startX, startY);
+          doc.save("test.pdf");
+        }
+      });
     };
 
     return _this;
