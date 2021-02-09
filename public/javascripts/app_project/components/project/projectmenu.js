@@ -369,7 +369,7 @@ var ProjectMenu = function (_React$Component) {
             React.createElement(PartnerMenu, {
               type: "project", project_id: this.state._id,
               partners: this.state.partners,
-              modalmenu: this.props.modalmenu
+              getModalMenu: this.props.getModalMenu
             })
           ),
           React.createElement(

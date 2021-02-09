@@ -95,6 +95,10 @@ class ProjectApp extends React.Component {
     );
   };
 
+  getModalMenu = () => {
+    return this.modalmenu.current;
+  }
+
   render() {
     var assessment_id;
     if (this.state.project) {
@@ -110,7 +114,7 @@ class ProjectApp extends React.Component {
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
           set_edit_workitem_menu = {this.set_edit_workitem_menu}
-          modalmenu={this.modalmenu.current}
+          getModalMenu={this.getModalMenu}
           project_data={this.state.project}
         />) : (<div></div>)}
 

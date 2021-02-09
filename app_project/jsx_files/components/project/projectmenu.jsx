@@ -242,7 +242,7 @@ class ProjectMenu extends React.Component {
             <PartnerMenu 
               type="project" project_id={this.state._id}
               partners={this.state.partners}
-              modalmenu={this.props.modalmenu}
+              getModalMenu={this.props.getModalMenu}
             />
           </div>
           <div className="tab-pane" id="nav-planning" role="tabpanel">

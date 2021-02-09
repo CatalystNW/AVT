@@ -73,6 +73,10 @@ var ProjectApp = function (_React$Component) {
       _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler);
     };
 
+    _this.getModalMenu = function () {
+      return _this.modalmenu.current;
+    };
+
     _this.state = {
       project: null,
       application: null
@@ -110,7 +114,7 @@ var ProjectApp = function (_React$Component) {
           set_create_materialsitem_menu: this.set_create_materialsitem_menu,
           set_edit_materialisitem_menu: this.set_edit_materialisitem_menu,
           set_edit_workitem_menu: this.set_edit_workitem_menu,
-          modalmenu: this.modalmenu.current,
+          getModalMenu: this.getModalMenu,
           project_data: this.state.project
         }) : React.createElement("div", null),
         this.state.application ? React.createElement(ApplicationInformation, {
