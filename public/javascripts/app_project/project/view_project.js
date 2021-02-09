@@ -38,7 +38,7 @@ var ProjectApp = function (_React$Component) {
 
     _this.load_application_data = function () {
       $.ajax({
-        url: "/app_project/application/" + _this.state.project.documentPackage,
+        url: "/app_project/application/" + _this.state.project.documentPackage._id,
         type: "GET",
         context: _this,
         success: function success(app_data) {

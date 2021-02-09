@@ -40,7 +40,7 @@ class ProjectApp extends React.Component {
 
   load_application_data = () => {
     $.ajax({
-      url: "/app_project/application/" + this.state.project.documentPackage,
+      url: "/app_project/application/" + this.state.project.documentPackage._id,
       type: "GET",
       context: this,
       success: function(app_data) {
