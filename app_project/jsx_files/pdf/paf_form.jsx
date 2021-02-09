@@ -4,11 +4,10 @@ class PAFApp extends React.Component {
     this.state = {
       projectData: this.props.projectData,
     };
-    this.hide_elements();
+    // this.hide_elements();
   }
 
   hide_elements = () => {
-    $('body').css('paddingTop', '0px')
     $('#navID').css('display', 'none')
     $('#userNav').css('display', 'none')
     // $('#noUserNav').css('display', 'none')
@@ -32,6 +31,9 @@ class PAFApp extends React.Component {
     if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
       address += `| ${docApp.address.line_2}\n`;
     }
+    let total_cost = 0,
+        total_volunteers = 0;
+
     return (
     <div>
       <h1>CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
@@ -57,14 +59,17 @@ class PAFApp extends React.Component {
 
       <h2><b>Work Items</b></h2>
       {proj.workItems.map((workItem) => {
+        total_volunteers += workItem.volunteers_required;
         return (
           <div key={"wi-" + workItem._id} className="workitem-container">
             <h3>Work Item Name: {workItem.name}</h3>
             <div>Description: {workItem.description}</div>
             <div>Site Comments: {workItem.assessment_comments}</div>
+            <div>Volunteers Needed: {workItem.volunteers_required}</div>
 
             <h4>Materials List</h4>
             {workItem.materialsItems.map( (materialsItem) => {
+              total_cost += materialsItem.price * materialsItem.quantity;
               return (
               <div key={"wi-mi-" + materialsItem._id} className="materialsItem-container">
                 <div>Description: {materialsItem.description}</div>
@@ -78,7 +83,15 @@ class PAFApp extends React.Component {
       })}
 
       <h2><b>Hazard / Safety Testing</b></h2>
-      <div>Lead: </div>
+      <div>Lead: {proj.siteAssessment.lead}</div>
+      <div>Asbestos: {proj.siteAssessment.asbestos}</div>
+      <div>Safety Plan: {proj.siteAssessment.safety_plan}</div>
+
+      <h2><b>Partners</b></h2>
+
+      <div>Total Cost Estimate: {total_cost}</div>
+      <div>Total Volunteers Needed: {total_volunteers}</div>
+
     </div>);
   }
 }

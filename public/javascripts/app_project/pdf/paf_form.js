@@ -15,7 +15,6 @@ var PAFApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (PAFApp.__proto__ || Object.getPrototypeOf(PAFApp)).call(this, props));
 
     _this.hide_elements = function () {
-      $('body').css('paddingTop', '0px');
       $('#navID').css('display', 'none');
       $('#userNav').css('display', 'none');
       // $('#noUserNav').css('display', 'none')
@@ -27,7 +26,7 @@ var PAFApp = function (_React$Component) {
     _this.state = {
       projectData: _this.props.projectData
     };
-    _this.hide_elements();
+    // this.hide_elements();
     return _this;
   }
 
@@ -45,6 +44,9 @@ var PAFApp = function (_React$Component) {
       if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
         address += '| ' + docApp.address.line_2 + '\n';
       }
+      var total_cost = 0,
+          total_volunteers = 0;
+
       return React.createElement(
         'div',
         null,
@@ -139,6 +141,7 @@ var PAFApp = function (_React$Component) {
           )
         ),
         proj.workItems.map(function (workItem) {
+          total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
             { key: "wi-" + workItem._id, className: 'workitem-container' },
@@ -161,11 +164,18 @@ var PAFApp = function (_React$Component) {
               workItem.assessment_comments
             ),
             React.createElement(
+              'div',
+              null,
+              'Volunteers Needed: ',
+              workItem.volunteers_required
+            ),
+            React.createElement(
               'h4',
               null,
               'Materials List'
             ),
             workItem.materialsItems.map(function (materialsItem) {
+              total_cost += materialsItem.price * materialsItem.quantity;
               return React.createElement(
                 'div',
                 { key: "wi-mi-" + materialsItem._id, className: 'materialsItem-container' },
@@ -209,7 +219,41 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           'div',
           null,
-          'Lead: '
+          'Lead: ',
+          proj.siteAssessment.lead
+        ),
+        React.createElement(
+          'div',
+          null,
+          'Asbestos: ',
+          proj.siteAssessment.asbestos
+        ),
+        React.createElement(
+          'div',
+          null,
+          'Safety Plan: ',
+          proj.siteAssessment.safety_plan
+        ),
+        React.createElement(
+          'h2',
+          null,
+          React.createElement(
+            'b',
+            null,
+            'Partners'
+          )
+        ),
+        React.createElement(
+          'div',
+          null,
+          'Total Cost Estimate: ',
+          total_cost
+        ),
+        React.createElement(
+          'div',
+          null,
+          'Total Volunteers Needed: ',
+          total_volunteers
         )
       );
     }
