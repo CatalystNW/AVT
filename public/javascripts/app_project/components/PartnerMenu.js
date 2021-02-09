@@ -395,7 +395,7 @@ var PartnerMenu = function (_React$Component) {
                   null,
                   React.createElement("input", { type: "checkbox", index: index,
                     value: partner._id, name: "partnerId",
-                    onChange: _this.selectRow,
+                    readOnly: true,
                     checked: _this.state.checkedId_AllPartners[index]
                   })
                 ),

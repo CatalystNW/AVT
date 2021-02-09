@@ -273,7 +273,7 @@ class PartnerMenu extends React.Component {
                 <td>
                   <input type="checkbox" index={index}
                     value={partner._id} name="partnerId"
-                    onChange={this.selectRow}
+                    readOnly
                     checked={this.state.checkedId_AllPartners[index]}
                   ></input>
                 </td>
