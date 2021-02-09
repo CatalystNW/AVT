@@ -71,4 +71,6 @@ router.patch('/partners/:partner_id', partner_controller.edit_partner);
 router.get('/partners', partner_controller.get_all_partners);
 router.post('/partners', partner_controller.create_partner);
 
+router.get('/paf_form/:project_id', project_controller.get_paf_page);
+
 module.exports = router;
