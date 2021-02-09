@@ -94,9 +94,10 @@ class PartnerMenu extends React.Component {
     var data = {...this.state[location][index]};
     data.type = "project";
     data.partner_id = data._id;
-    this.props.set_edit_partner_menu(
-      data,
+    this.props.modalmenu.show_menu(
+      "edit_partner",
       funkie.edit_partner,
+      data,
       (editPartner) => {
         this.setState(state => {
           let new_allPartners = [...state.allPartners];
@@ -123,9 +124,10 @@ class PartnerMenu extends React.Component {
     );
   };
   onClick_createPartner = () => {
-    this.props.set_create_partner_menu(
-      {type: "project", project_id: this.props.project_id, },
+    this.props.modalmenu.show_menu(
+      "create_partner",
       funkie.create_partner,
+      {type: "project", project_id: this.props.project_id, },
       (createdPartner) => {
         this.setState(state=> {
           let new_allPartners = [...state.allPartners, createdPartner];

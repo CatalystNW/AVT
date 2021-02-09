@@ -98,7 +98,7 @@ var PartnerMenu = function (_React$Component) {
       var data = Object.assign({}, _this.state[location][index]);
       data.type = "project";
       data.partner_id = data._id;
-      _this.props.set_edit_partner_menu(data, funkie.edit_partner, function (editPartner) {
+      _this.props.modalmenu.show_menu("edit_partner", funkie.edit_partner, data, function (editPartner) {
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
           var new_partners = [].concat(_toConsumableArray(state.partners));
@@ -124,7 +124,7 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.onClick_createPartner = function () {
-      _this.props.set_create_partner_menu({ type: "project", project_id: _this.props.project_id }, funkie.create_partner, function (createdPartner) {
+      _this.props.modalmenu.show_menu("create_partner", funkie.create_partner, { type: "project", project_id: _this.props.project_id }, function (createdPartner) {
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners), [createdPartner]);
           var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners), [false]);
