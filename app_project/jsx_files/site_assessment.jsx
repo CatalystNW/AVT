@@ -83,6 +83,10 @@ class App extends React.Component {
     );
   };
 
+  getModalMenu = () => {
+    return this.modalmenu.current;
+  }
+
   render() {
     var vetting_summary;
     if (this.state.application !== null) {
@@ -90,6 +94,8 @@ class App extends React.Component {
     }
     return (
       <div className="row">
+        <ModalMenu ref={this.modalmenu} />
+        
         <AssessmentMenu 
           ref={this.assessmentmenu}
           assessment={{}}
@@ -99,12 +105,11 @@ class App extends React.Component {
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
           set_edit_workitem_menu = {this.set_edit_workitem_menu}
+          getModalMenu={this.getModalMenu}
         />
         <ApplicationInformation
           application={this.state.application} 
         />
-
-        <ModalMenu ref={this.modalmenu} />
       </div>);
   }
 }

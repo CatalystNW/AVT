@@ -60,6 +60,10 @@ var App = function (_React$Component) {
       _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler);
     };
 
+    _this.getModalMenu = function () {
+      return _this.modalmenu.current;
+    };
+
     _this.state = {
       // both apps and assessments should be length 1, but use map to create them
       application: null,
@@ -87,6 +91,7 @@ var App = function (_React$Component) {
       return React.createElement(
         "div",
         { className: "row" },
+        React.createElement(ModalMenu, { ref: this.modalmenu }),
         React.createElement(AssessmentMenu, {
           ref: this.assessmentmenu,
           assessment: {},
@@ -95,12 +100,12 @@ var App = function (_React$Component) {
           set_create_workitem_menu: this.set_create_workitem_menu,
           set_create_materialsitem_menu: this.set_create_materialsitem_menu,
           set_edit_materialisitem_menu: this.set_edit_materialisitem_menu,
-          set_edit_workitem_menu: this.set_edit_workitem_menu
+          set_edit_workitem_menu: this.set_edit_workitem_menu,
+          getModalMenu: this.getModalMenu
         }),
         React.createElement(ApplicationInformation, {
           application: this.state.application
-        }),
-        React.createElement(ModalMenu, { ref: this.modalmenu })
+        })
       );
     }
   }]);

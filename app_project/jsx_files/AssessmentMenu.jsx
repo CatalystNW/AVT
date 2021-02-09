@@ -1,6 +1,7 @@
 import { WorkItem } from "./workitem.js"
 import { CostSummary } from "./CostSummary.js"
 import { AssessmentChecklist } from "./assessmentchecklist.js"
+import { PartnerMenu } from "./components/PartnerMenu.js"
 
 export { AssessmentMenu }
 
@@ -14,6 +15,7 @@ class AssessmentMenu extends React.Component {
     }
     this.checklist = React.createRef();
     this.costsummary = React.createRef();
+    console.log("mm", this.props.modalmenu);
   }
 
   change_assessment = (assessment) => {
@@ -77,6 +79,10 @@ class AssessmentMenu extends React.Component {
               <a className="nav-link" id="nav-checklist-tab" data-toggle="tab" 
                 href="#nav-checklist" role="tab">Checklist</a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" id="nav-partner-tab" data-toggle="tab" 
+                href="#nav-partner" role="tab">Partners</a>
+            </li>
           </ul>
         </div>
 
@@ -105,6 +111,16 @@ class AssessmentMenu extends React.Component {
                 set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
                 key={workitem._id+"-workitem-card"}></WorkItem>);
             })}
+          </div>
+          <div className="tab-pane" id="nav-partner" role="tabpanel">
+            {this.state._id ?
+              (<PartnerMenu 
+                type="siteAssessment" assessment_id={this.state._id}
+                partners={this.state.partners}
+                getModalMenu={this.props.getModalMenu}
+              />) : (<div></div>)
+            }
+            
           </div>
         </div>
       </div>

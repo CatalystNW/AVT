@@ -11,6 +11,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 import { WorkItem } from "./workitem.js";
 import { CostSummary } from "./CostSummary.js";
 import { AssessmentChecklist } from "./assessmentchecklist.js";
+import { PartnerMenu } from "./components/PartnerMenu.js";
 
 export { AssessmentMenu };
 
@@ -55,6 +56,7 @@ var AssessmentMenu = function (_React$Component) {
     };
     _this.checklist = React.createRef();
     _this.costsummary = React.createRef();
+    console.log("mm", _this.props.modalmenu);
     return _this;
   }
 
@@ -120,6 +122,16 @@ var AssessmentMenu = function (_React$Component) {
                   href: "#nav-checklist", role: "tab" },
                 "Checklist"
               )
+            ),
+            React.createElement(
+              "li",
+              { className: "nav-item" },
+              React.createElement(
+                "a",
+                { className: "nav-link", id: "nav-partner-tab", "data-toggle": "tab",
+                  href: "#nav-partner", role: "tab" },
+                "Partners"
+              )
             )
           )
         ),
@@ -157,6 +169,15 @@ var AssessmentMenu = function (_React$Component) {
                 set_edit_workitem_menu: _this2.props.set_edit_workitem_menu,
                 key: workitem._id + "-workitem-card" });
             })
+          ),
+          React.createElement(
+            "div",
+            { className: "tab-pane", id: "nav-partner", role: "tabpanel" },
+            this.state._id ? React.createElement(PartnerMenu, {
+              type: "siteAssessment", assessment_id: this.state._id,
+              partners: this.state.partners,
+              getModalMenu: this.props.getModalMenu
+            }) : React.createElement("div", null)
           )
         )
       );
