@@ -64,23 +64,6 @@ class ProjectApp extends React.Component {
     )
   };
 
-  set_create_partner_menu = (data, submit_handler, data_callback) => {
-    this.modalmenu.current.show_menu(
-      "create_partner",
-      submit_handler,
-      data,
-      data_callback,
-    );
-  };
-  set_edit_partner_menu = (data, submit_handler, data_callback) => {
-    this.modalmenu.current.show_menu(
-      "edit_partner",
-      submit_handler,
-      data,
-      data_callback,
-    );
-  };
-
   set_edit_materialisitem_menu = (old_data, edit_materialsitem_handler) => {
     this.modalmenu.current.show_menu(
       "edit_materialsitem",
@@ -119,14 +102,15 @@ class ProjectApp extends React.Component {
     }
     return (
     <div>
+      <ModalMenu ref={this.modalmenu} />
+
       { this.state.project ? 
         (<ProjectMenu ref={this.project_menu} 
           set_create_workitem_menu={this.set_create_workitem_menu}
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
           set_edit_workitem_menu = {this.set_edit_workitem_menu}
-          set_create_partner_menu = {this.set_create_partner_menu}
-          set_edit_partner_menu = {this.set_edit_partner_menu}
+          modalmenu={this.modalmenu.current}
           project_data={this.state.project}
         />) : (<div></div>)}
 
@@ -136,8 +120,6 @@ class ProjectApp extends React.Component {
         application={this.state.application}
         view_type="project" assessment_id={assessment_id}
       />) : (<div></div>)}
-      
-      <ModalMenu ref={this.modalmenu} />
     </div>);
   }
 }

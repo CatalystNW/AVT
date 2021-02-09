@@ -57,14 +57,6 @@ var ProjectApp = function (_React$Component) {
       _this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem, data, _this.project_menu.current.add_workitem);
     };
 
-    _this.set_create_partner_menu = function (data, submit_handler, data_callback) {
-      _this.modalmenu.current.show_menu("create_partner", submit_handler, data, data_callback);
-    };
-
-    _this.set_edit_partner_menu = function (data, submit_handler, data_callback) {
-      _this.modalmenu.current.show_menu("edit_partner", submit_handler, data, data_callback);
-    };
-
     _this.set_edit_materialisitem_menu = function (old_data, edit_materialsitem_handler) {
       _this.modalmenu.current.show_menu("edit_materialsitem", funkie.edit_materialsitem, old_data, edit_materialsitem_handler // <WorkItem> method
       );
@@ -112,21 +104,20 @@ var ProjectApp = function (_React$Component) {
       return React.createElement(
         "div",
         null,
+        React.createElement(ModalMenu, { ref: this.modalmenu }),
         this.state.project ? React.createElement(ProjectMenu, { ref: this.project_menu,
           set_create_workitem_menu: this.set_create_workitem_menu,
           set_create_materialsitem_menu: this.set_create_materialsitem_menu,
           set_edit_materialisitem_menu: this.set_edit_materialisitem_menu,
           set_edit_workitem_menu: this.set_edit_workitem_menu,
-          set_create_partner_menu: this.set_create_partner_menu,
-          set_edit_partner_menu: this.set_edit_partner_menu,
+          modalmenu: this.modalmenu.current,
           project_data: this.state.project
         }) : React.createElement("div", null),
         this.state.application ? React.createElement(ApplicationInformation, {
           project_id: project_id,
           application: this.state.application,
           view_type: "project", assessment_id: assessment_id
-        }) : React.createElement("div", null),
-        React.createElement(ModalMenu, { ref: this.modalmenu })
+        }) : React.createElement("div", null)
       );
     }
   }]);
