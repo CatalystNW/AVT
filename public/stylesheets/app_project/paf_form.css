@@ -1,0 +1,25 @@
+h1 {
+    font-size: 22px;
+}
+
+h2 {
+    padding-top: 15px;
+    font-size: 20px;
+}
+
+h3 {
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+h4 {
+    font-size: 17px;
+}
+
+.workitem-container {
+    margin-left: 20px;
+}
+
+.materialsItem-container {
+    margin-left: 20px;
+}

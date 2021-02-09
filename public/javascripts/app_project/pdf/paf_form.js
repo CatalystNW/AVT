@@ -14,27 +14,203 @@ var PAFApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (PAFApp.__proto__ || Object.getPrototypeOf(PAFApp)).call(this, props));
 
-    _this.getProject = function () {
-      $.ajax({
-        url: "/app_project/projects/" + project_id,
-        type: "GET",
-        success: function success(data) {
-          console.log(data);
-        }
-      });
+    _this.hide_elements = function () {
+      $('body').css('paddingTop', '0px');
+      $('#navID').css('display', 'none');
+      $('#userNav').css('display', 'none');
+      // $('#noUserNav').css('display', 'none')
+      $('#imageBar').css('display', 'none');
+      $('#footerID').css('display', 'none');
+      // $('#noUserNav').css('display', 'none')
     };
 
-    _this.getProject();
+    _this.state = {
+      projectData: _this.props.projectData
+    };
+    _this.hide_elements();
     return _this;
   }
 
   _createClass(PAFApp, [{
-    key: "render",
+    key: 'render',
     value: function render() {
+      var proj = this.state.projectData;
+      var d = new Date();
+      var docApp = this.state.projectData.documentPackage.application;
+      var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
+      var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
+      if (docApp.name.preferred && docApp.name.preferred.length > 0) name += ' (Preferred: ' + docApp.name.preferred + ')';
+
+      var address = docApp.address.line_1;
+      if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
+        address += '| ' + docApp.address.line_2 + '\n';
+      }
       return React.createElement(
-        "div",
+        'div',
         null,
-        project_id
+        React.createElement(
+          'h1',
+          null,
+          'CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ',
+          date_string
+        ),
+        React.createElement(
+          'table',
+          null,
+          React.createElement(
+            'tbody',
+            null,
+            React.createElement(
+              'tr',
+              null,
+              React.createElement(
+                'td',
+                null,
+                React.createElement(
+                  'b',
+                  null,
+                  'Recipient Name: '
+                )
+              ),
+              React.createElement(
+                'td',
+                null,
+                name
+              )
+            ),
+            React.createElement(
+              'tr',
+              null,
+              React.createElement(
+                'td',
+                null,
+                React.createElement(
+                  'b',
+                  null,
+                  'Address:'
+                )
+              ),
+              React.createElement(
+                'td',
+                null,
+                React.createElement(
+                  'div',
+                  null,
+                  address
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  docApp.address.city,
+                  ', ',
+                  docApp.address.state,
+                  ' ',
+                  docApp.address.zip
+                )
+              )
+            ),
+            React.createElement(
+              'tr',
+              null,
+              React.createElement(
+                'td',
+                null,
+                React.createElement(
+                  'b',
+                  null,
+                  'Vetting Summary'
+                )
+              ),
+              React.createElement(
+                'td',
+                null,
+                proj.documentPackage.notes.vet_summary
+              )
+            )
+          )
+        ),
+        React.createElement(
+          'h2',
+          null,
+          React.createElement(
+            'b',
+            null,
+            'Work Items'
+          )
+        ),
+        proj.workItems.map(function (workItem) {
+          return React.createElement(
+            'div',
+            { key: "wi-" + workItem._id, className: 'workitem-container' },
+            React.createElement(
+              'h3',
+              null,
+              'Work Item Name: ',
+              workItem.name
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Description: ',
+              workItem.description
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Site Comments: ',
+              workItem.assessment_comments
+            ),
+            React.createElement(
+              'h4',
+              null,
+              'Materials List'
+            ),
+            workItem.materialsItems.map(function (materialsItem) {
+              return React.createElement(
+                'div',
+                { key: "wi-mi-" + materialsItem._id, className: 'materialsItem-container' },
+                React.createElement(
+                  'div',
+                  null,
+                  'Description: ',
+                  materialsItem.description
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  'Quantity: ',
+                  materialsItem.quantity
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  'Price: ',
+                  materialsItem.price
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  'Total: $',
+                  materialsItem.price * materialsItem.quantity
+                )
+              );
+            })
+          );
+        }),
+        React.createElement(
+          'h2',
+          null,
+          React.createElement(
+            'b',
+            null,
+            'Hazard / Safety Testing'
+          )
+        ),
+        React.createElement(
+          'div',
+          null,
+          'Lead: '
+        )
       );
     }
   }]);
@@ -43,7 +219,14 @@ var PAFApp = function (_React$Component) {
 }(React.Component);
 
 function loadReact() {
-  ReactDOM.render(React.createElement(PAFApp, null), document.getElementById("pdf_container"));
+  $.ajax({
+    url: "/app_project/projects/" + project_id,
+    type: "GET",
+    success: function success(data) {
+      console.log(data);
+      ReactDOM.render(React.createElement(PAFApp, { projectData: data }), document.getElementById("pdf_container"));
+    }
+  });
 }
 
 loadReact();
