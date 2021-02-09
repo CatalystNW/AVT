@@ -115,7 +115,7 @@ class ProjectApp extends React.Component {
   render() {
     var assessment_id;
     if (this.state.project) {
-      assessment_id = this.state.project.siteAssessment;
+      assessment_id = this.state.project.siteAssessment._id;
     }
     return (
     <div>
