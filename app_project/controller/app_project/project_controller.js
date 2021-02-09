@@ -48,7 +48,7 @@ async function get_project(req, res) {
   var project = await AppProject.findById(req.params.project_id)
       .populate({path: "workItems", model: "WorkItem",
                 populate: {path: "materialsItems", model: "MaterialsItem"}})
-      .populate("partners").populate("documentPackage");
+      .populate("partners").populate("documentPackage").populate("siteAssessment");
   if (project) {
     res.status(200).json(project);
   } else {
