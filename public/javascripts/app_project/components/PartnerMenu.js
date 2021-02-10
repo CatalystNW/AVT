@@ -139,7 +139,7 @@ var PartnerMenu = function (_React$Component) {
       _this.props.getModalMenu().show_menu("create_partner", funkie.create_partner, {}, function (createdPartner) {
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners), [createdPartner]);
-          var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners), [false]);
+          var new_checkedId = [].concat(_toConsumableArray(state.checkedId_AllPartners), [true]);
           return {
             allPartners: new_allPartners,
             checkedId_AllPartners: new_checkedId

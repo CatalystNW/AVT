@@ -144,7 +144,7 @@ class PartnerMenu extends React.Component {
       (createdPartner) => {
         this.setState(state=> {
           let new_allPartners = [...state.allPartners, createdPartner];
-          let new_checkedId = [...state.checkedId_AllPartners, false];
+          let new_checkedId = [...state.checkedId_AllPartners, true];
           return {
             allPartners: new_allPartners,
             checkedId_AllPartners: new_checkedId,
