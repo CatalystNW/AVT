@@ -46,17 +46,29 @@ async function edit_partner(req, res) {
 }
 
 async function delete_partner(req, res) {
-  console.log("delete");
   const partner_id = req.params.partner_id;
-  var projects = await AppProject.find({partners: {_id: partner_id}});
+  const projects = await AppProject.find({partners: {_id: partner_id}}),
+        assessments = await SiteAssessment.find({partners: {_id: partner_id}});
 
   // First remove any traces of the partner in AppProject.partners
-  let j;
-  for(let i=0; i<projects.length; i++) {
+  let j, i;
+  for(i=0; i<projects.length; i++) {
     for (j=0; j<projects[i].partners.length; j++) {
-      if (projects[i].partners[j]._id == partner_id) {
+      if (projects[i].partners[j]._id == partner_id ||
+            projects[i].partners[j] == partner_id) {
         projects[i].partners.splice(j, 1);
         await projects[i].save();
+        break;
+      }
+    }
+  }
+  // Also remove from asssessments
+  for(i=0; i<assessments.length; i++) {
+    for (j=0; j<assessments[i].partners.length; j++) {
+      if (assessments[i].partners[j]._id == partner_id ||
+            assessments[i].partners[j] == partner_id) {
+        assessments[i].partners.splice(j, 1);
+        await assessments[i].save();
         break;
       }
     }

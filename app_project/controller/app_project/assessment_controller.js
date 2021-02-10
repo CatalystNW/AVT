@@ -15,6 +15,8 @@ module.exports.get_application_data_api = get_application_data_api;
 module.exports.view_delete_manager = view_delete_manager;
 module.exports.manage_deletion = manage_deletion;
 
+module.exports.set_partners = set_partners;
+
 async function view_projects_page(req, res) {
   res.render("app_project/projects_page", {});
 }
@@ -143,6 +145,20 @@ async function edit_site_assessment(req, res) {
   } else {
     res.status(400).end();
   }
+}
+
+async function set_partners(req, res) {
+  const project_id = req.params.project_id;
+  const project = await AppProject.findById(project_id);
+  if (project) {
+    let new_partners = req.body["selectedPartnerIds[]"]
+    project.partners = new_partners;
+    project.save();
+    res.status(200).end();
+  } else {
+    res.status(404).end();
+  }
+  
 }
 
 // Manually pulling information to protect transmission of sensitive info
