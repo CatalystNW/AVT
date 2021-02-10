@@ -56,7 +56,6 @@ var AssessmentMenu = function (_React$Component) {
     };
     _this.checklist = React.createRef();
     _this.costsummary = React.createRef();
-    console.log("mm", _this.props.modalmenu);
     return _this;
   }
 

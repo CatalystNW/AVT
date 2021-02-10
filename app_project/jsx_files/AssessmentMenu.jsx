@@ -15,7 +15,6 @@ class AssessmentMenu extends React.Component {
     }
     this.checklist = React.createRef();
     this.costsummary = React.createRef();
-    console.log("mm", this.props.modalmenu);
   }
 
   change_assessment = (assessment) => {
