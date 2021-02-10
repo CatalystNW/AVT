@@ -219,7 +219,7 @@ var PartnerMenu = function (_React$Component) {
           "button",
           { type: "button", className: "btn btn-sm",
             onClick: _this.change_status },
-          "Add Partner"
+          "Modify Partners"
         ),
         React.createElement(
           "h3",
@@ -309,14 +309,6 @@ var PartnerMenu = function (_React$Component) {
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
                     "Edit"
-                  ),
-                  React.createElement(
-                    "button",
-                    { type: "button", className: "btn btn-sm",
-                      location: "partners",
-                      partner_id: partner._id, index: index,
-                      onClick: _this.onClick_deletePartner },
-                    "Delete"
                   )
                 )
               );

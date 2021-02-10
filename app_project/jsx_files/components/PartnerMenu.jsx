@@ -219,7 +219,7 @@ class PartnerMenu extends React.Component {
     return (
       <div>
         <button type="button" className="btn btn-sm"
-          onClick={this.change_status}>Add Partner</button>
+          onClick={this.change_status}>Modify Partners</button>
         <h3>Current Partners</h3>
         <table>
           <thead>
@@ -245,10 +245,6 @@ class PartnerMenu extends React.Component {
                     location={"partners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
-                  <button type="button" className="btn btn-sm"
-                    location={"partners"}
-                    partner_id={partner._id} index={index}
-                    onClick={this.onClick_deletePartner}>Delete</button>
                 </td>
               </tr>);
             })}
