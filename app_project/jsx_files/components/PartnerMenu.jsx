@@ -69,22 +69,26 @@ class PartnerMenu extends React.Component {
       checkedId_AllPartners[index] = true;
     }
 
+    let url;
     if (this.props.type == "project") {
-      $.ajax({
-        url: "/app_project/projects/" + this.props.project_id + "/partners",
-        type: "PATCH",
-        data: {
-          selectedPartnerIds: selectedPartnerIds,
-        },
-        context: this,
-        success: function(data) {
-          this.setState({
-            partners: selectedPartners,
-            checkedId_AllPartners: checkedId_AllPartners,
-          });
-        }
-      });
+      url =  "/app_project/projects/" + this.props.project_id + "/partners";
+    } else {
+      url = "/app_project/site_assessment/" + this.props.assessment_id + "/partners";
     }
+    $.ajax({
+      url: url,
+      type: "PATCH",
+      data: {
+        selectedPartnerIds: selectedPartnerIds,
+      },
+      context: this,
+      success: function(data) {
+        this.setState({
+          partners: selectedPartners,
+          checkedId_AllPartners: checkedId_AllPartners,
+        });
+      }
+    });
 
     this.change_status();
   };

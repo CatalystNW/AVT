@@ -148,17 +148,16 @@ async function edit_site_assessment(req, res) {
 }
 
 async function set_partners(req, res) {
-  const project_id = req.params.project_id;
-  const project = await AppProject.findById(project_id);
-  if (project) {
+  const assessment_id = req.params.assessment_id;
+  const assessment = await SiteAssessment.findById(assessment_id);
+  if (assessment) {
     let new_partners = req.body["selectedPartnerIds[]"]
-    project.partners = new_partners;
-    project.save();
+    assessment.partners = new_partners;
+    assessment.save();
     res.status(200).end();
   } else {
     res.status(404).end();
   }
-  
 }
 
 // Manually pulling information to protect transmission of sensitive info

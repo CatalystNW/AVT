@@ -71,22 +71,26 @@ var PartnerMenu = function (_React$Component) {
         checkedId_AllPartners[index] = true;
       }
 
+      var url = void 0;
       if (_this.props.type == "project") {
-        $.ajax({
-          url: "/app_project/projects/" + _this.props.project_id + "/partners",
-          type: "PATCH",
-          data: {
-            selectedPartnerIds: selectedPartnerIds
-          },
-          context: _this,
-          success: function success(data) {
-            this.setState({
-              partners: selectedPartners,
-              checkedId_AllPartners: checkedId_AllPartners
-            });
-          }
-        });
+        url = "/app_project/projects/" + _this.props.project_id + "/partners";
+      } else {
+        url = "/app_project/site_assessment/" + _this.props.assessment_id + "/partners";
       }
+      $.ajax({
+        url: url,
+        type: "PATCH",
+        data: {
+          selectedPartnerIds: selectedPartnerIds
+        },
+        context: _this,
+        success: function success(data) {
+          this.setState({
+            partners: selectedPartners,
+            checkedId_AllPartners: checkedId_AllPartners
+          });
+        }
+      });
 
       _this.change_status();
     };
