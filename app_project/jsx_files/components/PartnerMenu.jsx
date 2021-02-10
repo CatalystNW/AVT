@@ -137,17 +137,10 @@ class PartnerMenu extends React.Component {
     );
   };
   onClick_createPartner = () => {
-    let data;
-    if (this.props.type == "project") {
-      data = {type: "project", project_id: this.props.project_id, };
-    } else {
-      data = {type: "siteAssessment", assessment_id: this.props.assessment_id, };
-    }
-
     this.props.getModalMenu().show_menu(
       "create_partner",
       funkie.create_partner,
-      data
+      {},
       (createdPartner) => {
         this.setState(state=> {
           let new_allPartners = [...state.allPartners, createdPartner];
