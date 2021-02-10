@@ -10,6 +10,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { PartnerMenu };
 
+/**
+ * Required Props: 
+ *  type ("project" or "siteAssessment")
+ *  assessment_id/project_id
+ *  getModalMenu - function to get ModalMenu reference
+ *  partners - list of partner data belong to project/assessment
+ */
+
 var PartnerMenu = function (_React$Component) {
   _inherits(PartnerMenu, _React$Component);
 
@@ -128,6 +136,13 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.onClick_createPartner = function () {
+      var data = void 0;
+      if (_this.props.type == "project") {
+        data = { type: "project", project_id: _this.props.project_id };
+      } else {
+        data = { type: "siteAssessment", assessment_id: _this.props.assessment_id };
+      }
+
       _this.props.getModalMenu().show_menu("create_partner", funkie.create_partner, { type: "project", project_id: _this.props.project_id }, function (createdPartner) {
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners), [createdPartner]);

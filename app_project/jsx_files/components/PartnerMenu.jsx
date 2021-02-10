@@ -1,5 +1,12 @@
 export { PartnerMenu }
 
+/**
+ * Required Props: 
+ *  type ("project" or "siteAssessment")
+ *  assessment_id/project_id
+ *  getModalMenu - function to get ModalMenu reference
+ *  partners - list of partner data belong to project/assessment
+ */
 class PartnerMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -130,10 +137,17 @@ class PartnerMenu extends React.Component {
     );
   };
   onClick_createPartner = () => {
+    let data;
+    if (this.props.type == "project") {
+      data = {type: "project", project_id: this.props.project_id, };
+    } else {
+      data = {type: "siteAssessment", assessment_id: this.props.assessment_id, };
+    }
+
     this.props.getModalMenu().show_menu(
       "create_partner",
       funkie.create_partner,
-      {type: "project", project_id: this.props.project_id, },
+      data
       (createdPartner) => {
         this.setState(state=> {
           let new_allPartners = [...state.allPartners, createdPartner];
