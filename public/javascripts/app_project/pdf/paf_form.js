@@ -245,6 +245,94 @@ var PAFApp = function (_React$Component) {
         ),
         React.createElement(
           'div',
+          { id: 'partners-container' },
+          this.state.projectData.partners.map(function (partner) {
+            return React.createElement(
+              'div',
+              { className: 'partner-container', key: partner._id },
+              React.createElement(
+                'table',
+                null,
+                React.createElement(
+                  'tbody',
+                  null,
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'th',
+                      null,
+                      'Organization'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      partner.org_name
+                    )
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'th',
+                      null,
+                      'Address'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      partner.org_address
+                    )
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'th',
+                      null,
+                      'Contact'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      partner.contact_name
+                    )
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'th',
+                      null,
+                      'Email'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      partner.contact_email
+                    )
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'th',
+                      null,
+                      'Phone'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      partner.contact_phone
+                    )
+                  )
+                )
+              )
+            );
+          })
+        ),
+        React.createElement(
+          'div',
           null,
           'Total Cost Estimate: ',
           total_cost

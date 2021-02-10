@@ -24,10 +24,15 @@ h4 {
     font-size: 17px;
 }
 
+#partners-container,
 .workitem-container {
     margin-left: 20px;
 }
 
 .materialsItem-container {
     margin-left: 20px;
+}
+
+.partner-container {
+    margin-bottom: 15px;
 }

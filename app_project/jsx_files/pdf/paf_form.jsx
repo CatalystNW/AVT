@@ -89,6 +89,39 @@ class PAFApp extends React.Component {
 
       <h2><b>Partners</b></h2>
 
+      <div id="partners-container">
+        {this.state.projectData.partners.map(partner => {
+          return (
+          <div className="partner-container" key={partner._id}>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Organization</th>
+                  <td>{partner.org_name}</td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td>{partner.org_address}</td>
+                </tr>
+                <tr>
+                  <th>Contact</th>
+                  <td>{partner.contact_name}</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{partner.contact_email}</td>
+                </tr>
+                <tr>
+                  <th>Phone</th>
+                  <td>{partner.contact_phone}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          );
+        })}
+      </div>
+
       <div>Total Cost Estimate: {total_cost}</div>
       <div>Total Volunteers Needed: {total_volunteers}</div>
 
