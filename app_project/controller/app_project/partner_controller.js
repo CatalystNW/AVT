@@ -13,19 +13,6 @@ async function get_all_partners(req, res) {
 }
 
 async function create_partner(req, res) {
-  let parentDoc; // Can be either project or assessment
-  if (req.body.type == "project") {
-    parentDoc = await AppProject.findById(req.body.project_id);
-  } else if (req.body.type == "siteAsssessment") {
-    parentDoc = await SiteAssessment.findById(req.body.assessment_id);
-  } else {
-    res.status(400).end();
-  }
-
-  if (!parentDoc) {
-    res.status(404).end();
-    return;
-  }
   var partner = new PartnerPackage();
   partner.org_name      = req.body.name;
   partner.org_address   = req.body.address;
@@ -33,8 +20,6 @@ async function create_partner(req, res) {
   partner.contact_phone = req.body.phone;
   partner.contact_email = req.body.email;
   await partner.save();
-
-  parentDoc.partners.push(partner._id);
   res.status(200).json(partner);
 }
 
