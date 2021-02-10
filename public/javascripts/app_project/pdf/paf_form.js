@@ -52,7 +52,7 @@ var PAFApp = function (_React$Component) {
         null,
         React.createElement(
           'h1',
-          null,
+          { id: 'doc-header' },
           'CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ',
           date_string
         ),
@@ -144,67 +144,71 @@ var PAFApp = function (_React$Component) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
-            { key: "wi-" + workItem._id, className: 'workitem-container' },
+            { className: 'workitem-total-container' },
             React.createElement(
-              'table',
-              null,
+              'div',
+              { key: "wi-" + workItem._id, className: 'workitem-container' },
               React.createElement(
-                'tbody',
+                'table',
                 null,
                 React.createElement(
-                  'tr',
+                  'tbody',
                   null,
                   React.createElement(
-                    'th',
+                    'tr',
                     null,
-                    'Work Item Name'
+                    React.createElement(
+                      'th',
+                      null,
+                      'Work Item Name'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      workItem.name
+                    )
                   ),
                   React.createElement(
-                    'td',
+                    'tr',
                     null,
-                    workItem.name
-                  )
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(
-                    'th',
-                    null,
-                    'Description'
+                    React.createElement(
+                      'th',
+                      null,
+                      'Description'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      workItem.description
+                    )
                   ),
                   React.createElement(
-                    'td',
+                    'tr',
                     null,
-                    workItem.description
-                  )
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(
-                    'th',
-                    null,
-                    'Site Comments'
+                    React.createElement(
+                      'th',
+                      null,
+                      'Site Comments'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      workItem.assessment_comments
+                    )
                   ),
                   React.createElement(
-                    'td',
+                    'tr',
                     null,
-                    workItem.assessment_comments
-                  )
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(
-                    'th',
-                    null,
-                    'Volunteers Needed'
-                  ),
-                  React.createElement(
-                    'td',
-                    null,
-                    workItem.volunteers_required
+                    React.createElement(
+                      'th',
+                      null,
+                      'Volunteers Needed'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      workItem.volunteers_required
+                    )
                   )
                 )
               )

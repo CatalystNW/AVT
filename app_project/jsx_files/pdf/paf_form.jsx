@@ -36,7 +36,7 @@ class PAFApp extends React.Component {
 
     return (
     <div>
-      <h1>CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
+      <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
       <table>
         <tbody>
           <tr>
@@ -61,27 +61,30 @@ class PAFApp extends React.Component {
       {proj.workItems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
-          <div key={"wi-" + workItem._id} className="workitem-container">
-            <table>
-              <tbody>
-                <tr>
-                  <th>Work Item Name</th>
-                  <td>{workItem.name}</td>
-                </tr>
-                <tr>
-                  <th>Description</th>
-                  <td>{workItem.description}</td>
-                </tr>
-                <tr>
-                  <th>Site Comments</th>
-                  <td>{workItem.assessment_comments}</td>
-                </tr>
-                <tr>
-                  <th>Volunteers Needed</th>
-                  <td>{workItem.volunteers_required}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="workitem-total-container">
+            <div key={"wi-" + workItem._id} className="workitem-container">
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Work Item Name</th>
+                    <td>{workItem.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <td>{workItem.description}</td>
+                  </tr>
+                  <tr>
+                    <th>Site Comments</th>
+                    <td>{workItem.assessment_comments}</td>
+                  </tr>
+                  <tr>
+                    <th>Volunteers Needed</th>
+                    <td>{workItem.volunteers_required}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <h4>Materials List</h4>
             {workItem.materialsItems.map( (materialsItem) => {
               total_cost += materialsItem.price * materialsItem.quantity;
@@ -109,6 +112,7 @@ class PAFApp extends React.Component {
                 </table>
               </div>)
             })}
+
           </div>
         )
       })}

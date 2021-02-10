@@ -2,6 +2,10 @@ body {
     padding: 0 20px;
 }
 
+#doc-header {
+    padding-bottom: 20px;
+}
+
 #navID, #userNav, #imageBar, #footerID {
     display: none;
 }
@@ -22,10 +26,11 @@ h3 {
 
 h4 {
     font-size: 17px;
+    text-decoration: underline;
 }
 
 #partners-container,
-.workitem-container {
+.workitem-total-container {
     margin-left: 20px;
 }
 
@@ -34,6 +39,7 @@ h4 {
     margin-bottom: 15px;
 }
 
+.workitem-container,
 .partner-container {
     margin-bottom: 15px;
 }
