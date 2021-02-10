@@ -146,28 +146,68 @@ var PAFApp = function (_React$Component) {
             'div',
             { key: "wi-" + workItem._id, className: 'workitem-container' },
             React.createElement(
-              'h3',
+              'table',
               null,
-              'Work Item Name: ',
-              workItem.name
-            ),
-            React.createElement(
-              'div',
-              null,
-              'Description: ',
-              workItem.description
-            ),
-            React.createElement(
-              'div',
-              null,
-              'Site Comments: ',
-              workItem.assessment_comments
-            ),
-            React.createElement(
-              'div',
-              null,
-              'Volunteers Needed: ',
-              workItem.volunteers_required
+              React.createElement(
+                'tbody',
+                null,
+                React.createElement(
+                  'tr',
+                  null,
+                  React.createElement(
+                    'th',
+                    null,
+                    'Work Item Name'
+                  ),
+                  React.createElement(
+                    'td',
+                    null,
+                    workItem.name
+                  )
+                ),
+                React.createElement(
+                  'tr',
+                  null,
+                  React.createElement(
+                    'th',
+                    null,
+                    'Description'
+                  ),
+                  React.createElement(
+                    'td',
+                    null,
+                    workItem.description
+                  )
+                ),
+                React.createElement(
+                  'tr',
+                  null,
+                  React.createElement(
+                    'th',
+                    null,
+                    'Site Comments'
+                  ),
+                  React.createElement(
+                    'td',
+                    null,
+                    workItem.assessment_comments
+                  )
+                ),
+                React.createElement(
+                  'tr',
+                  null,
+                  React.createElement(
+                    'th',
+                    null,
+                    'Volunteers Needed'
+                  ),
+                  React.createElement(
+                    'td',
+                    null,
+                    workItem.volunteers_required
+                  )
+                )
+              )
             ),
             React.createElement(
               'h4',
@@ -180,28 +220,69 @@ var PAFApp = function (_React$Component) {
                 'div',
                 { key: "wi-mi-" + materialsItem._id, className: 'materialsItem-container' },
                 React.createElement(
-                  'div',
+                  'table',
                   null,
-                  'Description: ',
-                  materialsItem.description
-                ),
-                React.createElement(
-                  'div',
-                  null,
-                  'Quantity: ',
-                  materialsItem.quantity
-                ),
-                React.createElement(
-                  'div',
-                  null,
-                  'Price: ',
-                  materialsItem.price
-                ),
-                React.createElement(
-                  'div',
-                  null,
-                  'Total: $',
-                  materialsItem.price * materialsItem.quantity
+                  React.createElement(
+                    'tbody',
+                    null,
+                    React.createElement(
+                      'tr',
+                      null,
+                      React.createElement(
+                        'th',
+                        null,
+                        'Description'
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
+                        materialsItem.description
+                      )
+                    ),
+                    React.createElement(
+                      'tr',
+                      null,
+                      React.createElement(
+                        'th',
+                        null,
+                        'Quantity'
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
+                        materialsItem.quantity
+                      )
+                    ),
+                    React.createElement(
+                      'tr',
+                      null,
+                      React.createElement(
+                        'th',
+                        null,
+                        'Price'
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
+                        materialsItem.price
+                      )
+                    ),
+                    React.createElement(
+                      'tr',
+                      null,
+                      React.createElement(
+                        'th',
+                        null,
+                        'Total'
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
+                        '$',
+                        materialsItem.price * materialsItem.quantity
+                      )
+                    )
+                  )
                 )
               );
             })

@@ -62,20 +62,51 @@ class PAFApp extends React.Component {
         total_volunteers += workItem.volunteers_required;
         return (
           <div key={"wi-" + workItem._id} className="workitem-container">
-            <h3>Work Item Name: {workItem.name}</h3>
-            <div>Description: {workItem.description}</div>
-            <div>Site Comments: {workItem.assessment_comments}</div>
-            <div>Volunteers Needed: {workItem.volunteers_required}</div>
-
+            <table>
+              <tbody>
+                <tr>
+                  <th>Work Item Name</th>
+                  <td>{workItem.name}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{workItem.description}</td>
+                </tr>
+                <tr>
+                  <th>Site Comments</th>
+                  <td>{workItem.assessment_comments}</td>
+                </tr>
+                <tr>
+                  <th>Volunteers Needed</th>
+                  <td>{workItem.volunteers_required}</td>
+                </tr>
+              </tbody>
+            </table>
             <h4>Materials List</h4>
             {workItem.materialsItems.map( (materialsItem) => {
               total_cost += materialsItem.price * materialsItem.quantity;
               return (
               <div key={"wi-mi-" + materialsItem._id} className="materialsItem-container">
-                <div>Description: {materialsItem.description}</div>
-                <div>Quantity: {materialsItem.quantity}</div>
-                <div>Price: {materialsItem.price}</div>
-                <div>Total: ${materialsItem.price * materialsItem.quantity}</div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Description</th>
+                      <td>{materialsItem.description}</td>
+                    </tr>
+                    <tr>
+                      <th>Quantity</th>
+                      <td>{materialsItem.quantity}</td>
+                    </tr>
+                    <tr>
+                      <th>Price</th>
+                      <td>{materialsItem.price}</td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <td>${materialsItem.price * materialsItem.quantity}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>)
             })}
           </div>
