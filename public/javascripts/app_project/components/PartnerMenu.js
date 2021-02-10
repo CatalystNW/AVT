@@ -191,7 +191,6 @@ var PartnerMenu = function (_React$Component) {
 
     _this.selectRow = function (e) {
       if (e.target.tagName == "BUTTON") {
-        e.target.click();
         return;
       }
 
