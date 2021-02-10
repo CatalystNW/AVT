@@ -77,7 +77,7 @@ async function get_site_assessment_by_appId(req, res) {
   if (doc) {
     var site_assessment = await SiteAssessment.find({application_id: app_id})
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-        .populate("documentPackage").exec();
+        .populate("documentPackage").populate("partners").exec();
     if (site_assessment.length == 0) {
       // The other fields won't exist at creation
       site_assessment = await SiteAssessment.create(app_id);
@@ -94,7 +94,7 @@ async function get_site_assessment(req, res) {
   var assessment_id = req.params.assessment_id;
   var site_assessment = await SiteAssessment.findById(assessment_id)
       .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-      .exec();
+      .populate("partners").exec();
   if (site_assessment) {
     res.status(200).json(site_assessment);
   } else {
