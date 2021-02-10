@@ -4,7 +4,7 @@ class PartnerMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      partners: this.props.partners,
+      partners: this.props.partners, // partners selected
       allPartners: [],
       checkedId_AllPartners: [],
       status: "show_current_partners"
@@ -38,6 +38,7 @@ class PartnerMenu extends React.Component {
     });
   };
 
+  // Changes status to showing current partners / selecting new partners
   change_status = () => {
     let new_status = (this.state.status == "show_current_partners") ?
               "show_all_partners" : "show_current_partners";
@@ -49,7 +50,8 @@ class PartnerMenu extends React.Component {
     });
   }
 
-  submitNewPartners = () => {
+  // Add selected partners to assessment/ project
+  submitSelectedPartners = () => {
     let inputs = document.querySelectorAll("input[name=partnerId]:checked")
     const selectedPartners = [],
           selectedPartnerIds = [], 
@@ -248,7 +250,7 @@ class PartnerMenu extends React.Component {
     return (
     <div>
       <button type="button" className="btn btn-sm"
-        onClick={this.submitNewPartners}>Submit</button>
+        onClick={this.submitSelectedPartners}>Submit</button>
       <button type="button" className="btn btn-sm"
         onClick={this.change_status}>Cancel</button>
       <button type="button" className="btn btn-sm"

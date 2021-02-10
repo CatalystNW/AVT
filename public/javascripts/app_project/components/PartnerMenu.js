@@ -54,7 +54,7 @@ var PartnerMenu = function (_React$Component) {
       });
     };
 
-    _this.submitNewPartners = function () {
+    _this.submitSelectedPartners = function () {
       var inputs = document.querySelectorAll("input[name=partnerId]:checked");
       var selectedPartners = [],
           selectedPartnerIds = [],
@@ -321,7 +321,7 @@ var PartnerMenu = function (_React$Component) {
         React.createElement(
           "button",
           { type: "button", className: "btn btn-sm",
-            onClick: _this.submitNewPartners },
+            onClick: _this.submitSelectedPartners },
           "Submit"
         ),
         React.createElement(
@@ -452,13 +452,19 @@ var PartnerMenu = function (_React$Component) {
     };
 
     _this.state = {
-      partners: _this.props.partners,
+      partners: _this.props.partners, // partners selected
       allPartners: [],
       checkedId_AllPartners: [],
       status: "show_current_partners"
     };
     return _this;
   }
+
+  // Changes status to showing current partners / selecting new partners
+
+
+  // Add selected partners to assessment/ project
+
 
   _createClass(PartnerMenu, [{
     key: "render",
