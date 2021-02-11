@@ -1,0 +1,17 @@
+body {
+    padding: 0 20px;
+}
+
+#navID, #userNav, #imageBar, #footerID {
+    display: none;
+}
+
+#cblock-container {
+    height: 80px;
+    width: 80px;
+}
+
+#cblock-container img {
+    height: 100%;
+    width: 100%;
+}

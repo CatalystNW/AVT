@@ -51,6 +51,11 @@ var HandleitForm = function (_React$Component) {
         'div',
         null,
         React.createElement(
+          'div',
+          { id: 'cblock-container' },
+          React.createElement('img', { src: '/images/app_project/c-logo.jpg' })
+        ),
+        React.createElement(
           'h1',
           { id: 'doc-header' },
           'CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ',

@@ -36,6 +36,10 @@ class HandleitForm extends React.Component {
 
     return (
     <div>
+      <div id="cblock-container">
+        <img src="/images/app_project/c-logo.jpg"></img>
+      </div>
+      
       <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
       <table>
         <tbody>
