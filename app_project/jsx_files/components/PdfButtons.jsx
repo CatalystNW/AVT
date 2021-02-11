@@ -10,12 +10,18 @@ class PdfButtons extends React.Component {
     window.open("/app_project/paf_form/" + project_id);
   }
 
+  onClick_handleitForm = () => {
+    const project_id = this.props.project_id;
+    window.open("/app_project/handleit_form/" + project_id);
+  }
+
   render() {
     return (
       <div>
         <button type="button"
           onClick={this.onClick_PAF}>PAF Report</button>
-        <button type="button">Handle-It Report</button>
+        <button type="button"
+          onClick={this.onClick_handleitForm}>Handle-It Report</button>
       </div>
     )
   }

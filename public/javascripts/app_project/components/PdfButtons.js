@@ -21,6 +21,11 @@ var PdfButtons = function (_React$Component) {
       window.open("/app_project/paf_form/" + project_id);
     };
 
+    _this.onClick_handleitForm = function () {
+      var project_id = _this.props.project_id;
+      window.open("/app_project/handleit_form/" + project_id);
+    };
+
     return _this;
   }
 
@@ -38,7 +43,8 @@ var PdfButtons = function (_React$Component) {
         ),
         React.createElement(
           "button",
-          { type: "button" },
+          { type: "button",
+            onClick: this.onClick_handleitForm },
           "Handle-It Report"
         )
       );
