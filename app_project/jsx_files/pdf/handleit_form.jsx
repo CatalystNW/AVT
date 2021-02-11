@@ -19,13 +19,11 @@ class HandleitForm extends React.Component {
   render() {
     const proj = this.state.projectData;
     let d = new Date();
-    const docApp = this.state.projectData.documentPackage.application;
+    const docApp = proj.documentPackage.application;
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
     let name = (docApp.name.middle && docApp.name.middle.length > 0) ?
             `${docApp.name.first} ${docApp.name.middle} ${docApp.name.last}` : 
             `${docApp.name.first} ${docApp.name.last}`;
-    if (docApp.name.preferred && docApp.name.preferred.length > 0)
-      name += ` (Preferred: ${docApp.name.preferred})`;
 
     let address = docApp.address.line_1;
     if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
@@ -37,14 +35,21 @@ class HandleitForm extends React.Component {
     return (
     <div>
       <div id="cblock-container">
-        <img src="/images/app_project/c-logo.jpg"></img>
+        <img src="/images/app_project/handleit_logo.png"></img>
       </div>
+      <p id="info-container">
+        Catalyst Partnerships is a non-proft general contractor. We bring together useful resources and caring volunteers to meet the
+        needs of under-resourced people in our community. “Handle-It” volunteers can provide minor home repairs to improve the safety
+        of the home for no fee. Handle-It Volunteers are skilled handy men and women who have undergone and passed background
+        checks and are insured by Catalyst. To the extent required by law, Catalyst is duly licensed, bonded, and insured to perform such
+      work
+      </p>
       
-      <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
+      <h1 id="doc-header">HANDLE-IT WORK AGREEMENT</h1>
       <table>
         <tbody>
           <tr>
-            <td><b>Recipient Name: </b></td>
+            <td><b>Property Owner:</b></td>
             <td>{name}</td>
           </tr>
           <tr>
@@ -55,17 +60,21 @@ class HandleitForm extends React.Component {
             </td>
           </tr>
           <tr>
-            <td><b>Vetting Summary</b></td>
-            <td>{proj.documentPackage.notes.vet_summary}</td>
+            <td><b>Phone:</b></td>
+            <td>{docApp.phone.preferred}</td>
+          </tr>
+          <tr>
+            <td><b>Email:</b></td>
+            <td>{docApp.email}</td>
           </tr>
         </tbody>
       </table>
 
-      <h2><b>Work Items</b></h2>
+      <h2>Work Requested</h2>
       {proj.workItems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
-          <div className="workitem-total-container">
+          <div className="workitem-total-container" key={workItem._id}>
             <div key={"wi-" + workItem._id} className="workitem-container">
               <table>
                 <tbody>
@@ -82,87 +91,62 @@ class HandleitForm extends React.Component {
                     <td>{workItem.assessment_comments}</td>
                   </tr>
                   <tr>
-                    <th>Volunteers Needed</th>
-                    <td>{workItem.volunteers_required}</td>
+                    <th>Cost</th>
+                    <td>{workItem.materials_cost}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-            <h4>Materials List</h4>
-            {workItem.materialsItems.map( (materialsItem) => {
-              total_cost += materialsItem.price * materialsItem.quantity;
-              return (
-              <div key={"wi-mi-" + materialsItem._id} className="materialsItem-container">
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Description</th>
-                      <td>{materialsItem.description}</td>
-                    </tr>
-                    <tr>
-                      <th>Quantity</th>
-                      <td>{materialsItem.quantity}</td>
-                    </tr>
-                    <tr>
-                      <th>Price</th>
-                      <td>{materialsItem.price}</td>
-                    </tr>
-                    <tr>
-                      <th>Total</th>
-                      <td>${materialsItem.price * materialsItem.quantity}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>)
-            })}
-
           </div>
         )
       })}
 
-      <h2><b>Hazard / Safety Testing</b></h2>
-      <div>Lead: {proj.siteAssessment.lead}</div>
-      <div>Asbestos: {proj.siteAssessment.asbestos}</div>
-      <div>Safety Plan: {proj.siteAssessment.safety_plan}</div>
+      <p id="price-p">
+      Price: Catalyst Partnerships shall provide resources for the work. The cost of this project to the property owner is $0.  
+      </p>
 
-      <h2><b>Partners</b></h2>
+      <p>
+        Scope: The scope of Handle-It Projects are jobs that will require 1-3 volunteers one day’s time and cost Catalyst
+        $500 or less. In some cases, the property owner may already own the item that needs installation. If, after the
+        Handle-It volunteer examines the scope of work, it is decided that the job would require more extensive labor and/or
+        materials, this project may be recommended for consideration as a full Catalyst Project. This will require further
+        fnancial vetting and estimation of the necessary work to restore the home to safety
+      </p>
 
-      <div id="partners-container">
-        {this.state.projectData.partners.map(partner => {
-          return (
-          <div className="partner-container" key={partner._id}>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Organization</th>
-                  <td>{partner.org_name}</td>
-                </tr>
-                <tr>
-                  <th>Address</th>
-                  <td>{partner.org_address}</td>
-                </tr>
-                <tr>
-                  <th>Contact</th>
-                  <td>{partner.contact_name}</td>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <td>{partner.contact_email}</td>
-                </tr>
-                <tr>
-                  <th>Phone</th>
-                  <td>{partner.contact_phone}</td>
-                </tr>
-              </tbody>
-            </table>
+      <p>
+        Volunteer Labor: Catalyst Partnerships is responsible for providing volunteer labor required to complete this project.
+        Catalyst Partnerships is also responsible for providing materials, tools, and all other resources required to complete
+        this project. Due to the nature of this non-proft, volunteer activity, property owner understands that the quality of
+        service and/or craftsmanship received may not refect professional standards.
+      </p>
+
+      <p id="acceptance-p">
+        Acceptance of Contract: The above price, specifcations and conditions are satisfactory and are hereby accepted.
+        Catalyst Partnerships is authorized to furnish all materials and volunteer labor required to complete the project as
+        stated.
+      </p>
+
+      <div className="signatures-container">
+        <div>Date __________________</div>
+        <div>
+          <div>
+            X_______________________________________________
           </div>
-          );
-        })}
+          <div>Property Owner</div>
+        </div>
       </div>
 
-      <div>Total Cost Estimate: {total_cost}</div>
-      <div>Total Volunteers Needed: {total_volunteers}</div>
+      <div className="signatures-container">
+        <div className="">Date __________________</div>
+        <div className="">
+          <div>
+          X_______________________________________________
+          </div>
+          <div>Catalyst Handle-It Volunteer</div>
+        </div>
+      </div>
+
+      <p>Please sign two copies – one for the homeowner, the other for the Catalyst offce</p>
 
     </div>);
   }

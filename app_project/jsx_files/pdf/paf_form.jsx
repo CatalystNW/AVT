@@ -61,7 +61,7 @@ class PAFApp extends React.Component {
       {proj.workItems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
-          <div className="workitem-total-container">
+          <div className="workitem-total-container" key={workItem._id}>
             <div key={"wi-" + workItem._id} className="workitem-container">
               <table>
                 <tbody>

@@ -144,7 +144,7 @@ var PAFApp = function (_React$Component) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
-            { className: 'workitem-total-container' },
+            { className: 'workitem-total-container', key: workItem._id },
             React.createElement(
               'div',
               { key: "wi-" + workItem._id, className: 'workitem-container' },

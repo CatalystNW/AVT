@@ -35,10 +35,9 @@ var HandleitForm = function (_React$Component) {
     value: function render() {
       var proj = this.state.projectData;
       var d = new Date();
-      var docApp = this.state.projectData.documentPackage.application;
+      var docApp = proj.documentPackage.application;
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
       var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
-      if (docApp.name.preferred && docApp.name.preferred.length > 0) name += ' (Preferred: ' + docApp.name.preferred + ')';
 
       var address = docApp.address.line_1;
       if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
@@ -53,13 +52,17 @@ var HandleitForm = function (_React$Component) {
         React.createElement(
           'div',
           { id: 'cblock-container' },
-          React.createElement('img', { src: '/images/app_project/c-logo.jpg' })
+          React.createElement('img', { src: '/images/app_project/handleit_logo.png' })
+        ),
+        React.createElement(
+          'p',
+          { id: 'info-container' },
+          'Catalyst Partnerships is a non-proft general contractor. We bring together useful resources and caring volunteers to meet the needs of under-resourced people in our community. \u201CHandle-It\u201D volunteers can provide minor home repairs to improve the safety of the home for no fee. Handle-It Volunteers are skilled handy men and women who have undergone and passed background checks and are insured by Catalyst. To the extent required by law, Catalyst is duly licensed, bonded, and insured to perform such work'
         ),
         React.createElement(
           'h1',
           { id: 'doc-header' },
-          'CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ',
-          date_string
+          'HANDLE-IT WORK AGREEMENT'
         ),
         React.createElement(
           'table',
@@ -76,7 +79,7 @@ var HandleitForm = function (_React$Component) {
                 React.createElement(
                   'b',
                   null,
-                  'Recipient Name: '
+                  'Property Owner:'
                 )
               ),
               React.createElement(
@@ -125,13 +128,31 @@ var HandleitForm = function (_React$Component) {
                 React.createElement(
                   'b',
                   null,
-                  'Vetting Summary'
+                  'Phone:'
                 )
               ),
               React.createElement(
                 'td',
                 null,
-                proj.documentPackage.notes.vet_summary
+                docApp.phone.preferred
+              )
+            ),
+            React.createElement(
+              'tr',
+              null,
+              React.createElement(
+                'td',
+                null,
+                React.createElement(
+                  'b',
+                  null,
+                  'Email:'
+                )
+              ),
+              React.createElement(
+                'td',
+                null,
+                docApp.email
               )
             )
           )
@@ -139,17 +160,13 @@ var HandleitForm = function (_React$Component) {
         React.createElement(
           'h2',
           null,
-          React.createElement(
-            'b',
-            null,
-            'Work Items'
-          )
+          'Work Requested'
         ),
         proj.workItems.map(function (workItem) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
-            { className: 'workitem-total-container' },
+            { className: 'workitem-total-container', key: workItem._id },
             React.createElement(
               'div',
               { key: "wi-" + workItem._id, className: 'workitem-container' },
@@ -207,231 +224,89 @@ var HandleitForm = function (_React$Component) {
                     React.createElement(
                       'th',
                       null,
-                      'Volunteers Needed'
+                      'Cost'
                     ),
                     React.createElement(
                       'td',
                       null,
-                      workItem.volunteers_required
+                      workItem.materials_cost
                     )
                   )
                 )
               )
-            ),
-            React.createElement(
-              'h4',
-              null,
-              'Materials List'
-            ),
-            workItem.materialsItems.map(function (materialsItem) {
-              total_cost += materialsItem.price * materialsItem.quantity;
-              return React.createElement(
-                'div',
-                { key: "wi-mi-" + materialsItem._id, className: 'materialsItem-container' },
-                React.createElement(
-                  'table',
-                  null,
-                  React.createElement(
-                    'tbody',
-                    null,
-                    React.createElement(
-                      'tr',
-                      null,
-                      React.createElement(
-                        'th',
-                        null,
-                        'Description'
-                      ),
-                      React.createElement(
-                        'td',
-                        null,
-                        materialsItem.description
-                      )
-                    ),
-                    React.createElement(
-                      'tr',
-                      null,
-                      React.createElement(
-                        'th',
-                        null,
-                        'Quantity'
-                      ),
-                      React.createElement(
-                        'td',
-                        null,
-                        materialsItem.quantity
-                      )
-                    ),
-                    React.createElement(
-                      'tr',
-                      null,
-                      React.createElement(
-                        'th',
-                        null,
-                        'Price'
-                      ),
-                      React.createElement(
-                        'td',
-                        null,
-                        materialsItem.price
-                      )
-                    ),
-                    React.createElement(
-                      'tr',
-                      null,
-                      React.createElement(
-                        'th',
-                        null,
-                        'Total'
-                      ),
-                      React.createElement(
-                        'td',
-                        null,
-                        '$',
-                        materialsItem.price * materialsItem.quantity
-                      )
-                    )
-                  )
-                )
-              );
-            })
+            )
           );
         }),
         React.createElement(
-          'h2',
+          'p',
+          { id: 'price-p' },
+          'Price: Catalyst Partnerships shall provide resources for the work. The cost of this project to the property owner is $0.'
+        ),
+        React.createElement(
+          'p',
           null,
+          'Scope: The scope of Handle-It Projects are jobs that will require 1-3 volunteers one day\u2019s time and cost Catalyst $500 or less. In some cases, the property owner may already own the item that needs installation. If, after the Handle-It volunteer examines the scope of work, it is decided that the job would require more extensive labor and/or materials, this project may be recommended for consideration as a full Catalyst Project. This will require further fnancial vetting and estimation of the necessary work to restore the home to safety'
+        ),
+        React.createElement(
+          'p',
+          null,
+          'Volunteer Labor: Catalyst Partnerships is responsible for providing volunteer labor required to complete this project. Catalyst Partnerships is also responsible for providing materials, tools, and all other resources required to complete this project. Due to the nature of this non-proft, volunteer activity, property owner understands that the quality of service and/or craftsmanship received may not refect professional standards.'
+        ),
+        React.createElement(
+          'p',
+          { id: 'acceptance-p' },
+          'Acceptance of Contract: The above price, specifcations and conditions are satisfactory and are hereby accepted. Catalyst Partnerships is authorized to furnish all materials and volunteer labor required to complete the project as stated.'
+        ),
+        React.createElement(
+          'div',
+          { className: 'signatures-container' },
           React.createElement(
-            'b',
+            'div',
             null,
-            'Hazard / Safety Testing'
-          )
-        ),
-        React.createElement(
-          'div',
-          null,
-          'Lead: ',
-          proj.siteAssessment.lead
-        ),
-        React.createElement(
-          'div',
-          null,
-          'Asbestos: ',
-          proj.siteAssessment.asbestos
-        ),
-        React.createElement(
-          'div',
-          null,
-          'Safety Plan: ',
-          proj.siteAssessment.safety_plan
-        ),
-        React.createElement(
-          'h2',
-          null,
+            'Date __________________'
+          ),
           React.createElement(
-            'b',
+            'div',
             null,
-            'Partners'
-          )
-        ),
-        React.createElement(
-          'div',
-          { id: 'partners-container' },
-          this.state.projectData.partners.map(function (partner) {
-            return React.createElement(
+            React.createElement(
               'div',
-              { className: 'partner-container', key: partner._id },
-              React.createElement(
-                'table',
-                null,
-                React.createElement(
-                  'tbody',
-                  null,
-                  React.createElement(
-                    'tr',
-                    null,
-                    React.createElement(
-                      'th',
-                      null,
-                      'Organization'
-                    ),
-                    React.createElement(
-                      'td',
-                      null,
-                      partner.org_name
-                    )
-                  ),
-                  React.createElement(
-                    'tr',
-                    null,
-                    React.createElement(
-                      'th',
-                      null,
-                      'Address'
-                    ),
-                    React.createElement(
-                      'td',
-                      null,
-                      partner.org_address
-                    )
-                  ),
-                  React.createElement(
-                    'tr',
-                    null,
-                    React.createElement(
-                      'th',
-                      null,
-                      'Contact'
-                    ),
-                    React.createElement(
-                      'td',
-                      null,
-                      partner.contact_name
-                    )
-                  ),
-                  React.createElement(
-                    'tr',
-                    null,
-                    React.createElement(
-                      'th',
-                      null,
-                      'Email'
-                    ),
-                    React.createElement(
-                      'td',
-                      null,
-                      partner.contact_email
-                    )
-                  ),
-                  React.createElement(
-                    'tr',
-                    null,
-                    React.createElement(
-                      'th',
-                      null,
-                      'Phone'
-                    ),
-                    React.createElement(
-                      'td',
-                      null,
-                      partner.contact_phone
-                    )
-                  )
-                )
-              )
-            );
-          })
+              null,
+              'X_______________________________________________'
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Property Owner'
+            )
+          )
         ),
         React.createElement(
           'div',
-          null,
-          'Total Cost Estimate: ',
-          total_cost
+          { className: 'signatures-container' },
+          React.createElement(
+            'div',
+            { className: '' },
+            'Date __________________'
+          ),
+          React.createElement(
+            'div',
+            { className: '' },
+            React.createElement(
+              'div',
+              null,
+              'X_______________________________________________'
+            ),
+            React.createElement(
+              'div',
+              null,
+              'Catalyst Handle-It Volunteer'
+            )
+          )
         ),
         React.createElement(
-          'div',
+          'p',
           null,
-          'Total Volunteers Needed: ',
-          total_volunteers
+          'Please sign two copies \u2013 one for the homeowner, the other for the Catalyst offce'
         )
       );
     }
