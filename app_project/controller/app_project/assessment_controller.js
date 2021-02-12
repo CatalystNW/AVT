@@ -6,6 +6,7 @@ var DocumentPackage = require("../../../models/documentPackage"),
 module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
+module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
 module.exports.get_site_assessment_by_appId = get_site_assessment_by_appId;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
@@ -42,6 +43,11 @@ async function get_site_assessments(req, res) {
     });
   }
   res.status(200).json({documents: documents,});
+}
+
+async function view_site_assessment_by_app_id(req, res) {
+  var id = req.params.application_id;
+  res.render("app_project/site_assessment", {app_id: id,});
 }
 
 async function view_site_assessment(req, res) {
