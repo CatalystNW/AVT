@@ -33,6 +33,10 @@ class HandleitForm extends React.Component {
     );
   };
 
+  onClick_print = () => {
+    window.print();
+  }
+
   render() {
     const proj = this.state.projectData;
     let d = new Date();
@@ -52,7 +56,7 @@ class HandleitForm extends React.Component {
     return (
     <div>
       <div id="buttons-container" className="no-print">
-        <button onClick={this.onClick_pdf}>PDF</button>  
+        <button onClick={this.onClick_print}>Print</button>  
       </div>
 
       <div id="cblock-container">

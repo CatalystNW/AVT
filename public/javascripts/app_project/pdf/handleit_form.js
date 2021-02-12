@@ -35,6 +35,10 @@ var HandleitForm = function (_React$Component) {
         x: 15, y: 15 });
     };
 
+    _this.onClick_print = function () {
+      window.print();
+    };
+
     _this.state = {
       projectData: _this.props.projectData
     };
@@ -66,8 +70,8 @@ var HandleitForm = function (_React$Component) {
           { id: 'buttons-container', className: 'no-print' },
           React.createElement(
             'button',
-            { onClick: this.onClick_pdf },
-            'PDF'
+            { onClick: this.onClick_print },
+            'Print'
           )
         ),
         React.createElement(
