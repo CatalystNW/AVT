@@ -71,6 +71,30 @@ async function manage_deletion(req, res) {
 }
 
 /**
+ * Gets a site assessment with transferred: false and app_id. If it
+ * doesn't, exist, then it will create one.
+ * @param {*} app_id 
+ * Returns: siteAssessment(no population) or null if documentPackage doesn't exist.
+ */
+async function getOrCreateAssessmentByAppId(app_id) {
+  // Make sure app_id is valid
+  var doc = await DocumentPackage.findById(app_id);
+
+  if (doc) {
+    var site_assessment = await SiteAssessment.find({application_id: app_id, transferred: false});
+    if (site_assessment.length == 0) {
+      // The other fields won't exist at creation
+      site_assessment = await SiteAssessment.create(app_id);
+    } else {
+      site_assessment = site_assessment[0];
+    }
+    return site_assessment;
+  } else {
+    return null;
+  }
+}
+
+/**
  * Retrieves the Site Assessment by application Id (of DocumentPackage)
  * If it doesn't exist, then it creates a Site Assessment.
  * @param {*} req.params.application_id : application ID of documentPackage
