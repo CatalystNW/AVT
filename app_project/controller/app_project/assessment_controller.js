@@ -10,6 +10,8 @@ module.exports.get_site_assessment_by_appId = get_site_assessment_by_appId;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
+module.exports.get_site_assessments = get_site_assessments;
+
 module.exports.get_application_data_api = get_application_data_api;
 
 module.exports.view_delete_manager = view_delete_manager;
@@ -23,6 +25,23 @@ async function view_projects_page(req, res) {
 
 async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
+}
+
+async function get_site_assessments(req, res) {
+  // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
+  var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec();
+  var documents = [],
+      docs;
+  for (var i=0;i < docPacks.length; i++) {
+    documents.push({
+      status: docPacks[i].status,
+      app_name: docPacks[i].app_name,
+      id: docPacks[i].id,
+      name: docPacks[i].application.name,
+      address: docPacks[i].application.address,
+    });
+  }
+  res.status(200).json({documents: documents,});
 }
 
 async function view_site_assessment(req, res) {
