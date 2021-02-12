@@ -48,3 +48,11 @@ h2 {
     /* height: 30%; */
     width: 65%;
 }
+
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
