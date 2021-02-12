@@ -39,6 +39,41 @@ var SiteAssessmentApp = function (_React$Component) {
       });
     };
 
+    _this.createAssessmentRow = function (doc) {
+      var address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+      return React.createElement(
+        "tr",
+        { key: doc.id },
+        React.createElement(
+          "td",
+          null,
+          React.createElement(
+            "a",
+            { href: "./view_site_assessments/" + doc.id },
+            doc.app_name
+          )
+        ),
+        React.createElement(
+          "td",
+          null,
+          doc.name.first,
+          " ",
+          doc.name.last
+        ),
+        React.createElement(
+          "td",
+          null,
+          address,
+          " |",
+          doc.address.city,
+          ", ",
+          doc.address.state,
+          " ",
+          doc.address.zip
+        )
+      );
+    };
+
     _this.state = {
       pendingDocs: [],
       completeDocs: []
@@ -50,7 +85,8 @@ var SiteAssessmentApp = function (_React$Component) {
   _createClass(SiteAssessmentApp, [{
     key: "render",
     value: function render() {
-      var address = void 0;
+      var _this2 = this;
+
       return React.createElement(
         "div",
         null,
@@ -92,38 +128,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.pendingDocs.map(function (doc, index) {
-                address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
-                return React.createElement(
-                  "tr",
-                  { key: doc.id },
-                  React.createElement(
-                    "td",
-                    null,
-                    React.createElement(
-                      "a",
-                      { href: "./view_site_assessments/" + doc.id },
-                      doc.app_name
-                    )
-                  ),
-                  React.createElement(
-                    "td",
-                    null,
-                    doc.name.first,
-                    " ",
-                    doc.name.last
-                  ),
-                  React.createElement(
-                    "td",
-                    null,
-                    address,
-                    " |",
-                    doc.address.city,
-                    ", ",
-                    doc.address.state,
-                    " ",
-                    doc.address.zip
-                  )
-                );
+                return _this2.createAssessmentRow(doc);
               })
             )
           )
@@ -166,38 +171,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.completeDocs.map(function (doc, index) {
-                address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
-                return React.createElement(
-                  "tr",
-                  { key: doc.id },
-                  React.createElement(
-                    "td",
-                    null,
-                    React.createElement(
-                      "a",
-                      { href: "./view_site_assessments/" + doc.id },
-                      doc.app_name
-                    )
-                  ),
-                  React.createElement(
-                    "td",
-                    null,
-                    doc.name.first,
-                    " ",
-                    doc.name.last
-                  ),
-                  React.createElement(
-                    "td",
-                    null,
-                    address,
-                    " |",
-                    doc.address.city,
-                    ", ",
-                    doc.address.state,
-                    " ",
-                    doc.address.zip
-                  )
-                );
+                return _this2.createAssessmentRow(doc);
               })
             )
           )

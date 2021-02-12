@@ -33,8 +33,20 @@ class SiteAssessmentApp extends React.Component {
     });
   };
 
+  createAssessmentRow = (doc) => {
+    const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+    return (
+      <tr key={doc.id}>
+        <td><a href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
+        <td>{doc.name.first} {doc.name.last}</td>
+        <td>{address} |
+            {doc.address.city}, {doc.address.state} {doc.address.zip}
+        </td>
+    </tr>
+    );
+  };
+
   render () {
-    let address;
     return (
     <div>
       <div>
@@ -49,16 +61,7 @@ class SiteAssessmentApp extends React.Component {
             </thead>
             <tbody>
               {this.state.pendingDocs.map((doc, index) => {
-                address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
-                return (
-                  <tr key={doc.id}>
-                    <td><a href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
-                    <td>{doc.name.first} {doc.name.last}</td>
-                    <td>{address} |
-                        {doc.address.city}, {doc.address.state} {doc.address.zip}
-                    </td>
-                </tr>
-                );
+                return this.createAssessmentRow(doc);
               })}
             </tbody>
         </table>
@@ -75,16 +78,7 @@ class SiteAssessmentApp extends React.Component {
             </thead>
             <tbody>
               {this.state.completeDocs.map((doc, index) => {
-                address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
-                return (
-                  <tr key={doc.id}>
-                    <td><a href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
-                    <td>{doc.name.first} {doc.name.last}</td>
-                    <td>{address} |
-                        {doc.address.city}, {doc.address.state} {doc.address.zip}
-                    </td>
-                </tr>
-                );
+                return this.createAssessmentRow(doc);
               })}
             </tbody>
         </table>
