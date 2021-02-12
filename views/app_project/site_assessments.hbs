@@ -1,47 +1,6 @@
-<div>
-    <h2>Pending Assessments</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Application #</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each pending}}
-            <tr>
-                <td><a href="./view_site_assessments/{{this.id}}">{{this.app_name}}</a></td>
-                <td>{{this.name.first}} {{this.name.last}}</td>
-                <td>{{this.address.line_1}}{{#if this.address.line_2}} {{this.address.line_2}}{{/if}} |
-                    {{this.address.city}}, {{this.address.state}} {{this.address.zip}}
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
+<div id="assessments_container"></div>
 
-<div>
-    <h2>Complete Assessments</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Application #</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each complete}}
-            <tr>
-                <td><a href="./view_site_assessments/{{this.id}}">{{this.app_name}}</a></td>
-                <td>{{this.name.first}} {{this.name.last}}</td>
-                <td>{{this.address.line_1}}{{#if this.address.line_2}} {{this.address.line_2}}{{/if}} |
-                    {{this.address.city}}, {{this.address.state}} {{this.address.zip}}
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+<script src="/javascripts/app_project/site_assessment/view_site_assessment.js"></script>
