@@ -95,7 +95,7 @@ async function get_site_assessment(req, res) {
   var assessment_id = req.params.assessment_id;
   var site_assessment = await SiteAssessment.findById(assessment_id)
       .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-      .populate("partners").exec();
+      .populate("documentPackage").populate("partners").exec();
   if (site_assessment) {
     res.status(200).json(site_assessment);
   } else {
