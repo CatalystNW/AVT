@@ -37,17 +37,6 @@ var funkie = {
       });
     }
   },
-  get_assessment_by_appId(app_id, callback) {
-    $.ajax({
-      type: "GET",
-      url: "/app_project/site_assessment/app_id/" + app_id,
-      success: function(data, textStatus, xhr) {
-        if (callback) {
-          callback(data);
-        }
-      }
-    });
-  },
   create_workitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
       url: "/app_project/workitems",
