@@ -19,7 +19,7 @@ var ProjectTransferApp = function (_React$Component) {
     _this.load_assessment = function () {
       var that = _this;
       $.ajax({
-        url: "../site_assessment/" + _this.state.assessment_id,
+        url: "app_project/site_assessment/" + _this.state.assessment_id,
         method: "GET",
         success: function success(data) {
           console.log(data);
