@@ -100,7 +100,6 @@ class App extends React.Component {
           ref={this.assessmentmenu}
           assessment={{}}
           vetting_summary = {vetting_summary}
-          application_id={app_id}
           set_create_workitem_menu={this.set_create_workitem_menu}
           set_create_materialsitem_menu={this.set_create_materialsitem_menu}
           set_edit_materialisitem_menu = {this.set_edit_materialisitem_menu}
