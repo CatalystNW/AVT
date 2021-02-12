@@ -56,17 +56,17 @@ var CostSummary = function (_React$Component) {
       });
     };
 
-    _this.load_site_assessment_data = function (app_id) {
+    _this.load_site_assessment_data = function (assessment_id) {
       var that = _this;
-      funkie.get_assessment_by_appId(app_id, function (data) {
+      funkie.get_assessment(assessment_id, function (siteAssessmentData) {
         var handleit_materials = [],
             project_materials = [],
             num_handleit_workitems = 0,
             num_project_workitems = 0,
             handleit_volunteers = 0,
             proj_volunteers = 0;
-        console.log(data.site_assessment);
-        var workItems = data.site_assessment.workItems,
+        console.log(siteAssessmentData);
+        var workItems = siteAssessmentData.workItems,
             i,
             j,
             item_arr;

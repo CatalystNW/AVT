@@ -67,7 +67,7 @@ var AssessmentMenu = function (_React$Component) {
       // Load data when cost-summary is shown
       $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         if (e.target.id == "nav-cost-summary-tab") {
-          that.costsummary.current.load_data("site_assessment", app_id);
+          that.costsummary.current.load_data("site_assessment", that.state._id);
         }
       });
       $("#nav-assessment-tabContent").css("padding-top", $("#assessment-nav-container").height());
