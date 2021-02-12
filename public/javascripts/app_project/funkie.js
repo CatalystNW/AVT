@@ -23,7 +23,7 @@ var funkie = {
   load_application: function load_application(app_id, callback) {
     $.ajax({
       type: "GET",
-      url: "../application/" + app_id,
+      url: "/app_project/application/" + app_id,
       success: function success(data, textStatus, xhr) {
         if (callback) callback(data);
       }
@@ -47,7 +47,7 @@ var funkie = {
   get_assessment_by_appId: function get_assessment_by_appId(app_id, callback) {
     $.ajax({
       type: "GET",
-      url: "../site_assessment/app_id/" + app_id,
+      url: "/app_project/site_assessment/app_id/" + app_id,
       success: function success(data, textStatus, xhr) {
         if (callback) {
           callback(data);
@@ -57,7 +57,7 @@ var funkie = {
   },
   create_workitem: function create_workitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
-      url: "../workitems",
+      url: "/app_project/workitems",
       type: "POST",
       data: form_data,
       success: function success(result, textStatus, xhr) {
@@ -68,7 +68,7 @@ var funkie = {
   },
   edit_workitem: function edit_workitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
-      url: "../workitems/" + form_data.workitem_id,
+      url: "/app_project/workitems/" + form_data.workitem_id,
       type: "PATCH",
       data: form_data,
       success: function success(result) {
@@ -79,7 +79,7 @@ var funkie = {
   },
   delete_workitem: function delete_workitem(form_data, data_callback_handler) {
     $.ajax({
-      url: "../workitems/" + form_data.workitem_id,
+      url: "/app_project/workitems/" + form_data.workitem_id,
       type: "DELETE",
       success: function success() {
         if (data_callback_handler) {
@@ -90,7 +90,7 @@ var funkie = {
   },
   create_materialsitem: function create_materialsitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
-      url: "../materialsitem",
+      url: "/app_project/materialsitem",
       type: "POST",
       data: form_data,
       success: function success(result, textStatus, xhr) {
@@ -101,7 +101,7 @@ var funkie = {
   },
   delete_materialsitem: function delete_materialsitem(materialsItem_id, callback) {
     $.ajax({
-      url: "../materialsitem/" + materialsItem_id,
+      url: "/app_project/materialsitem/" + materialsItem_id,
       type: "DELETE",
       success: function success(result, textStatus, xhr) {
         if (callback) {
@@ -112,7 +112,7 @@ var funkie = {
   },
   edit_materialsitem: function edit_materialsitem(form_data, menu_callback, data_callback_handler) {
     $.ajax({
-      url: "../materialsitem/" + form_data.materialsItem_id,
+      url: "/app_project/materialsitem/" + form_data.materialsItem_id,
       type: "PATCH",
       data: form_data,
       success: function success(result, textStatus, xhr) {
@@ -126,7 +126,7 @@ var funkie = {
   edit_site_assessment: function edit_site_assessment(data, callback) {
     $.ajax({
       type: "PATCH",
-      url: "../site_assessment/" + data.assessment_id,
+      url: "/app_project/site_assessment/" + data.assessment_id,
       data: data,
       success: function success(returnData, textStatus, xhr) {
         if (callback) {
@@ -137,7 +137,7 @@ var funkie = {
   },
   get_notes: function get_notes(project_id, callback) {
     $.ajax({
-      url: "../projects/" + project_id + "/notes",
+      url: "/app_project/projects/" + project_id + "/notes",
       type: "GET",
       success: function success(returnData) {
         if (callback) {
