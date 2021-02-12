@@ -23,6 +23,18 @@ var HandleitForm = function (_React$Component) {
       // $('#noUserNav').css('display', 'none')
     };
 
+    _this.onClick_jspdf = function () {
+      var doc = new jspdf.jsPDF({
+        format: "letter"
+      });
+      var source = window.document.getElementsByTagName("body")[0];
+      doc.html(source, {
+        callback: function callback(doc) {
+          doc.output("dataurlnewwindow");
+        },
+        x: 15, y: 15 });
+    };
+
     _this.state = {
       projectData: _this.props.projectData
     };
@@ -49,6 +61,15 @@ var HandleitForm = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(
+          'div',
+          { id: 'buttons-container', className: 'no-print' },
+          React.createElement(
+            'button',
+            { onClick: this.onClick_pdf },
+            'PDF'
+          )
+        ),
         React.createElement(
           'div',
           { id: 'cblock-container' },

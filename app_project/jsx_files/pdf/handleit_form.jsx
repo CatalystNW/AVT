@@ -1,3 +1,5 @@
+
+
 class HandleitForm extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,21 @@ class HandleitForm extends React.Component {
     $('#imageBar').css('display', 'none')
     $('#footerID').css('display', 'none')
         // $('#noUserNav').css('display', 'none')
+  };
+
+  onClick_jspdf = () => {
+    let doc = new jspdf.jsPDF({
+      format: "letter",
+    });
+    var source = window.document.getElementsByTagName("body")[0];
+    doc.html(
+      source, 
+      {
+        callback: function(doc) {
+          doc.output("dataurlnewwindow")
+        },
+        x: 15, y: 15},
+    );
   };
 
   render() {
@@ -34,6 +51,10 @@ class HandleitForm extends React.Component {
 
     return (
     <div>
+      <div id="buttons-container" className="no-print">
+        <button onClick={this.onClick_pdf}>PDF</button>  
+      </div>
+
       <div id="cblock-container">
         <img src="/images/app_project/handleit_logo.png"></img>
       </div>
