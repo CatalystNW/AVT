@@ -7,7 +7,6 @@ module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
 module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
-module.exports.get_site_assessment_by_appId = get_site_assessment_by_appId;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
@@ -92,33 +91,6 @@ async function getOrCreateAssessmentByAppId(app_id) {
     return site_assessment;
   } else {
     return null;
-  }
-}
-
-/**
- * Retrieves the Site Assessment by application Id (of DocumentPackage)
- * If it doesn't exist, then it creates a Site Assessment.
- * @param {*} req.params.application_id : application ID of documentPackage
- */
-async function get_site_assessment_by_appId(req, res) {
-  var app_id = req.params.application_id;
-
-  // Make sure app_id is valid
-  var doc = await DocumentPackage.findById(app_id);
-
-  if (doc) {
-    var site_assessment = await SiteAssessment.find({application_id: app_id})
-        .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
-        .populate("documentPackage").populate("partners").exec();
-    if (site_assessment.length == 0) {
-      // The other fields won't exist at creation
-      site_assessment = await SiteAssessment.create(app_id);
-    } else {
-      site_assessment = site_assessment[0];
-    }
-    res.status(200).json({site_assessment: site_assessment});
-  } else {
-    res.status(404).end();
   }
 }
 

@@ -24,9 +24,6 @@ router.delete('/delete_manager', assessment_controller.manage_deletion);
 
 router.get('/site_assessments', assessment_controller.get_site_assessments);
 
-router.route('/site_assessment/app_id/:application_id')
-  .get(assessment_controller.get_site_assessment_by_appId);
-
 router.route('/site_assessment/:assessment_id')
   .get(assessment_controller.get_site_assessment)
   .patch(assessment_controller.edit_site_assessment);
