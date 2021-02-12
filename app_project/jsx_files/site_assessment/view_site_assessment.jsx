@@ -38,7 +38,7 @@ class SiteAssessmentApp extends React.Component {
     const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
     return (
       <tr key={doc.id}>
-        <td><a target="_blank" href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
+        <td><a target="_blank" href={"./view_site_assessments/app_id/" + doc.id}>{doc.app_name}</a></td>
         <td>{doc.name.first} {doc.name.last}</td>
         <td>{address} |
             {doc.address.city}, {doc.address.state} {doc.address.zip}

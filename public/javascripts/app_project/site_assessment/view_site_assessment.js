@@ -49,7 +49,7 @@ var SiteAssessmentApp = function (_React$Component) {
           null,
           React.createElement(
             "a",
-            { target: "_blank", href: "./view_site_assessments/" + doc.id },
+            { target: "_blank", href: "./view_site_assessments/app_id/" + doc.id },
             doc.app_name
           )
         ),
