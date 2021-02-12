@@ -22,25 +22,7 @@ async function view_projects_page(req, res) {
 }
 
 async function view_site_assessments(req, res) {
-  // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
-  var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec();
-  var complete = [],
-      pending = [],
-      docs;
-  for (var i=0;i < docPacks.length; i++) {
-    if (docPacks[i].status == "assess") {
-      docs = pending;
-    } else {
-      docs = complete
-    }
-    docs.push({
-      app_name: docPacks[i].app_name,
-      id: docPacks[i].id,
-      name: docPacks[i].application.name,
-      address: docPacks[i].application.address,
-    });
-  }
-  res.render("app_project/site_assessments", { pending: pending, complete: complete });
+  res.render("app_project/site_assessments");
 }
 
 async function view_site_assessment(req, res) {
