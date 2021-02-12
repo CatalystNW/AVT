@@ -46,8 +46,9 @@ async function get_site_assessments(req, res) {
 }
 
 async function view_site_assessment_by_app_id(req, res) {
-  var id = req.params.application_id;
-  res.render("app_project/site_assessment", {app_id: id,});
+  var app_id = req.params.application_id;
+  let siteAssessment = await getOrCreateAssessmentByAppId(app_id);
+  res.render("app_project/site_assessment", {assessment_id: siteAssessment._id,});
 }
 
 async function view_site_assessment(req, res) {
