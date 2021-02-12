@@ -9,8 +9,6 @@ var assessment_controller       = require('../../controller/app_project/assessme
     project_note_controller     = require('../../controller/app_project/project_note_controller.js'),
     partner_controller          = require('../../controller/app_project/partner_controller.js');
 
-router.get('/projects_page', assessment_controller.view_projects_page);
-
 router.get('/view_site_assessments', assessment_controller.view_site_assessments);
 
 router.get('/view_site_assessments/app_id/:application_id', assessment_controller.view_site_assessment_by_app_id);

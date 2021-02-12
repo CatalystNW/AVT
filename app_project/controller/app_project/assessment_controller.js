@@ -3,7 +3,6 @@ var DocumentPackage = require("../../../models/documentPackage"),
     WorkItem = require("../../models/app_project/WorkItem"),
     MaterialsItem = require("../../models/app_project/MaterialsItem");
 
-module.exports.view_projects_page = view_projects_page;
 module.exports.view_site_assessments = view_site_assessments;
 module.exports.view_site_assessment = view_site_assessment;
 module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
@@ -19,9 +18,6 @@ module.exports.manage_deletion = manage_deletion;
 
 module.exports.set_partners = set_partners;
 
-async function view_projects_page(req, res) {
-  res.render("app_project/projects_page", {});
-}
 
 async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
