@@ -16,7 +16,7 @@ var SiteAssessmentApp = function (_React$Component) {
 
     _this.loadSiteAssessment = function () {
       $.ajax({
-        url: "/app_project/site_assessments",
+        url: "/app_project/site_assessments/applications",
         type: "GET",
         context: _this,
         success: function success(dataObj) {

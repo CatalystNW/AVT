@@ -11,7 +11,7 @@ class SiteAssessmentApp extends React.Component {
 
   loadSiteAssessment = () => {
     $.ajax({
-      url: "/app_project/site_assessments",
+      url: "/app_project/site_assessments/applications",
       type: "GET",
       context: this,
       success: function(dataObj) {
