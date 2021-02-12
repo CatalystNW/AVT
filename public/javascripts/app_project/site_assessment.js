@@ -18,20 +18,17 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    _this.getAppData = function () {
+    _this.getAssessmentAndAppData = function () {
       var that = _this;
-      funkie.load_application(app_id, function (data) {
-        console.log(data);
-        that.setState({ application: data });
-      });
-    };
-
-    _this.getAssessment = function () {
-      var that = _this;
-      funkie.get_assessment_by_appId(app_id, function (data) {
-        console.log(data.site_assessment);
-        that.assessmentmenu.current.change_assessment(data.site_assessment);
-        that.setState({ assessment: data.site_assessment });
+      funkie.get_assessment(assessment_id, function (siteAssessment) {
+        console.log("assessment", siteAssessment);
+        that.assessmentmenu.current.change_assessment(siteAssessment);
+        that.setState({ assessment: siteAssessment }, function () {
+          funkie.load_application(siteAssessment.documentPackage._id, function (data) {
+            console.log(data);
+            that.setState({ application: data });
+          });
+        });
       });
     };
 
@@ -39,7 +36,7 @@ var App = function (_React$Component) {
       var data = {
         assessment_id: _this.state.assessment._id,
         type: "assessment",
-        application_id: app_id
+        application_id: _this.state.assessment.documentPackage._id
       };
       _this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem, data, _this.assessmentmenu.current.add_workitem);
     };
@@ -69,8 +66,7 @@ var App = function (_React$Component) {
       application: null,
       assessment: {}
     };
-    _this.getAppData();
-    _this.getAssessment();
+    _this.getAssessmentAndAppData();
 
     _this.modalmenu = React.createRef();
     _this.assessmentmenu = React.createRef();

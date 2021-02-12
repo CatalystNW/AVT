@@ -10,30 +10,26 @@ class App extends React.Component {
       application: null,
       assessment: {},
     }
-    this.getAppData();
-    this.getAssessment();
+    this.getAssessmentAndAppData();
     
     this.modalmenu = React.createRef();
     this.assessmentmenu = React.createRef();
     this.applicationinfo = React.createRef();
   }
 
-  getAppData = () => {
+  getAssessmentAndAppData = () => {
     var that = this;
-    funkie.load_application(app_id, function(data) {
-      console.log(data);
-      that.setState({application: data});
-    });
-  };
-
-  getAssessment = () => {
-    var that = this;
-    funkie.get_assessment_by_appId(
-      app_id, 
-      (data) => {
-        console.log(data.site_assessment);
-        that.assessmentmenu.current.change_assessment(data.site_assessment);
-        that.setState({assessment: data.site_assessment,});
+    funkie.get_assessment(
+      assessment_id, 
+      (siteAssessment) => {
+        console.log("assessment", siteAssessment);
+        that.assessmentmenu.current.change_assessment(siteAssessment);
+        that.setState({assessment: siteAssessment,}, () => {
+          funkie.load_application(siteAssessment.documentPackage._id, function(data) {
+            console.log(data);
+            that.setState({application: data});
+          });
+        });
       },
     );
   };
@@ -42,7 +38,7 @@ class App extends React.Component {
     var data = {
       assessment_id: this.state.assessment._id, 
       type: "assessment",
-      application_id: app_id,
+      application_id: this.state.assessment.documentPackage._id,
     };
     this.modalmenu.current.show_menu(
       "create_workitem", 
