@@ -49,7 +49,7 @@ var SiteAssessmentApp = function (_React$Component) {
           null,
           React.createElement(
             "a",
-            { href: "./view_site_assessments/" + doc.id },
+            { target: "_blank", href: "./view_site_assessments/" + doc.id },
             doc.app_name
           )
         ),
@@ -74,9 +74,18 @@ var SiteAssessmentApp = function (_React$Component) {
       );
     };
 
+    _this.toggleShowTransferred = function () {
+      _this.setState(function (state) {
+        return {
+          showTransferred: !state.showTransferred
+        };
+      });
+    };
+
     _this.state = {
       pendingDocs: [],
-      completeDocs: []
+      completeDocs: [],
+      showTransferred: false
     };
     _this.loadSiteAssessment();
     return _this;
@@ -173,6 +182,21 @@ var SiteAssessmentApp = function (_React$Component) {
               this.state.completeDocs.map(function (doc, index) {
                 return _this2.createAssessmentRow(doc);
               })
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "h2",
+            { onClick: this.toggleShowTransferred },
+            "Transferred Assessments",
+            React.createElement(
+              "button",
+              { type: "button",
+                className: "btn btn-sm" },
+              this.state.showTransferred ? "Hide" : "Show"
             )
           )
         )

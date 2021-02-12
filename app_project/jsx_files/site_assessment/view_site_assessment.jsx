@@ -4,6 +4,7 @@ class SiteAssessmentApp extends React.Component {
     this.state = {
       pendingDocs: [],
       completeDocs: [],
+      showTransferred: false,
     };
     this.loadSiteAssessment();
   }
@@ -37,7 +38,7 @@ class SiteAssessmentApp extends React.Component {
     const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
     return (
       <tr key={doc.id}>
-        <td><a href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
+        <td><a target="_blank" href={"./view_site_assessments/" + doc.id}>{doc.app_name}</a></td>
         <td>{doc.name.first} {doc.name.last}</td>
         <td>{address} |
             {doc.address.city}, {doc.address.state} {doc.address.zip}
@@ -45,6 +46,14 @@ class SiteAssessmentApp extends React.Component {
     </tr>
     );
   };
+
+  toggleShowTransferred = () => {
+    this.setState(state => {
+      return {
+        showTransferred: !state.showTransferred,
+      };
+    })
+  }
 
   render () {
     return (
@@ -82,6 +91,16 @@ class SiteAssessmentApp extends React.Component {
               })}
             </tbody>
         </table>
+      </div>
+      <div>
+        <h2 onClick={this.toggleShowTransferred}>
+          Transferred Assessments
+          <button type="button"
+            className="btn btn-sm">
+            {this.state.showTransferred ? "Hide" : "Show"}
+          </button>
+        </h2>
+        
       </div>
     </div>);
   }
