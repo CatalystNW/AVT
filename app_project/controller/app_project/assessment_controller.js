@@ -10,7 +10,7 @@ module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
-module.exports.get_site_assessments = get_site_assessments;
+module.exports.getApplicationsInAssessment = getApplicationsInAssessment;
 
 module.exports.get_application_data_api = get_application_data_api;
 
@@ -27,7 +27,8 @@ async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
 }
 
-async function get_site_assessments(req, res) {
+// Returns all documentPackages are at the siteAssessment stage / status
+async function getApplicationsInAssessment(req, res) {
   // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
   var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec();
   var documents = [],
