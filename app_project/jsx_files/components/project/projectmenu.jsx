@@ -167,7 +167,6 @@ class ProjectMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-project-tabContent">
           <div className="tab-pane show active" id="nav-info" role="tabpanel">
-            
             <DateMenuRow title="Start Date" 
               date_type="project_start_date"
               date={this.state.start}
@@ -178,6 +177,15 @@ class ProjectMenu extends React.Component {
               date={this.state.end}
               change_callback={this.onChange_date_callback}
             />
+            <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Project Name</label>
+              <div className="col-sm-4">
+                <input type="text" className="form-control" 
+                  property_type="name"
+                  onChange={this.onChange_inputs_timer}
+                  value={this.state.name}></input>
+              </div>
+            </div>
             <div className="form-group row">
               <label className="col-sm-4 col-form-label" 
                 htmlFor="status-select">Project Status</label>

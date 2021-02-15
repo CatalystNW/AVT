@@ -246,6 +246,23 @@ var ProjectMenu = function (_React$Component) {
               { className: "form-group row" },
               React.createElement(
                 "label",
+                { className: "col-sm-4 col-form-label" },
+                "Project Name"
+              ),
+              React.createElement(
+                "div",
+                { className: "col-sm-4" },
+                React.createElement("input", { type: "text", className: "form-control",
+                  property_type: "name",
+                  onChange: this.onChange_inputs_timer,
+                  value: this.state.name })
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "form-group row" },
+              React.createElement(
+                "label",
                 { className: "col-sm-4 col-form-label",
                   htmlFor: "status-select" },
                 "Project Status"
