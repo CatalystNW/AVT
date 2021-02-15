@@ -10,6 +10,7 @@ module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
 module.exports.getApplicationsInAssessment = getApplicationsInAssessment;
+module.exports.getTransferredAssessments = getTransferredAssessments;
 
 module.exports.get_application_data_api = get_application_data_api;
 
@@ -47,6 +48,11 @@ async function manage_deletion(req, res) {
     await MaterialsItem.deleteMany({});
     res.status(200).json({});
   }
+}
+
+async function getTransferredAssessments(req, res) {
+  let assessments = await SiteAssessment.find({transferred: true,}).populate("documentPackage");
+  res.status(200).json(assessments);
 }
 
 // Returns all documentPackages are at the siteAssessment stage / status

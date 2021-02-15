@@ -74,7 +74,24 @@ var SiteAssessmentApp = function (_React$Component) {
       );
     };
 
+    _this.getTransferredAssessments = function () {
+      $.ajax({
+        url: '/app_project/site_assessments/transferred',
+        type: "GET",
+        context: _this,
+        success: function success(assessments) {
+          console.log(assessments);
+          this.setState({
+            transferredAssessments: assessments
+          });
+        }
+      });
+    };
+
     _this.toggleShowTransferred = function () {
+      if (!_this.state.showTransferred) {
+        _this.getTransferredAssessments();
+      }
       _this.setState(function (state) {
         return {
           showTransferred: !state.showTransferred
@@ -85,6 +102,7 @@ var SiteAssessmentApp = function (_React$Component) {
     _this.state = {
       pendingDocs: [],
       completeDocs: [],
+      transferredAssessments: [],
       showTransferred: false
     };
     _this.loadSiteAssessment();
@@ -96,6 +114,9 @@ var SiteAssessmentApp = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var doc = void 0,
+          address = void 0,
+          app = void 0;
       return React.createElement(
         "div",
         null,
@@ -198,7 +219,78 @@ var SiteAssessmentApp = function (_React$Component) {
                 className: "btn btn-sm" },
               this.state.showTransferred ? "Hide" : "Show"
             )
-          )
+          ),
+          this.state.showTransferred ? React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "table",
+              { className: "table" },
+              React.createElement(
+                "thead",
+                null,
+                React.createElement(
+                  "tr",
+                  null,
+                  React.createElement(
+                    "th",
+                    { scope: "col" },
+                    "Application #"
+                  ),
+                  React.createElement(
+                    "th",
+                    { scope: "col" },
+                    "Name"
+                  ),
+                  React.createElement(
+                    "th",
+                    { scope: "col" },
+                    "Address"
+                  )
+                )
+              ),
+              React.createElement(
+                "tbody",
+                null,
+                this.state.transferredAssessments.map(function (assessment) {
+                  doc = assessment.documentPackage;
+                  app = doc.application;
+                  address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
+                  return React.createElement(
+                    "tr",
+                    { key: assessment._id },
+                    React.createElement(
+                      "td",
+                      null,
+                      React.createElement(
+                        "a",
+                        { target: "_blank", href: "./view_site_assessments/" + assessment._id },
+                        doc.app_name
+                      )
+                    ),
+                    React.createElement(
+                      "td",
+                      null,
+                      app.name.first,
+                      " ",
+                      app.name.last
+                    ),
+                    React.createElement(
+                      "td",
+                      null,
+                      address,
+                      " | ",
+                      app.address.city,
+                      ", ",
+                      app.address.state,
+                      " ",
+                      app.address.zip
+                    )
+                  );
+                })
+              )
+            )
+          ) : null
         )
       );
     }

@@ -4,6 +4,7 @@ class SiteAssessmentApp extends React.Component {
     this.state = {
       pendingDocs: [],
       completeDocs: [],
+      transferredAssessments: [],
       showTransferred: false,
     };
     this.loadSiteAssessment();
@@ -47,7 +48,24 @@ class SiteAssessmentApp extends React.Component {
     );
   };
 
+  getTransferredAssessments = () => {
+    $.ajax({
+      url: '/app_project/site_assessments/transferred',
+      type: "GET",
+      context: this,
+      success: function(assessments) {
+        console.log(assessments);
+        this.setState({
+          transferredAssessments: assessments,
+        });
+      }
+    });
+  }
+
   toggleShowTransferred = () => {
+    if (!this.state.showTransferred) {
+      this.getTransferredAssessments();
+    }
     this.setState(state => {
       return {
         showTransferred: !state.showTransferred,
@@ -56,6 +74,7 @@ class SiteAssessmentApp extends React.Component {
   }
 
   render () {
+    let doc, address, app;
     return (
     <div>
       <div>
@@ -100,7 +119,34 @@ class SiteAssessmentApp extends React.Component {
             {this.state.showTransferred ? "Hide" : "Show"}
           </button>
         </h2>
-        
+        {this.state.showTransferred ? 
+        (<div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Application #</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.transferredAssessments.map(assessment => {
+                doc = assessment.documentPackage;
+                app = doc.application;
+                address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
+                return (
+                  <tr key={assessment._id}>
+                    <td><a target="_blank" href={"./view_site_assessments/" + assessment._id}>{doc.app_name}</a></td>
+                    <td>{app.name.first} {app.name.last}</td>
+                    <td>{address} | {app.address.city}, {app.address.state} {app.address.zip}
+                    </td>
+                </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>)
+         : null}
       </div>
     </div>);
   }
