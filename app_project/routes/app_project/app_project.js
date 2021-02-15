@@ -21,6 +21,7 @@ router.get('/delete_manager', assessment_controller.view_delete_manager);
 router.delete('/delete_manager', assessment_controller.manage_deletion);
 
 router.get('/site_assessments/transferred', assessment_controller.getTransferredAssessments);
+router.get('/site_assessments/to_transfer', assessment_controller.getToTransferAssessments);
 router.get('/site_assessments/applications', assessment_controller.getApplicationsInAssessment);
 
 router.route('/site_assessment/:assessment_id')

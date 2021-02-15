@@ -19,6 +19,8 @@ module.exports.manage_deletion = manage_deletion;
 
 module.exports.set_partners = set_partners;
 
+module.exports.getToTransferAssessments = getToTransferAssessments
+
 
 async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
@@ -48,6 +50,12 @@ async function manage_deletion(req, res) {
     await MaterialsItem.deleteMany({});
     res.status(200).json({});
   }
+}
+
+async function getToTransferAssessments(req, res) {
+  let assessments = await SiteAssessment.find({transferred: false, status: "complete",})
+      .populate("documentPackage");
+  res.status(200).json(assessments);
 }
 
 async function getTransferredAssessments(req, res) {
