@@ -31,8 +31,8 @@ async function view_site_assessment_by_app_id(req, res) {
 }
 
 async function view_site_assessment(req, res) {
-  var id = req.params.application_id;
-  res.render("app_project/site_assessment", {app_id: id,});
+  var id = req.params.assessment_id;
+  res.render("app_project/site_assessment", {assessment_id: id,});
 }
 
 async function view_delete_manager(req, res) {

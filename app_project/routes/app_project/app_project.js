@@ -12,7 +12,7 @@ var assessment_controller       = require('../../controller/app_project/assessme
 router.get('/view_site_assessments', assessment_controller.view_site_assessments);
 
 router.get('/view_site_assessments/app_id/:application_id', assessment_controller.view_site_assessment_by_app_id);
-// router.get('/view_site_assessments/:application_id', assessment_controller.view_site_assessment);
+router.get('/view_site_assessments/:assessment_id', assessment_controller.view_site_assessment);
 
 router.route('/application/:application_id')
   .get(assessment_controller.get_application_data_api);
