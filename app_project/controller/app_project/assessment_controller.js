@@ -23,24 +23,6 @@ async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
 }
 
-// Returns all documentPackages are at the siteAssessment stage / status
-async function getApplicationsInAssessment(req, res) {
-  // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
-  var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec();
-  var documents = [],
-      docs;
-  for (var i=0;i < docPacks.length; i++) {
-    documents.push({
-      status: docPacks[i].status,
-      app_name: docPacks[i].app_name,
-      id: docPacks[i].id,
-      name: docPacks[i].application.name,
-      address: docPacks[i].application.address,
-    });
-  }
-  res.status(200).json({documents: documents,});
-}
-
 async function view_site_assessment_by_app_id(req, res) {
   var app_id = req.params.application_id;
   let siteAssessment = await getOrCreateAssessmentByAppId(app_id);
@@ -65,6 +47,23 @@ async function manage_deletion(req, res) {
     await MaterialsItem.deleteMany({});
     res.status(200).json({});
   }
+}
+
+// Returns all documentPackages are at the siteAssessment stage / status
+async function getApplicationsInAssessment(req, res) {
+  // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
+  var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
+      documents = [];
+  for (var i=0;i < docPacks.length; i++) {
+    documents.push({
+      status: docPacks[i].status,
+      app_name: docPacks[i].app_name,
+      id: docPacks[i].id,
+      name: docPacks[i].application.name,
+      address: docPacks[i].application.address,
+    });
+  }
+  res.status(200).json({documents: documents,});
 }
 
 /**
