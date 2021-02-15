@@ -9,22 +9,109 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProjectsTransferApp = function (_React$Component) {
   _inherits(ProjectsTransferApp, _React$Component);
 
-  function ProjectsTransferApp() {
+  function ProjectsTransferApp(props) {
     _classCallCheck(this, ProjectsTransferApp);
 
-    return _possibleConstructorReturn(this, (ProjectsTransferApp.__proto__ || Object.getPrototypeOf(ProjectsTransferApp)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ProjectsTransferApp.__proto__ || Object.getPrototypeOf(ProjectsTransferApp)).call(this, props));
+
+    _this.getAssessments = function () {
+      $.ajax({
+        url: "/app_project/site_assessments/to_transfer",
+        type: "GET",
+        context: _this,
+        success: function success(assessments) {
+          console.log(assessments);
+          this.setState({
+            assessments: assessments
+          });
+        }
+      });
+    };
+
+    _this.getAssessments();
+    _this.state = {
+      assessments: []
+    };
+    return _this;
   }
 
   _createClass(ProjectsTransferApp, [{
     key: "render",
     value: function render() {
-      return React.createElement("div", null);
+      var doc = void 0,
+          app = void 0,
+          address = void 0;
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "table",
+          { className: "table" },
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Name"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Address"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "# Work Items"
+              )
+            )
+          ),
+          React.createElement(
+            "tbody",
+            null,
+            this.state.assessments.map(function (assessment) {
+              doc = assessment.documentPackage;
+              app = doc.application;
+              address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
+              return React.createElement(
+                "tr",
+                { key: assessment._id },
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "a",
+                    { href: "/app_project/project_transfer/" + assessment._id },
+                    app.name.first,
+                    " ",
+                    app.name.last
+                  )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  address
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  assessment.workItems.length
+                )
+              );
+            })
+          )
+        )
+      );
     }
   }]);
 
   return ProjectsTransferApp;
 }(React.Component);
 
-function loadReact() {
+(function loadReact() {
   ReactDOM.render(React.createElement(ProjectsTransferApp, null), document.getElementById("transfer-container"));
-}
+})();
