@@ -13,7 +13,7 @@ class ProjectTransferApp extends React.Component {
   load_assessment = () => {
     var that = this;
     $.ajax({
-      url: "app_project/site_assessment/" + this.state.assessment_id,
+      url: "/app_project/site_assessment/" + this.state.assessment_id,
       method: "GET",
       success: function(data) {
         console.log(data)
@@ -140,7 +140,7 @@ class ProjectTransferApp extends React.Component {
         this.state.proj_workitems[i].project;
     }
     $.ajax({
-      url: "../project_transfer/" + this.state.assessment_id,
+      url: "app_project/project_transfer/" + this.state.assessment_id,
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify({
