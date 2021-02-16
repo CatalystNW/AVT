@@ -191,7 +191,7 @@ var ProjectTransferApp = function (_React$Component) {
           handleit_workitems: handleitWorkitemObj
         }),
         success: function success(data) {
-          console.log("transfer");
+          window.location.replace("/app_project/project_transfer");
         }
       });
     };
