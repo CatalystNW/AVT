@@ -39,7 +39,7 @@ var AppProjects = function (_React$Component) {
       }
     };
 
-    _this.createProjectRows = function (status) {
+    _this.createProjectRows = function (status, handleit) {
       var projects = [];
       var project = void 0,
           start = void 0,
@@ -49,6 +49,9 @@ var AppProjects = function (_React$Component) {
       for (var i = 0; i < _this.state.projects.length; i++) {
         project = _this.state.projects[i];
         if (project.status != status) continue;
+        if (handleit == "no" && project.handleit || handleit == "yes" && !project.handleit) {
+          continue;
+        }
         start = project.start.replace("T", " ").substring(0, project.start.length - 8);
         doc = project.documentPackage;
         app = doc.application;
@@ -61,7 +64,7 @@ var AppProjects = function (_React$Component) {
             null,
             React.createElement(
               "a",
-              { target: "_blank", href: "./view_projects/" + project._id },
+              { href: "./view_projects/" + project._id },
               doc.app_name
             )
           ),
@@ -90,27 +93,27 @@ var AppProjects = function (_React$Component) {
           React.createElement(
             "td",
             null,
-            project.status
+            project.workItems.length
           ),
           React.createElement(
             "td",
             null,
-            project.workItems.length
+            project.handleit ? "Yes" : "No"
           )
         ));
       }
       return projects;
     };
 
-    _this.createProjectTable = function (status) {
-      var projectRows = _this.createProjectRows(status);
+    _this.createProjectTable = function (title, status, handleit) {
+      var projectRows = _this.createProjectRows(status, handleit);
       return React.createElement(
         "div",
         null,
         React.createElement(
-          "button",
-          { type: "button", onClick: _this.onClick_delete_all_projects },
-          "Delete Projects"
+          "h2",
+          null,
+          title
         ),
         React.createElement(
           "table",
@@ -149,12 +152,12 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Status"
+                "# Work Items"
               ),
               React.createElement(
                 "th",
                 { scope: "col" },
-                "# Work Items"
+                "Handle-It"
               )
             )
           ),
@@ -174,16 +177,39 @@ var AppProjects = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * Create Project TR element
+   * @param {*} status-projet.status[String]
+   * @param {*} handleit-Will filter handleit/projects
+   *  project.handleit["yes", "no", "all"]
+   */
+
+
+  /**
+   * Create Table for projects
+   * @param {*} status-projet.status[String]
+   * @param {*} handleit-Will filter handleit/projects
+   *  project.handleit["yes", "no", "all"]
+   */
+
+
   _createClass(AppProjects, [{
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
         null,
-        this.createProjectTable("in_progress"),
-        this.createProjectTable("upcoming"),
-        this.createProjectTable("complete"),
-        this.createProjectTable("withdrawn")
+        React.createElement(
+          "button",
+          { type: "button", onClick: this.onClick_delete_all_projects },
+          "Delete Projects"
+        ),
+        this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes"),
+        this.createProjectTable("Project: Upcoming", "upcoming", "no"),
+        this.createProjectTable("Handle-It: In Progress", "in_progress", "yes"),
+        this.createProjectTable("Project: In Progress", "in_progress", "no"),
+        this.createProjectTable("Completed", "complete", "all"),
+        this.createProjectTable("Withdrawn", "withdrawn", "all")
       );
     }
   }]);

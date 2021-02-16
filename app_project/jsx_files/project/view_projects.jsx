@@ -32,13 +32,23 @@ class AppProjects extends React.Component {
     }
   }
 
-  createProjectRows = (status) => {
+  /**
+   * Create Project TR element
+   * @param {*} status-projet.status[String]
+   * @param {*} handleit-Will filter handleit/projects
+   *  project.handleit["yes", "no", "all"]
+   */
+  createProjectRows = (status, handleit) => {
     const projects = [];
     let project, start, doc, app, address;
     for (let i=0; i< this.state.projects.length; i++) {
       project = this.state.projects[i];
       if (project.status != status )
         continue;
+      if (handleit == "no" && project.handleit ||
+          handleit == "yes" && !project.handleit) {
+        continue;
+      }
       start = project.start.replace("T", " ").substring(0, project.start.length - 8);
       doc = project.documentPackage;
       app = doc.application;
@@ -46,24 +56,30 @@ class AppProjects extends React.Component {
       projects.push(
         <tr key={project._id}>
           <td>
-            <a target="_blank" href={"./view_projects/"+ project._id}>{doc.app_name}</a>
+            <a href={"./view_projects/"+ project._id}>{doc.app_name}</a>
           </td>
           <td>{app.name.first} {app.name.last}</td>
           <td>{address}</td>
           <td>{project.name}</td>
           <td>{start}</td>
-          <td>{project.status}</td>
           <td>{project.workItems.length}</td>
+          <td>{project.handleit ? "Yes" : "No"}</td>
         </tr>);  
     }
     return projects;    
   }
 
-  createProjectTable = (status) => {
-    const projectRows = this.createProjectRows(status);
+  /**
+   * Create Table for projects
+   * @param {*} status-projet.status[String]
+   * @param {*} handleit-Will filter handleit/projects
+   *  project.handleit["yes", "no", "all"]
+   */
+  createProjectTable = (title, status, handleit) => {
+    const projectRows = this.createProjectRows(status, handleit);
     return (
       <div>
-        <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
+        <h2>{title}</h2>
         <table className="table">
           <thead>
             <tr>
@@ -72,8 +88,8 @@ class AppProjects extends React.Component {
               <th scope="col">Address</th>
               <th scope="col">Project Name</th>
               <th scope="col">Start Date</th>
-              <th scope="col">Status</th>
               <th scope="col"># Work Items</th>
+              <th scope="col">Handle-It</th>
             </tr>
           </thead>
           <tbody>
@@ -86,12 +102,14 @@ class AppProjects extends React.Component {
   render() {
     return (
       <div>
-        {this.createProjectTable("in_progress")}
-        {this.createProjectTable("upcoming")}
-        {this.createProjectTable("complete")}
-        {this.createProjectTable("withdrawn")}
+        <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
+        {this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes")}
+        {this.createProjectTable("Project: Upcoming", "upcoming", "no")}
+        {this.createProjectTable("Handle-It: In Progress", "in_progress", "yes")}
+        {this.createProjectTable("Project: In Progress", "in_progress", "no")}
+        {this.createProjectTable("Completed", "complete", "all")}
+        {this.createProjectTable("Withdrawn", "withdrawn", "all")}
       </div>
-      
     );
   }
 }
