@@ -34,6 +34,10 @@ async function create_workitem(req, res) {
     }
     var assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {
+      res.status(404).end();
+      return;
+    }
+    if (assessment.transferred) { // Prevent adding workitems for transferred assessments
       res.status(400).end();
       return;
     }
@@ -79,6 +83,7 @@ async function edit_workitem(req, res)  {
         res.status(404).end();
         return;
       } else if  (workitem.transferred) {
+        // Transferred work items aren't editable
         res.status(400).end();
         return;
       }
