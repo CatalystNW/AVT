@@ -76,7 +76,7 @@ var ProjectsTransferApp = function (_React$Component) {
             this.state.assessments.map(function (assessment) {
               doc = assessment.documentPackage;
               app = doc.application;
-              address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
+              address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
               return React.createElement(
                 "tr",
                 { key: assessment._id },

@@ -36,7 +36,7 @@ class ProjectsTransferApp extends React.Component {
           {this.state.assessments.map(assessment => {
             doc = assessment.documentPackage;
             app = doc.application;
-            address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
+            address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
             return (
             <tr key={assessment._id}>
               <td><a href={"/app_project/project_transfer/" + assessment._id}>
