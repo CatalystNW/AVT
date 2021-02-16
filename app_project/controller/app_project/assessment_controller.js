@@ -124,7 +124,7 @@ async function edit_site_assessment(req, res) {
     res.status(404).end();
     return;
   }
-  if (site_assessment.transferred) {
+  if (site_assessment.transferred) { // Can't edit transferred assessments
     res.status(400).end();
     return;
   }
@@ -173,7 +173,7 @@ async function set_partners(req, res) {
   const assessment_id = req.params.assessment_id;
   const assessment = await SiteAssessment.findById(assessment_id);
   if (assessment) {
-    if (assesssment.transferred) {
+    if (assesssment.transferred) { // Can't set partners to transferred assessments
       res.status(400).end();
       return;
     }
