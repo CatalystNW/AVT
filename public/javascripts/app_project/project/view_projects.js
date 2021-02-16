@@ -39,26 +39,77 @@ var AppProjects = function (_React$Component) {
       }
     };
 
-    _this.state = {
-      projects: []
-    };
-    _this.get_projects();
-    return _this;
-  }
-
-  _createClass(AppProjects, [{
-    key: "render",
-    value: function render() {
-      var start = void 0,
+    _this.createProjectRows = function (status) {
+      var projects = [];
+      var project = void 0,
+          start = void 0,
           doc = void 0,
           app = void 0,
           address = void 0;
+      for (var i = 0; i < _this.state.projects.length; i++) {
+        project = _this.state.projects[i];
+        if (project.status != status) continue;
+        start = project.start.replace("T", " ").substring(0, project.start.length - 8);
+        doc = project.documentPackage;
+        app = doc.application;
+        address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+        projects.push(React.createElement(
+          "tr",
+          { key: project._id },
+          React.createElement(
+            "td",
+            null,
+            React.createElement(
+              "a",
+              { target: "_blank", href: "./view_projects/" + project._id },
+              doc.app_name
+            )
+          ),
+          React.createElement(
+            "td",
+            null,
+            app.name.first,
+            " ",
+            app.name.last
+          ),
+          React.createElement(
+            "td",
+            null,
+            address
+          ),
+          React.createElement(
+            "td",
+            null,
+            project.name
+          ),
+          React.createElement(
+            "td",
+            null,
+            start
+          ),
+          React.createElement(
+            "td",
+            null,
+            project.status
+          ),
+          React.createElement(
+            "td",
+            null,
+            project.workItems.length
+          )
+        ));
+      }
+      return projects;
+    };
+
+    _this.createProjectTable = function (status) {
+      var projectRows = _this.createProjectRows(status);
       return React.createElement(
         "div",
         null,
         React.createElement(
           "button",
-          { type: "button", onClick: this.onClick_delete_all_projects },
+          { type: "button", onClick: _this.onClick_delete_all_projects },
           "Delete Projects"
         ),
         React.createElement(
@@ -110,59 +161,29 @@ var AppProjects = function (_React$Component) {
           React.createElement(
             "tbody",
             null,
-            this.state.projects.map(function (project) {
-              start = project.start.replace("T", " ").substring(0, project.start.length - 8);
-              doc = project.documentPackage;
-              app = doc.application;
-              address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
-              return React.createElement(
-                "tr",
-                { key: project._id },
-                React.createElement(
-                  "td",
-                  null,
-                  React.createElement(
-                    "a",
-                    { target: "_blank", href: "./view_projects/" + project._id },
-                    doc.app_name
-                  )
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  app.name.first,
-                  " ",
-                  app.name.last
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  address
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  project.name
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  start
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  project.status
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  project.workItems.length
-                )
-              );
-            })
+            projectRows
           )
         )
+      );
+    };
+
+    _this.state = {
+      projects: []
+    };
+    _this.get_projects();
+    return _this;
+  }
+
+  _createClass(AppProjects, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        this.createProjectTable("in_progress"),
+        this.createProjectTable("upcoming"),
+        this.createProjectTable("complete"),
+        this.createProjectTable("withdrawn")
       );
     }
   }]);
