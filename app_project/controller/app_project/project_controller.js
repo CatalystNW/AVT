@@ -37,7 +37,7 @@ async function get_handleit_form(req, res) {
 }
 
 async function get_projects(req, res) {
-  var projects = await AppProject.find({})
+  var projects = await AppProject.find({}).populate("documentPackage");
     // .populate({path: "workItems", model: "WorkItem",
     //     populate: {path: "materialsItems", model: "MaterialsItem"}});
   res.status(200).json(projects);
