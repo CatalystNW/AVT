@@ -52,18 +52,19 @@ class AppProjects extends React.Component {
       start = project.start.replace("T", " ").substring(0, project.start.length - 8);
       doc = project.documentPackage;
       app = doc.application;
-      address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+      // address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+      address = `${app.address.city}, ${app.address.state}`
       projects.push(
         <tr key={project._id}>
           <td>
-            <a href={"./view_projects/"+ project._id}>{doc.app_name}</a>
+            <a href={"./view_projects/"+ project._id}>{app.name.first} {app.name.last}</a>
           </td>
-          <td>{app.name.first} {app.name.last}</td>
           <td>{address}</td>
           <td>{project.name}</td>
           <td>{start}</td>
-          <td>{project.workItems.length}</td>
-          <td>{project.handleit ? "Yes" : "No"}</td>
+          <td>{project.crew_chief}</td>
+          <td>{project.project_advocate}</td>
+          <td>{project.site_host}</td>
         </tr>);  
     }
     return projects;    
@@ -83,13 +84,13 @@ class AppProjects extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Application</th>
               <th scope="col">Name</th>
-              <th scope="col">Address</th>
+              <th scope="col">Location</th>
               <th scope="col">Project Name</th>
               <th scope="col">Start Date</th>
-              <th scope="col"># Work Items</th>
-              <th scope="col">Handle-It</th>
+              <th scope="col">CC</th>
+              <th scope="col">PA</th>
+              <th scope="col">SH</th>
             </tr>
           </thead>
           <tbody>

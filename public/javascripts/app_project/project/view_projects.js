@@ -55,7 +55,8 @@ var AppProjects = function (_React$Component) {
         start = project.start.replace("T", " ").substring(0, project.start.length - 8);
         doc = project.documentPackage;
         app = doc.application;
-        address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+        // address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+        address = app.address.city + ", " + app.address.state;
         projects.push(React.createElement(
           "tr",
           { key: project._id },
@@ -65,15 +66,10 @@ var AppProjects = function (_React$Component) {
             React.createElement(
               "a",
               { href: "./view_projects/" + project._id },
-              doc.app_name
+              app.name.first,
+              " ",
+              app.name.last
             )
-          ),
-          React.createElement(
-            "td",
-            null,
-            app.name.first,
-            " ",
-            app.name.last
           ),
           React.createElement(
             "td",
@@ -93,12 +89,17 @@ var AppProjects = function (_React$Component) {
           React.createElement(
             "td",
             null,
-            project.workItems.length
+            project.crew_chief
           ),
           React.createElement(
             "td",
             null,
-            project.handleit ? "Yes" : "No"
+            project.project_advocate
+          ),
+          React.createElement(
+            "td",
+            null,
+            project.site_host
           )
         ));
       }
@@ -127,17 +128,12 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Application"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
                 "Name"
               ),
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Address"
+                "Location"
               ),
               React.createElement(
                 "th",
@@ -152,12 +148,17 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "# Work Items"
+                "CC"
               ),
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Handle-It"
+                "PA"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "SH"
               )
             )
           ),
