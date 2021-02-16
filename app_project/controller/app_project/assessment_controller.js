@@ -117,9 +117,17 @@ async function get_site_assessment(req, res) {
 }
 
 async function edit_site_assessment(req, res) {
-  var property = req.body.property,
+  let property = req.body.property,
       assessment_id = req.body.assessment_id;
-  var site_assessment = await SiteAssessment.findById(assessment_id);
+  let site_assessment = await SiteAssessment.findById(assessment_id);
+  if (!site_assessment) {
+    res.status(404).end();
+    return;
+  }
+  if (site_assessment.transferred) {
+    res.status(400).end();
+    return;
+  }
   if (property == "project_start_date" || property == "project_end_date") {
     var d = new Date(
       parseInt(req.body.year),
@@ -165,6 +173,10 @@ async function set_partners(req, res) {
   const assessment_id = req.params.assessment_id;
   const assessment = await SiteAssessment.findById(assessment_id);
   if (assessment) {
+    if (assesssment.transferred) {
+      res.status(400).end();
+      return;
+    }
     let new_partners = req.body["selectedPartnerIds[]"]
     assessment.partners = new_partners;
     assessment.save();
