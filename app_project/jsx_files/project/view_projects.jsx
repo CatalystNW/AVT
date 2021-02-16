@@ -33,30 +33,39 @@ class AppProjects extends React.Component {
   }
 
   render() {
-    let start;
+    let start, doc, app, address;
     return (
     <div>
       <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
       <table className="table">
         <thead>
           <tr>
+            <th scope="col">Application</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
             <th scope="col">Project Name</th>
             <th scope="col">Start Date</th>
             <th scope="col">Status</th>
             <th scope="col"># Work Items</th>
-            <th scope="col">Link</th>
           </tr>
         </thead>
         <tbody>
           {this.state.projects.map((project)=> {
             start = project.start.replace("T", " ").substring(0, project.start.length - 8);
+            doc = project.documentPackage;
+            app = doc.application;
+            address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
             return (
             <tr key={project._id}>
+              <td>
+                <a target="_blank" href={"./view_projects/"+ project._id}>{doc.app_name}</a>
+              </td>
+              <td>{app.name.first} {app.name.last}</td>
+              <td>{address}</td>
               <td>{project.name}</td>
               <td>{start}</td>
               <td>{project.status}</td>
               <td>{project.workItems.length}</td>
-              <td><a href={"./view_projects/"+ project._id}>{project._id}</a></td>
             </tr>);
           })}
         </tbody>

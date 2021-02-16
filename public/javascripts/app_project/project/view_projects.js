@@ -49,7 +49,10 @@ var AppProjects = function (_React$Component) {
   _createClass(AppProjects, [{
     key: "render",
     value: function render() {
-      var start = void 0;
+      var start = void 0,
+          doc = void 0,
+          app = void 0,
+          address = void 0;
       return React.createElement(
         "div",
         null,
@@ -70,6 +73,21 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
+                "Application"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Name"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Address"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
                 "Project Name"
               ),
               React.createElement(
@@ -86,11 +104,6 @@ var AppProjects = function (_React$Component) {
                 "th",
                 { scope: "col" },
                 "# Work Items"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
-                "Link"
               )
             )
           ),
@@ -99,9 +112,33 @@ var AppProjects = function (_React$Component) {
             null,
             this.state.projects.map(function (project) {
               start = project.start.replace("T", " ").substring(0, project.start.length - 8);
+              doc = project.documentPackage;
+              app = doc.application;
+              address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
               return React.createElement(
                 "tr",
                 { key: project._id },
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "a",
+                    { target: "_blank", href: "./view_projects/" + project._id },
+                    doc.app_name
+                  )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  app.name.first,
+                  " ",
+                  app.name.last
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  address
+                ),
                 React.createElement(
                   "td",
                   null,
@@ -121,15 +158,6 @@ var AppProjects = function (_React$Component) {
                   "td",
                   null,
                   project.workItems.length
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  React.createElement(
-                    "a",
-                    { href: "./view_projects/" + project._id },
-                    project._id
-                  )
                 )
               );
             })
