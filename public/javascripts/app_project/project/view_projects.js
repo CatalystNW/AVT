@@ -49,6 +49,7 @@ var AppProjects = function (_React$Component) {
   _createClass(AppProjects, [{
     key: "render",
     value: function render() {
+      var start = void 0;
       return React.createElement(
         "div",
         null,
@@ -59,7 +60,7 @@ var AppProjects = function (_React$Component) {
         ),
         React.createElement(
           "table",
-          null,
+          { className: "table" },
           React.createElement(
             "thead",
             null,
@@ -69,17 +70,17 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Name"
+                "Project Name"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Start Date"
               ),
               React.createElement(
                 "th",
                 { scope: "col" },
                 "Status"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
-                "Description"
               ),
               React.createElement(
                 "th",
@@ -97,6 +98,7 @@ var AppProjects = function (_React$Component) {
             "tbody",
             null,
             this.state.projects.map(function (project) {
+              start = project.start.replace("T", " ").substring(0, project.start.length - 8);
               return React.createElement(
                 "tr",
                 { key: project._id },
@@ -108,12 +110,12 @@ var AppProjects = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  project.status
+                  start
                 ),
                 React.createElement(
                   "td",
                   null,
-                  project.description
+                  project.status
                 ),
                 React.createElement(
                   "td",
