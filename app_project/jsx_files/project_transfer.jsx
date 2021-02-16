@@ -148,7 +148,7 @@ class ProjectTransferApp extends React.Component {
         handleit_workitems: handleitWorkitemObj,
       }),
       success: function(data) {
-        console.log("transfer");
+        window.location.replace("/app_project/project_transfer");
       }
     });
   }
