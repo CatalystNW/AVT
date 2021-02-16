@@ -74,11 +74,18 @@ async function edit_workitem(req, res)  {
     res.status(400).end();
   } else {
     try {
-      var workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true})
-      console.log(workitem);
+      let workitem = await WorkItem.findById(req.params.workitem_id);
+      if (!workitem) {
+        res.status(404).end();
+        return;
+      } else if  (workitem.transferred) {
+        res.status(400).end();
+        return;
+      }
+
+      workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true})
       res.status(200).json(workitem);
     } catch (err) {
-      console.log(err);
       res.status(400).end();
     }
   }
