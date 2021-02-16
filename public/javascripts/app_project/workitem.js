@@ -27,10 +27,12 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.onChange_handleit = function (event) {
-      funkie.edit_workitem({
-        workitem_id: event.target.getAttribute("workitem_id"),
-        handleit: event.target.checked
-      }, null, _this.set_handleit_handler);
+      if (_this.editable) {
+        funkie.edit_workitem({
+          workitem_id: event.target.getAttribute("workitem_id"),
+          handleit: event.target.checked
+        }, null, _this.set_handleit_handler);
+      }
     };
 
     _this.add_item = function (materialsItem_data) {
@@ -188,7 +190,7 @@ var WorkItem = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-sm-2", key: "del-" + materialsItem._id },
-                React.createElement(
+                _this.editable ? React.createElement(
                   "div",
                   { className: "dropdown" },
                   React.createElement(
@@ -214,6 +216,10 @@ var WorkItem = function (_React$Component) {
                       "Edit"
                     )
                   )
+                ) : React.createElement(
+                  "div",
+                  null,
+                  cost
                 )
               )
             );
@@ -268,6 +274,7 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.state = _this.props.workitem;
+    _this.editable = !_this.props.workitem.transferred;
     return _this;
   }
   // Finds the material item in state & then runs edit_materialsitem on it
@@ -289,18 +296,22 @@ var WorkItem = function (_React$Component) {
             "h5",
             { className: "card-title" },
             this.state.name,
-            React.createElement(
-              "button",
-              { type: "button", className: "btn btn-sm btn-secondary",
-                onClick: this.onClick_edit_workitem_btn },
-              "Edit"
-            ),
-            React.createElement(
-              "button",
-              { type: "button", className: "btn btn-sm btn-warning",
-                onClick: this.onClick_del_workitem_btn },
-              "Delete"
-            )
+            this.editable ? React.createElement(
+              "span",
+              null,
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm btn-secondary",
+                  onClick: this.onClick_edit_workitem_btn },
+                "Edit"
+              ),
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm btn-warning",
+                  onClick: this.onClick_del_workitem_btn },
+                "Delete"
+              )
+            ) : null
           ),
           React.createElement(
             "b",
@@ -410,13 +421,13 @@ var WorkItem = function (_React$Component) {
             null,
             "Materials List"
           ),
-          React.createElement(
+          this.editable ? React.createElement(
             "button",
             { type: "button", className: "btn btn-primary btn-sm",
               onClick: this.onClick_create_item,
               workitem_id: this.state._id },
             "+ Item"
-          ),
+          ) : null,
           this.create_materialslist()
         )
       );

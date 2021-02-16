@@ -4,6 +4,7 @@ class WorkItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.workitem;
+    this.editable = !this.props.workitem.transferred;
   }
 
   set_handleit_handler = (server_data) => {
@@ -13,10 +14,12 @@ class WorkItem extends React.Component {
   }
 
   onChange_handleit = (event) => {
-    funkie.edit_workitem({
-      workitem_id: event.target.getAttribute("workitem_id"),
-      handleit: event.target.checked,
-    }, null, this.set_handleit_handler);
+    if (this.editable) {
+      funkie.edit_workitem({
+        workitem_id: event.target.getAttribute("workitem_id"),
+        handleit: event.target.checked,
+      }, null, this.set_handleit_handler);
+    }
   }
 
   add_item = (materialsItem_data) => {
@@ -125,7 +128,8 @@ class WorkItem extends React.Component {
                     {materialsItem.quantity}</td>
                   <td className="col-sm-3"key={"vendor-"+materialsItem._id}>{materialsItem.vendor}</td>
                   <td className="col-sm-2"key={"del-"+materialsItem._id}>
-                    <div className="dropdown">
+                    { this.editable ?
+                      (<div className="dropdown">
                       <button className="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
                         {cost}
                       </button>
@@ -138,7 +142,9 @@ class WorkItem extends React.Component {
                           item_id={materialsItem._id}
                           onClick={this.onClick_edit_material_item}>Edit</a>
                       </div>
-                    </div>
+                    </div>) : (<div>{cost}</div>)
+                    }
+                    
                   </td>
                 </tr>
               )
@@ -188,10 +194,15 @@ class WorkItem extends React.Component {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title">{this.state.name}
-          <button type="button" className="btn btn-sm btn-secondary"
-            onClick={this.onClick_edit_workitem_btn}>Edit</button>
-          <button type="button" className="btn btn-sm btn-warning"
-            onClick={this.onClick_del_workitem_btn}>Delete</button>
+          {this.editable ? 
+            (<span>
+              <button type="button" className="btn btn-sm btn-secondary"
+                onClick={this.onClick_edit_workitem_btn}>Edit</button>
+              <button type="button" className="btn btn-sm btn-warning"
+                onClick={this.onClick_del_workitem_btn}>Delete</button>
+            </span>) : (null)
+          }
+          
         </h5>
         <b>Description</b>
         <p className="card-text">
@@ -245,10 +256,13 @@ class WorkItem extends React.Component {
         </div>
 
         <b>Materials List</b>
-        <button type="button" className="btn btn-primary btn-sm"
-          onClick={this.onClick_create_item}
-          workitem_id={this.state._id}>+ Item
-        </button>
+        { this.editable ?
+          (<button type="button" className="btn btn-primary btn-sm"
+            onClick={this.onClick_create_item}
+            workitem_id={this.state._id}>+ Item
+          </button>) : null
+        }
+        
         {this.create_materialslist()}
       </div>
     </div>);
