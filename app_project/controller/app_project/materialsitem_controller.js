@@ -34,6 +34,10 @@ async function delete_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
 
   var workitem = await WorkItem.findById(item.workItem);
+  if (item.transferred || workitem.transferred) {
+    res.status(400).end();
+    return;
+  }
   workitem.materials_cost -= item.cost;
   workitem.materialsItems.pull({_id: item._id});
   await workitem.save();
@@ -47,6 +51,10 @@ async function edit_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
   if (!item)
     res.status(404).end();
+  if (item.transferred) {
+    res.status(400).end();
+    return;
+  }
   var old_cost = item.cost;
   item = await MaterialsItem.findOneAndUpdate({_id: req.params.id}, req.body, {new: true,});
 
