@@ -28,6 +28,17 @@ var DeleteManagerApp = function (_React$Component) {
           window.alert("done");
         }
       });
+    }, _this.onClick_delete_all_projects = function () {
+      var result = window.confirm("Are you sure you want to delete all projects?");
+      if (result) {
+        $.ajax({
+          url: "./projects",
+          type: "DELETE",
+          success: function success(data) {
+            window.alert("All the projects were deleted");
+          }
+        });
+      }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -38,11 +49,24 @@ var DeleteManagerApp = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "button",
-          { className: "btn btn-primary", id: "del-assessments-but" },
-          "Delete"
+          "div",
+          null,
+          React.createElement(
+            "button",
+            { className: "btn btn-primary", id: "del-assessments-but" },
+            "Delete"
+          ),
+          " All Site Assessments, SA Work Items,Tool Rentals"
         ),
-        " All Site Assessments, SA Work Items,Tool Rentals"
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "button",
+            { type: "button", onClick: this.onClick_delete_all_projects },
+            "Delete Projects"
+          )
+        )
       );
     }
   }]);
