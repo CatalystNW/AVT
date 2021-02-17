@@ -102,7 +102,7 @@ async function delete_workitem(req, res) {
   } else {
     const workItem_id = req.params.workitem_id;
     let workitem = await WorkItem.findById(workItem_id),
-        i; 
+        i;
     if (workitem) {
       if (workitem.type == "assessment") {
         let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
@@ -123,6 +123,7 @@ async function delete_workitem(req, res) {
         }
         appProject.save();
       }
+      await MaterialsItem.deleteMany({workItem: workitem._id});
       await WorkItem.deleteOne({_id: workItem_id}, function(err) {
         if (err) {
           res.status(400).send();
