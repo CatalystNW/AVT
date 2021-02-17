@@ -1,6 +1,7 @@
+* Show Created date under transferred assessments
 * Work Items for projects should edit project project_comments
 * Make Header tabs for projects clickable to hide
-
+* Add WorkItems to vetting so that it can be accepted
 
 
 
