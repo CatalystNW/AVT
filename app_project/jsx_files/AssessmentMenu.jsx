@@ -12,6 +12,7 @@ class AssessmentMenu extends React.Component {
     super(props);
     this.state = {
       workItems: [],
+      transferred: false,
     }
     this.checklist = React.createRef();
     this.costsummary = React.createRef();
@@ -96,10 +97,13 @@ class AssessmentMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
-            <button type="button" className="btn btn-primary" 
+            {!this.state.transferred ?
+              (<button type="button" className="btn btn-primary" 
               onClick={this.props.set_create_workitem_menu}>
               Create Work Item
-            </button>
+            </button>) : null
+            }
+            
             {this.state.workItems.map((workitem, index) => {
               return (
               <WorkItem

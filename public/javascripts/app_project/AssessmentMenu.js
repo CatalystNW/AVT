@@ -52,7 +52,8 @@ var AssessmentMenu = function (_React$Component) {
     };
 
     _this.state = {
-      workItems: []
+      workItems: [],
+      transferred: false
     };
     _this.checklist = React.createRef();
     _this.costsummary = React.createRef();
@@ -153,12 +154,12 @@ var AssessmentMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane show active", id: "nav-workitem", role: "tabpanel" },
-            React.createElement(
+            !this.state.transferred ? React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu },
               "Create Work Item"
-            ),
+            ) : null,
             this.state.workItems.map(function (workitem, index) {
               return React.createElement(WorkItem, {
                 workitem: workitem,
