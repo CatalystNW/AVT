@@ -21,13 +21,16 @@ var DeleteManagerApp = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DeleteManagerApp.__proto__ || Object.getPrototypeOf(DeleteManagerApp)).call.apply(_ref, [this].concat(args))), _this), _this.onClick_delAssessments = function () {
-      $.ajax({
-        type: "DELETE",
-        url: "./delete_manager?command=delete_all_assessments",
-        success: function success(data, textStatus, xhr) {
-          window.alert("done");
-        }
-      });
+      var result = window.confirm("Are you sure you want to delete all assessments?");
+      if (result) {
+        $.ajax({
+          type: "DELETE",
+          url: "./delete_manager?command=delete_all_assessments",
+          success: function success(data, textStatus, xhr) {
+            window.alert("done");
+          }
+        });
+      }
     }, _this.onClick_delete_all_projects = function () {
       var result = window.confirm("Are you sure you want to delete all projects?");
       if (result) {
@@ -53,10 +56,11 @@ var DeleteManagerApp = function (_React$Component) {
           null,
           React.createElement(
             "button",
-            { className: "btn btn-primary", id: "del-assessments-but" },
+            { className: "btn btn-primary", onClick: this.onClick_delAssessments,
+              id: "del-assessments-but" },
             "Delete"
           ),
-          " All Site Assessments, SA Work Items,Tool Rentals"
+          " All Site Assessments, Work Items, Materials List"
         ),
         React.createElement(
           "div",
@@ -64,7 +68,7 @@ var DeleteManagerApp = function (_React$Component) {
           React.createElement(
             "button",
             { type: "button", onClick: this.onClick_delete_all_projects },
-            "Delete Projects"
+            "Delete Projects, Plan Wrapup checlists"
           )
         )
       );
