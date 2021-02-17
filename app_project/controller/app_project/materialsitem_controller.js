@@ -12,6 +12,10 @@ async function create_materialsitem(req, res) {
   }
   var workitem = await WorkItem.findById(req.body.workitem_id);
   if (!workitem) {
+    res.status(404).end();
+    return;
+  }
+  if (workitem.transferred) { // Can't create for transferred WorkItem
     res.status(400).end();
     return;
   }
