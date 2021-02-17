@@ -1,12 +1,22 @@
-window.onload = function() {
-  var del_assessments_but = document.getElementById("del-assessments-but");
-  del_assessments_but.addEventListener("click", function(e) {
+class DeleteManagerApp extends React.Component {
+  onClick_delAssessments = () => {
     $.ajax({
       type: "DELETE",
       url: "./delete_manager?command=delete_all_assessments",
       success: function(data, textStatus, xhr) {
-        console.log(data);
+        window.alert("done");
       }
-    })
-  });
+    });
+  }
+  render() {
+    return (
+      <div>
+        <button className="btn btn-primary" id="del-assessments-but">Delete</button> All Site Assessments, SA Work Items,Tool Rentals
+      </div>
+    );
+  }
 }
+
+(function loadReact() {
+  ReactDOM.render(<DeleteManagerApp />, document.getElementById("content-container"));
+})()
