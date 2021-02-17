@@ -7,7 +7,8 @@ var assessment_controller       = require('../../controller/app_project/assessme
     workitem_controller         = require('../../controller/app_project/workitem_controller.js'),
     materialsitem_controller    = require('../../controller/app_project/materialsitem_controller.js'),
     project_note_controller     = require('../../controller/app_project/project_note_controller.js'),
-    partner_controller          = require('../../controller/app_project/partner_controller.js');
+    partner_controller          = require('../../controller/app_project/partner_controller.js'),
+    delete_controller          = require('../../controller/app_project/delete_controller.js');
 
 router.get('/view_site_assessments', assessment_controller.view_site_assessments);
 
@@ -16,9 +17,6 @@ router.get('/view_site_assessments/:assessment_id', assessment_controller.view_s
 
 router.route('/application/:application_id')
   .get(assessment_controller.get_application_data_api);
-
-router.get('/delete_manager', assessment_controller.view_delete_manager);
-router.delete('/delete_manager', assessment_controller.manage_deletion);
 
 router.get('/site_assessments/transferred', assessment_controller.getTransferredAssessments);
 router.get('/site_assessments/to_transfer', assessment_controller.getToTransferAssessments);
@@ -45,7 +43,6 @@ router.get('/project_transfer', project_transfer_controller.view_project_transfe
 router.get('/view_projects', project_controller.view_projects);
 router.get('/projects/assignable_users', project_controller.get_task_assignable_users);
 router.get('/projects', project_controller.get_projects);
-router.delete('/projects', project_controller.delete_all_projects);
 router.get('/projects/:project_id', project_controller.get_project);
 router.patch('/projects/:project_id', project_controller.edit_project);
 
@@ -74,5 +71,10 @@ router.post('/partners', partner_controller.create_partner);
 
 router.get('/paf_form/:project_id', project_controller.get_paf_page);
 router.get('/handleit_form/:project_id', project_controller.get_handleit_form);
+
+// Temporarily delete projects & assessments for testing/development
+router.delete('/projects', delete_controller.delete_all_projects);
+router.get('/delete_manager', delete_controller.view_delete_manager);
+router.delete('/delete_manager', delete_controller.manage_deletion);
 
 module.exports = router;

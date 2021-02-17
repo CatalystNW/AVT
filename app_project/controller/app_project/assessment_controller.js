@@ -14,9 +14,6 @@ module.exports.getTransferredAssessments = getTransferredAssessments;
 
 module.exports.get_application_data_api = get_application_data_api;
 
-module.exports.view_delete_manager = view_delete_manager;
-module.exports.manage_deletion = manage_deletion;
-
 module.exports.set_partners = set_partners;
 
 module.exports.getToTransferAssessments = getToTransferAssessments
@@ -35,21 +32,6 @@ async function view_site_assessment_by_app_id(req, res) {
 async function view_site_assessment(req, res) {
   var id = req.params.assessment_id;
   res.render("app_project/site_assessment", {assessment_id: id,});
-}
-
-async function view_delete_manager(req, res) {
-  res.render("app_project/delete_manager", {});
-}
-
-async function manage_deletion(req, res) {
-  var command = req.query.command;
-
-  if (command == "delete_all_assessments") {
-    await WorkItem.deleteMany({});
-    await SiteAssessment.deleteMany({});
-    await MaterialsItem.deleteMany({});
-    res.status(200).json({});
-  }
 }
 
 async function getToTransferAssessments(req, res) {

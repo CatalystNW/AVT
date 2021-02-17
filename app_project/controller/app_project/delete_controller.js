@@ -7,7 +7,10 @@ var DocumentPackage = require("../../../models/documentPackage"),
     AppProject      = require("../../models/app_project/AppProject"),
     PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
     WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
+
 module.exports.delete_all_projects = delete_all_projects;
+module.exports.view_delete_manager = view_delete_manager;
+module.exports.manage_deletion = manage_deletion;
 
 async function delete_all_projects(req, res) {
   var projects = await AppProject.find({})
@@ -23,4 +26,19 @@ async function delete_all_projects(req, res) {
   await PlanChecklist.deleteMany({});
   await WrapupChecklist.deleteMany({});
   res.status(200).end();
+}
+
+async function view_delete_manager(req, res) {
+  res.render("app_project/delete_manager", {});
+}
+
+async function manage_deletion(req, res) {
+  var command = req.query.command;
+
+  if (command == "delete_all_assessments") {
+    await WorkItem.deleteMany({});
+    await SiteAssessment.deleteMany({});
+    await MaterialsItem.deleteMany({});
+    res.status(200).json({});
+  }
 }
