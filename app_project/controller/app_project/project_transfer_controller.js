@@ -22,12 +22,12 @@ async function view_project_transfer(req, res) {
 }
 
 async function transfer_project(req, res) {
-  var project_workitems = req.body.project_workitems,
+  let project_workitems = req.body.project_workitems,
       handleit_workitems = req.body.handleit_workitems;
-  var i, j, id,
-      old_workItem, new_workItem,
-      projects = {}, project, project_name;
-  var siteAssessment = await SiteAssessment.findById(req.params.assessment_id).populate("documentPackage");
+  let id, old_workItem, new_workItem,
+      projects = {}, 
+      project, project_name;
+  let siteAssessment = await SiteAssessment.findById(req.params.assessment_id).populate("documentPackage");
   siteAssessment.transferred = true;
   siteAssessment.documentPackage.status = "transferred";
   
@@ -97,5 +97,15 @@ async function transfer_project(req, res) {
     old_workItem.save();
   }
 
+  // Make non-accepted workItems in SiteAssessment as transferred
+  let workItems = await WorkItem.find({
+    type: "assessment",
+    siteAssessment: siteAssessment._id,
+    transferred: false,
+  });
+  for (let i=0; i<workItems.length; i++) {
+    workItems[i].transferred = true;
+    await workItems[i].save();
+  }
   res.status(200).send();
 }
