@@ -263,6 +263,9 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.onChange_workitem_status = function (e) {
+      if (!_this.editable) {
+        return;
+      }
       var that = _this,
           status = e.target.value;
       funkie.edit_workitem({
@@ -409,11 +412,11 @@ var WorkItem = function (_React$Component) {
             React.createElement(
               "div",
               { className: "col-sm-8" },
-              React.createElement("input", { type: "number", className: "form-control",
+              this.editable ? React.createElement("input", { type: "number", className: "form-control",
                 name: "volunteers_required",
                 property_type: "volunteers_required",
                 onChange: this.onChange_inputs_timer,
-                value: this.state.volunteers_required })
+                value: this.state.volunteers_required }) : this.state.volunteers_required
             )
           ),
           React.createElement(

@@ -179,6 +179,9 @@ class WorkItem extends React.Component {
   }
   
   onChange_workitem_status = (e) => {
+    if (!this.editable) {
+      return;
+    }
     var that = this,
         status = e.target.value;
     funkie.edit_workitem({
@@ -247,11 +250,13 @@ class WorkItem extends React.Component {
           <label className="col-sm-4 col-form-label"
             htmlFor="workitem-status-select">Volunteers Required</label>
           <div className="col-sm-8">
-            <input type="number" className="form-control"
+            { this.editable ?
+            (<input type="number" className="form-control"
               name="volunteers_required"
               property_type="volunteers_required"
               onChange={this.onChange_inputs_timer}
-              value={this.state.volunteers_required}></input>
+              value={this.state.volunteers_required}></input>)
+              : this.state.volunteers_required }
           </div>
         </div>
 
