@@ -27,11 +27,7 @@ async function create_workitem(req, res) {
   workitem.type = req.body.type;
   workitem.documentPackage = doc.id;
   workitem.handleit = req.body.handleit;
-  if (req.body.type == "assessment") {
-    if (!req.body.assessment_id) {
-      res.status(400).end();
-      return;
-    }
+  if (req.body.type == "assessment" && req.body.assessment_id) {
     var assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {
       res.status(404).end();
@@ -45,11 +41,7 @@ async function create_workitem(req, res) {
       workitem.assessment_comments = req.body.assessment_comments;
     
     workitem.siteAssessment = assessment._id; 
-  } else if (req.body.type == "project") {
-    if (!req.body.project_id) {
-      res.status(400).end();
-      return;
-    }
+  } else if (req.body.type == "project" && req.body.project_id) {
     var project = await AppProject.findById(req.body.project_id);
     if (!project) {
       res.status(400).end();
@@ -60,16 +52,17 @@ async function create_workitem(req, res) {
     res.status(400).end();
     return;
   }
+
   workitem.documentPackage = doc._id;
   await workitem.save();
-
+  // Save WorkItem to SiteAssesssment/ AppProject
   if (assessment) {
     assessment.workItems.push(workitem.id);
     await assessment.save();
   } else if (project) {
     project.workItems.push(workitem._id);
     await project.save();
-  }  
+  }
   res.status(200).json(workitem);
 }
 
