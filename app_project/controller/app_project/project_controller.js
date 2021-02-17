@@ -11,7 +11,6 @@ var DocumentPackage = require("../../../models/documentPackage"),
 
 module.exports.get_projects               = get_projects;
 module.exports.view_projects              = view_projects;
-module.exports.delete_all_projects        = delete_all_projects;
 module.exports.view_project               = view_project;
 module.exports.edit_project               = edit_project;
 module.exports.get_project                = get_project;
@@ -66,22 +65,6 @@ async function view_projects(req, res) {
 
 async function view_project(req, res) {
   res.render("app_project/view_project", {project_id: req.params.project_id});
-}
-
-async function delete_all_projects(req, res) {
-  var projects = await AppProject.find({})
-      .populate({path: "workItems", model: "WorkItem",
-        populate: {path: "materialsItems", model: "MaterialsItem"}});
-  for (var project of projects) {
-    for (var workItem of project.workItems) {
-      await MaterialsItem.deleteMany({workItem: workItem._id});
-    }
-    await WorkItem.deleteMany({appProject: project._id});
-  }
-  await AppProject.deleteMany({});
-  await PlanChecklist.deleteMany({});
-  await WrapupChecklist.deleteMany({});
-  res.status(200).end();
 }
 
 async function get_task_assignable_users(req, res) {
