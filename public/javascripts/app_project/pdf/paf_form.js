@@ -47,6 +47,7 @@ var PAFApp = function (_React$Component) {
       var total_cost = 0,
           total_volunteers = 0;
 
+      var vet_summary = proj.documentPackage.notes ? proj.documentPackage.notes : null;
       return React.createElement(
         'div',
         null,
@@ -126,7 +127,7 @@ var PAFApp = function (_React$Component) {
               React.createElement(
                 'td',
                 null,
-                proj.documentPackage.notes.vet_summary
+                vet_summary
               )
             )
           )

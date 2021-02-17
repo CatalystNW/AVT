@@ -34,6 +34,9 @@ class PAFApp extends React.Component {
     let total_cost = 0,
         total_volunteers = 0;
 
+    let vet_summary = (proj.documentPackage.notes ? 
+      proj.documentPackage.notes : null
+      )
     return (
     <div>
       <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
@@ -52,7 +55,7 @@ class PAFApp extends React.Component {
           </tr>
           <tr>
             <td><b>Vetting Summary</b></td>
-            <td>{proj.documentPackage.notes.vet_summary}</td>
+            <td>{vet_summary}</td>
           </tr>
         </tbody>
       </table>
