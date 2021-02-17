@@ -26,19 +26,6 @@ var AppProjects = function (_React$Component) {
       });
     };
 
-    _this.onClick_delete_all_projects = function () {
-      var result = window.confirm("Are you sure you want to delete all projects?");
-      if (result) {
-        $.ajax({
-          url: "./projects",
-          type: "DELETE",
-          success: function success(data) {
-            window.alert("All the projects were deleted");
-          }
-        });
-      }
-    };
-
     _this.createProjectRows = function (status, handleit) {
       var projects = [];
       var project = void 0,
@@ -200,11 +187,6 @@ var AppProjects = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        React.createElement(
-          "button",
-          { type: "button", onClick: this.onClick_delete_all_projects },
-          "Delete Projects"
-        ),
         this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes"),
         this.createProjectTable("Project: Upcoming", "upcoming", "no"),
         this.createProjectTable("Handle-It: In Progress", "in_progress", "yes"),

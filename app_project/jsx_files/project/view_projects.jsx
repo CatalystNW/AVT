@@ -17,20 +17,7 @@ class AppProjects extends React.Component {
         that.setState({projects: data,})
       },
     });
-  }
-
-  onClick_delete_all_projects = () => {
-    var result = window.confirm("Are you sure you want to delete all projects?");
-    if (result) {
-      $.ajax({
-        url: "./projects",
-        type: "DELETE",
-        success: function(data) {
-          window.alert("All the projects were deleted");
-        }
-      })
-    }
-  }
+  }  
 
   /**
    * Create Project TR element
@@ -103,7 +90,6 @@ class AppProjects extends React.Component {
   render() {
     return (
       <div>
-        <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects</button>
         {this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes")}
         {this.createProjectTable("Project: Upcoming", "upcoming", "no")}
         {this.createProjectTable("Handle-It: In Progress", "in_progress", "yes")}
