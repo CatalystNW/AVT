@@ -1,3 +1,9 @@
+* Work Items for projects should edit project project_comments
+* Make Header tabs for projects clickable to hide
+
+
+
+
 Figure out common methods & create a library for them
 Refactor
 
