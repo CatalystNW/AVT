@@ -72,7 +72,10 @@ class CostSummary extends React.Component {
           if (workItems[i].volunteers_required) {
             handleit_volunteers += workItems[i].volunteers_required;
           }
-        } else {
+        } else { // Non-handle-it work items
+          if (workItems[i].status != "accepted") {
+            continue;
+          }
           item_arr = project_materials;
           num_project_workitems += 1
           if (workItems[i].volunteers_required) {
