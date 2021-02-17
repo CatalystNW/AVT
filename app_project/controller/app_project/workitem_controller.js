@@ -104,6 +104,10 @@ async function delete_workitem(req, res) {
     let workitem = await WorkItem.findById(workItem_id),
         i;
     if (workitem) {
+      if (workitem.transferred) { // Prevent deletion of transferred workItem
+        res.status(400).end();
+        return;
+      }
       if (workitem.type == "assessment") {
         let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
         for (i=0; i<siteAssessment.workItems.length; i++) {
