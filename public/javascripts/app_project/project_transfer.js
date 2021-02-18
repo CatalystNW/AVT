@@ -197,13 +197,16 @@ var ProjectTransferApp = function (_React$Component) {
     };
 
     _this.onClick_transfer = function () {
-      if (_this.state.projects.length > 0) {
+      // Check that all projects are assigned
+      if (_this.state.proj_workitems.length == 0 && _this.state.handleit_workitems.length == 0) {
+        window.alert("There are no work items");
+      } else if (_this.state.proj_workitems.length > 0 && _this.state.projects.length == 0) {
+        window.alert("There are work items not assigned to a project");
+      } else {
         var result = window.confirm("Are you sure you want to transfer?");
         if (result) {
           _this.transfer_project();
         }
-      } else {
-        window.alert("There are work items not assigned to a project");
       }
     };
 
