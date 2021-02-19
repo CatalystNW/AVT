@@ -49,85 +49,98 @@ var VettingWorkItemApp = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "h3",
-          null,
-          "Add a Work Item"
+          "div",
+          { "class": "col-xs-12 col-sm-6 col-md-3" },
+          React.createElement(
+            "h3",
+            null,
+            "Add a Work Item"
+          ),
+          React.createElement(
+            "div",
+            { className: "panel panel-primary work-item", name: "new" },
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              React.createElement(
+                "h4",
+                { className: "card-title" },
+                "New Work Item"
+              ),
+              React.createElement(
+                "div",
+                { className: "card-text" },
+                React.createElement(
+                  "div",
+                  { className: "form-group" },
+                  React.createElement(
+                    "label",
+                    { className: "form-control-label" },
+                    "Name*"
+                  ),
+                  React.createElement("input", { type: "text", className: "form-control", name: "name" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-group" },
+                  React.createElement(
+                    "label",
+                    { className: "form-control-label" },
+                    "Description*"
+                  ),
+                  React.createElement("textarea", { className: "form-control", name: "description", rows: "3" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-group" },
+                  React.createElement(
+                    "label",
+                    { className: "form-control-label" },
+                    "Vetting Comments*"
+                  ),
+                  React.createElement("textarea", { className: "form-control", name: "vettingComments", rows: "3" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-group" },
+                  React.createElement(
+                    "label",
+                    { className: "form-control-label" },
+                    "Cost"
+                  ),
+                  React.createElement("input", { type: "cost", className: "form-control", name: "cost" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-group" },
+                  React.createElement(
+                    "label",
+                    { className: "form-control-label" },
+                    "Handle-it"
+                  ),
+                  React.createElement("input", (_React$createElement = { type: "checkbox", name: "isHandle", id: "checkbox1", style: { "marginLeft": "10px; !important" }, value: "true" }, _defineProperty(_React$createElement, "name", "isHandle"), _defineProperty(_React$createElement, "checked", true), _React$createElement))
+                )
+              ),
+              React.createElement(
+                "a",
+                { href: "#", className: "btn btn-primary card-link work-item-new" },
+                "Save"
+              ),
+              React.createElement(
+                "a",
+                { href: "#", className: "btn btn-danger card-link work-item-clear" },
+                "Clear"
+              )
+            )
+          )
         ),
         React.createElement(
           "div",
-          { className: "panel panel-primary work-item", name: "new" },
+          { className: "col-xs-12 col-sm-6 col-md-9" },
           React.createElement(
-            "div",
-            { className: "panel-body" },
-            React.createElement(
-              "h4",
-              { className: "card-title" },
-              "New Work Item"
-            ),
-            React.createElement(
-              "div",
-              { className: "card-text" },
-              React.createElement(
-                "div",
-                { className: "form-group" },
-                React.createElement(
-                  "label",
-                  { className: "form-control-label" },
-                  "Name*"
-                ),
-                React.createElement("input", { type: "text", className: "form-control", name: "name" })
-              ),
-              React.createElement(
-                "div",
-                { className: "form-group" },
-                React.createElement(
-                  "label",
-                  { className: "form-control-label" },
-                  "Description*"
-                ),
-                React.createElement("textarea", { className: "form-control", name: "description", rows: "3" })
-              ),
-              React.createElement(
-                "div",
-                { className: "form-group" },
-                React.createElement(
-                  "label",
-                  { className: "form-control-label" },
-                  "Vetting Comments*"
-                ),
-                React.createElement("textarea", { className: "form-control", name: "vettingComments", rows: "3" })
-              ),
-              React.createElement(
-                "div",
-                { className: "form-group" },
-                React.createElement(
-                  "label",
-                  { className: "form-control-label" },
-                  "Cost"
-                ),
-                React.createElement("input", { type: "cost", className: "form-control", name: "cost" })
-              ),
-              React.createElement(
-                "div",
-                { className: "form-group" },
-                React.createElement(
-                  "label",
-                  { className: "form-control-label" },
-                  "Handle-it"
-                ),
-                React.createElement("input", (_React$createElement = { type: "checkbox", name: "isHandle", id: "checkbox1", style: { "marginLeft": "10px; !important" }, value: "true" }, _defineProperty(_React$createElement, "name", "isHandle"), _defineProperty(_React$createElement, "checked", true), _React$createElement))
-              )
-            ),
-            React.createElement(
-              "a",
-              { href: "#", className: "btn btn-primary card-link work-item-new" },
-              "Save"
-            ),
-            React.createElement(
-              "a",
-              { href: "#", className: "btn btn-danger card-link work-item-clear" },
-              "Clear"
-            )
+            "h3",
+            null,
+            "Current Work Items"
           )
         )
       );

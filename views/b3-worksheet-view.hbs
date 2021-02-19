@@ -292,50 +292,7 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tell me more about…<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; How long has this condition existed?</i></p>
 
-	<div class="row" id="workItemCards">
-		<div class="col-xs-12 col-sm-6 col-md-3" id="workitem-create-menu-container"></div>
-		<div>
-			<h3>Current Work Items</h3>
-			{{#each workItems}}
-			<div style="float:right" class="col-xs-12 col-sm-6 col-md-9">
-				<div class="panel panel-default work-item" name="{{_id}}">
-					<div class="panel-body">
-						<h4 class="card-title" name="{{_id}}.name">{{name}}</h4>
-						<p class="text-muted">{{date}}</p>
-						<p class="card-text">
-							<strong>Description:</strong>
-							<br/>
-							<span name="{{_id}}.description">{{description}}</span>
-							<br/>
-							<br/>
-							<strong>Vetting comments:</strong>
-							<br/>
-							<span name="{{_id}}.vettingComments">{{vettingComments}}</span>
-							<br/>
-							<br/>
-							<strong>Site comments:</strong>
-							<br/> {{siteComments}}
-							<br/>
-							<br/>
-							<strong>Project comments:</strong>
-							<br/> {{projectComments}}
-							<br/>
-							<br/>
-							<strong>Cost:</strong>
-							<br/>
-							<span name="{{_id}}.cost">{{cost}}</span>
-						</p>
-						<a href="#" class="btn btn-primary card-link work-item-edit">Edit</a>
-						<a href="#" class="btn btn-danger card-link work-item-delete">Delete</a>
-					    <input class="isHandle card-link" type="checkbox"{{#if_eq isHandle true}} checked{{/if_eq}} dataID="{{_id}}" data-name="isHandle">&nbsp;Handle-it</input>
-
-					</div>
-				</div>
-			</div>
-			 {{/each}}
-		</div>
-		
-	</div>
+	<div class="row" id="workitem-create-menu-container"></div>
 
 
 
