@@ -7,7 +7,12 @@ module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
 
-// Creates WorkItem & saves it to either SiteAssessment
+/**
+ * Creates WorkItem & saves it to either SiteAssessment or Project
+ * @param {*} req body: type["assessment", "project"], name, description
+ *  project_id or assessment_id (dependent on type)
+ * @param {*} res 200 with work item as JSON, 400, 404
+ */
 async function create_workitem(req, res) {  
   if (!req.body.type || !req.body.name || !req.body.description || 
     (!req.body.project_id && !req.body.assessment_id)) {
