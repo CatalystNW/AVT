@@ -23,6 +23,7 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 module.exports = function(passport) {
 /* Route to specific application by Object ID */
+// @RESTORE AFTER DEVELOPMENT
 // router.get('/:id', isLoggedIn, function(req, res) {
 	router.get('/:id', function(req, res) {
     //Checking what's in params
@@ -35,12 +36,7 @@ module.exports = function(passport) {
         finances: FinPackage.find({appID: ObjectId(req.params.id)}).sort([['_id', 1]]).lean().execAsync(),
     		workItems: WorkItemPackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
     		highlight: highlightPackage.findOne({"documentPackage": ObjectId(req.params.id)}).lean().execAsync(),
-
-
-
 	      //finances: FinPackage.findOne({appID: ObjectId(req.params.id)}).lean().execAsync()
-
-
     }).then(function(result) {
 			//format birth date for display
 			if(result.doc.application.dob.date != null) {
@@ -88,10 +84,11 @@ module.exports = function(passport) {
 			}
 
 			res.locals.layout = 'b3-layout';
-			result.user = req.user._id;
+			// @RESTORE AFTER DEVELOPMENT
+			// result.user = req.user._id;
 			result.title = "Vetting Worksheet";
 
-				res.render('b3-worksheet-view', result);
+			res.render('b3-worksheet-view', result);
 		}).catch(function(err) {
 			console.error(err);
 		});
