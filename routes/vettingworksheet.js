@@ -49,11 +49,9 @@ module.exports = function(passport) {
 			}
 
 			if(result.doc.service_area == null) {
-				console.log("no service area value");
 				result.service = false;
 			}
 			else {
-				console.log("there is a service area value");
 				result.service = true;
 			}
 
@@ -70,16 +68,12 @@ module.exports = function(passport) {
 
 
 			if(result.workItems.length != 0) {
-				console.log("there are work items");
 				result.workItems.forEach(function(item, index){
-					console.log(item.name);
-					console.log(item.description);
 					var Year = item.date.getFullYear();
 					//get month and day with padding since they are 0 indexed
 					var Day = ( "00" + item.date.getDate()).slice(-2);
 					var Mon = ("00" + (item.date.getMonth()+1)).slice(-2);
 					result.workItems[index].date = Mon + "/" + Day + "/" + Year;
-					console.log(item.date);
 				});
 			}
 
