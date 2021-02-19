@@ -1,4 +1,5 @@
 * Create work items via vetting
+* WorkItem should show created date
 * set scheduled (start date) & end date for site assessments as null
 * add schedule date in pending assessments to see if it has been scheduled
 * Show Created date under transferred assessments
