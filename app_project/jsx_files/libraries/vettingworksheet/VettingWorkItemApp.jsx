@@ -9,6 +9,7 @@ class VettingWorkItemApp extends React.Component {
     };
     this.assessmentId = null;
     this.loadAssessment();
+    this.formId = "workitem-create-form";
   }
 
   loadAssessment = () => {
@@ -17,19 +18,47 @@ class VettingWorkItemApp extends React.Component {
       context: this,
       type: "GET",
       success: function(assessment) {
+        console.log(assessment);
         this.assessmentId = assessment._id;
         this.setState({
           workItems: assessment.workItems,
         });
       }
     });
-  }
+  };
 
   onSubmit_createWorkItem = (e) => {
     e.preventDefault();
-    console.log(this.assessmentId);
-
+    if (this.assessmentId) {
+      const data = this.getData();
+      data.type = "assessment";
+      data.assessment_id = this.assessmentId;
+      $.ajax({
+        url: "/app_project/workitems",
+        type: "POST",
+        data: data,
+        success: function(workitem) {
+          console.log(workitem);
+        }
+      })
+    }
   };
+
+  clearForm = () => {
+    const form = document.getElementById(this.formId);
+    form.reset();
+  }
+
+  getData = () => {
+    let data = {};
+    let formData = new FormData($("#" + this.formId)[0]);
+    formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
+    
+    for (let key of formData.keys()) {
+      data[key] = formData.get(key);
+    }
+    return data;
+  }
 
   render() {
     return (
@@ -39,7 +68,7 @@ class VettingWorkItemApp extends React.Component {
         <div className="panel panel-primary work-item" name="new">
           <div className="panel-body">
             <h4 className="card-title">New Work Item</h4>
-            <form onSubmit={this.onSubmit_createWorkItem}>
+            <form onSubmit={this.onSubmit_createWorkItem} id={this.formId}>
               <div className="card-text">
                 <div className="form-group">
                   <label className="form-control-label">Name*</label>
@@ -55,11 +84,12 @@ class VettingWorkItemApp extends React.Component {
                 </div>
                 <div className="form-group">
                   <label className="form-control-label">Handle-it</label>
-                  <input type="checkbox" name="handleit" id="checkbox1" style={{"marginLeft": "10px; !important"}} value="true" name="isHandle" checked />
+                  <input type="checkbox" name="handleit" id="checkbox1" style={{"marginLeft": "10px; !important"}} />
                         </div>
               </div>
               <button type="submit" className="btn btn-primary card-link">Save</button>
-              <a href="#" className="btn btn-danger card-link work-item-clear">Clear</a>
+              <button type="button" className="btn btn-danger card-link"
+                onClick={this.clearForm}>Clear</button>
             </form>
           </div>
         </div>

@@ -1,7 +1,5 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -26,6 +24,7 @@ var VettingWorkItemApp = function (_React$Component) {
         context: _this,
         type: "GET",
         success: function success(assessment) {
+          console.log(assessment);
           this.assessmentId = assessment._id;
           this.setState({
             workItems: assessment.workItems
@@ -36,7 +35,57 @@ var VettingWorkItemApp = function (_React$Component) {
 
     _this.onSubmit_createWorkItem = function (e) {
       e.preventDefault();
-      console.log(_this.assessmentId);
+      if (_this.assessmentId) {
+        var data = _this.getData();
+        data.type = "assessment";
+        data.assessment_id = _this.assessmentId;
+        $.ajax({
+          url: "/app_project/workitems",
+          type: "POST",
+          data: data,
+          success: function success(workitem) {
+            console.log(workitem);
+          }
+        });
+      }
+    };
+
+    _this.clearForm = function () {
+      var form = document.getElementById(_this.formId);
+      form.reset();
+    };
+
+    _this.getData = function () {
+      var data = {};
+      var formData = new FormData($("#" + _this.formId)[0]);
+      formData.set("handleit", formData.get("handleit") == "on" ? true : false);
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = formData.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var key = _step.value;
+
+          data[key] = formData.get(key);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return data;
     };
 
     _this.state = {
@@ -44,14 +93,13 @@ var VettingWorkItemApp = function (_React$Component) {
     };
     _this.assessmentId = null;
     _this.loadAssessment();
+    _this.formId = "workitem-create-form";
     return _this;
   }
 
   _createClass(VettingWorkItemApp, [{
     key: "render",
     value: function render() {
-      var _React$createElement;
-
       return React.createElement(
         "div",
         null,
@@ -76,7 +124,7 @@ var VettingWorkItemApp = function (_React$Component) {
               ),
               React.createElement(
                 "form",
-                { onSubmit: this.onSubmit_createWorkItem },
+                { onSubmit: this.onSubmit_createWorkItem, id: this.formId },
                 React.createElement(
                   "div",
                   { className: "card-text" },
@@ -118,7 +166,7 @@ var VettingWorkItemApp = function (_React$Component) {
                       { className: "form-control-label" },
                       "Handle-it"
                     ),
-                    React.createElement("input", (_React$createElement = { type: "checkbox", name: "handleit", id: "checkbox1", style: { "marginLeft": "10px; !important" }, value: "true" }, _defineProperty(_React$createElement, "name", "isHandle"), _defineProperty(_React$createElement, "checked", true), _React$createElement))
+                    React.createElement("input", { type: "checkbox", name: "handleit", id: "checkbox1", style: { "marginLeft": "10px; !important" } })
                   )
                 ),
                 React.createElement(
@@ -127,8 +175,9 @@ var VettingWorkItemApp = function (_React$Component) {
                   "Save"
                 ),
                 React.createElement(
-                  "a",
-                  { href: "#", className: "btn btn-danger card-link work-item-clear" },
+                  "button",
+                  { type: "button", className: "btn btn-danger card-link",
+                    onClick: this.clearForm },
                   "Clear"
                 )
               )
