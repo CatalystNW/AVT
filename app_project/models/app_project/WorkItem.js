@@ -3,7 +3,6 @@ const mongoose = require('mongoose'),
       MaterialsItem = require("./MaterialsItem");
 
 const workItemSchema = new Schema({
-  documentPackage: {type: Schema.Types.ObjectId, ref: "DocumentPackage"},
   materialsItems: [{type: Schema.Types.ObjectId, ref: "MaterialsItem"}],
   materials_cost: {type: Number, default: 0},
   name: String,
