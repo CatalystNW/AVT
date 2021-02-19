@@ -1,5 +1,4 @@
-var DocumentPackage = require("../../../models/documentPackage"),
-    SiteAssessment = require("../../models/app_project/SiteAssessment"),
+var SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
     AppProject = require("../../models/app_project/AppProject");
@@ -15,17 +14,11 @@ async function create_workitem(req, res) {
     res.status(400).end();
     return;
   }
-  var doc = await DocumentPackage.findById(req.body.application_id);
-  if (!doc) {
-    res.status(400).send("Document ID not found");
-    return;
-  }
   
   var workitem = new WorkItem();
   workitem.name = req.body.name;
   workitem.description = req.body.description;
   workitem.type = req.body.type;
-  workitem.documentPackage = doc.id;
   workitem.handleit = req.body.handleit;
   if (req.body.type == "assessment" && req.body.assessment_id) {
     var assessment = await SiteAssessment.findById(req.body.assessment_id);
@@ -53,7 +46,6 @@ async function create_workitem(req, res) {
     return;
   }
 
-  workitem.documentPackage = doc._id;
   await workitem.save();
   // Save WorkItem to SiteAssesssment/ AppProject
   if (assessment) {
