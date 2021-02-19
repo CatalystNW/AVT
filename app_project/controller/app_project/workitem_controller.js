@@ -10,7 +10,7 @@ module.exports.delete_workitem = delete_workitem;
 // Creates WorkItem & saves it to either SiteAssessment
 async function create_workitem(req, res) {  
   if (!req.body.type || !req.body.name || !req.body.description || 
-    !req.body.application_id || (!req.body.project_id && !req.body.assessment_id)) {
+    (!req.body.project_id && !req.body.assessment_id)) {
     res.status(400).end();
     return;
   }
