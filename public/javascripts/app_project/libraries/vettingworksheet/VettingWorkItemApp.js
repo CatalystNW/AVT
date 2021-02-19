@@ -26,6 +26,7 @@ var VettingWorkItemApp = function (_React$Component) {
         context: _this,
         type: "GET",
         success: function success(assessment) {
+          this.assessmentId = assessment._id;
           this.setState({
             workItems: assessment.workItems
           });
@@ -33,9 +34,15 @@ var VettingWorkItemApp = function (_React$Component) {
       });
     };
 
+    _this.onSubmit_createWorkItem = function (e) {
+      e.preventDefault();
+      console.log(_this.assessmentId);
+    };
+
     _this.state = {
       workItems: []
     };
+    _this.assessmentId = null;
     _this.loadAssessment();
     return _this;
   }
@@ -50,7 +57,7 @@ var VettingWorkItemApp = function (_React$Component) {
         null,
         React.createElement(
           "div",
-          { "class": "col-xs-12 col-sm-6 col-md-3" },
+          { className: "col-xs-12 col-sm-6 col-md-3" },
           React.createElement(
             "h3",
             null,
@@ -68,68 +75,62 @@ var VettingWorkItemApp = function (_React$Component) {
                 "New Work Item"
               ),
               React.createElement(
-                "div",
-                { className: "card-text" },
+                "form",
+                { onSubmit: this.onSubmit_createWorkItem },
                 React.createElement(
                   "div",
-                  { className: "form-group" },
+                  { className: "card-text" },
                   React.createElement(
-                    "label",
-                    { className: "form-control-label" },
-                    "Name*"
+                    "div",
+                    { className: "form-group" },
+                    React.createElement(
+                      "label",
+                      { className: "form-control-label" },
+                      "Name*"
+                    ),
+                    React.createElement("input", { type: "text", className: "form-control", name: "name", required: true })
                   ),
-                  React.createElement("input", { type: "text", className: "form-control", name: "name" })
+                  React.createElement(
+                    "div",
+                    { className: "form-group" },
+                    React.createElement(
+                      "label",
+                      { className: "form-control-label" },
+                      "Description*"
+                    ),
+                    React.createElement("textarea", { className: "form-control", name: "description", rows: "3" })
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "form-group" },
+                    React.createElement(
+                      "label",
+                      { className: "form-control-label" },
+                      "Vetting Comments*"
+                    ),
+                    React.createElement("textarea", { className: "form-control", name: "vettingComments", rows: "3", required: true })
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "form-group" },
+                    React.createElement(
+                      "label",
+                      { className: "form-control-label" },
+                      "Handle-it"
+                    ),
+                    React.createElement("input", (_React$createElement = { type: "checkbox", name: "handleit", id: "checkbox1", style: { "marginLeft": "10px; !important" }, value: "true" }, _defineProperty(_React$createElement, "name", "isHandle"), _defineProperty(_React$createElement, "checked", true), _React$createElement))
+                  )
                 ),
                 React.createElement(
-                  "div",
-                  { className: "form-group" },
-                  React.createElement(
-                    "label",
-                    { className: "form-control-label" },
-                    "Description*"
-                  ),
-                  React.createElement("textarea", { className: "form-control", name: "description", rows: "3" })
+                  "button",
+                  { type: "submit", className: "btn btn-primary card-link" },
+                  "Save"
                 ),
                 React.createElement(
-                  "div",
-                  { className: "form-group" },
-                  React.createElement(
-                    "label",
-                    { className: "form-control-label" },
-                    "Vetting Comments*"
-                  ),
-                  React.createElement("textarea", { className: "form-control", name: "vettingComments", rows: "3" })
-                ),
-                React.createElement(
-                  "div",
-                  { className: "form-group" },
-                  React.createElement(
-                    "label",
-                    { className: "form-control-label" },
-                    "Cost"
-                  ),
-                  React.createElement("input", { type: "cost", className: "form-control", name: "cost" })
-                ),
-                React.createElement(
-                  "div",
-                  { className: "form-group" },
-                  React.createElement(
-                    "label",
-                    { className: "form-control-label" },
-                    "Handle-it"
-                  ),
-                  React.createElement("input", (_React$createElement = { type: "checkbox", name: "isHandle", id: "checkbox1", style: { "marginLeft": "10px; !important" }, value: "true" }, _defineProperty(_React$createElement, "name", "isHandle"), _defineProperty(_React$createElement, "checked", true), _React$createElement))
+                  "a",
+                  { href: "#", className: "btn btn-danger card-link work-item-clear" },
+                  "Clear"
                 )
-              ),
-              React.createElement(
-                "a",
-                { href: "#", className: "btn btn-primary card-link work-item-new" },
-                "Save"
-              ),
-              React.createElement(
-                "a",
-                { href: "#", className: "btn btn-danger card-link work-item-clear" },
-                "Clear"
               )
             )
           )
