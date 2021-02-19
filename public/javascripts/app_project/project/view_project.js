@@ -51,8 +51,7 @@ var ProjectApp = function (_React$Component) {
     _this.set_create_workitem_menu = function () {
       var data = {
         project_id: _this.state.project._id,
-        type: "project",
-        application_id: _this.state.application.id
+        type: "project"
       };
       _this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem, data, _this.project_menu.current.add_workitem);
     };

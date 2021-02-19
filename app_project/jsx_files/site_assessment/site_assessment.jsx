@@ -38,7 +38,6 @@ class App extends React.Component {
     var data = {
       assessment_id: this.state.assessment._id, 
       type: "assessment",
-      application_id: this.state.assessment.documentPackage._id,
     };
     this.modalmenu.current.show_menu(
       "create_workitem", 

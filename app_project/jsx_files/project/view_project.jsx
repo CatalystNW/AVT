@@ -54,7 +54,6 @@ class ProjectApp extends React.Component {
     var data = {
       project_id: this.state.project._id,
       type: "project",
-      application_id: this.state.application.id,
     };
     this.modalmenu.current.show_menu(
       "create_workitem",
