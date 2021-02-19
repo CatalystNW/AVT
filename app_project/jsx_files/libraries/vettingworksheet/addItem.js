@@ -1,3 +1,5 @@
+import { WorkItem } from "/javascripts/app_project/workitem.js"
+
 $(document).ready(init);
 
 function init() {
