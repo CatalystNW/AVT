@@ -4,13 +4,6 @@ import { VettingWorkItemApp } from "./VettingWorkItemApp.js";
 $(document).ready(init);
 
 function init() {
-    //since delete/update buttons are dynamically added, we use the table body ID to apply click listeners
-    //the second parameter is the class name the click listener is applied to
-    $('#work-body').on('click', '.delete-button', deleteItem);
-    $('#work-body').on('click', '.update-button', setUpForm);
-    $('#work-body').on('click', '.submit-update-button', updateItem);
-    $('#work-body').on('click', '.cancel-button', cancelUpdate);
-
     (function loadReact() {
         var appId = $('#appId').val();
         ReactDOM.render(React.createElement(VettingWorkItemApp, { appId: appId }), document.getElementById("workitem-create-menu-container"));
