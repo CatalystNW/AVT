@@ -4,8 +4,6 @@ import { VettingWorkItemApp } from "./VettingWorkItemApp.js";
 $(document).ready(init);
 
 function init() {
-
-    $('#add_work_item').on('click', addItem);
     //since delete/update buttons are dynamically added, we use the table body ID to apply click listeners
     //the second parameter is the class name the click listener is applied to
     $('#work-body').on('click', '.delete-button', deleteItem);
