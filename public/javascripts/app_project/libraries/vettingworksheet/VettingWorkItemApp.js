@@ -10,13 +10,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { VettingWorkItemApp };
 
+// props. appId: documentPackage/ application id
+
 var VettingWorkItemApp = function (_React$Component) {
   _inherits(VettingWorkItemApp, _React$Component);
 
-  function VettingWorkItemApp() {
+  function VettingWorkItemApp(props) {
     _classCallCheck(this, VettingWorkItemApp);
 
-    return _possibleConstructorReturn(this, (VettingWorkItemApp.__proto__ || Object.getPrototypeOf(VettingWorkItemApp)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (VettingWorkItemApp.__proto__ || Object.getPrototypeOf(VettingWorkItemApp)).call(this, props));
+
+    _this.loadAssessment = function () {
+      $.ajax({
+        url: "/app_project//site_assessments/application/" + _this.props.appId,
+        context: _this,
+        type: "GET",
+        success: function success(assessment) {
+          this.setState({
+            workItems: assessment.workItems
+          });
+        }
+      });
+    };
+
+    _this.state = {
+      workItems: []
+    };
+    _this.loadAssessment();
+    return _this;
   }
 
   _createClass(VettingWorkItemApp, [{

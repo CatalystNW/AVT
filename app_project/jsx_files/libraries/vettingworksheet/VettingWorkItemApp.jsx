@@ -1,6 +1,28 @@
 export {VettingWorkItemApp}
 
+// props. appId: documentPackage/ application id
 class VettingWorkItemApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      workItems: [],
+    };
+    this.loadAssessment();
+  }
+
+  loadAssessment = () => {
+    $.ajax({
+      url: "/app_project//site_assessments/application/" + this.props.appId,
+      context: this,
+      type: "GET",
+      success: function(assessment) {
+        this.setState({
+          workItems: assessment.workItems,
+        });
+      }
+    });
+  }
+
   render() {
     return (
     <div>
