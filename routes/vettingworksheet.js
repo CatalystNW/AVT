@@ -34,7 +34,6 @@ module.exports = function(passport) {
         vettingNotes: VettingNotePackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
 
         finances: FinPackage.find({appID: ObjectId(req.params.id)}).sort([['_id', 1]]).lean().execAsync(),
-    		workItems: WorkItemPackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
     		highlight: highlightPackage.findOne({"documentPackage": ObjectId(req.params.id)}).lean().execAsync(),
 	      //finances: FinPackage.findOne({appID: ObjectId(req.params.id)}).lean().execAsync()
     }).then(function(result) {
@@ -63,15 +62,6 @@ module.exports = function(passport) {
 						var Day = ( "00" + note.date.getDate()).slice(-2);
 						var Mon = ("00" + (note.date.getMonth()+1)).slice(-2);
 						result.vettingNotes[index].date = Mon + "/" + Day + "/" + Year;
-				});
-			}
-			if(result.workItems.length != 0) {
-				result.workItems.forEach(function(item, index){
-					var Year = item.date.getFullYear();
-					//get month and day with padding since they are 0 indexed
-					var Day = ( "00" + item.date.getDate()).slice(-2);
-					var Mon = ("00" + (item.date.getMonth()+1)).slice(-2);
-					result.workItems[index].date = Mon + "/" + Day + "/" + Year;
 				});
 			}
 
