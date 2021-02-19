@@ -12,7 +12,8 @@ function init() {
     $('#work-body').on('click', '.cancel-button', cancelUpdate);
 
     (function loadReact() {
-        ReactDOM.render(React.createElement(VettingWorkItemApp, null), document.getElementById("workitem-create-menu-container"));
+        var appId = $('#appId').val();
+        ReactDOM.render(React.createElement(VettingWorkItemApp, { appId: appId }), document.getElementById("workitem-create-menu-container"));
     })();
 }
 
