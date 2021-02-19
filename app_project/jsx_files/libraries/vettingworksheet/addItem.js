@@ -1,4 +1,6 @@
 import { WorkItem } from "/javascripts/app_project/workitem.js"
+import { VettingWorkItemApp } from "./VettingWorkItemApp.js"
+
 
 $(document).ready(init);
 
@@ -11,7 +13,10 @@ function init() {
     $('#work-body').on('click', '.update-button', setUpForm);
     $('#work-body').on('click', '.submit-update-button', updateItem);
     $('#work-body').on('click', '.cancel-button', cancelUpdate);
-
+    
+    (function loadReact() {
+        ReactDOM.render(<VettingWorkItemApp />, document.getElementById("workitem-create-menu-container"));
+    })();
 }
 
 /**
