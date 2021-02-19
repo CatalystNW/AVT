@@ -40,12 +40,12 @@ module.exports = function(passport) {
     }).then(function(result) {
 			//format birth date for display
 			if(result.doc.application.dob.date != null) {
-					var dobYear = result.doc.application.dob.date.getFullYear();
-					//get month and day with padding since they are 0 indexed
-					var dobDay = ( "00" + result.doc.application.dob.date.getDate()).slice(-2);
-					var dobMon = ("00" + (result.doc.application.dob.date.getMonth()+1)).slice(-2);
+				var dobYear = result.doc.application.dob.date.getFullYear();
+				//get month and day with padding since they are 0 indexed
+				var dobDay = ( "00" + result.doc.application.dob.date.getDate()).slice(-2);
+				var dobMon = ("00" + (result.doc.application.dob.date.getMonth()+1)).slice(-2);
 
-					result.doc.application.dob.date = dobYear + "-" + dobMon + "-" + dobDay;
+				result.doc.application.dob.date = dobYear + "-" + dobMon + "-" + dobDay;
 			}
 
 			if(result.doc.service_area == null) {
@@ -65,8 +65,6 @@ module.exports = function(passport) {
 						result.vettingNotes[index].date = Mon + "/" + Day + "/" + Year;
 				});
 			}
-
-
 			if(result.workItems.length != 0) {
 				result.workItems.forEach(function(item, index){
 					var Year = item.date.getFullYear();
