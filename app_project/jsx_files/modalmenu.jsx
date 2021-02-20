@@ -79,8 +79,10 @@ class ModalMenu extends React.Component {
    * @param {*} additional_data : any additional data Obj passed to submit form handler
    * @param {*} handle_data_callback : callback passed to submit form handler
    *    that will edit the HTML elements after ajax success
+   * @param {String} page_type Page type that is calling the modal menu
    */
-  show_menu(type, submit_form_handler, additional_data, handle_data_callback) {
+  show_menu(type, submit_form_handler, additional_data, 
+      handle_data_callback, page_type = null) {
     if (type == "create_workitem") {
       this.setState(
         { type: type, title: "Create WorkItem", 
@@ -88,6 +90,7 @@ class ModalMenu extends React.Component {
           additional_data: additional_data,
           prev_data: {},
           handle_data_callback: handle_data_callback,
+          page_type: page_type,
       }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "edit_workitem") {
       this.setState({
@@ -96,6 +99,7 @@ class ModalMenu extends React.Component {
         additional_data: {workitem_id: additional_data._id},
         prev_data: additional_data,
         handle_data_callback: handle_data_callback,
+        page_type: page_type,
       }, ()=> {$("#modalMenu").modal("show");});
     } else if (type == "create_materialsitem") {
       this.setState(
@@ -146,6 +150,33 @@ class ModalMenu extends React.Component {
           <input type="checkbox" name="handleit" id="handleit-check"></input>
           <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
         </div>) : null;
+
+      let comments_input;
+      if (this.state.page_type == "project") {
+        comments_input = (
+          <div className="form-group">
+            <label>Project Comments</label>
+            <textarea className="form-control" name="project_comments" 
+              defaultValue={this.state.type == "edit_workitem" ? 
+                this.state.prev_data.project_comments : ""} id="comments-input"></textarea>
+          </div>);
+      } else if (this.state.page_type == "vetting") {
+        comments_input = (
+          <div className="form-group">
+            <label>Project Comments</label>
+            <textarea className="form-control" name="vetting_comments" 
+              defaultValue={this.state.type == "edit_workitem" ? 
+                this.state.prev_data.vetting_comments : ""} id="comments-input"></textarea>
+          </div>);
+      } else {
+        comments_input = (
+          <div className="form-group">
+            <label>Assessment Comments</label>
+            <textarea className="form-control" name="assessment_comments" 
+              defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : ""} id="comments-input"></textarea>
+          </div>);
+      }
+
       return (<div>
         <div className="form-group">
           <label>Name</label>
@@ -157,11 +188,7 @@ class ModalMenu extends React.Component {
           <textarea className="form-control" name="description" id="desc-input" 
             defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""} required></textarea>
         </div>
-        <div className="form-group">
-          <label>Assessment Comments</label>
-          <textarea className="form-control" name="assessment_comments" 
-            defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : ""} id="comments-input"></textarea>
-        </div>
+        {comments_input}
         {handleit_form}
       </div>);
     } else if (this.state.type == "create_materialsitem") {

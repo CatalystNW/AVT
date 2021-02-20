@@ -117,14 +117,18 @@ var ModalMenu = function (_React$Component) {
      * @param {*} additional_data : any additional data Obj passed to submit form handler
      * @param {*} handle_data_callback : callback passed to submit form handler
      *    that will edit the HTML elements after ajax success
+     * @param {String} page_type Page type that is calling the modal menu
      */
     value: function show_menu(type, submit_form_handler, additional_data, handle_data_callback) {
+      var page_type = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+
       if (type == "create_workitem") {
         this.setState({ type: type, title: "Create WorkItem",
           submit_form_handler: submit_form_handler,
           additional_data: additional_data,
           prev_data: {},
-          handle_data_callback: handle_data_callback
+          handle_data_callback: handle_data_callback,
+          page_type: page_type
         }, function () {
           $("#modalMenu").modal("show");
         });
@@ -134,7 +138,8 @@ var ModalMenu = function (_React$Component) {
           submit_form_handler: submit_form_handler,
           additional_data: { workitem_id: additional_data._id },
           prev_data: additional_data,
-          handle_data_callback: handle_data_callback
+          handle_data_callback: handle_data_callback,
+          page_type: page_type
         }, function () {
           $("#modalMenu").modal("show");
         });
@@ -194,6 +199,46 @@ var ModalMenu = function (_React$Component) {
             "Handle-It"
           )
         ) : null;
+
+        var comments_input = void 0;
+        if (this.state.page_type == "project") {
+          comments_input = React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              null,
+              "Project Comments"
+            ),
+            React.createElement("textarea", { className: "form-control", name: "project_comments",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.project_comments : "", id: "comments-input" })
+          );
+        } else if (this.state.page_type == "vetting") {
+          comments_input = React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              null,
+              "Project Comments"
+            ),
+            React.createElement("textarea", { className: "form-control", name: "vetting_comments",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.vetting_comments : "", id: "comments-input" })
+          );
+        } else {
+          comments_input = React.createElement(
+            "div",
+            { className: "form-group" },
+            React.createElement(
+              "label",
+              null,
+              "Assessment Comments"
+            ),
+            React.createElement("textarea", { className: "form-control", name: "assessment_comments",
+              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : "", id: "comments-input" })
+          );
+        }
+
         return React.createElement(
           "div",
           null,
@@ -219,17 +264,7 @@ var ModalMenu = function (_React$Component) {
             React.createElement("textarea", { className: "form-control", name: "description", id: "desc-input",
               defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "", required: true })
           ),
-          React.createElement(
-            "div",
-            { className: "form-group" },
-            React.createElement(
-              "label",
-              null,
-              "Assessment Comments"
-            ),
-            React.createElement("textarea", { className: "form-control", name: "assessment_comments",
-              defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.assessment_comments : "", id: "comments-input" })
-          ),
+          comments_input,
           handleit_form
         );
       } else if (this.state.type == "create_materialsitem") {
