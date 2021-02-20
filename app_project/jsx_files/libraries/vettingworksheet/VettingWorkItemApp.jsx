@@ -71,7 +71,7 @@ class VettingWorkItemApp extends React.Component {
     this.setState(state => {
       var new_workitems = [...state.workItems];
       for (let i=0; i< new_workitems.length; i++) {
-        if (new_workitems._id == workitem_id) {
+        if (new_workitems[i]._id == workitem_id) {
           new_workitems.splice(i, 1);
           break;
         }

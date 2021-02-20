@@ -100,7 +100,7 @@ var VettingWorkItemApp = function (_React$Component) {
       _this.setState(function (state) {
         var new_workitems = [].concat(_toConsumableArray(state.workItems));
         for (var i = 0; i < new_workitems.length; i++) {
-          if (new_workitems._id == workitem_id) {
+          if (new_workitems[i]._id == workitem_id) {
             new_workitems.splice(i, 1);
             break;
           }
