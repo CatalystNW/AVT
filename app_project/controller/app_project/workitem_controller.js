@@ -48,6 +48,8 @@ async function create_workitem(req, res) {
       res.status(400).end();
       return;
     }
+    if (req.body.project_comments)
+      workitem.project_comments = req.body.project_comments;
     workitem.appProject = project._id;
   } else {
     res.status(400).end();
