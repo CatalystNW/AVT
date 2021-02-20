@@ -53,7 +53,7 @@ var ProjectApp = function (_React$Component) {
         project_id: _this.state.project._id,
         type: "project"
       };
-      _this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem, data, _this.project_menu.current.add_workitem);
+      _this.modalmenu.current.show_menu("create_workitem", funkie.create_workitem, data, _this.project_menu.current.add_workitem, "project");
     };
 
     _this.set_edit_materialisitem_menu = function (old_data, edit_materialsitem_handler) {
@@ -69,7 +69,7 @@ var ProjectApp = function (_React$Component) {
     };
 
     _this.set_edit_workitem_menu = function (data, edit_workitem_handler) {
-      _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler);
+      _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler, "project");
     };
 
     _this.getModalMenu = function () {

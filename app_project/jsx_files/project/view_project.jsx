@@ -60,6 +60,7 @@ class ProjectApp extends React.Component {
       funkie.create_workitem,
       data,
       this.project_menu.current.add_workitem,
+      "project"
     )
   };
 
@@ -90,7 +91,8 @@ class ProjectApp extends React.Component {
       "edit_workitem",
       funkie.edit_workitem,
       data,
-      edit_workitem_handler
+      edit_workitem_handler,
+      "project"
     );
   };
 
