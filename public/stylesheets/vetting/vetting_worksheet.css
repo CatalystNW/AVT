@@ -36,3 +36,8 @@
     height: 525px;
     overflow: auto;
 }
+
+h5.card-title {
+    font-size: 2rem;
+
+}
