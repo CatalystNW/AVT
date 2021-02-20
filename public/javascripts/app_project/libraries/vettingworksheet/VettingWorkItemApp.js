@@ -47,8 +47,12 @@ var VettingWorkItemApp = function (_React$Component) {
           url: "/app_project/workitems",
           type: "POST",
           data: data,
+          context: _this,
           success: function success(workitem) {
-            console.log(workitem);
+            this.clearForm();
+            this.setState({
+              workItems: [].concat(_toConsumableArray(this.state.workItems), [workitem])
+            });
           }
         });
       }

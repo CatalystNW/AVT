@@ -40,8 +40,12 @@ class VettingWorkItemApp extends React.Component {
         url: "/app_project/workitems",
         type: "POST",
         data: data,
+        context: this,
         success: function(workitem) {
-          console.log(workitem);
+          this.clearForm();
+          this.setState({
+            workItems: [...this.state.workItems, workitem],
+          })
         }
       })
     }
