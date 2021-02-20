@@ -1,5 +1,7 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -7,6 +9,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 export { VettingWorkItemApp };
+import { WorkItem } from "../../workitem.js";
+import { ModalMenu } from "../../modalmenu.js";
 
 // props. appId: documentPackage/ application id
 
@@ -88,18 +92,50 @@ var VettingWorkItemApp = function (_React$Component) {
       return data;
     };
 
+    _this.remove_workitem = function (workitem_id) {
+      _this.setState(function (state) {
+        var new_workitems = [].concat(_toConsumableArray(state.workItems));
+        for (var i = 0; i < new_workitems.length; i++) {
+          if (new_workitems._id == workitem_id) {
+            new_workitems.splice(i, 1);
+            break;
+          }
+        }
+        return { workItems: new_workitems };
+      });
+    };
+
+    _this.set_create_materialsitem_menu = function (e, materialsitem_handler) {
+      var data = {
+        workitem_id: e.target.getAttribute("workitem_id")
+      };
+      _this.modalmenu.current.show_menu("create_materialsitem", funkie.create_materialsitem, data, materialsitem_handler);
+    };
+
+    _this.set_edit_workitem_menu = function (data, edit_workitem_handler) {
+      _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler);
+    };
+
+    _this.set_edit_materialisitem_menu = function (old_data, edit_materialsitem_handler) {
+      _this.modalmenu.current.show_menu("edit_materialsitem", funkie.edit_materialsitem, old_data, edit_materialsitem_handler // <WorkItem> method
+      );
+    };
+
     _this.state = {
       workItems: []
     };
     _this.assessmentId = null;
     _this.loadAssessment();
     _this.formId = "workitem-create-form";
+    _this.modalmenu = React.createRef();
     return _this;
   }
 
   _createClass(VettingWorkItemApp, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return React.createElement(
         "div",
         null,
@@ -191,8 +227,18 @@ var VettingWorkItemApp = function (_React$Component) {
             "h3",
             null,
             "Current Work Items"
-          )
-        )
+          ),
+          this.state.workItems.map(function (workItem) {
+            return React.createElement(WorkItem, { key: workItem._id,
+              workitem: workItem,
+              remove_workitem: _this2.remove_workitem,
+              set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
+              set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
+              set_edit_workitem_menu: _this2.set_edit_workitem_menu
+            });
+          })
+        ),
+        React.createElement(ModalMenu, { ref: this.modalmenu })
       );
     }
   }]);

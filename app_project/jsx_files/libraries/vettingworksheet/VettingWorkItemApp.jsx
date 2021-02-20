@@ -1,4 +1,6 @@
 export {VettingWorkItemApp}
+import { WorkItem } from "../../workitem.js"
+import { ModalMenu } from "../../modalmenu.js"
 
 // props. appId: documentPackage/ application id
 class VettingWorkItemApp extends React.Component {
@@ -10,6 +12,7 @@ class VettingWorkItemApp extends React.Component {
     this.assessmentId = null;
     this.loadAssessment();
     this.formId = "workitem-create-form";
+    this.modalmenu = React.createRef();
   }
 
   loadAssessment = () => {
@@ -60,6 +63,49 @@ class VettingWorkItemApp extends React.Component {
     return data;
   }
 
+  remove_workitem = (workitem_id) => {
+    this.setState(state => {
+      var new_workitems = [...state.workItems];
+      for (let i=0; i< new_workitems.length; i++) {
+        if (new_workitems._id == workitem_id) {
+          new_workitems.splice(i, 1);
+          break;
+        }
+      }
+      return {workItems: new_workitems}
+    });
+  };
+
+  set_create_materialsitem_menu = (e, materialsitem_handler) => {
+    var data = {
+      workitem_id: e.target.getAttribute("workitem_id")
+    }
+    this.modalmenu.current.show_menu(
+      "create_materialsitem",
+      funkie.create_materialsitem,
+      data,
+      materialsitem_handler,
+    );
+  };
+
+  set_edit_workitem_menu = (data, edit_workitem_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_workitem",
+      funkie.edit_workitem,
+      data,
+      edit_workitem_handler
+    );
+  };
+
+  set_edit_materialisitem_menu = (old_data, edit_materialsitem_handler) => {
+    this.modalmenu.current.show_menu(
+      "edit_materialsitem",
+      funkie.edit_materialsitem,
+      old_data,
+      edit_materialsitem_handler, // <WorkItem> method
+    );
+  };
+
   render() {
     return (
     <div>
@@ -96,7 +142,19 @@ class VettingWorkItemApp extends React.Component {
       </div>
       <div className="col-xs-12 col-sm-6 col-md-9">
 			  <h3>Current Work Items</h3>
+        {this.state.workItems.map(workItem => {
+          return (
+          <WorkItem key={workItem._id}
+            workitem={workItem}
+            remove_workitem={this.remove_workitem}
+            set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+            set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+            set_edit_workitem_menu = {this.set_edit_workitem_menu}
+          />)
+        })}
       </div>
+
+      <ModalMenu ref={this.modalmenu}/>
 		</div>) ;   
   }
 }
