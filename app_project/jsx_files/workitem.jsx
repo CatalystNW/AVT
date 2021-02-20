@@ -65,11 +65,7 @@ class WorkItem extends React.Component {
   }
 
   edit_menu_workitems_handler = (data) => {
-    this.setState({
-      name: data.name,
-      description: data.description,
-      assessment_comments: data.assessment_comments,
-    });
+    this.setState(data);
   }
 
   delete_workitem = () => {

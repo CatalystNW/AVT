@@ -77,11 +77,7 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.edit_menu_workitems_handler = function (data) {
-      _this.setState({
-        name: data.name,
-        description: data.description,
-        assessment_comments: data.assessment_comments
-      });
+      _this.setState(data);
     };
 
     _this.delete_workitem = function () {
