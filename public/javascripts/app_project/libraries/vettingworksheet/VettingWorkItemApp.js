@@ -196,7 +196,7 @@ var VettingWorkItemApp = function (_React$Component) {
                       { className: "form-control-label" },
                       "Vetting Comments*"
                     ),
-                    React.createElement("textarea", { className: "form-control", name: "vettingComments", rows: "3", required: true })
+                    React.createElement("textarea", { className: "form-control", name: "vetting_comments", rows: "3", required: true })
                   ),
                   React.createElement(
                     "div",

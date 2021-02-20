@@ -25,6 +25,9 @@ async function create_workitem(req, res) {
   workitem.description = req.body.description;
   workitem.type = req.body.type;
   workitem.handleit = req.body.handleit;
+  if (req.body.vetting_comments) {
+    workitem.vetting_comments = req.body.vetting_comments;
+  }
   if (req.body.type == "assessment" && req.body.assessment_id) {
     var assessment = await SiteAssessment.findById(req.body.assessment_id);
     if (!assessment) {

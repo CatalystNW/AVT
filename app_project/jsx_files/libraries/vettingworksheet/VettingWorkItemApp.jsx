@@ -130,7 +130,7 @@ class VettingWorkItemApp extends React.Component {
                 </div>
                 <div className="form-group">
                   <label className="form-control-label">Vetting Comments*</label>
-                  <textarea className="form-control" name="vettingComments" rows="3" required></textarea>
+                  <textarea className="form-control" name="vetting_comments" rows="3" required></textarea>
                 </div>
                 <div className="form-group">
                   <label className="form-control-label">Handle-it</label>
