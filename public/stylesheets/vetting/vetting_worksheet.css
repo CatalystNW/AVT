@@ -1,0 +1,33 @@
+.no-left-padding {
+    padding-left: 0px;
+}
+
+.btnEditDrive {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: -3px;
+}
+.shallow {
+    font-size: 14px;
+    margin-left: 20px;
+    }
+.no-bottom-margin {
+    margin-bottom: 0px;
+}
+.drive-header {
+    margin-bottom: 0px;
+}
+.drive-button-padding {
+    padding-top: 15px;
+}
+.drive-link {
+    padding-top: 5px;
+    margin-top: 0px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.drive-input-link {
+    padding-top: 7px;
+    font-size: 1.2em;
+}
