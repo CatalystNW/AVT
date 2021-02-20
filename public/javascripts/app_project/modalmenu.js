@@ -220,7 +220,7 @@ var ModalMenu = function (_React$Component) {
             React.createElement(
               "label",
               null,
-              "Project Comments"
+              "Vetting Comments"
             ),
             React.createElement("textarea", { className: "form-control", name: "vetting_comments",
               defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.vetting_comments : "", id: "comments-input" })

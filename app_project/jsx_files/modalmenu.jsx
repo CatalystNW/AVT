@@ -163,7 +163,7 @@ class ModalMenu extends React.Component {
       } else if (this.state.page_type == "vetting") {
         comments_input = (
           <div className="form-group">
-            <label>Project Comments</label>
+            <label>Vetting Comments</label>
             <textarea className="form-control" name="vetting_comments" 
               defaultValue={this.state.type == "edit_workitem" ? 
                 this.state.prev_data.vetting_comments : ""} id="comments-input"></textarea>
