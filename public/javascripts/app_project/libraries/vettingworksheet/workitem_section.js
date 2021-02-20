@@ -1,4 +1,3 @@
-import { WorkItem } from "/javascripts/app_project/workitem.js";
 import { VettingWorkItemApp } from "./VettingWorkItemApp.js";
 
 $(document).ready(init);
