@@ -193,6 +193,11 @@ class WorkItem extends React.Component {
   };
   
   render() {
+    let project_comments = this.state.type == "project" ? 
+      (<div><b>Project Comments</b>
+        <p className="card-text">
+          {this.state.project_comments}
+        </p></div>): (null)
     return (
     <div className="card">
       <div className="card-body">
@@ -221,6 +226,8 @@ class WorkItem extends React.Component {
         <p className="card-text">
           {this.state.assessment_comments}
         </p>
+
+        {project_comments}
 
         <p className="card-text">
           <b>Handle-It </b> 

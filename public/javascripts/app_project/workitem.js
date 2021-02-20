@@ -289,6 +289,20 @@ var WorkItem = function (_React$Component) {
   _createClass(WorkItem, [{
     key: "render",
     value: function render() {
+      var project_comments = this.state.type == "project" ? React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "b",
+          null,
+          "Project Comments"
+        ),
+        React.createElement(
+          "p",
+          { className: "card-text" },
+          this.state.project_comments
+        )
+      ) : null;
       return React.createElement(
         "div",
         { className: "card" },
@@ -346,6 +360,7 @@ var WorkItem = function (_React$Component) {
             { className: "card-text" },
             this.state.assessment_comments
           ),
+          project_comments,
           React.createElement(
             "p",
             { className: "card-text" },
