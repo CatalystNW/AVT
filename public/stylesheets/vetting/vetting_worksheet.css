@@ -31,3 +31,8 @@
     padding-top: 7px;
     font-size: 1.2em;
 }
+
+#workitems-container {
+    height: 525px;
+    overflow: auto;
+}

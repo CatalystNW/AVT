@@ -226,7 +226,7 @@ var VettingWorkItemApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "col-xs-12 col-sm-6 col-md-9" },
+          { className: "col-xs-12 col-sm-6 col-md-9", id: "workitems-container" },
           React.createElement(
             "h3",
             null,
