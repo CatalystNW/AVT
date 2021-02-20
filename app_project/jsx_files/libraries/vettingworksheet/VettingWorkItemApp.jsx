@@ -97,7 +97,8 @@ class VettingWorkItemApp extends React.Component {
       "edit_workitem",
       funkie.edit_workitem,
       data,
-      edit_workitem_handler
+      edit_workitem_handler,
+      "vetting"
     );
   };
 

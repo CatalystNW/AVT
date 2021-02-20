@@ -117,7 +117,7 @@ var VettingWorkItemApp = function (_React$Component) {
     };
 
     _this.set_edit_workitem_menu = function (data, edit_workitem_handler) {
-      _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler);
+      _this.modalmenu.current.show_menu("edit_workitem", funkie.edit_workitem, data, edit_workitem_handler, "vetting");
     };
 
     _this.set_edit_materialisitem_menu = function (old_data, edit_materialsitem_handler) {
