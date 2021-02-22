@@ -103,27 +103,30 @@ class WorkItem extends React.Component {
       <table className="table">
           <thead>
             <tr>
-              <th scope="col" className="col-sm-5">Description</th>
+              <th scope="col" className="col-sm-4">Description</th>
+              <th scope="col" className="col-sm-3">Vendor</th>
               <th scope="col" className="col-sm-1">Price</th>
               <th scope="col" className="col-sm-1">Count</th>
-              <th scope="col" className="col-sm-3">Vendor</th>
-              <th scope="col" className="col-sm-2">Total</th>
+              <th scope="col" className="col-sm-1">Total</th>
+              <th scope="col" className="col-sm-2">Options</th>
             </tr>
           </thead>
           <tbody>
             {this.state.materialsItems.map((materialsItem, index) => {
-              {cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
-                total += cost;}
+              cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
+              total += cost;
               return (
-                <tr key={"row"+materialsItem._id}>
-                  <td className="col-sm-5" key={"desc-"+materialsItem._id}>
+                <tr key={materialsItem._id}>
+                  <td className="col-sm-4">
                     {materialsItem.description}</td>
-                  <td className="col-sm-1" key={"price-"+materialsItem._id}>
+                  <td className="col-sm-3">{materialsItem.vendor}</td>
+                  <td className="col-sm-1">
                     {materialsItem.price}</td>
-                  <td className="col-sm-1" key={"options-"+materialsItem._id}>
+                  <td className="col-sm-1">
                     {materialsItem.quantity}</td>
-                  <td className="col-sm-3"key={"vendor-"+materialsItem._id}>{materialsItem.vendor}</td>
-                  <td className="col-sm-2"key={"del-"+materialsItem._id}>
+                  <td className="col-sm-1">
+                    {cost}
+                    {/* Old way of putting options into total
                     { this.editable ?
                       (<div className="dropdown">
                       <button className="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -134,16 +137,31 @@ class WorkItem extends React.Component {
                           description={materialsItem.description}
                           item_id={materialsItem._id}
                           onClick={this.onClick_delete_materialsitem}>Delete</a>
-                        <a className="dropdown-item" item_id={materialsItem._id}
+                        <a className="dropdown-item"
                           item_id={materialsItem._id}
                           onClick={this.onClick_edit_material_item}>Edit</a>
                       </div>
-                    </div>) : (<div>{cost}</div>)
-                    }
-                    
+                    </div>) : (<div>{cost}</div>)} */}
                   </td>
-                </tr>
-              )
+                  <td className="col-sm-2">
+                    <button className="btn btn-secondary btn-sm"
+                      onClick={this.onClick_edit_material_item}
+                      item_id={materialsItem._id}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
+                    </button>
+                    <button className="btn btn-outline-danger btn-sm" 
+                      description={materialsItem.description}
+                      item_id={materialsItem._id} 
+                      onClick={this.onClick_delete_materialsitem}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </button>
+                  </td>
+                </tr>)
             })}
           </tbody>
           <tfoot>
@@ -199,10 +217,10 @@ class WorkItem extends React.Component {
       <div className="card-body">
         <h5 className="card-title">{this.state.name}
           {this.editable ? 
-            (<span>
+            (<span style={{marginLeft: "15px"}}>
               <button type="button" className="btn btn-sm btn-secondary"
                 onClick={this.onClick_edit_workitem_btn}>Edit</button>
-              <button type="button" className="btn btn-sm btn-warning"
+              <button type="button" className="btn btn-sm btn-danger"
                 onClick={this.onClick_del_workitem_btn}>Delete</button>
             </span>) : (null)
           }
@@ -236,7 +254,7 @@ class WorkItem extends React.Component {
         <div className="form-group row">
           <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
-              htmlFor="workitem-status-select">Status</label>
+              htmlFor="workitem-status-select"><b>Status</b></label>
             <div className="col-6">
               <select className="form-control" value={this.state.status}
                 id="workitem-status-select" 
@@ -251,7 +269,7 @@ class WorkItem extends React.Component {
           </div>
           <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
-              htmlFor="workitem-status-select">Volunteers Required</label>
+              htmlFor="workitem-status-select"><b>Volunteers Required</b></label>
             <div className="col-6">
               { this.editable ?
               (<input type="number" className="form-control"
@@ -264,13 +282,19 @@ class WorkItem extends React.Component {
           </div>
         </div>
 
-        <b>Materials List</b>
-        { this.editable ?
-          (<button type="button" className="btn btn-primary btn-sm"
-            onClick={this.onClick_create_item}
-            workitem_id={this.state._id}>+ Item
-          </button>) : null
-        }
+        <div style={{display: "flex",}}>
+          <div>
+            <b>Materials List</b>
+          </div>
+          <div style={{marginLeft: "15px"}}>
+            { this.editable ?
+              (<button type="button" className="btn btn-primary btn-sm"
+                onClick={this.onClick_create_item}
+                workitem_id={this.state._id}>+ Item
+              </button>) : null
+            }
+          </div>
+        </div>
         
         {this.create_materialslist()}
       </div>

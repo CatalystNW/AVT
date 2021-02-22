@@ -125,8 +125,13 @@ var WorkItem = function (_React$Component) {
             null,
             React.createElement(
               "th",
-              { scope: "col", className: "col-sm-5" },
+              { scope: "col", className: "col-sm-4" },
               "Description"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col", className: "col-sm-3" },
+              "Vendor"
             ),
             React.createElement(
               "th",
@@ -140,13 +145,13 @@ var WorkItem = function (_React$Component) {
             ),
             React.createElement(
               "th",
-              { scope: "col", className: "col-sm-3" },
-              "Vendor"
+              { scope: "col", className: "col-sm-1" },
+              "Total"
             ),
             React.createElement(
               "th",
               { scope: "col", className: "col-sm-2" },
-              "Total"
+              "Options"
             )
           )
         ),
@@ -154,68 +159,62 @@ var WorkItem = function (_React$Component) {
           "tbody",
           null,
           _this.state.materialsItems.map(function (materialsItem, index) {
-            var _React$createElement;
-
-            {
-              cost = parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100 / 100;
-              total += cost;
-            }
+            cost = parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100 / 100;
+            total += cost;
             return React.createElement(
               "tr",
-              { key: "row" + materialsItem._id },
+              { key: materialsItem._id },
               React.createElement(
                 "td",
-                { className: "col-sm-5", key: "desc-" + materialsItem._id },
+                { className: "col-sm-4" },
                 materialsItem.description
               ),
               React.createElement(
                 "td",
-                { className: "col-sm-1", key: "price-" + materialsItem._id },
-                materialsItem.price
-              ),
-              React.createElement(
-                "td",
-                { className: "col-sm-1", key: "options-" + materialsItem._id },
-                materialsItem.quantity
-              ),
-              React.createElement(
-                "td",
-                { className: "col-sm-3", key: "vendor-" + materialsItem._id },
+                { className: "col-sm-3" },
                 materialsItem.vendor
               ),
               React.createElement(
                 "td",
-                { className: "col-sm-2", key: "del-" + materialsItem._id },
-                _this.editable ? React.createElement(
-                  "div",
-                  { className: "dropdown" },
+                { className: "col-sm-1" },
+                materialsItem.price
+              ),
+              React.createElement(
+                "td",
+                { className: "col-sm-1" },
+                materialsItem.quantity
+              ),
+              React.createElement(
+                "td",
+                { className: "col-sm-1" },
+                cost
+              ),
+              React.createElement(
+                "td",
+                { className: "col-sm-2" },
+                React.createElement(
+                  "button",
+                  { className: "btn btn-secondary btn-sm",
+                    onClick: _this.onClick_edit_material_item,
+                    item_id: materialsItem._id },
                   React.createElement(
-                    "button",
-                    { className: "btn btn-sm btn-secondary dropdown-toggle", type: "button", "data-toggle": "dropdown" },
-                    cost
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "dropdown-menu" },
-                    React.createElement(
-                      "a",
-                      { className: "dropdown-item",
-                        description: materialsItem.description,
-                        item_id: materialsItem._id,
-                        onClick: _this.onClick_delete_materialsitem },
-                      "Delete"
-                    ),
-                    React.createElement(
-                      "a",
-                      (_React$createElement = { className: "dropdown-item", item_id: materialsItem._id
-                      }, _defineProperty(_React$createElement, "item_id", materialsItem._id), _defineProperty(_React$createElement, "onClick", _this.onClick_edit_material_item), _React$createElement),
-                      "Edit"
-                    )
+                    "svg",
+                    { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-pencil", viewBox: "0 0 16 16" },
+                    React.createElement("path", { d: "M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" })
                   )
-                ) : React.createElement(
-                  "div",
-                  null,
-                  cost
+                ),
+                React.createElement(
+                  "button",
+                  { className: "btn btn-outline-danger btn-sm",
+                    description: materialsItem.description,
+                    item_id: materialsItem._id,
+                    onClick: _this.onClick_delete_materialsitem },
+                  React.createElement(
+                    "svg",
+                    { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-trash", viewBox: "0 0 16 16" },
+                    React.createElement("path", { d: "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" }),
+                    React.createElement("path", { "fill-rule": "evenodd", d: "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" })
+                  )
                 )
               )
             );
@@ -311,7 +310,7 @@ var WorkItem = function (_React$Component) {
             this.state.name,
             this.editable ? React.createElement(
               "span",
-              null,
+              { style: { marginLeft: "15px" } },
               React.createElement(
                 "button",
                 { type: "button", className: "btn btn-sm btn-secondary",
@@ -320,7 +319,7 @@ var WorkItem = function (_React$Component) {
               ),
               React.createElement(
                 "button",
-                { type: "button", className: "btn btn-sm btn-warning",
+                { type: "button", className: "btn btn-sm btn-danger",
                   onClick: this.onClick_del_workitem_btn },
                 "Delete"
               )
@@ -380,7 +379,11 @@ var WorkItem = function (_React$Component) {
                 "label",
                 { className: "col-6 col-form-label",
                   htmlFor: "workitem-status-select" },
-                "Status"
+                React.createElement(
+                  "b",
+                  null,
+                  "Status"
+                )
               ),
               React.createElement(
                 "div",
@@ -421,7 +424,11 @@ var WorkItem = function (_React$Component) {
                 "label",
                 { className: "col-6 col-form-label",
                   htmlFor: "workitem-status-select" },
-                "Volunteers Required"
+                React.createElement(
+                  "b",
+                  null,
+                  "Volunteers Required"
+                )
               ),
               React.createElement(
                 "div",
@@ -435,17 +442,29 @@ var WorkItem = function (_React$Component) {
             )
           ),
           React.createElement(
-            "b",
-            null,
-            "Materials List"
+            "div",
+            { style: { display: "flex" } },
+            React.createElement(
+              "div",
+              null,
+              React.createElement(
+                "b",
+                null,
+                "Materials List"
+              )
+            ),
+            React.createElement(
+              "div",
+              { style: { marginLeft: "15px" } },
+              this.editable ? React.createElement(
+                "button",
+                { type: "button", className: "btn btn-primary btn-sm",
+                  onClick: this.onClick_create_item,
+                  workitem_id: this.state._id },
+                "+ Item"
+              ) : null
+            )
           ),
-          this.editable ? React.createElement(
-            "button",
-            { type: "button", className: "btn btn-primary btn-sm",
-              onClick: this.onClick_create_item,
-              workitem_id: this.state._id },
-            "+ Item"
-          ) : null,
           this.create_materialslist()
         )
       );
