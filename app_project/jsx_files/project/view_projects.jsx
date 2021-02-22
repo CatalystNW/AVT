@@ -43,15 +43,15 @@ class AppProjects extends React.Component {
       address = `${app.address.city}, ${app.address.state}`
       projects.push(
         <tr key={project._id}>
-          <td>
+          <td className="col-sm-2" >
             <a href={"./view_projects/"+ project._id}>{app.name.first} {app.name.last}</a>
           </td>
-          <td>{address}</td>
-          <td>{project.name}</td>
-          <td>{start}</td>
-          <td>{project.crew_chief}</td>
-          <td>{project.project_advocate}</td>
-          <td>{project.site_host}</td>
+          <td className="col-sm-2" >{address}</td>
+          <td className="col-sm-2" >{project.name}</td>
+          <td className="col-sm-2" >{start}</td>
+          <td className="col-sm-1" >{project.crew_chief}</td>
+          <td className="col-sm-1" >{project.project_advocate}</td>
+          <td className="col-sm-1" >{project.site_host}</td>
         </tr>);  
     }
     return projects;    
@@ -71,13 +71,13 @@ class AppProjects extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Location</th>
-              <th scope="col">Project Name</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">CC</th>
-              <th scope="col">PA</th>
-              <th scope="col">SH</th>
+              <th className="col-sm-2" scope="col">Applicant</th>
+              <th className="col-sm-2" scope="col">Location</th>
+              <th className="col-sm-2" scope="col">Project Name</th>
+              <th className="col-sm-2" scope="col">Start Date</th>
+              <th className="col-sm-1" scope="col">CC</th>
+              <th className="col-sm-1" scope="col">PA</th>
+              <th className="col-sm-1" scope="col">SH</th>
             </tr>
           </thead>
           <tbody>

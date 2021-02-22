@@ -49,7 +49,7 @@ var AppProjects = function (_React$Component) {
           { key: project._id },
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-2" },
             React.createElement(
               "a",
               { href: "./view_projects/" + project._id },
@@ -60,32 +60,32 @@ var AppProjects = function (_React$Component) {
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-2" },
             address
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-2" },
             project.name
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-2" },
             start
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-1" },
             project.crew_chief
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-1" },
             project.project_advocate
           ),
           React.createElement(
             "td",
-            null,
+            { className: "col-sm-1" },
             project.site_host
           )
         ));
@@ -114,37 +114,37 @@ var AppProjects = function (_React$Component) {
               null,
               React.createElement(
                 "th",
-                { scope: "col" },
-                "Name"
+                { className: "col-sm-2", scope: "col" },
+                "Applicant"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-2", scope: "col" },
                 "Location"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-2", scope: "col" },
                 "Project Name"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-2", scope: "col" },
                 "Start Date"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-1", scope: "col" },
                 "CC"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-1", scope: "col" },
                 "PA"
               ),
               React.createElement(
                 "th",
-                { scope: "col" },
+                { className: "col-sm-1", scope: "col" },
                 "SH"
               )
             )
