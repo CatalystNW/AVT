@@ -374,60 +374,64 @@ var WorkItem = function (_React$Component) {
             "div",
             { className: "form-group row" },
             React.createElement(
-              "label",
-              { className: "col-sm-4 col-form-label",
-                htmlFor: "workitem-status-select" },
-              "Status"
-            ),
-            React.createElement(
               "div",
-              { className: "col-sm-8" },
+              { className: "col-md-6 col-sm-12" },
               React.createElement(
-                "select",
-                { className: "form-control", value: this.state.status,
-                  id: "workitem-status-select",
-                  onChange: this.onChange_workitem_status
-                },
+                "label",
+                { className: "col-6 col-form-label",
+                  htmlFor: "workitem-status-select" },
+                "Status"
+              ),
+              React.createElement(
+                "div",
+                { className: "col-6" },
                 React.createElement(
-                  "option",
-                  { value: "to_review" },
-                  "To Review"
-                ),
-                React.createElement(
-                  "option",
-                  { value: "handleit" },
-                  "Handleit"
-                ),
-                React.createElement(
-                  "option",
-                  { value: "declined" },
-                  "Declined"
-                ),
-                React.createElement(
-                  "option",
-                  { value: "accepted" },
-                  "Accepted"
+                  "select",
+                  { className: "form-control", value: this.state.status,
+                    id: "workitem-status-select",
+                    onChange: this.onChange_workitem_status
+                  },
+                  React.createElement(
+                    "option",
+                    { value: "to_review" },
+                    "To Review"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "handleit" },
+                    "Handleit"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "declined" },
+                    "Declined"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "accepted" },
+                    "Accepted"
+                  )
                 )
               )
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "form-group row" },
-            React.createElement(
-              "label",
-              { className: "col-sm-4 col-form-label",
-                htmlFor: "workitem-status-select" },
-              "Volunteers Required"
             ),
             React.createElement(
               "div",
-              { className: "col-sm-8" },
-              this.editable ? React.createElement("input", { type: "number", className: "form-control",
-                name: "volunteers_required",
-                property_type: "volunteers_required",
-                onChange: this.onChange_inputs_timer,
-                value: this.state.volunteers_required }) : this.state.volunteers_required
+              { className: "col-md-6 col-sm-12" },
+              React.createElement(
+                "label",
+                { className: "col-6 col-form-label",
+                  htmlFor: "workitem-status-select" },
+                "Volunteers Required"
+              ),
+              React.createElement(
+                "div",
+                { className: "col-6" },
+                this.editable ? React.createElement("input", { type: "number", className: "form-control",
+                  name: "volunteers_required",
+                  property_type: "volunteers_required",
+                  onChange: this.onChange_inputs_timer,
+                  value: this.state.volunteers_required }) : this.state.volunteers_required
+              )
             )
           ),
           React.createElement(

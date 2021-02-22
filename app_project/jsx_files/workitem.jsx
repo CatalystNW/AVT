@@ -234,32 +234,33 @@ class WorkItem extends React.Component {
           </input>
         </p>
         <div className="form-group row">
-          <label className="col-sm-4 col-form-label"
-            htmlFor="workitem-status-select">Status</label>
-          <div className="col-sm-8">
-            <select className="form-control" value={this.state.status}
-              id="workitem-status-select" 
-              onChange={this.onChange_workitem_status}
-              >
-              <option value="to_review">To Review</option>
-              <option value="handleit">Handleit</option>
-              <option value="declined">Declined</option>
-              <option value="accepted">Accepted</option>
-            </select>
+          <div className="col-md-6 col-sm-12">
+            <label className="col-6 col-form-label"
+              htmlFor="workitem-status-select">Status</label>
+            <div className="col-6">
+              <select className="form-control" value={this.state.status}
+                id="workitem-status-select" 
+                onChange={this.onChange_workitem_status}
+                >
+                <option value="to_review">To Review</option>
+                <option value="handleit">Handleit</option>
+                <option value="declined">Declined</option>
+                <option value="accepted">Accepted</option>
+              </select>
+            </div>
           </div>
-        </div>
-
-        <div className="form-group row">
-          <label className="col-sm-4 col-form-label"
-            htmlFor="workitem-status-select">Volunteers Required</label>
-          <div className="col-sm-8">
-            { this.editable ?
-            (<input type="number" className="form-control"
-              name="volunteers_required"
-              property_type="volunteers_required"
-              onChange={this.onChange_inputs_timer}
-              value={this.state.volunteers_required}></input>)
-              : this.state.volunteers_required }
+          <div className="col-md-6 col-sm-12">
+            <label className="col-6 col-form-label"
+              htmlFor="workitem-status-select">Volunteers Required</label>
+            <div className="col-6">
+              { this.editable ?
+              (<input type="number" className="form-control"
+                name="volunteers_required"
+                property_type="volunteers_required"
+                onChange={this.onChange_inputs_timer}
+                value={this.state.volunteers_required}></input>)
+                : this.state.volunteers_required }
+            </div>
           </div>
         </div>
 
