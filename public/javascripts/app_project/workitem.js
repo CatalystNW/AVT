@@ -327,6 +327,11 @@ var WorkItem = function (_React$Component) {
             ) : null
           ),
           React.createElement(
+            "p",
+            null,
+            this.state.createdAt.replace(/T.+/, "")
+          ),
+          React.createElement(
             "b",
             null,
             "Description"

@@ -228,6 +228,9 @@ class WorkItem extends React.Component {
           }
           
         </h5>
+
+        <p>{this.state.createdAt.replace(/T.+/, "")}</p>
+
         <b>Description</b>
         <p className="card-text">
           {this.state.description}
