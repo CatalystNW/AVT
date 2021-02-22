@@ -207,10 +207,12 @@ class WorkItem extends React.Component {
   };
   
   render() {
+    // Show project comments only on project page
     let project_comments = this.state.type == "project" ? 
       (<div><b>Project Comments</b>
         <p className="card-text">
-          {this.state.project_comments}
+          {(this.state.project_comments && this.state.project_comments.length > 0) ?
+            this.state.project_comments : "N/A"}
         </p></div>): (null)
     return (
     <div className="card">
@@ -233,24 +235,26 @@ class WorkItem extends React.Component {
 
         <b>Vetting Comments</b>
         <p className="card-text">
-          {this.state.vetting_comments}
+          {(this.state.vetting_comments && this.state.vetting_comments.length > 0) ?
+            this.state.vetting_comments : "N/A"}
         </p>
 
         <b>Assessment Comments</b>
         <p className="card-text">
-          {this.state.assessment_comments}
+          {(this.state.assessment_comments && this.state.assessment_comments.length > 0) ?
+            this.state.assessment_comments : "N/A"}
         </p>
 
         {project_comments}
 
-        <p className="card-text">
+        <div className="card-text">
           <b>Handle-It </b> 
           <input type="checkbox" name="handleit"
             checked={this.state.handleit}
             workitem_id={this.state._id}
             onChange={this.onChange_handleit}>
           </input>
-        </p>
+        </div>
         <div className="form-group row">
           <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"

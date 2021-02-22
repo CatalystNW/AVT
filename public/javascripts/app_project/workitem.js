@@ -284,6 +284,7 @@ var WorkItem = function (_React$Component) {
   _createClass(WorkItem, [{
     key: "render",
     value: function render() {
+      // Show project comments only on project page
       var project_comments = this.state.type == "project" ? React.createElement(
         "div",
         null,
@@ -295,7 +296,7 @@ var WorkItem = function (_React$Component) {
         React.createElement(
           "p",
           { className: "card-text" },
-          this.state.project_comments
+          this.state.project_comments && this.state.project_comments.length > 0 ? this.state.project_comments : "N/A"
         )
       ) : null;
       return React.createElement(
@@ -343,7 +344,7 @@ var WorkItem = function (_React$Component) {
           React.createElement(
             "p",
             { className: "card-text" },
-            this.state.vetting_comments
+            this.state.vetting_comments && this.state.vetting_comments.length > 0 ? this.state.vetting_comments : "N/A"
           ),
           React.createElement(
             "b",
@@ -353,11 +354,11 @@ var WorkItem = function (_React$Component) {
           React.createElement(
             "p",
             { className: "card-text" },
-            this.state.assessment_comments
+            this.state.assessment_comments && this.state.assessment_comments.length > 0 ? this.state.assessment_comments : "N/A"
           ),
           project_comments,
           React.createElement(
-            "p",
+            "div",
             { className: "card-text" },
             React.createElement(
               "b",
