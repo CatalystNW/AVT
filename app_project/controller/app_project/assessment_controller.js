@@ -130,7 +130,7 @@ async function edit_site_assessment(req, res) {
       property == "assessment_date") {
     var d = new Date(
       parseInt(req.body.year),
-      parseInt(req.body.month)-1,
+      parseInt(req.body.month),
       parseInt(req.body.day),
       parseInt(req.body.hours),
       parseInt(req.body.minutes),
