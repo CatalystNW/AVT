@@ -5,9 +5,9 @@ const mongoose = require('mongoose'),
 
 const siteAssessmentSchema = new Schema({
   // default to today because react inputs need to a date to set to default value
-  project_start_date: { type: Date, default: Date.now },
-  project_end_date: { type: Date, default: Date.now },
-  assessment_date: { type: Date, default: Date.now },
+  project_start_date: { type: Date},
+  project_end_date: { type: Date},
+  assessment_date: { type: Date},
   
   documentPackage: { type: Schema.Types.ObjectId, ref: "DocumentPackage"},
   application_id: String,
