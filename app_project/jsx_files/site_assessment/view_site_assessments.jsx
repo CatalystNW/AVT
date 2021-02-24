@@ -74,7 +74,7 @@ class SiteAssessmentApp extends React.Component {
   }
 
   render () {
-    let doc, address, app;
+    let docu, address, app;
     return (
     <div>
       <div>
@@ -131,7 +131,7 @@ class SiteAssessmentApp extends React.Component {
             </thead>
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
-                doc = assessment.documentPackage;
+                docu = assessment.documentPackage;
                 app = doc.application;
                 address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
                 return (

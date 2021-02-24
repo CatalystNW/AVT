@@ -114,7 +114,7 @@ var SiteAssessmentApp = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var doc = void 0,
+      var docu = void 0,
           address = void 0,
           app = void 0;
       return React.createElement(
@@ -253,7 +253,7 @@ var SiteAssessmentApp = function (_React$Component) {
                 "tbody",
                 null,
                 this.state.transferredAssessments.map(function (assessment) {
-                  doc = assessment.documentPackage;
+                  docu = assessment.documentPackage;
                   app = doc.application;
                   address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
                   return React.createElement(
