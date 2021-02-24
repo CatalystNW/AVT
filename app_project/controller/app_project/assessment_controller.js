@@ -63,8 +63,9 @@ async function getTransferredAssessments(req, res) {
 // Returns all documentPackages are at the siteAssessment stage / status
 async function getApplicationsInAssessment(req, res) {
   // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
-  var docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
-      documents = [];
+  let docPacks = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
+      documents = [],
+      assessments = await SiteAssessment.find({transferred: false,});
   for (var i=0;i < docPacks.length; i++) {
     documents.push({
       status: docPacks[i].status,
@@ -74,7 +75,7 @@ async function getApplicationsInAssessment(req, res) {
       address: docPacks[i].application.address,
     });
   }
-  res.status(200).json({documents: documents,});
+  res.status(200).json({documents: documents, assessments: assessments});
 }
 
 /**
