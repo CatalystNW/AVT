@@ -1,5 +1,3 @@
-* set scheduled (start date) & end date for site assessments as null
-* add schedule date in pending assessments to see if it has been scheduled
 * Show Created date under transferred assessments
 * Make Header tabs for projects clickable to hide
 * Project notes shows who created it (need to add login first)
