@@ -73,6 +73,17 @@ class SiteAssessmentApp extends React.Component {
     })
   }
 
+  createHeader = () => {
+    return (
+    <thead>
+      <tr>
+          <th scope="col">Application #</th>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+      </tr>
+  </thead>);
+  }
+
   render () {
     let docu, address, app;
     return (
@@ -80,13 +91,7 @@ class SiteAssessmentApp extends React.Component {
       <div>
         <h2>Pending Assessments</h2>
         <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Application #</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                </tr>
-            </thead>
+            {this.createHeader()}
             <tbody>
               {this.state.pendingDocs.map((doc, index) => {
                 return this.createAssessmentRow(doc);
@@ -97,13 +102,7 @@ class SiteAssessmentApp extends React.Component {
       <div>
         <h2>Complete Assessments</h2>
         <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Application #</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                </tr>
-            </thead>
+            {this.createHeader()}
             <tbody>
               {this.state.completeDocs.map((doc, index) => {
                 return this.createAssessmentRow(doc);
@@ -122,13 +121,7 @@ class SiteAssessmentApp extends React.Component {
         {this.state.showTransferred ? 
         (<div>
           <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Application #</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-              </tr>
-            </thead>
+            {this.createHeader()}
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
                 docu = assessment.documentPackage;

@@ -99,6 +99,32 @@ var SiteAssessmentApp = function (_React$Component) {
       });
     };
 
+    _this.createHeader = function () {
+      return React.createElement(
+        "thead",
+        null,
+        React.createElement(
+          "tr",
+          null,
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Application #"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Name"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Address"
+          )
+        )
+      );
+    };
+
     _this.state = {
       pendingDocs: [],
       completeDocs: [],
@@ -131,29 +157,7 @@ var SiteAssessmentApp = function (_React$Component) {
           React.createElement(
             "table",
             { className: "table" },
-            React.createElement(
-              "thead",
-              null,
-              React.createElement(
-                "tr",
-                null,
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Application #"
-                ),
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Name"
-                ),
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Address"
-                )
-              )
-            ),
+            this.createHeader(),
             React.createElement(
               "tbody",
               null,
@@ -174,29 +178,7 @@ var SiteAssessmentApp = function (_React$Component) {
           React.createElement(
             "table",
             { className: "table" },
-            React.createElement(
-              "thead",
-              null,
-              React.createElement(
-                "tr",
-                null,
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Application #"
-                ),
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Name"
-                ),
-                React.createElement(
-                  "th",
-                  { scope: "col" },
-                  "Address"
-                )
-              )
-            ),
+            this.createHeader(),
             React.createElement(
               "tbody",
               null,
@@ -226,29 +208,7 @@ var SiteAssessmentApp = function (_React$Component) {
             React.createElement(
               "table",
               { className: "table" },
-              React.createElement(
-                "thead",
-                null,
-                React.createElement(
-                  "tr",
-                  null,
-                  React.createElement(
-                    "th",
-                    { scope: "col" },
-                    "Application #"
-                  ),
-                  React.createElement(
-                    "th",
-                    { scope: "col" },
-                    "Name"
-                  ),
-                  React.createElement(
-                    "th",
-                    { scope: "col" },
-                    "Address"
-                  )
-                )
-              ),
+              this.createHeader(),
               React.createElement(
                 "tbody",
                 null,
