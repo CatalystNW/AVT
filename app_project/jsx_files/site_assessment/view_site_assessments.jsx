@@ -52,6 +52,43 @@ class SiteAssessmentApp extends React.Component {
     return null;
   }
 
+  getTransferredAssessments = () => {
+    $.ajax({
+      url: '/app_project/site_assessments/transferred',
+      type: "GET",
+      context: this,
+      success: function(assessments) {
+        console.log(assessments);
+        this.setState({
+          transferredAssessments: assessments,
+        });
+      }
+    });
+  };
+
+  toggleShowTransferred = () => {
+    if (!this.state.showTransferred) {
+      this.getTransferredAssessments();
+    }
+    this.setState(state => {
+      return {
+        showTransferred: !state.showTransferred,
+      };
+    })
+  };
+
+  createHeader = () => {
+    return (
+    <thead>
+      <tr>
+          <th scope="col">Application #</th>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">Assessment Date</th>
+      </tr>
+  </thead>);
+  };
+
   createAssessmentRow = (doc) => {
     const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
     let assessment_date;
@@ -65,53 +102,16 @@ class SiteAssessmentApp extends React.Component {
       <tr key={doc.id}>
         <td><a href={"./view_site_assessments/app_id/" + doc.id}>{doc.app_name}</a></td>
         <td>{doc.name.first} {doc.name.last}</td>
-        <td>{address} |
-            {doc.address.city}, {doc.address.state} {doc.address.zip}
+        <td>
+          {address} | {doc.address.city}, {doc.address.state} {doc.address.zip}
         </td>
         <td>{assessment_date}</td>
     </tr>
     );
   };
 
-  getTransferredAssessments = () => {
-    $.ajax({
-      url: '/app_project/site_assessments/transferred',
-      type: "GET",
-      context: this,
-      success: function(assessments) {
-        console.log(assessments);
-        this.setState({
-          transferredAssessments: assessments,
-        });
-      }
-    });
-  }
-
-  toggleShowTransferred = () => {
-    if (!this.state.showTransferred) {
-      this.getTransferredAssessments();
-    }
-    this.setState(state => {
-      return {
-        showTransferred: !state.showTransferred,
-      };
-    })
-  }
-
-  createHeader = () => {
-    return (
-    <thead>
-      <tr>
-          <th scope="col">Application #</th>
-          <th scope="col">Name</th>
-          <th scope="col">Address</th>
-          <th scope="col">Assessment Date</th>
-      </tr>
-  </thead>);
-  }
-
   render () {
-    let docu, address, app;
+    let doc, address, app;
     return (
     <div>
       <div>
@@ -119,8 +119,8 @@ class SiteAssessmentApp extends React.Component {
         <table className="table">
             {this.createHeader()}
             <tbody>
-              {this.state.pendingDocs.map((doc, index) => {
-                return this.createAssessmentRow(doc);
+              {this.state.pendingDocs.map((document, index) => {
+                return this.createAssessmentRow(document);
               })}
             </tbody>
         </table>
@@ -130,8 +130,8 @@ class SiteAssessmentApp extends React.Component {
         <table className="table">
             {this.createHeader()}
             <tbody>
-              {this.state.completeDocs.map((doc, index) => {
-                return this.createAssessmentRow(doc);
+              {this.state.completeDocs.map((document, index) => {
+                return this.createAssessmentRow(document);
               })}
             </tbody>
         </table>
@@ -150,7 +150,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
-                docu = assessment.documentPackage;
+                doc = assessment.documentPackage;
                 app = doc.application;
                 address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
                 return (

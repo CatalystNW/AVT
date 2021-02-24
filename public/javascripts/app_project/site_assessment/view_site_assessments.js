@@ -47,52 +47,6 @@ var SiteAssessmentApp = function (_React$Component) {
       });
     };
 
-    _this.createAssessmentRow = function (doc) {
-      var address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
-      var assessment_date = void 0;
-      if (_this.state.assessmentsByDocs[doc.id] && _this.state.assessmentsByDocs[doc.id].assessment_date) {
-        var d = _this.convert_date(_this.state.assessmentsByDocs[doc.id].assessment_date);
-        // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
-        assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
-      }
-      return React.createElement(
-        "tr",
-        { key: doc.id },
-        React.createElement(
-          "td",
-          null,
-          React.createElement(
-            "a",
-            { href: "./view_site_assessments/app_id/" + doc.id },
-            doc.app_name
-          )
-        ),
-        React.createElement(
-          "td",
-          null,
-          doc.name.first,
-          " ",
-          doc.name.last
-        ),
-        React.createElement(
-          "td",
-          null,
-          address,
-          " |",
-          doc.address.city,
-          ", ",
-          doc.address.state,
-          " ",
-          doc.address.zip
-        ),
-        React.createElement(
-          "td",
-          null,
-          assessment_date
-        )
-      );
-    };
-
     _this.getTransferredAssessments = function () {
       $.ajax({
         url: '/app_project/site_assessments/transferred',
@@ -149,6 +103,52 @@ var SiteAssessmentApp = function (_React$Component) {
       );
     };
 
+    _this.createAssessmentRow = function (doc) {
+      var address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+      var assessment_date = void 0;
+      if (_this.state.assessmentsByDocs[doc.id] && _this.state.assessmentsByDocs[doc.id].assessment_date) {
+        var d = _this.convert_date(_this.state.assessmentsByDocs[doc.id].assessment_date);
+        // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
+        assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
+      }
+      return React.createElement(
+        "tr",
+        { key: doc.id },
+        React.createElement(
+          "td",
+          null,
+          React.createElement(
+            "a",
+            { href: "./view_site_assessments/app_id/" + doc.id },
+            doc.app_name
+          )
+        ),
+        React.createElement(
+          "td",
+          null,
+          doc.name.first,
+          " ",
+          doc.name.last
+        ),
+        React.createElement(
+          "td",
+          null,
+          address,
+          " | ",
+          doc.address.city,
+          ", ",
+          doc.address.state,
+          " ",
+          doc.address.zip
+        ),
+        React.createElement(
+          "td",
+          null,
+          assessment_date
+        )
+      );
+    };
+
     _this.state = {
       pendingDocs: [],
       completeDocs: [],
@@ -183,7 +183,7 @@ var SiteAssessmentApp = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var docu = void 0,
+      var doc = void 0,
           address = void 0,
           app = void 0;
       return React.createElement(
@@ -204,8 +204,8 @@ var SiteAssessmentApp = function (_React$Component) {
             React.createElement(
               "tbody",
               null,
-              this.state.pendingDocs.map(function (doc, index) {
-                return _this2.createAssessmentRow(doc);
+              this.state.pendingDocs.map(function (document, index) {
+                return _this2.createAssessmentRow(document);
               })
             )
           )
@@ -225,8 +225,8 @@ var SiteAssessmentApp = function (_React$Component) {
             React.createElement(
               "tbody",
               null,
-              this.state.completeDocs.map(function (doc, index) {
-                return _this2.createAssessmentRow(doc);
+              this.state.completeDocs.map(function (document, index) {
+                return _this2.createAssessmentRow(document);
               })
             )
           )
@@ -256,7 +256,7 @@ var SiteAssessmentApp = function (_React$Component) {
                 "tbody",
                 null,
                 this.state.transferredAssessments.map(function (assessment) {
-                  docu = assessment.documentPackage;
+                  doc = assessment.documentPackage;
                   app = doc.application;
                   address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
                   return React.createElement(
