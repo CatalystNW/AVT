@@ -126,7 +126,8 @@ async function edit_site_assessment(req, res) {
     res.status(400).end();
     return;
   }
-  if (property == "project_start_date" || property == "project_end_date") {
+  if (property == "project_start_date" || property == "project_end_date" || 
+      property == "assessment_date") {
     var d = new Date(
       parseInt(req.body.year),
       parseInt(req.body.month)-1,
@@ -136,8 +137,10 @@ async function edit_site_assessment(req, res) {
     );
     if (property == "project_start_date") {
       site_assessment.project_start_date = d;
-    } else {
+    } else if (property == "project_end_date") {
       site_assessment.project_end_date = d;
+    } else {
+      site_assessment.assessment_date = d;
     }
     await site_assessment.save();
     res.status(200).send({"date": d,});
