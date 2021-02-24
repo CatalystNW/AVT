@@ -6,6 +6,7 @@ class SiteAssessmentApp extends React.Component {
       completeDocs: [],
       transferredAssessments: [],
       showTransferred: false,
+      assessmentsByDocs: {},
     };
     this.loadSiteAssessment();
   }
@@ -16,9 +17,14 @@ class SiteAssessmentApp extends React.Component {
       type: "GET",
       context: this,
       success: function(dataObj) {
+        console.log(dataObj);
         this.setState(state => {
           let pending = [],
-              complete = [];
+              complete = [],
+              assessmentsByDocs = {};
+          dataObj.assessments.forEach(assessment => {
+            assessmentsByDocs[assessment.documentPackage] = assessment;
+          });
           dataObj.documents.forEach(doc=> {
             if (doc.status == "assess") {
               pending.push(doc);
@@ -29,14 +35,32 @@ class SiteAssessmentApp extends React.Component {
           return {
             pendingDocs: pending,
             completeDocs: complete,
+            assessmentsByDocs: assessmentsByDocs
           };
         })
       }
     });
   };
 
+  convert_date(old_date) {
+    let regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
+        result = regex.exec(old_date);
+    if (result) {
+      let [year, month, date, hours, minutes] = result.slice(1,6);
+      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
+    }
+    return null;
+  }
+
   createAssessmentRow = (doc) => {
     const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+    let assessment_date;
+    if (this.state.assessmentsByDocs[doc.id] && 
+        this.state.assessmentsByDocs[doc.id].assessment_date) {
+      const d = this.convert_date(this.state.assessmentsByDocs[doc.id].assessment_date)
+      // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
+      assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
+    }
     return (
       <tr key={doc.id}>
         <td><a href={"./view_site_assessments/app_id/" + doc.id}>{doc.app_name}</a></td>
@@ -44,6 +68,7 @@ class SiteAssessmentApp extends React.Component {
         <td>{address} |
             {doc.address.city}, {doc.address.state} {doc.address.zip}
         </td>
+        <td>{assessment_date}</td>
     </tr>
     );
   };
@@ -80,6 +105,7 @@ class SiteAssessmentApp extends React.Component {
           <th scope="col">Application #</th>
           <th scope="col">Name</th>
           <th scope="col">Address</th>
+          <th scope="col">Assessment Date</th>
       </tr>
   </thead>);
   }
