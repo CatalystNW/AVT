@@ -25,7 +25,7 @@ var DateMenuRow = function (_React$Component) {
       var obj = {
         date_type: _this.props.date_type,
         year: _this.state.date.getFullYear(),
-        month: _this.state.date.getMonth() + 1,
+        month: _this.state.date.getMonth(),
         day: _this.state.date.getDate(),
         hours: _this.state.date.getHours(),
         minutes: _this.state.date.getMinutes()
@@ -39,13 +39,19 @@ var DateMenuRow = function (_React$Component) {
       if (result) {
         // Have to test since dates could be null
         var year = result[1],
-            month = result[2] - 1,
+            month = parseInt(result[2]) - 1,
             day = result[3];
         _this.setState(function (state) {
-          var new_date = new Date(_this.state.date);
-          new_date.setMonth(month);
-          new_date.setFullYear(year);
-          new_date.setDate(day);
+          var new_date = void 0;
+          if (state.date) {
+            new_date = new Date(state.date);
+            new_date.setMonth(month);
+            new_date.setFullYear(year);
+            new_date.setDate(day);
+          } else {
+            new_date = new Date(year, month, day);
+          }
+
           return {
             date: new_date
           };

@@ -133,7 +133,6 @@ class AssessmentChecklist extends React.Component {
     funkie.edit_site_assessment(data);
   };
 
-
   render() {
     return (
     <div>
