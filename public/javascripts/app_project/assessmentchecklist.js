@@ -132,11 +132,9 @@ var AssessmentChecklist = function (_React$Component) {
 
     _this.change_date_callback = function (data) {
       data.assessment_id = _this.state._id;
-      if (data.date_type == "project_start_date" || data.date_type == "project_end_date") {
-        data.property = data.date_type;
+      data.property = data.date_type;
 
-        funkie.edit_site_assessment(data);
-      }
+      funkie.edit_site_assessment(data);
     };
 
     _this.state = {
@@ -259,12 +257,17 @@ var AssessmentChecklist = function (_React$Component) {
             )
           )
         ),
-        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "Start Date",
+        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "Assessment Date",
+          date_type: "assessment_date",
+          date: this.state.assessment_date,
+          change_callback: this.change_date_callback
+        }) : React.createElement("div", null),
+        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "Project Start Date",
           date_type: "project_start_date",
           date: this.state.project_start_date,
           change_callback: this.change_date_callback
         }) : React.createElement("div", null),
-        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "End Date",
+        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "Project End Date",
           date_type: "project_end_date",
           date: this.state.project_end_date,
           change_callback: this.change_date_callback

@@ -126,16 +126,12 @@ class AssessmentChecklist extends React.Component {
     }
   };
 
-  change_date_callback =(data) => {
+  change_date_callback = (data) => {
     data.assessment_id = this.state._id;
-    if (data.date_type == "project_start_date" || 
-        data.date_type == "project_end_date") {
-      data.property = data.date_type;
+    data.property = data.date_type;
 
-      funkie.edit_site_assessment(data);
-    }
-    
-  }
+    funkie.edit_site_assessment(data);
+  };
 
 
   render() {
@@ -182,7 +178,16 @@ class AssessmentChecklist extends React.Component {
       </table>
 
       { this.state.loaded_assessment ?
-        <DateMenuRow title="Start Date"
+        <DateMenuRow title="Assessment Date"
+          date_type={"assessment_date"}
+          date={this.state.assessment_date}
+          change_callback={this.change_date_callback}
+        />  :
+        <div></div>
+      }
+
+      { this.state.loaded_assessment ?
+        <DateMenuRow title="Project Start Date"
           date_type={"project_start_date"}
           date={this.state.project_start_date}
           change_callback={this.change_date_callback}
@@ -191,7 +196,7 @@ class AssessmentChecklist extends React.Component {
       }
       
       { this.state.loaded_assessment ?
-        <DateMenuRow title="End Date"
+        <DateMenuRow title="Project End Date"
           date_type={"project_end_date"}
           date={this.state.project_end_date}
           change_callback={this.change_date_callback}
