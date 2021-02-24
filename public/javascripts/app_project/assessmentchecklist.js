@@ -23,6 +23,7 @@ var AssessmentChecklist = function (_React$Component) {
 
 
     _this.load_assessment = function (assessment) {
+      assessment.loaded_assessment = true;
       _this.setState(assessment, function () {
         // Set safety plan coloring after assessment is loaded
         _this.color_safety_plan_textarea();
@@ -142,7 +143,8 @@ var AssessmentChecklist = function (_React$Component) {
       porta_potty_required: false,
       waste_required: false,
       porta_potty_cost: 0,
-      waste_cost: 0
+      waste_cost: 0,
+      loaded_assessment: false
     };
     _this.safety_plan_timer = null;
     _this.porta_potty_cost_timer = null;
@@ -257,12 +259,12 @@ var AssessmentChecklist = function (_React$Component) {
             )
           )
         ),
-        this.state.project_start_date ? React.createElement(DateMenuRow, { title: "Start Date",
+        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "Start Date",
           date_type: "project_start_date",
           date: this.state.project_start_date,
           change_callback: this.change_date_callback
         }) : React.createElement("div", null),
-        this.state.project_start_date ? React.createElement(DateMenuRow, { title: "End Date",
+        this.state.loaded_assessment ? React.createElement(DateMenuRow, { title: "End Date",
           date_type: "project_end_date",
           date: this.state.project_end_date,
           change_callback: this.change_date_callback

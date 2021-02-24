@@ -11,6 +11,7 @@ class AssessmentChecklist extends React.Component {
       waste_required: false,
       porta_potty_cost: 0,
       waste_cost: 0,
+      loaded_assessment: false,
     };
     this.safety_plan_timer = null;
     this.porta_potty_cost_timer = null;
@@ -18,6 +19,7 @@ class AssessmentChecklist extends React.Component {
     this.summary_timer = null;
   }
   load_assessment = (assessment) => {
+    assessment.loaded_assessment = true;
     this.setState(assessment, () => {
       // Set safety plan coloring after assessment is loaded
       this.color_safety_plan_textarea();
@@ -179,7 +181,7 @@ class AssessmentChecklist extends React.Component {
         </tbody>
       </table>
 
-      { this.state.project_start_date ?
+      { this.state.loaded_assessment ?
         <DateMenuRow title="Start Date"
           date_type={"project_start_date"}
           date={this.state.project_start_date}
@@ -188,7 +190,7 @@ class AssessmentChecklist extends React.Component {
         <div></div>
       }
       
-      { this.state.project_start_date ?
+      { this.state.loaded_assessment ?
         <DateMenuRow title="End Date"
           date_type={"project_end_date"}
           date={this.state.project_end_date}
