@@ -9,7 +9,7 @@ module.exports.view_project_transfer = view_project_transfer;
 module.exports.transfer_project = transfer_project;
 
 async function view_project_transfers(req, res) {
-  var assessments = await SiteAssessment.find({transferred: false, status: "complete",})
+  let assessments = await SiteAssessment.find({transferred: false, status: "project_approved",})
                       .populate("documentPackage");
   res.render("app_project/project_transfers", {assessments: assessments,});
 }
