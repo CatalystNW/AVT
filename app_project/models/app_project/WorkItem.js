@@ -16,7 +16,7 @@ const workItemSchema = new Schema({
   handleit: Boolean,
   status: {
     type: String,
-    enum: ["handleit", "accepted", "declined", "to_review"],
+    enum: ["handleit", "accepted", "declined", "to_review", "project_approval", "project_approved"],
     default: "to_review",
     setDefaultsOnInsert: true,
   },
