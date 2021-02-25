@@ -28,6 +28,10 @@ async function transfer_project(req, res) {
       projects = {}, 
       project, project_name;
   let siteAssessment = await SiteAssessment.findById(req.params.assessment_id).populate("documentPackage");
+  if (siteAssessment.status != "project_approved") {
+    res.status(400).end();
+    return;
+  }
   siteAssessment.transferred = true;
   siteAssessment.documentPackage.status = "transferred";
   
