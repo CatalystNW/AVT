@@ -26,6 +26,8 @@ var SiteAssessmentApp = function (_React$Component) {
           this.setState(function (state) {
             var pending = [],
                 complete = [],
+                project_approval = [],
+                project_approved = [],
                 assessmentsByDocs = {};
             dataObj.assessments.forEach(function (assessment) {
               assessmentsByDocs[assessment.documentPackage] = assessment;
@@ -40,6 +42,8 @@ var SiteAssessmentApp = function (_React$Component) {
             return {
               pendingDocs: pending,
               completeDocs: complete,
+              project_approval: project_approval,
+              project_approved: project_approved,
               assessmentsByDocs: assessmentsByDocs
             };
           });
@@ -152,6 +156,8 @@ var SiteAssessmentApp = function (_React$Component) {
     _this.state = {
       pendingDocs: [],
       completeDocs: [],
+      project_approval: [],
+      project_approved: [],
       transferredAssessments: [],
       showTransferred: false,
       assessmentsByDocs: {}
@@ -226,6 +232,48 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.completeDocs.map(function (document, index) {
+                return _this2.createAssessmentRow(document);
+              })
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "h2",
+            null,
+            "Project Approval"
+          ),
+          React.createElement(
+            "table",
+            { className: "table" },
+            this.createHeader(),
+            React.createElement(
+              "tbody",
+              null,
+              this.state.project_approval.map(function (document, index) {
+                return _this2.createAssessmentRow(document);
+              })
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "h2",
+            null,
+            "Project Approved"
+          ),
+          React.createElement(
+            "table",
+            { className: "table" },
+            this.createHeader(),
+            React.createElement(
+              "tbody",
+              null,
+              this.state.project_approved.map(function (document, index) {
                 return _this2.createAssessmentRow(document);
               })
             )

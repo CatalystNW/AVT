@@ -4,6 +4,8 @@ class SiteAssessmentApp extends React.Component {
     this.state = {
       pendingDocs: [],
       completeDocs: [],
+      project_approval: [],
+      project_approved: [],
       transferredAssessments: [],
       showTransferred: false,
       assessmentsByDocs: {},
@@ -21,6 +23,8 @@ class SiteAssessmentApp extends React.Component {
         this.setState(state => {
           let pending = [],
               complete = [],
+              project_approval = [],
+              project_approved = [],
               assessmentsByDocs = {};
           dataObj.assessments.forEach(assessment => {
             assessmentsByDocs[assessment.documentPackage] = assessment;
@@ -35,6 +39,8 @@ class SiteAssessmentApp extends React.Component {
           return {
             pendingDocs: pending,
             completeDocs: complete,
+            project_approval: project_approval,
+            project_approved: project_approved,
             assessmentsByDocs: assessmentsByDocs
           };
         })
@@ -131,6 +137,28 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.completeDocs.map((document, index) => {
+                return this.createAssessmentRow(document);
+              })}
+            </tbody>
+        </table>
+      </div>
+      <div>
+        <h2>Project Approval</h2>
+        <table className="table">
+            {this.createHeader()}
+            <tbody>
+              {this.state.project_approval.map((document, index) => {
+                return this.createAssessmentRow(document);
+              })}
+            </tbody>
+        </table>
+      </div>
+      <div>
+        <h2>Project Approved</h2>
+        <table className="table">
+            {this.createHeader()}
+            <tbody>
+              {this.state.project_approved.map((document, index) => {
                 return this.createAssessmentRow(document);
               })}
             </tbody>
