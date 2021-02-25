@@ -299,6 +299,37 @@ var WorkItem = function (_React$Component) {
           this.state.project_comments && this.state.project_comments.length > 0 ? this.state.project_comments : "N/A"
         )
       ) : null;
+      var statuses = void 0;
+      var id = this.state._id;
+      if (this.props.page_type == "project") {
+        statuses = [React.createElement(
+          "option",
+          { key: id + "review", value: "to_review" },
+          "To Review"
+        ), React.createElement(
+          "option",
+          { key: id + "progress", value: "in_progress" },
+          "In Progress"
+        ), React.createElement(
+          "option",
+          { key: id + "complete", value: "complete" },
+          "Complete"
+        )];
+      } else {
+        statuses = [React.createElement(
+          "option",
+          { key: id + "to_review", value: "to_review" },
+          "To Review"
+        ), React.createElement(
+          "option",
+          { key: id + "declined", value: "declined" },
+          "Declined"
+        ), React.createElement(
+          "option",
+          { key: id + "accepted", value: "accepted" },
+          "Accepted"
+        )];
+      }
       return React.createElement(
         "div",
         { className: "card" },
@@ -397,29 +428,9 @@ var WorkItem = function (_React$Component) {
                 React.createElement(
                   "select",
                   { className: "form-control", value: this.state.status,
-                    id: "workitem-status-select",
-                    onChange: this.onChange_workitem_status
-                  },
-                  React.createElement(
-                    "option",
-                    { value: "to_review" },
-                    "To Review"
-                  ),
-                  React.createElement(
-                    "option",
-                    { value: "handleit" },
-                    "Handleit"
-                  ),
-                  React.createElement(
-                    "option",
-                    { value: "declined" },
-                    "Declined"
-                  ),
-                  React.createElement(
-                    "option",
-                    { value: "accepted" },
-                    "Accepted"
-                  )
+                    id: "workitem-status-select", disabled: this.state.handleit == true,
+                    onChange: this.onChange_workitem_status },
+                  statuses
                 )
               )
             ),

@@ -213,7 +213,22 @@ class WorkItem extends React.Component {
         <p className="card-text">
           {(this.state.project_comments && this.state.project_comments.length > 0) ?
             this.state.project_comments : "N/A"}
-        </p></div>): (null)
+        </p></div>): (null);
+    let statuses;
+    const id = this.state._id;
+    if (this.props.page_type == "project") {
+      statuses = [
+        <option key={id+"review"} value="to_review">To Review</option>,
+        <option key={id+"progress"}value="in_progress">In Progress</option>,
+        <option key={id+"complete"} value="complete">Complete</option>,
+      ];
+    } else {
+      statuses = [
+        <option key={id+"to_review"} value="to_review">To Review</option>,
+        <option key={id+"declined"} value="declined">Declined</option>,
+        <option key={id+"accepted"} value="accepted">Accepted</option>,
+      ];
+    }
     return (
     <div className="card">
       <div className="card-body">
@@ -264,13 +279,9 @@ class WorkItem extends React.Component {
               htmlFor="workitem-status-select"><b>Status</b></label>
             <div className="col-6">
               <select className="form-control" value={this.state.status}
-                id="workitem-status-select" 
-                onChange={this.onChange_workitem_status}
-                >
-                <option value="to_review">To Review</option>
-                <option value="handleit">Handleit</option>
-                <option value="declined">Declined</option>
-                <option value="accepted">Accepted</option>
+                  id="workitem-status-select" disabled={this.state.handleit==true}
+                  onChange={this.onChange_workitem_status}>
+                {statuses}
               </select>
             </div>
           </div>
