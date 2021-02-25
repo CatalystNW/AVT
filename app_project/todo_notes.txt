@@ -15,6 +15,10 @@
     NOTE: acceptance process still to be decided
 
 * Potentially: show project site assessments for certain users only
+* Potentially check for site assessment, work item status before allowing transfer
+* Potentially check for project status before allowing transfer
+
+* Possibly prevent work item creation in project page
 
 * RESTORE LOGIN FUNCTIONS: Search: // @RESTORE AFTER DEVELOPMENT
 
