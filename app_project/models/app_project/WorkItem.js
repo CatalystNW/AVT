@@ -48,6 +48,7 @@ workItemSchema.statics.makeCopy = async function(workItem) {
   var copyObj = workItem.toObject();
   delete copyObj._id;
   delete copyObj.materialsItems;
+  copyObj.status = "to_review";
   copyObj.transferred = false;
   copyObj.type = "project";
   
