@@ -1,4 +1,10 @@
-* Show Created date under transferred assessments
+* Use PDF Buttons for Site Assessments
+* Add Project approval, project approved status for site assessments
+* Prevent changing of status changes in vetting for work items
+* Transfer only project approved site assessments
+
+* Remove some statuses from project work items
+
 * Make Header tabs for projects clickable to hide
 * Project notes shows who created it (need to add login first)
 * prevent project notes being editable/deletable by the non-owner
