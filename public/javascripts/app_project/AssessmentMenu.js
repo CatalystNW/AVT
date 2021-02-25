@@ -162,7 +162,7 @@ var AssessmentMenu = function (_React$Component) {
             ) : null,
             this.state.workItems.map(function (workitem, index) {
               return React.createElement(WorkItem, {
-                workitem: workitem,
+                workitem: workitem, page_type: "site_assessment",
                 remove_workitem: _this2.remove_workitem,
                 set_edit_materialisitem_menu: _this2.props.set_edit_materialisitem_menu,
                 set_create_materialsitem_menu: _this2.props.set_create_materialsitem_menu,

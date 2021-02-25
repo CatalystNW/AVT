@@ -149,7 +149,7 @@ class VettingWorkItemApp extends React.Component {
 			  <h3>Current Work Items</h3>
         {this.state.workItems.map(workItem => {
           return (
-          <WorkItem key={workItem._id}
+          <WorkItem key={workItem._id} page_type={"vetting"}
             workitem={workItem}
             remove_workitem={this.remove_workitem}
             set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}

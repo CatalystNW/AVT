@@ -107,7 +107,7 @@ class AssessmentMenu extends React.Component {
             {this.state.workItems.map((workitem, index) => {
               return (
               <WorkItem
-                workitem={workitem}
+                workitem={workitem} page_type={"site_assessment"}
                 remove_workitem={this.remove_workitem}
                 set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
                 set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}

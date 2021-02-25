@@ -233,7 +233,7 @@ var VettingWorkItemApp = function (_React$Component) {
             "Current Work Items"
           ),
           this.state.workItems.map(function (workItem) {
-            return React.createElement(WorkItem, { key: workItem._id,
+            return React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
               workitem: workItem,
               remove_workitem: _this2.remove_workitem,
               set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
