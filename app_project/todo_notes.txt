@@ -14,6 +14,8 @@
 * Add WorkItems to vetting so that it can be accepted 
     NOTE: acceptance process still to be decided
 
+* Potentially: show project site assessments for certain users only
+
 * RESTORE LOGIN FUNCTIONS: Search: // @RESTORE AFTER DEVELOPMENT
 
 
