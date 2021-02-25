@@ -36,7 +36,8 @@ class AppProjects extends React.Component {
           handleit == "yes" && !project.handleit) {
         continue;
       }
-      start = project.start.replace("T", " ").substring(0, project.start.length - 8);
+      if (project.start)
+        start = project.start.replace("T", " ").substring(0, project.start.length - 8);
       doc = project.documentPackage;
       app = doc.application;
       // address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
