@@ -18,12 +18,12 @@ var PdfButtons = function (_React$Component) {
 
     _this.onClick_PAF = function () {
       var project_id = _this.props.project_id;
-      window.open("/app_project/paf_form/" + project_id);
+      window.open("/app_project/projects/paf_form/" + project_id);
     };
 
     _this.onClick_handleitForm = function () {
       var project_id = _this.props.project_id;
-      window.open("/app_project/handleit_form/" + project_id);
+      window.open("/app_project/projects/handleit_form/" + project_id);
     };
 
     return _this;
