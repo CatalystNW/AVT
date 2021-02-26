@@ -17,13 +17,17 @@ var PdfButtons = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (PdfButtons.__proto__ || Object.getPrototypeOf(PdfButtons)).call(this, props));
 
     _this.onClick_PAF = function () {
-      var project_id = _this.props.project_id;
-      window.open("/app_project/projects/paf_form/" + project_id);
+      if (_this.props.type == "project") {
+        var project_id = _this.props.project_id;
+        window.open("/app_project/projects/paf_form/" + project_id);
+      }
     };
 
     _this.onClick_handleitForm = function () {
-      var project_id = _this.props.project_id;
-      window.open("/app_project/projects/handleit_form/" + project_id);
+      if (_this.props.type == "project") {
+        var project_id = _this.props.project_id;
+        window.open("/app_project/projects/handleit_form/" + project_id);
+      }
     };
 
     return _this;

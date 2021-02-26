@@ -6,13 +6,19 @@ class PdfButtons extends React.Component {
   }
 
   onClick_PAF = () => {
-    const project_id = this.props.project_id;
-    window.open("/app_project/projects/paf_form/" + project_id);
+    if (this.props.type == "project") {
+      const project_id = this.props.project_id;
+      window.open("/app_project/projects/paf_form/" + project_id);
+    }
+    
   }
 
   onClick_handleitForm = () => {
-    const project_id = this.props.project_id;
-    window.open("/app_project/projects/handleit_form/" + project_id);
+    if (this.props.type == "project") {
+      const project_id = this.props.project_id;
+      window.open("/app_project/projects/handleit_form/" + project_id);
+    }
+    
   }
 
   render() {

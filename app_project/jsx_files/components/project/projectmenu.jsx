@@ -212,7 +212,7 @@ class ProjectMenu extends React.Component {
               </div>
             </div>
 
-            <PdfButtons project_id={this.state._id} />
+            <PdfButtons type="project" project_id={this.state._id} />
 
             <h2>Leaders</h2>
             <div className="form-group row">
