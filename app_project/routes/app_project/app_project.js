@@ -71,6 +71,8 @@ router.patch('/partners/:partner_id', partner_controller.edit_partner);
 router.get('/partners', partner_controller.get_all_partners);
 router.post('/partners', partner_controller.create_partner);
 
+router.get('/site_assessments/paf_form/:project_id', assessment_controller.get_paf_page);
+router.get('/site_assessments/handleit_form/:project_id', assessment_controller.get_handleit_form);
 router.get('/projects/paf_form/:project_id', project_controller.get_paf_page);
 router.get('/projects/handleit_form/:project_id', project_controller.get_handleit_form);
 
