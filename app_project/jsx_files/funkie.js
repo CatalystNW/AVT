@@ -30,7 +30,7 @@ var funkie = {
     if (callback) {
       $.ajax({
         type: "GET",
-        url: "/app_project/site_assessment/" + assessment_id,
+        url: "/app_project/site_assessments/" + assessment_id,
         success: function(data) {
           callback(data);
         }
@@ -113,7 +113,7 @@ var funkie = {
   edit_site_assessment(data, callback) {
     $.ajax({
       type: "PATCH",
-      url: "/app_project/site_assessment/" + data.assessment_id,
+      url: "/app_project/site_assessments/" + data.assessment_id,
       data: data,
       success: function(returnData, textStatus, xhr) {
         if (callback) {

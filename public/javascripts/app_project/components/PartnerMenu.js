@@ -83,7 +83,7 @@ var PartnerMenu = function (_React$Component) {
       if (_this.props.type == "project") {
         url = "/app_project/projects/" + _this.props.project_id + "/partners";
       } else {
-        url = "/app_project/site_assessment/" + _this.props.assessment_id + "/partners";
+        url = "/app_project/site_assessments/" + _this.props.assessment_id + "/partners";
       }
       $.ajax({
         url: url,

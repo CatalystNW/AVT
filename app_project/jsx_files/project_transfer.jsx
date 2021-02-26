@@ -13,7 +13,7 @@ class ProjectTransferApp extends React.Component {
   load_assessment = () => {
     var that = this;
     $.ajax({
-      url: "/app_project/site_assessment/" + this.state.assessment_id,
+      url: "/app_project/site_assessments/" + this.state.assessment_id,
       method: "GET",
       success: function(data) {
         console.log(data)

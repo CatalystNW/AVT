@@ -80,7 +80,7 @@ class PartnerMenu extends React.Component {
     if (this.props.type == "project") {
       url =  "/app_project/projects/" + this.props.project_id + "/partners";
     } else {
-      url = "/app_project/site_assessment/" + this.props.assessment_id + "/partners";
+      url = "/app_project/site_assessments/" + this.props.assessment_id + "/partners";
     }
     $.ajax({
       url: url,
