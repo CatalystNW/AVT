@@ -30,13 +30,20 @@ var PAFApp = function (_React$Component) {
   _createClass(PAFApp, [{
     key: 'render',
     value: function render() {
-      var proj = this.props.projectData;
+      var docApp = void 0,
+          documentPackage = void 0,
+          workitems = void 0,
+          siteAssessment = void 0,
+          partners = void 0;
+      if (this.props.type == "project") {
+        var proj = this.props.projectData;
+        docApp = proj.documentPackage.application;
+        documentPackage = proj.documentPackage;
+        workitems = proj.workItems;
+        siteAssessment = proj.siteAssessment;
+        partners = proj.partners;
+      }
       var d = new Date();
-      var docApp = proj.documentPackage.application,
-          documentPackage = proj.documentPackage,
-          workitems = proj.workItems,
-          siteAssessment = proj.siteAssessment,
-          partners = proj.partners;
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
       var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
       if (docApp.name.preferred && docApp.name.preferred.length > 0) name += ' (Preferred: ' + docApp.name.preferred + ')';
@@ -438,14 +445,16 @@ var PAFApp = function (_React$Component) {
 }(React.Component);
 
 function loadReact() {
-  $.ajax({
-    url: "/app_project/projects/" + project_id,
-    type: "GET",
-    success: function success(data) {
-      console.log(data);
-      ReactDOM.render(React.createElement(PAFApp, { projectData: data }), document.getElementById("pdf_container"));
-    }
-  });
+  if (type == "project") {
+    $.ajax({
+      url: "/app_project/projects/" + project_id,
+      type: "GET",
+      success: function success(data) {
+        console.log(data);
+        ReactDOM.render(React.createElement(PAFApp, { type: type, projectData: data }), document.getElementById("pdf_container"));
+      }
+    });
+  }
 }
 
 loadReact();

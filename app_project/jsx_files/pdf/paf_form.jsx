@@ -14,13 +14,16 @@ class PAFApp extends React.Component {
   };
 
   render() {
-    const proj = this.props.projectData;
+    let docApp, documentPackage, workitems, siteAssessment, partners;
+    if (this.props.type == "project") {
+      const proj = this.props.projectData;
+      docApp = proj.documentPackage.application;
+      documentPackage = proj.documentPackage;
+      workitems = proj.workItems;
+      siteAssessment = proj.siteAssessment;
+      partners = proj.partners;
+    }
     let d = new Date();
-    const docApp = proj.documentPackage.application,
-          documentPackage = proj.documentPackage,
-          workitems = proj.workItems,
-          siteAssessment = proj.siteAssessment,
-          partners = proj.partners;
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
     let name = (docApp.name.middle && docApp.name.middle.length > 0) ?
             `${docApp.name.first} ${docApp.name.middle} ${docApp.name.last}` : 
@@ -170,14 +173,17 @@ class PAFApp extends React.Component {
 
 
 function loadReact() {
-  $.ajax({
-    url: "/app_project/projects/" + project_id,
-    type: "GET",
-    success: function(data) {
-      console.log(data);
-      ReactDOM.render(<PAFApp projectData={data}/>, document.getElementById("pdf_container"));
-    }
-  })
+  if (type == "project") {
+    $.ajax({
+      url: "/app_project/projects/" + project_id,
+      type: "GET",
+      success: function(data) {
+        console.log(data);
+        ReactDOM.render(<PAFApp type={type} projectData={data}/>, document.getElementById("pdf_container"));
+      }
+    });
+  }
+  
   
 }
 
