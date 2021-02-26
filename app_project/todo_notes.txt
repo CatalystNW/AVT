@@ -1,4 +1,3 @@
-* Use PDF Buttons for Site Assessments
 * Add Project approval, project approved status for site assessments
 * Prevent changing of status changes in vetting for work items
 * Transfer only project approved site assessments
