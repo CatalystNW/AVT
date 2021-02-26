@@ -25,12 +25,12 @@ module.exports.get_handleit_form          = get_handleit_form;
 async function get_paf_page(req, res) {
   res.render('app_project/paf_form', {
     type: "assessment",
-    project_id: req.params.assessment_id,});
+    assessment_id: req.params.assessment_id,});
 }
 async function get_handleit_form(req, res) {
   res.render('app_project/handleit_form', {
     type: "assessment",
-    project_id: req.params.assessment_id,});
+    assessment_id: req.params.assessment_id,});
 }
 
 async function view_site_assessments(req, res) {
