@@ -39,6 +39,7 @@ class HandleitForm extends React.Component {
 
   render() {
     const proj = this.state.projectData;
+    const workitems = proj.workItems;
     let d = new Date();
     const docApp = proj.documentPackage.application;
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
@@ -96,7 +97,7 @@ class HandleitForm extends React.Component {
       </table>
 
       <h2>Work Requested</h2>
-      {proj.workItems.map((workItem) => {
+      {workitems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
           <div className="workitem-total-container" key={workItem._id}>

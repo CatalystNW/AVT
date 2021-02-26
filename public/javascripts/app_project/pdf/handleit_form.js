@@ -50,6 +50,7 @@ var HandleitForm = function (_React$Component) {
     key: 'render',
     value: function render() {
       var proj = this.state.projectData;
+      var workitems = proj.workItems;
       var d = new Date();
       var docApp = proj.documentPackage.application;
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
@@ -187,7 +188,7 @@ var HandleitForm = function (_React$Component) {
           null,
           'Work Requested'
         ),
-        proj.workItems.map(function (workItem) {
+        workitems.map(function (workItem) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
