@@ -18,7 +18,20 @@ module.exports.get_application_data_api = get_application_data_api;
 module.exports.set_partners = set_partners;
 
 module.exports.getToTransferAssessments = getToTransferAssessments
+module.exports.get_paf_page               = get_paf_page;
+module.exports.get_handleit_form          = get_handleit_form;
 
+
+async function get_paf_page(req, res) {
+  res.render('app_project/paf_form', {
+    type: "assessment",
+    project_id: req.params.assessment_id,});
+}
+async function get_handleit_form(req, res) {
+  res.render('app_project/handleit_form', {
+    type: "assessment",
+    project_id: req.params.assessment_id,});
+}
 
 async function view_site_assessments(req, res) {
   res.render("app_project/site_assessments");
