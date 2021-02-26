@@ -9,6 +9,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 import { DateMenuRow } from "./DateMenuRow.js";
+import { PdfButtons } from "./components/PdfButtons.js";
 
 export { AssessmentChecklist };
 
@@ -196,6 +197,20 @@ var AssessmentChecklist = function (_React$Component) {
                   property_type: "summary",
                   onChange: this.onChange_inputs_timer
                 })
+              )
+            ),
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { className: "col-xs-3" },
+                "PDFs"
+              ),
+              React.createElement(
+                "td",
+                { className: "col-xs-9" },
+                React.createElement(PdfButtons, { type: "assessment", assessment_id: this.state._id })
               )
             ),
             React.createElement(

@@ -1,4 +1,5 @@
 import { DateMenuRow } from "./DateMenuRow.js"
+import { PdfButtons } from "./components/PdfButtons.js"
 
 export { AssessmentChecklist }
 
@@ -151,6 +152,12 @@ class AssessmentChecklist extends React.Component {
               property_type="summary"
               onChange={this.onChange_inputs_timer}
             ></textarea>
+            </td>
+          </tr>
+          <tr>
+            <th className="col-xs-3">PDFs</th>
+            <td className="col-xs-9">
+              <PdfButtons type="assessment" assessment_id={this.state._id}/>
             </td>
           </tr>
           <tr>
