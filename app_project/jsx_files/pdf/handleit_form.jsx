@@ -35,11 +35,15 @@ class HandleitForm extends React.Component {
   }
 
   render() {
-    let proj, workitems, docApp;
+    let workitems, docApp;
     if (this.props.type=="project") {
-      proj = this.props.projectData;
+      const proj = this.props.projectData;
       workitems = proj.workItems;
       docApp = proj.documentPackage.application;  
+    } else if (this.props.type == "assessment") {
+      const assessment = this.props.assessmentData;
+      workitems = assessment.workItems;
+      docApp = assessment.documentPackage.application;  
     }
     
     let d = new Date();
@@ -192,9 +196,16 @@ function loadReact() {
           <HandleitForm type={type} projectData={data}/>, document.getElementById("pdf_container"));
       }
     })
+  } else if (type == "assessment") {
+    $.ajax({
+      url: "/app_project/site_assessments/" + assessment_id,
+      type: "GET",
+      success: function(data) {
+        console.log(data);
+        ReactDOM.render(<HandleitForm type={type} assessmentData={data}/>, document.getElementById("pdf_container"));
+      }
+    });
   }
-  
-  
 }
 
 loadReact();

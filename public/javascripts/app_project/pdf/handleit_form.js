@@ -46,13 +46,16 @@ var HandleitForm = function (_React$Component) {
   _createClass(HandleitForm, [{
     key: 'render',
     value: function render() {
-      var proj = void 0,
-          workitems = void 0,
+      var workitems = void 0,
           docApp = void 0;
       if (this.props.type == "project") {
-        proj = this.props.projectData;
+        var proj = this.props.projectData;
         workitems = proj.workItems;
         docApp = proj.documentPackage.application;
+      } else if (this.props.type == "assessment") {
+        var assessment = this.props.assessmentData;
+        workitems = assessment.workItems;
+        docApp = assessment.documentPackage.application;
       }
 
       var d = new Date();
@@ -353,6 +356,15 @@ function loadReact() {
       success: function success(data) {
         console.log(data);
         ReactDOM.render(React.createElement(HandleitForm, { type: type, projectData: data }), document.getElementById("pdf_container"));
+      }
+    });
+  } else if (type == "assessment") {
+    $.ajax({
+      url: "/app_project/site_assessments/" + assessment_id,
+      type: "GET",
+      success: function success(data) {
+        console.log(data);
+        ReactDOM.render(React.createElement(HandleitForm, { type: type, assessmentData: data }), document.getElementById("pdf_container"));
       }
     });
   }
