@@ -12,6 +12,7 @@ var HandleitForm = function (_React$Component) {
   function HandleitForm(props) {
     _classCallCheck(this, HandleitForm);
 
+    // this.hide_elements();
     var _this = _possibleConstructorReturn(this, (HandleitForm.__proto__ || Object.getPrototypeOf(HandleitForm)).call(this, props));
 
     _this.hide_elements = function () {
@@ -39,17 +40,13 @@ var HandleitForm = function (_React$Component) {
       window.print();
     };
 
-    _this.state = {
-      projectData: _this.props.projectData
-    };
-    // this.hide_elements();
     return _this;
   }
 
   _createClass(HandleitForm, [{
     key: 'render',
     value: function render() {
-      var proj = this.state.projectData;
+      var proj = this.props.projectData;
       var workitems = proj.workItems;
       var d = new Date();
       var docApp = proj.documentPackage.application;

@@ -3,9 +3,6 @@
 class HandleitForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      projectData: this.props.projectData,
-    };
     // this.hide_elements();
   }
 
@@ -38,7 +35,7 @@ class HandleitForm extends React.Component {
   }
 
   render() {
-    const proj = this.state.projectData;
+    const proj = this.props.projectData;
     const workitems = proj.workItems;
     let d = new Date();
     const docApp = proj.documentPackage.application;
