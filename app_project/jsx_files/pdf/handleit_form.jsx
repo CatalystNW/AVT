@@ -35,10 +35,14 @@ class HandleitForm extends React.Component {
   }
 
   render() {
-    const proj = this.props.projectData;
-    const workitems = proj.workItems;
+    let proj, workitems, docApp;
+    if (this.props.type=="project") {
+      proj = this.props.projectData;
+      workitems = proj.workItems;
+      docApp = proj.documentPackage.application;  
+    }
+    
     let d = new Date();
-    const docApp = proj.documentPackage.application;
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
     let name = (docApp.name.middle && docApp.name.middle.length > 0) ?
             `${docApp.name.first} ${docApp.name.middle} ${docApp.name.last}` : 
@@ -177,14 +181,19 @@ class HandleitForm extends React.Component {
 
 
 function loadReact() {
-  $.ajax({
-    url: "/app_project/projects/" + project_id,
-    type: "GET",
-    success: function(data) {
-      console.log(data);
-      ReactDOM.render(<HandleitForm projectData={data}/>, document.getElementById("pdf_container"));
-    }
-  })
+  console.log(type, assessment_id);
+  if (type == "project") {
+    $.ajax({
+      url: "/app_project/projects/" + project_id,
+      type: "GET",
+      success: function(data) {
+        console.log(data);
+        ReactDOM.render(
+          <HandleitForm type={type} projectData={data}/>, document.getElementById("pdf_container"));
+      }
+    })
+  }
+  
   
 }
 

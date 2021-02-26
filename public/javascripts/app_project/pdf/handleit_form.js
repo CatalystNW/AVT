@@ -46,10 +46,16 @@ var HandleitForm = function (_React$Component) {
   _createClass(HandleitForm, [{
     key: 'render',
     value: function render() {
-      var proj = this.props.projectData;
-      var workitems = proj.workItems;
+      var proj = void 0,
+          workitems = void 0,
+          docApp = void 0;
+      if (this.props.type == "project") {
+        proj = this.props.projectData;
+        workitems = proj.workItems;
+        docApp = proj.documentPackage.application;
+      }
+
       var d = new Date();
-      var docApp = proj.documentPackage.application;
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
       var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
 
@@ -339,14 +345,17 @@ var HandleitForm = function (_React$Component) {
 }(React.Component);
 
 function loadReact() {
-  $.ajax({
-    url: "/app_project/projects/" + project_id,
-    type: "GET",
-    success: function success(data) {
-      console.log(data);
-      ReactDOM.render(React.createElement(HandleitForm, { projectData: data }), document.getElementById("pdf_container"));
-    }
-  });
+  console.log(type, assessment_id);
+  if (type == "project") {
+    $.ajax({
+      url: "/app_project/projects/" + project_id,
+      type: "GET",
+      success: function success(data) {
+        console.log(data);
+        ReactDOM.render(React.createElement(HandleitForm, { type: type, projectData: data }), document.getElementById("pdf_container"));
+      }
+    });
+  }
 }
 
 loadReact();
