@@ -42,6 +42,15 @@ var PAFApp = function (_React$Component) {
         workitems = proj.workItems;
         siteAssessment = proj.siteAssessment;
         partners = proj.partners;
+      } else if (this.props.type == "assessment") {
+        var assessment = this.props.assessmentData;
+        docApp = assessment.documentPackage.application;
+        documentPackage = assessment.documentPackage;
+        workitems = assessment.workItems;
+        siteAssessment = assessment;
+        partners = assessment.partners;
+      } else {
+        return;
       }
       var d = new Date();
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
@@ -452,6 +461,15 @@ function loadReact() {
       success: function success(data) {
         console.log(data);
         ReactDOM.render(React.createElement(PAFApp, { type: type, projectData: data }), document.getElementById("pdf_container"));
+      }
+    });
+  } else if (type == "assessment") {
+    $.ajax({
+      url: "/app_project/site_assessments/" + assessment_id,
+      type: "GET",
+      success: function success(data) {
+        console.log(data);
+        ReactDOM.render(React.createElement(PAFApp, { type: type, assessmentData: data }), document.getElementById("pdf_container"));
       }
     });
   }

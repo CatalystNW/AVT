@@ -22,6 +22,15 @@ class PAFApp extends React.Component {
       workitems = proj.workItems;
       siteAssessment = proj.siteAssessment;
       partners = proj.partners;
+    } else if (this.props.type == "assessment") {
+      const assessment = this.props.assessmentData;
+      docApp = assessment.documentPackage.application;
+      documentPackage = assessment.documentPackage;
+      workitems = assessment.workItems;
+      siteAssessment = assessment;
+      partners = assessment.partners;
+    } else {
+      return;
     }
     let d = new Date();
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
@@ -182,9 +191,16 @@ function loadReact() {
         ReactDOM.render(<PAFApp type={type} projectData={data}/>, document.getElementById("pdf_container"));
       }
     });
-  }
-  
-  
+  } else if (type == "assessment") {
+    $.ajax({
+      url: "/app_project/site_assessments/" + assessment_id,
+      type: "GET",
+      success: function(data) {
+        console.log(data);
+        ReactDOM.render(<PAFApp type={type} assessmentData={data}/>, document.getElementById("pdf_container"));
+      }
+    });
+  } 
 }
 
 loadReact();
