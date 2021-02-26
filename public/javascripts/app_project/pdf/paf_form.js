@@ -35,7 +35,11 @@ var PAFApp = function (_React$Component) {
     value: function render() {
       var proj = this.state.projectData;
       var d = new Date();
-      var docApp = this.state.projectData.documentPackage.application;
+      var docApp = proj.documentPackage.application,
+          documentPackage = proj.documentPackage,
+          workitems = proj.workItems,
+          siteAssessment = proj.siteAssessment,
+          partners = proj.partners;
       var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
       var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
       if (docApp.name.preferred && docApp.name.preferred.length > 0) name += ' (Preferred: ' + docApp.name.preferred + ')';
@@ -47,7 +51,7 @@ var PAFApp = function (_React$Component) {
       var total_cost = 0,
           total_volunteers = 0;
 
-      var vet_summary = proj.documentPackage.notes ? proj.documentPackage.notes : null;
+      var vet_summary = documentPackage.notes ? documentPackage.notes : null;
       return React.createElement(
         'div',
         null,
@@ -141,7 +145,7 @@ var PAFApp = function (_React$Component) {
             'Work Items'
           )
         ),
-        proj.workItems.map(function (workItem) {
+        workitems.map(function (workItem) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
@@ -306,19 +310,19 @@ var PAFApp = function (_React$Component) {
           'div',
           null,
           'Lead: ',
-          proj.siteAssessment.lead
+          siteAssessment.lead
         ),
         React.createElement(
           'div',
           null,
           'Asbestos: ',
-          proj.siteAssessment.asbestos
+          siteAssessment.asbestos
         ),
         React.createElement(
           'div',
           null,
           'Safety Plan: ',
-          proj.siteAssessment.safety_plan
+          siteAssessment.safety_plan
         ),
         React.createElement(
           'h2',
@@ -332,7 +336,7 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           'div',
           { id: 'partners-container' },
-          this.state.projectData.partners.map(function (partner) {
+          partners.map(function (partner) {
             return React.createElement(
               'div',
               { className: 'partner-container', key: partner._id },

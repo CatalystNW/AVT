@@ -19,7 +19,11 @@ class PAFApp extends React.Component {
   render() {
     const proj = this.state.projectData;
     let d = new Date();
-    const docApp = this.state.projectData.documentPackage.application;
+    const docApp = proj.documentPackage.application,
+          documentPackage = proj.documentPackage,
+          workitems = proj.workItems,
+          siteAssessment = proj.siteAssessment,
+          partners = proj.partners;
     const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
     let name = (docApp.name.middle && docApp.name.middle.length > 0) ?
             `${docApp.name.first} ${docApp.name.middle} ${docApp.name.last}` : 
@@ -34,8 +38,8 @@ class PAFApp extends React.Component {
     let total_cost = 0,
         total_volunteers = 0;
 
-    let vet_summary = (proj.documentPackage.notes ? 
-      proj.documentPackage.notes : null
+    let vet_summary = (documentPackage.notes ? 
+      documentPackage.notes : null
       )
     return (
     <div>
@@ -61,7 +65,7 @@ class PAFApp extends React.Component {
       </table>
 
       <h2><b>Work Items</b></h2>
-      {proj.workItems.map((workItem) => {
+      {workitems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
           <div className="workitem-total-container" key={workItem._id}>
@@ -121,14 +125,14 @@ class PAFApp extends React.Component {
       })}
 
       <h2><b>Hazard / Safety Testing</b></h2>
-      <div>Lead: {proj.siteAssessment.lead}</div>
-      <div>Asbestos: {proj.siteAssessment.asbestos}</div>
-      <div>Safety Plan: {proj.siteAssessment.safety_plan}</div>
+      <div>Lead: {siteAssessment.lead}</div>
+      <div>Asbestos: {siteAssessment.asbestos}</div>
+      <div>Safety Plan: {siteAssessment.safety_plan}</div>
 
       <h2><b>Partners</b></h2>
 
       <div id="partners-container">
-        {this.state.projectData.partners.map(partner => {
+        {partners.map(partner => {
           return (
           <div className="partner-container" key={partner._id}>
             <table>
