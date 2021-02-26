@@ -1,9 +1,6 @@
 class PAFApp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      projectData: this.props.projectData,
-    };
     // this.hide_elements();
   }
 
@@ -17,7 +14,7 @@ class PAFApp extends React.Component {
   };
 
   render() {
-    const proj = this.state.projectData;
+    const proj = this.props.projectData;
     let d = new Date();
     const docApp = proj.documentPackage.application,
           documentPackage = proj.documentPackage,

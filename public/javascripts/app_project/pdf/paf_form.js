@@ -12,6 +12,7 @@ var PAFApp = function (_React$Component) {
   function PAFApp(props) {
     _classCallCheck(this, PAFApp);
 
+    // this.hide_elements();
     var _this = _possibleConstructorReturn(this, (PAFApp.__proto__ || Object.getPrototypeOf(PAFApp)).call(this, props));
 
     _this.hide_elements = function () {
@@ -23,17 +24,13 @@ var PAFApp = function (_React$Component) {
       // $('#noUserNav').css('display', 'none')
     };
 
-    _this.state = {
-      projectData: _this.props.projectData
-    };
-    // this.hide_elements();
     return _this;
   }
 
   _createClass(PAFApp, [{
     key: 'render',
     value: function render() {
-      var proj = this.state.projectData;
+      var proj = this.props.projectData;
       var d = new Date();
       var docApp = proj.documentPackage.application,
           documentPackage = proj.documentPackage,
