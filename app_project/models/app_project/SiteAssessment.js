@@ -31,6 +31,10 @@ const siteAssessmentSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  complete: {
+    type: Boolean,
+    default: false,
+  },
 
   porta_potty_required: {type: Boolean, default: false,},
   waste_required: {type: Boolean, default: false, },
