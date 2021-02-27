@@ -28,12 +28,17 @@ class DeleteManagerApp extends React.Component {
   render() {
     return (
       <div>
+        <p>
+          Note: For development only. This page along with the delete controller needs to be
+          disabled in production.
+        </p>
         <div>
           <button className="btn btn-primary" onClick={this.onClick_delAssessments}
             id="del-assessments-but">Delete</button> All Site Assessments, Work Items, Materials List
         </div>
         <div>
-          <button type="button" onClick={this.onClick_delete_all_projects}>Delete Projects, Plan Wrapup checlists</button>
+          <button type="button" className="btn btn-primary"
+            onClick={this.onClick_delete_all_projects}>Delete</button> Projects, Plan Wrapup checlists
         </div>
       </div>
     );

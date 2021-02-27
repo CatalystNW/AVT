@@ -52,6 +52,11 @@ var DeleteManagerApp = function (_React$Component) {
         "div",
         null,
         React.createElement(
+          "p",
+          null,
+          "Note: For development only. This page along with the delete controller needs to be disabled in production."
+        ),
+        React.createElement(
           "div",
           null,
           React.createElement(
@@ -67,9 +72,11 @@ var DeleteManagerApp = function (_React$Component) {
           null,
           React.createElement(
             "button",
-            { type: "button", onClick: this.onClick_delete_all_projects },
-            "Delete Projects, Plan Wrapup checlists"
-          )
+            { type: "button", className: "btn btn-primary",
+              onClick: this.onClick_delete_all_projects },
+            "Delete"
+          ),
+          " Projects, Plan Wrapup checlists"
         )
       );
     }
