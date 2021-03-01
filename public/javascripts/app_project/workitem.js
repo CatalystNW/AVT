@@ -27,12 +27,12 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.onChange_handleit = function (event) {
-      if (_this.editable) {
-        funkie.edit_workitem({
-          workitem_id: event.target.getAttribute("workitem_id"),
-          handleit: event.target.checked
-        }, null, _this.set_handleit_handler);
-      }
+      // if (this.editable) {
+      //   funkie.edit_workitem({
+      //     workitem_id: event.target.getAttribute("workitem_id"),
+      //     handleit: event.target.checked,
+      //   }, null, this.set_handleit_handler);
+      // }
     };
 
     _this.add_item = function (materialsItem_data) {
