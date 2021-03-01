@@ -15,7 +15,7 @@ class VettingWorkItemApp extends React.Component {
     this.modalmenu = React.createRef();
   }
 
-  loadAssessment = () => {
+  loadIncompleteWorkitems = () => {
     $.ajax({
       url: "/app_project/site_assessments/application/" + this.props.appId,
       context: this,

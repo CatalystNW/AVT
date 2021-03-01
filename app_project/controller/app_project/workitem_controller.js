@@ -1,11 +1,44 @@
+const { application } = require("express");
 var SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
     AppProject = require("../../models/app_project/AppProject");
 
+module.exports.getIncompleteWorkitems = getIncompleteWorkitems;
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
+
+async function getIncompleteWorkitems(req, res) {
+  const application_id = req.params.application_id
+  let workitems = [], i;
+
+  let projects = await AppProject.find({
+      handleit: true,
+      documentPackage: application_id
+    }).or([{status: "upcoming"}, {status: "in_progress"}])
+    .populate({path: "workItems", model: "WorkItem",
+                populate: {path: "materialsItems", model: "MaterialsItem"}});
+
+  projects.forEach(project => {
+    for(i=0; i< project.workItems.length; i++) {
+      workitems.push(project.workItems[i]);
+    }
+  });
+
+  let assessments = await SiteAssessment.find({
+      documentPackage: application_id,
+      complete: false,
+    }).populate({path: "workItems", model: "WorkItem",
+                  populate: {path: "materialsItems", model: "MaterialsItem"}});
+  assessments.forEach(project => {
+    for(i=0; i< project.workItems.length; i++) {
+      workitems.push(project.workItems[i]);
+    }
+  });
+  console.log(workitems);
+  res.status(200).json(workitems);
+}
 
 /**
  * Creates WorkItem & saves it to either SiteAssessment or Project
