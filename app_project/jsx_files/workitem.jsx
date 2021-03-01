@@ -14,6 +14,7 @@ class WorkItem extends React.Component {
   }
 
   onChange_handleit = (event) => {
+    // Prevent changing handleit status
     // if (this.editable) {
     //   funkie.edit_workitem({
     //     workitem_id: event.target.getAttribute("workitem_id"),
@@ -236,7 +237,10 @@ class WorkItem extends React.Component {
           {this.editable ? 
             (<span style={{marginLeft: "15px"}}>
               <button type="button" className="btn btn-sm btn-secondary"
-                onClick={this.onClick_edit_workitem_btn}>Edit</button>
+                onClick={this.onClick_edit_workitem_btn}>Edit</button></span>) : (null)
+          }
+          {this.editable && !this.state.handleit ? 
+            (<span>
               <button type="button" className="btn btn-sm btn-danger"
                 onClick={this.onClick_del_workitem_btn}>Delete</button>
             </span>) : (null)

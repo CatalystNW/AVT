@@ -27,6 +27,7 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.onChange_handleit = function (event) {
+      // Prevent changing handleit status
       // if (this.editable) {
       //   funkie.edit_workitem({
       //     workitem_id: event.target.getAttribute("workitem_id"),
@@ -348,7 +349,11 @@ var WorkItem = function (_React$Component) {
                 { type: "button", className: "btn btn-sm btn-secondary",
                   onClick: this.onClick_edit_workitem_btn },
                 "Edit"
-              ),
+              )
+            ) : null,
+            this.editable && !this.state.handleit ? React.createElement(
+              "span",
+              null,
               React.createElement(
                 "button",
                 { type: "button", className: "btn btn-sm btn-danger",
