@@ -7,6 +7,10 @@ const materialsItemSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  complete: {
+    type: Boolean,
+    default: false,
+  },
   description: String,
   quantity: Number,
   price: Number,
