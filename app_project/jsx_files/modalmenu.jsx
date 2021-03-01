@@ -145,11 +145,12 @@ class ModalMenu extends React.Component {
 
   create_menu() {
      if (this.state.type == "create_workitem" || this.state.type == "edit_workitem") {
-      var handleit_form = (this.state.type == "create_workitem") ?
-        (<div className="form-check">
-          <input type="checkbox" name="handleit" id="handleit-check"></input>
-          <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
-        </div>) : null;
+      // Prevent creating handleit work item in site assessment
+      // var handleit_form = (this.state.type == "create_workitem") ?
+      //   (<div className="form-check">
+      //     <input type="checkbox" name="handleit" id="handleit-check"></input>
+      //     <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
+      //   </div>) : null;
 
       let comments_input;
       if (this.state.page_type == "project") {
@@ -189,7 +190,7 @@ class ModalMenu extends React.Component {
             defaultValue={this.state.type == "edit_workitem" ? this.state.prev_data.description : ""} required></textarea>
         </div>
         {comments_input}
-        {handleit_form}
+        {/* {handleit_form} */}
       </div>);
     } else if (this.state.type == "create_materialsitem") {
       return (<div>
