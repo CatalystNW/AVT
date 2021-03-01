@@ -99,7 +99,7 @@ async function delete_workitem(req, res) {
     let workitem = await WorkItem.findById(workItem_id),
         i;
     if (workitem) {
-      if (workitem.transferred) { // Prevent deletion of transferred workItem
+      if (workitem.transferred || workitem.complete) { // Prevent deletion of transferred workItem
         res.status(400).end();
         return;
       }
