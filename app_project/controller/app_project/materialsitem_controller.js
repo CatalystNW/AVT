@@ -15,7 +15,7 @@ async function create_materialsitem(req, res) {
     res.status(404).end();
     return;
   }
-  if (workitem.transferred) { // Can't create for transferred WorkItem
+  if (workitem.transferred || workitem.complete) { // Can't create for transferred WorkItem
     res.status(400).end();
     return;
   }
@@ -38,7 +38,9 @@ async function delete_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
 
   var workitem = await WorkItem.findById(item.workItem);
-  if (item.transferred || workitem.transferred) {
+  if (item.transferred || workitem.transferred ||
+    item.complete || workitem.complete
+    ) {
     res.status(400).end();
     return;
   }
@@ -55,7 +57,7 @@ async function edit_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
   if (!item)
     res.status(404).end();
-  if (item.transferred) {
+  if (item.transferred || item.complete) {
     res.status(400).end();
     return;
   }
