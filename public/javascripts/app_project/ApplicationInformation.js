@@ -547,7 +547,8 @@ var ApplicationInformation = function (_React$Component) {
       }
 
       var assessment_tab, assessment_page, application_page, property_page, property_tab, proj_note_tab, proj_note_page;
-      if (this.props.view_type && this.props.view_type == "project") {
+      // Load assessment page for non-handleit projects
+      if (this.props.view_type && this.props.view_type == "project" && this.props.assessment_id) {
         assessment_tab = React.createElement(
           "a",
           { className: "nav-item nav-link", id: "nav-site-assessment-tab", "data-toggle": "tab",
