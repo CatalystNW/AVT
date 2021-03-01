@@ -25,6 +25,10 @@ const workItemSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  complete: {
+    type: Boolean,
+    default: false,
+  },
   siteAssessment: {
     type: Schema.Types.ObjectId,
     ref: "SiteAssessment",
