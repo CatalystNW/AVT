@@ -77,7 +77,7 @@ async function edit_workitem(req, res)  {
       if (!workitem) {
         res.status(404).end();
         return;
-      } else if  (workitem.transferred) {
+      } else if  (workitem.transferred || workitem.complete) {
         // Transferred work items aren't editable
         res.status(400).end();
         return;
