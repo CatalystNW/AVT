@@ -75,6 +75,7 @@ async function transfer_project(req, res) {
   for (project_name in projects) {
     await projects[project_name].save()
   }
+  /*
   // Create handleit AppProject
   for (id in handleit_workitems) {
     old_workItem = await WorkItem.findById(id)
@@ -102,6 +103,7 @@ async function transfer_project(req, res) {
     old_workItem.complete = true;
     old_workItem.save();
   }
+  */
 
   // Make non-accepted workItems in SiteAssessment as transferred
   let workItems = await WorkItem.find({
