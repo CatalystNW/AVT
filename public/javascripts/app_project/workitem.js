@@ -273,7 +273,7 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.state = _this.props.workitem;
-    _this.editable = !_this.props.workitem.transferred;
+    _this.editable = !_this.props.workitem.transferred || !_this.props.workitem.complete;
     return _this;
   }
   // Finds the material item in state & then runs edit_materialsitem on it
