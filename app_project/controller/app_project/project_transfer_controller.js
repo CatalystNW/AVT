@@ -65,6 +65,7 @@ async function transfer_project(req, res) {
       projects[project_name] = project;
     }
     old_workItem.transferred = true;
+    old_workItem.complete = true;
     old_workItem.save();
 
     new_workItem.appProject = project._id;
@@ -98,6 +99,7 @@ async function transfer_project(req, res) {
     new_workItem.save();
 
     old_workItem.transferred = true;
+    old_workItem.complete = true;
     old_workItem.save();
   }
 
@@ -109,6 +111,7 @@ async function transfer_project(req, res) {
   });
   for (let i=0; i<workItems.length; i++) {
     workItems[i].transferred = true;
+    workItems[i].complete = true;
     await workItems[i].save();
   }
   res.status(200).send();
