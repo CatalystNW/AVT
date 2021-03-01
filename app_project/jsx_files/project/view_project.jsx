@@ -102,8 +102,10 @@ class ProjectApp extends React.Component {
 
   render() {
     var assessment_id;
-    if (this.state.project) {
+    if (this.state.project && !this.state.project.handleit) {
       assessment_id = this.state.project.siteAssessment._id;
+    } else {
+      assessment_id = null;
     }
     return (
     <div>

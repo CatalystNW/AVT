@@ -101,8 +101,10 @@ var ProjectApp = function (_React$Component) {
     key: "render",
     value: function render() {
       var assessment_id;
-      if (this.state.project) {
+      if (this.state.project && !this.state.project.handleit) {
         assessment_id = this.state.project.siteAssessment._id;
+      } else {
+        assessment_id = null;
       }
       return React.createElement(
         "div",
