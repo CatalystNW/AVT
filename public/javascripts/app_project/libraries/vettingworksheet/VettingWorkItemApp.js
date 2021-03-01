@@ -24,7 +24,7 @@ var VettingWorkItemApp = function (_React$Component) {
 
     _this.loadAssessment = function () {
       $.ajax({
-        url: "/app_project//site_assessments/application/" + _this.props.appId,
+        url: "/app_project/site_assessments/application/" + _this.props.appId,
         context: _this,
         type: "GET",
         success: function success(assessment) {

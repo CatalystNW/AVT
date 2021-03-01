@@ -17,7 +17,7 @@ class VettingWorkItemApp extends React.Component {
 
   loadAssessment = () => {
     $.ajax({
-      url: "/app_project//site_assessments/application/" + this.props.appId,
+      url: "/app_project/site_assessments/application/" + this.props.appId,
       context: this,
       type: "GET",
       success: function(assessment) {
