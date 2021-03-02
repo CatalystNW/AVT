@@ -8,6 +8,7 @@ class VettingWorkItemApp extends React.Component {
     super(props);
     this.state = {
       workItems: [],
+      completeWorkItems: []
     };
     this.assessmentId = null;
     this.loadIncompleteWorkitems();
@@ -21,8 +22,20 @@ class VettingWorkItemApp extends React.Component {
       type: 'GET',
       context: this,
       success: function(workitems) {
+        console.log(workitems);
+        let completeWorkItems = [],
+            workItems = [];
+        for (let i = 0, workitem; i< workitems.length; i++ ) {
+          workitem = workitems[i];
+          if (workitem.transferred == true || workitem.complete == true) {
+            completeWorkItems.push(workitem);
+          } else  {
+            workItems.push(workitem);
+          }
+        }
         this.setState({
-          workItems: workitems,
+          workItems: workItems,
+          completeWorkItems: completeWorkItems,
         });
       }
     });

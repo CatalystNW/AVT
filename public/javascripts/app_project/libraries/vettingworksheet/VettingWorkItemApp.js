@@ -28,8 +28,20 @@ var VettingWorkItemApp = function (_React$Component) {
         type: 'GET',
         context: _this,
         success: function success(workitems) {
+          console.log(workitems);
+          var completeWorkItems = [],
+              workItems = [];
+          for (var i = 0, workitem; i < workitems.length; i++) {
+            workitem = workitems[i];
+            if (workitem.transferred == true || workitem.complete == true) {
+              completeWorkItems.push(workitem);
+            } else {
+              workItems.push(workitem);
+            }
+          }
           this.setState({
-            workItems: workitems
+            workItems: workItems,
+            completeWorkItems: completeWorkItems
           });
         }
       });
@@ -125,7 +137,8 @@ var VettingWorkItemApp = function (_React$Component) {
     };
 
     _this.state = {
-      workItems: []
+      workItems: [],
+      completeWorkItems: []
     };
     _this.assessmentId = null;
     _this.loadIncompleteWorkitems();
