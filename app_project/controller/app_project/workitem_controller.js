@@ -41,17 +41,22 @@ async function getIncompleteWorkitems(req, res) {
 
 /**
  * Creates WorkItem & saves it to either SiteAssessment or Project
+ * Handleit work items create new project. If assessment_id doesn't exist
+ * with type assessment, then search by application id. If that doesn't
+ * exists, then a new assessment will be created
  * @param {*} req body: type["assessment", "project"], name, description
  *  project_id or assessment_id (dependent on type)
  * @param {*} res 200 with work item as JSON, 400, 404
  */
 async function create_workitem(req, res) {
+  // Convert handleit text into boolean
   if (req.body.handleit == 'true' || req.body.handleit == true) {
     req.body.handleit = true;
   } else {
     req.body.handleit = false;
   }
-  if ((!req.body.handleit && !req.body.type) || 
+  // handleit might not have a type
+  if ((!req.body.handleit && !req.body.type) ||
       !req.body.name || !req.body.description || 
       (!req.body.application_id && !req.body.project_id && !req.body.assessment_id)) {
     res.status(400).end();
@@ -68,7 +73,7 @@ async function create_workitem(req, res) {
   }
 
   let assessment, project;
-
+  // handleit work item will create new AppProject directly
   if (req.body.handleit && req.body.application_id) {
     project = new AppProject();
     project.name = workitem.name;
@@ -90,12 +95,12 @@ async function create_workitem(req, res) {
         res.status(404).end();
         return;
       }
-    } else if (req.body.application_id) {
+    } else if (req.body.application_id) { // search by application_id
       assessment = await SiteAssessment.find({
         documentPackage: req.body.application_id,
         transferred: false, complete: false
       });
-      if (assessment.length == 0) {
+      if (assessment.length == 0) { // create assessment if it doesn't exist
         assessment = await SiteAssessment.create(req.body.application_id);
       } else {
         assessment = assessment[0];
