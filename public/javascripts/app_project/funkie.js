@@ -44,6 +44,9 @@ var funkie = {
     }
   },
   create_workitem: function create_workitem(form_data, menu_callback, data_callback_handler) {
+    if (form_data.handleit) {
+      form_data.type = "project";
+    }
     $.ajax({
       url: "/app_project/workitems",
       type: "POST",
