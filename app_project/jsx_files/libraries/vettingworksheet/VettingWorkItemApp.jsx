@@ -10,45 +10,60 @@ class VettingWorkItemApp extends React.Component {
       workItems: [],
     };
     this.assessmentId = null;
-    this.loadAssessment();
+    this.loadIncompleteWorkitems();
+    // this.loadAssessment();
     this.formId = "workitem-create-form";
     this.modalmenu = React.createRef();
   }
 
   loadIncompleteWorkitems = () => {
     $.ajax({
-      url: "/app_project/site_assessments/application/" + this.props.appId,
+      url: '/app_project/workitems/incomplete/' + this.props.appId,
+      type: 'GET',
       context: this,
-      type: "GET",
-      success: function(assessment) {
-        console.log(assessment);
-        this.assessmentId = assessment._id;
+      success: function(workitems) {
         this.setState({
-          workItems: assessment.workItems,
+          workItems: workitems,
         });
       }
     });
   };
 
+  // loadAssessment = () => {
+  //   $.ajax({
+  //     url: "/app_project/site_assessments/application/" + this.props.appId,
+  //     context: this,
+  //     type: "GET",
+  //     success: function(assessment) {
+  //       console.log(assessment);
+  //       this.assessmentId = assessment._id;
+  //       this.setState({
+  //         workItems: assessment.workItems,
+  //       });
+  //     }
+  //   });
+  // };
+
   onSubmit_createWorkItem = (e) => {
     e.preventDefault();
-    if (this.assessmentId) {
-      const data = this.getData();
+    const data = this.getData();
+    data.application_id = this.props.appId;
+    if (!data.handleit) {
       data.type = "assessment";
-      data.assessment_id = this.assessmentId;
-      $.ajax({
-        url: "/app_project/workitems",
-        type: "POST",
-        data: data,
-        context: this,
-        success: function(workitem) {
-          this.clearForm();
-          this.setState({
-            workItems: [...this.state.workItems, workitem],
-          })
-        }
-      })
     }
+    $.ajax({
+      url: "/app_project/workitems",
+      type: "POST",
+      data: data,
+      context: this,
+      success: function(workitem) {
+        console.log(workitem);
+        this.clearForm();
+        this.setState({
+          workItems: [...this.state.workItems, workitem],
+        })
+      }
+    })
   };
 
   clearForm = () => {
@@ -59,11 +74,12 @@ class VettingWorkItemApp extends React.Component {
   getData = () => {
     let data = {};
     let formData = new FormData($("#" + this.formId)[0]);
-    formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
+    // formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
     
     for (let key of formData.keys()) {
       data[key] = formData.get(key);
     }
+    data.handleit = data.handleit  == "on" ? true: false;
     return data;
   }
 

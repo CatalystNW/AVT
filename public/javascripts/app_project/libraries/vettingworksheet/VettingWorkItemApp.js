@@ -22,16 +22,14 @@ var VettingWorkItemApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (VettingWorkItemApp.__proto__ || Object.getPrototypeOf(VettingWorkItemApp)).call(this, props));
 
-    _this.loadAssessment = function () {
+    _this.loadIncompleteWorkitems = function () {
       $.ajax({
-        url: "/app_project/site_assessments/application/" + _this.props.appId,
+        url: '/app_project/workitems/incomplete/' + _this.props.appId,
+        type: 'GET',
         context: _this,
-        type: "GET",
-        success: function success(assessment) {
-          console.log(assessment);
-          this.assessmentId = assessment._id;
+        success: function success(workitems) {
           this.setState({
-            workItems: assessment.workItems
+            workItems: workitems
           });
         }
       });
@@ -39,23 +37,24 @@ var VettingWorkItemApp = function (_React$Component) {
 
     _this.onSubmit_createWorkItem = function (e) {
       e.preventDefault();
-      if (_this.assessmentId) {
-        var data = _this.getData();
+      var data = _this.getData();
+      data.application_id = _this.props.appId;
+      if (!data.handleit) {
         data.type = "assessment";
-        data.assessment_id = _this.assessmentId;
-        $.ajax({
-          url: "/app_project/workitems",
-          type: "POST",
-          data: data,
-          context: _this,
-          success: function success(workitem) {
-            this.clearForm();
-            this.setState({
-              workItems: [].concat(_toConsumableArray(this.state.workItems), [workitem])
-            });
-          }
-        });
       }
+      $.ajax({
+        url: "/app_project/workitems",
+        type: "POST",
+        data: data,
+        context: _this,
+        success: function success(workitem) {
+          console.log(workitem);
+          this.clearForm();
+          this.setState({
+            workItems: [].concat(_toConsumableArray(this.state.workItems), [workitem])
+          });
+        }
+      });
     };
 
     _this.clearForm = function () {
@@ -66,7 +65,7 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.getData = function () {
       var data = {};
       var formData = new FormData($("#" + _this.formId)[0]);
-      formData.set("handleit", formData.get("handleit") == "on" ? true : false);
+      // formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
@@ -93,6 +92,7 @@ var VettingWorkItemApp = function (_React$Component) {
         }
       }
 
+      data.handleit = data.handleit == "on" ? true : false;
       return data;
     };
 
@@ -129,11 +129,27 @@ var VettingWorkItemApp = function (_React$Component) {
       workItems: []
     };
     _this.assessmentId = null;
-    _this.loadAssessment();
+    _this.loadIncompleteWorkitems();
+    // this.loadAssessment();
     _this.formId = "workitem-create-form";
     _this.modalmenu = React.createRef();
     return _this;
   }
+
+  // loadAssessment = () => {
+  //   $.ajax({
+  //     url: "/app_project/site_assessments/application/" + this.props.appId,
+  //     context: this,
+  //     type: "GET",
+  //     success: function(assessment) {
+  //       console.log(assessment);
+  //       this.assessmentId = assessment._id;
+  //       this.setState({
+  //         workItems: assessment.workItems,
+  //       });
+  //     }
+  //   });
+  // };
 
   _createClass(VettingWorkItemApp, [{
     key: "render",
