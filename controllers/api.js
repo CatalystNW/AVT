@@ -1386,18 +1386,18 @@ getDocumentPlanning: function (req, res, next) {
 			id = req.body.id;
 		}
         else if (req.body.name == "status") {
-                if (req.body.value && ((req.body.value == "project") || (req.body.value == "handle"))) {
-                    updates['project.status']= req.body.value;
-                }
-                updates['status'] = req.body.value;
-
-                if(req.params.id != null) {
-                    id = req.params.id;
-                }
-                else {
-                    id = req.body.id;
-                }
+            if (req.body.value && ((req.body.value == "project") || (req.body.value == "handle"))) {
+                updates['project.status']= req.body.value;
             }
+            updates['status'] = req.body.value;
+
+            if(req.params.id != null) {
+                id = req.params.id;
+            }
+            else {
+                id = req.body.id;
+            }
+        }
         // else if (req.body.name == "drive_url") {
         //         console.log("[ API ] putUpdateDocument :: Save Google drive URL Called");
                 
