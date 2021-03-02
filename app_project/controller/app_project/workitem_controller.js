@@ -174,16 +174,7 @@ async function delete_workitem(req, res) {
         res.status(400).end();
         return;
       }
-      if (workitem.type == "assessment") {
-        let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
-        for (i=0; i<siteAssessment.workItems.length; i++) {
-          if (siteAssessment.workItems[i] == workItem_id) {
-            siteAssessment.workItems.splice(i, 1);
-            break;
-          }
-        }
-        await siteAssessment.save();
-      } else if (workitem.type == "project") {
+      if (workitem.type == "project" || workitem.handleit) {
         let appProject = await AppProject.findById(workitem.appProject);
         for (i=0; i<appProject.workItems.length; i++) {
           if (appProject.workItems[i] == workItem_id) {
@@ -192,7 +183,16 @@ async function delete_workitem(req, res) {
           }
         }
         appProject.save();
-      }
+      } else if (workitem.type == "assessment") {
+        let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
+        for (i=0; i<siteAssessment.workItems.length; i++) {
+          if (siteAssessment.workItems[i] == workItem_id) {
+            siteAssessment.workItems.splice(i, 1);
+            break;
+          }
+        }
+        await siteAssessment.save();
+      } 
       await MaterialsItem.deleteMany({workItem: workitem._id});
       await WorkItem.deleteOne({_id: workItem_id}, function(err) {
         if (err) {
