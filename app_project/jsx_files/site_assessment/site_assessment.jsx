@@ -37,6 +37,7 @@ class App extends React.Component {
   set_create_workitem_menu =() => {
     var data = {
       assessment_id: this.state.assessment._id, 
+      application_id: this.state.application.id,
       type: "assessment",
     };
     this.modalmenu.current.show_menu(
