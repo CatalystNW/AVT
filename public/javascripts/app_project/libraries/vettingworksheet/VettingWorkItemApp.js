@@ -65,7 +65,6 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.getData = function () {
       var data = {};
       var formData = new FormData($("#" + _this.formId)[0]);
-      // formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
@@ -130,26 +129,10 @@ var VettingWorkItemApp = function (_React$Component) {
     };
     _this.assessmentId = null;
     _this.loadIncompleteWorkitems();
-    // this.loadAssessment();
     _this.formId = "workitem-create-form";
     _this.modalmenu = React.createRef();
     return _this;
   }
-
-  // loadAssessment = () => {
-  //   $.ajax({
-  //     url: "/app_project/site_assessments/application/" + this.props.appId,
-  //     context: this,
-  //     type: "GET",
-  //     success: function(assessment) {
-  //       console.log(assessment);
-  //       this.assessmentId = assessment._id;
-  //       this.setState({
-  //         workItems: assessment.workItems,
-  //       });
-  //     }
-  //   });
-  // };
 
   _createClass(VettingWorkItemApp, [{
     key: "render",

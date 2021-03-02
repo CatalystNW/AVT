@@ -11,7 +11,6 @@ class VettingWorkItemApp extends React.Component {
     };
     this.assessmentId = null;
     this.loadIncompleteWorkitems();
-    // this.loadAssessment();
     this.formId = "workitem-create-form";
     this.modalmenu = React.createRef();
   }
@@ -28,21 +27,6 @@ class VettingWorkItemApp extends React.Component {
       }
     });
   };
-
-  // loadAssessment = () => {
-  //   $.ajax({
-  //     url: "/app_project/site_assessments/application/" + this.props.appId,
-  //     context: this,
-  //     type: "GET",
-  //     success: function(assessment) {
-  //       console.log(assessment);
-  //       this.assessmentId = assessment._id;
-  //       this.setState({
-  //         workItems: assessment.workItems,
-  //       });
-  //     }
-  //   });
-  // };
 
   onSubmit_createWorkItem = (e) => {
     e.preventDefault();
@@ -74,7 +58,6 @@ class VettingWorkItemApp extends React.Component {
   getData = () => {
     let data = {};
     let formData = new FormData($("#" + this.formId)[0]);
-    // formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
     
     for (let key of formData.keys()) {
       data[key] = formData.get(key);
