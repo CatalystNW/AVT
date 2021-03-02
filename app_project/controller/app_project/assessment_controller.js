@@ -102,7 +102,8 @@ async function getOrCreateAssessmentByAppId(app_id) {
   var doc = await DocumentPackage.findById(app_id);
 
   if (doc) {
-    var site_assessment = await SiteAssessment.find({application_id: app_id, transferred: false})
+    var site_assessment = await SiteAssessment.find({
+      application_id: app_id, transferred: false, complete: false,})
           .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}});
     if (site_assessment.length == 0) {
       // The other fields won't exist at creation
