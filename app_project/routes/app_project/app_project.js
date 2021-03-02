@@ -27,7 +27,7 @@ router.route('/site_assessments/:assessment_id')
   .patch(assessment_controller.edit_site_assessment);
 router.patch('/site_assessments/:assessment_id/partners', assessment_controller.set_partners);
 
-router.get('/site_assessments/application/:application_id', assessment_controller.getSiteAssessmentByAppId);
+// router.get('/site_assessments/application/:application_id', assessment_controller.getSiteAssessmentByAppId);
 
 router.get('/workitems/incomplete/:application_id', workitem_controller.getIncompleteWorkitems);
 router.post('/workitems', workitem_controller.create_workitem);

@@ -9,7 +9,7 @@ module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
-module.exports.getSiteAssessmentByAppId = getSiteAssessmentByAppId;
+// module.exports.getSiteAssessmentByAppId = getSiteAssessmentByAppId;
 module.exports.getApplicationsInAssessment = getApplicationsInAssessment;
 module.exports.getTransferredAssessments = getTransferredAssessments;
 
