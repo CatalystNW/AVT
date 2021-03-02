@@ -45,10 +45,6 @@ var ModalMenu = function (_React$Component) {
 
       var formData = new FormData($("#modalmenu-form")[0]);
 
-      if (_this.state.type == "create_workitem") {
-        formData.set("handleit", formData.get("handleit") == "on" ? true : false);
-      }
-
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -72,6 +68,10 @@ var ModalMenu = function (_React$Component) {
             throw _iteratorError;
           }
         }
+      }
+
+      if (_this.state.type == "create_workitem") {
+        data.handleit = data.handleit == "on" ? true : false;
       }
 
       if (_this.state.type == "edit_materialsitem") {

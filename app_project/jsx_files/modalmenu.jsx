@@ -41,12 +41,11 @@ class ModalMenu extends React.Component {
 
     var formData = new FormData($("#modalmenu-form")[0]);
 
-    if (this.state.type=="create_workitem") {
-      formData.set("handleit", formData.get("handleit") == "on" ? true:false); 
-    }
-
     for (var key of formData.keys()) {
       data[key] = formData.get(key);
+    }
+    if (this.state.type=="create_workitem") {
+      data.handleit = data.handleit == "on" ? true : false;
     }
 
     if (this.state.type=="edit_materialsitem") {
