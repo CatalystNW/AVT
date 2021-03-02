@@ -4,21 +4,20 @@ var SiteAssessment = require("../../models/app_project/SiteAssessment"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
     AppProject = require("../../models/app_project/AppProject");
 
-module.exports.getIncompleteWorkitems = getIncompleteWorkitems;
+module.exports.getWorkitemsByAppId = getWorkitemsByAppId;
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
 module.exports.delete_workitem = delete_workitem;
 
-async function getIncompleteWorkitems(req, res) {
+async function getWorkitemsByAppId(req, res) {
   const application_id = req.params.application_id
   let workitems = [], i;
 
   let projects = await AppProject.find({
       handleit: true,
       documentPackage: application_id
-    }).or([{status: "upcoming"}, {status: "in_progress"}])
-    .populate({path: "workItems", model: "WorkItem",
-                populate: {path: "materialsItems", model: "MaterialsItem"}});
+    }).populate({path: "workItems", model: "WorkItem",
+              populate: {path: "materialsItems", model: "MaterialsItem"}});
 
   projects.forEach(project => {
     for(i=0; i< project.workItems.length; i++) {
