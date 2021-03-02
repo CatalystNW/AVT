@@ -170,6 +170,19 @@ class VettingWorkItemApp extends React.Component {
           />)
         })}
       </div>
+      <div className="col-sm-12" id="complete-workitems-container">
+        <h3>Complete Work Items</h3>
+        {this.state.completeWorkItems.map(workItem => {
+          return (
+          <WorkItem key={workItem._id} page_type={"vetting"}
+            workitem={workItem}
+            // remove_workitem={this.remove_workitem}
+            // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+            // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+            // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+          />)
+        })}
+      </div>
 
       <ModalMenu ref={this.modalmenu}/>
 		</div>) ;   

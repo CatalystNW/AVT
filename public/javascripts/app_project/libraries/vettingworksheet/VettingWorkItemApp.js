@@ -254,6 +254,24 @@ var VettingWorkItemApp = function (_React$Component) {
             });
           })
         ),
+        React.createElement(
+          "div",
+          { className: "col-sm-12", id: "complete-workitems-container" },
+          React.createElement(
+            "h3",
+            null,
+            "Complete Work Items"
+          ),
+          this.state.completeWorkItems.map(function (workItem) {
+            return React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+              workitem: workItem
+              // remove_workitem={this.remove_workitem}
+              // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+              // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+              // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+            });
+          })
+        ),
         React.createElement(ModalMenu, { ref: this.modalmenu })
       );
     }

@@ -32,7 +32,8 @@
     font-size: 1.2em;
 }
 
-#workitems-container {
+#workitems-container,
+#complete-workitems-container {
     height: 525px;
     overflow: auto;
 }
