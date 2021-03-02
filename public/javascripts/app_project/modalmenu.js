@@ -189,12 +189,16 @@ var ModalMenu = function (_React$Component) {
     key: "create_menu",
     value: function create_menu() {
       if (this.state.type == "create_workitem" || this.state.type == "edit_workitem") {
-        // Prevent creating handleit work item in site assessment
-        // var handleit_form = (this.state.type == "create_workitem") ?
-        //   (<div className="form-check">
-        //     <input type="checkbox" name="handleit" id="handleit-check"></input>
-        //     <label className="form-check-label" htmlFor="handleit-check">Handle-It</label>
-        //   </div>) : null;
+        var handleit_form = this.state.type == "create_workitem" ? React.createElement(
+          "div",
+          { className: "form-check" },
+          React.createElement("input", { type: "checkbox", name: "handleit", id: "handleit-check" }),
+          React.createElement(
+            "label",
+            { className: "form-check-label", htmlFor: "handleit-check" },
+            "Handle-It"
+          )
+        ) : null;
 
         var comments_input = void 0;
         if (this.state.page_type == "project") {
@@ -260,7 +264,8 @@ var ModalMenu = function (_React$Component) {
             React.createElement("textarea", { className: "form-control", name: "description", id: "desc-input",
               defaultValue: this.state.type == "edit_workitem" ? this.state.prev_data.description : "", required: true })
           ),
-          comments_input
+          comments_input,
+          handleit_form
         );
       } else if (this.state.type == "create_materialsitem") {
         return React.createElement(
