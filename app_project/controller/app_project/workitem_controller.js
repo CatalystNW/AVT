@@ -12,7 +12,8 @@ module.exports.delete_workitem = delete_workitem;
 async function getWorkitemsByAppId(req, res) {
   const application_id = req.params.application_id
   let workitems = [], i;
-
+  // Search thru project & assessments since workitems themselves don't
+  // contain documentPackage
   let projects = await AppProject.find({
       handleit: true,
       documentPackage: application_id
@@ -78,14 +79,18 @@ async function create_workitem(req, res) {
     project.name = workitem.name;
     project.documentPackage = req.body.application_id;
     project.handleit = true;
+    workitem.type = "project"
+    workitem.appProject = project._id;
   } else if (req.body.type == "project" && req.body.project_id) {
     project = await AppProject.findById(req.body.project_id);
     if (!project) {
       res.status(400).end();
       return;
     }
-    if (req.body.project_comments)
+    if (req.body.project_comments) {
       workitem.project_comments = req.body.project_comments;
+    }
+    workitem.type = "project"
     workitem.appProject = project._id;
   } else if (req.body.type == "assessment") {
     if (req.body.assessment_id) {
@@ -115,7 +120,8 @@ async function create_workitem(req, res) {
     if (req.body.assessment_comments)
       workitem.assessment_comments = req.body.assessment_comments;
     
-    workitem.siteAssessment = assessment._id; 
+    workitem.siteAssessment = assessment._id;
+    workitem.type = "assessment"
   } else {
     res.status(400).end();
     return;
