@@ -17,7 +17,7 @@ class VettingWorkItemApp extends React.Component {
 
   loadIncompleteWorkitems = () => {
     $.ajax({
-      url: '/app_project/workitems/incomplete/' + this.props.appId,
+      url: '/app_project/application/' + this.props.appId + '/workitems',
       type: 'GET',
       context: this,
       success: function(workitems) {

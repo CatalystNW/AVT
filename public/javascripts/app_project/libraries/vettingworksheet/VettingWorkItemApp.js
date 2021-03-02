@@ -24,7 +24,7 @@ var VettingWorkItemApp = function (_React$Component) {
 
     _this.loadIncompleteWorkitems = function () {
       $.ajax({
-        url: '/app_project/workitems/incomplete/' + _this.props.appId,
+        url: '/app_project/application/' + _this.props.appId + '/workitems',
         type: 'GET',
         context: _this,
         success: function success(workitems) {
