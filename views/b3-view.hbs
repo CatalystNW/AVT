@@ -556,6 +556,26 @@
      *  to the handlebars template system
      */
     $(document).ready(function() {
+        $('#status').editable({
+            value: '{{doc.status}}',
+            source:
+                    [
+                        {value: 'discuss', text: 'On Hold - Pending Discussion'},
+                        {value: 'new', text: 'NEW'},
+                        {value: 'phone', text: 'Phone Call Needed'},
+                        {value: 'handle', text: 'Handle-It'},
+                        {value: 'documents', text: 'Awaiting Documents'},
+                        {value: 'assess', text: 'Site Assessment - Pending'},
+						{value: 'assessComp', text: 'Site Assessment - Complete'},
+                        {value: 'approval', text: 'Approval Process'},
+                        {value: 'declined', text: 'Declined'},
+                        {value: 'withdrawnooa', text: 'Withdrawn - Outside Service Area'},
+                        {value: 'withdrawn', text: 'Withdrawn'},
+                        {value: 'project', text: 'Approved Project'},
+                        {value: 'waitlist', text: 'Waitlist'},
+                        {value: 'transferred', text: 'Transferred', disabled: true}
+                    ]
+        });
         $('#address').editable({
             value: {
                 line_1: '{{doc.application.address.line_1}}',
@@ -586,26 +606,6 @@
                     [
                         {value: 'true', text: 'True'},
                         {value: 'false', text: 'False'}
-                    ]
-        });
-        $('#status').editable({
-            value: '{{doc.status}}',
-            source:
-                    [
-                        {value: 'discuss', text: 'On Hold - Pending Discussion'},
-                        {value: 'new', text: 'NEW'},
-                        {value: 'phone', text: 'Phone Call Needed'},
-                        {value: 'handle', text: 'Handle-It'},
-                        {value: 'documents', text: 'Awaiting Documents'},
-                        {value: 'assess', text: 'Site Assessment - Pending'},
-						{value: 'assessComp', text: 'Site Assessment - Complete'},
-                        {value: 'approval', text: 'Approval Process'},
-                        {value: 'declined', text: 'Declined'},
-                        {value: 'withdrawnooa', text: 'Withdrawn - Outside Service Area'},
-                        {value: 'withdrawn', text: 'Withdrawn'},
-                        {value: 'project', text: 'Approved Project'},
-                        {value: 'waitlist', text: 'Waitlist'},
-                        {value: 'transferred', text: 'Transferred'}
                     ]
         });
         $('#owns_home').editable({
