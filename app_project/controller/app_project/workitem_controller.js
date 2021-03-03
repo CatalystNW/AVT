@@ -1,4 +1,3 @@
-const { application } = require("express");
 var SiteAssessment = require("../../models/app_project/SiteAssessment"),
     WorkItem = require("../../models/app_project/WorkItem"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
