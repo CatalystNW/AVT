@@ -1,10 +1,10 @@
 import { VettingWorkItemApp } from "./VettingWorkItemApp.js";
+import { DocStatusBar } from "./DocStatusBar.js";
 
 $(document).ready(init);
 
 function init() {
-    (function loadReact() {
-        var appId = $('#appId').val();
-        ReactDOM.render(React.createElement(VettingWorkItemApp, { appId: appId }), document.getElementById("workitem-create-menu-container"));
-    })();
+    var appId = $('#appId').val();
+    ReactDOM.render(React.createElement(VettingWorkItemApp, { appId: appId }), document.getElementById("workitem-create-menu-container"));
+    ReactDOM.render(React.createElement(DocStatusBar, { appId: appId, status: docStatus }), document.getElementById("status-container"));
 }
