@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var assessment_controller       = require('../../controller/app_project/assessment_controller.js'),
+var document_controller       = require('../../controller/app_project/document_controller.js'),
+    assessment_controller       = require('../../controller/app_project/assessment_controller.js'),
     project_controller          = require('../../controller/app_project/project_controller.js'),
     project_transfer_controller = require('../../controller/app_project/project_transfer_controller.js'),
     workitem_controller         = require('../../controller/app_project/workitem_controller.js'),
@@ -29,6 +30,7 @@ router.patch('/site_assessments/:assessment_id/partners', assessment_controller.
 
 // router.get('/site_assessments/application/:application_id', assessment_controller.getSiteAssessmentByAppId);
 
+router.patch('/document/:application_id/status', document_controller.editDocumentStatus);
 router.get('/application/:application_id/workitems', workitem_controller.getWorkitemsByAppId);
 router.post('/workitems', workitem_controller.create_workitem);
 router.route('/workitems/:workitem_id')
