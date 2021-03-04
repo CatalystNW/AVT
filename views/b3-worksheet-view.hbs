@@ -39,9 +39,9 @@
 <div class="container col-xs-12">
 	<h1>{{doc.application.name.first}} {{doc.application.name.last}} - Vetting Worksheet</h1>
 
-	<div class="col-sm-6 no-left-padding">
-		<h3>Status: <a href="#" id="status" data-type="select" data-pk="1" 
-					data-url="/edit/{{doc._id}}" data-name="status" data-title="Select status"></a></h3>
+	<div class="col-sm-6 no-left-padding" id="status-container">
+		{{!-- <h3>Status: <a href="#" id="status" data-type="select" data-pk="1" 
+					data-url="/edit/{{doc._id}}" data-name="status" data-title="Select status"></a></h3> --}}
 	</div>
 	<div class="col-sm-6 drive-button-padding">
 		<!-- HBS - IF NO DRIVE LINK  - then show this. -->
@@ -814,8 +814,7 @@ $(function(){
 
 <script src="/javascript/serviceArea.js" type="text/javascript"></script>
 <script>
-
-
+	var docStatus = "{{doc.status}}";
     /**
      * Handles the back button located at the top of the page
      */
@@ -889,6 +888,7 @@ $(function(){
                         {value: 'false', text: 'False'}
                     ]
         });
+		/*
         $('#status').editable({
             value: '{{doc.status}}',
             source:
@@ -909,6 +909,7 @@ $(function(){
 						{value: 'transferred', text: 'Transferred'}
                     ]
         });
+		*/
         $('#owns_home').editable({
             value: '{{doc.application.owns_home}}',
             source:
