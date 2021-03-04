@@ -137,7 +137,8 @@ async function edit_site_assessment(req, res) {
     res.status(404).end();
     return;
   }
-  if (site_assessment.transferred) { // Can't edit transferred assessments
+  // Can't edit transferred or completed assessments
+  if (site_assessment.transferred || site_assessment.complete) { 
     res.status(400).end();
     return;
   }
