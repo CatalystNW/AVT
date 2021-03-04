@@ -27,12 +27,27 @@ class SiteAssessmentApp extends React.Component {
               project_approved = [],
               assessmentsByDocs = {};
           dataObj.assessments.forEach(assessment => {
+            if (assessment.documentPackage in assessmentsByDocs) {
+              window.alert("Assessments found with the document ID: "
+                + assessment.documentPackage);
+            }
             assessmentsByDocs[assessment.documentPackage] = assessment;
           });
+          
+          let assessment;
           dataObj.documents.forEach(doc=> {
+            assessment = assessmentsByDocs[doc._id];
             if (doc.status == "assess") {
+              if (assessment && assessment.status != "pending") {
+                window.alert("Conflict document & assessment status found for document: " 
+                  + doc.app_name);
+              }
               pending.push(doc);
             } else if (doc.status == "assessComp") {
+              if (!assessment) {
+                window.alert("No assessment found for document with completed status: " 
+                  + doc.app_name);
+              }
               complete.push(doc);
             }
           });
