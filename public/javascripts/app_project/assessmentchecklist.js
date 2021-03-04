@@ -100,6 +100,10 @@ var AssessmentChecklist = function (_React$Component) {
 
     _this.onChange_status = function (e) {
       var newStatus = e.target.value;
+      if ((newStatus == "approval_process" || newStatus == "approved" || newStatus == "declined") && _this.state.status == "pending") {
+        window.alert("The Assessment must first be completed!");
+        return;
+      }
       var result = true;
       if (e.target.value == "declined") {
         result = window.confirm("Are you sure you want to decline the site assessment? \n        This can't be undone.");
