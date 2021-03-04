@@ -96,20 +96,23 @@ class SiteAssessmentApp extends React.Component {
   };
 
   createAssessmentRow = (doc) => {
-    const address = (doc.address.line_2) ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+    const addObj = doc.application.address,
+          nameObj = doc.application.name;
+    const address = (addObj.line_2) ? 
+        addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
     let assessment_date;
-    if (this.state.assessmentsByDocs[doc.id] && 
-        this.state.assessmentsByDocs[doc.id].assessment_date) {
-      const d = this.convert_date(this.state.assessmentsByDocs[doc.id].assessment_date)
+    if (this.state.assessmentsByDocs[doc._id] && 
+        this.state.assessmentsByDocs[doc._id].assessment_date) {
+      const d = this.convert_date(this.state.assessmentsByDocs[doc._id].assessment_date)
       // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
       assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
     }
     return (
-      <tr key={doc.id}>
-        <td><a href={"./view_site_assessments/app_id/" + doc.id}>{doc.app_name}</a></td>
-        <td>{doc.name.first} {doc.name.last}</td>
+      <tr key={doc._id}>
+        <td><a href={"./view_site_assessments/app_id/" + doc._id}>{doc.app_name}</a></td>
+        <td>{nameObj.first} {nameObj.last}</td>
         <td>
-          {address} | {doc.address.city}, {doc.address.state} {doc.address.zip}
+          {address} | {addObj.city}, {addObj.state} {addObj.zip}
         </td>
         <td>{assessment_date}</td>
     </tr>

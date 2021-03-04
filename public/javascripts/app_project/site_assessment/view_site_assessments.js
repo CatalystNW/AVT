@@ -108,42 +108,44 @@ var SiteAssessmentApp = function (_React$Component) {
     };
 
     _this.createAssessmentRow = function (doc) {
-      var address = doc.address.line_2 ? doc.address.line_1 + " " + doc.address.line_2 : doc.address.line_1;
+      var addObj = doc.application.address,
+          nameObj = doc.application.name;
+      var address = addObj.line_2 ? addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
       var assessment_date = void 0;
-      if (_this.state.assessmentsByDocs[doc.id] && _this.state.assessmentsByDocs[doc.id].assessment_date) {
-        var d = _this.convert_date(_this.state.assessmentsByDocs[doc.id].assessment_date);
+      if (_this.state.assessmentsByDocs[doc._id] && _this.state.assessmentsByDocs[doc._id].assessment_date) {
+        var d = _this.convert_date(_this.state.assessmentsByDocs[doc._id].assessment_date);
         // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
         assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
       }
       return React.createElement(
         "tr",
-        { key: doc.id },
+        { key: doc._id },
         React.createElement(
           "td",
           null,
           React.createElement(
             "a",
-            { href: "./view_site_assessments/app_id/" + doc.id },
+            { href: "./view_site_assessments/app_id/" + doc._id },
             doc.app_name
           )
         ),
         React.createElement(
           "td",
           null,
-          doc.name.first,
+          nameObj.first,
           " ",
-          doc.name.last
+          nameObj.last
         ),
         React.createElement(
           "td",
           null,
           address,
           " | ",
-          doc.address.city,
+          addObj.city,
           ", ",
-          doc.address.state,
+          addObj.state,
           " ",
-          doc.address.zip
+          addObj.zip
         ),
         React.createElement(
           "td",
