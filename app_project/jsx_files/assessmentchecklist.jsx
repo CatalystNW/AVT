@@ -94,16 +94,25 @@ class AssessmentChecklist extends React.Component {
   }
 
   onChange_status = (e) => {
-    funkie.edit_site_assessment({
-      assessment_id: this.state._id,
-      property: "status",
-      value: e.target.value,
-    }, (data)=> {
-      console.log(data);
-    });
-    this.setState({
-      status: e.target.value,
-    })
+    const newStatus = e.target.value;
+    let result = true;
+    if (e.target.value == "declined") {
+      result = window.confirm(
+        `Are you sure you want to decline the site assessment? 
+        This can't be undone.`)
+    }
+    if (result) {
+      funkie.edit_site_assessment({
+        assessment_id: this.state._id,
+        property: "status",
+        value: newStatus,
+      }, (data)=> {
+        console.log(data);
+      });
+      this.setState({
+        status: newStatus,
+      });
+    }
   };
 
   edit_drive_url = () => {
@@ -179,7 +188,7 @@ class AssessmentChecklist extends React.Component {
                 <option value="complete">Complete</option>
                 <option value="approval_process">Project Approval</option>
                 <option value="approved">Project Approved</option>
-                <option value="declined">Decline</option>
+                <option value="declined">Declined</option>
               </select>
             </td>
           </tr>

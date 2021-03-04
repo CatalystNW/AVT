@@ -99,16 +99,23 @@ var AssessmentChecklist = function (_React$Component) {
     };
 
     _this.onChange_status = function (e) {
-      funkie.edit_site_assessment({
-        assessment_id: _this.state._id,
-        property: "status",
-        value: e.target.value
-      }, function (data) {
-        console.log(data);
-      });
-      _this.setState({
-        status: e.target.value
-      });
+      var newStatus = e.target.value;
+      var result = true;
+      if (e.target.value == "declined") {
+        result = window.confirm("Are you sure you want to decline the site assessment? \n        This can't be undone.");
+      }
+      if (result) {
+        funkie.edit_site_assessment({
+          assessment_id: _this.state._id,
+          property: "status",
+          value: newStatus
+        }, function (data) {
+          console.log(data);
+        });
+        _this.setState({
+          status: newStatus
+        });
+      }
     };
 
     _this.edit_drive_url = function () {
@@ -280,7 +287,7 @@ var AssessmentChecklist = function (_React$Component) {
                   React.createElement(
                     "option",
                     { value: "declined" },
-                    "Decline"
+                    "Declined"
                   )
                 )
               )
