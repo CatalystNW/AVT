@@ -63,7 +63,7 @@ async function view_site_assessment(req, res) {
 }
 
 async function getToTransferAssessments(req, res) {
-  let assessments = await SiteAssessment.find({transferred: false, status: "complete",})
+  let assessments = await SiteAssessment.find({status: "approved",})
       .populate("documentPackage");
   res.status(200).json(assessments);
 }
