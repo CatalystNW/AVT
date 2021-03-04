@@ -165,8 +165,13 @@ async function edit_site_assessment(req, res) {
     var doc = await DocumentPackage.findById(site_assessment.application_id);
     if (req.body.value == "pending") {
       doc.status = "assess";
-    } else if (req.body.value == "complete") {
+    } else if (req.body.value == "complete" ||
+                req.body.value == "approval_process" || 
+                req.body.value == "approved") {
       doc.status = "assessComp";
+    } else if (req.body.value == "declined") {
+      site_assessment.complete = true;
+      doc.status = "transferred";
     } else {
       res.status(400).send("Wrong parameter field for status given");
       return;
