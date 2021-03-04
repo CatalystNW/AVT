@@ -48,7 +48,17 @@ class SiteAssessmentApp extends React.Component {
                 window.alert("No assessment found for document with completed status: " 
                   + doc.app_name);
               }
-              complete.push(doc);
+              if (assessment.status == "approval_process") {
+                project_approval.push(doc);
+              } else if (assessment.status == "approved") {
+                project_approved.push(doc);
+              } else if (assessment.status == "complete") {
+                complete.push(doc);
+              } else {
+                window.alert("Conflict document & assessment status found for document: " 
+                  + doc.app_name);
+              }
+              
             }
           });
           return {
