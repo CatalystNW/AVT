@@ -266,6 +266,21 @@ var AssessmentChecklist = function (_React$Component) {
                     "option",
                     { value: "complete" },
                     "Complete"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "approval_process" },
+                    "Project Approval"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "approved" },
+                    "Project Approved"
+                  ),
+                  React.createElement(
+                    "option",
+                    { value: "declined" },
+                    "Decline"
                   )
                 )
               )

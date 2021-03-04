@@ -177,6 +177,9 @@ class AssessmentChecklist extends React.Component {
                 id="assessment-status-select">
                 <option value="pending">Pending</option>
                 <option value="complete">Complete</option>
+                <option value="approval_process">Project Approval</option>
+                <option value="approved">Project Approved</option>
+                <option value="declined">Decline</option>
               </select>
             </td>
           </tr>
