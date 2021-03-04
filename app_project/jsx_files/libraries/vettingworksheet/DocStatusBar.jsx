@@ -60,7 +60,7 @@ class DocStatusBar extends React.Component {
       }
     }
     return (
-      <select value={this.state.status}
+      <select className="form-control" value={this.state.status}
         onChange={this.onChangeStatus}>
         {options}
       </select>
@@ -68,8 +68,9 @@ class DocStatusBar extends React.Component {
   }
 
   render() {
-    return (<div>
-      Status: 
+    return (
+    <div>
+      <h4>Status</h4>
       {this.createSelect()}
     </div>);
   }

@@ -75,7 +75,7 @@ var DocStatusBar = function (_React$Component) {
       }
       return React.createElement(
         "select",
-        { value: _this.state.status,
+        { className: "form-control", value: _this.state.status,
           onChange: _this.onChangeStatus },
         options
       );
@@ -94,7 +94,11 @@ var DocStatusBar = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        "Status:",
+        React.createElement(
+          "h4",
+          null,
+          "Status"
+        ),
         this.createSelect()
       );
     }
