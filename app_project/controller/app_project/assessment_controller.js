@@ -108,7 +108,7 @@ async function get_site_assessment(req, res) {
 async function edit_site_assessment(req, res) {
   let property = req.body.property,
       assessment_id = req.body.assessment_id;
-  let site_assessment = await SiteAssessment.findById(assessment_id);
+  let site_assessment = await SiteAssessment.findById(assessment_id).populate("workItems");
   if (!site_assessment) {
     res.status(404).end();
     return;
@@ -137,15 +137,25 @@ async function edit_site_assessment(req, res) {
     await site_assessment.save();
     res.status(200).send({"date": d,});
   } else if (property == "status") {
+    const status = req.body.value;
     // Change status both in DocumentPackage & Site Assessment
     var doc = await DocumentPackage.findById(site_assessment.application_id);
-    if (req.body.value == "pending") {
+    if (status == "pending") {
       doc.status = "assess";
-    } else if (req.body.value == "complete" ||
-                req.body.value == "approval_process" || 
-                req.body.value == "approved") {
+    } else if (status == "complete" || status == "approval_process" || 
+    status == "approved") {
+      if (!site_assessment.workItems || site_assessment.workItems.length == 0) {
+        res.status(400).send("Empty work items");
+        return;
+      }
+      for (let i=0; i< site_assessment.workItems.length; i++) {
+        if (site_assessment.workItems[i].status == "to_review") {
+          res.status(400).send("Incomplete work item");
+          return;
+        }
+      }
       doc.status = "assessComp";
-    } else if (req.body.value == "declined") {
+    } else if (status == "declined") {
       site_assessment.complete = true;
       doc.status = "transferred";      
     } else {
