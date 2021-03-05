@@ -35,8 +35,8 @@ async function transfer_project(req, res) {
   await documentPackage.save();
   
   // Create Non-handleit Projects
-  for (let i=0, old_workItem; i < siteAssessment.workitems.length; i++) {
-    old_workItem = siteAssessment.workitems[i];
+  for (let i=0, old_workItem; i < siteAssessment.workItems.length; i++) {
+    old_workItem = siteAssessment.workItems[i];
     new_workItem = await WorkItem.makeCopy(old_workItem);
     project_name = project_workitems[id]
 
