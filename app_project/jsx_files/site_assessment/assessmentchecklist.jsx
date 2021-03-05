@@ -106,8 +106,8 @@ class AssessmentChecklist extends React.Component {
       result = window.confirm(
         `Are you sure you want to decline the site assessment? 
         This can't be undone.`)
-    } else if (newStatus == "approved") {
     }
+    
     if (result) {
       funkie.edit_site_assessment({
         assessment_id: this.state._id,

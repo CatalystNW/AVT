@@ -107,7 +107,8 @@ var AssessmentChecklist = function (_React$Component) {
       var result = true;
       if (newStatus == "declined") {
         result = window.confirm("Are you sure you want to decline the site assessment? \n        This can't be undone.");
-      } else if (newStatus == "approved") {}
+      }
+
       if (result) {
         funkie.edit_site_assessment({
           assessment_id: _this.state._id,
