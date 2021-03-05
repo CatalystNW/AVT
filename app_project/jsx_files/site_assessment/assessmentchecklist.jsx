@@ -109,15 +109,24 @@ class AssessmentChecklist extends React.Component {
     }
     
     if (result) {
-      funkie.edit_site_assessment({
-        assessment_id: this.state._id,
-        property: "status",
-        value: newStatus,
-      }, (data)=> {
-        console.log(data);
-      });
-      this.setState({
-        status: newStatus,
+      $.ajax({
+        type: "PATCH",
+        url: "/app_project/site_assessments/" + this.state._id,
+        context: this,
+        data: {
+          assessment_id: this.state._id,
+          property: "status",
+          value: newStatus,
+        },
+        success: function(returnData, textStatus, xhr) {
+          console.log(returnData);
+          this.setState({
+            status: newStatus,
+          });
+        },
+        error: function(xhr, textStatus, err) {
+          window.alert("Error. Please check that all the work items have either accepted or declined.");
+        }
       });
     }
   };

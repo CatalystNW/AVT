@@ -110,15 +110,24 @@ var AssessmentChecklist = function (_React$Component) {
       }
 
       if (result) {
-        funkie.edit_site_assessment({
-          assessment_id: _this.state._id,
-          property: "status",
-          value: newStatus
-        }, function (data) {
-          console.log(data);
-        });
-        _this.setState({
-          status: newStatus
+        $.ajax({
+          type: "PATCH",
+          url: "/app_project/site_assessments/" + _this.state._id,
+          context: _this,
+          data: {
+            assessment_id: _this.state._id,
+            property: "status",
+            value: newStatus
+          },
+          success: function success(returnData, textStatus, xhr) {
+            console.log(returnData);
+            this.setState({
+              status: newStatus
+            });
+          },
+          error: function error(xhr, textStatus, err) {
+            window.alert("Error. Please check that all the work items have either accepted or declined.");
+          }
         });
       }
     };
