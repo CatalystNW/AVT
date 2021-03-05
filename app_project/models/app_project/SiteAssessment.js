@@ -85,7 +85,8 @@ siteAssessmentSchema.statics.create = async function(app_id) {
 siteAssessmentSchema.statics.markComplete = async function(assessment_id, transferred) {
   transferred = transferred === true;
   let site_assessment = await this.findById(assessment_id)
-        .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}});
+        .populate({path:"workItems", model: "WorkItem", populate: 
+          {path:"materialsItems", model: "MaterialsItem"}});
   if (!site_assessment) {
     return;
   }
@@ -105,9 +106,6 @@ siteAssessmentSchema.statics.markComplete = async function(assessment_id, transf
     workitem.transferred = transferred;
     await workitem.save();
   }
-  site_assessment.workItems.forEach(workitem => {
-    
-  });
   site_assessment.complete = true;
   site_assessment.transferred = transferred;
   site_assessment.status = (transferred) ? "transferred" : "declined";
