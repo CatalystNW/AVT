@@ -26,7 +26,7 @@ const siteAssessmentSchema = new Schema({
   summary: String,
   status: {
     type: String,
-    enum: ["complete", "pending", "approval_process", "approved", "declined"],
+    enum: ["complete", "pending", "approval_process", "approved", "declined", "transferred"],
     default: "pending",
   },
   transferred: {
