@@ -8,6 +8,10 @@ const AppProjectSchema = new Schema({
     default: "upcoming",
     enum: ["upcoming", "complete", "in_progress", "withdrawn"]
   },
+  complete: {
+    type: Boolean,
+    default: false,
+  },
   drive_url: String,
   type: String,
   start: Date,
