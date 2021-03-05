@@ -30,8 +30,6 @@ materialsItemSchema.statics.makeCopy = async function(materialsItem, workItem) {
   copy.obtained = materialsItem.obtained;
   copy.workItem = workItem._id;
   await copy.save();
-  materialsItem.transferred = true;
-  await materialsItem.save();
   return copy;
 };
 
