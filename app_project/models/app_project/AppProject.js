@@ -53,6 +53,13 @@ const AppProjectSchema = new Schema({
   timestamps: true,
 });
 
+/**
+ * Changes project, work items, & materials items complete as true.
+ * This is a static file since it completes a new search for the
+ * AppProject each time to ensure that the items are populated correctly.
+ * @param {String} project_id 
+ * @return AppProject
+ */
 AppProjectSchema.statics.markComplete = async function(project_id) {
   const project = this.findById(project_id)
         .populate({path:"workItems", model: "WorkItem", populate: 
