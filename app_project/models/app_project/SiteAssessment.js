@@ -82,9 +82,9 @@ siteAssessmentSchema.statics.create = async function(app_id) {
  * @param {boolean} transferred 
  * Returns Site Assessment with Work Items & Materials Items populated.
  */
-siteAssessmentSchema.methods.markComplete = async function(assessment_id, transferred) {
+siteAssessmentSchema.statics.markComplete = async function(assessment_id, transferred) {
   transferred = transferred === true;
-  let site_assessment = await SiteAssessment.findById(assessment_id)
+  let site_assessment = await this.findById(assessment_id)
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}});
   if (!site_assessment) {
     return;
