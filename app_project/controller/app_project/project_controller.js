@@ -153,34 +153,33 @@ async function edit_checklist(req, res) {
 async function edit_project(req, res) {
   var project_id = req.params.project_id;
   var project = await AppProject.findById(project_id);
-  if (project) {
-    if (req.body.property == "project_start_date" 
-      || req.body.property == "project_end_date") {
-      var d = new Date(
-        parseInt(req.body.year),
-        parseInt(req.body.month)-1,
-        parseInt(req.body.day),
-        parseInt(req.body.hours),
-        parseInt(req.body.minutes),
-      );
-      if (req.body.property == "project_start_date") {
-        project.start = d;
-      } else {
-        project.end = d;
-      }
-      await project.save();
-      res.status(200).send({"date": d});
-    } else {
-      if (req.body.property && req.body.value) {
-        project[req.body.property] = req.body.value;
-        await project.save();
-      }        
-      res.status(200).send();
-    }
-  } else {
+  if (!project) {
     res.status(404).end();
+    return;
   }
-  
+  if (req.body.property == "project_start_date" 
+    || req.body.property == "project_end_date") {
+    var d = new Date(
+      parseInt(req.body.year),
+      parseInt(req.body.month)-1,
+      parseInt(req.body.day),
+      parseInt(req.body.hours),
+      parseInt(req.body.minutes),
+    );
+    if (req.body.property == "project_start_date") {
+      project.start = d;
+    } else {
+      project.end = d;
+    }
+    await project.save();
+    res.status(200).send({"date": d});
+  } else {
+    if (req.body.property && req.body.value) {
+      project[req.body.property] = req.body.value;
+      await project.save();
+    }        
+    res.status(200).send();
+  }  
 }
 
 async function create_checklist_item(req, res) {
