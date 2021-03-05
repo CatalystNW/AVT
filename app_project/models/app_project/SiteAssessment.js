@@ -1,4 +1,6 @@
-var DocumentPackage = require("../../../models/documentPackage");
+var DocumentPackage = require("../../../models/documentPackage"),
+    WorkItem = require("./WorkItem"),
+    MaterialsItem = require("./MaterialsItem");
 
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
@@ -68,9 +70,35 @@ siteAssessmentSchema.statics.create = async function(app_id) {
     return undefined;
   }
 };
-
-siteAssessmentSchema.methods.mark = function() {
-  console.log(this);
+/**
+ * Mark Site Assessment given by assessment_id and its workItems &
+ * materialsItems as complete and transferred (or not depending on trasnferred
+ * parameter). Saves all of the changes as well.
+ * @param {String} assessment_id 
+ * @param {boolean} transferred 
+ * Returns Site Assessment with Work Items & Materials Items populated.
+ */
+siteAssessmentSchema.methods.markComplete = async function(assessment_id, transferred) {
+  transferred = transferred === true;
+  let site_assessment = await SiteAssessment.findById(assessment_id)
+        .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}});
+  if (!site_assessment) {
+    return;
+  }
+  site_assessment.workItems.forEach(workitem => {
+    workitem.materialsItems.forEach(materialsItem => {
+      materialsItem.complete = true;
+      materialsItem.transferred = transferred;
+      await materialsItems.save();
+    });
+    workitem.complete = true;
+    workitem.transferred = transferred;
+    await workitem.save();
+  });
+  site_assessment.complete = true;
+  site_assessment.transferred = transferred;
+  await site_assessment.save();
+  return site_assessment;
 }
 
 module.exports = mongoose.model("SiteAssessment", siteAssessmentSchema);
