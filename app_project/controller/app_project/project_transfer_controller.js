@@ -21,7 +21,7 @@ async function view_project_transfer(req, res) {
 
 async function transfer_project(req, res) {
   let project_workitems = req.body.project_workitems;
-  let id, new_workItem,
+  let new_workItem,
       projects = {}, 
       project, project_name;
   let siteAssessment = await SiteAssessment.markComplete(
@@ -38,14 +38,14 @@ async function transfer_project(req, res) {
   for (let i=0, old_workItem; i < siteAssessment.workItems.length; i++) {
     old_workItem = siteAssessment.workItems[i];
     new_workItem = await WorkItem.makeCopy(old_workItem);
-    project_name = project_workitems[id]
+    project_name = project_workitems[old_workItem._id];
 
     if (project_name in projects) { // Add Workitem to existing project
       projects[project_name].workItems.push(new_workItem._id);
       project = projects[project_name]
     } else { // Create new AppProject
       project = new AppProject();
-      project.name = project_workitems[id];
+      project.name = project_name;
       project.siteAssessment = siteAssessment._id;
       project.documentPackage = siteAssessment.documentPackage._id;
 
@@ -58,7 +58,6 @@ async function transfer_project(req, res) {
 
       projects[project_name] = project;
     }
-
     new_workItem.appProject = project._id;
     new_workItem.save();
   }
