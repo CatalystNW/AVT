@@ -20,8 +20,7 @@ async function view_project_transfer(req, res) {
 }
 
 async function transfer_project(req, res) {
-  let project_workitems = req.body.project_workitems,
-      handleit_workitems = req.body.handleit_workitems;
+  let project_workitems = req.body.project_workitems;
   let id, old_workItem, new_workItem,
       projects = {}, 
       project, project_name;
@@ -73,35 +72,6 @@ async function transfer_project(req, res) {
   for (project_name in projects) {
     await projects[project_name].save()
   }
-  /*
-  // Create handleit AppProject
-  for (id in handleit_workitems) {
-    old_workItem = await WorkItem.findById(id)
-      .populate("materialsItems").exec();
-    new_workItem = await WorkItem.makeCopy(old_workItem);
-
-    project = new AppProject();
-    project.name = old_workItem.name;
-    project.siteAssessment = siteAssessment._id;
-    project.documentPackage = siteAssessment.documentPackage._id;
-
-    project.start = siteAssessment.project_start_date;
-    project.end = siteAssessment.project_end_date;
-
-    project.handleit = true;
-    
-    project.workItems.push(new_workItem._id);
-    
-    await project.save()
-
-    new_workItem.appProject = project._id;
-    new_workItem.save();
-
-    old_workItem.transferred = true;
-    old_workItem.complete = true;
-    old_workItem.save();
-  }
-  */
 
   // Make non-accepted workItems in SiteAssessment as transferred
   let workItems = await WorkItem.find({
