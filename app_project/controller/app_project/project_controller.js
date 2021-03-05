@@ -174,6 +174,10 @@ async function edit_project(req, res) {
     await project.save();
     res.status(200).send({"date": d});
   } else {
+    if (req.body.property == "status" &&
+        (req.body.value == "complete" || req.body.value == "withdrawn")) {
+      AppProject.markComplete(project_id);
+    }
     if (req.body.property && req.body.value) {
       project[req.body.property] = req.body.value;
       await project.save();
