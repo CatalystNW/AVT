@@ -53,4 +53,28 @@ const AppProjectSchema = new Schema({
   timestamps: true,
 });
 
+AppProjectSchema.statics.markComplete = async function(project_id) {
+  const project = this.findById(project_id)
+        .populate({path:"workItems", model: "WorkItem", populate: 
+          {path:"materialsItems", model: "MaterialsItem"}});
+  if (!project) {
+    return;
+  }
+  for (let i=0, workitem; i< project.workItems.length; i++) {
+    workitem = project.workItems[i];
+    for (let j=0, materialsItem; j < workitem.materialsItems.length; j++) {
+      materialsItem = workitem.materialsItem[j];
+      materialsItem.complete = true;
+      materialsItem.transferred = transferred;
+      await materialsItems.save();
+    }
+    workitem.complete = true;
+    workitem.transferred = transferred;
+    await workitem.save();
+  }
+  project.complete = true;
+  await project.save();
+  return project;
+};
+
 module.exports = mongoose.model("AppProject", AppProjectSchema);
