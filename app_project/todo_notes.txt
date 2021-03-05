@@ -1,21 +1,21 @@
-* Add Project approval, project approved status for site assessments
 * Prevent changing of status changes in vetting for work items
-* Transfer only project approved site assessments
-
-* Remove some statuses from project work items
 
 * Make Header tabs for projects clickable to hide
+* Add login
 * Project notes shows who created it (need to add login first)
 * prevent project notes being editable/deletable by the non-owner
 * redesign pages
-* WorkItem - determine to use handleit as own checkbox or in status select
-* Add login
-* Add WorkItems to vetting so that it can be accepted 
-    NOTE: acceptance process still to be decided
 
 * Potentially: show project site assessments for certain users only
 * Potentially check for site assessment, work item status before allowing transfer
 * Potentially check for project status before allowing transfer
+
+Notes:
+transfer, decline assessmenst -> marks it as complete
+complete, withdrawn project - > marks everythign as complete
+
+lock projects?
+withdrawn projects -> locked?
 
 * Possibly prevent work item creation in project page
 
