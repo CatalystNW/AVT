@@ -9,7 +9,6 @@ module.exports.view_site_assessment_by_app_id = view_site_assessment_by_app_id;
 module.exports.get_site_assessment = get_site_assessment;
 module.exports.edit_site_assessment = edit_site_assessment;
 
-// module.exports.getSiteAssessmentByAppId = getSiteAssessmentByAppId;
 module.exports.getApplicationsInAssessment = getApplicationsInAssessment;
 module.exports.getTransferredAssessments = getTransferredAssessments;
 
@@ -41,20 +40,6 @@ async function view_site_assessment_by_app_id(req, res) {
   var app_id = req.params.application_id;
   let siteAssessment = await getOrCreateAssessmentByAppId(app_id);
   res.render("app_project/site_assessment", {assessment_id: siteAssessment._id,});
-}
-
-async function getSiteAssessmentByAppId(req, res) {
-  const app_id = req.params.application_id;
-  if (app_id) {
-    const assessment = await getOrCreateAssessmentByAppId(app_id);
-    if (assessment) {
-      res.status(200).json(assessment);
-    } else {
-      res.status(404).end();
-    }
-  } else {
-    res.status(400).end();
-  }
 }
 
 async function view_site_assessment(req, res) {

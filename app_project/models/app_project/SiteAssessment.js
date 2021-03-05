@@ -69,4 +69,8 @@ siteAssessmentSchema.statics.create = async function(app_id) {
   }
 };
 
+siteAssessmentSchema.methods.mark = function() {
+  console.log(this);
+}
+
 module.exports = mongoose.model("SiteAssessment", siteAssessmentSchema);
