@@ -74,6 +74,10 @@ siteAssessmentSchema.statics.create = async function(app_id) {
  * Mark Site Assessment given by assessment_id and its workItems &
  * materialsItems as complete and transferred (or not depending on trasnferred
  * parameter). Saves all of the changes as well.
+ * 
+ * Status is also changed to transferred (if transferred is true and
+ * assessment must be in "approved" status) or
+ * declined (if transferred is false).
  * @param {String} assessment_id 
  * @param {boolean} transferred 
  * Returns Site Assessment with Work Items & Materials Items populated.
@@ -83,6 +87,10 @@ siteAssessmentSchema.methods.markComplete = async function(assessment_id, transf
   let site_assessment = await SiteAssessment.findById(assessment_id)
         .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}});
   if (!site_assessment) {
+    return;
+  }
+  const oldStatus = site_assessment.status;
+  if (oldStatus != "approved" && transferred) {
     return;
   }
   site_assessment.workItems.forEach(workitem => {
@@ -97,6 +105,7 @@ siteAssessmentSchema.methods.markComplete = async function(assessment_id, transf
   });
   site_assessment.complete = true;
   site_assessment.transferred = transferred;
+  site_assessment.status = (transferred) ? "transferred" : "declined";
   await site_assessment.save();
   return site_assessment;
 }
