@@ -93,15 +93,20 @@ siteAssessmentSchema.methods.markComplete = async function(assessment_id, transf
   if (oldStatus != "approved" && transferred) {
     return;
   }
-  site_assessment.workItems.forEach(workitem => {
-    workitem.materialsItems.forEach(materialsItem => {
+  for (let i=0, workitem; i < site_assessment.workItems; i++) {
+    workitem = site_assessment.workItems[i];
+    for (let j=0, materialsItem; j < workitem.materialsItems.length; j++) {
+      materialsItem = workitem.materialsItem[j];
       materialsItem.complete = true;
       materialsItem.transferred = transferred;
       await materialsItems.save();
-    });
+    }
     workitem.complete = true;
     workitem.transferred = transferred;
     await workitem.save();
+  }
+  site_assessment.workItems.forEach(workitem => {
+    
   });
   site_assessment.complete = true;
   site_assessment.transferred = transferred;
