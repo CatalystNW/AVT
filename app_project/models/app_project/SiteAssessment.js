@@ -113,6 +113,6 @@ siteAssessmentSchema.statics.markComplete = async function(assessment_id, transf
   site_assessment.status = (transferred) ? "transferred" : "declined";
   await site_assessment.save();
   return site_assessment;
-}
+};
 
 module.exports = mongoose.model("SiteAssessment", siteAssessmentSchema);
