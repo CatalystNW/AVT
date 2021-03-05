@@ -1,7 +1,7 @@
-import { WorkItem } from "./workitem.js"
-import { CostSummary } from "./CostSummary.js"
+import { WorkItem } from "../workitem.js"
+import { CostSummary } from "../CostSummary.js"
 import { AssessmentChecklist } from "./assessmentchecklist.js"
-import { PartnerMenu } from "./components/PartnerMenu.js"
+import { PartnerMenu } from "../components/PartnerMenu.js"
 
 export { AssessmentMenu }
 

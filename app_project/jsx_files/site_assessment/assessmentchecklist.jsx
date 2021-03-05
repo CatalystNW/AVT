@@ -1,5 +1,5 @@
-import { DateMenuRow } from "./DateMenuRow.js"
-import { PdfButtons } from "./components/PdfButtons.js"
+import { DateMenuRow } from "../DateMenuRow.js"
+import { PdfButtons } from "../components/PdfButtons.js"
 
 export { AssessmentChecklist }
 
@@ -102,10 +102,11 @@ class AssessmentChecklist extends React.Component {
         return;
       }
     let result = true;
-    if (e.target.value == "declined") {
+    if (newStatus == "declined") {
       result = window.confirm(
         `Are you sure you want to decline the site assessment? 
         This can't be undone.`)
+    } else if (newStatus == "approved") {
     }
     if (result) {
       funkie.edit_site_assessment({
