@@ -21,26 +21,22 @@ async function view_project_transfer(req, res) {
 
 async function transfer_project(req, res) {
   let project_workitems = req.body.project_workitems;
-  let id, old_workItem, new_workItem,
+  let id, new_workItem,
       projects = {}, 
       project, project_name;
-  let siteAssessment = await SiteAssessment.findById(req.params.assessment_id).populate("documentPackage");
-  if (siteAssessment.status != "project_approved") {
+  let siteAssessment = await SiteAssessment.markComplete(
+    req.params.assessment_id, true);
+  if (!siteAssessment) {
     res.status(400).end();
     return;
   }
-  siteAssessment.transferred = true;
-  siteAssessment.documentPackage.status = "transferred";
-  
-  await siteAssessment.documentPackage.save()
-  await siteAssessment.save();
+  const documentPackage = await DocumentPackage.findById(siteAssessment.documentPackage);
+  documentPackage.status = "transferred";
+  await documentPackage.save();
   
   // Create Non-handleit Projects
-  for (id in project_workitems) {
-    old_workItem = await  WorkItem.findById(id)
-      .populate("materialsItems").exec();
+  siteAssessment.workitems.forEach(old_workItem => {
     new_workItem = await WorkItem.makeCopy(old_workItem);
-
     project_name = project_workitems[id]
 
     if (project_name in projects) { // Add Workitem to existing project
@@ -61,28 +57,13 @@ async function transfer_project(req, res) {
 
       projects[project_name] = project;
     }
-    old_workItem.transferred = true;
-    old_workItem.complete = true;
-    old_workItem.save();
 
     new_workItem.appProject = project._id;
     new_workItem.save();
-  }
-
+  });
+  // Save all projects
   for (project_name in projects) {
     await projects[project_name].save()
-  }
-
-  // Make non-accepted workItems in SiteAssessment as transferred
-  let workItems = await WorkItem.find({
-    type: "assessment",
-    siteAssessment: siteAssessment._id,
-    transferred: false,
-  });
-  for (let i=0; i<workItems.length; i++) {
-    workItems[i].transferred = true;
-    workItems[i].complete = true;
-    await workItems[i].save();
   }
   res.status(200).send();
 }
