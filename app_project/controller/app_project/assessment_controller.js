@@ -156,7 +156,8 @@ async function edit_site_assessment(req, res) {
       }
       doc.status = "assessComp";
     } else if (status == "declined") {
-      site_assessment.complete = true;
+      // Marks Assessment, Workitems, MaterialsItems as complete & status as declined
+      await SiteAssessment.markComplete(assessment_id, false);
       doc.status = "transferred";      
     } else {
       res.status(400).send("Wrong parameter field for status given");
