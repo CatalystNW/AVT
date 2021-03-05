@@ -64,15 +64,6 @@ async function getApplicationsInAssessment(req, res) {
   let documents = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
       // Docs don't have assessment reference
       assessments = await SiteAssessment.find({transferred: false, complete: false});
-  // for (var i=0;i < docPacks.length; i++) {
-  //   documents.push({
-  //     status: docPacks[i].status,
-  //     app_name: docPacks[i].app_name,
-  //     id: docPacks[i].id,
-  //     name: docPacks[i].application.name,
-  //     address: docPacks[i].application.address,
-  //   });
-  // }
   res.status(200).json({documents: documents, assessments: assessments});
 }
 
@@ -156,7 +147,7 @@ async function edit_site_assessment(req, res) {
       doc.status = "assessComp";
     } else if (req.body.value == "declined") {
       site_assessment.complete = true;
-      doc.status = "transferred";
+      doc.status = "transferred";      
     } else {
       res.status(400).send("Wrong parameter field for status given");
       return;
