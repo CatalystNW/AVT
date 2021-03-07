@@ -32,7 +32,7 @@ var PdfButtons = function (_React$Component) {
         window.open("/app_project/projects/handleit_form/" + project_id);
       } else if (_this.props.type == "assessment") {
         var assessment_id = _this.props.assessment_id;
-        window.open("/app_project/site_assessments/paf_form/" + assessment_id);
+        window.open("/app_project/site_assessments/handleit_form/" + assessment_id);
       }
     };
 

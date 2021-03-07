@@ -21,7 +21,7 @@ class PdfButtons extends React.Component {
       window.open("/app_project/projects/handleit_form/" + project_id);
     } else if (this.props.type == "assessment") {
       const assessment_id = this.props.assessment_id;
-      window.open("/app_project/site_assessments/paf_form/" + assessment_id);
+      window.open("/app_project/site_assessments/handleit_form/" + assessment_id);
     }
   }
 
