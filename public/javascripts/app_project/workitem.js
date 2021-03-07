@@ -433,8 +433,9 @@ var WorkItem = function (_React$Component) {
                 React.createElement(
                   "select",
                   { className: "form-control", value: this.state.status,
-                    id: "workitem-status-select", disabled: this.state.handleit == true,
-                    onChange: this.onChange_workitem_status },
+                    id: "workitem-status-select"
+                    // disabled={this.state.type=="vetting"}
+                    , onChange: this.onChange_workitem_status },
                   statuses
                 )
               )

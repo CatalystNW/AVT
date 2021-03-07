@@ -283,7 +283,8 @@ class WorkItem extends React.Component {
               htmlFor="workitem-status-select"><b>Status</b></label>
             <div className="col-6">
               <select className="form-control" value={this.state.status}
-                  id="workitem-status-select" disabled={this.state.handleit==true}
+                  id="workitem-status-select" 
+                  // disabled={this.state.type=="vetting"}
                   onChange={this.onChange_workitem_status}>
                 {statuses}
               </select>
