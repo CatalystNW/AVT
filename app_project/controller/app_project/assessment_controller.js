@@ -54,7 +54,7 @@ async function getToTransferAssessments(req, res) {
 }
 
 async function getTransferredAssessments(req, res) {
-  let assessments = await SiteAssessment.find({status: "transferred",}).populate("documentPackage");
+  let assessments = await SiteAssessment.find({complete: true}).populate("documentPackage");
   res.status(200).json(assessments);
 }
 
