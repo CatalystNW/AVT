@@ -120,7 +120,13 @@ class SiteAssessmentApp extends React.Component {
   </thead>);
   };
 
-  createAssessmentRow = (doc) => {
+  createRowWithDocument = (doc) => {
+    let assessment = (this.state.assessmentsByDocs) ?
+    (this.state.assessmentsByDocs[doc._id]) : null;
+    return this.createAssessmentRow(doc, assessment);
+  };
+
+  createAssessmentRow = (doc, assessment) => {
     const addObj = doc.application.address,
           nameObj = doc.application.name;
     const address = (addObj.line_2) ? 
@@ -154,7 +160,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.pendingDocs.map((document, index) => {
-                return this.createAssessmentRow(document);
+                return this.createRowWithDocument(document);
               })}
             </tbody>
         </table>
@@ -165,7 +171,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.completeDocs.map((document, index) => {
-                return this.createAssessmentRow(document);
+                return this.createRowWithDocument(document);
               })}
             </tbody>
         </table>
@@ -176,7 +182,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.project_approval.map((document, index) => {
-                return this.createAssessmentRow(document);
+                return this.createAssessmecreateRowWithDocumentntRow(document);
               })}
             </tbody>
         </table>
@@ -187,7 +193,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.project_approved.map((document, index) => {
-                return this.createAssessmentRow(document);
+                return this.createRowWithDocument(document);
               })}
             </tbody>
         </table>
@@ -206,6 +212,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
+                console.log(assessment)
                 doc = assessment.documentPackage;
                 app = doc.application;
                 address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;

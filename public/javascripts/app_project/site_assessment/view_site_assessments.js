@@ -127,7 +127,12 @@ var SiteAssessmentApp = function (_React$Component) {
       );
     };
 
-    _this.createAssessmentRow = function (doc) {
+    _this.createRowWithDocument = function (doc) {
+      var assessment = _this.state.assessmentsByDocs ? _this.state.assessmentsByDocs[doc._id] : null;
+      return _this.createAssessmentRow(doc, assessment);
+    };
+
+    _this.createAssessmentRow = function (doc, assessment) {
       var addObj = doc.application.address,
           nameObj = doc.application.name;
       var address = addObj.line_2 ? addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
@@ -233,7 +238,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.pendingDocs.map(function (document, index) {
-                return _this2.createAssessmentRow(document);
+                return _this2.createRowWithDocument(document);
               })
             )
           )
@@ -254,7 +259,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.completeDocs.map(function (document, index) {
-                return _this2.createAssessmentRow(document);
+                return _this2.createRowWithDocument(document);
               })
             )
           )
@@ -275,7 +280,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.project_approval.map(function (document, index) {
-                return _this2.createAssessmentRow(document);
+                return _this2.createAssessmecreateRowWithDocumentntRow(document);
               })
             )
           )
@@ -296,7 +301,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.project_approved.map(function (document, index) {
-                return _this2.createAssessmentRow(document);
+                return _this2.createRowWithDocument(document);
               })
             )
           )
@@ -326,6 +331,7 @@ var SiteAssessmentApp = function (_React$Component) {
                 "tbody",
                 null,
                 this.state.transferredAssessments.map(function (assessment) {
+                  console.log(assessment);
                   doc = assessment.documentPackage;
                   app = doc.application;
                   address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
