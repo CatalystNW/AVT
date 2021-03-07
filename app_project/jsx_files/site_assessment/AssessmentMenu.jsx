@@ -97,7 +97,7 @@ class AssessmentMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
-            {!this.state.transferred ?
+            {(!this.state.transferred && !this.state.complete) ?
               (<button type="button" className="btn btn-primary" 
               onClick={this.props.set_create_workitem_menu}>
               Create Work Item
