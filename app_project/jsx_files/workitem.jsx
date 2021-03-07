@@ -4,7 +4,7 @@ class WorkItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.workitem;
-    this.editable = !this.props.workitem.transferred || !this.props.workitem.complete;
+    this.editable = (!this.props.workitem.transferred && !this.props.workitem.complete);
   }
 
   set_handleit_handler = (server_data) => {
