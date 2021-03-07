@@ -284,7 +284,7 @@ class WorkItem extends React.Component {
             <div className="col-6">
               <select className="form-control" value={this.state.status}
                   id="workitem-status-select" 
-                  // disabled={this.state.type=="vetting"}
+                  disabled={this.props.page_type=="vetting"}
                   onChange={this.onChange_workitem_status}>
                 {statuses}
               </select>
