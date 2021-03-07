@@ -1,5 +1,4 @@
-* Prevent changing of status changes in vetting for work items
-
+# Show complete work items
 * Make Header tabs for projects clickable to hide
 * Add login
 * Project notes shows who created it (need to add login first)
@@ -10,20 +9,18 @@
 * Potentially check for site assessment, work item status before allowing transfer
 * Potentially check for project status before allowing transfer
 
-Notes:
-transfer, decline assessmenst -> marks it as complete
-complete, withdrawn project - > marks everythign as complete
-
-lock projects?
-withdrawn projects -> locked?
-
 * Possibly prevent work item creation in project page
 
 * RESTORE LOGIN FUNCTIONS: Search: // @RESTORE AFTER DEVELOPMENT
 
-
 Figure out common methods & create a library for them
 Refactor
+
+#Notes:
+transfer, decline assessmenst -> marks it as complete
+complete, withdrawn project - > marks everythign as complete
+lock projects?
+withdrawn projects -> locked?
 
 Site Assessment
     Checklist
