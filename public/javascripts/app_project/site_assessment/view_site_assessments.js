@@ -122,6 +122,11 @@ var SiteAssessmentApp = function (_React$Component) {
             "th",
             { scope: "col" },
             "Assessment Date"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Status"
           )
         )
       );
@@ -137,11 +142,13 @@ var SiteAssessmentApp = function (_React$Component) {
           nameObj = doc.application.name;
       var address = addObj.line_2 ? addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
       var assessment_date = void 0;
-      if (_this.state.assessmentsByDocs[doc._id] && _this.state.assessmentsByDocs[doc._id].assessment_date) {
-        var d = _this.convert_date(_this.state.assessmentsByDocs[doc._id].assessment_date);
+      if (assessment && assessment.assessment_date) {
+        var d = _this.convert_date(tassessment.assessment_date);
         // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
         assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
       }
+      var status = assessment ? assessment.status : null;
+
       return React.createElement(
         "tr",
         { key: doc._id },
@@ -176,6 +183,11 @@ var SiteAssessmentApp = function (_React$Component) {
           "td",
           null,
           assessment_date
+        ),
+        React.createElement(
+          "td",
+          null,
+          status
         )
       );
     };
@@ -331,7 +343,6 @@ var SiteAssessmentApp = function (_React$Component) {
                 "tbody",
                 null,
                 this.state.transferredAssessments.map(function (assessment) {
-                  console.log(assessment);
                   doc = assessment.documentPackage;
                   app = doc.application;
                   address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;

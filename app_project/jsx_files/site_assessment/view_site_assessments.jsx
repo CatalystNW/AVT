@@ -116,6 +116,7 @@ class SiteAssessmentApp extends React.Component {
           <th scope="col">Name</th>
           <th scope="col">Address</th>
           <th scope="col">Assessment Date</th>
+          <th scope="col">Status</th>
       </tr>
   </thead>);
   };
@@ -132,12 +133,13 @@ class SiteAssessmentApp extends React.Component {
     const address = (addObj.line_2) ? 
         addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
     let assessment_date;
-    if (this.state.assessmentsByDocs[doc._id] && 
-        this.state.assessmentsByDocs[doc._id].assessment_date) {
-      const d = this.convert_date(this.state.assessmentsByDocs[doc._id].assessment_date)
+    if (assessment && assessment.assessment_date) {
+      const d = this.convert_date(tassessment.assessment_date);
       // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
       assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
     }
+    const status = (assessment) ? assessment.status : null;
+    
     return (
       <tr key={doc._id}>
         <td><a href={"./view_site_assessments/app_id/" + doc._id}>{doc.app_name}</a></td>
@@ -146,6 +148,7 @@ class SiteAssessmentApp extends React.Component {
           {address} | {addObj.city}, {addObj.state} {addObj.zip}
         </td>
         <td>{assessment_date}</td>
+        <td>{status}</td>
     </tr>
     );
   };
@@ -212,7 +215,6 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
-                console.log(assessment)
                 doc = assessment.documentPackage;
                 app = doc.application;
                 address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
