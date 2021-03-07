@@ -218,15 +218,8 @@ class SiteAssessmentApp extends React.Component {
             <tbody>
               {this.state.transferredAssessments.map(assessment => {
                 doc = assessment.documentPackage;
-                app = doc.application;
-                address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
                 return (
-                  <tr key={assessment._id}>
-                    <td><a target="_blank" href={"./view_site_assessments/" + assessment._id}>{doc.app_name}</a></td>
-                    <td>{app.name.first} {app.name.last}</td>
-                    <td>{address} | {app.address.city}, {app.address.state} {app.address.zip}
-                    </td>
-                </tr>
+                  this.createAssessmentRow(doc, assessment)
                 );
               })}
             </tbody>

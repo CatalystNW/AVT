@@ -344,39 +344,7 @@ var SiteAssessmentApp = function (_React$Component) {
                 null,
                 this.state.transferredAssessments.map(function (assessment) {
                   doc = assessment.documentPackage;
-                  app = doc.application;
-                  address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : doc.address.line_1;
-                  return React.createElement(
-                    "tr",
-                    { key: assessment._id },
-                    React.createElement(
-                      "td",
-                      null,
-                      React.createElement(
-                        "a",
-                        { target: "_blank", href: "./view_site_assessments/" + assessment._id },
-                        doc.app_name
-                      )
-                    ),
-                    React.createElement(
-                      "td",
-                      null,
-                      app.name.first,
-                      " ",
-                      app.name.last
-                    ),
-                    React.createElement(
-                      "td",
-                      null,
-                      address,
-                      " | ",
-                      app.address.city,
-                      ", ",
-                      app.address.state,
-                      " ",
-                      app.address.zip
-                    )
-                  );
+                  return _this2.createAssessmentRow(doc, assessment);
                 })
               )
             )
