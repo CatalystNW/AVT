@@ -147,8 +147,8 @@ var SiteAssessmentApp = function (_React$Component) {
         // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
         assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
       }
-      var status = assessment ? assessment.status : null;
-
+      var status = assessment ? assessment.status : null,
+          url = assessment ? "./view_site_assessments/" + assessment._id : "./view_site_assessments/app_id/" + doc._id;
       return React.createElement(
         "tr",
         { key: doc._id },
@@ -157,7 +157,7 @@ var SiteAssessmentApp = function (_React$Component) {
           null,
           React.createElement(
             "a",
-            { href: "./view_site_assessments/app_id/" + doc._id },
+            { href: url },
             doc.app_name
           )
         ),

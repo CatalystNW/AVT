@@ -138,11 +138,13 @@ class SiteAssessmentApp extends React.Component {
       // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
       assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
     }
-    const status = (assessment) ? assessment.status : null;
-    
+    const status = (assessment) ? assessment.status : null,
+          url = (assessment) ?
+          "./view_site_assessments/" + assessment._id :
+          "./view_site_assessments/app_id/" + doc._id;
     return (
       <tr key={doc._id}>
-        <td><a href={"./view_site_assessments/app_id/" + doc._id}>{doc.app_name}</a></td>
+        <td><a href={url}>{doc.app_name}</a></td>
         <td>{nameObj.first} {nameObj.last}</td>
         <td>
           {address} | {addObj.city}, {addObj.state} {addObj.zip}
