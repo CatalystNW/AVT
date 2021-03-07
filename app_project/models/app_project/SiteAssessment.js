@@ -94,7 +94,7 @@ siteAssessmentSchema.statics.markComplete = async function(assessment_id, transf
   if (oldStatus != "approved" && transferred) {
     return;
   }
-  for (let i=0, workitem; i < site_assessment.workItems; i++) {
+  for (let i=0, workitem; i < site_assessment.workItems.length; i++) {
     workitem = site_assessment.workItems[i];
     for (let j=0, materialsItem; j < workitem.materialsItems.length; j++) {
       materialsItem = workitem.materialsItem[j];
