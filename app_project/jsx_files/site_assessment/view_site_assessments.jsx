@@ -140,10 +140,11 @@ class SiteAssessmentApp extends React.Component {
     }
     const status = (assessment) ? assessment.status : null,
           url = (assessment) ?
-          "./view_site_assessments/" + assessment._id :
-          "./view_site_assessments/app_id/" + doc._id;
+                  "./view_site_assessments/" + assessment._id :
+                  "./view_site_assessments/app_id/" + doc._id,
+          key = (assessment) ? assessment._id : doc._id;
     return (
-      <tr key={doc._id}>
+      <tr key={key}>
         <td><a href={url}>{doc.app_name}</a></td>
         <td>{nameObj.first} {nameObj.last}</td>
         <td>

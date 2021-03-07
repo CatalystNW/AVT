@@ -148,10 +148,11 @@ var SiteAssessmentApp = function (_React$Component) {
         assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
       }
       var status = assessment ? assessment.status : null,
-          url = assessment ? "./view_site_assessments/" + assessment._id : "./view_site_assessments/app_id/" + doc._id;
+          url = assessment ? "./view_site_assessments/" + assessment._id : "./view_site_assessments/app_id/" + doc._id,
+          key = assessment ? assessment._id : doc._id;
       return React.createElement(
         "tr",
-        { key: doc._id },
+        { key: key },
         React.createElement(
           "td",
           null,
