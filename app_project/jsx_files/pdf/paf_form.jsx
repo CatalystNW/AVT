@@ -48,8 +48,8 @@ class PAFApp extends React.Component {
         total_volunteers = 0;
 
     let vet_summary = (documentPackage.notes ? 
-      documentPackage.notes : null
-      )
+      documentPackage.notes.vetting_summary : null
+      );
     return (
     <div>
       <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
