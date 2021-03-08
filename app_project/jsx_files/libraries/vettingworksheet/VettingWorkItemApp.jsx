@@ -11,12 +11,12 @@ class VettingWorkItemApp extends React.Component {
       completeWorkItems: []
     };
     this.assessmentId = null;
-    this.loadIncompleteWorkitems();
+    this.loadWorkItems();
     this.formId = "workitem-create-form";
     this.modalmenu = React.createRef();
   }
 
-  loadIncompleteWorkitems = () => {
+  loadWorkItems = () => {
     $.ajax({
       url: '/app_project/application/' + this.props.appId + '/workitems',
       type: 'GET',
