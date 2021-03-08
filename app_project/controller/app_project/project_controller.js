@@ -152,7 +152,7 @@ async function edit_checklist(req, res) {
 
 async function edit_project(req, res) {
   var project_id = req.params.project_id;
-  var project = await AppProject.findById(project_id);
+  var project = await AppProject.findById(project_id).populate("workItems");
   if (!project) {
     res.status(404).end();
     return;
@@ -175,6 +175,15 @@ async function edit_project(req, res) {
     res.status(200).send({"date": d});
   } else { // Save property as normal
     // Also look the project and work & materials items
+    if (req.body.property == "status" && req.body.value == "complete" ) {
+      // Make sure all work items are complete
+      for (let i=0; i < project.workItems.length; i++) {
+        if (!project.workItems[i].complete) {
+          res.status(400).end();
+          return;
+        }
+      }
+    }
     if (req.body.property == "status" &&
         (req.body.value == "complete" || req.body.value == "withdrawn")) {
       AppProject.markComplete(project_id);
