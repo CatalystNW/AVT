@@ -196,8 +196,8 @@ class ProjectMenu extends React.Component {
                     name="status"
                     value={this.state.status}>
                   <option value="upcoming">Upcoming</option>
-                  <option value="complete">Complete</option>
                   <option value="in_progress">In Progress</option>
+                  <option value="complete">Complete</option>
                   <option value="withdrawn">Withdrawn</option>
                 </select>
               </div>
