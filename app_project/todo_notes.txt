@@ -1,4 +1,7 @@
-# Show complete work items
+* Lock completed projects
+* Show if a site assessment/ project is completed/ locked
+* Set complete status in state to site assessment / project after status change
+
 * Make Header tabs for projects clickable to hide
 * Add login
 * Project notes shows who created it (need to add login first)
