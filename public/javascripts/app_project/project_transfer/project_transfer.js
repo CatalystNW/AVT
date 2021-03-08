@@ -23,23 +23,17 @@ var ProjectTransferApp = function (_React$Component) {
         method: "GET",
         success: function success(data) {
           console.log(data);
-          var handleit_workitems = [],
-              proj_workitems = [],
-              workitem;
+          var proj_workitems = [],
+              workitem = void 0;
           for (var i = 0; i < data.workItems.length; i++) {
             workitem = data.workItems[i];
             if (workitem.status == "accepted") {
-              if (workitem.handleit) {
-                handleit_workitems.push(workitem);
-              } else {
-                workitem.project = "";
-                proj_workitems.push(workitem);
-              }
+              workitem.project = "";
+              proj_workitems.push(workitem);
             }
           }
 
           that.setState({
-            handleit_workitems: handleit_workitems,
             proj_workitems: proj_workitems
           });
         }
@@ -59,38 +53,30 @@ var ProjectTransferApp = function (_React$Component) {
       }
     };
 
-    _this.create_project_options = function (handleit, workitem) {
-      if (handleit) {
-        return React.createElement(
-          "td",
-          null,
-          workitem.name
-        );
-      } else {
-        return React.createElement(
-          "td",
-          null,
-          React.createElement(
-            "select",
-            { className: _this.project_select_class,
-              workitem_id: workitem._id,
-              value: workitem.project,
-              onChange: _this.onChange_project_select },
-            _this.state.projects.map(function (project, index) {
-              return React.createElement(
-                "option",
-                { key: workitem._id + "-proj-" + index },
-                project
-              );
-            })
-          )
-        );
-      }
+    _this.create_project_options = function (workitem) {
+      return React.createElement(
+        "td",
+        null,
+        React.createElement(
+          "select",
+          { className: _this.project_select_class,
+            workitem_id: workitem._id,
+            value: workitem.project,
+            onChange: _this.onChange_project_select },
+          _this.state.projects.map(function (project, index) {
+            return React.createElement(
+              "option",
+              { key: workitem._id + "-proj-" + index },
+              project
+            );
+          })
+        )
+      );
     };
 
-    _this.create_workItems = function (handleit) {
-      var workitems = handleit ? _this.state.handleit_workitems : _this.state.proj_workitems,
-          keyname = handleit ? "h-wi-" : "p-wi-";
+    _this.create_workItems = function () {
+      var workitems = _this.state.proj_workitems,
+          keyname = "p-wi-";
       return React.createElement(
         "table",
         { className: "table" },
@@ -134,7 +120,7 @@ var ProjectTransferApp = function (_React$Component) {
                 null,
                 workitem.description
               ),
-              _this.create_project_options(handleit, workitem)
+              _this.create_project_options(workitem)
             );
           })
         )
@@ -166,13 +152,8 @@ var ProjectTransferApp = function (_React$Component) {
     };
 
     _this.transfer_project = function () {
-      var handleitWorkitemObj = {},
-          projWorkItemObj = {},
-          i;
-      // Get handleit workitems
-      for (i = 0; i < _this.state.handleit_workitems.length; i++) {
-        handleitWorkitemObj[_this.state.handleit_workitems[i]._id] = _this.state.handleit_workitems[i].name;
-      }
+      var projWorkItemObj = {},
+          i = void 0;
       // Get project workitems
       for (i = 0; i < _this.state.proj_workitems.length; i++) {
         if (_this.state.proj_workitems[i].project == null || _this.state.proj_workitems[i].project.length === 0) {
@@ -187,8 +168,7 @@ var ProjectTransferApp = function (_React$Component) {
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify({
-          project_workitems: projWorkItemObj,
-          handleit_workitems: handleitWorkitemObj
+          project_workitems: projWorkItemObj
         }),
         success: function success(data) {
           window.location.replace("/app_project/project_transfer");
@@ -198,7 +178,7 @@ var ProjectTransferApp = function (_React$Component) {
 
     _this.onClick_transfer = function () {
       // Check that all projects are assigned
-      if (_this.state.proj_workitems.length == 0 && _this.state.handleit_workitems.length == 0) {
+      if (_this.state.proj_workitems.length == 0) {
         window.alert("There are no work items");
       } else if (_this.state.proj_workitems.length > 0 && _this.state.projects.length == 0) {
         window.alert("There are work items not assigned to a project");
@@ -212,7 +192,6 @@ var ProjectTransferApp = function (_React$Component) {
 
     _this.state = {
       assessment_id: assessment_id,
-      handleit_workitems: [],
       proj_workitems: [],
       projects: []
     };
@@ -242,12 +221,6 @@ var ProjectTransferApp = function (_React$Component) {
             onClick: this.onClick_create_project },
           "Create Project"
         ),
-        React.createElement(
-          "h2",
-          null,
-          "Handle-It Work Items"
-        ),
-        this.create_workItems(true),
         React.createElement(
           "h2",
           null,
