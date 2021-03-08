@@ -22,7 +22,7 @@ var VettingWorkItemApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (VettingWorkItemApp.__proto__ || Object.getPrototypeOf(VettingWorkItemApp)).call(this, props));
 
-    _this.loadIncompleteWorkitems = function () {
+    _this.loadWorkItems = function () {
       $.ajax({
         url: '/app_project/application/' + _this.props.appId + '/workitems',
         type: 'GET',
@@ -141,7 +141,7 @@ var VettingWorkItemApp = function (_React$Component) {
       completeWorkItems: []
     };
     _this.assessmentId = null;
-    _this.loadIncompleteWorkitems();
+    _this.loadWorkItems();
     _this.formId = "workitem-create-form";
     _this.modalmenu = React.createRef();
     return _this;
