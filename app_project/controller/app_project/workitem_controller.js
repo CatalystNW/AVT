@@ -14,7 +14,6 @@ async function getWorkitemsByAppId(req, res) {
   // Search thru project & assessments since workitems themselves don't
   // contain documentPackage
   let projects = await AppProject.find({
-      handleit: true,
       documentPackage: application_id
     }).populate({path: "workItems", model: "WorkItem",
               populate: {path: "materialsItems", model: "MaterialsItem"}});
@@ -27,7 +26,6 @@ async function getWorkitemsByAppId(req, res) {
 
   let assessments = await SiteAssessment.find({
       documentPackage: application_id,
-      complete: false,
     }).populate({path: "workItems", model: "WorkItem",
                   populate: {path: "materialsItems", model: "MaterialsItem"}});
   assessments.forEach(project => {
