@@ -74,7 +74,7 @@ var ProjectMenu = function (_React$Component) {
       });
     };
 
-    _this.onChange_projectData = function (e) {
+    _this.onChange_status = function (e) {
       var property = e.target.name,
           value = e.target.value;
       $.ajax({
@@ -87,6 +87,9 @@ var ProjectMenu = function (_React$Component) {
         context: _this,
         success: function success() {
           this.setState(_defineProperty({}, property, value));
+        },
+        error: function error() {
+          window.alert("Please check that the work items are all completed");
         }
       });
     };
@@ -273,7 +276,7 @@ var ProjectMenu = function (_React$Component) {
                 React.createElement(
                   "select",
                   { className: "form-control",
-                    onChange: this.onChange_projectData,
+                    onChange: this.onChange_status,
                     id: "status-select",
                     name: "status",
                     value: this.state.status },
@@ -284,13 +287,13 @@ var ProjectMenu = function (_React$Component) {
                   ),
                   React.createElement(
                     "option",
-                    { value: "complete" },
-                    "Complete"
+                    { value: "in_progress" },
+                    "In Progress"
                   ),
                   React.createElement(
                     "option",
-                    { value: "in_progress" },
-                    "In Progress"
+                    { value: "complete" },
+                    "Complete"
                   ),
                   React.createElement(
                     "option",

@@ -89,7 +89,7 @@ class ProjectMenu extends React.Component {
     });
   };
 
-  onChange_projectData = (e) => {
+  onChange_status = (e) => {
     const property = e.target.name,
           value = e.target.value;
     $.ajax({
@@ -104,7 +104,10 @@ class ProjectMenu extends React.Component {
         this.setState({
           [property]: value,
         });
-      }
+      },
+      error: function() {
+        window.alert("Please check that the work items are all completed");
+      },
     });
   }
 
@@ -191,7 +194,7 @@ class ProjectMenu extends React.Component {
                 htmlFor="status-select">Project Status</label>
               <div className="col-sm-4">
                 <select className="form-control" 
-                    onChange={this.onChange_projectData}
+                    onChange={this.onChange_status}
                     id="status-select"
                     name="status"
                     value={this.state.status}>
