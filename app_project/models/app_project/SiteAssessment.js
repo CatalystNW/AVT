@@ -97,10 +97,10 @@ siteAssessmentSchema.statics.markComplete = async function(assessment_id, transf
   for (let i=0, workitem; i < site_assessment.workItems.length; i++) {
     workitem = site_assessment.workItems[i];
     for (let j=0, materialsItem; j < workitem.materialsItems.length; j++) {
-      materialsItem = workitem.materialsItem[j];
+      materialsItem = workitem.materialsItems[j];
       materialsItem.complete = true;
       materialsItem.transferred = transferred;
-      await materialsItems.save();
+      await materialsItem.save();
     }
     workitem.complete = true;
     workitem.transferred = transferred;
