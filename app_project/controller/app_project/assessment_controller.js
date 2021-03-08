@@ -148,6 +148,7 @@ async function edit_site_assessment(req, res) {
         res.status(400).send("Empty work items");
         return;
       }
+      // Make sure there aren't any workitems with "to_review" status
       for (let i=0; i< site_assessment.workItems.length; i++) {
         if (site_assessment.workItems[i].status == "to_review") {
           res.status(400).send("Incomplete work item");
