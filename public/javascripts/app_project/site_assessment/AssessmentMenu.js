@@ -32,9 +32,11 @@ var AssessmentMenu = function (_React$Component) {
     };
 
     _this.add_workitem = function (workitem) {
-      _this.setState({
-        workItems: [workitem].concat(_toConsumableArray(_this.state.workItems))
-      });
+      if (workitem.handleit != true) {
+        _this.setState({
+          workItems: [workitem].concat(_toConsumableArray(_this.state.workItems))
+        });
+      }
     };
 
     _this.remove_workitem = function (workitem_id) {

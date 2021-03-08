@@ -39,9 +39,11 @@ class AssessmentMenu extends React.Component {
   }
 
   add_workitem = (workitem) => {
-    this.setState({
-      workItems: [workitem, ...this.state.workItems],
-    });
+    if (workitem.handleit != true) {
+      this.setState({
+        workItems: [workitem, ...this.state.workItems],
+      });
+    }
   };
   remove_workitem = (workitem_id) => {
     // I'm not sure if the workitems themselves should be copied
