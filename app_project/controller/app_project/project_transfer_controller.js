@@ -58,7 +58,7 @@ async function transfer_project(req, res) {
 
       projects[project_name] = project;
       // Copy partners
-      projects.partners = [...siteAssessment.partners];
+      project.partners = [...siteAssessment.partners];
     }
     new_workItem.appProject = project._id;
     new_workItem.save();
