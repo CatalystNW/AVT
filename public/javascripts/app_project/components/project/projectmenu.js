@@ -88,8 +88,12 @@ var ProjectMenu = function (_React$Component) {
         success: function success() {
           this.setState(_defineProperty({}, property, value));
         },
-        error: function error() {
-          window.alert("Please check that the work items are all completed");
+        error: function error(xhr, textStatus, e) {
+          if (xhr.status == 423) {
+            console.log("The project is completed and locked.");
+          } else {
+            window.alert("Please check that the work items are all completed");
+          }
         }
       });
     };

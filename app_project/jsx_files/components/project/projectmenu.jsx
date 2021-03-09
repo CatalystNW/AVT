@@ -105,8 +105,12 @@ class ProjectMenu extends React.Component {
           [property]: value,
         });
       },
-      error: function() {
-        window.alert("Please check that the work items are all completed");
+      error: function(xhr, textStatus, e) {
+        if (xhr.status == 423) {
+          console.log("The project is completed and locked.");
+        } else {
+          window.alert("Please check that the work items are all completed");
+        }
       },
     });
   }
