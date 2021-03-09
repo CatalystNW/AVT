@@ -182,7 +182,7 @@ async function edit_project(req, res) {
     if (req.body.property == "status" && req.body.value == "complete" ) {
       // Make sure all work items are complete
       for (let i=0; i < project.workItems.length; i++) {
-        if (!project.workItems[i].complete) {
+        if (project.workItems[i].status != "complete") {
           res.status(400).end();
           return;
         }
