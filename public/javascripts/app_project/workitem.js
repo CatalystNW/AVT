@@ -302,7 +302,7 @@ var WorkItem = function (_React$Component) {
       ) : null;
       var statuses = void 0;
       var id = this.state._id;
-      if (this.props.page_type == "project") {
+      if (this.state.type == "project") {
         statuses = [React.createElement(
           "option",
           { key: id + "review", value: "to_review" },

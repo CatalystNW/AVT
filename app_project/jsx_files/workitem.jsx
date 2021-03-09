@@ -217,7 +217,7 @@ class WorkItem extends React.Component {
         </p></div>): (null);
     let statuses;
     const id = this.state._id;
-    if (this.props.page_type == "project") {
+    if (this.state.type == "project") {
       statuses = [
         <option key={id+"review"} value="to_review">To Review</option>,
         <option key={id+"progress"}value="in_progress">In Progress</option>,
