@@ -61,7 +61,6 @@ var ProjectNotes = function (_React$Component) {
     };
 
     _this.submitNote = function (e) {
-
       e.preventDefault();
       var data = _this.getData(_this.addNoteFormId);
       $.ajax({
@@ -70,6 +69,7 @@ var ProjectNotes = function (_React$Component) {
         context: _this,
         data: data,
         success: function success(note_data) {
+          document.getElementById(this.addNoteFormId).reset();
           this.setState(function (state) {
             var new_notes = [note_data].concat(_toConsumableArray(state.project_notes));
             return {

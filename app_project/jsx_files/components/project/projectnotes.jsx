@@ -35,7 +35,6 @@ class ProjectNotes extends React.Component {
   }; 
 
   submitNote = (e) => {
-
     e.preventDefault();
     var data = this.getData(this.addNoteFormId);
     $.ajax({
@@ -44,6 +43,7 @@ class ProjectNotes extends React.Component {
       context: this,
       data: data,
       success: function(note_data) {
+        document.getElementById(this.addNoteFormId).reset();
         this.setState(state => {
           var new_notes  = [note_data, ...state.project_notes];
           return {
