@@ -365,7 +365,21 @@ var WorkItem = function (_React$Component) {
           React.createElement(
             "p",
             null,
-            this.state.createdAt.replace(/T.+/, "")
+            React.createElement(
+              "b",
+              null,
+              "Type:"
+            ),
+            " ",
+            this.props.workitem.type,
+            " ",
+            React.createElement(
+              "b",
+              null,
+              "Created:"
+            ),
+            this.state.createdAt.replace(/T.+/, ""),
+            " "
           ),
           React.createElement(
             "b",

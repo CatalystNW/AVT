@@ -248,7 +248,7 @@ class WorkItem extends React.Component {
           
         </h5>
 
-        <p>{this.state.createdAt.replace(/T.+/, "")}</p>
+        <p><b>Type:</b> {this.props.workitem.type} <b>Created:</b>{this.state.createdAt.replace(/T.+/, "")} </p>
 
         <b>Description</b>
         <p className="card-text">
