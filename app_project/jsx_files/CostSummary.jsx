@@ -4,11 +4,8 @@ class CostSummary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      num_handleit_workitems: 0,
       num_project_workitems: 0,
-      handleit_materials: [],
       project_materials: [],
-      handleit_volunteers: 0,
       proj_volunteers: 0,
       data_type: "site_assessment",
     };
@@ -56,52 +53,37 @@ class CostSummary extends React.Component {
   load_site_assessment_data = (assessment_id) => {
     var that = this;
     funkie.get_assessment(assessment_id, function(siteAssessmentData) {
-      var handleit_materials = [],
-          project_materials = [],
-          num_handleit_workitems = 0,
+      var project_materials = [],
           num_project_workitems = 0,
-          handleit_volunteers = 0,
           proj_volunteers = 0;
       console.log(siteAssessmentData);
       var workItems = siteAssessmentData.workItems,
           i, j, item_arr;
       for (i=0; i< workItems.length; i++) {
-        if (workItems[i].handleit) {
-          item_arr = handleit_materials;
-          num_handleit_workitems += 1;
-          if (workItems[i].volunteers_required) {
-            handleit_volunteers += workItems[i].volunteers_required;
-          }
-        } else { // Non-handle-it work items
-          if (workItems[i].status != "accepted") {
-            continue;
-          }
-          item_arr = project_materials;
-          num_project_workitems += 1
-          if (workItems[i].volunteers_required) {
-            proj_volunteers += workItems[i].volunteers_required;
-          }
+        if (workItems[i].status != "accepted") {
+          continue;
+        }
+        item_arr = project_materials;
+        num_project_workitems += 1
+        if (workItems[i].volunteers_required) {
+          proj_volunteers += workItems[i].volunteers_required;
         }
         for (j=0;j<workItems[i].materialsItems.length; j++) {
           item_arr.push(workItems[i].materialsItems[j]);
         }
       }
       that.setState({
-        num_handleit_workitems:   num_handleit_workitems,
         num_project_workitems:    num_project_workitems,
-        handleit_materials:       handleit_materials,
         project_materials:        project_materials,
         proj_volunteers:          proj_volunteers,
-        handleit_volunteers:      handleit_volunteers,
         data_type:                "site_assessment",
       });
     });
   }
 
   create_materialsitems_table = (workitem_type) => {
-    var arr = (workitem_type == "project") ? 
-      this.state.project_materials : this.state.handleit_materials;
-    var total = 0;
+    let arr = this.state.project_materials,
+        total = 0;
     return (
       <table className="table">
         <thead>
@@ -138,30 +120,8 @@ class CostSummary extends React.Component {
   }
 
   render() {
-    let isSiteAssessment = this.state.data_type=="site_assessment";
     return(
       <div>
-        {isSiteAssessment ? 
-        <table className="table">
-          <tbody>
-            <tr>
-              <th className="col-xs-8"># Handle-It Work items</th>
-              <td className="col-xs-4">{this.state.num_handleit_workitems}</td>
-            </tr>
-            <tr>
-              <td>
-                <h2>Materials Lists</h2>
-                {this.create_materialsitems_table("handleit")}
-              </td>
-            </tr>
-            <tr>
-              <th className="col-xs-8">Volunteers Req.</th>
-              <td className="col-xs-4">{this.state.handleit_volunteers}</td>
-            </tr>
-          </tbody>
-        </table>
-        : <div></div>
-        }
         <table className="table">
           <tbody>
             <tr>

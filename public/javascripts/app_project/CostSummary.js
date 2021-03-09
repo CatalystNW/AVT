@@ -59,11 +59,8 @@ var CostSummary = function (_React$Component) {
     _this.load_site_assessment_data = function (assessment_id) {
       var that = _this;
       funkie.get_assessment(assessment_id, function (siteAssessmentData) {
-        var handleit_materials = [],
-            project_materials = [],
-            num_handleit_workitems = 0,
+        var project_materials = [],
             num_project_workitems = 0,
-            handleit_volunteers = 0,
             proj_volunteers = 0;
         console.log(siteAssessmentData);
         var workItems = siteAssessmentData.workItems,
@@ -71,42 +68,30 @@ var CostSummary = function (_React$Component) {
             j,
             item_arr;
         for (i = 0; i < workItems.length; i++) {
-          if (workItems[i].handleit) {
-            item_arr = handleit_materials;
-            num_handleit_workitems += 1;
-            if (workItems[i].volunteers_required) {
-              handleit_volunteers += workItems[i].volunteers_required;
-            }
-          } else {
-            // Non-handle-it work items
-            if (workItems[i].status != "accepted") {
-              continue;
-            }
-            item_arr = project_materials;
-            num_project_workitems += 1;
-            if (workItems[i].volunteers_required) {
-              proj_volunteers += workItems[i].volunteers_required;
-            }
+          if (workItems[i].status != "accepted") {
+            continue;
+          }
+          item_arr = project_materials;
+          num_project_workitems += 1;
+          if (workItems[i].volunteers_required) {
+            proj_volunteers += workItems[i].volunteers_required;
           }
           for (j = 0; j < workItems[i].materialsItems.length; j++) {
             item_arr.push(workItems[i].materialsItems[j]);
           }
         }
         that.setState({
-          num_handleit_workitems: num_handleit_workitems,
           num_project_workitems: num_project_workitems,
-          handleit_materials: handleit_materials,
           project_materials: project_materials,
           proj_volunteers: proj_volunteers,
-          handleit_volunteers: handleit_volunteers,
           data_type: "site_assessment"
         });
       });
     };
 
     _this.create_materialsitems_table = function (workitem_type) {
-      var arr = workitem_type == "project" ? _this.state.project_materials : _this.state.handleit_materials;
-      var total = 0;
+      var arr = _this.state.project_materials,
+          total = 0;
       return React.createElement(
         "table",
         { className: "table" },
@@ -201,11 +186,8 @@ var CostSummary = function (_React$Component) {
     };
 
     _this.state = {
-      num_handleit_workitems: 0,
       num_project_workitems: 0,
-      handleit_materials: [],
       project_materials: [],
-      handleit_volunteers: 0,
       proj_volunteers: 0,
       data_type: "site_assessment"
     };
@@ -215,60 +197,9 @@ var CostSummary = function (_React$Component) {
   _createClass(CostSummary, [{
     key: "render",
     value: function render() {
-      var isSiteAssessment = this.state.data_type == "site_assessment";
       return React.createElement(
         "div",
         null,
-        isSiteAssessment ? React.createElement(
-          "table",
-          { className: "table" },
-          React.createElement(
-            "tbody",
-            null,
-            React.createElement(
-              "tr",
-              null,
-              React.createElement(
-                "th",
-                { className: "col-xs-8" },
-                "# Handle-It Work items"
-              ),
-              React.createElement(
-                "td",
-                { className: "col-xs-4" },
-                this.state.num_handleit_workitems
-              )
-            ),
-            React.createElement(
-              "tr",
-              null,
-              React.createElement(
-                "td",
-                null,
-                React.createElement(
-                  "h2",
-                  null,
-                  "Materials Lists"
-                ),
-                this.create_materialsitems_table("handleit")
-              )
-            ),
-            React.createElement(
-              "tr",
-              null,
-              React.createElement(
-                "th",
-                { className: "col-xs-8" },
-                "Volunteers Req."
-              ),
-              React.createElement(
-                "td",
-                { className: "col-xs-4" },
-                this.state.handleit_volunteers
-              )
-            )
-          )
-        ) : React.createElement("div", null),
         React.createElement(
           "table",
           { className: "table" },
