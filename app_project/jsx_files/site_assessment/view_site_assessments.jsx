@@ -146,7 +146,7 @@ class SiteAssessmentApp extends React.Component {
         addObj.line_1 + " " + addObj.line_2 : addObj.line_1;
     let assessment_date;
     if (assessment && assessment.assessment_date) {
-      const d = this.convert_date(tassessment.assessment_date);
+      const d = this.convert_date(assessment.assessment_date);
       // assessment_date = `${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`
       assessment_date = /(.+:\d{2}):/.exec(d.toString())[1];
     }
