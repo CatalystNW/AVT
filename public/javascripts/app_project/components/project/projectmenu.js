@@ -415,13 +415,13 @@ var ProjectMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
-            React.createElement(
+            !this.state.handleit ? React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu
               },
               "Create Work Item"
-            ),
+            ) : null,
             React.createElement(
               "div",
               null,

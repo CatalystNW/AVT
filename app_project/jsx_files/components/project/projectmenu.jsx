@@ -273,9 +273,12 @@ class ProjectMenu extends React.Component {
               project_id={project_id}/>
           </div>
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
-            <button type="button" className="btn btn-primary" 
-              onClick={this.props.set_create_workitem_menu}
-            >Create Work Item</button>
+            {!this.state.handleit ?
+              <button type="button" className="btn btn-primary" 
+                onClick={this.props.set_create_workitem_menu}
+              >Create Work Item</button> : null
+            }
+            
             <div>
               {this.state.workItems.map((workitem, index) => {
                 return (
