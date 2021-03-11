@@ -64,15 +64,16 @@ async function getApplicationsInAssessment(req, res) {
   let documents = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
       // Docs don't have assessment reference
       assessments = await SiteAssessment.find({transferred: false, complete: false});
-  // If status is "assessComp" with no assessment, then revert doc status
-  const docsWithAssessment = new Set();
+  // Check if there are conflicts between assessments & documents
+  const assessmentsByDict = {};
   for (let i=0; i < assessments.length; i++) {
-    docsWithAssessment.add(assessments[i].documentPackage);
+    assessmentsByDict[assessments[i].documentPackage] = assessments[i];
   }
-
+  
   for (let i=0; i< documents.length; i++) {
-    if (documents[i].status == "assessComp" && 
-          !docsWithAssessment.has(documents[i]._id)) {
+    // If doc is assessment complete, but assessment doesn't exist
+    if (documents[i].status == "assessComp" &&
+          !(documents[i] in assessmentsByDict)) {
       documents[i].status = "assess";
       await documents[i].save();
     }
