@@ -80,8 +80,7 @@ async function getApplicationsInAssessment(req, res) {
     // If doc is assess but assessment is complete
     if (documents[i].status == "assess" &&
         documents[i]._id in assessmentsByDict &&
-        assessmentsByDict[documents[i]._id].status == "complete") {
-      console.log("found");
+        assessmentsByDict[documents[i]._id].status != "pending") {
       assessmentsByDict[documents[i]._id].status = "pending";
       await assessmentsByDict[documents[i]._id].save();
     }
