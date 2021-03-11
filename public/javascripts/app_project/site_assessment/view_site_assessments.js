@@ -126,7 +126,7 @@ var SiteAssessmentApp = function (_React$Component) {
           React.createElement(
             "th",
             { scope: "col" },
-            "Status"
+            "Assessment Status"
           )
         )
       );
@@ -224,14 +224,28 @@ var SiteAssessmentApp = function (_React$Component) {
       }
       return null;
     }
+
+    /**
+     * Craetes Assessment TR Row with a document.
+     * Searches for assessment in state.assessmentsByDocs and
+     * uses createAssessmentRow
+     * @param {DocumentPackage Data} doc 
+     * @returns TR element of assessment
+     */
+
+    /**
+     * Creates Assessment TR Row.
+     * @param {DocumentPackage Data} doc 
+     * @param {SiteAssessment Data} assessment 
+     * @returns TR element of assessment
+     */
+
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      var doc = void 0,
-          address = void 0,
-          app = void 0;
+      var doc = void 0;
       return React.createElement(
         "div",
         null,

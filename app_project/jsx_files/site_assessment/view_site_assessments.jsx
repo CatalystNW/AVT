@@ -116,17 +116,29 @@ class SiteAssessmentApp extends React.Component {
           <th scope="col">Name</th>
           <th scope="col">Address</th>
           <th scope="col">Assessment Date</th>
-          <th scope="col">Status</th>
+          <th scope="col">Assessment Status</th>
       </tr>
   </thead>);
   };
 
+  /**
+   * Craetes Assessment TR Row with a document.
+   * Searches for assessment in state.assessmentsByDocs and
+   * uses createAssessmentRow
+   * @param {DocumentPackage Data} doc 
+   * @returns TR element of assessment
+   */
   createRowWithDocument = (doc) => {
     let assessment = (this.state.assessmentsByDocs) ?
     (this.state.assessmentsByDocs[doc._id]) : null;
     return this.createAssessmentRow(doc, assessment);
   };
-
+  /**
+   * Creates Assessment TR Row.
+   * @param {DocumentPackage Data} doc 
+   * @param {SiteAssessment Data} assessment 
+   * @returns TR element of assessment
+   */
   createAssessmentRow = (doc, assessment) => {
     const addObj = doc.application.address,
           nameObj = doc.application.name;
@@ -157,7 +169,7 @@ class SiteAssessmentApp extends React.Component {
   };
 
   render () {
-    let doc, address, app;
+    let doc;
     return (
     <div>
       <div>
