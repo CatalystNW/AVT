@@ -194,6 +194,34 @@ var CostSummary = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * Loads either project or assessment data depending on
+   * data_type and id parameters.
+   * 
+   * Does so using load_site_asssessment_data or load_project_data
+   * @param {String} data_type "site_assessment" or "project"
+   * @param {String} id ID of the project or assessment to be loaded
+   */
+
+  /**
+   * Loads project data from the server and saves it into state:
+   * data_type, num_project_workitems, project_materials, and proj_volunteers
+   * @param {String} project_id ID of project
+   */
+
+  /**
+   * Loads site assessment data from the server and saves it into state:
+   * data_type, num_project_workitems, project_materials, and proj_volunteers
+   * @param {String} assessment_id ID of site assessment
+   */
+
+  /**
+   * Creates the materials item table for the Cost Summary
+   * @param {String} workitem_type 
+   * @returns Table element
+   */
+
+
   _createClass(CostSummary, [{
     key: "render",
     value: function render() {
