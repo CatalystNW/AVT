@@ -67,33 +67,37 @@ class CostSummary extends React.Component {
    * @param {String} assessment_id ID of site assessment
    */
   load_site_assessment_data = (assessment_id) => {
-    var that = this;
-    funkie.get_assessment(assessment_id, function(siteAssessmentData) {
-      var accepted_project_materials = [],
-          num_accepted_project_workitems = 0,
-          accepted_project_volunteers = 0;
-      console.log(siteAssessmentData);
-      var workItems = siteAssessmentData.workItems,
-          i, j, item_arr;
-      for (i=0; i< workItems.length; i++) {
-        if (workItems[i].status != "accepted") {
-          continue;
+    $.ajax({
+      type: "GET",
+      url: "/app_project/site_assessments/" + assessment_id,
+      context: this,
+      success: function(siteAssessmentData) {
+        console.log(siteAssessmentData);
+        let accepted_project_materials = [],
+            num_accepted_project_workitems = 0,
+            accepted_project_volunteers = 0;
+        let workItems = siteAssessmentData.workItems,
+            i, j, item_arr;
+        for (i=0; i< workItems.length; i++) {
+          if (workItems[i].status != "accepted") {
+            continue;
+          }
+          item_arr = accepted_project_materials;
+          num_accepted_project_workitems += 1
+          if (workItems[i].volunteers_required) {
+            accepted_project_volunteers += workItems[i].volunteers_required;
+          }
+          for (j=0;j<workItems[i].materialsItems.length; j++) {
+            item_arr.push(workItems[i].materialsItems[j]);
+          }
         }
-        item_arr = accepted_project_materials;
-        num_accepted_project_workitems += 1
-        if (workItems[i].volunteers_required) {
-          accepted_project_volunteers += workItems[i].volunteers_required;
-        }
-        for (j=0;j<workItems[i].materialsItems.length; j++) {
-          item_arr.push(workItems[i].materialsItems[j]);
-        }
+        this.setState({
+          num_accepted_project_workitems:    num_accepted_project_workitems,
+          accepted_project_materials:        accepted_project_materials,
+          accepted_project_volunteers:          accepted_project_volunteers,
+          data_type: "site_assessment",
+        });
       }
-      that.setState({
-        num_accepted_project_workitems:    num_accepted_project_workitems,
-        accepted_project_materials:        accepted_project_materials,
-        accepted_project_volunteers:          accepted_project_volunteers,
-        data_type:                "site_assessment",
-      });
     });
   }
   /**
