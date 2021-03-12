@@ -26,6 +26,31 @@ class CostSummary extends React.Component {
       this.load_project_data(id);
     }
   }
+  loadWorkItems = (data_type, workItems) => {
+    let accepted_project_materials = [],
+        num_accepted_project_workitems = 0,
+        accepted_project_volunteers = 0,
+        i, j, item_arr;
+    for (i=0; i< workItems.length; i++) {
+      if (data_type == "site_assessment" && workItems[i].status != "accepted") {
+        continue;
+      }
+      item_arr = accepted_project_materials;
+      num_accepted_project_workitems += 1
+      if (workItems[i].volunteers_required) {
+        accepted_project_volunteers += workItems[i].volunteers_required;
+      }
+      for (j=0;j<workItems[i].materialsItems.length; j++) {
+        item_arr.push(workItems[i].materialsItems[j]);
+      }
+    }
+    this.setState({
+      num_accepted_project_workitems:    num_accepted_project_workitems,
+      accepted_project_materials:        accepted_project_materials,
+      accepted_project_volunteers:          accepted_project_volunteers,
+      data_type: data_type,
+    });
+  };
   /**
    * Loads project data from the server and saves it into state:
    * data_type, num_accepted_project_workitems, accepted_project_materials, and accepted_project_volunteers
@@ -37,27 +62,7 @@ class CostSummary extends React.Component {
       type: "GET",
       context: this,
       success: function(projectData) {
-        var workItems = projectData.workItems;
-        var accepted_project_materials = [],
-            num_accepted_project_workitems = workItems.length,
-            project_volunteers = 0;
-
-        let i, j;
-
-        for (i=0; i<workItems.length; i++) {
-          if (workItems[i].volunteers_required) {
-            project_volunteers += workItems[i].volunteers_required;
-          }
-          for (j=0;j<workItems[i].materialsItems.length; j++) {
-            accepted_project_materials.push(workItems[i].materialsItems[j]);
-          }
-        }
-        this.setState({
-          data_type: "project",
-          num_accepted_project_workitems:    num_accepted_project_workitems,
-          accepted_project_materials:        accepted_project_materials,
-          accepted_project_volunteers:          project_volunteers
-        });
+        this.loadWorkItems("project", projectData.workItems);
       }
     })
   }
@@ -73,30 +78,7 @@ class CostSummary extends React.Component {
       context: this,
       success: function(siteAssessmentData) {
         console.log(siteAssessmentData);
-        let accepted_project_materials = [],
-            num_accepted_project_workitems = 0,
-            accepted_project_volunteers = 0;
-        let workItems = siteAssessmentData.workItems,
-            i, j, item_arr;
-        for (i=0; i< workItems.length; i++) {
-          if (workItems[i].status != "accepted") {
-            continue;
-          }
-          item_arr = accepted_project_materials;
-          num_accepted_project_workitems += 1
-          if (workItems[i].volunteers_required) {
-            accepted_project_volunteers += workItems[i].volunteers_required;
-          }
-          for (j=0;j<workItems[i].materialsItems.length; j++) {
-            item_arr.push(workItems[i].materialsItems[j]);
-          }
-        }
-        this.setState({
-          num_accepted_project_workitems:    num_accepted_project_workitems,
-          accepted_project_materials:        accepted_project_materials,
-          accepted_project_volunteers:          accepted_project_volunteers,
-          data_type: "site_assessment",
-        });
+        this.loadWorkItems("site_assessment", siteAssessmentData.workItems);
       }
     });
   }

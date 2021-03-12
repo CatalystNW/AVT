@@ -24,34 +24,41 @@ var CostSummary = function (_React$Component) {
       }
     };
 
+    _this.loadWorkItems = function (data_type, workItems) {
+      var accepted_project_materials = [],
+          num_accepted_project_workitems = 0,
+          accepted_project_volunteers = 0,
+          i = void 0,
+          j = void 0,
+          item_arr = void 0;
+      for (i = 0; i < workItems.length; i++) {
+        if (data_type == "site_assessment" && workItems[i].status != "accepted") {
+          continue;
+        }
+        item_arr = accepted_project_materials;
+        num_accepted_project_workitems += 1;
+        if (workItems[i].volunteers_required) {
+          accepted_project_volunteers += workItems[i].volunteers_required;
+        }
+        for (j = 0; j < workItems[i].materialsItems.length; j++) {
+          item_arr.push(workItems[i].materialsItems[j]);
+        }
+      }
+      _this.setState({
+        num_accepted_project_workitems: num_accepted_project_workitems,
+        accepted_project_materials: accepted_project_materials,
+        accepted_project_volunteers: accepted_project_volunteers,
+        data_type: data_type
+      });
+    };
+
     _this.load_project_data = function (project_id) {
       $.ajax({
         url: "/app_project/projects/" + project_id,
         type: "GET",
         context: _this,
         success: function success(projectData) {
-          var workItems = projectData.workItems;
-          var accepted_project_materials = [],
-              num_accepted_project_workitems = workItems.length,
-              project_volunteers = 0;
-
-          var i = void 0,
-              j = void 0;
-
-          for (i = 0; i < workItems.length; i++) {
-            if (workItems[i].volunteers_required) {
-              project_volunteers += workItems[i].volunteers_required;
-            }
-            for (j = 0; j < workItems[i].materialsItems.length; j++) {
-              accepted_project_materials.push(workItems[i].materialsItems[j]);
-            }
-          }
-          this.setState({
-            data_type: "project",
-            num_accepted_project_workitems: num_accepted_project_workitems,
-            accepted_project_materials: accepted_project_materials,
-            accepted_project_volunteers: project_volunteers
-          });
+          this.loadWorkItems("project", projectData.workItems);
         }
       });
     };
@@ -63,32 +70,7 @@ var CostSummary = function (_React$Component) {
         context: _this,
         success: function success(siteAssessmentData) {
           console.log(siteAssessmentData);
-          var accepted_project_materials = [],
-              num_accepted_project_workitems = 0,
-              accepted_project_volunteers = 0;
-          var workItems = siteAssessmentData.workItems,
-              i = void 0,
-              j = void 0,
-              item_arr = void 0;
-          for (i = 0; i < workItems.length; i++) {
-            if (workItems[i].status != "accepted") {
-              continue;
-            }
-            item_arr = accepted_project_materials;
-            num_accepted_project_workitems += 1;
-            if (workItems[i].volunteers_required) {
-              accepted_project_volunteers += workItems[i].volunteers_required;
-            }
-            for (j = 0; j < workItems[i].materialsItems.length; j++) {
-              item_arr.push(workItems[i].materialsItems[j]);
-            }
-          }
-          this.setState({
-            num_accepted_project_workitems: num_accepted_project_workitems,
-            accepted_project_materials: accepted_project_materials,
-            accepted_project_volunteers: accepted_project_volunteers,
-            data_type: "site_assessment"
-          });
+          this.loadWorkItems("site_assessment", siteAssessmentData.workItems);
         }
       });
     };
