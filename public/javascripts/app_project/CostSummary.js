@@ -173,7 +173,7 @@ var CostSummary = function (_React$Component) {
             "tr",
             null,
             React.createElement(
-              "td",
+              "th",
               null,
               "Total"
             ),
@@ -237,6 +237,15 @@ var CostSummary = function (_React$Component) {
         React.createElement(
           "div",
           null,
+          this.state.data_type == "site_assessment" ? React.createElement(
+            "h2",
+            null,
+            "Project Work Items Accepted"
+          ) : React.createElement(
+            "h2",
+            null,
+            "Project Work Items"
+          ),
           React.createElement(
             "table",
             { className: "table" },
@@ -248,13 +257,27 @@ var CostSummary = function (_React$Component) {
                 null,
                 React.createElement(
                   "th",
-                  { className: "col-xs-8" },
-                  "# Project Work Items Accepted"
+                  { className: "col-xs-6 col-lg-4" },
+                  "# Work Items"
                 ),
                 React.createElement(
                   "td",
-                  { className: "col-xs-4" },
+                  { className: "col-xs-6 col-lg-4" },
                   this.state.num_accepted_project_workitems
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-6 col-lg-4" },
+                  "Volunteers Required"
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-6 col-lg-4" },
+                  this.state.accepted_project_volunteers
                 )
               ),
               React.createElement(
@@ -264,25 +287,11 @@ var CostSummary = function (_React$Component) {
                   "td",
                   null,
                   React.createElement(
-                    "h2",
+                    "h3",
                     null,
                     "Materials Lists"
                   ),
                   this.create_materialsitems_table("accepted")
-                )
-              ),
-              React.createElement(
-                "tr",
-                null,
-                React.createElement(
-                  "th",
-                  { className: "col-xs-8" },
-                  "Volunteers Req."
-                ),
-                React.createElement(
-                  "td",
-                  { className: "col-xs-4" },
-                  this.state.accepted_project_volunteers
                 )
               )
             )
@@ -291,6 +300,11 @@ var CostSummary = function (_React$Component) {
         this.state.data_type == "site_assessment" ? React.createElement(
           "div",
           null,
+          React.createElement(
+            "h2",
+            null,
+            "Project Work Items In Review"
+          ),
           React.createElement(
             "table",
             { className: "table" },
@@ -302,13 +316,27 @@ var CostSummary = function (_React$Component) {
                 null,
                 React.createElement(
                   "th",
-                  { className: "col-xs-8" },
-                  "# Project Work Items In Review"
+                  { className: "col-xs-6 col-lg-4" },
+                  "# Work Items"
                 ),
                 React.createElement(
                   "td",
-                  { className: "col-xs-4" },
+                  { className: "col-xs-6 col-lg-4" },
                   this.state.num_accepted_project_workitems
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-6 col-lg-4" },
+                  "Volunteers Required"
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-6 col-lg-4" },
+                  this.state.review_project_volunteers
                 )
               ),
               React.createElement(
@@ -323,20 +351,6 @@ var CostSummary = function (_React$Component) {
                     "Materials Lists"
                   ),
                   this.create_materialsitems_table("review")
-                )
-              ),
-              React.createElement(
-                "tr",
-                null,
-                React.createElement(
-                  "th",
-                  { className: "col-xs-8" },
-                  "Volunteers Req."
-                ),
-                React.createElement(
-                  "td",
-                  { className: "col-xs-4" },
-                  this.state.review_project_volunteers
                 )
               )
             )

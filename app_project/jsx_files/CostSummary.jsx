@@ -140,7 +140,7 @@ class CostSummary extends React.Component {
         </tbody>
         <tfoot>
           <tr>
-            <td>Total</td>
+            <th>Total</th>
             <td>{total}</td>
           </tr>
         </tfoot>
@@ -152,42 +152,47 @@ class CostSummary extends React.Component {
     return(
       <div>
         <div>
+          {this.state.data_type == "site_assessment" ?
+            (<h2>Project Work Items Accepted</h2>) :
+            (<h2>Project Work Items</h2>)
+          }
           <table className="table">
             <tbody>
               <tr>
-                <th className="col-xs-8"># Project Work Items Accepted</th>
-                <td className="col-xs-4">{this.state.num_accepted_project_workitems}</td>
+                <th className="col-xs-6 col-lg-4"># Work Items</th>
+                <td className="col-xs-6 col-lg-4">{this.state.num_accepted_project_workitems}</td>
+              </tr>
+              <tr>
+                <th className="col-xs-6 col-lg-4">Volunteers Required</th>
+                <td className="col-xs-6 col-lg-4">{this.state.accepted_project_volunteers}</td>
               </tr>
               <tr>
                 <td>
-                  <h2>Materials Lists</h2>
+                  <h3>Materials Lists</h3>
                   {this.create_materialsitems_table("accepted")}
                 </td>
-              </tr>
-              <tr>
-                <th className="col-xs-8">Volunteers Req.</th>
-                <td className="col-xs-4">{this.state.accepted_project_volunteers}</td>
               </tr>
             </tbody>
           </table>
         </div>
         {this.state.data_type == "site_assessment" ?
           (<div>
+            <h2>Project Work Items In Review</h2>
             <table className="table">
               <tbody>
                 <tr>
-                  <th className="col-xs-8"># Project Work Items In Review</th>
-                  <td className="col-xs-4">{this.state.num_accepted_project_workitems}</td>
+                  <th className="col-xs-6 col-lg-4"># Work Items</th>
+                  <td className="col-xs-6 col-lg-4">{this.state.num_accepted_project_workitems}</td>
+                </tr>
+                <tr>
+                  <th className="col-xs-6 col-lg-4">Volunteers Required</th>
+                  <td className="col-xs-6 col-lg-4">{this.state.review_project_volunteers}</td>
                 </tr>
                 <tr>
                   <td>
                     <h2>Materials Lists</h2>
                     {this.create_materialsitems_table("review")}
                   </td>
-                </tr>
-                <tr>
-                  <th className="col-xs-8">Volunteers Req.</th>
-                  <td className="col-xs-4">{this.state.review_project_volunteers}</td>
                 </tr>
               </tbody>
             </table>
