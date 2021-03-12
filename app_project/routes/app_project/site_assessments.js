@@ -5,6 +5,10 @@ var router = express.Router();
 
 var assessment_controller = require('../../controller/app_project/assessment_controller.js');
 
+router.get('/view', assessment_controller.view_site_assessments);
+router.get('/view/app_id/:application_id', assessment_controller.view_site_assessment_by_app_id);
+router.get('/view/:assessment_id', assessment_controller.view_site_assessment);
+
 router.get('/transferred', assessment_controller.getTransferredAssessments);
 router.get('/to_transfer', assessment_controller.getToTransferAssessments);
 router.get('/applications', assessment_controller.getApplicationsInAssessment);

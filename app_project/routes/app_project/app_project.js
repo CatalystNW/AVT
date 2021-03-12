@@ -11,11 +11,6 @@ var document_controller       = require('../../controller/app_project/document_c
     partner_controller          = require('../../controller/app_project/partner_controller.js'),
     delete_controller          = require('../../controller/app_project/delete_controller.js');
 
-router.get('/view_site_assessments', assessment_controller.view_site_assessments);
-
-router.get('/view_site_assessments/app_id/:application_id', assessment_controller.view_site_assessment_by_app_id);
-router.get('/view_site_assessments/:assessment_id', assessment_controller.view_site_assessment);
-
 router.use('/site_assessments', require("./site_assessments.js"));
 
 router.route('/application/:application_id')
@@ -65,8 +60,7 @@ router.patch('/partners/:partner_id', partner_controller.edit_partner);
 router.get('/partners', partner_controller.get_all_partners);
 router.post('/partners', partner_controller.create_partner);
 
-router.get('/site_assessments/paf_form/:assessment_id', assessment_controller.get_paf_page);
-router.get('/site_assessments/handleit_form/:assessment_id', assessment_controller.get_handleit_form);
+
 router.get('/projects/paf_form/:project_id', project_controller.get_paf_page);
 router.get('/projects/handleit_form/:project_id', project_controller.get_handleit_form);
 
