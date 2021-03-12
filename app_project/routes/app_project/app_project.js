@@ -16,19 +16,10 @@ router.get('/view_site_assessments', assessment_controller.view_site_assessments
 router.get('/view_site_assessments/app_id/:application_id', assessment_controller.view_site_assessment_by_app_id);
 router.get('/view_site_assessments/:assessment_id', assessment_controller.view_site_assessment);
 
+router.use('/site_assessments', require("./site_assessments.js"));
+
 router.route('/application/:application_id')
   .get(assessment_controller.get_application_data_api);
-
-router.get('/site_assessments/transferred', assessment_controller.getTransferredAssessments);
-router.get('/site_assessments/to_transfer', assessment_controller.getToTransferAssessments);
-router.get('/site_assessments/applications', assessment_controller.getApplicationsInAssessment);
-
-router.route('/site_assessments/:assessment_id')
-  .get(assessment_controller.get_site_assessment)
-  .patch(assessment_controller.edit_site_assessment);
-router.patch('/site_assessments/:assessment_id/partners', assessment_controller.set_partners);
-
-// router.get('/site_assessments/application/:application_id', assessment_controller.getSiteAssessmentByAppId);
 
 router.patch('/document/:application_id/status', document_controller.editDocumentStatus);
 router.get('/application/:application_id/workitems', workitem_controller.getWorkitemsByAppId);
