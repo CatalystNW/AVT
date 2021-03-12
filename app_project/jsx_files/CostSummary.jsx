@@ -4,10 +4,14 @@ class CostSummary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data_type: "site_assessment",
       num_accepted_project_workitems: 0,
       accepted_project_materials: [],
       accepted_project_volunteers: 0,
-      data_type: "site_assessment",
+
+      num_review_project_workitems: 0,
+      review_project_materials: [],
+      review_project_volunteers: 0,
     };
   }
 
@@ -30,16 +34,29 @@ class CostSummary extends React.Component {
     let accepted_project_materials = [],
         num_accepted_project_workitems = 0,
         accepted_project_volunteers = 0,
+
+        num_review_project_workitems = 0,
+        review_project_materials = [],
+        review_project_volunteers = 0,
         i, j, item_arr;
     for (i=0; i< workItems.length; i++) {
-      if (data_type == "site_assessment" && workItems[i].status != "accepted") {
+      if (workItems[i].status == "declined") {
         continue;
       }
-      item_arr = accepted_project_materials;
-      num_accepted_project_workitems += 1
-      if (workItems[i].volunteers_required) {
-        accepted_project_volunteers += workItems[i].volunteers_required;
+      if (workItems[i].status == "to_review") {
+        item_arr = review_project_materials;
+        num_review_project_workitems += 1
+        if (workItems[i].volunteers_required) {
+          review_project_volunteers += workItems[i].volunteers_required;
+        }
+      } else {
+        item_arr = accepted_project_materials;
+        num_accepted_project_workitems += 1
+        if (workItems[i].volunteers_required) {
+          accepted_project_volunteers += workItems[i].volunteers_required;
+        }
       }
+
       for (j=0;j<workItems[i].materialsItems.length; j++) {
         item_arr.push(workItems[i].materialsItems[j]);
       }
@@ -48,6 +65,10 @@ class CostSummary extends React.Component {
       num_accepted_project_workitems:    num_accepted_project_workitems,
       accepted_project_materials:        accepted_project_materials,
       accepted_project_volunteers:          accepted_project_volunteers,
+
+      num_review_project_workitems: num_review_project_workitems,
+      review_project_materials: review_project_materials,
+      review_project_volunteers: review_project_volunteers,
       data_type: data_type,
     });
   };
@@ -65,7 +86,7 @@ class CostSummary extends React.Component {
         this.loadWorkItems("project", projectData.workItems);
       }
     })
-  }
+  };
   /**
    * Loads site assessment data from the server and saves it into state:
    * data_type, num_accepted_project_workitems, accepted_project_materials, and accepted_project_volunteers
@@ -88,7 +109,9 @@ class CostSummary extends React.Component {
    * @returns Table element
    */
   create_materialsitems_table = (workitem_type) => {
-    let arr = this.state.accepted_project_materials,
+    let arr = (workitem_type == "accepted") ?
+              this.state.accepted_project_materials :
+              this.state.review_project_materials,
         total = 0;
     return (
       <table className="table">
@@ -123,29 +146,53 @@ class CostSummary extends React.Component {
         </tfoot>
       </table>
     );
-  }
+  };
 
   render() {
     return(
       <div>
-        <table className="table">
-          <tbody>
-            <tr>
-              <th className="col-xs-8"># Project Work Items Accepted</th>
-              <td className="col-xs-4">{this.state.num_accepted_project_workitems}</td>
-            </tr>
-            <tr>
-              <td>
-                <h2>Materials Lists</h2>
-                {this.create_materialsitems_table("project")}
-              </td>
-            </tr>
-            <tr>
-              <th className="col-xs-8">Volunteers Req.</th>
-              <td className="col-xs-4">{this.state.accepted_project_volunteers}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <table className="table">
+            <tbody>
+              <tr>
+                <th className="col-xs-8"># Project Work Items Accepted</th>
+                <td className="col-xs-4">{this.state.num_accepted_project_workitems}</td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>Materials Lists</h2>
+                  {this.create_materialsitems_table("accepted")}
+                </td>
+              </tr>
+              <tr>
+                <th className="col-xs-8">Volunteers Req.</th>
+                <td className="col-xs-4">{this.state.accepted_project_volunteers}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {this.state.data_type == "site_assessment" ?
+          (<div>
+            <table className="table">
+              <tbody>
+                <tr>
+                  <th className="col-xs-8"># Project Work Items In Review</th>
+                  <td className="col-xs-4">{this.state.num_accepted_project_workitems}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <h2>Materials Lists</h2>
+                    {this.create_materialsitems_table("review")}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col-xs-8">Volunteers Req.</th>
+                  <td className="col-xs-4">{this.state.review_project_volunteers}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>) : null
+        }
       </div>
     );
   }

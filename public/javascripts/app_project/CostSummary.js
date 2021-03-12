@@ -28,18 +28,30 @@ var CostSummary = function (_React$Component) {
       var accepted_project_materials = [],
           num_accepted_project_workitems = 0,
           accepted_project_volunteers = 0,
+          num_review_project_workitems = 0,
+          review_project_materials = [],
+          review_project_volunteers = 0,
           i = void 0,
           j = void 0,
           item_arr = void 0;
       for (i = 0; i < workItems.length; i++) {
-        if (data_type == "site_assessment" && workItems[i].status != "accepted") {
+        if (workItems[i].status == "declined") {
           continue;
         }
-        item_arr = accepted_project_materials;
-        num_accepted_project_workitems += 1;
-        if (workItems[i].volunteers_required) {
-          accepted_project_volunteers += workItems[i].volunteers_required;
+        if (workItems[i].status == "to_review") {
+          item_arr = review_project_materials;
+          num_review_project_workitems += 1;
+          if (workItems[i].volunteers_required) {
+            review_project_volunteers += workItems[i].volunteers_required;
+          }
+        } else {
+          item_arr = accepted_project_materials;
+          num_accepted_project_workitems += 1;
+          if (workItems[i].volunteers_required) {
+            accepted_project_volunteers += workItems[i].volunteers_required;
+          }
         }
+
         for (j = 0; j < workItems[i].materialsItems.length; j++) {
           item_arr.push(workItems[i].materialsItems[j]);
         }
@@ -48,6 +60,10 @@ var CostSummary = function (_React$Component) {
         num_accepted_project_workitems: num_accepted_project_workitems,
         accepted_project_materials: accepted_project_materials,
         accepted_project_volunteers: accepted_project_volunteers,
+
+        num_review_project_workitems: num_review_project_workitems,
+        review_project_materials: review_project_materials,
+        review_project_volunteers: review_project_volunteers,
         data_type: data_type
       });
     };
@@ -76,7 +92,7 @@ var CostSummary = function (_React$Component) {
     };
 
     _this.create_materialsitems_table = function (workitem_type) {
-      var arr = _this.state.accepted_project_materials,
+      var arr = workitem_type == "accepted" ? _this.state.accepted_project_materials : _this.state.review_project_materials,
           total = 0;
       return React.createElement(
         "table",
@@ -172,10 +188,14 @@ var CostSummary = function (_React$Component) {
     };
 
     _this.state = {
+      data_type: "site_assessment",
       num_accepted_project_workitems: 0,
       accepted_project_materials: [],
       accepted_project_volunteers: 0,
-      data_type: "site_assessment"
+
+      num_review_project_workitems: 0,
+      review_project_materials: [],
+      review_project_volunteers: 0
     };
     return _this;
   }
@@ -215,55 +235,113 @@ var CostSummary = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "table",
-          { className: "table" },
+          "div",
+          null,
           React.createElement(
-            "tbody",
-            null,
+            "table",
+            { className: "table" },
             React.createElement(
-              "tr",
+              "tbody",
               null,
               React.createElement(
-                "th",
-                { className: "col-xs-8" },
-                "# Project Work Items Accepted"
-              ),
-              React.createElement(
-                "td",
-                { className: "col-xs-4" },
-                this.state.num_accepted_project_workitems
-              )
-            ),
-            React.createElement(
-              "tr",
-              null,
-              React.createElement(
-                "td",
+                "tr",
                 null,
                 React.createElement(
-                  "h2",
-                  null,
-                  "Materials Lists"
+                  "th",
+                  { className: "col-xs-8" },
+                  "# Project Work Items Accepted"
                 ),
-                this.create_materialsitems_table("project")
-              )
-            ),
-            React.createElement(
-              "tr",
-              null,
-              React.createElement(
-                "th",
-                { className: "col-xs-8" },
-                "Volunteers Req."
+                React.createElement(
+                  "td",
+                  { className: "col-xs-4" },
+                  this.state.num_accepted_project_workitems
+                )
               ),
               React.createElement(
-                "td",
-                { className: "col-xs-4" },
-                this.state.accepted_project_volunteers
+                "tr",
+                null,
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "h2",
+                    null,
+                    "Materials Lists"
+                  ),
+                  this.create_materialsitems_table("accepted")
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-8" },
+                  "Volunteers Req."
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-4" },
+                  this.state.accepted_project_volunteers
+                )
               )
             )
           )
-        )
+        ),
+        this.state.data_type == "site_assessment" ? React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "table",
+            { className: "table" },
+            React.createElement(
+              "tbody",
+              null,
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-8" },
+                  "# Project Work Items In Review"
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-4" },
+                  this.state.num_accepted_project_workitems
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "h2",
+                    null,
+                    "Materials Lists"
+                  ),
+                  this.create_materialsitems_table("review")
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-8" },
+                  "Volunteers Req."
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-4" },
+                  this.state.review_project_volunteers
+                )
+              )
+            )
+          )
+        ) : null
       );
     }
   }]);
