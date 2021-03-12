@@ -92,6 +92,12 @@ class ProjectMenu extends React.Component {
   onChange_status = (e) => {
     const property = e.target.name,
           value = e.target.value;
+    if (value == "complete") {
+      const result = window.confirm("Are you sure you want to set the project to complete?");
+      if (!result) {
+        return;
+      }
+    }
     $.ajax({
       url: "/app_project/projects/" + this.state._id,
       type: "PATCH",

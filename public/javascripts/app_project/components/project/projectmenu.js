@@ -77,6 +77,12 @@ var ProjectMenu = function (_React$Component) {
     _this.onChange_status = function (e) {
       var property = e.target.name,
           value = e.target.value;
+      if (value == "complete") {
+        var result = window.confirm("Are you sure you want to set the project to complete?");
+        if (!result) {
+          return;
+        }
+      }
       $.ajax({
         url: "/app_project/projects/" + _this.state._id,
         type: "PATCH",
