@@ -59,15 +59,8 @@ async function create_workitem(req, res) {
     res.status(400).end();
     return;
   }
-  
-  var workitem = new WorkItem();
-  workitem.name = req.body.name;
-  workitem.description = req.body.description;
-  workitem.type = req.body.type;
-  workitem.handleit = req.body.handleit;
-  if (req.body.vetting_comments) {
-    workitem.vetting_comments = req.body.vetting_comments;
-  }
+
+  let workitem = new WorkItem(req.body);
 
   let assessment, project;
   // handleit work item will create new AppProject directly
@@ -83,9 +76,6 @@ async function create_workitem(req, res) {
     if (!project) {
       res.status(400).end();
       return;
-    }
-    if (req.body.project_comments) {
-      workitem.project_comments = req.body.project_comments;
     }
     workitem.type = "project"
     workitem.appProject = project._id;
@@ -114,8 +104,6 @@ async function create_workitem(req, res) {
       res.status(400).end();
       return;
     }
-    if (req.body.assessment_comments)
-      workitem.assessment_comments = req.body.assessment_comments;
     
     workitem.siteAssessment = assessment._id;
     workitem.type = "assessment"
