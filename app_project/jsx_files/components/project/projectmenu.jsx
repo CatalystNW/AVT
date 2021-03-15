@@ -115,7 +115,7 @@ class ProjectMenu extends React.Component {
         if (xhr.status == 423) {
           console.log("The project is completed and locked.");
         } else {
-          window.alert("Please check that the work items are all completed");
+          window.alert("Please check that all work items are complete (status is set to completed in the work items page)");
         }
       },
     });
