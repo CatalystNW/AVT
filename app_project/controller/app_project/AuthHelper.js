@@ -4,9 +4,27 @@
 
  var User = require('../../../models/userPackage');
 
+ module.exports.checkLoggedInPages = checkLoggedInPages;
+ module.exports.checkLoggedInAPI = checkLoggedInAPI;
  module.exports.isLoggedIn = isLoggedIn;
  module.exports.getUserContext = getUserContext;
  
+ function checkLoggedInPages(req, res, next) {
+   if (req.isAuthenticated()) {
+     next();
+   } else {
+     res.redirect("/user/login");
+   }
+ }
+
+ function checkLoggedInAPI(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.status(401).end();
+  }
+ }
+
  /**
   * Checks if user is logged in. If not, then redirects to login page.
   * @param {*} req 
