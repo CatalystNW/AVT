@@ -123,6 +123,7 @@ module.exports = function (passport) {
 				} else {
 					res.render('userloginform');
 				}
+			// Default way of logging in
 			} else {
 				res.render('userloginform');
 			}
