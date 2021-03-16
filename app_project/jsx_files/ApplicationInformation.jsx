@@ -216,13 +216,13 @@ class ApplicationInformation extends React.Component {
     var assessment_tab, assessment_page, application_page,
         property_page, property_tab, proj_note_tab, proj_note_page;
     // Load assessment page for non-handleit projects
-    if (this.props.view_type && this.props.view_type == "project" && 
-        this.props.assessment_id) {
-      assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
+    if (this.props.view_type && this.props.view_type == "project") {
+      if (this.props.assessment_id) {
+        assessment_tab = (<a className="nav-item nav-link" id="nav-site-assessment-tab" data-toggle="tab" 
             href="#nav-site-assessment" role="tab">Assessment</a>);
 
-      assessment_page = this.create_assessment_page();
-
+        assessment_page = this.create_assessment_page();
+      }
       // Split application page into two tabs for assessment. Combine for projects
       application_page = (
         <div className="tab-pane show active" id="nav-app-info" role="tabpanel">
