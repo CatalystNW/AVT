@@ -1,5 +1,5 @@
 // Global Variable to disable console logging
-disable_logging = true;
+DISABLE_CONSOLE_LOGGINGS = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Node Modules
@@ -74,7 +74,7 @@ app.set('view options', { layout: 'layout' });
 // hbs.registerPartial('partnerTab', path.join(__dirname,'views/partners.hbs'));
 
 hbs.registerHelper("debug", function(optionalValue) {
-  if (!disable_logging) {
+  if (!DISABLE_CONSOLE_LOGGINGS) {
     console.log("Current Context");
     console.log("====================");
     console.log(this);
@@ -279,7 +279,7 @@ hbs.registerHelper('getApplicationStartTime', function (apps, appid) {
 });
 
 hbs.registerHelper('getApplicationDueDate', function (apps, appid, ldTime) {
-  if (!disable_logging) {
+  if (!DISABLE_CONSOLE_LOGGINGS) {
     console.log("Handlebars Helper: getApplicationDueDate called");
     console.log(ldTime);
   }
@@ -395,7 +395,7 @@ app.use(function(req, res, next) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
-    if (!disable_logging) {
+    if (!DISABLE_CONSOLE_LOGGINGS) {
       console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
     }
     if(req.get('X-Forwarded-Proto') == 'http'){

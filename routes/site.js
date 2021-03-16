@@ -22,11 +22,11 @@ router.get('/', isLoggedIn, api.getDocumentStatusSite, function(req, res, next) 
 	//separate applications in res.locals.results based on status of
 	//assessemnt pending or assessment complete
 	var payload = {};
-	if (!disable_logging) {
+	if (!DISABLE_CONSOLE_LOGGINGS) {
 		console.log(res.locals.results);
 	}
 	if(res.locals.results.site[0] == null) {
-		if (!disable_logging) {
+		if (!DISABLE_CONSOLE_LOGGINGS) {
 			console.log('[ ROUTER ] /site :: Unable to find Document Packages with status: \'assess\'');
 		}
 	}
@@ -39,7 +39,7 @@ router.get('/', isLoggedIn, api.getDocumentStatusSite, function(req, res, next) 
 	payload.site = res.locals.results.site;
 
 	if(res.locals.results.complete[0] == null) {
-		if (!disable_logging) {
+		if (!DISABLE_CONSOLE_LOGGINGS) {
 			console.log('[ ROUTER ] /site :: Unable to find Document Packages with status: \'assess\'');
 		}
 	}
@@ -55,7 +55,7 @@ router.get('/', isLoggedIn, api.getDocumentStatusSite, function(req, res, next) 
 	payload.user_role = res.locals.role;
 	payload.user_roles = res.locals.user_roles;
 
-	if (!disable_logging) {
+	if (!DISABLE_CONSOLE_LOGGINGS) {
 		console.log("payload");
 		console.log(payload);
 	}
@@ -64,7 +64,7 @@ router.get('/', isLoggedIn, api.getDocumentStatusSite, function(req, res, next) 
 });
 
 router.get('/:id', isLoggedIn, api.getDocumentSite, api.getProjPartnersLeaders, function(req, res, next) {
-	if (!disable_logging) {
+	if (!DISABLE_CONSOLE_LOGGINGS) {
     //Checking what's in params
     //console.log("Rendering application " + ObjectId(req.params.id));
 		//TEST
@@ -78,13 +78,13 @@ router.get('/:id', isLoggedIn, api.getDocumentSite, api.getProjPartnersLeaders, 
 	payload.user_role = res.locals.role;
 	payload.user_roles = res.locals.user_roles;
   if (res.locals.results.assessment && res.locals.results.assessment.length > 0) {
-		if (!disable_logging) {
+		if (!DISABLE_CONSOLE_LOGGINGS) {
 			console.log("Found assessment: ", res.locals.results.assessment);
 		}
     payload.assessment = res.locals.results.assessment;
   } else {
 		payload.assessment = [AssessmentPackage.empty];
-		if (!disable_logging) {
+		if (!DISABLE_CONSOLE_LOGGINGS) {
 			console.log("No assessment found. Using empty: ", payload.assessment);
 		}
   }
@@ -92,7 +92,7 @@ router.get('/:id', isLoggedIn, api.getDocumentSite, api.getProjPartnersLeaders, 
 	payload.part = res.locals.results.part||req.partnerTime;			//Data for Partners Tab Partial
 
 
-	if (!disable_logging) {
+	if (!DISABLE_CONSOLE_LOGGINGS) {
 		console.log("results");
 		console.log(payload);
 	}
@@ -140,7 +140,7 @@ router.route('/updatesummary')
   // Handle saving the assessment checklist.
 router.route('/assessment')
 	    .post(isLoggedInPost, api.saveAssessmentDocument, function (req, res) {
-				if (!disable_logging) {
+				if (!DISABLE_CONSOLE_LOGGINGS) {
 					console.log('from /site/assessment')
 					console.log(res.locals)
 				}
@@ -155,7 +155,7 @@ router.route('/assessment')
 //route catches invalid post requests.
 router.use('*', function route2(req, res, next) {
 	if(res.locals.status == '406'){
-		if (!disable_logging) {
+		if (!DISABLE_CONSOLE_LOGGINGS) {
 			console.log("in error function");
 		}
         res.status(406).send("Could not update note");
@@ -228,12 +228,12 @@ return router;
 function isLoggedIn(req, res, next) {
 
 		if(req.isAuthenticated()) {
-			if (!disable_logging) {
+			if (!DISABLE_CONSOLE_LOGGINGS) {
 				console.log(req.user._id);
 			}
 			var userID = req.user._id.toString();
 
-			if (!disable_logging) {
+			if (!DISABLE_CONSOLE_LOGGINGS) {
 				console.log("userID");
 				console.log(userID);
 			}
@@ -242,7 +242,7 @@ function isLoggedIn(req, res, next) {
 				user: User.findOne({'_id' : ObjectId(userID)}).lean().execAsync()
 			})
 			.then(function (results) {
-				if (!disable_logging) {
+				if (!DISABLE_CONSOLE_LOGGINGS) {
 					console.log(results);
 				}
 
@@ -269,14 +269,14 @@ function isLoggedIn(req, res, next) {
 						}
 
 							else {
-								if (!disable_logging) {
+								if (!DISABLE_CONSOLE_LOGGINGS) {
 									console.log("user is not required role");
 								}
 								res.redirect('/user/logout');
 							}
 						}
 						else {
-							if (!disable_logging) {
+							if (!DISABLE_CONSOLE_LOGGINGS) {
 								//user not active
 								console.log("user not active");
 							}
@@ -294,7 +294,7 @@ function isLoggedIn(req, res, next) {
          .catch(next);
 		}
 		else {
-			if (!disable_logging) {
+			if (!DISABLE_CONSOLE_LOGGINGS) {
 				console.log("no user id");
 			}
 			res.redirect('/user/login');
@@ -304,7 +304,7 @@ function isLoggedIn(req, res, next) {
 //post request authenticator.  Checks if user is an admin or vetting or site agent
 function isLoggedInPost(req, res, next) {
 		if(req.isAuthenticated()) {
-			if (!disable_logging) {
+			if (!DISABLE_CONSOLE_LOGGINGS) {
 				console.log(req.user._id);
 			}
 			var userID = req.user._id.toString();
@@ -315,7 +315,7 @@ function isLoggedInPost(req, res, next) {
 				user: User.findOne({'_id' : ObjectId(userID)}).lean().execAsync()
 			})
 			.then(function (results) {
-				if (!disable_logging) {
+				if (!DISABLE_CONSOLE_LOGGINGS) {
 					console.log(results);
 				}
 
@@ -360,7 +360,7 @@ function isLoggedInPost(req, res, next) {
          .catch(next);
 		}
 		else {
-			if (!disable_logging) {
+			if (!DISABLE_CONSOLE_LOGGINGS) {
 				//user is not logged in
 				console.log("no user id");
 			}
