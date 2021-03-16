@@ -9,6 +9,15 @@
  module.exports.isLoggedIn = isLoggedIn;
  module.exports.getUserContext = getUserContext;
  
+ /**
+  * Check for basic user account and redirects to login if none for the
+  * rendering/ view pages. Runs next() if success.
+  * 
+  * Used at routing level to ensure basic logn requirement (authentication).
+  * @param {*} req 
+  * @param {*} res 
+  * @param {*} next 
+  */
  function checkLoggedInPages(req, res, next) {
    if (req.isAuthenticated()) {
      next();
@@ -17,6 +26,15 @@
    }
  }
 
+ /**
+  * Check for basic user account and redirects to login if none for the
+  * API requests. Runs next() if success.
+  * 
+  * Used at routing level to ensure basic logn requirement (authentication).
+  * @param {*} req 
+  * @param {*} res 
+  * @param {*} next 
+  */
  function checkLoggedInAPI(req, res, next) {
   if (req.isAuthenticated()) {
     next();
