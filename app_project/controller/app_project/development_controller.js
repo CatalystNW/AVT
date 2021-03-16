@@ -16,10 +16,6 @@ module.exports.view_delete_manager = view_delete_manager;
 module.exports.manage_deletion = manage_deletion;
 
 async function delete_all_projects(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   var projects = await AppProject.find({})
       .populate({path: "workItems", model: "WorkItem",
         populate: {path: "materialsItems", model: "MaterialsItem"}});
