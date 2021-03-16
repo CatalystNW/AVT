@@ -9,7 +9,7 @@ var document_controller       = require('../../controller/app_project/document_c
     materialsitem_controller    = require('../../controller/app_project/materialsitem_controller.js'),
     project_note_controller     = require('../../controller/app_project/project_note_controller.js'),
     partner_controller          = require('../../controller/app_project/partner_controller.js'),
-    delete_controller          = require('../../controller/app_project/delete_controller.js');
+    development_controller          = require('../../controller/app_project/development_controller.js');
 
 router.use('/site_assessments', require("./site_assessments.js"));
 
@@ -65,8 +65,8 @@ router.get('/projects/paf_form/:project_id', project_controller.get_paf_page);
 router.get('/projects/handleit_form/:project_id', project_controller.get_handleit_form);
 
 // Temporarily delete projects & assessments for testing/development
-router.delete('/projects', delete_controller.delete_all_projects);
-router.get('/delete_manager', delete_controller.view_delete_manager);
-router.delete('/delete_manager', delete_controller.manage_deletion);
+router.delete('/projects', development_controller.delete_all_projects);
+router.get('/delete_manager', development_controller.view_delete_manager);
+router.delete('/delete_manager', development_controller.manage_deletion);
 
 module.exports = router;
