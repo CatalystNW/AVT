@@ -61,8 +61,8 @@ router.get('/partners', partner_controller.get_all_partners);
 router.post('/partners', partner_controller.create_partner);
 
 
-router.get('/projects/paf_form/:project_id', project_controller.get_paf_page);
-router.get('/projects/handleit_form/:project_id', project_controller.get_handleit_form);
+router.get('/projects/paf_form/:project_id', project_controller.view_paf_page);
+router.get('/projects/handleit_form/:project_id', project_controller.view_handleit_form);
 
 // Temporarily delete projects & assessments for testing/development
 router.delete('/projects', development_controller.delete_all_projects);

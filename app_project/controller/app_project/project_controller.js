@@ -24,16 +24,16 @@ module.exports.get_work_items             = get_work_items;
 
 module.exports.set_partners               = set_partners;
 
-module.exports.get_paf_page               = get_paf_page;
-module.exports.get_handleit_form          = get_handleit_form;
+module.exports.view_paf_page               = view_paf_page;
+module.exports.view_handleit_form          = view_handleit_form;
 
 
-async function get_paf_page(req, res) {
+async function view_paf_page(req, res) {
   res.render('app_project/paf_form', {
     type: "project",
     project_id: req.params.project_id,});
 }
-async function get_handleit_form(req, res) {
+async function view_handleit_form(req, res) {
   res.render('app_project/handleit_form', {
     type: "project",
     project_id: req.params.project_id,});
