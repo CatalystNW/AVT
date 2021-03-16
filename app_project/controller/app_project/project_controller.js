@@ -1,13 +1,14 @@
-var DocumentPackage = require("../../../models/documentPackage"),
-    PartnerPackage  = require("../../../models/partnerPackage"),
-    UserPackage     = require("../../../models/userPackage"),
-    SiteAssessment  = require("../../models/app_project/SiteAssessment"),
-    WorkItem        = require("../../models/app_project/WorkItem"),
-    MaterialsItem   = require("../../models/app_project/MaterialsItem"),
-    AppProject      = require("../../models/app_project/AppProject"),
-    PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
-    WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
+const DocumentPackage = require("../../../models/documentPackage"),
+      PartnerPackage  = require("../../../models/partnerPackage"),
+      UserPackage     = require("../../../models/userPackage"),
+      SiteAssessment  = require("../../models/app_project/SiteAssessment"),
+      WorkItem        = require("../../models/app_project/WorkItem"),
+      MaterialsItem   = require("../../models/app_project/MaterialsItem"),
+      AppProject      = require("../../models/app_project/AppProject"),
+      PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
+      WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
 
+const authHelper = require("./AuthHelper");
 
 module.exports.get_projects               = get_projects;
 module.exports.view_projects              = view_projects;
@@ -29,14 +30,18 @@ module.exports.view_handleit_form          = view_handleit_form;
 
 
 async function view_paf_page(req, res) {
-  res.render('app_project/paf_form', {
-    type: "project",
-    project_id: req.params.project_id,});
+  const context = await authHelper.getUserContext(req, res);
+  context.type = "project";
+  context.project_id = req.params.project_id;
+
+  res.render('app_project/paf_form', context);
 }
 async function view_handleit_form(req, res) {
-  res.render('app_project/handleit_form', {
-    type: "project",
-    project_id: req.params.project_id,});
+  const context = await authHelper.getUserContext(req, res);
+  context.type = "project";
+  context.project_id = req.params.project_id;
+
+  res.render('app_project/handleit_form', context);
 }
 
 async function get_projects(req, res) {
@@ -64,11 +69,14 @@ async function get_project(req, res) {
 }
 
 async function view_projects(req, res) {
-  res.render("app_project/view_projects", {});
+  const context = await authHelper.getUserContext(req, res);
+  res.render("app_project/view_projects", context);
 }
 
 async function view_project(req, res) {
-  res.render("app_project/view_project", {project_id: req.params.project_id});
+  const context = await authHelper.getUserContext(req, res);
+  context.project_id = req.params.project_id;
+  res.render("app_project/view_project", context);
 }
 
 async function get_task_assignable_users(req, res) {
