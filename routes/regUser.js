@@ -1,4 +1,4 @@
-// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEVELOPMENT_MODE
+// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEBUG_DEVELOPMENT_MODE
 require('dotenv').config();
 
 //routes the new user registration and handles post routes to the API
@@ -112,8 +112,8 @@ module.exports = function (passport) {
 
 	router.route('/login')
 		.get(async function (req, res) {
-			// Autologin with admin account if in process.env.DEVELOPMENT_MODE = yes
-			if (process.env.DEVELOPMENT_MODE === "yes") {
+			// Autologin with admin account if in process.env.DEBUG_DEVELOPMENT_MODE = yes
+			if (process.env.DEBUG_DEVELOPMENT_MODE === "yes") {
 				const user = await User.findOne({}).or([{user_role: "ADMIN"}, {user_roles: "ADMIN"}]);
 				if (user) {
 					req.login(user, function(err) {
@@ -136,8 +136,8 @@ module.exports = function (passport) {
 
 	router.get('/logout', function (req, res) {
 		req.logout();
-		// DEVELOPMENT_MODE: prevent autologin when redirect to '/login'
-		if (process.env.DEVELOPMENT_MODE === "yes") {
+		// DEBUG_DEVELOPMENT_MODE: prevent autologin when redirect to '/login'
+		if (process.env.DEBUG_DEVELOPMENT_MODE === "yes") {
 			res.redirect('/');
 		} else {
 			res.redirect('/user/login');

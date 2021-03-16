@@ -1,4 +1,4 @@
-// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEVELOPMENT_MODE
+// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEBUG_DEVELOPMENT_MODE
 require('dotenv').config();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
