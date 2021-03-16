@@ -61,30 +61,18 @@ async function view_site_assessment(req, res) {
 }
 
 async function getToTransferAssessments(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   let assessments = await SiteAssessment.find({status: "approved",})
       .populate("documentPackage");
   res.status(200).json(assessments);
 }
 
 async function getTransferredAssessments(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   let assessments = await SiteAssessment.find({complete: true}).populate("documentPackage");
   res.status(200).json(assessments);
 }
 
 // Returns all documentPackages are at the siteAssessment stage / status
 async function getApplicationsInAssessment(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
   let documents = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
       // Docs don't have assessment reference
@@ -140,10 +128,6 @@ async function getOrCreateAssessmentByAppId(app_id) {
 }
 
 async function get_site_assessment(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   var assessment_id = req.params.assessment_id;
   var site_assessment = await SiteAssessment.findById(assessment_id)
       .populate({path:"workItems", model: "WorkItem", populate: {path:"materialsItems", model: "MaterialsItem"}})
@@ -156,10 +140,6 @@ async function get_site_assessment(req, res) {
 }
 
 async function edit_site_assessment(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   let property = req.body.property,
       assessment_id = req.body.assessment_id;
   let site_assessment = await SiteAssessment.findById(assessment_id).populate("workItems");
@@ -234,10 +214,6 @@ async function edit_site_assessment(req, res) {
 }
 
 async function set_partners(req, res) {
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   const assessment_id = req.params.assessment_id;
   const assessment = await SiteAssessment.findById(assessment_id);
   if (assessment) {
@@ -258,10 +234,6 @@ async function set_partners(req, res) {
 // and have this layer interact with any changes in documentPackage rather than
 // frontend portion. 
 async function get_application_data_api(req, res){
-  if (!authHelper.isLoggedIn(req)) {
-    res.status(401).end(); return;
-  }
-
   var id = req.params.application_id;
 
   var doc = await DocumentPackage.findById(id);
