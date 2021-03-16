@@ -68,6 +68,5 @@ router.get('/projects/handleit_form/:project_id', project_controller.get_handlei
 router.delete('/projects', development_controller.delete_all_projects);
 router.get('/delete_manager', development_controller.view_delete_manager);
 router.delete('/delete_manager', development_controller.manage_deletion);
-router.get("/development/auto_login", development_controller.auto_login);
 
 module.exports = router;
