@@ -12,12 +12,13 @@ async function get_project_notes(req, res) {
 }
 
 async function create_project_note(req, res) {
-  // var user = req.user._id // user used for later
+  const user = req.user._id
   let project = await AppProject.findById(req.params.project_id);
   if (project && req.body.text) {
     var note = new AppProjectNote();
     note.text = req.body.text;
     note.project = req.params.project_id;
+    note.user = user;
     await note.save();
     project.notes.push(note._id);
     await project.save();
