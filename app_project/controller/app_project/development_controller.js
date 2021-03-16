@@ -6,11 +6,13 @@ var DocumentPackage = require("../../../models/documentPackage"),
     MaterialsItem   = require("../../models/app_project/MaterialsItem"),
     AppProject      = require("../../models/app_project/AppProject"),
     PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
-    WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
+    WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist"),
+    User = require('../../../models/userPackage');
 
 module.exports.delete_all_projects = delete_all_projects;
 module.exports.view_delete_manager = view_delete_manager;
 module.exports.manage_deletion = manage_deletion;
+module.exports.auto_login = auto_login;
 
 async function delete_all_projects(req, res) {
   var projects = await AppProject.find({})
@@ -40,5 +42,17 @@ async function manage_deletion(req, res) {
     await SiteAssessment.deleteMany({});
     await MaterialsItem.deleteMany({});
     res.status(200).json({});
+  }
+}
+
+async function auto_login(req, res) {
+  const user = await User.findOne({}).or([{user_role: "ADMIN"}, {user_roles: "ADMIN"}]);
+  console.log(user);
+  if (user) {
+    req.login(user, function(err) {
+      res.redirect("/");
+    });
+  } else {
+    res.redirect("/");
   }
 }
