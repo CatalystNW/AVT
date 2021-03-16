@@ -18,7 +18,7 @@ router.get('/applications', authHelper.checkLoggedInAPI, assessment_controller.g
 router.route('/:assessment_id')
   .get(authHelper.checkLoggedInAPI, assessment_controller.get_site_assessment)
   .patch(authHelper.checkLoggedInAPI, assessment_controller.edit_site_assessment);
-router.patch('/:assessment_id/partners', assessment_controller.set_partners);
+router.patch('/:assessment_id/partners', authHelper.checkLoggedInAPI, assessment_controller.set_partners);
 
 router.get('/paf_form/:assessment_id', authHelper.checkLoggedInAPI, assessment_controller.get_paf_page);
 router.get('/handleit_form/:assessment_id', authHelper.checkLoggedInAPI, assessment_controller.get_handleit_form);
