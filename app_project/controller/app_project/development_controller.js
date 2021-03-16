@@ -1,13 +1,9 @@
-const DocumentPackage = require("../../../models/documentPackage"),
-      PartnerPackage  = require("../../../models/partnerPackage"),
-      UserPackage     = require("../../../models/userPackage"),
-      SiteAssessment  = require("../../models/app_project/SiteAssessment"),
+const SiteAssessment  = require("../../models/app_project/SiteAssessment"),
       WorkItem        = require("../../models/app_project/WorkItem"),
       MaterialsItem   = require("../../models/app_project/MaterialsItem"),
       AppProject      = require("../../models/app_project/AppProject"),
       PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
-      WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist"),
-      User = require('../../../models/userPackage');
+      WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
 
 const authHelper = require("./AuthHelper");
 
