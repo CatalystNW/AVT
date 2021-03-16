@@ -1,5 +1,5 @@
-// Global Variable to disable console logging
-DISABLE_CONSOLE_LOGGINGS = true;
+// Used for process.env.DISABLE_CONSOLE_LOGGINGS
+require('dotenv').config();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Node Modules
@@ -74,7 +74,7 @@ app.set('view options', { layout: 'layout' });
 // hbs.registerPartial('partnerTab', path.join(__dirname,'views/partners.hbs'));
 
 hbs.registerHelper("debug", function(optionalValue) {
-  if (!DISABLE_CONSOLE_LOGGINGS) {
+  if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
     console.log("Current Context");
     console.log("====================");
     console.log(this);
@@ -279,7 +279,7 @@ hbs.registerHelper('getApplicationStartTime', function (apps, appid) {
 });
 
 hbs.registerHelper('getApplicationDueDate', function (apps, appid, ldTime) {
-  if (!DISABLE_CONSOLE_LOGGINGS) {
+  if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
     console.log("Handlebars Helper: getApplicationDueDate called");
     console.log(ldTime);
   }
@@ -395,7 +395,7 @@ app.use(function(req, res, next) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
-    if (!DISABLE_CONSOLE_LOGGINGS) {
+    if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
       console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
     }
     if(req.get('X-Forwarded-Proto') == 'http'){
