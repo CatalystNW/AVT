@@ -1,22 +1,27 @@
-var DocumentPackage = require("../../../models/documentPackage"),
-    SiteAssessment  = require("../../models/app_project/SiteAssessment"),
-    WorkItem        = require("../../models/app_project/WorkItem"),
-    MaterialsItem   = require("../../models/app_project/MaterialsItem"),
-    AppProject      = require("../../models/app_project/AppProject");
+const DocumentPackage = require("../../../models/documentPackage"),
+      SiteAssessment  = require("../../models/app_project/SiteAssessment"),
+      WorkItem        = require("../../models/app_project/WorkItem"),
+      MaterialsItem   = require("../../models/app_project/MaterialsItem"),
+      AppProject      = require("../../models/app_project/AppProject");
+
+const authHelper = require("./AuthHelper");
 
 module.exports.view_project_transfers = view_project_transfers;
 module.exports.view_project_transfer = view_project_transfer;
 module.exports.transfer_project = transfer_project;
 
 async function view_project_transfers(req, res) {
-  res.render("app_project/project_transfers");
+  const context = authHelper.getUserContext(req, res);
+  res.render("app_project/project_transfers", context);
 }
 
 async function view_project_transfer(req, res) {
+  const context = authHelper.getUserContext(req, res);
+  context.assessment_id = req.params.assessment_id;
   // var assessment = await SiteAssessment.findById(req.params.assessment_id)
   //     .populate("documentPackage")
   //     .populate({path: "workItems", model: "WorkItem", populate: {path: "materialsItems", model: "MaterialsItem"}});
-  res.render("app_project/project_transfer", {assessment_id: req.params.assessment_id,});
+  res.render("app_project/project_transfer", context);
 }
 
 async function transfer_project(req, res) {
