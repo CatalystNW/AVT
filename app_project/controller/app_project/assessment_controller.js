@@ -1,7 +1,7 @@
-var DocumentPackage = require("../../../models/documentPackage"),
-    SiteAssessment = require("../../models/app_project/SiteAssessment"),
-    WorkItem = require("../../models/app_project/WorkItem"),
-    MaterialsItem = require("../../models/app_project/MaterialsItem");
+const DocumentPackage = require("../../../models/documentPackage"),
+      SiteAssessment = require("../../models/app_project/SiteAssessment"),
+      WorkItem = require("../../models/app_project/WorkItem"),
+      MaterialsItem = require("../../models/app_project/MaterialsItem");
 
 const authHelper = require("./AuthHelper");
 
@@ -261,7 +261,7 @@ async function get_application_data_api(req, res){
   if (!authHelper.isLoggedIn(req)) {
     res.status(401).end(); return;
   }
-  
+
   var id = req.params.application_id;
 
   var doc = await DocumentPackage.findById(id);
