@@ -153,6 +153,7 @@ class ProjectNotes extends React.Component {
                   ) :
                   (<div>
                     <div>{note.text}</div>
+                    <div>By {note.user.name}</div>
                     <button type="button" className="btn btn-sm"
                       note_id={note._id} index={index}
                       onClick={this.toggleEditNote}>Update</button>

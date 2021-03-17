@@ -224,6 +224,12 @@ var ProjectNotes = function (_React$Component) {
                     note.text
                   ),
                   React.createElement(
+                    "div",
+                    null,
+                    "By ",
+                    note.user.name
+                  ),
+                  React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
                       note_id: note._id, index: index,
