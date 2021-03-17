@@ -1,6 +1,4 @@
 * Make Header tabs for projects clickable to hide
-* Add login
-* Project notes shows who created it (need to add login first)
 * prevent project notes being editable/deletable by the non-owner
 * redesign pages
 
