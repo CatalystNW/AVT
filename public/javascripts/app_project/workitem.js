@@ -428,7 +428,8 @@ var WorkItem = function (_React$Component) {
           React.createElement(
             "div",
             { className: "form-group row" },
-            React.createElement(
+            // Hide Status if it's handle-it
+            !this.state.handleit ? React.createElement(
               "div",
               { className: "col-md-6 col-sm-12" },
               React.createElement(
@@ -453,7 +454,7 @@ var WorkItem = function (_React$Component) {
                   statuses
                 )
               )
-            ),
+            ) : null,
             React.createElement(
               "div",
               { className: "col-md-6 col-sm-12" },

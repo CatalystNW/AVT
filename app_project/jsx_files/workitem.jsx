@@ -278,7 +278,9 @@ class WorkItem extends React.Component {
           </input>
         </div>
         <div className="form-group row">
-          <div className="col-md-6 col-sm-12">
+          { // Hide Status if it's handle-it
+          !this.state.handleit ?
+            (<div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
               htmlFor="workitem-status-select"><b>Status</b></label>
             <div className="col-6">
@@ -289,7 +291,8 @@ class WorkItem extends React.Component {
                 {statuses}
               </select>
             </div>
-          </div>
+          </div>) : null
+          }
           <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
               htmlFor="workitem-status-select"><b>Volunteers Required</b></label>
