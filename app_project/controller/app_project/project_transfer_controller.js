@@ -12,7 +12,6 @@ module.exports.transfer_project = transfer_project;
 
 async function view_project_transfers(req, res) {
   const context = await authHelper.getUserContext(req, res);
-  console.log(context);
   res.render("app_project/project_transfers", context);
 }
 
