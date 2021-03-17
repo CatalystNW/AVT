@@ -187,8 +187,8 @@ async function edit_project(req, res) {
     res.status(200).send({"date": d});
   } else { // Save property as normal
     // Also look the project and work & materials items
-    if (req.body.property == "status" && req.body.value == "complete" ) {
-      // Make sure all work items are complete
+    if (!project.handleit && req.body.property == "status" && req.body.value == "complete" ) {
+      // Make sure all work items are complete unless its handleit
       for (let i=0; i < project.workItems.length; i++) {
         if (project.workItems[i].status != "complete") {
           res.status(400).end();
