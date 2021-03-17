@@ -6,6 +6,7 @@ class ProjectNotes extends React.Component {
     this.state = {
       project_notes: [],
       edit_id: null,
+      user_id: null, // ID of current user. Used to allow editing & deleting
     };
     this.addNoteFormId = "add-note-form";
     this.noteInputId = "add-note-textarea";
@@ -18,6 +19,7 @@ class ProjectNotes extends React.Component {
     funkie.get_notes(this.props.project_id, (data)=> {
       data.notes.reverse();
       this.setState({
+        user_id: data.user_id,
         project_notes: data.notes,
       });
     });
@@ -154,12 +156,17 @@ class ProjectNotes extends React.Component {
                   (<div>
                     <div>{note.text}</div>
                     <div>By {note.user.name}</div>
-                    <button type="button" className="btn btn-sm"
-                      note_id={note._id} index={index}
-                      onClick={this.toggleEditNote}>Update</button>
-                    <button type="button" className="btn btn-sm"
-                      note_id={note._id} index={index}
-                      onClick={this.deleteNote}>Delete</button>
+                    { // Only allow users to edit/delete own note
+                      this.state.user_id == note.user.user_id ?
+                      (<div>
+                        <button type="button" className="btn btn-sm"
+                          note_id={note._id} index={index}
+                          onClick={this.toggleEditNote}>Update</button>
+                        <button type="button" className="btn btn-sm"
+                          note_id={note._id} index={index}
+                          onClick={this.deleteNote}>Delete</button>
+                      </div>) : null
+                    }
                   </div>)
                 }
               </div>
