@@ -2,6 +2,8 @@ var AppProject      = require("../../models/app_project/AppProject"),
     AppProjectNote  = require("../../models/app_project/AppProjectNote"),
     UserPackage     = require("../../../models/userPackage");
 
+const authHelper = require("./AuthHelper");
+
 module.exports.get_project_notes      = get_project_notes;
 module.exports.create_project_note    = create_project_note;
 module.exports.delete_project_note    = delete_project_note;
@@ -31,6 +33,8 @@ async function get_project_notes(req, res) {
       notes[i].user = userMap[userId];
     }
   }
+  const context = await authHelper.getUserContext(req, res);
+  data.user_id = context.user_id;
   data.notes = notes;
   res.status(200).json(data);
 }
