@@ -279,7 +279,6 @@ async function delete_checklist_item(req, res) {
 async function get_wrapup_checklist(req, res) {
   if (req.params.project_id) {
     var project_id = req.params.project_id;
-    console.log(project_id);
     
     var checklist = await WrapupChecklist.find({project: project_id}).lean();
     if (checklist.length == 0) {
