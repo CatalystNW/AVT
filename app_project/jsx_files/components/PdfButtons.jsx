@@ -28,10 +28,13 @@ class PdfButtons extends React.Component {
   render() {
     return (
       <div>
-        <button type="button"
-          onClick={this.onClick_PAF}>PAF Report</button>
-        <button type="button"
-          onClick={this.onClick_handleitForm}>Handle-It Report</button>
+        {this.props.handleit == true ?
+          (<button type="button"
+          onClick={this.onClick_handleitForm}>Handle-It Report</button>) :
+          (<button type="button"
+          onClick={this.onClick_PAF}>PAF Report</button>)
+        }
+        
       </div>
     )
   }
