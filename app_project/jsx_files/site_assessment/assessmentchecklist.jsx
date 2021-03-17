@@ -182,7 +182,8 @@ class AssessmentChecklist extends React.Component {
           <tr>
             <th className="col-xs-3">PDFs</th>
             <td className="col-xs-9">
-              <PdfButtons type="assessment" assessment_id={this.state._id}/>
+              <PdfButtons type="assessment" handleit={false}
+                assessment_id={this.state._id}/>
             </td>
           </tr>
           <tr>

@@ -231,7 +231,8 @@ var AssessmentChecklist = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-xs-9" },
-                React.createElement(PdfButtons, { type: "assessment", assessment_id: this.state._id })
+                React.createElement(PdfButtons, { type: "assessment", handleit: false,
+                  assessment_id: this.state._id })
               )
             ),
             React.createElement(
