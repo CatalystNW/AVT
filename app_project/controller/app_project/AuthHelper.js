@@ -60,6 +60,7 @@ async function getUserContext(req, res, redirectURL = "/user/login") {
       context.user_email = user.contact_info.user_email;
       context.user_roles = user.user_roles;
       context.user = true;
+      context.user_id = user._id;
     }
     return context;
   } else {
