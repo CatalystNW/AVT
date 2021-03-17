@@ -20,9 +20,9 @@ var ProjectNotes = function (_React$Component) {
 
     _this.get_notes = function () {
       funkie.get_notes(_this.props.project_id, function (data) {
-        data.reverse();
+        data.notes.reverse();
         _this.setState({
-          project_notes: data
+          project_notes: data.notes
         });
       });
     };
@@ -192,6 +192,8 @@ var ProjectNotes = function (_React$Component) {
               React.createElement(
                 "div",
                 null,
+
+                // Set edit menu for the note
                 _this2.state.edit_id == note._id ? React.createElement(
                   "div",
                   null,

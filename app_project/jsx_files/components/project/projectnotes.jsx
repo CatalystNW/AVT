@@ -16,9 +16,9 @@ class ProjectNotes extends React.Component {
 
   get_notes = () => {
     funkie.get_notes(this.props.project_id, (data)=> {
-      data.reverse();
+      data.notes.reverse();
       this.setState({
-        project_notes: data,
+        project_notes: data.notes,
       });
     });
   };
@@ -132,25 +132,25 @@ class ProjectNotes extends React.Component {
           return (
             <div key={note._id}>
               <div>
-                {(this.state.edit_id == note._id) ?
-                  (
-                    <div>
-                      <form id={this.editNoteFormId}
-                        onSubmit={this.editNote}>
-                        <textarea className="form-control"
-                          id={this.editTextareaId}
-                          note_id={note._id} index={index}
-                          defaultValue={note.text}></textarea>
-                        <button type="submit" className="btn btn-sm">
-                          Save
-                        </button>
-                        <button type="button" className="btn btn-sm"
-                          onClick={this.toggleEditNote} note_id="-1">
-                          Cancel
-                        </button>
-                      </form>
-                    </div>
-                  ) :
+                {
+                  // Set edit menu for the note
+                  (this.state.edit_id == note._id) ?
+                  (<div>
+                    <form id={this.editNoteFormId}
+                      onSubmit={this.editNote}>
+                      <textarea className="form-control"
+                        id={this.editTextareaId}
+                        note_id={note._id} index={index}
+                        defaultValue={note.text}></textarea>
+                      <button type="submit" className="btn btn-sm">
+                        Save
+                      </button>
+                      <button type="button" className="btn btn-sm"
+                        onClick={this.toggleEditNote} note_id="-1">
+                        Cancel
+                      </button>
+                    </form>
+                  </div>) :
                   (<div>
                     <div>{note.text}</div>
                     <div>By {note.user.name}</div>
