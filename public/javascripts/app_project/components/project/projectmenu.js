@@ -330,7 +330,8 @@ var ProjectMenu = function (_React$Component) {
                   value: this.state.volunteer_hours })
               )
             ),
-            React.createElement(PdfButtons, { type: "project", project_id: this.state._id }),
+            React.createElement(PdfButtons, { handleit: this.state.handleit,
+              type: "project", project_id: this.state._id }),
             React.createElement(
               "h2",
               null,
