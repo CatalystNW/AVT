@@ -8,6 +8,7 @@ module.exports.delete_project_note    = delete_project_note;
 module.exports.edit_project_note      = edit_project_note;
 
 async function get_project_notes(req, res) {
+  const data = {};
   let notes = await AppProjectNote.find({project: req.params.project_id}).lean();
   let i, userId, userData;
   const userMap = {};
@@ -30,7 +31,8 @@ async function get_project_notes(req, res) {
       notes[i].user = userMap[userId];
     }
   }
-  res.status(200).json(notes);
+  data.notes = notes;
+  res.status(200).json(data);
 }
 
 async function create_project_note(req, res) {
