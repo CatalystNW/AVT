@@ -57,7 +57,7 @@ function isLoggedIn(req) {
 function getUserContext(req, res, redirectURL = "/user/login") {
   if (isLoggedIn(req)) {
     const context = {};
-    if (user) {
+    if (req.user) {
       context.user_email = req.user.contact_info.user_email;
       context.user_roles = req.user.user_roles;
       context.user = true;
