@@ -54,16 +54,14 @@ function isLoggedIn(req) {
   return req.isAuthenticated();
  }
 
-async function getUserContext(req, res, redirectURL = "/user/login") {
+function getUserContext(req, res, redirectURL = "/user/login") {
   if (isLoggedIn(req)) {
-    const userId = req.user._id.toString();
-    const user = await User.findById(userId);
     const context = {};
     if (user) {
-      context.user_email = user.contact_info.user_email;
-      context.user_roles = user.user_roles;
+      context.user_email = req.user.contact_info.user_email;
+      context.user_roles = req.user.user_roles;
       context.user = true;
-      context.user_id = user._id;
+      context.user_id = req.user._id;
     }
     return context;
   } else {
@@ -78,9 +76,9 @@ async function getUserContext(req, res, redirectURL = "/user/login") {
  * @param {String or Array of String} role Single role or multiple roles checked
  * @returns true if user has the role. false if not.
  */
-async function hasRole(req, res, role) {
+function hasRole(req, res, role) {
   if (isLoggedIn(req)) {
-    const context = await getUserContext(req, res);
+    const context = getUserContext(req, res);
     if (Array.isArray(role))  {
       for (let i = 0; i < role.length; i++) {
         if (context.user_roles.includes(role[i])) {
@@ -103,11 +101,11 @@ async function hasRole(req, res, role) {
  * @param {*} res 
  * @returns Boolean if user can view the page
  */
-async function canView(req, res) {
+function canView(req, res) {
   return hasRole(req, res, ["VET", "SITE", "PROJECT_MANAGEMENT"]);
 }
 
-async function checkIfCanView(req, res, next) {
+function checkIfCanView(req, res, next) {
   if (hasRole(req, res, ["VET", "SITE", "PROJECT_MANAGEMENT"])) {
     next();
   } else {
