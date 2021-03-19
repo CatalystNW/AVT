@@ -111,6 +111,10 @@ async function get_plan_checklist(req, res) {
 }
 
 async function edit_checklist(req, res) {
+  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+  
   var property = req.body.property,
       value = req.body.value,
       i;
@@ -214,6 +218,10 @@ async function edit_project(req, res) {
 }
 
 async function create_checklist_item(req, res) {
+  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+
   var name = req.body.name;
   if (name && typeof name == "string" && name.length > 4) {
     var checklist;
@@ -250,6 +258,10 @@ async function create_checklist_item(req, res) {
 }
 
 async function delete_checklist_item(req, res) {
+  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+
   var name = req.body.name;
   if (name && typeof name == "string") {
     var checklist;
