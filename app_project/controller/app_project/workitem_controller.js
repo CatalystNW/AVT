@@ -3,6 +3,8 @@ var SiteAssessment = require("../../models/app_project/SiteAssessment"),
     MaterialsItem = require("../../models/app_project/MaterialsItem"),
     AppProject = require("../../models/app_project/AppProject");
 
+const authHelper = require("./AuthHelper");
+
 module.exports.getWorkitemsByAppId = getWorkitemsByAppId;
 module.exports.create_workitem = create_workitem;
 module.exports.edit_workitem = edit_workitem;
@@ -72,6 +74,10 @@ async function create_workitem(req, res) {
     workitem.type = "project"
     workitem.appProject = project._id;
   } else if (req.body.type == "project" && req.body.project_id) {
+    // Check for user role for project
+    if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+      res.status(403).end(); return;
+    }
     project = await AppProject.findById(req.body.project_id);
     if (!project) {
       res.status(400).end();
@@ -80,6 +86,10 @@ async function create_workitem(req, res) {
     workitem.type = "project"
     workitem.appProject = project._id;
   } else if (req.body.type == "assessment") {
+    // Check for user role for site assessment
+    if (!authHelper.hasRole(req, res, "SITE")) {
+      res.status(403).end(); return;
+    }
     if (req.body.assessment_id) {
       assessment = await SiteAssessment.findById(req.body.assessment_id);
       if (!assessment) {
@@ -149,46 +159,53 @@ async function edit_workitem(req, res)  {
 
 async function delete_workitem(req, res) {
   if (!req.params.workitem_id) {
-    res.status(400).end();
-  } else {
-    const workItem_id = req.params.workitem_id;
-    let workitem = await WorkItem.findById(workItem_id),
-        i;
-    if (workitem) {
-      if (workitem.transferred || workitem.complete) { // Prevent deletion of transferred workItem
-        res.status(400).end();
-        return;
-      }
-      if (workitem.type == "project" || workitem.handleit) {
-        let appProject = await AppProject.findById(workitem.appProject);
-        for (i=0; i<appProject.workItems.length; i++) {
-          if (appProject.workItems[i] == workItem_id) {
-            appProject.workItems.splice(i, 1);
-            break;
-          }
-        }
-        appProject.save();
-      } else if (workitem.type == "assessment") {
-        let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
-        for (i=0; i<siteAssessment.workItems.length; i++) {
-          if (siteAssessment.workItems[i] == workItem_id) {
-            siteAssessment.workItems.splice(i, 1);
-            break;
-          }
-        }
-        await siteAssessment.save();
-      } 
-      await MaterialsItem.deleteMany({workItem: workitem._id});
-      await WorkItem.deleteOne({_id: workItem_id}, function(err) {
-        if (err) {
-          res.status(400).send();
-          console.log(err);
-        } else {
-          res.status(200).send(); 
-        }
-      });
-    } else {
-      res.status(404).end();
+    res.status(400).end(); return;
+  }
+  
+  const workItem_id = req.params.workitem_id;
+  let workitem = await WorkItem.findById(workItem_id),
+      i;
+  if (workitem) {
+    if (workitem.transferred || workitem.complete) { // Prevent deletion of transferred workItem
+      res.status(400).end();
+      return;
     }
+    if (workitem.type == "project" || workitem.handleit) {
+      if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+        res.status(403).end(); return;
+      }
+
+      let appProject = await AppProject.findById(workitem.appProject);
+      for (i=0; i<appProject.workItems.length; i++) {
+        if (appProject.workItems[i] == workItem_id) {
+          appProject.workItems.splice(i, 1);
+          break;
+        }
+      }
+      appProject.save();
+    } else if (workitem.type == "assessment") {
+      if (!authHelper.hasRole(req, res, "SITE")) {
+        res.status(403).end(); return;
+      }
+      let siteAssessment = await SiteAssessment.findById(workitem.siteAssessment);
+      for (i=0; i<siteAssessment.workItems.length; i++) {
+        if (siteAssessment.workItems[i] == workItem_id) {
+          siteAssessment.workItems.splice(i, 1);
+          break;
+        }
+      }
+      await siteAssessment.save();
+    } 
+    await MaterialsItem.deleteMany({workItem: workitem._id});
+    await WorkItem.deleteOne({_id: workItem_id}, function(err) {
+      if (err) {
+        res.status(400).send();
+        console.log(err);
+      } else {
+        res.status(200).send(); 
+      }
+    });
+  } else {
+    res.status(404).end();
   }
 }
