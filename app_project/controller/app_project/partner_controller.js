@@ -2,6 +2,8 @@ var PartnerPackage  = require("../../../models/partnerPackage"),
     SiteAssessment  = require("../../models/app_project/SiteAssessment"),
     AppProject      = require("../../models/app_project/AppProject");
 
+const authHelper = require("./AuthHelper");
+
 module.exports.get_all_partners         = get_all_partners;
 module.exports.create_partner           = create_partner;
 module.exports.edit_partner             = edit_partner;
@@ -13,6 +15,10 @@ async function get_all_partners(req, res) {
 }
 
 async function create_partner(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "SITE"])) {
+    res.status(403).end(); return;
+  }
+
   var partner = new PartnerPackage();
   partner.org_name      = req.body.name;
   partner.org_address   = req.body.address;
@@ -24,6 +30,10 @@ async function create_partner(req, res) {
 }
 
 async function edit_partner(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "SITE"])) {
+    res.status(403).end(); return;
+  }
+
   var partner = await PartnerPackage.findById(req.params.partner_id);
   partner.org_name      = req.body.name;
   partner.org_address   = req.body.address;
@@ -35,6 +45,10 @@ async function edit_partner(req, res) {
 }
 
 async function delete_partner(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "SITE"])) {
+    res.status(403).end(); return;
+  }
+  
   const partner_id = req.params.partner_id;
   const projects = await AppProject.find({partners: {_id: partner_id}}),
         assessments = await SiteAssessment.find({partners: {_id: partner_id}});
