@@ -90,20 +90,25 @@
               <a class="nav-link" href="/carenetwork">Care Network</a>
             </li>
 
+            {{#if_in user_roles "SITE"}}
             <li class="nav-item">
-              <a class="nav-link" href="/app_project/site_assessments/view">Assessments</a></li>
+              <a class="nav-link" href="/app_project/site_assessments/view">Assessments</a>
+            </li>
+            {{/if_in}}
+
             <li class="nav-item">
-              <a class="nav-link" href="/app_project/project_transfer">Transfer</a></li>
+              <a class="nav-link" href="/app_project/project_transfer">Transfer</a>
+            </li>
+            
+            {{#if_in user_roles "PROJECT_MANAGEMENT"}}
             <li class="nav-item">
-              <a class="nav-link" href="/app_project/view_projects">Projects</a></li>
+              <a class="nav-link" href="/app_project/view_projects">Projects</a>
+            </li>
+            {{/if_in}}
             <li class="nav-item">
               <a class="nav-link" href="/app_project/delete_manager">Deletions</a></li>
-
-
            
   <!--    NEW CHANGES -->
-            
-
 
         </ul>
         <div class="navbar-right">
