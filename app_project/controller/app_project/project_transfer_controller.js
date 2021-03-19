@@ -11,12 +11,12 @@ module.exports.view_project_transfer = view_project_transfer;
 module.exports.transfer_project = transfer_project;
 
 async function view_project_transfers(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   res.render("app_project/project_transfers", context);
 }
 
 async function view_project_transfer(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.assessment_id = req.params.assessment_id;
   // var assessment = await SiteAssessment.findById(req.params.assessment_id)
   //     .populate("documentPackage")

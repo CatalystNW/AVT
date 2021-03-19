@@ -28,7 +28,7 @@ async function delete_all_projects(req, res) {
 }
 
 async function view_delete_manager(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   res.render("app_project/delete_manager", context);
 }
 

@@ -30,14 +30,14 @@ module.exports.view_handleit_form          = view_handleit_form;
 
 
 async function view_paf_page(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.type = "project";
   context.project_id = req.params.project_id;
 
   res.render('app_project/paf_form', context);
 }
 async function view_handleit_form(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.type = "project";
   context.project_id = req.params.project_id;
 
@@ -69,12 +69,12 @@ async function get_project(req, res) {
 }
 
 async function view_projects(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   res.render("app_project/view_projects", context);
 }
 
 async function view_project(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.project_id = req.params.project_id;
   res.render("app_project/view_project", context);
 }
@@ -111,7 +111,7 @@ async function get_plan_checklist(req, res) {
 }
 
 async function edit_checklist(req, res) {
-  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
     res.status(403).end(); return;
   }
   
@@ -164,7 +164,7 @@ async function edit_checklist(req, res) {
 
 async function edit_project(req, res) {
   // User doesn't have project role. Return 403
-  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
     res.status(403).end(); return;
   }
   var project_id = req.params.project_id;
@@ -218,7 +218,7 @@ async function edit_project(req, res) {
 }
 
 async function create_checklist_item(req, res) {
-  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
     res.status(403).end(); return;
   }
 
@@ -258,7 +258,7 @@ async function create_checklist_item(req, res) {
 }
 
 async function delete_checklist_item(req, res) {
-  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
     res.status(403).end(); return;
   }
 
@@ -326,7 +326,7 @@ async function get_work_items(req, res) {
 
 async function set_partners(req, res) {
   // User doesn't have project role. Return 403
-  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
     res.status(403).end(); return;
   }
   const project_id = req.params.project_id;

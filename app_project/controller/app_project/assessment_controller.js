@@ -24,14 +24,14 @@ module.exports.get_handleit_form          = get_handleit_form;
 
 
 async function get_paf_page(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.type = "assessment";
   context.assessment_id = req.params.assessment_id;
 
   res.render('app_project/paf_form', context);
 }
 async function get_handleit_form(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.type = "assessment";
   context.assessment_id = req.params.assessment_id;
 
@@ -39,7 +39,7 @@ async function get_handleit_form(req, res) {
 }
 
 async function view_site_assessments(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
 
   res.render("app_project/site_assessments", context);
 }
@@ -48,14 +48,14 @@ async function view_site_assessment_by_app_id(req, res) {
   var app_id = req.params.application_id;
   let siteAssessment = await getOrCreateAssessmentByAppId(app_id);
 
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.assessment_id = siteAssessment._id;
 
   res.render("app_project/site_assessment", context);
 }
 
 async function view_site_assessment(req, res) {
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   context.assessment_id = req.params.assessment_id;
   res.render("app_project/site_assessment", context);
 }

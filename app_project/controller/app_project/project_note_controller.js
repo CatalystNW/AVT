@@ -33,7 +33,7 @@ async function get_project_notes(req, res) {
       notes[i].user = userMap[userId];
     }
   }
-  const context = await authHelper.getUserContext(req, res);
+  const context = authHelper.getUserContext(req, res);
   data.user_id = context.user_id;
   data.notes = notes;
   res.status(200).json(data);
