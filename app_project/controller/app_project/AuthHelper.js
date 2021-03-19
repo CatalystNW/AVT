@@ -69,10 +69,26 @@ async function getUserContext(req, res, redirectURL = "/user/login") {
   }
 }
 
+/**
+ * Checks if user has the specified role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {String or Array of String} role Single role or multiple roles checked
+ * @returns true if user has the role. false if not.
+ */
 async function hasRole(req, res, role) {
   if (isLoggedIn(req)) {
     const context = await getUserContext(req, res);
-    return context.user_roles.includes(role);
+    if (Array.isArray(role))  {
+      for (let i = 0; i < role.length; i++) {
+        if (context.user_roles.includes(role[i])) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return context.user_roles.includes(role);
+    }
   } else {
     return false;
   }
