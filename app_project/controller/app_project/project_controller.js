@@ -45,7 +45,7 @@ async function view_handleit_form(req, res) {
 }
 
 async function get_projects(req, res) {
-  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VET"])) {
     res.status(403).end(); return;
   }
   var projects = await AppProject.find({}).populate("documentPackage");
@@ -60,7 +60,7 @@ async function get_projects(req, res) {
  * @param {*} res 
  */
 async function get_project(req, res) {
-  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VET"])) {
     res.status(403).end(); return;
   }
   var project = await AppProject.findById(req.params.project_id)
@@ -75,7 +75,7 @@ async function get_project(req, res) {
 }
 
 async function view_projects(req, res) {
-  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VET"])) {
     res.status(403).end(); return;
   }
 
@@ -84,7 +84,7 @@ async function view_projects(req, res) {
 }
 
 async function view_project(req, res) {
-  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VET"])) {
     res.status(403).end(); return;
   }
 
@@ -326,7 +326,7 @@ async function get_wrapup_checklist(req, res) {
 }
 
 async function get_work_items(req, res) {
-  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VET"])) {
     res.status(403).end(); return;
   }
   var project_id = req.params.project_id;
