@@ -17,6 +17,7 @@ async function create_materialsitem(req, res) {
     res.status(404).end();
     return;
   }
+  // Check for user roles using workitem type
   if (workitem.type == "project") {
     if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
       res.status(403).end(); return;
@@ -55,7 +56,7 @@ async function delete_materialsitem(req, res) {
     res.status(400).end();
     return;
   }
-
+  // Check for user roles using workitem type
   if (workitem.type == "project") {
     if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
       res.status(403).end(); return;
