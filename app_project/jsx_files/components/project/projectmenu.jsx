@@ -20,7 +20,10 @@ class ProjectMenu extends React.Component {
     this.state = this.props.project_data;
     this.state.assignable_users = [];
 
-    this.load_assignable_users();
+    if (this.state.handleit == false) {
+      this.load_assignable_users();
+    }
+    
     this.planning_checklist = React.createRef();
     this.wrapup_checklist = React.createRef();
     this.costsummary = React.createRef();
@@ -163,18 +166,20 @@ class ProjectMenu extends React.Component {
               <a className="nav-link" id="nav-cost-summary-tab" data-toggle="tab" 
                 href="#nav-cost-summary" role="tab">Cost Summary</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" id="nav-planning-tab" data-toggle="tab" 
-                href="#nav-planning" role="tab">Planning</a>
-            </li>
+            { (!this.state.handleit) ?
+              (<li className="nav-item">
+                <a className="nav-link" id="nav-planning-tab" data-toggle="tab" 
+                  href="#nav-planning" role="tab">Planning</a>
+              </li>) : null }
             <li className="nav-item">
               <a className="nav-link" id="nav-partners-tab" data-toggle="tab" 
                 href="#nav-partners" role="tab">Partners</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" id="nav-wrapup-tab" data-toggle="tab" 
-                href="#nav-wrapup" role="tab">Wrap-Up</a>
-            </li>
+            { (!this.state.handleit) ?
+              (<li className="nav-item">
+                <a className="nav-link" id="nav-wrapup-tab" data-toggle="tab" 
+                  href="#nav-wrapup" role="tab">Wrap-Up</a>
+              </li>) : null}
           </ul>
         </div>
 
@@ -267,18 +272,20 @@ class ProjectMenu extends React.Component {
               getModalMenu={this.props.getModalMenu}
             />
           </div>
-          <div className="tab-pane" id="nav-planning" role="tabpanel">
-            <Checklist ref={this.planning_checklist} 
-              type="planning"
-              assignable_users={this.state.assignable_users}
-              project_id={project_id}/>
-          </div> 
-          <div className="tab-pane" id="nav-wrapup" role="tabpanel">
-            <Checklist ref={this.planning_checklist} 
-              type="wrapup"
-              assignable_users={this.state.assignable_users}
-              project_id={project_id}/>
-          </div>
+          { (!this.state.handleit) ?
+            (<div className="tab-pane" id="nav-planning" role="tabpanel">
+              <Checklist ref={this.planning_checklist} 
+                type="planning"
+                assignable_users={this.state.assignable_users}
+                project_id={project_id}/>
+            </div>) : null }
+          { (!this.state.handleit) ?
+            (<div className="tab-pane" id="nav-wrapup" role="tabpanel">
+              <Checklist ref={this.planning_checklist} 
+                type="wrapup"
+                assignable_users={this.state.assignable_users}
+                project_id={project_id}/>
+            </div>) : null }
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
             {!this.state.handleit ?
               <button type="button" className="btn btn-primary" 

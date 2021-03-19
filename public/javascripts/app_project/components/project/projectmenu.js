@@ -128,7 +128,10 @@ var ProjectMenu = function (_React$Component) {
     _this.state = _this.props.project_data;
     _this.state.assignable_users = [];
 
-    _this.load_assignable_users();
+    if (_this.state.handleit == false) {
+      _this.load_assignable_users();
+    }
+
     _this.planning_checklist = React.createRef();
     _this.wrapup_checklist = React.createRef();
     _this.costsummary = React.createRef();
@@ -206,7 +209,7 @@ var ProjectMenu = function (_React$Component) {
                 "Cost Summary"
               )
             ),
-            React.createElement(
+            !this.state.handleit ? React.createElement(
               "li",
               { className: "nav-item" },
               React.createElement(
@@ -215,7 +218,7 @@ var ProjectMenu = function (_React$Component) {
                   href: "#nav-planning", role: "tab" },
                 "Planning"
               )
-            ),
+            ) : null,
             React.createElement(
               "li",
               { className: "nav-item" },
@@ -226,7 +229,7 @@ var ProjectMenu = function (_React$Component) {
                 "Partners"
               )
             ),
-            React.createElement(
+            !this.state.handleit ? React.createElement(
               "li",
               { className: "nav-item" },
               React.createElement(
@@ -235,7 +238,7 @@ var ProjectMenu = function (_React$Component) {
                   href: "#nav-wrapup", role: "tab" },
                 "Wrap-Up"
               )
-            )
+            ) : null
           )
         ),
         React.createElement(
@@ -403,22 +406,22 @@ var ProjectMenu = function (_React$Component) {
               getModalMenu: this.props.getModalMenu
             })
           ),
-          React.createElement(
+          !this.state.handleit ? React.createElement(
             "div",
             { className: "tab-pane", id: "nav-planning", role: "tabpanel" },
             React.createElement(Checklist, { ref: this.planning_checklist,
               type: "planning",
               assignable_users: this.state.assignable_users,
               project_id: project_id })
-          ),
-          React.createElement(
+          ) : null,
+          !this.state.handleit ? React.createElement(
             "div",
             { className: "tab-pane", id: "nav-wrapup", role: "tabpanel" },
             React.createElement(Checklist, { ref: this.planning_checklist,
               type: "wrapup",
               assignable_users: this.state.assignable_users,
               project_id: project_id })
-          ),
+          ) : null,
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
