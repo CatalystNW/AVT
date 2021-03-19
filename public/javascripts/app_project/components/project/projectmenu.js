@@ -322,6 +322,20 @@ var ProjectMenu = function (_React$Component) {
               React.createElement(
                 "label",
                 { className: "col-sm-4 col-form-label" },
+                "Handle-it"
+              ),
+              React.createElement(
+                "div",
+                { className: "col-sm-4" },
+                React.createElement("input", { type: "checkbox", checked: this.state.handleit == true, readOnly: true })
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "form-group row" },
+              React.createElement(
+                "label",
+                { className: "col-sm-4 col-form-label" },
                 "Volunteer Hours"
               ),
               React.createElement(

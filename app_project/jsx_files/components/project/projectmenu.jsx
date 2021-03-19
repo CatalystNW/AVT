@@ -221,6 +221,12 @@ class ProjectMenu extends React.Component {
               </div>
             </div>
             <div className="form-group row">
+              <label className="col-sm-4 col-form-label">Handle-it</label>
+              <div className="col-sm-4">
+                <input type="checkbox" checked={this.state.handleit==true} readOnly/>
+              </div>
+            </div>
+            <div className="form-group row">
               <label className="col-sm-4 col-form-label">Volunteer Hours</label>
               <div className="col-sm-4">
                 <input type="number" className="form-control" 
