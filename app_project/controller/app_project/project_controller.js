@@ -45,6 +45,9 @@ async function view_handleit_form(req, res) {
 }
 
 async function get_projects(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+    res.status(403).end(); return;
+  }
   var projects = await AppProject.find({}).populate("documentPackage");
     // .populate({path: "workItems", model: "WorkItem",
     //     populate: {path: "materialsItems", model: "MaterialsItem"}});
@@ -57,6 +60,9 @@ async function get_projects(req, res) {
  * @param {*} res 
  */
 async function get_project(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+    res.status(403).end(); return;
+  }
   var project = await AppProject.findById(req.params.project_id)
       .populate({path: "workItems", model: "WorkItem",
                 populate: {path: "materialsItems", model: "MaterialsItem"}})
@@ -69,11 +75,19 @@ async function get_project(req, res) {
 }
 
 async function view_projects(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+    res.status(403).end(); return;
+  }
+
   const context = authHelper.getUserContext(req, res);
   res.render("app_project/view_projects", context);
 }
 
 async function view_project(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+    res.status(403).end(); return;
+  }
+
   const context = authHelper.getUserContext(req, res);
   context.project_id = req.params.project_id;
   res.render("app_project/view_project", context);
@@ -312,6 +326,9 @@ async function get_wrapup_checklist(req, res) {
 }
 
 async function get_work_items(req, res) {
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "VETTING"])) {
+    res.status(403).end(); return;
+  }
   var project_id = req.params.project_id;
 
   var project = await AppProject.findById(project_id).populate({path: "workItems", model: "WorkItem",

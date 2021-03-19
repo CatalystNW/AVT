@@ -33,13 +33,14 @@ router.get('/project_transfer/:assessment_id', authHelper.checkLoggedInPages, au
 router.post('/project_transfer/:assessment_id', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_transfer_controller.transfer_project);
 router.get('/project_transfer', authHelper.checkLoggedInPages, authHelper.checkIfCanView, project_transfer_controller.view_project_transfers);
 
-router.get('/view_projects', authHelper.checkLoggedInPages, authHelper.checkIfCanView, project_controller.view_projects);
+router.get('/view_projects', authHelper.checkLoggedInPages, project_controller.view_projects);
 router.get('/projects/assignable_users', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_task_assignable_users);
-router.get('/projects', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_projects);
-router.get('/projects/:project_id', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_project);
-router.patch('/projects/:project_id', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.edit_project);
 
-router.get('/view_projects/:project_id', authHelper.checkLoggedInPages, authHelper.checkIfCanView, project_controller.view_project);
+router.get('/projects', authHelper.checkLoggedInAPI, project_controller.get_projects);
+router.get('/projects/:project_id', authHelper.checkLoggedInAPI, project_controller.get_project);
+router.patch('/projects/:project_id', authHelper.checkLoggedInAPI, project_controller.edit_project);
+
+router.get('/view_projects/:project_id', authHelper.checkLoggedInPages, project_controller.view_project);
 
 router.get('/projects/:project_id/plan_checklist', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_plan_checklist);
 router.get('/projects/:project_id/wrapup_checklist', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_wrapup_checklist);
@@ -48,7 +49,7 @@ router.post('/checklist/:checklist_id', authHelper.checkLoggedInAPI,  authHelper
 router.delete('/checklist/:checklist_id', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.delete_checklist_item);
 router.patch('/checklist/:checklist_id', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.edit_checklist);
 
-router.get('/projects/:project_id/workitems', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_controller.get_work_items);
+router.get('/projects/:project_id/workitems', authHelper.checkLoggedInAPI, project_controller.get_work_items);
 
 router.get('/projects/:project_id/notes', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_note_controller.get_project_notes);
 router.post('/projects/:project_id/notes', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, project_note_controller.create_project_note);
