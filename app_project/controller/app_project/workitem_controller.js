@@ -1,7 +1,7 @@
-var SiteAssessment = require("../../models/app_project/SiteAssessment"),
-    WorkItem = require("../../models/app_project/WorkItem"),
-    MaterialsItem = require("../../models/app_project/MaterialsItem"),
-    AppProject = require("../../models/app_project/AppProject");
+const SiteAssessment = require("../../models/app_project/SiteAssessment"),
+      WorkItem = require("../../models/app_project/WorkItem"),
+      MaterialsItem = require("../../models/app_project/MaterialsItem"),
+      AppProject = require("../../models/app_project/AppProject");
 
 const authHelper = require("./AuthHelper");
 
@@ -67,6 +67,9 @@ async function create_workitem(req, res) {
   let assessment, project;
   // handleit work item will create new AppProject directly
   if (req.body.handleit && req.body.application_id) {
+    if (!authHelper.canView(req, res)) {
+      res.status(403).end(); return;
+    }
     project = new AppProject();
     project.name = workitem.name;
     project.documentPackage = req.body.application_id;
