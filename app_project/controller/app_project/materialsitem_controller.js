@@ -1,6 +1,8 @@
 var WorkItem = require("../../models/app_project/WorkItem"),
     MaterialsItem = require("../../models/app_project/MaterialsItem");
 
+const authHelper = require("./AuthHelper");
+
 module.exports.create_materialsitem = create_materialsitem;
 module.exports.delete_materialsitem = delete_materialsitem;
 module.exports.edit_materialsitem = edit_materialsitem;
@@ -14,6 +16,15 @@ async function create_materialsitem(req, res) {
   if (!workitem) {
     res.status(404).end();
     return;
+  }
+  if (workitem.type == "project") {
+    if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+      res.status(403).end(); return;
+    }
+  } else {
+    if (!authHelper.hasRole(req, res, "SITE")) {
+      res.status(403).end(); return;
+    }
   }
   if (workitem.transferred || workitem.complete) { // Can't create for transferred WorkItem
     res.status(400).end();
@@ -44,6 +55,17 @@ async function delete_materialsitem(req, res) {
     res.status(400).end();
     return;
   }
+
+  if (workitem.type == "project") {
+    if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+      res.status(403).end(); return;
+    }
+  } else {
+    if (!authHelper.hasRole(req, res, "SITE")) {
+      res.status(403).end(); return;
+    }
+  }
+
   workitem.materials_cost -= item.cost;
   workitem.materialsItems.pull({_id: item._id});
   await workitem.save();
@@ -54,6 +76,11 @@ async function delete_materialsitem(req, res) {
 
 // New cost is included into req.body.cost
 async function edit_materialsitem(req, res) {
+  // No defined way to assess if project or site page so accept both for now
+  if (!authHelper.hasRole(req, res, ["PROJECT_MANAGEMENT", "SITE"])) {
+    res.status(403).end(); return;
+  }
+
   var item = await MaterialsItem.findById(req.params.id);
   if (!item)
     res.status(404).end();
