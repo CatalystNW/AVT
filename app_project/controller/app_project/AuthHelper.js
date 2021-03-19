@@ -9,6 +9,8 @@
  module.exports.isLoggedIn = isLoggedIn;
  module.exports.getUserContext = getUserContext;
  module.exports.hasRole = hasRole;
+ module.exports.canView = canView;
+ module.exports.checkIfCanView = checkIfCanView;
  
  /**
   * Check for basic user account and redirects to login if none for the
@@ -91,5 +93,24 @@ async function hasRole(req, res, role) {
     }
   } else {
     return false;
+  }
+}
+
+/**
+ * Searches if user has either VET, SITE, or PROJECT_MANAGEMENT role
+ * to be able to view a page.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns Boolean if user can view the page
+ */
+async function canView(req, res) {
+  return hasRole(req, res, ["VET", "SITE", "PROJECT_MANAGEMENT"]);
+}
+
+async function checkIfCanView(req, res, next) {
+  if (hasRole(req, res, ["VET", "SITE", "PROJECT_MANAGEMENT"])) {
+    next();
+  } else {
+    res.status(403).end();
   }
 }
