@@ -159,6 +159,10 @@ async function edit_checklist(req, res) {
 }
 
 async function edit_project(req, res) {
+  // User doesn't have project role. Return 403
+  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
   var project_id = req.params.project_id;
   var project = await AppProject.findById(project_id).populate("workItems");
   if (!project) {
@@ -309,6 +313,10 @@ async function get_work_items(req, res) {
 }
 
 async function set_partners(req, res) {
+  // User doesn't have project role. Return 403
+  if (!await authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
   const project_id = req.params.project_id;
   const project = await AppProject.findById(project_id);
   if (project) {
