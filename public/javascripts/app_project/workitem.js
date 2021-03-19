@@ -26,16 +26,6 @@ var WorkItem = function (_React$Component) {
       });
     };
 
-    _this.onChange_handleit = function (event) {
-      // Prevent changing handleit status
-      // if (this.editable) {
-      //   funkie.edit_workitem({
-      //     workitem_id: event.target.getAttribute("workitem_id"),
-      //     handleit: event.target.checked,
-      //   }, null, this.set_handleit_handler);
-      // }
-    };
-
     _this.add_item = function (materialsItem_data) {
       _this.setState({
         materialsItems: [materialsItem_data].concat(_toConsumableArray(_this.state.materialsItems))
@@ -425,8 +415,7 @@ var WorkItem = function (_React$Component) {
             ),
             React.createElement("input", { type: "checkbox", name: "handleit",
               checked: this.state.handleit,
-              workitem_id: this.state._id,
-              onChange: this.onChange_handleit })
+              workitem_id: this.state._id, readOnly: true })
           ),
           React.createElement(
             "div",

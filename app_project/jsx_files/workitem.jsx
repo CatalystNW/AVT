@@ -13,16 +13,6 @@ class WorkItem extends React.Component {
     });
   }
 
-  onChange_handleit = (event) => {
-    // Prevent changing handleit status
-    // if (this.editable) {
-    //   funkie.edit_workitem({
-    //     workitem_id: event.target.getAttribute("workitem_id"),
-    //     handleit: event.target.checked,
-    //   }, null, this.set_handleit_handler);
-    // }
-  }
-
   add_item = (materialsItem_data) => {
     this.setState({
       materialsItems: [materialsItem_data, ...this.state.materialsItems],
@@ -278,9 +268,7 @@ class WorkItem extends React.Component {
           <b>Handle-It </b> 
           <input type="checkbox" name="handleit"
             checked={this.state.handleit}
-            workitem_id={this.state._id}
-            onChange={this.onChange_handleit}>
-          </input>
+            workitem_id={this.state._id} readOnly />
         </div>
         <div className="form-group row">
           { // Hide Status if it's handle-it
