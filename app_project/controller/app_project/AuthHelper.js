@@ -8,6 +8,7 @@
  module.exports.checkLoggedInAPI = checkLoggedInAPI;
  module.exports.isLoggedIn = isLoggedIn;
  module.exports.getUserContext = getUserContext;
+ module.exports.hasRole = hasRole;
  
  /**
   * Check for basic user account and redirects to login if none for the
@@ -65,5 +66,14 @@ async function getUserContext(req, res, redirectURL = "/user/login") {
     return context;
   } else {
     res.redirect(redirectURL);
+  }
+}
+
+async function hasRole(req, res, role) {
+  if (isLoggedIn(req)) {
+    const context = await getUserContext(req, res);
+    return context.user_roles.includes(role);
+  } else {
+    return false;
   }
 }
