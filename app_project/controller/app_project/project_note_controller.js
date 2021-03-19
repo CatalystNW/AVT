@@ -40,6 +40,10 @@ async function get_project_notes(req, res) {
 }
 
 async function create_project_note(req, res) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+
   const user = req.user._id;
   let project = await AppProject.findById(req.params.project_id);
   if (project && req.body.text) {
@@ -57,6 +61,10 @@ async function create_project_note(req, res) {
 }
 
 async function delete_project_note(req, res) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+
   const note_id = req.params.note_id;
   let project = await AppProject.findById(req.params.project_id),
       note = await AppProjectNote.findById(note_id);
@@ -82,6 +90,10 @@ async function delete_project_note(req, res) {
 }
 
 async function edit_project_note(req, res) {
+  if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
+    res.status(403).end(); return;
+  }
+  
   const note_id = req.params.note_id;
   let project = await AppProject.findById(req.params.project_id),
       note = await AppProjectNote.findById(note_id);
