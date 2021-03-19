@@ -179,7 +179,9 @@ class WorkItem extends React.Component {
   onChange_inputs_timer = (e) => {
     var property_type = e.target.getAttribute("property_type"),
         value = e.target.value;
-
+    if (property_type == "volunteers_required" && parseInt(value) < 0) {
+      return;
+    }
     clearTimeout(this[property_type + "_timer"]);
 
     this.setState({[property_type]: value});
