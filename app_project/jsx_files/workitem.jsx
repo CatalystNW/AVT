@@ -183,7 +183,7 @@ class WorkItem extends React.Component {
     var property_type = e.target.getAttribute("property_type"),
         value = e.target.value;
     if (property_type == "volunteers_required" && parseInt(value) < 0) {
-      return;
+      value = 0;
     }
     clearTimeout(this[property_type + "_timer"]);
 

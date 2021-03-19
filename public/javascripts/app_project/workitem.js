@@ -247,7 +247,7 @@ var WorkItem = function (_React$Component) {
       var property_type = e.target.getAttribute("property_type"),
           value = e.target.value;
       if (property_type == "volunteers_required" && parseInt(value) < 0) {
-        return;
+        value = 0;
       }
       clearTimeout(_this[property_type + "_timer"]);
 
