@@ -20,9 +20,10 @@ var ProjectNotes = function (_React$Component) {
 
     _this.get_notes = function () {
       funkie.get_notes(_this.props.project_id, function (data) {
+        console.log(data);
         data.notes.reverse();
         _this.setState({
-          user_id: data.user_id,
+          user_id: data.current_user_id,
           project_notes: data.notes
         });
       });
@@ -147,7 +148,7 @@ var ProjectNotes = function (_React$Component) {
     _this.state = {
       project_notes: [],
       edit_id: null,
-      user_id: null // ID of current user. Used to allow editing & deleting
+      current_user_id: null // ID of current user. Used to allow editing & deleting
     };
     _this.addNoteFormId = "add-note-form";
     _this.noteInputId = "add-note-textarea";
@@ -231,10 +232,10 @@ var ProjectNotes = function (_React$Component) {
                     "div",
                     null,
                     "By ",
-                    note.user.name
+                    note.user_name
                   ),
                   // Only allow users to edit/delete own note
-                  _this2.state.user_id == note.user.user_id ? React.createElement(
+                  _this2.state.current_user_id == note.user_id ? React.createElement(
                     "div",
                     null,
                     React.createElement(
