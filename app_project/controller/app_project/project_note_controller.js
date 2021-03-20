@@ -80,6 +80,11 @@ async function delete_project_note(req, res) {
   if (project.complete) {
     res.status(400).end(); return;
   }
+  // Confirm note belongs to user
+  const context = authHelper.getUserContext(req, res);
+  if (note.user_id != context.user_id) {
+    res.status(403).end(); return;
+  }
   var found = false;
   for (let i=0; i<project.notes.length; i++) {
     if (project.notes[i] == note_id) {
@@ -111,6 +116,11 @@ async function edit_project_note(req, res) {
   }  
   if (project.complete) {
     res.status(400).end(); return;
+  }
+  // Confirm note belongs to user
+  const context = authHelper.getUserContext(req, res);
+  if (note.user_id != context.user_id) {
+    res.status(403).end(); return;
   }
   if (req.body.property == "text") {
     note.text = req.body.value;
