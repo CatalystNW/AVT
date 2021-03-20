@@ -61,7 +61,7 @@ function getUserContext(req, res, redirectURL = "/user/login") {
       context.user_email = req.user.contact_info.user_email;
       context.user_roles = req.user.user_roles;
       context.user = true;
-      context.user_id = req.user._id;
+      context.user_id = req.user._id.toString();
     }
     return context;
   } else {
