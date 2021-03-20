@@ -47,6 +47,10 @@ async function create_project_note(req, res) {
   const user = req.user._id;
   let project = await AppProject.findById(req.params.project_id);
   if (project && req.body.text) {
+    if (project.complete) {
+      res.status(400).end(); return;
+    }
+    
     var note = new AppProjectNote();
     note.text = req.body.text;
     note.project = req.params.project_id;
@@ -69,8 +73,11 @@ async function delete_project_note(req, res) {
   let project = await AppProject.findById(req.params.project_id),
       note = await AppProjectNote.findById(note_id);
   if (!project || !note) { // Want to make sure both exists before remove
-    res.status(400).end();
+    res.status(404).end();
     return;
+  }
+  if (project.complete) {
+    res.status(400).end(); return;
   }
   var found = false;
   for (let i=0; i<project.notes.length; i++) {
@@ -100,6 +107,9 @@ async function edit_project_note(req, res) {
   if (!project || !note) { // Want to make sure both exists before remove
     res.status(400).end();
     return;
+  }
+  if (project.complete) {
+    res.status(400).end(); return;
   }
   if (req.body.property == "text") {
     note.text = req.body.value;
