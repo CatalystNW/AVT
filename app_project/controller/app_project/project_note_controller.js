@@ -16,10 +16,10 @@ async function get_project_notes(req, res) {
   const userMap = {};
   for (i=0; i< notes.length; i++) {
     userId = notes[i].user;
-    if (userId == null) continue;
-    if (userId in userMap) {
-      notes[i].user = userMap[userId];
-    } else {
+    if (userId == null) {
+      continue;
+    }
+    if (!(userId in userMap))  {
       // Hide userData since it contains password
       userData = await UserPackage.findById(userId);
       if (userData) {
@@ -28,13 +28,14 @@ async function get_project_notes(req, res) {
           name: userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last,
         };
       } else {
-        userMap[userId] = {};
+        userMap[userId] = {name: null, user_id: null};
       }
-      notes[i].user = userMap[userId];
     }
+    notes[i].user_name = userMap[userId].name;
+    notes[i].user_id = userMap[userId].user_id;
   }
   const context = authHelper.getUserContext(req, res);
-  data.user_id = context.user_id;
+  data.current_user_id = context.user_id;
   data.notes = notes;
   res.status(200).json(data);
 }
@@ -107,7 +108,7 @@ async function edit_project_note(req, res) {
   if (!project || !note) { // Want to make sure both exists before remove
     res.status(400).end();
     return;
-  }
+  }  
   if (project.complete) {
     res.status(400).end(); return;
   }
