@@ -85,7 +85,7 @@ async function delete_project_note(req, res) {
   }
   // Confirm note belongs to user
   const context = authHelper.getUserContext(req, res);
-  if (note.user_id != context.user_id) {
+  if (note.user.toString() != context.user_id.toString()) {
     res.status(403).end(); return;
   }
   var found = false;
@@ -122,7 +122,7 @@ async function edit_project_note(req, res) {
   }
   // Confirm note belongs to user
   const context = authHelper.getUserContext(req, res);
-  if (note.user_id != context.user_id) {
+  if (note.user.toString() != context.user_id.toString()) {
     res.status(403).end(); return;
   }
   if (req.body.property == "text") {
