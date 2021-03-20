@@ -45,7 +45,7 @@ async function create_project_note(req, res) {
     res.status(403).end(); return;
   }
 
-  const user = req.user._id;
+  const user = req.user;
   let project = await AppProject.findById(req.params.project_id);
   if (project && req.body.text) {
     if (project.complete) {
@@ -55,10 +55,13 @@ async function create_project_note(req, res) {
     var note = new AppProjectNote();
     note.text = req.body.text;
     note.project = req.params.project_id;
-    note.user = user;
+    note.user = user._id;
     await note.save();
     project.notes.push(note._id);
     await project.save();
+    note = note.toObject();
+    note.user_name = user.contact_info.user_name.user_first + " " + user.contact_info.user_name.user_last;
+    note.user_id = user._id;
     res.status(200).json(note);
   } else {
     res.status(400).end();
