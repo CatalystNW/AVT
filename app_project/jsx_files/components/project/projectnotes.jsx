@@ -6,7 +6,7 @@ class ProjectNotes extends React.Component {
     this.state = {
       project_notes: [],
       edit_id: null,
-      current_user_id: null, // ID of current user. Used to allow editing & deleting
+      user_id: null, // ID of current user. Used to allow editing & deleting
     };
     this.addNoteFormId = "add-note-form";
     this.noteInputId = "add-note-textarea";
@@ -17,7 +17,6 @@ class ProjectNotes extends React.Component {
 
   get_notes = () => {
     funkie.get_notes(this.props.project_id, (data)=> {
-      console.log(data);
       data.notes.reverse();
       this.setState({
         user_id: data.current_user_id,
@@ -158,7 +157,7 @@ class ProjectNotes extends React.Component {
                     <div>{note.text}</div>
                     <div>By {note.user_name}</div>
                     { // Only allow users to edit/delete own note
-                      this.state.current_user_id == note.user_id ?
+                      this.state.user_id == note.user_id ?
                       (<div>
                         <button type="button" className="btn btn-sm"
                           note_id={note._id} index={index}
