@@ -144,6 +144,84 @@ var ProjectNotes = function (_React$Component) {
       });
     };
 
+    _this.createNoteElement = function (note, index) {
+      return React.createElement(
+        "div",
+        { key: note._id },
+        React.createElement(
+          "div",
+          { className: "card" },
+          React.createElement(
+            "div",
+            { className: "card-header" },
+            // Only allow users to edit/delete own note
+            _this.state.user_id == note.user_id ? React.createElement(
+              "div",
+              null,
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm",
+                  note_id: note._id, index: index,
+                  onClick: _this.toggleEditNote },
+                "Update"
+              ),
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm",
+                  note_id: note._id, index: index,
+                  onClick: _this.deleteNote },
+                "Delete"
+              )
+            ) : null
+          ),
+          React.createElement(
+            "div",
+            { className: "card-body" },
+
+            // Set edit menu for the note
+            _this.state.edit_id == note._id ? React.createElement(
+              "p",
+              { className: "card-text" },
+              React.createElement(
+                "form",
+                { id: _this.editNoteFormId,
+                  onSubmit: _this.editNote },
+                React.createElement("textarea", { className: "form-control",
+                  id: _this.editTextareaId,
+                  note_id: note._id, index: index,
+                  defaultValue: note.text }),
+                React.createElement(
+                  "button",
+                  { type: "submit", className: "btn btn-sm" },
+                  "Save"
+                ),
+                React.createElement(
+                  "button",
+                  { type: "button", className: "btn btn-sm",
+                    onClick: _this.toggleEditNote, note_id: "-1" },
+                  "Cancel"
+                )
+              )
+            ) : React.createElement(
+              "p",
+              { className: "card-text" },
+              React.createElement(
+                "div",
+                null,
+                note.text
+              )
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "card-footer" },
+            "By ",
+            note.user_name
+          )
+        )
+      );
+    };
+
     _this.state = {
       project_notes: [],
       edit_id: null,
@@ -188,73 +266,7 @@ var ProjectNotes = function (_React$Component) {
           "div",
           null,
           this.state.project_notes.map(function (note, index) {
-            return React.createElement(
-              "div",
-              { key: note._id },
-              React.createElement(
-                "div",
-                null,
-
-                // Set edit menu for the note
-                _this2.state.edit_id == note._id ? React.createElement(
-                  "div",
-                  null,
-                  React.createElement(
-                    "form",
-                    { id: _this2.editNoteFormId,
-                      onSubmit: _this2.editNote },
-                    React.createElement("textarea", { className: "form-control",
-                      id: _this2.editTextareaId,
-                      note_id: note._id, index: index,
-                      defaultValue: note.text }),
-                    React.createElement(
-                      "button",
-                      { type: "submit", className: "btn btn-sm" },
-                      "Save"
-                    ),
-                    React.createElement(
-                      "button",
-                      { type: "button", className: "btn btn-sm",
-                        onClick: _this2.toggleEditNote, note_id: "-1" },
-                      "Cancel"
-                    )
-                  )
-                ) : React.createElement(
-                  "div",
-                  null,
-                  React.createElement(
-                    "div",
-                    null,
-                    note.text
-                  ),
-                  React.createElement(
-                    "div",
-                    null,
-                    "By ",
-                    note.user_name
-                  ),
-                  // Only allow users to edit/delete own note
-                  _this2.state.user_id == note.user_id ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                      "button",
-                      { type: "button", className: "btn btn-sm",
-                        note_id: note._id, index: index,
-                        onClick: _this2.toggleEditNote },
-                      "Update"
-                    ),
-                    React.createElement(
-                      "button",
-                      { type: "button", className: "btn btn-sm",
-                        note_id: note._id, index: index,
-                        onClick: _this2.deleteNote },
-                      "Delete"
-                    )
-                  ) : null
-                )
-              )
-            );
+            return _this2.createNoteElement(note, index);
           })
         )
       );

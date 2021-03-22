@@ -118,6 +118,56 @@ class ProjectNotes extends React.Component {
     });
   }
 
+  createNoteElement = (note, index) => {
+    return (
+      <div key={note._id}>
+        <div className="card">
+          <div className="card-header">
+            { // Only allow users to edit/delete own note
+              this.state.user_id == note.user_id ?
+              (<div>
+                <button type="button" className="btn btn-sm"
+                  note_id={note._id} index={index}
+                  onClick={this.toggleEditNote}>Update</button>
+                <button type="button" className="btn btn-sm"
+                  note_id={note._id} index={index}
+                  onClick={this.deleteNote}>Delete</button>
+              </div>) : null
+            }
+          </div>
+          <div className="card-body">
+            {
+              // Set edit menu for the note
+              (this.state.edit_id == note._id) ?
+              (<p className="card-text">
+                <form id={this.editNoteFormId}
+                  onSubmit={this.editNote}>
+                  <textarea className="form-control"
+                    id={this.editTextareaId}
+                    note_id={note._id} index={index}
+                    defaultValue={note.text}></textarea>
+                  <button type="submit" className="btn btn-sm">
+                    Save
+                  </button>
+                  <button type="button" className="btn btn-sm"
+                    onClick={this.toggleEditNote} note_id="-1">
+                    Cancel
+                  </button>
+                </form>
+              </p>) :
+              (<p className="card-text">
+                <div>{note.text}</div>
+              </p>)
+            }
+          </div>
+          
+          <div className="card-footer">
+            By {note.user_name}
+          </div>
+        </div>
+      </div>);
+  }
+
   render() {
     return (
     <div>
@@ -131,46 +181,7 @@ class ProjectNotes extends React.Component {
       </form>
       <div>
         {this.state.project_notes.map((note, index)=> {
-          return (
-            <div key={note._id}>
-              <div>
-                {
-                  // Set edit menu for the note
-                  (this.state.edit_id == note._id) ?
-                  (<div>
-                    <form id={this.editNoteFormId}
-                      onSubmit={this.editNote}>
-                      <textarea className="form-control"
-                        id={this.editTextareaId}
-                        note_id={note._id} index={index}
-                        defaultValue={note.text}></textarea>
-                      <button type="submit" className="btn btn-sm">
-                        Save
-                      </button>
-                      <button type="button" className="btn btn-sm"
-                        onClick={this.toggleEditNote} note_id="-1">
-                        Cancel
-                      </button>
-                    </form>
-                  </div>) :
-                  (<div>
-                    <div>{note.text}</div>
-                    <div>By {note.user_name}</div>
-                    { // Only allow users to edit/delete own note
-                      this.state.user_id == note.user_id ?
-                      (<div>
-                        <button type="button" className="btn btn-sm"
-                          note_id={note._id} index={index}
-                          onClick={this.toggleEditNote}>Update</button>
-                        <button type="button" className="btn btn-sm"
-                          note_id={note._id} index={index}
-                          onClick={this.deleteNote}>Delete</button>
-                      </div>) : null
-                    }
-                  </div>)
-                }
-              </div>
-            </div>);
+          return this.createNoteElement(note, index);
         })}
       </div>
     </div>);
