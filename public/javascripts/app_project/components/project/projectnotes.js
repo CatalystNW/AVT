@@ -153,30 +153,18 @@ var ProjectNotes = function (_React$Component) {
           { className: "card" },
           React.createElement(
             "div",
-            { className: "card-header" },
-            // Only allow users to edit/delete own note
-            _this.state.user_id == note.user_id ? React.createElement(
-              "div",
-              null,
-              React.createElement(
-                "button",
-                { type: "button", className: "btn btn-sm",
-                  note_id: note._id, index: index,
-                  onClick: _this.toggleEditNote },
-                "Update"
-              ),
-              React.createElement(
-                "button",
-                { type: "button", className: "btn btn-sm",
-                  note_id: note._id, index: index,
-                  onClick: _this.deleteNote },
-                "Delete"
-              )
-            ) : null
-          ),
-          React.createElement(
-            "div",
             { className: "card-body" },
+            React.createElement(
+              "h5",
+              { className: "card-title" },
+              note.created_date
+            ),
+            React.createElement(
+              "h6",
+              { className: "card-subtitle mb-2 text-muted" },
+              "By ",
+              note.user_name
+            ),
 
             // Set edit menu for the note
             _this.state.edit_id == note._id ? React.createElement(
@@ -205,18 +193,27 @@ var ProjectNotes = function (_React$Component) {
             ) : React.createElement(
               "p",
               { className: "card-text" },
+              note.text
+            ),
+            // Only allow users to edit/delete own note
+            _this.state.user_id == note.user_id ? React.createElement(
+              "div",
+              null,
               React.createElement(
-                "div",
-                null,
-                note.text
+                "button",
+                { type: "button", className: "btn btn-sm btn-primary",
+                  note_id: note._id, index: index,
+                  onClick: _this.toggleEditNote },
+                "Update"
+              ),
+              React.createElement(
+                "button",
+                { type: "button", className: "btn btn-sm btn-danger",
+                  note_id: note._id, index: index,
+                  onClick: _this.deleteNote },
+                "Delete"
               )
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "card-footer" },
-            "By ",
-            note.user_name
+            ) : null
           )
         )
       );

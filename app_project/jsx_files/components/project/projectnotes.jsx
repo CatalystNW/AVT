@@ -122,20 +122,12 @@ class ProjectNotes extends React.Component {
     return (
       <div key={note._id}>
         <div className="card">
-          <div className="card-header">
-            { // Only allow users to edit/delete own note
-              this.state.user_id == note.user_id ?
-              (<div>
-                <button type="button" className="btn btn-sm"
-                  note_id={note._id} index={index}
-                  onClick={this.toggleEditNote}>Update</button>
-                <button type="button" className="btn btn-sm"
-                  note_id={note._id} index={index}
-                  onClick={this.deleteNote}>Delete</button>
-              </div>) : null
-            }
-          </div>
           <div className="card-body">
+            <h5 className="card-title">
+              {note.created_date}</h5>
+            <h6 className="card-subtitle mb-2 text-muted">
+              By {note.user_name}
+            </h6>
             {
               // Set edit menu for the note
               (this.state.edit_id == note._id) ?
@@ -156,13 +148,20 @@ class ProjectNotes extends React.Component {
                 </form>
               </p>) :
               (<p className="card-text">
-                <div>{note.text}</div>
+                {note.text}
               </p>)
             }
-          </div>
-          
-          <div className="card-footer">
-            By {note.user_name}
+            { // Only allow users to edit/delete own note
+              this.state.user_id == note.user_id ?
+              (<div>
+                <button type="button" className="btn btn-sm btn-primary"
+                  note_id={note._id} index={index}
+                  onClick={this.toggleEditNote}>Update</button>
+                <button type="button" className="btn btn-sm btn-danger"
+                  note_id={note._id} index={index}
+                  onClick={this.deleteNote}>Delete</button>
+              </div>) : null
+            }
           </div>
         </div>
       </div>);
