@@ -9,6 +9,22 @@ module.exports.create_project_note    = create_project_note;
 module.exports.delete_project_note    = delete_project_note;
 module.exports.edit_project_note      = edit_project_note;
 
+/**
+ * Adds data attributes to note
+ * @param {AppProjectNote(mutable/lean form)} note 
+ * @param {User} userData User data to be retrieved
+ */
+function expandNoteData(note, userData) {
+  console.log(note);
+  if (userData != null) {
+    note.user_name = userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last;
+    note.user_id = userData._id;
+  }
+  note.created_date = 
+      `${note.createdAt.getMonth() + 1}-${
+        note.createdAt.getDate()}-${note.createdAt.getFullYear()}`;
+}
+
 async function get_project_notes(req, res) {
   const data = {};
   let notes = await AppProjectNote.find({project: req.params.project_id}).lean();
@@ -21,21 +37,15 @@ async function get_project_notes(req, res) {
         // Hide userData since it contains password
         userData = await UserPackage.findById(userId);
         if (userData) {
-          userMap[userId] = {
-            user_id: userData._id,
-            name: userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last,
-          };
+          userMap[userId] = userData;
         } else {
-          userMap[userId] = {name: null, user_id: null};
+          userMap[userId] = null;
         }
       }
-      notes[i].user_name = userMap[userId].name;
-      notes[i].user_id = userMap[userId].user_id;
+      expandNoteData(notes[i], userMap[userId]);
+    } else {
+      expandNoteData(notes[i]);
     }
-    
-    notes[i].created_date = 
-      `${notes[i].createdAt.getMonth() + 1}-${
-        notes[i].createdAt.getDate()}-${notes[i].createdAt.getFullYear()}`;
   }
   const context = authHelper.getUserContext(req, res);
   data.current_user_id = context.user_id;
@@ -62,9 +72,10 @@ async function create_project_note(req, res) {
     await note.save();
     project.notes.push(note._id);
     await project.save();
+    // make note mutable for expandNoteData
     note = note.toObject();
-    note.user_name = user.contact_info.user_name.user_first + " " + user.contact_info.user_name.user_last;
-    note.user_id = user._id;
+
+    expandNoteData(note, user);
     res.status(200).json(note);
   } else {
     res.status(400).end();
