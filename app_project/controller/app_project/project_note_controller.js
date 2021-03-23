@@ -33,6 +33,9 @@ async function get_project_notes(req, res) {
     }
     notes[i].user_name = userMap[userId].name;
     notes[i].user_id = userMap[userId].user_id;
+    notes[i].created_date = 
+      `${notes[i].createdAt.getMonth() + 1}-${
+        notes[i].createdAt.getDate()}-${notes[i].createdAt.getFullYear()}`;
   }
   const context = authHelper.getUserContext(req, res);
   data.current_user_id = context.user_id;
