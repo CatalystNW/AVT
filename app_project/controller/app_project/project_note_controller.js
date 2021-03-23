@@ -16,23 +16,23 @@ async function get_project_notes(req, res) {
   const userMap = {};
   for (i=0; i< notes.length; i++) {
     userId = notes[i].user;
-    if (userId == null) {
-      continue;
-    }
-    if (!(userId in userMap))  {
-      // Hide userData since it contains password
-      userData = await UserPackage.findById(userId);
-      if (userData) {
-        userMap[userId] = {
-          user_id: userData._id,
-          name: userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last,
-        };
-      } else {
-        userMap[userId] = {name: null, user_id: null};
+    if (userId != null) {
+      if (userId && !(userId in userMap))  {
+        // Hide userData since it contains password
+        userData = await UserPackage.findById(userId);
+        if (userData) {
+          userMap[userId] = {
+            user_id: userData._id,
+            name: userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last,
+          };
+        } else {
+          userMap[userId] = {name: null, user_id: null};
+        }
       }
+      notes[i].user_name = userMap[userId].name;
+      notes[i].user_id = userMap[userId].user_id;
     }
-    notes[i].user_name = userMap[userId].name;
-    notes[i].user_id = userMap[userId].user_id;
+    
     notes[i].created_date = 
       `${notes[i].createdAt.getMonth() + 1}-${
         notes[i].createdAt.getDate()}-${notes[i].createdAt.getFullYear()}`;
