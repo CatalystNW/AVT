@@ -59,8 +59,8 @@ class ProjectNotes extends React.Component {
   deleteNote = (e) => {
     const note_id = e.target.getAttribute("note_id"),
           index = e.target.getAttribute("index");
-    
-    const result = window.confirm(`Are you sure you want to delete project note ${this.state.project_notes[index].name}?`);
+    console.log(this.state.project_notes[index]);
+    const result = window.confirm(`Are you sure you want to delete the project note?`);
     if (result ) {
       $.ajax({
         url: "/app_project/projects/" + this.props.project_id + "/notes/" + note_id,
@@ -128,10 +128,9 @@ class ProjectNotes extends React.Component {
             <h6 className="card-subtitle mb-2 text-muted">
               By {note.user_name}
             </h6>
-            {
-              // Set edit menu for the note
+            {// Set edit menu for the note
               (this.state.edit_id == note._id) ?
-              (<p className="card-text">
+              (<div className="card-text">
                 <form id={this.editNoteFormId}
                   onSubmit={this.editNote}>
                   <textarea className="form-control"
@@ -146,21 +145,25 @@ class ProjectNotes extends React.Component {
                     Cancel
                   </button>
                 </form>
-              </p>) :
-              (<p className="card-text">
-                {note.text}
-              </p>)
-            }
-            { // Only allow users to edit/delete own note
-              this.state.user_id == note.user_id ?
-              (<div>
-                <button type="button" className="btn btn-sm btn-primary"
-                  note_id={note._id} index={index}
-                  onClick={this.toggleEditNote}>Update</button>
-                <button type="button" className="btn btn-sm btn-danger"
-                  note_id={note._id} index={index}
-                  onClick={this.deleteNote}>Delete</button>
-              </div>) : null
+              </div>) :
+              (
+                <div>
+                  <p className="card-text">
+                    {note.text}
+                  </p>
+                  {
+                    this.state.user_id == note.user_id ?
+                    (<div>
+                      <button type="button" className="btn btn-sm btn-outline-primary"
+                        note_id={note._id} index={index}
+                        onClick={this.toggleEditNote}>Update</button>
+                      <button type="button" className="btn btn-sm btn-outline-danger"
+                        note_id={note._id} index={index}
+                        onClick={this.deleteNote}>Delete</button>    
+                    </div>) : null
+                  }
+                </div>
+              )
             }
           </div>
         </div>
@@ -172,12 +175,15 @@ class ProjectNotes extends React.Component {
     <div>
       <form id={this.addNoteFormId} onSubmit={this.submitNote}>
         <div className="form-group">
-          <label htmlFor={this.noteInputId}>Project Note</label>
-        <textarea className="form-control" name="text" id={this.noteInputId} required></textarea>
+          <h5>
+            <label htmlFor={this.noteInputId}>Add Note</label>
+          </h5>
+          <textarea className="form-control" name="text" id={this.noteInputId} required></textarea>
         </div>
         
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-sm btn-outline-primary">Submit</button>
       </form>
+      <hr></hr>
       <div>
         {this.state.project_notes.map((note, index)=> {
           return this.createNoteElement(note, index);

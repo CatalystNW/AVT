@@ -84,8 +84,8 @@ var ProjectNotes = function (_React$Component) {
     _this.deleteNote = function (e) {
       var note_id = e.target.getAttribute("note_id"),
           index = e.target.getAttribute("index");
-
-      var result = window.confirm("Are you sure you want to delete project note " + _this.state.project_notes[index].name + "?");
+      console.log(_this.state.project_notes[index]);
+      var result = window.confirm("Are you sure you want to delete the project note?");
       if (result) {
         $.ajax({
           url: "/app_project/projects/" + _this.props.project_id + "/notes/" + note_id,
@@ -165,10 +165,9 @@ var ProjectNotes = function (_React$Component) {
               "By ",
               note.user_name
             ),
-
             // Set edit menu for the note
             _this.state.edit_id == note._id ? React.createElement(
-              "p",
+              "div",
               { className: "card-text" },
               React.createElement(
                 "form",
@@ -191,29 +190,32 @@ var ProjectNotes = function (_React$Component) {
                 )
               )
             ) : React.createElement(
-              "p",
-              { className: "card-text" },
-              note.text
-            ),
-            // Only allow users to edit/delete own note
-            _this.state.user_id == note.user_id ? React.createElement(
               "div",
               null,
               React.createElement(
-                "button",
-                { type: "button", className: "btn btn-sm btn-primary",
-                  note_id: note._id, index: index,
-                  onClick: _this.toggleEditNote },
-                "Update"
+                "p",
+                { className: "card-text" },
+                note.text
               ),
-              React.createElement(
-                "button",
-                { type: "button", className: "btn btn-sm btn-danger",
-                  note_id: note._id, index: index,
-                  onClick: _this.deleteNote },
-                "Delete"
-              )
-            ) : null
+              _this.state.user_id == note.user_id ? React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "button",
+                  { type: "button", className: "btn btn-sm btn-outline-primary",
+                    note_id: note._id, index: index,
+                    onClick: _this.toggleEditNote },
+                  "Update"
+                ),
+                React.createElement(
+                  "button",
+                  { type: "button", className: "btn btn-sm btn-outline-danger",
+                    note_id: note._id, index: index,
+                    onClick: _this.deleteNote },
+                  "Delete"
+                )
+              ) : null
+            )
           )
         )
       );
@@ -247,18 +249,23 @@ var ProjectNotes = function (_React$Component) {
             "div",
             { className: "form-group" },
             React.createElement(
-              "label",
-              { htmlFor: this.noteInputId },
-              "Project Note"
+              "h5",
+              null,
+              React.createElement(
+                "label",
+                { htmlFor: this.noteInputId },
+                "Add Note"
+              )
             ),
             React.createElement("textarea", { className: "form-control", name: "text", id: this.noteInputId, required: true })
           ),
           React.createElement(
             "button",
-            { type: "submit" },
+            { type: "submit", className: "btn btn-sm btn-outline-primary" },
             "Submit"
           )
         ),
+        React.createElement("hr", null),
         React.createElement(
           "div",
           null,
