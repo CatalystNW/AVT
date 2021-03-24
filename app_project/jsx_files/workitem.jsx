@@ -92,79 +92,63 @@ class WorkItem extends React.Component {
     var total = 0, cost;
     return (
       <table className="table">
-          <thead>
-            <tr>
-              <th scope="col" className="col-sm-4">Description</th>
-              <th scope="col" className="col-sm-3">Vendor</th>
-              <th scope="col" className="col-sm-1">Price</th>
-              <th scope="col" className="col-sm-1">Count</th>
-              <th scope="col" className="col-sm-1">Total</th>
-              <th scope="col" className="col-sm-2">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.materialsItems.map((materialsItem, index) => {
-              cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
-              total += cost;
-              return (
-                <tr key={materialsItem._id}>
-                  <td className="col-sm-4">
-                    {materialsItem.description}</td>
-                  <td className="col-sm-3">{materialsItem.vendor}</td>
-                  <td className="col-sm-1">
-                    {materialsItem.price}</td>
-                  <td className="col-sm-1">
-                    {materialsItem.quantity}</td>
-                  <td className="col-sm-1">
-                    {cost}
-                    {/* Old way of putting options into total
-                    { this.editable ?
-                      (<div className="dropdown">
-                      <button className="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                        {cost}
-                      </button>
-                      <div className="dropdown-menu">
-                        <a className="dropdown-item" 
-                          description={materialsItem.description}
-                          item_id={materialsItem._id}
-                          onClick={this.onClick_delete_materialsitem}>Delete</a>
-                        <a className="dropdown-item"
-                          item_id={materialsItem._id}
-                          onClick={this.onClick_edit_material_item}>Edit</a>
-                      </div>
-                    </div>) : (<div>{cost}</div>)} */}
-                  </td>
-                  <td className="col-sm-2">
-                    <button className="btn btn-secondary btn-sm"
-                      onClick={this.onClick_edit_material_item}
-                      item_id={materialsItem._id}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
-                          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                        </svg>
-                    </button>
-                    { // Prevent deleting on vetting worksheet page
-                      this.props.page_type!="vetting" ? 
-                      (<button className="btn btn-outline-danger btn-sm" 
-                      description={materialsItem.description}
-                      item_id={materialsItem._id} 
-                      onClick={this.onClick_delete_materialsitem}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                          <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        </svg>
-                    </button>)  : null
-                    }
-                  </td>
-                </tr>)
-            })}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="col-sm-10" colSpan="4">Total</td>
-              <td className="col-sm-2" >{total}</td>
-            </tr>
-          </tfoot>
-        </table>
+        <thead>
+          <tr>
+            <th scope="col" className="col-sm-4">Description</th>
+            <th scope="col" className="col-sm-3">Vendor</th>
+            <th scope="col" className="col-sm-1">Price</th>
+            <th scope="col" className="col-sm-1">Count</th>
+            <th scope="col" className="col-sm-1">Total</th>
+            <th scope="col" className="col-sm-2">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.state.materialsItems.map((materialsItem, index) => {
+            cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
+            total += cost;
+            return (
+              <tr key={materialsItem._id}>
+                <td className="col-sm-4">
+                  {materialsItem.description}</td>
+                <td className="col-sm-3">{materialsItem.vendor}</td>
+                <td className="col-sm-1">
+                  {materialsItem.price}</td>
+                <td className="col-sm-1">
+                  {materialsItem.quantity}</td>
+                <td className="col-sm-1">
+                  {cost}
+                </td>
+                <td className="col-sm-2">
+                  <button className="btn btn-secondary btn-sm"
+                    onClick={this.onClick_edit_material_item}
+                    item_id={materialsItem._id}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                      </svg>
+                  </button>
+                  { // Prevent deleting on vetting worksheet page
+                    this.props.page_type!="vetting" ? 
+                    (<button className="btn btn-outline-danger btn-sm" 
+                    description={materialsItem.description}
+                    item_id={materialsItem._id} 
+                    onClick={this.onClick_delete_materialsitem}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                      </svg>
+                  </button>)  : null
+                  }
+                </td>
+              </tr>)
+          })}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td className="col-sm-9" >Total</td>
+            <td className="col-sm-2" >{total}</td>
+          </tr>
+        </tfoot>
+      </table>
     );
   }
   
