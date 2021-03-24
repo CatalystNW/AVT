@@ -161,7 +161,7 @@ class VettingWorkItemApp extends React.Component {
 			  <h3>Current Work Items</h3>
         {this.state.workItems.map(workItem => {
           return (
-            <div className="panel panel-primary">
+            <div className="panel panel-primary" key={"container-" + workItem._id}>
               <div className="panel-body">
                 <WorkItem key={workItem._id} page_type={"vetting"}
                   workitem={workItem}

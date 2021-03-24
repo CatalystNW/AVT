@@ -247,7 +247,7 @@ var VettingWorkItemApp = function (_React$Component) {
           this.state.workItems.map(function (workItem) {
             return React.createElement(
               "div",
-              { className: "panel panel-primary" },
+              { className: "panel panel-primary", key: "container-" + workItem._id },
               React.createElement(
                 "div",
                 { className: "panel-body" },
