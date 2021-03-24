@@ -15,7 +15,6 @@ module.exports.edit_project_note      = edit_project_note;
  * @param {User} userData User data to be retrieved
  */
 function expandNoteData(note, userData) {
-  console.log(note);
   if (userData != null) {
     note.user_name = userData.contact_info.user_name.user_first + " " + userData.contact_info.user_name.user_last;
     note.user_id = userData._id;
