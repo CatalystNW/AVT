@@ -1,4 +1,4 @@
-import { ProjectMenu } from "../components/project/projectmenu.js"
+import { ProjectMenu } from "./projectmenu.js"
 import { ApplicationInformation } from "../ApplicationInformation.js"
 import { ModalMenu } from "../modalmenu.js"
 
