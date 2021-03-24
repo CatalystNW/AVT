@@ -245,13 +245,21 @@ var VettingWorkItemApp = function (_React$Component) {
             "Current Work Items"
           ),
           this.state.workItems.map(function (workItem) {
-            return React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-              workitem: workItem,
-              remove_workitem: _this2.remove_workitem,
-              set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
-              set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
-              set_edit_workitem_menu: _this2.set_edit_workitem_menu
-            });
+            return React.createElement(
+              "div",
+              { className: "panel panel-primary" },
+              React.createElement(
+                "div",
+                { className: "panel-body" },
+                React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                  workitem: workItem,
+                  remove_workitem: _this2.remove_workitem,
+                  set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
+                  set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
+                  set_edit_workitem_menu: _this2.set_edit_workitem_menu
+                })
+              )
+            );
           })
         ),
         React.createElement(
@@ -263,13 +271,21 @@ var VettingWorkItemApp = function (_React$Component) {
             "Complete Work Items"
           ),
           this.state.completeWorkItems.map(function (workItem) {
-            return React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-              workitem: workItem
-              // remove_workitem={this.remove_workitem}
-              // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-              // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-              // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-            });
+            return React.createElement(
+              "div",
+              { className: "panel panel-primary" },
+              React.createElement(
+                "div",
+                { className: "panel-body" },
+                React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                  workitem: workItem
+                  // remove_workitem={this.remove_workitem}
+                  // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                  // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                  // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                })
+              )
+            );
           })
         ),
         React.createElement(ModalMenu, { ref: this.modalmenu })
