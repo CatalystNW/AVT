@@ -1,9 +1,9 @@
-import { Checklist } from "../../project/checklist.js"
-import { WorkItem } from "../workitem.js"
-import { CostSummary } from "../CostSummary.js"
-import { PartnerMenu } from "../PartnerMenu.js"
-import { DateMenuRow } from "../../DateMenuRow.js"
-import { PdfButtons } from "../PdfButtons.js"
+import { Checklist } from "./checklist.js"
+import { WorkItem } from "../components/workitem.js"
+import { CostSummary } from "../components/CostSummary.js"
+import { PartnerMenu } from "../components/PartnerMenu.js"
+import { DateMenuRow } from "../DateMenuRow.js"
+import { PdfButtons } from "../components/PdfButtons.js"
 
 export {
   ProjectMenu,
