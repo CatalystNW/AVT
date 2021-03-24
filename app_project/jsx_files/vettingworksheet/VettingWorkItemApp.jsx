@@ -1,6 +1,6 @@
 export {VettingWorkItemApp}
-import { WorkItem } from "../../workitem.js"
-import { ModalMenu } from "../../modalmenu.js"
+import { WorkItem } from "../workitem.js"
+import { ModalMenu } from "../modalmenu.js"
 
 // props. appId: documentPackage/ application id
 class VettingWorkItemApp extends React.Component {
