@@ -1,4 +1,4 @@
-import { ProjectNotes } from "./components/project/projectnotes.js"
+import { ProjectNotes } from "./project/projectnotes.js"
 
 export { ApplicationInformation }
 
