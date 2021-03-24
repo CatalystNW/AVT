@@ -1,5 +1,5 @@
 import { WorkItem } from "../workitem.js"
-import { CostSummary } from "../CostSummary.js"
+import { CostSummary } from "../components/CostSummary.js"
 import { AssessmentChecklist } from "./assessmentchecklist.js"
 import { PartnerMenu } from "../components/PartnerMenu.js"
 
