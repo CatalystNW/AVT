@@ -475,13 +475,9 @@ var WorkItem = function (_React$Component) {
             "div",
             { style: { display: "flex" } },
             React.createElement(
-              "div",
+              "h4",
               null,
-              React.createElement(
-                "b",
-                null,
-                "Materials List"
-              )
+              "Materials List"
             ),
             React.createElement(
               "div",

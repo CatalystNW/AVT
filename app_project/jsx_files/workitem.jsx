@@ -286,9 +286,7 @@ class WorkItem extends React.Component {
         </div>
 
         <div style={{display: "flex",}}>
-          <div>
-            <b>Materials List</b>
-          </div>
+          <h4>Materials List</h4>
           <div style={{marginLeft: "15px"}}>
             { this.editable ?
               (<button type="button" className="btn btn-primary btn-sm"
