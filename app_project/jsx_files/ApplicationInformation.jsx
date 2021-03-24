@@ -47,7 +47,7 @@ class ApplicationInformation extends React.Component {
       <div>
         <table className="table">
           <tbody>
-            <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{name}</td></tr>
+            <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{this.getName()}</td></tr>
             <tr><th className="col-xs-3">Address</th><td className="col-xs-9">{address}</td></tr>
             <tr><th className="col-xs-3">Phone</th><td className="col-xs-9">{app.phone}</td></tr>
             <tr><th className="col-xs-3">Email</th><td className="col-xs-9">{app.email}</td></tr>
@@ -207,6 +207,13 @@ class ApplicationInformation extends React.Component {
     }
   };
 
+  getName = () => {
+    const app = this.props.application;
+    return app.middle_name == "" ?
+    `${app.first_name} ${app.last_name}` :
+    `${app.first_name} ${app.middle_name} ${app.last_name}`;
+  }
+
   render() {
     var app = this.props.application;
     if (app === null) {
@@ -261,10 +268,6 @@ class ApplicationInformation extends React.Component {
       height: funkie.calculate_page_height().toString() + "px",
     };
 
-    const name = app.middle_name == "" ?
-      `${app.first_name} ${app.last_name}` :
-      `${app.first_name} ${app.middle_name} ${app.last_name}`;
-
     var google_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD2CmgnSECdg_g-aFgp95NUBv2QUEidDvs&q=";
     google_url += `${app.line_1} ${app.line_2}, ${app.city}, ${app.state}, ${app.zip}`;
 
@@ -272,7 +275,7 @@ class ApplicationInformation extends React.Component {
       <div className="col-sm-12 col-lg-4" style={divStyle}
         id="application-info-container">
           <div id="application-info-nav-container">
-            <h2>{name}</h2>
+            <h2>{this.getName()}</h2>
             <ul className="nav nav-tabs " id="nav-app-tab" role="tablist">
               <a className="nav-item nav-link active" id="nav-app-tab" data-toggle="tab" 
                 href="#nav-app-info" role="tab">Application</a>

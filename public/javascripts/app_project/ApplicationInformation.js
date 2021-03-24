@@ -75,7 +75,7 @@ var ApplicationInformation = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-xs-9" },
-                name
+                _this.getName()
               )
             ),
             React.createElement(
@@ -520,6 +520,11 @@ var ApplicationInformation = function (_React$Component) {
       }
     };
 
+    _this.getName = function () {
+      var app = _this.props.application;
+      return app.middle_name == "" ? app.first_name + " " + app.last_name : app.first_name + " " + app.middle_name + " " + app.last_name;
+    };
+
     _this.state = {
       site_assessment: null
     };
@@ -602,8 +607,6 @@ var ApplicationInformation = function (_React$Component) {
         height: funkie.calculate_page_height().toString() + "px"
       };
 
-      var name = app.middle_name == "" ? app.first_name + " " + app.last_name : app.first_name + " " + app.middle_name + " " + app.last_name;
-
       var google_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD2CmgnSECdg_g-aFgp95NUBv2QUEidDvs&q=";
       google_url += app.line_1 + " " + app.line_2 + ", " + app.city + ", " + app.state + ", " + app.zip;
 
@@ -617,7 +620,7 @@ var ApplicationInformation = function (_React$Component) {
           React.createElement(
             "h2",
             null,
-            name
+            this.getName()
           ),
           React.createElement(
             "ul",
