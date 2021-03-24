@@ -1,5 +1,5 @@
 export {VettingWorkItemApp}
-import { WorkItem } from "../workitem.js"
+import { WorkItem } from "../components/workitem.js"
 import { ModalMenu } from "../modalmenu.js"
 
 // props. appId: documentPackage/ application id
