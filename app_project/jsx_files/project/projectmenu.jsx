@@ -95,8 +95,8 @@ class ProjectMenu extends React.Component {
   onChange_status = (e) => {
     const property = e.target.name,
           value = e.target.value;
-    if (value == "complete") {
-      const result = window.confirm("Are you sure you want to set the project to complete?");
+    if (value == "complete" || value == "withdrawn") {
+      const result = window.confirm(`Are you sure you want to set the project to ${value}?`);
       if (!result) {
         return;
       }

@@ -77,8 +77,8 @@ var ProjectMenu = function (_React$Component) {
     _this.onChange_status = function (e) {
       var property = e.target.name,
           value = e.target.value;
-      if (value == "complete") {
-        var result = window.confirm("Are you sure you want to set the project to complete?");
+      if (value == "complete" || value == "withdrawn") {
+        var result = window.confirm("Are you sure you want to set the project to " + value + "?");
         if (!result) {
           return;
         }
