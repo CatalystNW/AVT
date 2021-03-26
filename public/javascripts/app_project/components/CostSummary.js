@@ -45,8 +45,8 @@ var CostSummary = function (_React$Component) {
             review_project_volunteers += workItems[i].volunteers_required;
           }
         } else {
-          // Project Work Items (whether handleit or not) will show 
-          // everything in the accepted project category
+          // Project Work Items (whether handleit or not) will show everything here
+          // and accepted assess. work items
           item_arr = accepted_project_materials;
           num_accepted_project_workitems += 1;
           if (workItems[i].volunteers_required) {
