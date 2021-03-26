@@ -100,8 +100,8 @@ var AssessmentChecklist = function (_React$Component) {
 
     _this.onChange_status = function (e) {
       var newStatus = e.target.value;
-        window.alert("The Assessment must first be completed!");
       if ((newStatus == "approval_process" || newStatus == "approved") && _this.state.status == "pending") {
+        window.alert("The Assessment must first be completed. Set the status to complete for the assessment.");
         return;
       }
       var result = true;

@@ -97,7 +97,7 @@ class AssessmentChecklist extends React.Component {
     const newStatus = e.target.value;
     if ((newStatus == "approval_process" || newStatus == "approved") &&
       this.state.status == "pending") {
-        window.alert("The Assessment must first be completed!");
+        window.alert("The Assessment must first be completed. Set the status to complete for the assessment.");
         return;
       }
     let result = true;
