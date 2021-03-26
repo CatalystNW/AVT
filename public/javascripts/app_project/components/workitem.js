@@ -394,16 +394,20 @@ var WorkItem = function (_React$Component) {
             { className: "card-text" },
             this.state.vetting_comments && this.state.vetting_comments.length > 0 ? this.state.vetting_comments : "N/A"
           ),
-          React.createElement(
-            "b",
+          this.state.handleit == false ? React.createElement(
+            "div",
             null,
-            "Assessment Comments"
-          ),
-          React.createElement(
-            "p",
-            { className: "card-text" },
-            this.state.assessment_comments && this.state.assessment_comments.length > 0 ? this.state.assessment_comments : "N/A"
-          ),
+            React.createElement(
+              "b",
+              null,
+              "Assessment Comments"
+            ),
+            React.createElement(
+              "p",
+              { className: "card-text" },
+              this.state.assessment_comments && this.state.assessment_comments.length > 0 ? this.state.assessment_comments : "N/A"
+            )
+          ) : null,
           project_comments,
           React.createElement(
             "div",
