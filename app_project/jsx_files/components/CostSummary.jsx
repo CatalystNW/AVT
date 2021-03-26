@@ -43,13 +43,15 @@ class CostSummary extends React.Component {
       if (workItems[i].status == "declined") {
         continue;
       }
-      if (workItems[i].status == "to_review") {
+      if (data_type == "site_assessment" && workItems[i].status == "to_review") {
         item_arr = review_project_materials;
         num_review_project_workitems += 1
         if (workItems[i].volunteers_required) {
           review_project_volunteers += workItems[i].volunteers_required;
         }
       } else {
+        // Project Work Items (whether handleit or not) will show 
+        // everything in the accepted project category
         item_arr = accepted_project_materials;
         num_accepted_project_workitems += 1
         if (workItems[i].volunteers_required) {
@@ -83,6 +85,7 @@ class CostSummary extends React.Component {
       type: "GET",
       context: this,
       success: function(projectData) {
+        console.log("p", projectData)
         this.loadWorkItems("project", projectData.workItems);
       }
     })
