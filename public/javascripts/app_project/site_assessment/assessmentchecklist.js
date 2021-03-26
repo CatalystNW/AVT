@@ -100,8 +100,8 @@ var AssessmentChecklist = function (_React$Component) {
 
     _this.onChange_status = function (e) {
       var newStatus = e.target.value;
-      if ((newStatus == "approval_process" || newStatus == "approved" || newStatus == "declined") && _this.state.status == "pending") {
         window.alert("The Assessment must first be completed!");
+      if ((newStatus == "approval_process" || newStatus == "approved") && _this.state.status == "pending") {
         return;
       }
       var result = true;
