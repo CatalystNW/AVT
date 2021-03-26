@@ -145,6 +145,38 @@ class ProjectMenu extends React.Component {
     }, 700);
   };
 
+  /**
+   * Creates an array of WorkItems that are sorted by its status.
+   * @returns Array[WorkItems]
+   */
+  createWorkItems = () => {
+    // Set workitem value for sorting work items
+    function getValue(workitem) {
+      if (workitem.status == "to_review")
+        return 0;
+      else if (workitem.status == "in_progress")
+        return 1;
+      else
+        return 2;
+    }
+    const workitems = this.state.workItems;
+    workitems.sort((a, b) => {
+      return getValue(a) - getValue(b);
+    })
+
+    return workitems.map((workitem, index) => {
+      return (
+      <WorkItem
+        workitem={workitem} page_type={"project"}
+        remove_workitem={this.remove_workitem}
+        set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+        set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+        set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+        key={workitem._id+"-workitem-card"} 
+      />);
+    });
+  };
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -300,17 +332,7 @@ class ProjectMenu extends React.Component {
             }
             
             <div>
-              {this.state.workItems.map((workitem, index) => {
-                return (
-                <WorkItem
-                  workitem={workitem} page_type={"project"}
-                  remove_workitem={this.remove_workitem}
-                  set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-                  set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                  set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
-                  key={workitem._id+"-workitem-card"} 
-                  />);
-              })}
+              {this.createWorkItems()}
             </div>
           </div>
         </div>

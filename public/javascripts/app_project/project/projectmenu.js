@@ -125,6 +125,28 @@ var ProjectMenu = function (_React$Component) {
       }, 700);
     };
 
+    _this.createWorkItems = function () {
+      // Set workitem value for sorting work items
+      function getValue(workitem) {
+        if (workitem.status == "to_review") return 0;else if (workitem.status == "in_progress") return 1;else return 2;
+      }
+      var workitems = _this.state.workItems;
+      workitems.sort(function (a, b) {
+        return getValue(a) - getValue(b);
+      });
+
+      return workitems.map(function (workitem, index) {
+        return React.createElement(WorkItem, {
+          workitem: workitem, page_type: "project",
+          remove_workitem: _this.remove_workitem,
+          set_edit_materialisitem_menu: _this.props.set_edit_materialisitem_menu,
+          set_create_materialsitem_menu: _this.props.set_create_materialsitem_menu,
+          set_edit_workitem_menu: _this.props.set_edit_workitem_menu,
+          key: workitem._id + "-workitem-card"
+        });
+      });
+    };
+
     _this.state = _this.props.project_data;
     _this.state.assignable_users = [];
 
@@ -161,11 +183,15 @@ var ProjectMenu = function (_React$Component) {
 
     // Load users for checklists select elements (as possible owners)
 
+
+    /**
+     * Creates an array of WorkItems that are sorted by its status.
+     * @returns Array[WorkItems]
+     */
+
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var divStyle = {
         height: funkie.calculate_page_height().toString() + "px"
       };
@@ -449,16 +475,7 @@ var ProjectMenu = function (_React$Component) {
             React.createElement(
               "div",
               null,
-              this.state.workItems.map(function (workitem, index) {
-                return React.createElement(WorkItem, {
-                  workitem: workitem, page_type: "project",
-                  remove_workitem: _this2.remove_workitem,
-                  set_edit_materialisitem_menu: _this2.props.set_edit_materialisitem_menu,
-                  set_create_materialsitem_menu: _this2.props.set_create_materialsitem_menu,
-                  set_edit_workitem_menu: _this2.props.set_edit_workitem_menu,
-                  key: workitem._id + "-workitem-card"
-                });
-              })
+              this.createWorkItems()
             )
           )
         )
