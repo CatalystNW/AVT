@@ -46,8 +46,7 @@ class AssessmentMenu extends React.Component {
     }
   };
   remove_workitem = (workitem_id) => {
-    // I'm not sure if the workitems themselves should be copied
-    // But this is appending the original workitems to a new list
+    // Appends the original workitems to a new list
     var new_workitems = [];
     for(var i=0; i< this.state.workItems.length; i++) {
       if (this.state.workItems[i]._id != workitem_id) {
@@ -56,6 +55,36 @@ class AssessmentMenu extends React.Component {
     }
     this.setState({
       workItems: new_workitems,
+    });
+  };
+
+  /**
+   * Creates an array of WorkItems that are sorted by its status.
+   * @returns Array[WorkItems]
+   */
+  createWorkItems = () => {
+    // Set workitem value for sorting work items
+    function getValue(workitem) {
+      if (workitem.status == "to_review")
+        return 0;
+      else if (workitem.status == "accepted")
+        return 1;
+      else
+        return 2;
+    }
+    const workitems = this.state.workItems;
+    workitems.sort((a, b) => {
+      return getValue(a) - getValue(b);
+    })
+    return workitems.map((workitem, index) => {
+      return (
+      <WorkItem
+        workitem={workitem} page_type={"site_assessment"}
+        remove_workitem={this.remove_workitem}
+        set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
+        set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
+        set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+        key={workitem._id+"-workitem-card"}></WorkItem>);
     });
   };
 
@@ -106,16 +135,7 @@ class AssessmentMenu extends React.Component {
             </button>) : null
             }
             
-            {this.state.workItems.map((workitem, index) => {
-              return (
-              <WorkItem
-                workitem={workitem} page_type={"site_assessment"}
-                remove_workitem={this.remove_workitem}
-                set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
-                set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-                set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
-                key={workitem._id+"-workitem-card"}></WorkItem>);
-            })}
+            {this.createWorkItems()}
           </div>
           <div className="tab-pane" id="nav-partner" role="tabpanel">
             {this.state._id ?

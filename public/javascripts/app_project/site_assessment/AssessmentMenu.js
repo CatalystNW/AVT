@@ -40,8 +40,7 @@ var AssessmentMenu = function (_React$Component) {
     };
 
     _this.remove_workitem = function (workitem_id) {
-      // I'm not sure if the workitems themselves should be copied
-      // But this is appending the original workitems to a new list
+      // Appends the original workitems to a new list
       var new_workitems = [];
       for (var i = 0; i < _this.state.workItems.length; i++) {
         if (_this.state.workItems[i]._id != workitem_id) {
@@ -50,6 +49,26 @@ var AssessmentMenu = function (_React$Component) {
       }
       _this.setState({
         workItems: new_workitems
+      });
+    };
+
+    _this.createWorkItems = function () {
+      // Set workitem value for sorting work items
+      function getValue(workitem) {
+        if (workitem.status == "to_review") return 0;else if (workitem.status == "accepted") return 1;else return 2;
+      }
+      var workitems = _this.state.workItems;
+      workitems.sort(function (a, b) {
+        return getValue(a) - getValue(b);
+      });
+      return workitems.map(function (workitem, index) {
+        return React.createElement(WorkItem, {
+          workitem: workitem, page_type: "site_assessment",
+          remove_workitem: _this.remove_workitem,
+          set_edit_materialisitem_menu: _this.props.set_edit_materialisitem_menu,
+          set_create_materialsitem_menu: _this.props.set_create_materialsitem_menu,
+          set_edit_workitem_menu: _this.props.set_edit_workitem_menu,
+          key: workitem._id + "-workitem-card" });
       });
     };
 
@@ -76,11 +95,15 @@ var AssessmentMenu = function (_React$Component) {
       $("#nav-assessment-tabContent").css("padding-top", $("#assessment-nav-container").height());
       $("#assessment-nav-container").css("width", $("#nav-assessment-tabContent").width());
     }
+
+    /**
+     * Creates an array of WorkItems that are sorted by its status.
+     * @returns Array[WorkItems]
+     */
+
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var divStyle = {
         height: funkie.calculate_page_height().toString() + "px"
       };
@@ -162,15 +185,7 @@ var AssessmentMenu = function (_React$Component) {
                 onClick: this.props.set_create_workitem_menu },
               "Create Work Item"
             ) : null,
-            this.state.workItems.map(function (workitem, index) {
-              return React.createElement(WorkItem, {
-                workitem: workitem, page_type: "site_assessment",
-                remove_workitem: _this2.remove_workitem,
-                set_edit_materialisitem_menu: _this2.props.set_edit_materialisitem_menu,
-                set_create_materialsitem_menu: _this2.props.set_create_materialsitem_menu,
-                set_edit_workitem_menu: _this2.props.set_edit_workitem_menu,
-                key: workitem._id + "-workitem-card" });
-            })
+            this.createWorkItems()
           ),
           React.createElement(
             "div",
