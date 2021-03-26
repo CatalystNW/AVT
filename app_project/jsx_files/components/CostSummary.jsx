@@ -85,7 +85,6 @@ class CostSummary extends React.Component {
       type: "GET",
       context: this,
       success: function(projectData) {
-        console.log("p", projectData)
         this.loadWorkItems("project", projectData.workItems);
       }
     })

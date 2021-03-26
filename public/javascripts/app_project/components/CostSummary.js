@@ -76,7 +76,6 @@ var CostSummary = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(projectData) {
-          console.log("p", projectData);
           this.loadWorkItems("project", projectData.workItems);
         }
       });
