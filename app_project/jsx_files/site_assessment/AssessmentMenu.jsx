@@ -99,16 +99,16 @@ class AssessmentMenu extends React.Component {
         <div id="assessment-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link active" id="nav-property-tab" data-toggle="tab" 
+              <a className="nav-link active" id="nav-checklist-tab" data-toggle="tab" 
+                href="#nav-checklist" role="tab">Checklist</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
                 href="#nav-workitem" role="tab">Work Items</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" id="nav-cost-summary-tab" data-toggle="tab" 
                 href="#nav-cost-summary" role="tab">Cost Summary</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" id="nav-checklist-tab" data-toggle="tab" 
-                href="#nav-checklist" role="tab">Checklist</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" id="nav-partner-tab" data-toggle="tab" 
@@ -118,7 +118,7 @@ class AssessmentMenu extends React.Component {
         </div>
 
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
-          <div className="tab-pane" id="nav-checklist" role="tabpanel">
+          <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
             <AssessmentChecklist ref={this.checklist}
               assessment={{}}
               vetting_summary = {this.props.vetting_summary}
@@ -127,7 +127,7 @@ class AssessmentMenu extends React.Component {
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
           </div>
-          <div className="tab-pane show active" id="nav-workitem" role="tabpanel">
+          <div className="tab-pane" id="nav-workitem" role="tabpanel">
             {(!this.state.transferred && !this.state.complete) ?
               (<button type="button" className="btn btn-primary" 
               onClick={this.props.set_create_workitem_menu}>

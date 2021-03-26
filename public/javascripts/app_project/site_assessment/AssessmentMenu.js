@@ -123,7 +123,17 @@ var AssessmentMenu = function (_React$Component) {
               { className: "nav-item" },
               React.createElement(
                 "a",
-                { className: "nav-link active", id: "nav-property-tab", "data-toggle": "tab",
+                { className: "nav-link active", id: "nav-checklist-tab", "data-toggle": "tab",
+                  href: "#nav-checklist", role: "tab" },
+                "Checklist"
+              )
+            ),
+            React.createElement(
+              "li",
+              { className: "nav-item" },
+              React.createElement(
+                "a",
+                { className: "nav-link", id: "nav-property-tab", "data-toggle": "tab",
                   href: "#nav-workitem", role: "tab" },
                 "Work Items"
               )
@@ -143,16 +153,6 @@ var AssessmentMenu = function (_React$Component) {
               { className: "nav-item" },
               React.createElement(
                 "a",
-                { className: "nav-link", id: "nav-checklist-tab", "data-toggle": "tab",
-                  href: "#nav-checklist", role: "tab" },
-                "Checklist"
-              )
-            ),
-            React.createElement(
-              "li",
-              { className: "nav-item" },
-              React.createElement(
-                "a",
                 { className: "nav-link", id: "nav-partner-tab", "data-toggle": "tab",
                   href: "#nav-partner", role: "tab" },
                 "Partners"
@@ -165,7 +165,7 @@ var AssessmentMenu = function (_React$Component) {
           { className: "tab-content overflow-auto", id: "nav-assessment-tabContent" },
           React.createElement(
             "div",
-            { className: "tab-pane", id: "nav-checklist", role: "tabpanel" },
+            { className: "tab-pane show active", id: "nav-checklist", role: "tabpanel" },
             React.createElement(AssessmentChecklist, { ref: this.checklist,
               assessment: {},
               vetting_summary: this.props.vetting_summary
@@ -178,7 +178,7 @@ var AssessmentMenu = function (_React$Component) {
           ),
           React.createElement(
             "div",
-            { className: "tab-pane show active", id: "nav-workitem", role: "tabpanel" },
+            { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
             !this.state.transferred && !this.state.complete ? React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
