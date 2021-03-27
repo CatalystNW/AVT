@@ -41,7 +41,6 @@ async function create_materialsitem(req, res) {
   item.save();
 
   workitem.materialsItems.push(item.id);
-  workitem.materials_cost += item.cost;
   await workitem.save();
   res.status(200).json(item);
 }
@@ -67,7 +66,6 @@ async function delete_materialsitem(req, res) {
     }
   }
 
-  workitem.materials_cost -= item.cost;
   workitem.materialsItems.pull({_id: item._id});
   await workitem.save();
 
