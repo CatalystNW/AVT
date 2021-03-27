@@ -316,12 +316,12 @@ var WorkItem = function (_React$Component) {
           "To Review"
         ), React.createElement(
           "option",
-          { key: id + "declined", value: "declined" },
-          "Declined"
-        ), React.createElement(
-          "option",
           { key: id + "accepted", value: "accepted" },
           "Accepted"
+        ), React.createElement(
+          "option",
+          { key: id + "declined", value: "declined" },
+          "Declined"
         )];
       }
       return React.createElement(
