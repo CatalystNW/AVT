@@ -105,7 +105,7 @@ async function getApplicationsInAssessment(req, res) {
   for (let i=0; i< documents.length; i++) {
     // If doc is assessment complete, but assessment doesn't exist
     if (documents[i].status == "assessComp" &&
-          !(documents[i] in assessmentsByDict)) {
+          !(documents[i]._id in assessmentsByDict)) {
       documents[i].status = "assess";
       await documents[i].save();
     }
