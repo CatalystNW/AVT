@@ -1,6 +1,7 @@
 #assessment-container,
 #application-info-container {
     overflow: auto;
+    -webkit-overflow-scrolling: auto;
 }
 
 .card {

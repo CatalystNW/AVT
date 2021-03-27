@@ -36,6 +36,7 @@
 #complete-workitems-container {
     height: 525px;
     overflow: auto;
+    -webkit-overflow-scrolling: auto;
 }
 
 h5.card-title {
