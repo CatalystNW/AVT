@@ -2,7 +2,32 @@ class PAFApp extends React.Component {
   constructor(props) {
     super(props);
     // this.hide_elements();
+    this.state = {
+      workitems: this.filterWorkItems(),
+    };
   }
+
+  // Get work items from props and return an array of non-decliend ones
+  filterWorkItems = () => {
+    let workitems;
+    if (this.props.type == "project") {
+      const proj = this.props.projectData;
+      workitems = proj.workItems;
+    } else if (this.props.type == "assessment") {
+      const assessment = this.props.assessmentData;
+      workitems = assessment.workItems;
+    } else {
+      return;
+    }
+
+    let filteredWorkitems = [];
+    workitems.forEach(workitem => {
+      if (workitem.status != "declined") {
+        filteredWorkitems.push(workitem);
+      }
+    });
+    return filteredWorkitems
+  };
 
   hide_elements = () => {
     $('#navID').css('display', 'none')
@@ -14,19 +39,17 @@ class PAFApp extends React.Component {
   };
 
   render() {
-    let docApp, documentPackage, workitems, siteAssessment, partners;
+    let docApp, documentPackage, siteAssessment, partners;
     if (this.props.type == "project") {
       const proj = this.props.projectData;
       docApp = proj.documentPackage.application;
       documentPackage = proj.documentPackage;
-      workitems = proj.workItems;
       siteAssessment = proj.siteAssessment;
       partners = proj.partners;
     } else if (this.props.type == "assessment") {
       const assessment = this.props.assessmentData;
       docApp = assessment.documentPackage.application;
       documentPackage = assessment.documentPackage;
-      workitems = assessment.workItems;
       siteAssessment = assessment;
       partners = assessment.partners;
     } else {
@@ -74,7 +97,7 @@ class PAFApp extends React.Component {
       </table>
 
       <h2><b>Work Items</b></h2>
-      {workitems.map((workItem) => {
+      {this.state.workitems.map((workItem) => {
         total_volunteers += workItem.volunteers_required;
         return (
           <div className="workitem-total-container" key={workItem._id}>

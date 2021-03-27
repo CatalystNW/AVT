@@ -15,6 +15,27 @@ var PAFApp = function (_React$Component) {
     // this.hide_elements();
     var _this = _possibleConstructorReturn(this, (PAFApp.__proto__ || Object.getPrototypeOf(PAFApp)).call(this, props));
 
+    _this.filterWorkItems = function () {
+      var workitems = void 0;
+      if (_this.props.type == "project") {
+        var proj = _this.props.projectData;
+        workitems = proj.workItems;
+      } else if (_this.props.type == "assessment") {
+        var assessment = _this.props.assessmentData;
+        workitems = assessment.workItems;
+      } else {
+        return;
+      }
+
+      var filteredWorkitems = [];
+      workitems.forEach(function (workitem) {
+        if (workitem.status != "declined") {
+          filteredWorkitems.push(workitem);
+        }
+      });
+      return filteredWorkitems;
+    };
+
     _this.hide_elements = function () {
       $('#navID').css('display', 'none');
       $('#userNav').css('display', 'none');
@@ -24,125 +45,128 @@ var PAFApp = function (_React$Component) {
       // $('#noUserNav').css('display', 'none')
     };
 
+    _this.state = {
+      workitems: _this.filterWorkItems()
+    };
     return _this;
   }
 
+  // Get work items from props and return an array of non-decliend ones
+
+
   _createClass(PAFApp, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var docApp = void 0,
           documentPackage = void 0,
-          workitems = void 0,
           siteAssessment = void 0,
           partners = void 0;
       if (this.props.type == "project") {
         var proj = this.props.projectData;
         docApp = proj.documentPackage.application;
         documentPackage = proj.documentPackage;
-        workitems = proj.workItems;
         siteAssessment = proj.siteAssessment;
         partners = proj.partners;
       } else if (this.props.type == "assessment") {
         var assessment = this.props.assessmentData;
         docApp = assessment.documentPackage.application;
         documentPackage = assessment.documentPackage;
-        workitems = assessment.workItems;
         siteAssessment = assessment;
         partners = assessment.partners;
       } else {
         return;
       }
       var d = new Date();
-      var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
-      var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
-      if (docApp.name.preferred && docApp.name.preferred.length > 0) name += ' (Preferred: ' + docApp.name.preferred + ')';
+      var date_string = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+      var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + " " + docApp.name.middle + " " + docApp.name.last : docApp.name.first + " " + docApp.name.last;
+      if (docApp.name.preferred && docApp.name.preferred.length > 0) name += " (Preferred: " + docApp.name.preferred + ")";
 
       var address = docApp.address.line_1;
       if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
-        address += '| ' + docApp.address.line_2 + '\n';
+        address += "| " + docApp.address.line_2 + "\n";
       }
       var total_cost = 0,
           total_volunteers = 0;
 
       var vet_summary = documentPackage.notes ? documentPackage.notes.vetting_summary : null;
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'h1',
-          { id: 'doc-header' },
-          'CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ',
+          "h1",
+          { id: "doc-header" },
+          "CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ",
           date_string
         ),
         React.createElement(
-          'table',
+          "table",
           null,
           React.createElement(
-            'tbody',
+            "tbody",
             null,
             React.createElement(
-              'tr',
+              "tr",
               null,
               React.createElement(
-                'td',
+                "td",
                 null,
                 React.createElement(
-                  'b',
+                  "b",
                   null,
-                  'Recipient Name: '
+                  "Recipient Name: "
                 )
               ),
               React.createElement(
-                'td',
+                "td",
                 null,
                 name
               )
             ),
             React.createElement(
-              'tr',
+              "tr",
               null,
               React.createElement(
-                'td',
+                "td",
                 null,
                 React.createElement(
-                  'b',
+                  "b",
                   null,
-                  'Address:'
+                  "Address:"
                 )
               ),
               React.createElement(
-                'td',
+                "td",
                 null,
                 React.createElement(
-                  'div',
+                  "div",
                   null,
                   address
                 ),
                 React.createElement(
-                  'div',
+                  "div",
                   null,
                   docApp.address.city,
-                  ', ',
+                  ", ",
                   docApp.address.state,
-                  ' ',
+                  " ",
                   docApp.address.zip
                 )
               )
             ),
             React.createElement(
-              'tr',
+              "tr",
               null,
               React.createElement(
-                'td',
+                "td",
                 null,
                 React.createElement(
-                  'b',
+                  "b",
                   null,
-                  'Vetting Summary'
+                  "Vetting Summary"
                 )
               ),
               React.createElement(
-                'td',
+                "td",
                 null,
                 vet_summary
               )
@@ -150,80 +174,80 @@ var PAFApp = function (_React$Component) {
           )
         ),
         React.createElement(
-          'h2',
+          "h2",
           null,
           React.createElement(
-            'b',
+            "b",
             null,
-            'Work Items'
+            "Work Items"
           )
         ),
-        workitems.map(function (workItem) {
+        this.state.workitems.map(function (workItem) {
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
-            'div',
-            { className: 'workitem-total-container', key: workItem._id },
+            "div",
+            { className: "workitem-total-container", key: workItem._id },
             React.createElement(
-              'div',
-              { key: "wi-" + workItem._id, className: 'workitem-container' },
+              "div",
+              { key: "wi-" + workItem._id, className: "workitem-container" },
               React.createElement(
-                'table',
+                "table",
                 null,
                 React.createElement(
-                  'tbody',
+                  "tbody",
                   null,
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Work Item Name'
+                      "Work Item Name"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       workItem.name
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Description'
+                      "Description"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       workItem.description
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Site Comments'
+                      "Site Comments"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       workItem.assessment_comments
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Volunteers Needed'
+                      "Volunteers Needed"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       workItem.volunteers_required
                     )
@@ -232,75 +256,75 @@ var PAFApp = function (_React$Component) {
               )
             ),
             React.createElement(
-              'h4',
+              "h4",
               null,
-              'Materials List'
+              "Materials List"
             ),
             workItem.materialsItems.map(function (materialsItem) {
               total_cost += materialsItem.price * materialsItem.quantity;
               return React.createElement(
-                'div',
-                { key: "wi-mi-" + materialsItem._id, className: 'materialsItem-container' },
+                "div",
+                { key: "wi-mi-" + materialsItem._id, className: "materialsItem-container" },
                 React.createElement(
-                  'table',
+                  "table",
                   null,
                   React.createElement(
-                    'tbody',
+                    "tbody",
                     null,
                     React.createElement(
-                      'tr',
+                      "tr",
                       null,
                       React.createElement(
-                        'th',
+                        "th",
                         null,
-                        'Description'
+                        "Description"
                       ),
                       React.createElement(
-                        'td',
+                        "td",
                         null,
                         materialsItem.description
                       )
                     ),
                     React.createElement(
-                      'tr',
+                      "tr",
                       null,
                       React.createElement(
-                        'th',
+                        "th",
                         null,
-                        'Quantity'
+                        "Quantity"
                       ),
                       React.createElement(
-                        'td',
+                        "td",
                         null,
                         materialsItem.quantity
                       )
                     ),
                     React.createElement(
-                      'tr',
+                      "tr",
                       null,
                       React.createElement(
-                        'th',
+                        "th",
                         null,
-                        'Price'
+                        "Price"
                       ),
                       React.createElement(
-                        'td',
+                        "td",
                         null,
                         materialsItem.price
                       )
                     ),
                     React.createElement(
-                      'tr',
+                      "tr",
                       null,
                       React.createElement(
-                        'th',
+                        "th",
                         null,
-                        'Total'
+                        "Total"
                       ),
                       React.createElement(
-                        'td',
+                        "td",
                         null,
-                        '$',
+                        "$",
                         materialsItem.price * materialsItem.quantity
                       )
                     )
@@ -311,120 +335,120 @@ var PAFApp = function (_React$Component) {
           );
         }),
         React.createElement(
-          'h2',
+          "h2",
           null,
           React.createElement(
-            'b',
+            "b",
             null,
-            'Hazard / Safety Testing'
+            "Hazard / Safety Testing"
           )
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          'Lead: ',
+          "Lead: ",
           siteAssessment.lead
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          'Asbestos: ',
+          "Asbestos: ",
           siteAssessment.asbestos
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          'Safety Plan: ',
+          "Safety Plan: ",
           siteAssessment.safety_plan
         ),
         React.createElement(
-          'h2',
+          "h2",
           null,
           React.createElement(
-            'b',
+            "b",
             null,
-            'Partners'
+            "Partners"
           )
         ),
         React.createElement(
-          'div',
-          { id: 'partners-container' },
+          "div",
+          { id: "partners-container" },
           partners.map(function (partner) {
             return React.createElement(
-              'div',
-              { className: 'partner-container', key: partner._id },
+              "div",
+              { className: "partner-container", key: partner._id },
               React.createElement(
-                'table',
+                "table",
                 null,
                 React.createElement(
-                  'tbody',
+                  "tbody",
                   null,
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Organization'
+                      "Organization"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       partner.org_name
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Address'
+                      "Address"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       partner.org_address
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Contact'
+                      "Contact"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       partner.contact_name
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Email'
+                      "Email"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       partner.contact_email
                     )
                   ),
                   React.createElement(
-                    'tr',
+                    "tr",
                     null,
                     React.createElement(
-                      'th',
+                      "th",
                       null,
-                      'Phone'
+                      "Phone"
                     ),
                     React.createElement(
-                      'td',
+                      "td",
                       null,
                       partner.contact_phone
                     )
@@ -435,15 +459,15 @@ var PAFApp = function (_React$Component) {
           })
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          'Total Cost Estimate: ',
+          "Total Cost Estimate: ",
           total_cost
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          'Total Volunteers Needed: ',
+          "Total Volunteers Needed: ",
           total_volunteers
         )
       );
