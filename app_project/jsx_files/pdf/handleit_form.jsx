@@ -46,8 +46,6 @@ class HandleitForm extends React.Component {
       docApp = assessment.documentPackage.application;  
     }
     
-    let d = new Date();
-    const date_string = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
     let name = (docApp.name.middle && docApp.name.middle.length > 0) ?
             `${docApp.name.first} ${docApp.name.middle} ${docApp.name.last}` : 
             `${docApp.name.first} ${docApp.name.last}`;
@@ -56,8 +54,7 @@ class HandleitForm extends React.Component {
     if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
       address += `| ${docApp.address.line_2}\n`;
     }
-    let total_cost = 0,
-        total_volunteers = 0;
+    let total_volunteers = 0;
 
     return (
     <div>
@@ -103,6 +100,10 @@ class HandleitForm extends React.Component {
 
       <h2>Work Requested</h2>
       {workitems.map((workItem) => {
+        let cost = 0;
+        workItem.materialsItems.forEach(materialsItem => {
+          cost += materialsItem.price * materialsItem.quantity;
+        })
         total_volunteers += workItem.volunteers_required;
         return (
           <div className="workitem-total-container" key={workItem._id}>
@@ -123,7 +124,7 @@ class HandleitForm extends React.Component {
                   </tr>
                   <tr>
                     <th>Cost</th>
-                    <td>{workItem.materials_cost}</td>
+                    <td>{cost}</td>
                   </tr>
                 </tbody>
               </table>

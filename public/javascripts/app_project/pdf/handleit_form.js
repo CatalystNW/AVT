@@ -58,16 +58,13 @@ var HandleitForm = function (_React$Component) {
         docApp = assessment.documentPackage.application;
       }
 
-      var d = new Date();
-      var date_string = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
       var name = docApp.name.middle && docApp.name.middle.length > 0 ? docApp.name.first + ' ' + docApp.name.middle + ' ' + docApp.name.last : docApp.name.first + ' ' + docApp.name.last;
 
       var address = docApp.address.line_1;
       if (docApp.address.line_2 && docApp.address.line_2.length > 0) {
         address += '| ' + docApp.address.line_2 + '\n';
       }
-      var total_cost = 0,
-          total_volunteers = 0;
+      var total_volunteers = 0;
 
       return React.createElement(
         'div',
@@ -195,6 +192,10 @@ var HandleitForm = function (_React$Component) {
           'Work Requested'
         ),
         workitems.map(function (workItem) {
+          var cost = 0;
+          workItem.materialsItems.forEach(function (materialsItem) {
+            cost += materialsItem.price * materialsItem.quantity;
+          });
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
             'div',
@@ -261,7 +262,7 @@ var HandleitForm = function (_React$Component) {
                     React.createElement(
                       'td',
                       null,
-                      workItem.materials_cost
+                      cost
                     )
                   )
                 )
