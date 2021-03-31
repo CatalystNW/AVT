@@ -112,6 +112,13 @@ var ProjectMenu = function (_React$Component) {
       _this.setState(_defineProperty({}, property_type, value));
 
       _this[property_type + "_timer"] = setTimeout(function () {
+        // Force volunteer hours to have 1 decimal place
+        if (property_type == "volunteer_hours") {
+          value = parseFloat(value).toFixed(1);
+          if (value == "NaN") value = 0;
+          _this.setState(_defineProperty({}, property_type, value));
+        }
+
         var data = {
           property: property_type,
           value: value

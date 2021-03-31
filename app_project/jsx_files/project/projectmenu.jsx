@@ -132,6 +132,14 @@ class ProjectMenu extends React.Component {
     this.setState({[property_type]: value});
 
     this[property_type + "_timer"] = setTimeout(() => {
+      // Force volunteer hours to have 1 decimal place
+      if (property_type == "volunteer_hours") {
+        value = parseFloat(value).toFixed(1);
+        if (value == "NaN")
+          value = 0;
+        this.setState({[property_type]: value});
+      }
+
       var data = {
         property: property_type,
         value: value,
