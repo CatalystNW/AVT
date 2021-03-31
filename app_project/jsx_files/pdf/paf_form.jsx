@@ -38,6 +38,12 @@ class PAFApp extends React.Component {
         // $('#noUserNav').css('display', 'none')
   };
 
+  roundCurrency(n) {
+    let mult = 100, value;
+    value = parseFloat((n * mult).toFixed(6))
+    return Math.round(value) / mult;
+  }
+
   render() {
     let docApp, documentPackage, siteAssessment, partners;
     if (this.props.type == "project") {
@@ -68,7 +74,8 @@ class PAFApp extends React.Component {
       address += `| ${docApp.address.line_2}\n`;
     }
     let total_cost = 0,
-        total_volunteers = 0;
+        total_volunteers = 0,
+        cost;
 
     let vet_summary = (documentPackage.notes ? 
       documentPackage.notes.vetting_summary : null
@@ -126,7 +133,8 @@ class PAFApp extends React.Component {
 
             <h4>Materials List</h4>
             {workItem.materialsItems.map( (materialsItem) => {
-              total_cost += materialsItem.price * materialsItem.quantity;
+              cost = this.roundCurrency(materialsItem.price * materialsItem.quantity);
+              total_cost += cost;
               return (
               <div key={"wi-mi-" + materialsItem._id} className="materialsItem-container">
                 <table>
@@ -145,7 +153,7 @@ class PAFApp extends React.Component {
                     </tr>
                     <tr>
                       <th>Total</th>
-                      <td>${materialsItem.price * materialsItem.quantity}</td>
+                      <td>${cost}</td>
                     </tr>
                   </tbody>
                 </table>

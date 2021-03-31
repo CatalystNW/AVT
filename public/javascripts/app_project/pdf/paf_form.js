@@ -55,8 +55,18 @@ var PAFApp = function (_React$Component) {
 
 
   _createClass(PAFApp, [{
+    key: "roundCurrency",
+    value: function roundCurrency(n) {
+      var mult = 100,
+          value = void 0;
+      value = parseFloat((n * mult).toFixed(6));
+      return Math.round(value) / mult;
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var docApp = void 0,
           documentPackage = void 0,
           siteAssessment = void 0,
@@ -86,7 +96,8 @@ var PAFApp = function (_React$Component) {
         address += "| " + docApp.address.line_2 + "\n";
       }
       var total_cost = 0,
-          total_volunteers = 0;
+          total_volunteers = 0,
+          cost = void 0;
 
       var vet_summary = documentPackage.notes ? documentPackage.notes.vetting_summary : null;
       return React.createElement(
@@ -261,7 +272,8 @@ var PAFApp = function (_React$Component) {
               "Materials List"
             ),
             workItem.materialsItems.map(function (materialsItem) {
-              total_cost += materialsItem.price * materialsItem.quantity;
+              cost = _this2.roundCurrency(materialsItem.price * materialsItem.quantity);
+              total_cost += cost;
               return React.createElement(
                 "div",
                 { key: "wi-mi-" + materialsItem._id, className: "materialsItem-container" },
@@ -325,7 +337,7 @@ var PAFApp = function (_React$Component) {
                         "td",
                         null,
                         "$",
-                        materialsItem.price * materialsItem.quantity
+                        cost
                       )
                     )
                   )
