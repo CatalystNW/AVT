@@ -267,54 +267,7 @@ var ModalMenu = function (_React$Component) {
           comments_input,
           handleit_form
         );
-      } else if (this.state.type == "create_materialsitem") {
-        return React.createElement(
-          "div",
-          null,
-          React.createElement(
-            "div",
-            { className: "form-group" },
-            React.createElement(
-              "label",
-              null,
-              "Description"
-            ),
-            React.createElement("input", { type: "text", className: "form-control", name: "description", id: "description-input", defaultValue: "", required: true })
-          ),
-          React.createElement(
-            "div",
-            { className: "form-group" },
-            React.createElement(
-              "label",
-              null,
-              "Quantity"
-            ),
-            React.createElement("input", { type: "number", className: "form-control", defaultValue: "", name: "quantity",
-              id: "quantity-input", min: "0", required: true })
-          ),
-          React.createElement(
-            "div",
-            { className: "form-group" },
-            React.createElement(
-              "label",
-              null,
-              "Price"
-            ),
-            React.createElement("input", { type: "number", className: "form-control", step: "any", defaultValue: "", name: "price",
-              id: "price-input", min: "0", required: true })
-          ),
-          React.createElement(
-            "div",
-            { className: "form-group" },
-            React.createElement(
-              "label",
-              null,
-              "Vendor"
-            ),
-            React.createElement("input", { type: "text", className: "form-control", name: "vendor", id: "vendor-input", defaultValue: "", required: true })
-          )
-        );
-      } else if (this.state.type == "edit_materialsitem") {
+      } else if (this.state.type == "create_materialsitem" || this.state.type == "edit_materialsitem") {
         return React.createElement(
           "div",
           null,

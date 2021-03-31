@@ -190,28 +190,8 @@ class ModalMenu extends React.Component {
         {comments_input}
         {handleit_form}
       </div>);
-    } else if (this.state.type == "create_materialsitem") {
-      return (<div>
-        <div className="form-group">
-          <label>Description</label>
-          <input type="text" className="form-control" name="description" id="description-input" defaultValue="" required></input>
-        </div>
-        <div className="form-group">
-          <label>Quantity</label>
-          <input type="number" className="form-control" defaultValue="" name="quantity" 
-            id="quantity-input" min="0" required></input>
-        </div>
-        <div className="form-group">
-          <label>Price</label>
-          <input type="number" className="form-control" step="any" defaultValue="" name="price" 
-            id="price-input" min="0" required></input>
-        </div>
-        <div className="form-group">
-          <label>Vendor</label>
-          <input type="text" className="form-control" name="vendor" id="vendor-input" defaultValue="" required></input>
-        </div>
-      </div>);
-    } else if (this.state.type == "edit_materialsitem") {
+    } else if (this.state.type == "create_materialsitem" ||
+        this.state.type == "edit_materialsitem") {
       return (<div>
         <div className="form-group">
           <label>Description</label>
