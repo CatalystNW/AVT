@@ -205,7 +205,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label>Price</label>
-          <input type="number" className="form-control" step="any" name="price" min="0"
+          <input type="number" className="form-control" step="0.01" name="price" min="0"
             defaultValue={this.state.prev_data.price} id="price-input" required></input>
         </div>
         <div className="form-group">

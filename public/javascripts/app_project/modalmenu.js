@@ -301,7 +301,7 @@ var ModalMenu = function (_React$Component) {
               null,
               "Price"
             ),
-            React.createElement("input", { type: "number", className: "form-control", step: "any", name: "price", min: "0",
+            React.createElement("input", { type: "number", className: "form-control", step: "0.01", name: "price", min: "0",
               defaultValue: this.state.prev_data.price, id: "price-input", required: true })
           ),
           React.createElement(
