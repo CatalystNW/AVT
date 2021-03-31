@@ -44,8 +44,18 @@ var HandleitForm = function (_React$Component) {
   }
 
   _createClass(HandleitForm, [{
+    key: 'roundCurrency',
+    value: function roundCurrency(n) {
+      var mult = 100,
+          value = void 0;
+      value = parseFloat((n * mult).toFixed(6));
+      return Math.round(value) / mult;
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var workitems = void 0,
           docApp = void 0;
       if (this.props.type == "project") {
@@ -192,9 +202,9 @@ var HandleitForm = function (_React$Component) {
           'Work Requested'
         ),
         workitems.map(function (workItem) {
-          var cost = 0;
+          var workitemCost = 0;
           workItem.materialsItems.forEach(function (materialsItem) {
-            cost += materialsItem.price * materialsItem.quantity;
+            workitemCost += _this2.roundCurrency(materialsItem.price * materialsItem.quantity);
           });
           total_volunteers += workItem.volunteers_required;
           return React.createElement(
@@ -262,7 +272,7 @@ var HandleitForm = function (_React$Component) {
                     React.createElement(
                       'td',
                       null,
-                      cost
+                      workitemCost
                     )
                   )
                 )

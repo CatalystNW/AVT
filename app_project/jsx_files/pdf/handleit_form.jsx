@@ -34,6 +34,12 @@ class HandleitForm extends React.Component {
     window.print();
   }
 
+  roundCurrency(n) {
+    let mult = 100, value;
+    value = parseFloat((n * mult).toFixed(6))
+    return Math.round(value) / mult;
+  }
+
   render() {
     let workitems, docApp;
     if (this.props.type=="project") {
@@ -100,9 +106,9 @@ class HandleitForm extends React.Component {
 
       <h2>Work Requested</h2>
       {workitems.map((workItem) => {
-        let cost = 0;
+        let workitemCost = 0;
         workItem.materialsItems.forEach(materialsItem => {
-          cost += materialsItem.price * materialsItem.quantity;
+          workitemCost += this.roundCurrency(materialsItem.price * materialsItem.quantity);
         })
         total_volunteers += workItem.volunteers_required;
         return (
@@ -124,7 +130,7 @@ class HandleitForm extends React.Component {
                   </tr>
                   <tr>
                     <th>Cost</th>
-                    <td>{cost}</td>
+                    <td>{workitemCost}</td>
                   </tr>
                 </tbody>
               </table>
