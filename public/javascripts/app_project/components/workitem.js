@@ -236,8 +236,9 @@ var WorkItem = function (_React$Component) {
     _this.onChange_inputs_timer = function (e) {
       var property_type = e.target.getAttribute("property_type"),
           value = e.target.value;
-      if (property_type == "volunteers_required" && parseInt(value) < 0) {
-        value = 0;
+      if (property_type == "volunteers_required") {
+        value = parseInt(value);
+        if (isNaN(value) || value < 0) value = 0;
       }
       clearTimeout(_this[property_type + "_timer"]);
 
