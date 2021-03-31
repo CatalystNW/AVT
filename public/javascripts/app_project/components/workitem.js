@@ -150,7 +150,7 @@ var WorkItem = function (_React$Component) {
           "tbody",
           null,
           _this.state.materialsItems.map(function (materialsItem, index) {
-            cost = parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100 / 100;
+            cost = _this.roundCurrency(parseFloat(materialsItem.price) * parseInt(materialsItem.quantity));
             total += cost;
             return React.createElement(
               "tr",
@@ -272,10 +272,18 @@ var WorkItem = function (_React$Component) {
   // Finds the material item in state & then runs edit_materialsitem on it
 
 
-  // Set timer when text is typed
-
-
   _createClass(WorkItem, [{
+    key: "roundCurrency",
+    value: function roundCurrency(n) {
+      var mult = 100,
+          value = void 0;
+      value = parseFloat((n * mult).toFixed(6));
+      return Math.round(value) / mult;
+    }
+
+    // Set timer when text is typed
+
+  }, {
     key: "render",
     value: function render() {
       // Show project comments only on project page

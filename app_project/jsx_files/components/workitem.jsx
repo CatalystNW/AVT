@@ -88,6 +88,12 @@ class WorkItem extends React.Component {
     this.setState({materialsItems: new_itemlist,});
   }
 
+  roundCurrency(n) {
+    let mult = 100, value;
+    value = parseFloat((n * mult).toFixed(6))
+    return Math.round(value) / mult;
+  }
+
   create_materialslist = () => {
     var total = 0, cost;
     return (
@@ -104,7 +110,7 @@ class WorkItem extends React.Component {
         </thead>
         <tbody>
           {this.state.materialsItems.map((materialsItem, index) => {
-            cost = (parseFloat(materialsItem.price) * parseInt(materialsItem.quantity) * 100)/ 100;
+            cost = this.roundCurrency(parseFloat(materialsItem.price) * parseInt(materialsItem.quantity));
             total += cost;
             return (
               <tr key={materialsItem._id}>
