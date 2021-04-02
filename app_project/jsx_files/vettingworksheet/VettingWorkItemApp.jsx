@@ -126,55 +126,57 @@ class VettingWorkItemApp extends React.Component {
   render() {
     return (
     <div>
-      <div className="col-xs-12 col-sm-6 col-md-3" >
-        <h3>Add a Work Item</h3>
-        <div className="panel panel-primary work-item" name="new">
-          <div className="panel-body">
-            <h4 className="card-title">New Work Item</h4>
-            <form onSubmit={this.onSubmit_createWorkItem} id={this.formId}>
-              <div className="card-text">
-                <div className="form-group">
-                  <label className="form-control-label">Name*</label>
-                  <input type="text" className="form-control" name="name" required/>
+      <div className="row">
+        <div className="col-xs-12 col-sm-6 col-md-3">
+          <h3>Add a Work Item</h3>
+          <div className="panel panel-primary work-item" name="new">
+            <div className="panel-body">
+              <h4 className="card-title">New Work Item</h4>
+              <form onSubmit={this.onSubmit_createWorkItem} id={this.formId}>
+                <div className="card-text">
+                  <div className="form-group">
+                    <label className="form-control-label">Name*</label>
+                    <input type="text" className="form-control" name="name" required/>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-control-label">Description*</label>
+                    <textarea className="form-control" name="description" rows="3"></textarea>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-control-label">Vetting Comments*</label>
+                    <textarea className="form-control" name="vetting_comments" rows="3" required></textarea>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-control-label">Handle-it</label>
+                    <input type="checkbox" name="handleit" id="checkbox1" style={{"marginLeft": "10px; !important"}} />
+                          </div>
                 </div>
-                <div className="form-group">
-                  <label className="form-control-label">Description*</label>
-                  <textarea className="form-control" name="description" rows="3"></textarea>
-                </div>
-                <div className="form-group">
-                  <label className="form-control-label">Vetting Comments*</label>
-                  <textarea className="form-control" name="vetting_comments" rows="3" required></textarea>
-                </div>
-                <div className="form-group">
-                  <label className="form-control-label">Handle-it</label>
-                  <input type="checkbox" name="handleit" id="checkbox1" style={{"marginLeft": "10px; !important"}} />
-                        </div>
-              </div>
-              <button type="submit" className="btn btn-primary card-link">Save</button>
-              <button type="button" className="btn btn-danger card-link"
-                onClick={this.clearForm}>Clear</button>
-            </form>
+                <button type="submit" className="btn btn-primary card-link">Save</button>
+                <button type="button" className="btn btn-danger card-link"
+                  onClick={this.clearForm}>Clear</button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-xs-12 col-sm-6 col-md-9">
-			  <h3>Current Work Items</h3>
-        <div id="workitems-container">
-          {this.state.workItems.map(workItem => {
-            return (
-              <div className="panel panel-primary" key={"container-" + workItem._id}>
-                <div className="panel-body">
-                  <WorkItem key={workItem._id} page_type={"vetting"}
-                    workitem={workItem}
-                    remove_workitem={this.remove_workitem}
-                    set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                    set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                    set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                  />
+        <div className="col-xs-12 col-sm-6 col-md-9">
+          <h3>Current Work Items</h3>
+          <div id="workitems-container">
+            {this.state.workItems.map(workItem => {
+              return (
+                <div className="panel panel-primary" key={"container-" + workItem._id}>
+                  <div className="panel-body">
+                    <WorkItem key={workItem._id} page_type={"vetting"}
+                      workitem={workItem}
+                      remove_workitem={this.remove_workitem}
+                      set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                      set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                      set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                    />
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
       <div className="col-sm-12">
