@@ -196,7 +196,7 @@ class VettingWorkItemApp extends React.Component {
         </div>
       </div>
       <div className="col-sm-12">
-        <h3>Complete Work Items</h3>
+        <h3>Completed Work Items</h3>
         <div id="complete-workitems-container">
           {this.state.completeWorkItems.map(workItem => {
             return (

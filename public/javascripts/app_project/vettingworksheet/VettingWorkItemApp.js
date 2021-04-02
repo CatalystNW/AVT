@@ -290,7 +290,7 @@ var VettingWorkItemApp = function (_React$Component) {
           React.createElement(
             "h3",
             null,
-            "Complete Work Items"
+            "Completed Work Items"
           ),
           React.createElement(
             "div",
