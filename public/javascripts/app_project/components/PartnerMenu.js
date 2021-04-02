@@ -323,19 +323,19 @@ var PartnerMenu = function (_React$Component) {
         null,
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm",
+          { type: "button", className: "btn btn-sm btn-primary",
             onClick: _this.submitSelectedPartners },
           "Submit"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm",
+          { type: "button", className: "btn btn-sm btn-warning",
             onClick: _this.change_status },
           "Cancel"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm",
+          { type: "button", className: "btn btn-sm btn-success",
             onClick: _this.onClick_createPartner },
           "Create Partner"
         ),
@@ -432,7 +432,7 @@ var PartnerMenu = function (_React$Component) {
                   null,
                   React.createElement(
                     "button",
-                    { type: "button", className: "btn btn-sm",
+                    { type: "button", className: "btn btn-sm btn-primary",
                       location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
@@ -440,7 +440,7 @@ var PartnerMenu = function (_React$Component) {
                   ),
                   React.createElement(
                     "button",
-                    { type: "button", className: "btn btn-sm",
+                    { type: "button", className: "btn btn-sm btn-danger",
                       location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_deletePartner },

@@ -255,11 +255,11 @@ class PartnerMenu extends React.Component {
   show_all_partners = () => {
     return (
     <div>
-      <button type="button" className="btn btn-sm"
+      <button type="button" className="btn btn-sm btn-primary"
         onClick={this.submitSelectedPartners}>Submit</button>
-      <button type="button" className="btn btn-sm"
+      <button type="button" className="btn btn-sm btn-warning"
         onClick={this.change_status}>Cancel</button>
-      <button type="button" className="btn btn-sm"
+      <button type="button" className="btn btn-sm btn-success"
         onClick={this.onClick_createPartner}>Create Partner</button>
       <h3>Available Partners</h3>
       <table>
@@ -291,11 +291,11 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
                 <td>
-                  <button type="button" className="btn btn-sm"
+                  <button type="button" className="btn btn-sm btn-primary"
                     location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>
-                  <button type="button" className="btn btn-sm"
+                  <button type="button" className="btn btn-sm btn-danger"
                     location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_deletePartner}>Delete</button>
