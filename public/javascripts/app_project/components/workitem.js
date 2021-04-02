@@ -177,7 +177,7 @@ var WorkItem = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-sm-1" },
-                cost
+                cost.toFixed(2)
               ),
               React.createElement(
                 "td",
@@ -229,7 +229,7 @@ var WorkItem = function (_React$Component) {
             React.createElement(
               "td",
               { className: "col-sm-2" },
-              total
+              total.toFixed(2)
             )
           )
         )

@@ -121,7 +121,7 @@ class WorkItem extends React.Component {
                 <td className="col-sm-1">
                   {materialsItem.quantity}</td>
                 <td className="col-sm-1">
-                  {cost}
+                  {cost.toFixed(2)}
                 </td>
                 <td className="col-sm-2">
                   <button className="btn btn-secondary btn-sm"
@@ -154,7 +154,7 @@ class WorkItem extends React.Component {
         <tfoot>
           <tr>
             <td className="col-sm-9" >Total</td>
-            <td className="col-sm-2" >{total}</td>
+            <td className="col-sm-2" >{total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>

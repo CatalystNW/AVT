@@ -272,7 +272,7 @@ var HandleitForm = function (_React$Component) {
                     React.createElement(
                       'td',
                       null,
-                      workitemCost
+                      workitemCost.toFixed(2)
                     )
                   )
                 )

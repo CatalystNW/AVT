@@ -337,7 +337,7 @@ var PAFApp = function (_React$Component) {
                         "td",
                         null,
                         "$",
-                        cost
+                        cost.toFixed(2)
                       )
                     )
                   )
@@ -474,7 +474,7 @@ var PAFApp = function (_React$Component) {
           "div",
           null,
           "Total Cost Estimate: ",
-          total_cost
+          total_cost.toFixed(2)
         ),
         React.createElement(
           "div",

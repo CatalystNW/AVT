@@ -130,7 +130,7 @@ class HandleitForm extends React.Component {
                   </tr>
                   <tr>
                     <th>Cost</th>
-                    <td>{workitemCost}</td>
+                    <td>{workitemCost.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>

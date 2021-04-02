@@ -153,7 +153,7 @@ class PAFApp extends React.Component {
                     </tr>
                     <tr>
                       <th>Total</th>
-                      <td>${cost}</td>
+                      <td>${cost.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -204,7 +204,7 @@ class PAFApp extends React.Component {
         })}
       </div>
 
-      <div>Total Cost Estimate: {total_cost}</div>
+      <div>Total Cost Estimate: {total_cost.toFixed(2)}</div>
       <div>Total Volunteers Needed: {total_volunteers}</div>
 
     </div>);
