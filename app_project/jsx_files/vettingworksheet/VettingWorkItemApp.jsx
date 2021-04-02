@@ -157,41 +157,45 @@ class VettingWorkItemApp extends React.Component {
           </div>
         </div>
       </div>
-      <div className="col-xs-12 col-sm-6 col-md-9" id="workitems-container">
+      <div className="col-xs-12 col-sm-6 col-md-9">
 			  <h3>Current Work Items</h3>
-        {this.state.workItems.map(workItem => {
-          return (
-            <div className="panel panel-primary" key={"container-" + workItem._id}>
-              <div className="panel-body">
-                <WorkItem key={workItem._id} page_type={"vetting"}
-                  workitem={workItem}
-                  remove_workitem={this.remove_workitem}
-                  set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                  set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                  set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                />
+        <div id="workitems-container">
+          {this.state.workItems.map(workItem => {
+            return (
+              <div className="panel panel-primary" key={"container-" + workItem._id}>
+                <div className="panel-body">
+                  <WorkItem key={workItem._id} page_type={"vetting"}
+                    workitem={workItem}
+                    remove_workitem={this.remove_workitem}
+                    set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                    set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                    set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                  />
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
-      <div className="col-sm-12" id="complete-workitems-container">
+      <div className="col-sm-12">
         <h3>Complete Work Items</h3>
-        {this.state.completeWorkItems.map(workItem => {
-          return (
-            <div className="panel panel-primary">
-              <div className="panel-body">
-                <WorkItem key={workItem._id} page_type={"vetting"}
-                  workitem={workItem}
-                  // remove_workitem={this.remove_workitem}
-                  // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                  // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                  // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                />
+        <div id="complete-workitems-container">
+          {this.state.completeWorkItems.map(workItem => {
+            return (
+              <div className="panel panel-primary">
+                <div className="panel-body">
+                  <WorkItem key={workItem._id} page_type={"vetting"}
+                    workitem={workItem}
+                    // remove_workitem={this.remove_workitem}
+                    // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                    // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                    // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                  />
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
 
       <ModalMenu ref={this.modalmenu}/>

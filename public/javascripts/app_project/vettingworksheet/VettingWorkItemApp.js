@@ -238,55 +238,63 @@ var VettingWorkItemApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "col-xs-12 col-sm-6 col-md-9", id: "workitems-container" },
+          { className: "col-xs-12 col-sm-6 col-md-9" },
           React.createElement(
             "h3",
             null,
             "Current Work Items"
           ),
-          this.state.workItems.map(function (workItem) {
-            return React.createElement(
-              "div",
-              { className: "panel panel-primary", key: "container-" + workItem._id },
-              React.createElement(
+          React.createElement(
+            "div",
+            { id: "workitems-container" },
+            this.state.workItems.map(function (workItem) {
+              return React.createElement(
                 "div",
-                { className: "panel-body" },
-                React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-                  workitem: workItem,
-                  remove_workitem: _this2.remove_workitem,
-                  set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
-                  set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
-                  set_edit_workitem_menu: _this2.set_edit_workitem_menu
-                })
-              )
-            );
-          })
+                { className: "panel panel-primary", key: "container-" + workItem._id },
+                React.createElement(
+                  "div",
+                  { className: "panel-body" },
+                  React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                    workitem: workItem,
+                    remove_workitem: _this2.remove_workitem,
+                    set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
+                    set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
+                    set_edit_workitem_menu: _this2.set_edit_workitem_menu
+                  })
+                )
+              );
+            })
+          )
         ),
         React.createElement(
           "div",
-          { className: "col-sm-12", id: "complete-workitems-container" },
+          { className: "col-sm-12" },
           React.createElement(
             "h3",
             null,
             "Complete Work Items"
           ),
-          this.state.completeWorkItems.map(function (workItem) {
-            return React.createElement(
-              "div",
-              { className: "panel panel-primary" },
-              React.createElement(
+          React.createElement(
+            "div",
+            { id: "complete-workitems-container" },
+            this.state.completeWorkItems.map(function (workItem) {
+              return React.createElement(
                 "div",
-                { className: "panel-body" },
-                React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-                  workitem: workItem
-                  // remove_workitem={this.remove_workitem}
-                  // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                  // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                  // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                })
-              )
-            );
-          })
+                { className: "panel panel-primary" },
+                React.createElement(
+                  "div",
+                  { className: "panel-body" },
+                  React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                    workitem: workItem
+                    // remove_workitem={this.remove_workitem}
+                    // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                    // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                    // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                  })
+                )
+              );
+            })
+          )
         ),
         React.createElement(ModalMenu, { ref: this.modalmenu })
       );
