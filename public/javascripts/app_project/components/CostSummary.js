@@ -95,7 +95,8 @@ var CostSummary = function (_React$Component) {
 
     _this.create_materialsitems_table = function (workitem_type) {
       var arr = workitem_type == "accepted" ? _this.state.accepted_project_materials : _this.state.review_project_materials,
-          total = 0;
+          total = 0,
+          cost = void 0;
       return React.createElement(
         "table",
         { className: "table" },
@@ -136,7 +137,8 @@ var CostSummary = function (_React$Component) {
           "tbody",
           null,
           arr.map(function (item, index) {
-            total += item.quantity * item.price;
+            cost = _this.roundCurrency(item.quantity * item.price);
+            total += cost;
             return React.createElement(
               "tr",
               { key: workitem_type + "_" + index },
@@ -163,7 +165,7 @@ var CostSummary = function (_React$Component) {
               React.createElement(
                 "td",
                 null,
-                item.quantity * item.price
+                cost.toFixed(2)
               )
             );
           })
@@ -182,7 +184,7 @@ var CostSummary = function (_React$Component) {
             React.createElement(
               "td",
               null,
-              total
+              total.toFixed(2)
             )
           )
         )
@@ -223,14 +225,23 @@ var CostSummary = function (_React$Component) {
    * @param {String} assessment_id ID of site assessment
    */
 
-  /**
-   * Creates the materials item table for the Cost Summary
-   * @param {String} workitem_type 
-   * @returns Table element
-   */
-
 
   _createClass(CostSummary, [{
+    key: "roundCurrency",
+    value: function roundCurrency(n) {
+      var mult = 100,
+          value = void 0;
+      value = parseFloat((n * mult).toFixed(6));
+      return Math.round(value) / mult;
+    }
+
+    /**
+     * Creates the materials item table for the Cost Summary
+     * @param {String} workitem_type 
+     * @returns Table element
+     */
+
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(

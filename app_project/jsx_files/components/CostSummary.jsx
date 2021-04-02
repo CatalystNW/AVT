@@ -105,6 +105,13 @@ class CostSummary extends React.Component {
       }
     });
   }
+
+  roundCurrency(n) {
+    let mult = 100, value;
+    value = parseFloat((n * mult).toFixed(6))
+    return Math.round(value) / mult;
+  }
+
   /**
    * Creates the materials item table for the Cost Summary
    * @param {String} workitem_type 
@@ -114,7 +121,7 @@ class CostSummary extends React.Component {
     let arr = (workitem_type == "accepted") ?
               this.state.accepted_project_materials :
               this.state.review_project_materials,
-        total = 0;
+        total = 0, cost;
     return (
       <table className="table">
         <thead>
@@ -128,14 +135,15 @@ class CostSummary extends React.Component {
         </thead>
         <tbody>
           {arr.map((item, index) => {
-            total += item.quantity * item.price;
+            cost = this.roundCurrency(item.quantity * item.price);
+            total += cost;
             return (
               <tr key={workitem_type + "_" + index}>
                 <td>{item.description}</td>
                 <td>{item.price}</td>
                 <td>{item.quantity}</td>
                 <td>{item.vendor}</td>
-                <td>{item.quantity * item.price}</td>
+                <td>{cost.toFixed(2)}</td>
               </tr>
             );
           })}
@@ -143,7 +151,7 @@ class CostSummary extends React.Component {
         <tfoot>
           <tr>
             <th>Total</th>
-            <td>{total}</td>
+            <td>{total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
