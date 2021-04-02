@@ -136,6 +136,32 @@ var VettingWorkItemApp = function (_React$Component) {
       );
     };
 
+    _this.createCurrentWorkItems = function () {
+      var workitems = [];
+
+      _this.state.workItems.forEach(function (workItem) {
+        if (workItem.status != "declined") {
+          workitems.push(React.createElement(
+            "div",
+            { className: "panel panel-primary", key: "container-" + workItem._id },
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                workitem: workItem,
+                remove_workitem: _this.remove_workitem,
+                set_edit_materialisitem_menu: _this.set_edit_materialisitem_menu,
+                set_create_materialsitem_menu: _this.set_create_materialsitem_menu,
+                set_edit_workitem_menu: _this.set_edit_workitem_menu
+              })
+            )
+          ));
+        }
+      });
+
+      return workitems;
+    };
+
     _this.state = {
       workItems: [],
       completeWorkItems: []
@@ -147,11 +173,15 @@ var VettingWorkItemApp = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * Filter out declined work items and create an array of the incomplete ones.
+   * @returns Array of WorkItem elements in div container
+   */
+
+
   _createClass(VettingWorkItemApp, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return React.createElement(
         "div",
         null,
@@ -250,23 +280,7 @@ var VettingWorkItemApp = function (_React$Component) {
             React.createElement(
               "div",
               { id: "workitems-container" },
-              this.state.workItems.map(function (workItem) {
-                return React.createElement(
-                  "div",
-                  { className: "panel panel-primary", key: "container-" + workItem._id },
-                  React.createElement(
-                    "div",
-                    { className: "panel-body" },
-                    React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-                      workitem: workItem,
-                      remove_workitem: _this2.remove_workitem,
-                      set_edit_materialisitem_menu: _this2.set_edit_materialisitem_menu,
-                      set_create_materialsitem_menu: _this2.set_create_materialsitem_menu,
-                      set_edit_workitem_menu: _this2.set_edit_workitem_menu
-                    })
-                  )
-                );
-              })
+              this.createCurrentWorkItems()
             )
           )
         ),

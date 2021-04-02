@@ -123,6 +123,36 @@ class VettingWorkItemApp extends React.Component {
     );
   };
 
+  /**
+   * Filter out declined work items and create an array of the incomplete ones.
+   * @returns Array of WorkItem elements in div container
+   */
+   createCurrentWorkItems = () => {
+    const workitems = [];
+
+    this.state.workItems.forEach(workItem => {
+      if (workItem.status != "declined") {
+        workitems.push(
+          <div className="panel panel-primary" key={"container-" + workItem._id}>
+            <div className="panel-body">
+              <WorkItem key={workItem._id} page_type={"vetting"}
+                workitem={workItem}
+                remove_workitem={this.remove_workitem}
+                set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                set_edit_workitem_menu = {this.set_edit_workitem_menu}
+              />
+            </div>
+          </div>
+        );
+      }
+    });
+
+    return workitems;
+  };
+
+  create_completeWorkItems
+
   render() {
     return (
     <div>
@@ -161,21 +191,7 @@ class VettingWorkItemApp extends React.Component {
         <div className="col-xs-12 col-sm-6 col-md-9">
           <h3>Current Work Items</h3>
           <div id="workitems-container">
-            {this.state.workItems.map(workItem => {
-              return (
-                <div className="panel panel-primary" key={"container-" + workItem._id}>
-                  <div className="panel-body">
-                    <WorkItem key={workItem._id} page_type={"vetting"}
-                      workitem={workItem}
-                      remove_workitem={this.remove_workitem}
-                      set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                      set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                      set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                    />
-                  </div>
-                </div>
-              )
-            })}
+            {this.createCurrentWorkItems()}
           </div>
         </div>
       </div>
