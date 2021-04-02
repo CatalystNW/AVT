@@ -217,7 +217,7 @@ class PartnerMenu extends React.Component {
   show_current_partners = () => {
     return (
       <div>
-        <button type="button" className="btn btn-sm"
+        <button type="button" className="btn btn-primary"
           onClick={this.change_status}>Modify Partners</button>
         <h3>Current Partners</h3>
         <table>

@@ -216,7 +216,7 @@ var PartnerMenu = function (_React$Component) {
         null,
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm",
+          { type: "button", className: "btn btn-primary",
             onClick: _this.change_status },
           "Modify Partners"
         ),
