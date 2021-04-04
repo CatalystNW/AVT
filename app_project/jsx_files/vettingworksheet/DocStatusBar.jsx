@@ -6,14 +6,7 @@ class DocStatusBar extends React.Component {
     this.state = {
       status: this.props.status,
     };
-    this.loadStatus();
   }
-
-  loadStatus = () => {
-    if (this.props.status == null) {
-      console.log(this.props.status);
-    }
-  };
 
   onChangeStatus = (e) => {
     $.ajax({

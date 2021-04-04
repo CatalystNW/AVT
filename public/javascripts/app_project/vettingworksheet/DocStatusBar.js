@@ -16,12 +16,6 @@ var DocStatusBar = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (DocStatusBar.__proto__ || Object.getPrototypeOf(DocStatusBar)).call(this, props));
 
-    _this.loadStatus = function () {
-      if (_this.props.status == null) {
-        console.log(_this.props.status);
-      }
-    };
-
     _this.onChangeStatus = function (e) {
       $.ajax({
         url: "/app_project/document/" + _this.props.appId + "/status",
@@ -84,7 +78,6 @@ var DocStatusBar = function (_React$Component) {
     _this.state = {
       status: _this.props.status
     };
-    _this.loadStatus();
     return _this;
   }
 
