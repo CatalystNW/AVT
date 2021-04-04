@@ -114,14 +114,17 @@ class CostSummary extends React.Component {
 
   /**
    * Creates the materials item table for the Cost Summary
-   * @param {String} workitem_type
+   * @param {String} acceptedStatus True to create the accepted
+   *  work items. Else, the work items in review.
    * @returns Table element
    */
-  create_materialsitems_table = (workitem_type) => {
-    let arr = (workitem_type == "accepted") ?
+  create_materialsitems_table = (acceptedStatus) => {
+    let arr = (acceptedStatus === true) ?
               this.state.accepted_project_materials :
               this.state.review_project_materials,
         total = 0, cost;
+    const workitem_type = (acceptedStatus === true) ?
+            "accepted" : "review";
     return (
       <table className="table">
         <thead>
@@ -179,7 +182,7 @@ class CostSummary extends React.Component {
               <tr>
                 <td>
                   <h3>Materials Lists</h3>
-                  {this.create_materialsitems_table("accepted")}
+                  {this.create_materialsitems_table(true)}
                 </td>
               </tr>
             </tbody>
@@ -201,7 +204,7 @@ class CostSummary extends React.Component {
                 <tr>
                   <td>
                     <h2>Materials Lists</h2>
-                    {this.create_materialsitems_table("review")}
+                    {this.create_materialsitems_table(false)}
                   </td>
                 </tr>
               </tbody>

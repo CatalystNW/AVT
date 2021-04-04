@@ -93,10 +93,11 @@ var CostSummary = function (_React$Component) {
       });
     };
 
-    _this.create_materialsitems_table = function (workitem_type) {
-      var arr = workitem_type == "accepted" ? _this.state.accepted_project_materials : _this.state.review_project_materials,
+    _this.create_materialsitems_table = function (acceptedStatus) {
+      var arr = acceptedStatus === true ? _this.state.accepted_project_materials : _this.state.review_project_materials,
           total = 0,
           cost = void 0;
+      var workitem_type = acceptedStatus === true ? "accepted" : "review";
       return React.createElement(
         "table",
         { className: "table" },
@@ -237,7 +238,8 @@ var CostSummary = function (_React$Component) {
 
     /**
      * Creates the materials item table for the Cost Summary
-     * @param {String} workitem_type
+     * @param {String} acceptedStatus True to create the accepted
+     *  work items. Else, the work items in review.
      * @returns Table element
      */
 
@@ -304,7 +306,7 @@ var CostSummary = function (_React$Component) {
                     null,
                     "Materials Lists"
                   ),
-                  this.create_materialsitems_table("accepted")
+                  this.create_materialsitems_table(true)
                 )
               )
             )
@@ -363,7 +365,7 @@ var CostSummary = function (_React$Component) {
                     null,
                     "Materials Lists"
                   ),
-                  this.create_materialsitems_table("review")
+                  this.create_materialsitems_table(false)
                 )
               )
             )
