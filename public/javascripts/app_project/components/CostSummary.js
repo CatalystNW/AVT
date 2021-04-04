@@ -237,7 +237,7 @@ var CostSummary = function (_React$Component) {
 
     /**
      * Creates the materials item table for the Cost Summary
-     * @param {String} workitem_type 
+     * @param {String} workitem_type
      * @returns Table element
      */
 
@@ -335,7 +335,7 @@ var CostSummary = function (_React$Component) {
                 React.createElement(
                   "td",
                   { className: "col-xs-6 col-lg-4" },
-                  this.state.num_accepted_project_workitems
+                  this.state.num_review_project_workitems
                 )
               ),
               React.createElement(

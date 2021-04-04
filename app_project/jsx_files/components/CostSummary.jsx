@@ -114,7 +114,7 @@ class CostSummary extends React.Component {
 
   /**
    * Creates the materials item table for the Cost Summary
-   * @param {String} workitem_type 
+   * @param {String} workitem_type
    * @returns Table element
    */
   create_materialsitems_table = (workitem_type) => {
@@ -192,7 +192,7 @@ class CostSummary extends React.Component {
               <tbody>
                 <tr>
                   <th className="col-xs-6 col-lg-4"># Work Items</th>
-                  <td className="col-xs-6 col-lg-4">{this.state.num_accepted_project_workitems}</td>
+                  <td className="col-xs-6 col-lg-4">{this.state.num_review_project_workitems}</td>
                 </tr>
                 <tr>
                   <th className="col-xs-6 col-lg-4">Volunteers Required</th>
