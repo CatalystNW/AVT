@@ -307,7 +307,7 @@ var SiteAssessmentApp = function (_React$Component) {
               "tbody",
               null,
               this.state.project_approval.map(function (document, index) {
-                return _this2.createAssessmecreateRowWithDocumentntRow(document);
+                return _this2.createRowWithDocument(document);
               })
             )
           )

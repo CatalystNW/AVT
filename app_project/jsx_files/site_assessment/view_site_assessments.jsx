@@ -200,7 +200,7 @@ class SiteAssessmentApp extends React.Component {
             {this.createHeader()}
             <tbody>
               {this.state.project_approval.map((document, index) => {
-                return this.createAssessmecreateRowWithDocumentntRow(document);
+                return this.createRowWithDocument(document);
               })}
             </tbody>
         </table>
