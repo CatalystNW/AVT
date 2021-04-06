@@ -179,12 +179,15 @@ var CostSummary = function (_React$Component) {
             null,
             React.createElement(
               "th",
-              null,
+              { className: "col-sm-10" },
               "Total"
             ),
+            React.createElement("td", null),
+            React.createElement("td", null),
+            React.createElement("td", null),
             React.createElement(
               "td",
-              null,
+              { className: "col-sm-2" },
               total.toFixed(2)
             )
           )

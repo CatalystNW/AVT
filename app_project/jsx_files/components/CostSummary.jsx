@@ -153,8 +153,11 @@ class CostSummary extends React.Component {
         </tbody>
         <tfoot>
           <tr>
-            <th>Total</th>
-            <td>{total.toFixed(2)}</td>
+            <th className="col-sm-10">Total</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td className="col-sm-2">{total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
