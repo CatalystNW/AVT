@@ -222,13 +222,13 @@ var WorkItem = function (_React$Component) {
             "tr",
             null,
             React.createElement(
-              "td",
+              "th",
               { className: "col-sm-9" },
               "Total"
             ),
             React.createElement(
               "td",
-              { className: "col-sm-2" },
+              { className: "col-sm-3" },
               total.toFixed(2)
             )
           )

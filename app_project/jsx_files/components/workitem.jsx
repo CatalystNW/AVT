@@ -153,8 +153,8 @@ class WorkItem extends React.Component {
         </tbody>
         <tfoot>
           <tr>
-            <td className="col-sm-9" >Total</td>
-            <td className="col-sm-2" >{total.toFixed(2)}</td>
+            <th className="col-sm-9" >Total</th>
+            <td className="col-sm-3" >{total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
