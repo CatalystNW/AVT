@@ -127,7 +127,7 @@ class VettingWorkItemApp extends React.Component {
    * Filter out declined work items and create an array of the incomplete ones.
    * @returns Array of WorkItem elements in div container
    */
-   createCurrentWorkItems = () => {
+  createCurrentWorkItems = () => {
     const workitems = [];
 
     this.state.workItems.forEach(workItem => {
@@ -148,6 +148,29 @@ class VettingWorkItemApp extends React.Component {
       }
     });
 
+    return workitems;
+  };
+
+  createCompleteWorkItems = () => {
+    const workitems = [];
+
+    this.state.completeWorkItems.forEach(workItem => {
+      if (workItem.status != "declined") {
+        workitems.push(
+          <div className="panel panel-primary">
+            <div className="panel-body">
+              <WorkItem key={workItem._id} page_type={"vetting"}
+                workitem={workItem}
+                // remove_workitem={this.remove_workitem}
+                // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+              />
+            </div>
+          </div>
+        )
+      }
+    });
     return workitems;
   };
 
@@ -198,21 +221,7 @@ class VettingWorkItemApp extends React.Component {
       <div className="col-sm-12">
         <h3>Completed Work Items</h3>
         <div id="complete-workitems-container">
-          {this.state.completeWorkItems.map(workItem => {
-            return (
-              <div className="panel panel-primary">
-                <div className="panel-body">
-                  <WorkItem key={workItem._id} page_type={"vetting"}
-                    workitem={workItem}
-                    // remove_workitem={this.remove_workitem}
-                    // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                    // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                    // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                  />
-                </div>
-              </div>
-            )
-          })}
+          {this.createCompleteWorkItems()}
         </div>
       </div>
 

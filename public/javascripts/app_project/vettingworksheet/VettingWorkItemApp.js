@@ -162,6 +162,31 @@ var VettingWorkItemApp = function (_React$Component) {
       return workitems;
     };
 
+    _this.createCompleteWorkItems = function () {
+      var workitems = [];
+
+      _this.state.completeWorkItems.forEach(function (workItem) {
+        if (workItem.status != "declined") {
+          workitems.push(React.createElement(
+            "div",
+            { className: "panel panel-primary" },
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+                workitem: workItem
+                // remove_workitem={this.remove_workitem}
+                // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+                // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+                // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+              })
+            )
+          ));
+        }
+      });
+      return workitems;
+    };
+
     _this.state = {
       workItems: [],
       completeWorkItems: []
@@ -295,23 +320,7 @@ var VettingWorkItemApp = function (_React$Component) {
           React.createElement(
             "div",
             { id: "complete-workitems-container" },
-            this.state.completeWorkItems.map(function (workItem) {
-              return React.createElement(
-                "div",
-                { className: "panel panel-primary" },
-                React.createElement(
-                  "div",
-                  { className: "panel-body" },
-                  React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-                    workitem: workItem
-                    // remove_workitem={this.remove_workitem}
-                    // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                    // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                    // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-                  })
-                )
-              );
-            })
+            this.createCompleteWorkItems()
           )
         ),
         React.createElement(ModalMenu, { ref: this.modalmenu })
