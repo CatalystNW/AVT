@@ -27,7 +27,9 @@ class VettingWorkItemApp extends React.Component {
             workItems = [];
         for (let i = 0, workitem; i< workitems.length; i++ ) {
           workitem = workitems[i];
-          if (workitem.transferred == true || workitem.complete == true) {
+          if (workitem.handleit == true || 
+                workitem.transferred == true || 
+                workitem.complete == true) {
             completeWorkItems.push(workitem);
           } else  {
             workItems.push(workitem);
