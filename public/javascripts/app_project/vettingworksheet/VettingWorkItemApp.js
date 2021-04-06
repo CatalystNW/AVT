@@ -169,11 +169,11 @@ var VettingWorkItemApp = function (_React$Component) {
         if (workItem.status != "declined") {
           workitems.push(React.createElement(
             "div",
-            { className: "panel panel-primary" },
+            { className: "panel panel-primary", key: workItem._id },
             React.createElement(
               "div",
               { className: "panel-body" },
-              React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+              React.createElement(WorkItem, { page_type: "vetting",
                 workitem: workItem
                 // remove_workitem={this.remove_workitem}
                 // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}

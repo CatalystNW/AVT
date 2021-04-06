@@ -157,9 +157,9 @@ class VettingWorkItemApp extends React.Component {
     this.state.completeWorkItems.forEach(workItem => {
       if (workItem.status != "declined") {
         workitems.push(
-          <div className="panel panel-primary">
+          <div className="panel panel-primary" key={workItem._id}>
             <div className="panel-body">
-              <WorkItem key={workItem._id} page_type={"vetting"}
+              <WorkItem page_type={"vetting"}
                 workitem={workItem}
                 // remove_workitem={this.remove_workitem}
                 // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
