@@ -99,7 +99,8 @@ var PAFApp = function (_React$Component) {
           total_volunteers = 0,
           cost = void 0;
 
-      var vet_summary = documentPackage.notes ? documentPackage.notes.vetting_summary : null;
+      console.log(documentPackage);
+      var vet_summary = documentPackage ? documentPackage.notes.vet_summary : null;
       return React.createElement(
         "div",
         null,

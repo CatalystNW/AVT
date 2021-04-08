@@ -77,8 +77,9 @@ class PAFApp extends React.Component {
         total_volunteers = 0,
         cost;
 
-    let vet_summary = (documentPackage.notes ? 
-      documentPackage.notes.vetting_summary : null
+    console.log(documentPackage)
+    let vet_summary = (documentPackage ? 
+      documentPackage.notes.vet_summary : null
       );
     return (
     <div>
