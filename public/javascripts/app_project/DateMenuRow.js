@@ -74,10 +74,20 @@ var DateMenuRow = function (_React$Component) {
           }
         } else if (type == "hours") {
           value = parseInt(value);
-          if (new_date.getHours() > 12) {
-            new_date.setHours(value + 12);
+          // PM
+          if (new_date.getHours() >= 12) {
+            if (value == 12) {
+              new_date.setHours(12);
+            } else {
+              new_date.setHours(value + 12);
+            }
+            // AM
           } else {
-            new_date.setHours(value);
+            if (value == 12) {
+              new_date.setHours(0);
+            } else {
+              new_date.setHours(value);
+            }
           }
         } else {
           value = parseInt(value);
@@ -107,6 +117,7 @@ var DateMenuRow = function (_React$Component) {
     _this.onChange_date = function (e) {
       var name = e.target.name,
           value = e.target.value;
+      console.log(name, value);
       if (name == "date") {
         _this.set_date_from_dateInput(value);
       } else {
@@ -140,13 +151,19 @@ var DateMenuRow = function (_React$Component) {
       }
       return null;
     }
+    /**
+     * Sets the date state to the appropriate value
+     * @param {String} type period, hours,  minutes
+     * @param {*} value value of the time type
+     */
+
     // Either change date or times
 
   }, {
     key: "create_hour_options",
-    value: function create_hour_options(type) {
+    value: function create_hour_options() {
       var hours = [];
-      for (var i = 0; i < 12; i++) {
+      for (var i = 1; i < 13; i++) {
         hours.push([React.createElement(
           "option",
           { key: "hour-" + i, value: i },
@@ -173,21 +190,24 @@ var DateMenuRow = function (_React$Component) {
     value: function render() {
       var d = this.state.date;
       var date_string = this.state.date ? d.getFullYear() + "-" + (parseInt(d.getMonth()) + 1 > 9 ? parseInt(d.getMonth()) + 1 : "0" + (parseInt(d.getMonth()) + 1)) + "-" + (parseInt(d.getDate()) > 9 ? d.getDate() : "0" + d.getDate()) : "";
+      console.log(this.state.date);
 
-      var hour = "";
-      if (this.state.date) {
-        hour = this.state.date.getHours();
-        if (hour >= 12) {
-          hour -= 12;
-        }
-      }
       var period = "";
       if (this.state.date) {
         period = this.state.date.getHours() >= 12 ? "pm" : "am";
       }
+      var hour = "";
+      if (this.state.date) {
+        hour = this.state.date.getHours();
+        if (hour == 0) {
+          hour = 12;
+        } else if (hour > 12) {
+          hour -= 12;
+        }
+      }
       var minute = this.state.date ? this.state.date.getMinutes() : "";
 
-      var hours = this.create_hour_options("start"),
+      var hours = this.create_hour_options(),
           minutes = this.create_minute_options();
 
       return React.createElement(
