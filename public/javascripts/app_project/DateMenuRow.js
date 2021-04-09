@@ -117,7 +117,6 @@ var DateMenuRow = function (_React$Component) {
     _this.onChange_date = function (e) {
       var name = e.target.name,
           value = e.target.value;
-      console.log(name, value);
       if (name == "date") {
         _this.set_date_from_dateInput(value);
       } else {
@@ -190,7 +189,6 @@ var DateMenuRow = function (_React$Component) {
     value: function render() {
       var d = this.state.date;
       var date_string = this.state.date ? d.getFullYear() + "-" + (parseInt(d.getMonth()) + 1 > 9 ? parseInt(d.getMonth()) + 1 : "0" + (parseInt(d.getMonth()) + 1)) + "-" + (parseInt(d.getDate()) > 9 ? d.getDate() : "0" + d.getDate()) : "";
-      console.log(this.state.date);
 
       var period = "";
       if (this.state.date) {

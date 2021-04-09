@@ -13,7 +13,7 @@ class DateMenuRow extends React.Component {
   }
 
   convert_date(old_date) {
-    var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
+    let regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
         result = regex.exec(old_date);
     if (result) {
       let [year, month, date, hours, minutes] = result.slice(1,6);
@@ -23,7 +23,7 @@ class DateMenuRow extends React.Component {
   }
 
   get_data =() => {
-    var obj = {
+    let obj = {
       date_type: this.props.date_type,
       year: this.state.date.getFullYear(),
       month: this.state.date.getMonth(),
@@ -34,10 +34,10 @@ class DateMenuRow extends React.Component {
     return obj;
   };
   set_date_from_dateInput = (value) => {
-    var regex = /(\d{4})-(\d{2})-(\d{2})/g,
+    let regex = /(\d{4})-(\d{2})-(\d{2})/g,
         result = regex.exec(value);
     if (result) { // Have to test since dates could be null
-      var year = result[1],
+      let year = result[1],
           month = parseInt(result[2]) - 1,
           day = result[3];
       this.setState(state => {
@@ -116,9 +116,8 @@ class DateMenuRow extends React.Component {
   };
   // Either change date or times
   onChange_date = (e) => {
-    var name = e.target.name,
+    let name = e.target.name,
         value = e.target.value;
-    console.log(name, value)
     if (name == "date") {
       this.set_date_from_dateInput(value);
     } else {
@@ -127,7 +126,7 @@ class DateMenuRow extends React.Component {
   };
 
   create_hour_options() {
-    var hours = [];
+    let hours = [];
     for(var i=1; i<13;i++) {
       hours.push([
         <option key={"hour-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
@@ -136,7 +135,7 @@ class DateMenuRow extends React.Component {
     return hours
   }
   create_minute_options() {
-    var minutes = [];
+    let minutes = [];
     for(var i=0; i<60;i++) {
       minutes.push([
         <option key={"min-"+i} value={i}>{i >= 10 ? String(i) : "0" + String(i)}</option>
@@ -146,20 +145,19 @@ class DateMenuRow extends React.Component {
   }
 
   render() {
-    var d = this.state.date;
-    var date_string = (this.state.date) ?
+    let d = this.state.date;
+    let date_string = (this.state.date) ?
       `${d.getFullYear()}-${
         parseInt(d.getMonth())+1 > 9 ? parseInt(d.getMonth())+1 : "0" + (parseInt(d.getMonth())+1)}-${
           parseInt(d.getDate()) > 9 ? d.getDate() : "0" + d.getDate()}` :
       "";
-    console.log(this.state.date)
 
-    var period = "";
+    let period = "";
     if (this.state.date) {
       period = (this.state.date.getHours() >= 12) ?
         "pm" : "am";
     }
-    var hour = "";
+    let hour = "";
     if (this.state.date) {
       hour = this.state.date.getHours();
       if (hour == 0) {
@@ -169,10 +167,10 @@ class DateMenuRow extends React.Component {
         hour -= 12;
       }
     }
-    var minute = (this.state.date) ?
+    let minute = (this.state.date) ?
           this.state.date.getMinutes() : "";
 
-    var hours = this.create_hour_options(),
+    let hours = this.create_hour_options(),
         minutes = this.create_minute_options();
 
     return (
