@@ -77,10 +77,8 @@ class PAFApp extends React.Component {
         total_volunteers = 0,
         cost;
 
-    console.log(documentPackage)
-    let vet_summary = (documentPackage ? 
-      documentPackage.notes.vet_summary : null
-      );
+    let vet_summary = (documentPackage && documentPackage.notes) ? 
+          documentPackage.notes.vet_summary : null;
     return (
     <div>
       <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
