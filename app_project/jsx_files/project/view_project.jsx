@@ -136,3 +136,12 @@ function loadReact() {
 }
 
 loadReact();
+
+window.onresize = function() {
+  const height = funkie.calculate_page_height().toString() + "px";
+  // Set Application Info Container
+  const appInfo = document.getElementById("application-info-container"),
+        project_menu = document.getElementById("assessment-container");
+  appInfo.style.height = height;
+  project_menu.style.height = height;
+}
