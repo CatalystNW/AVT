@@ -98,8 +98,8 @@ var PAFApp = function (_React$Component) {
       var total_cost = 0,
           total_volunteers = 0,
           cost = void 0;
-
-      var vet_summary = documentPackage && documentPackage.notes ? documentPackage.notes.vet_summary : null;
+      var vet_summary = documentPackage && documentPackage.notes ? documentPackage.notes.vet_summary : null,
+          assessment_summary = siteAssessment.summary;
       return React.createElement(
         "div",
         null,
@@ -180,6 +180,24 @@ var PAFApp = function (_React$Component) {
                 "td",
                 null,
                 vet_summary
+              )
+            ),
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "td",
+                null,
+                React.createElement(
+                  "b",
+                  null,
+                  "Assessment Summary"
+                )
+              ),
+              React.createElement(
+                "td",
+                null,
+                assessment_summary
               )
             )
           )
