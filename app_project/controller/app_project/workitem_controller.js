@@ -152,7 +152,7 @@ async function edit_workitem(req, res)  {
         return;
       }
 
-      workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true})
+      workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true}).populate("materialsItems");
       res.status(200).json(workitem);
     } catch (err) {
       res.status(400).end();
