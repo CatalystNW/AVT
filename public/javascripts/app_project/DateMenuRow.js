@@ -51,7 +51,6 @@ var DateMenuRow = function (_React$Component) {
           } else {
             new_date = new Date(year, month, day);
           }
-
           return {
             date: new_date
           };
@@ -246,6 +245,7 @@ var DateMenuRow = function (_React$Component) {
               React.createElement(
                 "select",
                 { className: "form-control",
+                  disabled: this.state.date == undefined,
                   onChange: this.onChange_date,
                   value: hour, name: "hours" },
                 hours
@@ -253,6 +253,7 @@ var DateMenuRow = function (_React$Component) {
               React.createElement(
                 "select",
                 { className: "form-control",
+                  disabled: this.state.date == undefined,
                   onChange: this.onChange_date,
                   value: minute, name: "minutes" },
                 minutes
@@ -260,6 +261,7 @@ var DateMenuRow = function (_React$Component) {
               React.createElement(
                 "select",
                 { className: "form-control",
+                  disabled: this.state.date == undefined,
                   onChange: this.onChange_date,
                   value: period, name: "period" },
                 React.createElement(

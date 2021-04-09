@@ -50,7 +50,6 @@ class DateMenuRow extends React.Component {
         } else {
           new_date = new Date(year, month, day);
         }
-        
         return {
           date: new_date,
         };
@@ -191,16 +190,19 @@ class DateMenuRow extends React.Component {
         <div className="col-sm-10">
           <div className="form-inline">
             <select className="form-control"
+              disabled={this.state.date==undefined}
               onChange={this.onChange_date} 
               value={hour} name="hours">
               {hours}
             </select>
             <select className="form-control"
+              disabled={this.state.date==undefined}
               onChange={this.onChange_date} 
               value={minute} name="minutes">
               {minutes}
             </select>
             <select className="form-control"
+              disabled={this.state.date==undefined}
               onChange={this.onChange_date} 
               value={period} name="period">
               <option value="am">AM</option>
