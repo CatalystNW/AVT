@@ -44,11 +44,12 @@ class AppProjects extends React.Component {
       address = `${app.address.city}, ${app.address.state}`
       projects.push(
         <tr key={project._id}>
+          <td className="col-sm-2" >{project.name}</td>
+          <td className="col-sm-1" >{(project.handleit) ? "✔️" : ""}</td>
           <td className="col-sm-2" >
             <a href={"./view_projects/"+ project._id}>{app.name.first} {app.name.last}</a>
           </td>
           <td className="col-sm-2" >{address}</td>
-          <td className="col-sm-2" >{project.name}</td>
           <td className="col-sm-2" >{start}</td>
           <td className="col-sm-1" >{project.crew_chief}</td>
           <td className="col-sm-1" >{project.project_advocate}</td>
@@ -72,9 +73,10 @@ class AppProjects extends React.Component {
         <table className="table">
           <thead>
             <tr>
+              <th className="col-sm-2" scope="col">Project Name</th>
+              <th className="col-sm-1" scope="col">Handle-It</th>
               <th className="col-sm-2" scope="col">Applicant</th>
               <th className="col-sm-2" scope="col">Location</th>
-              <th className="col-sm-2" scope="col">Project Name</th>
               <th className="col-sm-2" scope="col">Start Date</th>
               <th className="col-sm-1" scope="col">CC</th>
               <th className="col-sm-1" scope="col">PA</th>

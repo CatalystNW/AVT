@@ -50,6 +50,16 @@ var AppProjects = function (_React$Component) {
           React.createElement(
             "td",
             { className: "col-sm-2" },
+            project.name
+          ),
+          React.createElement(
+            "td",
+            { className: "col-sm-1" },
+            project.handleit ? "✔️" : ""
+          ),
+          React.createElement(
+            "td",
+            { className: "col-sm-2" },
             React.createElement(
               "a",
               { href: "./view_projects/" + project._id },
@@ -62,11 +72,6 @@ var AppProjects = function (_React$Component) {
             "td",
             { className: "col-sm-2" },
             address
-          ),
-          React.createElement(
-            "td",
-            { className: "col-sm-2" },
-            project.name
           ),
           React.createElement(
             "td",
@@ -115,17 +120,22 @@ var AppProjects = function (_React$Component) {
               React.createElement(
                 "th",
                 { className: "col-sm-2", scope: "col" },
+                "Project Name"
+              ),
+              React.createElement(
+                "th",
+                { className: "col-sm-1", scope: "col" },
+                "Handle-It"
+              ),
+              React.createElement(
+                "th",
+                { className: "col-sm-2", scope: "col" },
                 "Applicant"
               ),
               React.createElement(
                 "th",
                 { className: "col-sm-2", scope: "col" },
                 "Location"
-              ),
-              React.createElement(
-                "th",
-                { className: "col-sm-2", scope: "col" },
-                "Project Name"
               ),
               React.createElement(
                 "th",
