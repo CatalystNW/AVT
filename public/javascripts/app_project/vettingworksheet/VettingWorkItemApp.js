@@ -30,18 +30,25 @@ var VettingWorkItemApp = function (_React$Component) {
         success: function success(workitems) {
           console.log(workitems);
           var completeWorkItems = [],
-              workItems = [];
+              workItems = [],
+              declinedWorkItems = [];
           for (var i = 0, workitem; i < workitems.length; i++) {
             workitem = workitems[i];
-            if (workitem.handleit == true || workitem.transferred == true || workitem.complete == true) {
+            if (workitem.status == "declined") {
+              declinedWorkItems.push(workitem);
+            } else if (workitem.handleit == true || workitem.transferred == true || workitem.complete == true) {
               completeWorkItems.push(workitem);
             } else {
               workItems.push(workitem);
             }
           }
+          console.log(workItems);
+          console.log(completeWorkItems);
+          console.log(declinedWorkItems);
           this.setState({
             workItems: workItems,
-            completeWorkItems: completeWorkItems
+            completeWorkItems: completeWorkItems,
+            declinedWorkItems: declinedWorkItems
           });
         }
       });
@@ -136,27 +143,40 @@ var VettingWorkItemApp = function (_React$Component) {
       );
     };
 
+    _this.createWorkItem = function (workItem) {
+      console.log(workItem);
+      return React.createElement(
+        "div",
+        { className: "panel panel-primary", key: "container-" + workItem._id },
+        React.createElement(
+          "div",
+          { className: "panel-body" },
+          React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
+            workitem: workItem,
+            remove_workitem: _this.remove_workitem,
+            set_edit_materialisitem_menu: _this.set_edit_materialisitem_menu,
+            set_create_materialsitem_menu: _this.set_create_materialsitem_menu,
+            set_edit_workitem_menu: _this.set_edit_workitem_menu
+          })
+        )
+      );
+    };
+
+    _this.createDeclinedWorkItems = function () {
+      var workitems = [];
+
+      _this.state.declinedWorkItems.forEach(function (workItem) {
+        workitems.push(_this.createWorkItem(workItem));
+      });
+
+      return workitems;
+    };
+
     _this.createCurrentWorkItems = function () {
       var workitems = [];
 
       _this.state.workItems.forEach(function (workItem) {
-        if (workItem.status != "declined") {
-          workitems.push(React.createElement(
-            "div",
-            { className: "panel panel-primary", key: "container-" + workItem._id },
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              React.createElement(WorkItem, { key: workItem._id, page_type: "vetting",
-                workitem: workItem,
-                remove_workitem: _this.remove_workitem,
-                set_edit_materialisitem_menu: _this.set_edit_materialisitem_menu,
-                set_create_materialsitem_menu: _this.set_create_materialsitem_menu,
-                set_edit_workitem_menu: _this.set_edit_workitem_menu
-              })
-            )
-          ));
-        }
+        workitems.push(_this.createWorkItem(workItem));
       });
 
       return workitems;
@@ -175,6 +195,7 @@ var VettingWorkItemApp = function (_React$Component) {
               { className: "panel-body" },
               React.createElement(WorkItem, { page_type: "vetting",
                 workitem: workItem
+                // Disabled
                 // remove_workitem={this.remove_workitem}
                 // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
                 // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
@@ -189,7 +210,8 @@ var VettingWorkItemApp = function (_React$Component) {
 
     _this.state = {
       workItems: [],
-      completeWorkItems: []
+      completeWorkItems: [],
+      declinedWorkItems: []
     };
     _this.assessmentId = null;
     _this.loadWorkItems();
@@ -197,6 +219,12 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.modalmenu = React.createRef();
     return _this;
   }
+  /**
+   * Creates WorkItem wrapped in a div.
+   * @param {WorkItem Data} workItem 
+   * @returns <div>
+   */
+
 
   /**
    * Filter out declined work items and create an array of the incomplete ones.
@@ -321,6 +349,20 @@ var VettingWorkItemApp = function (_React$Component) {
             "div",
             { id: "complete-workitems-container" },
             this.createCompleteWorkItems()
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-sm-12" },
+          React.createElement(
+            "h3",
+            null,
+            "Declined Work Items"
+          ),
+          React.createElement(
+            "div",
+            { id: "declined-workitems-container" },
+            this.createDeclinedWorkItems()
           )
         ),
         React.createElement(ModalMenu, { ref: this.modalmenu })

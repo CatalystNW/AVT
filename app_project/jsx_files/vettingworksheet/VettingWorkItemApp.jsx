@@ -8,7 +8,8 @@ class VettingWorkItemApp extends React.Component {
     super(props);
     this.state = {
       workItems: [],
-      completeWorkItems: []
+      completeWorkItems: [],
+      declinedWorkItems: [],
     };
     this.assessmentId = null;
     this.loadWorkItems();
@@ -24,10 +25,13 @@ class VettingWorkItemApp extends React.Component {
       success: function(workitems) {
         console.log(workitems);
         let completeWorkItems = [],
-            workItems = [];
+            workItems = [],
+            declinedWorkItems = [];
         for (let i = 0, workitem; i< workitems.length; i++ ) {
           workitem = workitems[i];
-          if (workitem.handleit == true || 
+          if (workitem.status == "declined") {
+            declinedWorkItems.push(workitem)
+          } else if (workitem.handleit == true || 
                 workitem.transferred == true || 
                 workitem.complete == true) {
             completeWorkItems.push(workitem);
@@ -35,9 +39,13 @@ class VettingWorkItemApp extends React.Component {
             workItems.push(workitem);
           }
         }
+        console.log(workItems);
+        console.log(completeWorkItems);
+        console.log(declinedWorkItems);
         this.setState({
           workItems: workItems,
           completeWorkItems: completeWorkItems,
+          declinedWorkItems: declinedWorkItems,
         });
       }
     });
@@ -124,6 +132,39 @@ class VettingWorkItemApp extends React.Component {
       edit_materialsitem_handler, // <WorkItem> method
     );
   };
+  /**
+   * Creates WorkItem wrapped in a div.
+   * @param {WorkItem Data} workItem 
+   * @returns <div>
+   */
+  createWorkItem = (workItem) => {
+    console.log(workItem)
+    return (
+      <div className="panel panel-primary" key={"container-" + workItem._id}>
+        <div className="panel-body">
+          <WorkItem key={workItem._id} page_type={"vetting"}
+            workitem={workItem}
+            remove_workitem={this.remove_workitem}
+            set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
+            set_create_materialsitem_menu={this.set_create_materialsitem_menu}
+            set_edit_workitem_menu = {this.set_edit_workitem_menu}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  createDeclinedWorkItems = () => {
+    const workitems = [];
+
+    this.state.declinedWorkItems.forEach(workItem => {
+      workitems.push(
+        this.createWorkItem(workItem)
+      );
+    });
+
+    return workitems;
+  }
 
   /**
    * Filter out declined work items and create an array of the incomplete ones.
@@ -133,21 +174,9 @@ class VettingWorkItemApp extends React.Component {
     const workitems = [];
 
     this.state.workItems.forEach(workItem => {
-      if (workItem.status != "declined") {
-        workitems.push(
-          <div className="panel panel-primary" key={"container-" + workItem._id}>
-            <div className="panel-body">
-              <WorkItem key={workItem._id} page_type={"vetting"}
-                workitem={workItem}
-                remove_workitem={this.remove_workitem}
-                set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                set_edit_workitem_menu = {this.set_edit_workitem_menu}
-              />
-            </div>
-          </div>
-        );
-      }
+      workitems.push(
+        this.createWorkItem(workItem)
+      );
     });
 
     return workitems;
@@ -163,6 +192,7 @@ class VettingWorkItemApp extends React.Component {
             <div className="panel-body">
               <WorkItem page_type={"vetting"}
                 workitem={workItem}
+                // Disabled
                 // remove_workitem={this.remove_workitem}
                 // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
                 // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
@@ -175,8 +205,6 @@ class VettingWorkItemApp extends React.Component {
     });
     return workitems;
   };
-
-  create_completeWorkItems
 
   render() {
     return (
@@ -224,6 +252,12 @@ class VettingWorkItemApp extends React.Component {
         <h3>Completed Work Items</h3>
         <div id="complete-workitems-container">
           {this.createCompleteWorkItems()}
+        </div>
+      </div>
+      <div className="col-sm-12">
+        <h3>Declined Work Items</h3>
+        <div id="declined-workitems-container">
+          {this.createDeclinedWorkItems()}
         </div>
       </div>
 

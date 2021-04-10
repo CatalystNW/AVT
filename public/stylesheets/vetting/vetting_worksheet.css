@@ -33,7 +33,8 @@
 }
 
 #workitems-container,
-#complete-workitems-container {
+#complete-workitems-container,
+#declined-workitems-container {
     height: 525px;
     overflow: auto;
     -webkit-overflow-scrolling: auto;
