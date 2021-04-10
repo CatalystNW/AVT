@@ -59,12 +59,8 @@ async function create_project_note(req, res) {
 
   const user = req.user;
   let project = await AppProject.findById(req.params.project_id);
-  if (project && req.body.text) {
-    if (project.complete) {
-      res.status(400).end(); return;
-    }
-    
-    var note = new AppProjectNote();
+  if (project && req.body.text) {    
+    let note = new AppProjectNote();
     note.text = req.body.text;
     note.project = req.params.project_id;
     note.user = user._id;
