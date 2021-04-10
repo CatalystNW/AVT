@@ -192,6 +192,7 @@ class ProjectMenu extends React.Component {
     return (
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
+        <h2>Project: {this.state.name}</h2>
         <div id="project-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">

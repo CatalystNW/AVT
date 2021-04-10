@@ -207,6 +207,12 @@ var ProjectMenu = function (_React$Component) {
         { className: "col-sm-12 col-lg-8", style: divStyle,
           id: "assessment-container" },
         React.createElement(
+          "h2",
+          null,
+          "Project: ",
+          this.state.name
+        ),
+        React.createElement(
           "div",
           { id: "project-nav-container" },
           React.createElement(
