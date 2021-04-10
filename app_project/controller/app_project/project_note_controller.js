@@ -125,9 +125,6 @@ async function edit_project_note(req, res) {
   if (!project || !note) { // Want to make sure both exists before remove
     res.status(400).end();
     return;
-  }  
-  if (project.complete) {
-    res.status(400).end(); return;
   }
   // Confirm note belongs to user
   const context = authHelper.getUserContext(req, res);
