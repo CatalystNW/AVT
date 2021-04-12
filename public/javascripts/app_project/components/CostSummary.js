@@ -96,7 +96,8 @@ var CostSummary = function (_React$Component) {
     _this.create_materialsitems_table = function (acceptedStatus) {
       var arr = acceptedStatus === true ? _this.state.accepted_project_materials : _this.state.review_project_materials,
           total = 0,
-          cost = void 0;
+          cost = void 0,
+          price = void 0;
       var workitem_type = acceptedStatus === true ? "accepted" : "review";
       return React.createElement(
         "table",
@@ -138,7 +139,8 @@ var CostSummary = function (_React$Component) {
           "tbody",
           null,
           arr.map(function (item, index) {
-            cost = _this.roundCurrency(item.quantity * item.price);
+            price = _this.roundCurrency(item.price);
+            cost = _this.roundCurrency(item.quantity * price);
             total += cost;
             return React.createElement(
               "tr",
@@ -151,7 +153,7 @@ var CostSummary = function (_React$Component) {
               React.createElement(
                 "td",
                 null,
-                item.price
+                price.toFixed(2)
               ),
               React.createElement(
                 "td",

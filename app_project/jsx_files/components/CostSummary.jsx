@@ -122,7 +122,7 @@ class CostSummary extends React.Component {
     let arr = (acceptedStatus === true) ?
               this.state.accepted_project_materials :
               this.state.review_project_materials,
-        total = 0, cost;
+        total = 0, cost, price;
     const workitem_type = (acceptedStatus === true) ?
             "accepted" : "review";
     return (
@@ -138,12 +138,13 @@ class CostSummary extends React.Component {
         </thead>
         <tbody>
           {arr.map((item, index) => {
-            cost = this.roundCurrency(item.quantity * item.price);
+            price = this.roundCurrency(item.price);
+            cost = this.roundCurrency(item.quantity * price);
             total += cost;
             return (
               <tr key={workitem_type + "_" + index}>
                 <td>{item.description}</td>
-                <td>{item.price}</td>
+                <td>{price.toFixed(2)}</td>
                 <td>{item.quantity}</td>
                 <td>{item.vendor}</td>
                 <td>{cost.toFixed(2)}</td>
