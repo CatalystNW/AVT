@@ -225,9 +225,12 @@ var WorkItem = function (_React$Component) {
             null,
             React.createElement(
               "th",
-              { className: "col-sm-9" },
+              { className: "col-sm-4" },
               "Total"
             ),
+            React.createElement("td", { className: "col-sm-3" }),
+            React.createElement("td", { className: "col-sm-1" }),
+            React.createElement("td", { className: "col-sm-1" }),
             React.createElement(
               "td",
               { className: "col-sm-3" },
