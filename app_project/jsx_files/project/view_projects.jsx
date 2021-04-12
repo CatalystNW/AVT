@@ -22,10 +22,10 @@ class AppProjects extends React.Component {
   /**
    * Create Project TR element
    * @param {*} status-projet.status[String]
-   * @param {*} handleit-Will filter handleit/projects
-   *  project.handleit["yes", "no", "all"]
+   * @param {*} filterStatus 0 to not filter, 1 to filter out non-handleit, 
+   *  2 to filter out handleit
    */
-  createProjectRows = (status, handleit) => {
+  createProjectRows = (status, filterStatus) => {
     const projects = [];
     let project, start, doc, app, address, handleitColumn;
     
@@ -33,8 +33,8 @@ class AppProjects extends React.Component {
       project = this.state.projects[i];
       if (project.status != status )
         continue;
-      if (handleit == "no" && project.handleit ||
-          handleit == "yes" && !project.handleit) {
+      if (filterStatus == 2 && project.handleit ||
+          filterStatus == 1 && !project.handleit) {
         continue;
       }
       if (project.start)
@@ -43,7 +43,7 @@ class AppProjects extends React.Component {
       app = doc.application;
       address = `${app.address.city}, ${app.address.state}`;
       // show column only when both handleit & projects are shown
-      handleitColumn = (handleit == "all") ?
+      handleitColumn = (filterStatus == 0) ?
           (<td className="col-sm-1" >{(project.handleit) ? "✔️" : ""}</td>) : null;
       projects.push(
         <tr key={project._id}>
@@ -65,13 +65,13 @@ class AppProjects extends React.Component {
   /**
    * Create Table for projects
    * @param {*} status-projet.status[String]
-   * @param {*} handleit-Will filter handleit/projects
-   *  project.handleit["yes", "no", "all"]
+   * @param {*} filterStatus 0 to not filter, 1 to filter out non-handleit, 
+   *  2 to filter out handleit
    */
-  createProjectTable = (title, status, handleit) => {
-    const projectRows = this.createProjectRows(status, handleit);
-    // show column only when both handleit & projects are shown
-    let handleitColumn = (handleit == "all") ?
+  createProjectTable = (title, status, filterStatus) => {
+    const projectRows = this.createProjectRows(status, filterStatus);
+    // show column only when both handleit & projects are showng
+    let handleitColumn = (filterStatus == 0) ?
           (<th className="col-sm-1" scope="col">Handle-It</th>) : null;
     return (
       <div>
@@ -99,12 +99,12 @@ class AppProjects extends React.Component {
   render() {
     return (
       <div>
-        {this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes")}
-        {this.createProjectTable("Project: Upcoming", "upcoming", "no")}
-        {this.createProjectTable("Handle-It: In Progress", "in_progress", "yes")}
-        {this.createProjectTable("Project: In Progress", "in_progress", "no")}
-        {this.createProjectTable("Completed", "complete", "all")}
-        {this.createProjectTable("Withdrawn", "withdrawn", "all")}
+        {this.createProjectTable("Handle-It: Upcoming", "upcoming", 1)}
+        {this.createProjectTable("Project: Upcoming", "upcoming", 2)}
+        {this.createProjectTable("Handle-It: In Progress", "in_progress", 1)}
+        {this.createProjectTable("Project: In Progress", "in_progress", 2)}
+        {this.createProjectTable("Completed", "complete", 0)}
+        {this.createProjectTable("Withdrawn", "withdrawn", 0)}
       </div>
     );
   }

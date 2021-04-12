@@ -26,7 +26,7 @@ var AppProjects = function (_React$Component) {
       });
     };
 
-    _this.createProjectRows = function (status, handleit) {
+    _this.createProjectRows = function (status, filterStatus) {
       var projects = [];
       var project = void 0,
           start = void 0,
@@ -38,7 +38,7 @@ var AppProjects = function (_React$Component) {
       for (var i = 0; i < _this.state.projects.length; i++) {
         project = _this.state.projects[i];
         if (project.status != status) continue;
-        if (handleit == "no" && project.handleit || handleit == "yes" && !project.handleit) {
+        if (filterStatus == 2 && project.handleit || filterStatus == 1 && !project.handleit) {
           continue;
         }
         if (project.start) start = project.start.replace("T", " ").substring(0, project.start.length - 8);
@@ -46,7 +46,7 @@ var AppProjects = function (_React$Component) {
         app = doc.application;
         address = app.address.city + ", " + app.address.state;
         // show column only when both handleit & projects are shown
-        handleitColumn = handleit == "all" ? React.createElement(
+        handleitColumn = filterStatus == 0 ? React.createElement(
           "td",
           { className: "col-sm-1" },
           project.handleit ? "✔️" : ""
@@ -101,10 +101,10 @@ var AppProjects = function (_React$Component) {
       return projects;
     };
 
-    _this.createProjectTable = function (title, status, handleit) {
-      var projectRows = _this.createProjectRows(status, handleit);
-      // show column only when both handleit & projects are shown
-      var handleitColumn = handleit == "all" ? React.createElement(
+    _this.createProjectTable = function (title, status, filterStatus) {
+      var projectRows = _this.createProjectRows(status, filterStatus);
+      // show column only when both handleit & projects are showng
+      var handleitColumn = filterStatus == 0 ? React.createElement(
         "th",
         { className: "col-sm-1", scope: "col" },
         "Handle-It"
@@ -183,16 +183,16 @@ var AppProjects = function (_React$Component) {
   /**
    * Create Project TR element
    * @param {*} status-projet.status[String]
-   * @param {*} handleit-Will filter handleit/projects
-   *  project.handleit["yes", "no", "all"]
+   * @param {*} filterStatus 0 to not filter, 1 to filter out non-handleit, 
+   *  2 to filter out handleit
    */
 
 
   /**
    * Create Table for projects
    * @param {*} status-projet.status[String]
-   * @param {*} handleit-Will filter handleit/projects
-   *  project.handleit["yes", "no", "all"]
+   * @param {*} filterStatus 0 to not filter, 1 to filter out non-handleit, 
+   *  2 to filter out handleit
    */
 
 
@@ -202,12 +202,12 @@ var AppProjects = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        this.createProjectTable("Handle-It: Upcoming", "upcoming", "yes"),
-        this.createProjectTable("Project: Upcoming", "upcoming", "no"),
-        this.createProjectTable("Handle-It: In Progress", "in_progress", "yes"),
-        this.createProjectTable("Project: In Progress", "in_progress", "no"),
-        this.createProjectTable("Completed", "complete", "all"),
-        this.createProjectTable("Withdrawn", "withdrawn", "all")
+        this.createProjectTable("Handle-It: Upcoming", "upcoming", 1),
+        this.createProjectTable("Project: Upcoming", "upcoming", 2),
+        this.createProjectTable("Handle-It: In Progress", "in_progress", 1),
+        this.createProjectTable("Project: In Progress", "in_progress", 2),
+        this.createProjectTable("Completed", "complete", 0),
+        this.createProjectTable("Withdrawn", "withdrawn", 0)
       );
     }
   }]);
