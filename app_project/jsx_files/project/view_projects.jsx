@@ -27,7 +27,8 @@ class AppProjects extends React.Component {
    */
   createProjectRows = (status, handleit) => {
     const projects = [];
-    let project, start, doc, app, address;
+    let project, start, doc, app, address, handleitColumn;
+    
     for (let i=0; i< this.state.projects.length; i++) {
       project = this.state.projects[i];
       if (project.status != status )
@@ -40,12 +41,14 @@ class AppProjects extends React.Component {
         start = project.start.replace("T", " ").substring(0, project.start.length - 8);
       doc = project.documentPackage;
       app = doc.application;
-      // address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
-      address = `${app.address.city}, ${app.address.state}`
+      address = `${app.address.city}, ${app.address.state}`;
+      // show column only when both handleit & projects are shown
+      handleitColumn = (handleit == "all") ?
+          (<td className="col-sm-1" >{(project.handleit) ? "✔️" : ""}</td>) : null;
       projects.push(
         <tr key={project._id}>
           <td className="col-sm-2" >{project.name}</td>
-          <td className="col-sm-1" >{(project.handleit) ? "✔️" : ""}</td>
+          { handleitColumn }
           <td className="col-sm-2" >
             <a href={"./view_projects/"+ project._id}>{app.name.first} {app.name.last}</a>
           </td>
@@ -67,6 +70,9 @@ class AppProjects extends React.Component {
    */
   createProjectTable = (title, status, handleit) => {
     const projectRows = this.createProjectRows(status, handleit);
+    // show column only when both handleit & projects are shown
+    let handleitColumn = (handleit == "all") ?
+          (<th className="col-sm-1" scope="col">Handle-It</th>) : null;
     return (
       <div>
         <h2>{title}</h2>
@@ -74,7 +80,7 @@ class AppProjects extends React.Component {
           <thead>
             <tr>
               <th className="col-sm-2" scope="col">Project Name</th>
-              <th className="col-sm-1" scope="col">Handle-It</th>
+              { handleitColumn }
               <th className="col-sm-2" scope="col">Applicant</th>
               <th className="col-sm-2" scope="col">Location</th>
               <th className="col-sm-2" scope="col">Start Date</th>

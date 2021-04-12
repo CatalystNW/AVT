@@ -32,7 +32,9 @@ var AppProjects = function (_React$Component) {
           start = void 0,
           doc = void 0,
           app = void 0,
-          address = void 0;
+          address = void 0,
+          handleitColumn = void 0;
+
       for (var i = 0; i < _this.state.projects.length; i++) {
         project = _this.state.projects[i];
         if (project.status != status) continue;
@@ -42,8 +44,13 @@ var AppProjects = function (_React$Component) {
         if (project.start) start = project.start.replace("T", " ").substring(0, project.start.length - 8);
         doc = project.documentPackage;
         app = doc.application;
-        // address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
         address = app.address.city + ", " + app.address.state;
+        // show column only when both handleit & projects are shown
+        handleitColumn = handleit == "all" ? React.createElement(
+          "td",
+          { className: "col-sm-1" },
+          project.handleit ? "✔️" : ""
+        ) : null;
         projects.push(React.createElement(
           "tr",
           { key: project._id },
@@ -52,11 +59,7 @@ var AppProjects = function (_React$Component) {
             { className: "col-sm-2" },
             project.name
           ),
-          React.createElement(
-            "td",
-            { className: "col-sm-1" },
-            project.handleit ? "✔️" : ""
-          ),
+          handleitColumn,
           React.createElement(
             "td",
             { className: "col-sm-2" },
@@ -100,6 +103,12 @@ var AppProjects = function (_React$Component) {
 
     _this.createProjectTable = function (title, status, handleit) {
       var projectRows = _this.createProjectRows(status, handleit);
+      // show column only when both handleit & projects are shown
+      var handleitColumn = handleit == "all" ? React.createElement(
+        "th",
+        { className: "col-sm-1", scope: "col" },
+        "Handle-It"
+      ) : null;
       return React.createElement(
         "div",
         null,
@@ -122,11 +131,7 @@ var AppProjects = function (_React$Component) {
                 { className: "col-sm-2", scope: "col" },
                 "Project Name"
               ),
-              React.createElement(
-                "th",
-                { className: "col-sm-1", scope: "col" },
-                "Handle-It"
-              ),
+              handleitColumn,
               React.createElement(
                 "th",
                 { className: "col-sm-2", scope: "col" },
