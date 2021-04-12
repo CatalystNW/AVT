@@ -103,7 +103,8 @@ var WorkItem = function (_React$Component) {
 
     _this.create_materialslist = function () {
       var total = 0,
-          cost;
+          cost,
+          price;
       return React.createElement(
         "table",
         { className: "table" },
@@ -149,7 +150,8 @@ var WorkItem = function (_React$Component) {
           "tbody",
           null,
           _this.state.materialsItems.map(function (materialsItem, index) {
-            cost = _this.roundCurrency(parseFloat(materialsItem.price) * parseInt(materialsItem.quantity));
+            price = _this.roundCurrency(parseFloat(materialsItem.price));
+            cost = _this.roundCurrency(price * parseInt(materialsItem.quantity));
             total += cost;
             return React.createElement(
               "tr",
@@ -167,7 +169,7 @@ var WorkItem = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-sm-1" },
-                materialsItem.price
+                price.toFixed(2)
               ),
               React.createElement(
                 "td",

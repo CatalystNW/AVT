@@ -94,7 +94,7 @@ class WorkItem extends React.Component {
   }
 
   create_materialslist = () => {
-    var total = 0, cost;
+    var total = 0, cost, price;
     return (
       <table className="table">
         <thead>
@@ -109,7 +109,8 @@ class WorkItem extends React.Component {
         </thead>
         <tbody>
           {this.state.materialsItems.map((materialsItem, index) => {
-            cost = this.roundCurrency(parseFloat(materialsItem.price) * parseInt(materialsItem.quantity));
+            price = this.roundCurrency(parseFloat(materialsItem.price))
+            cost = this.roundCurrency(price * parseInt(materialsItem.quantity));
             total += cost;
             return (
               <tr key={materialsItem._id}>
@@ -117,7 +118,7 @@ class WorkItem extends React.Component {
                   {materialsItem.description}</td>
                 <td className="col-sm-3">{materialsItem.vendor}</td>
                 <td className="col-sm-1">
-                  {materialsItem.price}</td>
+                  {price.toFixed(2)}</td>
                 <td className="col-sm-1">
                   {materialsItem.quantity}</td>
                 <td className="col-sm-1">
