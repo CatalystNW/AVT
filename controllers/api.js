@@ -423,6 +423,8 @@ getDocumentPlanning: function (req, res, next) {
      * Address: api.getDocumentByStatus
      * Returns: results.statuscode[array of Document Packages]
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
+     * 
+     * Note: used only by view.js for GET '/'
      */
     getDocumentByStatus: function(req, res, next) {
         if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
@@ -434,16 +436,16 @@ getDocumentPlanning: function (req, res, next) {
         // Access the returned items as results.<status code>[array index].<what you need>
         // Example: results.visit[3].address.line_1 = a string
         Promise.props({
-            new: DocumentPackage.find({status: "new"}).sort({'updated':-1}).lean().execAsync(),
-            phone: DocumentPackage.find({status: "phone"}).lean().execAsync(),
-            documents: DocumentPackage.find({status: "documents"}).lean().execAsync(),
-            discuss: DocumentPackage.find({status: "discuss"}).lean().execAsync(),
-            assess: DocumentPackage.find({status: "assess"}).lean().execAsync(),
-			assessComp: DocumentPackage.find({status: "assessComp"}).lean().execAsync(),
-            withdrawn: DocumentPackage.find({status: "withdrawn"}).lean().execAsync(),
+            new: DocumentPackage.find({applicationStatus: "new"}).sort({'updated':-1}).lean().execAsync(),
+            phone: DocumentPackage.find({applicationStatus: "phone"}).lean().execAsync(),
+            documents: DocumentPackage.find({applicationStatus: "documents"}).lean().execAsync(),
+            discuss: DocumentPackage.find({applicationStatus: "discuss"}).lean().execAsync(),
+            assess: DocumentPackage.find({applicationStatus: "assess"}).lean().execAsync(),
+			assessComp: DocumentPackage.find({applicationStatus: "assessComp"}).lean().execAsync(),
+            withdrawn: DocumentPackage.find({applicationStatus: "withdrawn"}).lean().execAsync(),
             withdrawnooa: DocumentPackage.find({ status: "withdrawnooa" }).lean().execAsync(),
-            approval: DocumentPackage.find({status: "approval"}).lean().execAsync(),
-            handle: DocumentPackage.find({status: "handle"}).lean().execAsync(),
+            approval: DocumentPackage.find({applicationStatus: "approval"}).lean().execAsync(),
+            handle: DocumentPackage.find({applicationStatus: "handle"}).lean().execAsync(),
             // declined: DocumentPackage.find({status: "declined", app_year : year}).lean().execAsync(),
             // project: DocumentPackage.find({status: "project", app_year : year}).lean().execAsync(),
             // handleToBeAssigned: DocumentPackage.find({status: "handleToBeAssigned", app_year : year}).lean().execAsync(),
@@ -454,18 +456,18 @@ getDocumentPlanning: function (req, res, next) {
             // projectGoBacks: DocumentPackage.find({status: "projectGoBacks", app_year : year}).lean().execAsync(),
             // projectCompleted: DocumentPackage.find({status: "projectCompleted", app_year : year}).lean().execAsync()
 
-            declined: DocumentPackage.find({status: "declined"}).lean().execAsync(),
-            project: DocumentPackage.find({status: "project"}).lean().execAsync(),
-            handleToBeAssigned: DocumentPackage.find({status: "handleToBeAssigned"}).lean().execAsync(),
-            handleAssigned: DocumentPackage.find({status: "handleAssigned"}).lean().execAsync(),
-            handleCompleted: DocumentPackage.find({status: "handleCompleted"}).lean().execAsync(),
-            projectUpcoming: DocumentPackage.find({status: "projectUpcoming"}).lean().execAsync(),
-            projectInProgress: DocumentPackage.find({status: "projectInProgress"}).lean().execAsync(),
-            projectGoBacks: DocumentPackage.find({status: "projectGoBacks"}).lean().execAsync(),
-            projectCompleted: DocumentPackage.find({status: "projectCompleted"}).lean().execAsync(),
+            declined: DocumentPackage.find({applicationStatus: "declined"}).lean().execAsync(),
+            project: DocumentPackage.find({applicationStatus: "project"}).lean().execAsync(),
+            handleToBeAssigned: DocumentPackage.find({applicationStatus: "handleToBeAssigned"}).lean().execAsync(),
+            handleAssigned: DocumentPackage.find({applicationStatus: "handleAssigned"}).lean().execAsync(),
+            handleCompleted: DocumentPackage.find({applicationStatus: "handleCompleted"}).lean().execAsync(),
+            projectUpcoming: DocumentPackage.find({applicationStatus: "projectUpcoming"}).lean().execAsync(),
+            projectInProgress: DocumentPackage.find({applicationStatus: "projectInProgress"}).lean().execAsync(),
+            projectGoBacks: DocumentPackage.find({applicationStatus: "projectGoBacks"}).lean().execAsync(),
+            projectCompleted: DocumentPackage.find({applicationStatus: "projectCompleted"}).lean().execAsync(),
 
-            waitlist: DocumentPackage.find({ status: "waitlist" }).lean().execAsync(),
-            transferred: DocumentPackage.find({ status: "transferred" }).lean().execAsync()
+            waitlist: DocumentPackage.find({applicationStatus: "waitlist" }).lean().execAsync(),
+            transferred: DocumentPackage.find({applicationStatus: "transferred" }).lean().execAsync()
         })
             .then(function (results) {
                 if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
