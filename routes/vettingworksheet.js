@@ -64,8 +64,7 @@ module.exports = function(passport) {
 			}
 
 			res.locals.layout = 'b3-layout';
-			// @RESTORE AFTER DEVELOPMENT
-			// result.user = req.user._id;
+			result.user = req.user._id;
 			result.title = "Vetting Worksheet";
 
 			res.render('b3-worksheet-view', result);
