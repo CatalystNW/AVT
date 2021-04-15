@@ -605,7 +605,7 @@ function formatDate(element)
 function formatStatus(element) {
     var status;
 
-    switch (element.status){
+    switch (element.applicationStatus){
         case 'new':
             status = 'NEW';
             break;
@@ -646,10 +646,11 @@ function formatStatus(element) {
             status ='Waitlist';
             break;
         default:
-            status = element.status;
+            status = element.applicationStatus;
     }
 
     element.status = status;
+    element.applicationStatus = status;
     return element;
 }
 
