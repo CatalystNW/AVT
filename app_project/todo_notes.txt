@@ -8,8 +8,6 @@
 
 * Possibly prevent work item creation in project page
 
-* RESTORE LOGIN FUNCTIONS: Search: // @RESTORE AFTER DEVELOPMENT
-
 Figure out common methods & create a library for them
 Refactor
 
