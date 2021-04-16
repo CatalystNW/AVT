@@ -645,6 +645,9 @@ function formatStatus(element) {
         case 'waitlist':
             status ='Waitlist';
             break;
+        case 'transferred':
+            status ='Transferred';
+            break;
         default:
             status = element.applicationStatus;
     }
