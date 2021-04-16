@@ -52,8 +52,9 @@ var DocumentPackageSchema = new Schema({
         type: String,
         default: "upcoming",
         enum: [
-            "discuss", "new", "phone", "handle", "documents", "assess", "approval",
-            "declined", "withdrawn", "withdrawnooa", "project", "waitlist"
+            "new", "phone", "handle", "discuss", "documents", "assess", "assessComp", "approval",
+            "declined", "withdrawn", "withdrawnooa", "project", "waitlist",
+            "transferred",
         ]
     },
     care_network_transfer: {
