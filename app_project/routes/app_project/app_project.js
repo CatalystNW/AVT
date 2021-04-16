@@ -19,6 +19,8 @@ router.route('/application/:application_id')
   .get(authHelper.checkLoggedInAPI, authHelper.checkIfCanView, assessment_controller.get_application_data_api);
 
 router.patch('/document/:application_id/status', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, document_controller.editDocumentStatus);
+router.post('/document/convert', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, document_controller.portDocumentStatusToApplicationStatus);
+
 router.get('/application/:application_id/workitems', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, workitem_controller.getWorkitemsByAppId);
 router.post('/workitems', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, workitem_controller.create_workitem);
 router.route('/workitems/:workitem_id')
