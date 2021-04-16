@@ -1323,6 +1323,9 @@ getDocumentPlanning: function (req, res, next) {
 					// Instead we will do it in one line
 					var doc = new DocumentPackage(req.body);
 
+                    doc.status = "new";
+                    doc.applicationStatus = "new";
+
 					// Create a corresponding highlight package
 					var highlight = new HighlightPackage();
 
