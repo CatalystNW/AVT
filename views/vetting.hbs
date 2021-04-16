@@ -270,6 +270,10 @@
                         <a data-toggle="collapse" href="#collapseNoStatus" aria-expanded="true" aria-controls="collapseNoStatus">
                             No Status - Need to Set Status
                         </a>
+
+                        <button class="btn btn-primary" id="convertStatusBtn">
+                            Convert Old Status to New
+                        </button>
                     </h5>
 
                 </div>
@@ -314,5 +318,21 @@
         $(".clickable-row").click(function() {
             window.location = $(this).data("href");
         });
+    });
+
+    $("#convertStatusBtn").on("click", function(event) {
+        const msg = "Converted. If there are any unconverted documents, please note that documents and contact the administrator.";
+        $.ajax({
+            type: "POST",
+            url: "/app_project/document/convert",
+            success: function(data, textStatus, xhr) {
+                window.alert(msg);
+                location.reload();
+            },
+            error: function(data) {
+                window.alert("error");
+            }
+        });
+        
     });
 </script>
