@@ -436,38 +436,7 @@ getDocumentPlanning: function (req, res, next) {
         // Access the returned items as results.<status code>[array index].<what you need>
         // Example: results.visit[3].address.line_1 = a string
         Promise.props({
-            new: DocumentPackage.find({applicationStatus: "new"}).sort({'updated':-1}).lean().execAsync(),
-            phone: DocumentPackage.find({applicationStatus: "phone"}).lean().execAsync(),
-            documents: DocumentPackage.find({applicationStatus: "documents"}).lean().execAsync(),
-            discuss: DocumentPackage.find({applicationStatus: "discuss"}).lean().execAsync(),
-            assess: DocumentPackage.find({applicationStatus: "assess"}).lean().execAsync(),
-			assessComp: DocumentPackage.find({applicationStatus: "assessComp"}).lean().execAsync(),
-            withdrawn: DocumentPackage.find({applicationStatus: "withdrawn"}).lean().execAsync(),
-            withdrawnooa: DocumentPackage.find({ status: "withdrawnooa" }).lean().execAsync(),
-            approval: DocumentPackage.find({applicationStatus: "approval"}).lean().execAsync(),
-            handle: DocumentPackage.find({applicationStatus: "handle"}).lean().execAsync(),
-            // declined: DocumentPackage.find({status: "declined", app_year : year}).lean().execAsync(),
-            // project: DocumentPackage.find({status: "project", app_year : year}).lean().execAsync(),
-            // handleToBeAssigned: DocumentPackage.find({status: "handleToBeAssigned", app_year : year}).lean().execAsync(),
-            // handleAssigned: DocumentPackage.find({status: "handleAssigned", app_year : year}).lean().execAsync(),
-            // handleCompleted: DocumentPackage.find({status: "handleCompleted", app_year : year}).lean().execAsync(),
-            // projectUpcoming: DocumentPackage.find({status: "projectUpcoming", app_year : year}).lean().execAsync(),
-            // projectInProgress: DocumentPackage.find({status: "projectInProgress", app_year : year}).lean().execAsync(),
-            // projectGoBacks: DocumentPackage.find({status: "projectGoBacks", app_year : year}).lean().execAsync(),
-            // projectCompleted: DocumentPackage.find({status: "projectCompleted", app_year : year}).lean().execAsync()
-
-            declined: DocumentPackage.find({applicationStatus: "declined"}).lean().execAsync(),
-            project: DocumentPackage.find({applicationStatus: "project"}).lean().execAsync(),
-            handleToBeAssigned: DocumentPackage.find({applicationStatus: "handleToBeAssigned"}).lean().execAsync(),
-            handleAssigned: DocumentPackage.find({applicationStatus: "handleAssigned"}).lean().execAsync(),
-            handleCompleted: DocumentPackage.find({applicationStatus: "handleCompleted"}).lean().execAsync(),
-            projectUpcoming: DocumentPackage.find({applicationStatus: "projectUpcoming"}).lean().execAsync(),
-            projectInProgress: DocumentPackage.find({applicationStatus: "projectInProgress"}).lean().execAsync(),
-            projectGoBacks: DocumentPackage.find({applicationStatus: "projectGoBacks"}).lean().execAsync(),
-            projectCompleted: DocumentPackage.find({applicationStatus: "projectCompleted"}).lean().execAsync(),
-
-            waitlist: DocumentPackage.find({applicationStatus: "waitlist" }).lean().execAsync(),
-            transferred: DocumentPackage.find({applicationStatus: "transferred" }).lean().execAsync()
+            documents: DocumentPackage.find().lean().execAsync(),
         })
             .then(function (results) {
                 if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
@@ -478,7 +447,33 @@ getDocumentPlanning: function (req, res, next) {
                         console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
                     }
                 }
-                res.locals.results = results;
+
+                const documents = {
+                    "new": [], "phone": [], "handle": [], "discuss": [], 
+                    "documents": [], "assess": [], "assessComp": [], "approval": [],
+                    "declined": [], "withdrawn": [], "withdrawnooa": [], "project": [], "waitlist": [],
+                    "transferred": [], "noStatus": [],
+                };
+
+                let doc;
+                for (let i=0; i< results.documents.length; i++) {
+                    doc = results.documents[i];
+                    if (doc.applicationStatus in documents) {
+                        documents[doc.applicationStatus].push(doc);
+                    } else {
+                        documents["noStatus"].push(doc);
+                    }
+                }
+
+                // Sort by new by updated in reverse order
+                documents.new.sort((a, b) => {
+                    // Let not updated ones go first
+                    if (a.updated == undefined) { return 1}
+                    if (b.updated == undefined) { return -1}
+                    return new Date(b.updated) - new Date(a.updated);
+                });
+
+                res.locals.results = documents;
 
                 // If we are at this line all promises have executed and returned
                 // Call next() to pass all of this glorious data to the next express router
