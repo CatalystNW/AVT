@@ -50,9 +50,9 @@ var DocumentPackageSchema = new Schema({
     // Status used for Version 2 of Application
     applicationStatus : {
         type: String,
-        default: "upcoming",
         enum: [
-            "new", "phone", "handle", "discuss", "documents", "assess", "assessComp", "approval",
+            "new", 
+            "phone", "handle", "discuss", "documents", "assess", "assessComp", "approval",
             "declined", "withdrawn", "withdrawnooa", "project", "waitlist",
             "transferred",
         ]
