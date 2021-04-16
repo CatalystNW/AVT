@@ -3,6 +3,7 @@ var DocumentPackage = require("../../../models/documentPackage");
 const authHelper = require("./AuthHelper");
 
 module.exports.editDocumentStatus = editDocumentStatus;
+module.exports.portDocumentStatusToApplicationStatus = portDocumentStatusToApplicationStatus;
 
 async function editDocumentStatus(req, res) {
   if (!authHelper.hasRole(req, res, "VET")) {
@@ -27,4 +28,25 @@ async function editDocumentStatus(req, res) {
   } else {
     res.status(404).end();
   }
+}
+/**
+ * Find all Documents with undefined applicationStatus & attempts
+ * to set it to Document.Status
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function portDocumentStatusToApplicationStatus(req, res) {
+  const docs = await DocumentPackage.find({applicationStatus: undefined});
+  console.log(docs);
+  for (let i=0; i< docs.length; i++) {
+    if (docs[i].applicationStatus == undefined && docs[i].status) {
+      try {
+        docs[i].applicationStatus = docs[i].status;
+        await docs[i].save();
+      } catch (e) {
+
+      } 
+    }
+  }
+  res.status(200).send();
 }
