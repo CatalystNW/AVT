@@ -75,7 +75,7 @@ async function view_projects(req, res) {
   }
 
   const context = authHelper.getUserContext(req, res);
-  res.render("app_project/view_projects", context);
+  res.render("app_project/project/view_projects", context);
 }
 
 async function view_project(req, res) {
@@ -85,7 +85,7 @@ async function view_project(req, res) {
 
   const context = authHelper.getUserContext(req, res);
   context.project_id = req.params.project_id;
-  res.render("app_project/view_project", context);
+  res.render("app_project/project/view_project", context);
 }
 
 async function get_task_assignable_users(req, res) {
