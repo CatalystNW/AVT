@@ -15,7 +15,7 @@ async function view_project_transfers(req, res) {
   }
 
   const context = authHelper.getUserContext(req, res);
-  res.render("app_project/project_transfers", context);
+  res.render("app_project/project_transfer/project_transfers", context);
 }
 
 async function view_project_transfer(req, res) {
@@ -28,7 +28,7 @@ async function view_project_transfer(req, res) {
   // var assessment = await SiteAssessment.findById(req.params.assessment_id)
   //     .populate("documentPackage")
   //     .populate({path: "workItems", model: "WorkItem", populate: {path: "materialsItems", model: "MaterialsItem"}});
-  res.render("app_project/project_transfer", context);
+  res.render("app_project/project_transfer/project_transfer", context);
 }
 
 async function transfer_project(req, res) {
