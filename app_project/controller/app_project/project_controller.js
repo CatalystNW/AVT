@@ -1,9 +1,4 @@
-const DocumentPackage = require("../../../models/documentPackage"),
-      PartnerPackage  = require("../../../models/partnerPackage"),
-      UserPackage     = require("../../../models/userPackage"),
-      SiteAssessment  = require("../../models/app_project/SiteAssessment"),
-      WorkItem        = require("../../models/app_project/WorkItem"),
-      MaterialsItem   = require("../../models/app_project/MaterialsItem"),
+const UserPackage     = require("../../../models/userPackage"),
       AppProject      = require("../../models/app_project/AppProject"),
       PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
       WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
