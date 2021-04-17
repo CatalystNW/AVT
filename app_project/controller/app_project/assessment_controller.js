@@ -51,7 +51,7 @@ async function view_site_assessments(req, res) {
   }
   const context = authHelper.getUserContext(req, res);
 
-  res.render("app_project/site_assessments", context);
+  res.render("app_project/assessment/site_assessments", context);
 }
 
 async function view_site_assessment_by_app_id(req, res) {
@@ -64,7 +64,7 @@ async function view_site_assessment_by_app_id(req, res) {
   const context = authHelper.getUserContext(req, res);
   context.assessment_id = siteAssessment._id;
 
-  res.render("app_project/site_assessment", context);
+  res.render("app_project/assessment/site_assessment", context);
 }
 
 async function view_site_assessment(req, res) {
@@ -73,7 +73,7 @@ async function view_site_assessment(req, res) {
   }
   const context = authHelper.getUserContext(req, res);
   context.assessment_id = req.params.assessment_id;
-  res.render("app_project/site_assessment", context);
+  res.render("app_project/assessment/site_assessment", context);
 }
 
 async function getToTransferAssessments(req, res) {
