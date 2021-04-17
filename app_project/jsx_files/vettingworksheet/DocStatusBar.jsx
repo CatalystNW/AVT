@@ -18,8 +18,12 @@ class DocStatusBar extends React.Component {
       },
       success: function(data) {
         this.setState({
-          status: data.status,
+          applicationStatus: e.target.value,
         });
+      },
+      error: function() {
+        window.alert(`Unrecognized application status. 
+                      Please contact the adminstrator with the status attempted.`);
       }
     });
   }

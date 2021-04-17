@@ -16,15 +16,13 @@ async function editDocumentStatus(req, res) {
     'waitlist', 'transferred']);
   const document = await DocumentPackage.findById(req.params.application_id);
   if (document) {
-    if (statusSet.has(req.body.status)) {
-      document.status = req.body.status;
+    try {
+      document.applicationStatus = req.body.applicationStatus
       await document.save();
-      res.status(200).json({status: req.body.status});
-    } else {
+      res.status(200).json({status: req.body.applicationStatus});
+    } catch (e) {
       res.status(400).end();
-      return;
     }
-    
   } else {
     res.status(404).end();
   }

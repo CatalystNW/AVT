@@ -26,8 +26,11 @@ var DocStatusBar = function (_React$Component) {
         },
         success: function success(data) {
           this.setState({
-            status: data.status
+            applicationStatus: e.target.value
           });
+        },
+        error: function error() {
+          window.alert("Unrecognized application status. \n                      Please contact the adminstrator with the status attempted.");
         }
       });
     };
