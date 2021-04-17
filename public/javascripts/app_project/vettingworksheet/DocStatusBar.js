@@ -22,7 +22,7 @@ var DocStatusBar = function (_React$Component) {
         type: "PATCH",
         context: _this,
         data: {
-          status: e.target.value
+          applicationStatus: e.target.value
         },
         success: function success(data) {
           this.setState({
@@ -49,7 +49,7 @@ var DocStatusBar = function (_React$Component) {
         'waitlist': { value: 'waitlist', text: 'Waitlist' },
         'transferred': { value: 'transferred', text: 'Transferred' }
       };
-      var status = _this.state.status;
+      var status = _this.state.applicationStatus;
       if (values[status].noneditable) {
         return React.createElement(
           "span",
@@ -69,14 +69,14 @@ var DocStatusBar = function (_React$Component) {
       }
       return React.createElement(
         "select",
-        { className: "form-control", value: _this.state.status,
+        { className: "form-control", value: _this.state.applicationStatus,
           onChange: _this.onChangeStatus },
         options
       );
     };
 
     _this.state = {
-      status: _this.props.status
+      applicationStatus: _this.props.applicationStatus
     };
     return _this;
   }

@@ -4,7 +4,7 @@ class DocStatusBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: this.props.status,
+      applicationStatus: this.props.applicationStatus,
     };
   }
 
@@ -14,7 +14,7 @@ class DocStatusBar extends React.Component {
       type: "PATCH",
       context: this,
       data: {
-        status: e.target.value,
+        applicationStatus: e.target.value,
       },
       success: function(data) {
         this.setState({
@@ -41,7 +41,7 @@ class DocStatusBar extends React.Component {
       'waitlist': { value: 'waitlist', text: 'Waitlist'},
       'transferred': { value: 'transferred', text: 'Transferred'}
     };
-    const status = this.state.status;
+    const status = this.state.applicationStatus;
     if (values[status].noneditable) {
       return (<span>{status}</span>);
     }
@@ -53,7 +53,7 @@ class DocStatusBar extends React.Component {
       }
     }
     return (
-      <select className="form-control" value={this.state.status}
+      <select className="form-control" value={this.state.applicationStatus}
         onChange={this.onChangeStatus}>
         {options}
       </select>
