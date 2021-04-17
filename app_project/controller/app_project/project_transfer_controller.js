@@ -1,7 +1,6 @@
 const DocumentPackage = require("../../../models/documentPackage"),
       SiteAssessment  = require("../../models/app_project/SiteAssessment"),
       WorkItem        = require("../../models/app_project/WorkItem"),
-      MaterialsItem   = require("../../models/app_project/MaterialsItem"),
       AppProject      = require("../../models/app_project/AppProject");
 
 const authHelper = require("./AuthHelper");
@@ -48,7 +47,7 @@ async function transfer_project(req, res) {
     return;
   }
   const documentPackage = await DocumentPackage.findById(siteAssessment.documentPackage);
-  documentPackage.status = "transferred";
+  documentPackage.applicationStatus = "transferred";
   await documentPackage.save();
   
   // Create Non-handleit Projects
