@@ -93,7 +93,7 @@ async function getApplicationsInAssessment(req, res) {
     res.status(403).end(); return;
   }
   // I don't know what level is used for, but api.getDocumentSTatusSite filtered out level 5
-  let documents = await DocumentPackage.find().or([{status: "assess"}, {status: "assessComp"}]).where('level').ne(5).exec(),
+  let documents = await DocumentPackage.find().or([{applicationStatus: "assess"}, {applicationStatus: "assessComp"}]).where('level').ne(5).exec(),
       // Docs don't have assessment reference
       assessments = await SiteAssessment.find({transferred: false, complete: false});
   // Check if there are conflicts between assessments & documents
@@ -104,16 +104,16 @@ async function getApplicationsInAssessment(req, res) {
   
   for (let i=0; i< documents.length; i++) {
     // If doc is assessment complete, but assessment doesn't exist
-    if (documents[i].status == "assessComp" &&
+    if (documents[i].applicationStatus == "assessComp" &&
           !(documents[i]._id in assessmentsByDict)) {
-      documents[i].status = "assess";
+      documents[i].applicationStatus = "assess";
       await documents[i].save();
     }
     // If doc is assess but assessment is complete
-    if (documents[i].status == "assess" &&
+    if (documents[i].applicationStatus == "assess" &&
         documents[i]._id in assessmentsByDict &&
-        assessmentsByDict[documents[i]._id].status != "pending") {
-      assessmentsByDict[documents[i]._id].status = "pending";
+        assessmentsByDict[documents[i]._id].applicationStatus != "pending") {
+      assessmentsByDict[documents[i]._id].applicationStatus = "pending";
       await assessmentsByDict[documents[i]._id].save();
     }
   }
@@ -203,7 +203,7 @@ async function edit_site_assessment(req, res) {
     // Change status both in DocumentPackage & Site Assessment
     var doc = await DocumentPackage.findById(site_assessment.application_id);
     if (status == "pending") {
-      doc.status = "assess";
+      doc.applicationStatus = "assess";
     } else if (status == "complete" || status == "approval_process" || 
     status == "approved") {
       if (!site_assessment.workItems || site_assessment.workItems.length == 0) {
@@ -217,11 +217,11 @@ async function edit_site_assessment(req, res) {
           return;
         }
       }
-      doc.status = "assessComp";
+      doc.applicationStatus = "assessComp";
     } else if (status == "declined") {
       // Marks Assessment, Workitems, MaterialsItems as complete & status as declined
       await SiteAssessment.markComplete(assessment_id, false);
-      doc.status = "transferred";      
+      doc.applicationStatus = "transferred";      
     } else {
       res.status(400).send("Wrong parameter field for status given");
       return;
