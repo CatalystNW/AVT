@@ -52,28 +52,6 @@
                 <a class="nav-link" href="/application/add">Apply</a>
             </li>
 
-            
-            {{#if_in user_roles "VET"}}
-            <li class="nav-item">
-              <a class="nav-link" href="/view">Vetting</a>
-            </li>
-            {{/if_in}}
-            
-            {{#if_in user_roles "SITE"}}
-            <li class="nav-item">
-              <a class="nav-link" href="/site">Site Assessment</a>
-            </li>
-            {{/if_in}}
-
-            {{#if_in user_roles "PROJECT_MANAGEMENT"}}
-            <li class="nav-item">
-              <a class="nav-link" href="/projectsummary">Project Summary</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/projectreport">Reports</a>
-            </li>
-            {{/if_in}}
-
             {{#if assign_tasks}}
             <li class="nav-item">
               <a class="nav-link" href="/tasks">Tasks</a>
@@ -85,7 +63,6 @@
                   <a class="nav-link" href="/user/userList">Users</a>
               </li>
             {{/if_in}}
-
             
             <li class="nav-item">
               <a class="nav-link" href="/carenetwork">Care Network</a>
@@ -109,6 +86,25 @@
             </li>
             {{/if_in}}
             
+            {{#if user }}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Previous
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {{#if_in user_roles "VET"}}
+                  <a class="dropdown-item" href="/view">Vetting</a>
+                  {{/if_in}}
+                  {{#if_in user_roles "SITE"}}
+                  <a class="dropdown-item" href="/site">Site Assessment</a>
+                  {{/if_in}}
+                  {{#if_in user_roles "PROJECT_MANAGEMENT"}}
+                  <a class="dropdown-item" href="/projectsummary">Project Summary</a>
+                  <a class="dropdown-item" href="/projectreport">Reports</a>
+                  {{/if_in}}
+                </div>
+              </li>
+            {{/if}}
             <li class="nav-item">
               <a class="nav-link" href="/app_project/delete_manager">Deletions</a></li>
            
