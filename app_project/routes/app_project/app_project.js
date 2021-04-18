@@ -3,7 +3,7 @@ var router = express.Router();
 
 const authHelper = require("../../controller/app_project/AuthHelper");
 
-var document_controller       = require('../../controller/app_project/document_controller.js'),
+var document_controller         = require('../../controller/app_project/document_controller.js'),
     assessment_controller       = require('../../controller/app_project/assessment_controller.js'),
     project_controller          = require('../../controller/app_project/project_controller.js'),
     project_transfer_controller = require('../../controller/app_project/project_transfer_controller.js'),
@@ -11,7 +11,8 @@ var document_controller       = require('../../controller/app_project/document_c
     materialsitem_controller    = require('../../controller/app_project/materialsitem_controller.js'),
     project_note_controller     = require('../../controller/app_project/project_note_controller.js'),
     partner_controller          = require('../../controller/app_project/partner_controller.js'),
-    development_controller          = require('../../controller/app_project/development_controller.js');
+    development_controller      = require('../../controller/app_project/development_controller.js'),
+    report_controller           = require('../../controller/app_project/report_controller.js');
 
 router.use('/site_assessments', require("./site_assessments.js"));
 
@@ -73,5 +74,7 @@ router.get('/projects/handleit_form/:project_id', authHelper.checkLoggedInPages,
 router.delete('/projects', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.delete_all_projects);
 router.get('/delete_manager', authHelper.checkLoggedInPages, authHelper.checkIfCanView, development_controller.view_delete_manager);
 router.delete('/delete_manager', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.manage_deletion);
+
+router.get('/report/view', report_controller.view_index_page);
 
 module.exports = router;
