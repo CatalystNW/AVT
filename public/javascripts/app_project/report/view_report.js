@@ -1,0 +1,110 @@
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+import { UpcomingProjects } from "./upcoming_projects.js";
+
+var ReportApp = function (_React$Component) {
+  _inherits(ReportApp, _React$Component);
+
+  function ReportApp(props) {
+    _classCallCheck(this, ReportApp);
+
+    var _this = _possibleConstructorReturn(this, (ReportApp.__proto__ || Object.getPrototypeOf(ReportApp)).call(this, props));
+
+    _this.createTabs = function () {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "ul",
+          { className: "nav nav-tabs" },
+          React.createElement(
+            "li",
+            { className: "nav-item" },
+            React.createElement(
+              "a",
+              { className: "nav-link active", href: "#upcomingReport" },
+              "Upcoming Projects"
+            )
+          ),
+          React.createElement(
+            "li",
+            { className: "nav-item" },
+            React.createElement(
+              "a",
+              { className: "nav-link", href: "#" },
+              "Projects"
+            )
+          ),
+          React.createElement(
+            "li",
+            { className: "nav-item" },
+            React.createElement(
+              "a",
+              { className: "nav-link", href: "#" },
+              "Applications"
+            )
+          ),
+          React.createElement(
+            "li",
+            { className: "nav-item" },
+            React.createElement(
+              "a",
+              { className: "nav-link", href: "#" },
+              "Search"
+            )
+          )
+        )
+      );
+    };
+
+    _this.createPages = function () {
+      return React.createElement(
+        "div",
+        { className: "tab-content", id: "myTabContent" },
+        React.createElement(
+          "div",
+          { className: "tab-pane show active", id: "upcomingReport", role: "tabpanel", "aria-labelledby": "home-tab" },
+          React.createElement(UpcomingProjects, null)
+        ),
+        React.createElement(
+          "div",
+          { className: "tab-pane", id: "profile", role: "tabpanel", "aria-labelledby": "profile-tab" },
+          "..."
+        ),
+        React.createElement(
+          "div",
+          { className: "tab-pane", id: "contact", role: "tabpanel", "aria-labelledby": "contact-tab" },
+          "..."
+        )
+      );
+    };
+
+    return _this;
+  }
+
+  _createClass(ReportApp, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        this.createTabs(),
+        this.createPages()
+      );
+    }
+  }]);
+
+  return ReportApp;
+}(React.Component);
+
+function loadReact() {
+  ReactDOM.render(React.createElement(ReportApp, null), document.getElementById("mainContainer"));
+}
+
+loadReact();
