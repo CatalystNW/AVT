@@ -14,16 +14,113 @@ var ProjectReport = function (_React$Component) {
   function ProjectReport(props) {
     _classCallCheck(this, ProjectReport);
 
-    return _possibleConstructorReturn(this, (ProjectReport.__proto__ || Object.getPrototypeOf(ProjectReport)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ProjectReport.__proto__ || Object.getPrototypeOf(ProjectReport)).call(this, props));
+
+    _this.get_data = function () {
+      var data = {};
+      var formData = new FormData($("#" + _this.formId)[0]);
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = formData.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var key = _step.value;
+
+          data[key] = formData.get(key);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    _this.searchForm = function (e) {
+      e.preventDefault();
+      _this.get_data();
+      $.ajax({
+        url: "/app_project/report/project",
+        type: "POST",
+        data: _this.get_data(),
+        context: _this,
+        success: function success(projects) {
+          console.log(projects);
+        }
+
+      });
+    };
+
+    _this.formId = "project-form";
+    return _this;
   }
 
   _createClass(ProjectReport, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      $(".datepicker").datepicker({
+        orientation: 'bottom',
+        format: 'yyyy-mm-dd'
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
         null,
-        "Test"
+        React.createElement(
+          "form",
+          { onSubmit: this.searchForm, id: this.formId },
+          React.createElement(
+            "h3",
+            null,
+            "Start Date"
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group row" },
+            React.createElement(
+              "div",
+              { className: "col-md-3" },
+              React.createElement(
+                "label",
+                null,
+                "Start"
+              ),
+              React.createElement("input", { type: "text", className: "datepicker form-control",
+                placeholder: "yyyy-mm-dd", name: "startDate" })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3" },
+              React.createElement(
+                "label",
+                null,
+                "End"
+              ),
+              React.createElement("input", { type: "text", className: "datepicker form-control",
+                placeholder: "yyyy-mm-dd", name: "endDate" })
+            )
+          ),
+          React.createElement(
+            "button",
+            { type: "submit", className: "btn btn-primary" },
+            "Search"
+          )
+        )
       );
     }
   }]);

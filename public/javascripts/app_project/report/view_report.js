@@ -28,7 +28,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link active", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
               "Upcoming Projects"
             )
           ),
@@ -37,7 +37,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#project-report", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link active", href: "#project-report", role: "tab", "data-toggle": "tab" },
               "Projects"
             )
           ),
@@ -71,17 +71,17 @@ var ReportApp = function (_React$Component) {
         { className: "tab-content", id: "myTabContent" },
         React.createElement(
           "div",
-          { className: "tab-pane show active", id: "upcomingReport", role: "tabpanel", "aria-labelledby": "home-tab" },
+          { className: "tab-pane", id: "upcomingReport", role: "tabpanel" },
           React.createElement(UpcomingProjects, null)
         ),
         React.createElement(
           "div",
-          { className: "tab-pane", id: "project-report", role: "tabpanel", "aria-labelledby": "profile-tab" },
+          { className: "tab-pane show active", id: "project-report", role: "tabpanel" },
           React.createElement(ProjectReport, null)
         ),
         React.createElement(
           "div",
-          { className: "tab-pane", id: "contact", role: "tabpanel", "aria-labelledby": "contact-tab" },
+          { className: "tab-pane", id: "contact", role: "tabpanel" },
           "..."
         )
       );
