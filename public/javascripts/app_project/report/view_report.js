@@ -7,6 +7,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 import { UpcomingProjects } from "./upcoming_projects.js";
+import { ProjectReport } from "./project_report.js";
 
 var ReportApp = function (_React$Component) {
   _inherits(ReportApp, _React$Component);
@@ -17,9 +18,8 @@ var ReportApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ReportApp.__proto__ || Object.getPrototypeOf(ReportApp)).call(this, props));
 
     _this.createTabs = function () {
-      return React.createElement(
-        "div",
-        null,
+      return (
+        //<div>
         React.createElement(
           "ul",
           { className: "nav nav-tabs" },
@@ -28,7 +28,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link active", href: "#upcomingReport" },
+              { className: "nav-link active", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
               "Upcoming Projects"
             )
           ),
@@ -37,7 +37,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#" },
+              { className: "nav-link", href: "#project-report", role: "tab", "data-toggle": "tab" },
               "Projects"
             )
           ),
@@ -46,7 +46,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#" },
+              { className: "nav-link", href: "#", role: "tab", "data-toggle": "tab" },
               "Applications"
             )
           ),
@@ -55,11 +55,13 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#" },
+              { className: "nav-link", href: "#", role: "tab", "data-toggle": "tab" },
               "Search"
             )
           )
         )
+        //</div>
+
       );
     };
 
@@ -74,8 +76,8 @@ var ReportApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "tab-pane", id: "profile", role: "tabpanel", "aria-labelledby": "profile-tab" },
-          "..."
+          { className: "tab-pane", id: "project-report", role: "tabpanel", "aria-labelledby": "profile-tab" },
+          React.createElement(ProjectReport, null)
         ),
         React.createElement(
           "div",
