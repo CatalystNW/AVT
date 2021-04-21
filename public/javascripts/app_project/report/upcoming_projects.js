@@ -47,10 +47,10 @@ var UpcomingProjects = function (_React$Component) {
       });
     };
 
-    _this.createTable = function (projects) {
+    _this.createTable = function (id, projects) {
       return React.createElement(
         "table",
-        { className: "table table-sm" },
+        { className: "table table-sm", id: id },
         React.createElement(
           "thead",
           null,
@@ -151,11 +151,11 @@ var UpcomingProjects = function (_React$Component) {
               React.createElement(
                 "td",
                 null,
-                project.workItems.map(function (workItem) {
+                project.workItems.map(function (workItem, index) {
                   return React.createElement(
                     "div",
                     { key: project._id + "_" + workItem._id },
-                    workItem.name
+                    index + ". " + workItem.name
                   );
                 })
               ),
@@ -206,10 +206,54 @@ var UpcomingProjects = function (_React$Component) {
       );
     };
 
+    _this.getTableText = function (tableId) {
+      var table = document.getElementById(tableId);
+      var projectDataArray = [];
+      for (var r = 0; r < table.rows.length; r++) {
+        projectDataArray.push([]);
+        for (var c = 0; c < table.rows[r].cells.length; c++) {
+          projectDataArray[r].push(table.rows[r].cells[c].innerText.replace(/\n/ig, "; "));
+        }
+      }
+      return projectDataArray;
+    };
+
+    _this.onClick_exportHandleitCSV = function () {
+      var projectDataArray = _this.getTableText(_this.handleitTableId);
+      _this.exportCSV("upcoming-handleits-", projectDataArray);
+    };
+
+    _this.onClick_exportProjectCSV = function () {
+      var projectDataArray = _this.getTableText(_this.projectTableId);
+      _this.exportCSV("upcoming-projects-", projectDataArray);
+    };
+
+    _this.onClick_combinedProjectsCSV = function () {
+      var projectDataArray = [["Handle-It"]].concat(_this.getTableText(_this.handleitTableId));
+
+      projectDataArray = projectDataArray.concat([["Projects"]], _this.getTableText(_this.projectTableId));
+      _this.exportCSV("upcoming-combined-projects-", projectDataArray);
+    };
+
+    _this.exportCSV = function (filename, dataArray) {
+      var csvContent = "data:text/csv;charset=utf-8," + dataArray.map(function (row) {
+        return row.join(",");
+      }).join("\n");
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      var dateString = new Date().toISOString().replace(/T.*/, '');
+      link.setAttribute("download", filename + dateString + ".csv");
+      document.body.appendChild(link);
+      link.click();
+    };
+
     _this.state = {
       projects: [],
       handleits: []
     };
+    _this.projectTableId = "project-table";
+    _this.handleitTableId = "handleit-table";
     _this.loadData();
     return _this;
   }
@@ -252,17 +296,44 @@ var UpcomingProjects = function (_React$Component) {
           "Upcoming Projects"
         ),
         React.createElement(
+          "span",
+          null,
+          React.createElement(
+            "label",
+            { className: "m-1" },
+            "Download CSV: "
+          ),
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-primary",
+              onClick: this.onClick_combinedProjectsCSV },
+            "Combined"
+          ),
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-secondary",
+              onClick: this.onClick_exportHandleitCSV },
+            "Handle-it"
+          ),
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-success",
+              onClick: this.onClick_exportProjectCSV },
+            "Project"
+          )
+        ),
+        React.createElement(
           "h2",
           null,
           "Handle-It Projects"
         ),
-        this.createTable(this.state.handleits),
+        this.createTable(this.handleitTableId, this.state.handleits),
         React.createElement(
           "h2",
           null,
           "Projects"
         ),
-        this.createTable(this.state.projects)
+        this.createTable(this.projectTableId, this.state.projects)
       );
     }
   }]);

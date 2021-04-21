@@ -7,6 +7,8 @@ class UpcomingProjects extends React.Component {
       projects: [],
       handleits: [],
     }
+    this.projectTableId = "project-table";
+    this.handleitTableId = "handleit-table";
     this.loadData();
   }
 
@@ -54,9 +56,9 @@ class UpcomingProjects extends React.Component {
     return Math.round(value) / mult;
   }
 
-  createTable = (projects) => {
+  createTable = (id, projects) => {
     return (
-      <table className="table table-sm">
+      <table className="table table-sm" id={id}>
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -94,8 +96,10 @@ class UpcomingProjects extends React.Component {
                   {project.documentPackage.application.address.city}
                 </td>
                 <td>
-                  {project.workItems.map(workItem => {
-                    return (<div key={project._id + "_" + workItem._id}>{workItem.name}</div>);
+                  {project.workItems.map((workItem, index) => {
+                    return (
+                    <div key={project._id + "_" + workItem._id}>
+                      {index + ". " + workItem.name}</div>);
                   })}
                 </td>
                 <td>{project.documentPackage.property.home_type}</td>
@@ -117,14 +121,62 @@ class UpcomingProjects extends React.Component {
     )
   };
 
+  getTableText = (tableId) => {
+    const table = document.getElementById(tableId);
+    const projectDataArray = [];
+    for(let r = 0; r < table.rows.length; r++) {
+      projectDataArray.push([]);
+      for (let c = 0; c < table.rows[r].cells.length; c++) {
+        projectDataArray[r].push(table.rows[r].cells[c].innerText.replace(/\n/ig, "; "));
+      }
+    }
+    return projectDataArray;
+  }
+
+  onClick_exportHandleitCSV = () => {
+    const projectDataArray = this.getTableText(this.handleitTableId);
+    this.exportCSV("upcoming-handleits-", projectDataArray);
+  };
+  onClick_exportProjectCSV = () => {
+    const projectDataArray = this.getTableText(this.projectTableId);
+    this.exportCSV("upcoming-projects-", projectDataArray);
+  };
+  onClick_combinedProjectsCSV = () => {
+    let projectDataArray = [["Handle-It"]].concat(this.getTableText(this.handleitTableId));
+
+    projectDataArray = projectDataArray.concat([["Projects"]], this.getTableText(this.projectTableId));
+    this.exportCSV("upcoming-combined-projects-", projectDataArray);
+  };
+
+  exportCSV = (filename, dataArray) => {
+    let csvContent = "data:text/csv;charset=utf-8," +
+        dataArray.map(row => row.join(",")).join("\n");
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    let dateString = new Date().toISOString().replace(/T.*/,'');
+    link.setAttribute("download", filename + dateString + ".csv")
+    document.body.appendChild(link);
+    link.click();
+  };
+
   render() {
     return (
       <div>
         <h1>Upcoming Projects</h1>
+        <span>
+          <label className="m-1">Download CSV: </label>
+          <button className="btn btn-sm btn-primary"
+              onClick={this.onClick_combinedProjectsCSV}>Combined</button>
+          <button className="btn btn-sm btn-secondary"
+              onClick={this.onClick_exportHandleitCSV}>Handle-it</button>
+          <button className="btn btn-sm btn-success"
+            onClick={this.onClick_exportProjectCSV}>Project</button>
+        </span>
         <h2>Handle-It Projects</h2>
-        {this.createTable(this.state.handleits)}
+        {this.createTable(this.handleitTableId, this.state.handleits)}
         <h2>Projects</h2>
-        {this.createTable(this.state.projects)}
+        {this.createTable(this.projectTableId, this.state.projects)}
       </div>
     )
   }
