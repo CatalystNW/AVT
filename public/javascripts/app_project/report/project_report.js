@@ -58,12 +58,86 @@ var ProjectReport = function (_React$Component) {
         context: _this,
         success: function success(projects) {
           console.log(projects);
+          this.setState({
+            projects: projects
+          });
         }
-
       });
     };
 
+    _this.createPartnersTable = function () {
+      var partnersDict = {};
+      _this.state.projects.forEach(function (project) {
+        project.partners.forEach(function (partner) {
+          if (partner.org_name in partnersDict) {
+            partnersDict[partner.org_name] += 1;
+          } else {
+            partnersDict[partner.org_name] = 0;
+          }
+        });
+      });
+
+      var partnersArray = [];
+      var tr = void 0;
+      for (var name in partnersDict) {
+        partnersArray.push(React.createElement(
+          "tr",
+          { key: "part-" + name },
+          React.createElement(
+            "td",
+            null,
+            name
+          ),
+          React.createElement(
+            "td",
+            null,
+            partnersDict[name]
+          )
+        ));
+      }
+
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h2",
+          null,
+          "Partners"
+        ),
+        React.createElement(
+          "table",
+          { className: "table table-sm" },
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Partner"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Number of Projects"
+              )
+            )
+          ),
+          React.createElement(
+            "tbody",
+            null,
+            partnersArray
+          )
+        )
+      );
+    };
+
     _this.formId = "project-form";
+    _this.state = {
+      projects: []
+    };
     return _this;
   }
 
@@ -120,7 +194,8 @@ var ProjectReport = function (_React$Component) {
             { type: "submit", className: "btn btn-primary" },
             "Search"
           )
-        )
+        ),
+        this.createPartnersTable()
       );
     }
   }]);

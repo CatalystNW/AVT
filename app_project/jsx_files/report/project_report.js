@@ -4,6 +4,9 @@ class ProjectReport extends React.Component {
   constructor(props) {
     super(props);
     this.formId = "project-form";
+    this.state = {
+      projects: [],
+    }
   }
 
   componentDidMount() {
@@ -32,10 +35,52 @@ class ProjectReport extends React.Component {
       data: this.get_data(),
       context: this,
       success: function(projects) {
-        console.log(projects)
+        console.log(projects);
+        this.setState({
+          projects: projects,
+        });
       }
-      
-    })
+    });
+  };
+
+  createPartnersTable = () => {
+    const partnersDict = {};
+    this.state.projects.forEach(project => {
+      project.partners.forEach(partner => {
+        if (partner.org_name in partnersDict) {
+          partnersDict[partner.org_name] += 1;
+        } else {
+          partnersDict[partner.org_name] = 0;
+        }
+      })
+    });
+
+    const partnersArray = [];
+    let tr;
+    for (let name in partnersDict) {
+      partnersArray.push(
+        (<tr key={"part-" + name}>
+          <td>{name}</td>
+          <td>{partnersDict[name]}</td>
+        </tr>)
+      );
+    }
+
+    return (
+    <div>
+      <h2>Partners</h2>
+      <table className="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Partner</th>
+            <th scope="col">Number of Projects</th>
+          </tr>
+        </thead>
+        <tbody>
+          {partnersArray}
+        </tbody>
+      </table>
+    </div>)
   };
 
   render() {
@@ -57,6 +102,7 @@ class ProjectReport extends React.Component {
         </div>
         <button type="submit" className="btn btn-primary">Search</button>
       </form>
+      {this.createPartnersTable()}
     </div>);
   }
 }
