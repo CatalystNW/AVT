@@ -50,7 +50,7 @@ class ProjectReport extends React.Component {
         if (partner.org_name in partnersDict) {
           partnersDict[partner.org_name] += 1;
         } else {
-          partnersDict[partner.org_name] = 0;
+          partnersDict[partner.org_name] = 1;
         }
       })
     });
