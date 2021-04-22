@@ -253,6 +253,12 @@ var WorkItem = function (_React$Component) {
       _this.setState(_defineProperty({}, property_type, value));
 
       _this[property_type + "_timer"] = setTimeout(function () {
+        if (value == undefined || value.length == 0) {
+          window.alert("Please set " + property_type + " to a value.");
+          e.target.focus();
+          return;
+        }
+
         var data = _defineProperty({
           workitem_id: _this.state._id
         }, property_type, value);

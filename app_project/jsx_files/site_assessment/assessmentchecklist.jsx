@@ -63,6 +63,12 @@ class AssessmentChecklist extends React.Component {
     this.setState({[property_type]: value});
 
     this[property_type + "_timer"] = setTimeout(() => {
+      if (value == undefined || value.length == 0) {
+        window.alert(`Please set ${property_type} to a value.`);
+        e.target.focus();
+        return;
+      }
+      
       if (property_type == "porta_potty_cost" ||
           property_type == "waste_cost") {
         value = parseFloat(value).toFixed(2);

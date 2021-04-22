@@ -32,6 +32,7 @@ class ProjectMenu extends React.Component {
     this.site_host_timer = null;
     this.crew_chief_timer = null;
     this.project_advocate_timer = null;
+    this.timerValue = 500; // in ms
   }
 
   componentDidMount() {
@@ -132,6 +133,11 @@ class ProjectMenu extends React.Component {
     this.setState({[property_type]: value});
 
     this[property_type + "_timer"] = setTimeout(() => {
+      if (value == undefined || value.length == 0) {
+        window.alert(`Please set ${property_type} to a value.`);
+        e.target.focus();
+        return;
+      }
       // Force volunteer hours to have 1 decimal place
       if (property_type == "volunteer_hours") {
         value = parseFloat(value).toFixed(1);
@@ -150,7 +156,7 @@ class ProjectMenu extends React.Component {
         data: data,
         context: this,
       });
-    }, 700);
+    }, this.timerValue);
   };
 
   /**

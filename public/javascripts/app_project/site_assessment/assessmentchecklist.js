@@ -67,6 +67,12 @@ var AssessmentChecklist = function (_React$Component) {
       _this.setState(_defineProperty({}, property_type, value));
 
       _this[property_type + "_timer"] = setTimeout(function () {
+        if (value == undefined || value.length == 0) {
+          window.alert("Please set " + property_type + " to a value.");
+          e.target.focus();
+          return;
+        }
+
         if (property_type == "porta_potty_cost" || property_type == "waste_cost") {
           value = parseFloat(value).toFixed(2);
           if (value == "NaN") value = 0;

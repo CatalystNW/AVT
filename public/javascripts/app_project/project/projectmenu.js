@@ -112,6 +112,11 @@ var ProjectMenu = function (_React$Component) {
       _this.setState(_defineProperty({}, property_type, value));
 
       _this[property_type + "_timer"] = setTimeout(function () {
+        if (value == undefined || value.length == 0) {
+          window.alert("Please set " + property_type + " to a value.");
+          e.target.focus();
+          return;
+        }
         // Force volunteer hours to have 1 decimal place
         if (property_type == "volunteer_hours") {
           value = parseFloat(value).toFixed(1);
@@ -129,7 +134,7 @@ var ProjectMenu = function (_React$Component) {
           data: data,
           context: _this
         });
-      }, 700);
+      }, _this.timerValue);
     };
 
     _this.createWorkItems = function () {
@@ -169,6 +174,7 @@ var ProjectMenu = function (_React$Component) {
     _this.site_host_timer = null;
     _this.crew_chief_timer = null;
     _this.project_advocate_timer = null;
+    _this.timerValue = 500; // in ms
     return _this;
   }
 
