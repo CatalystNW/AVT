@@ -175,11 +175,12 @@ async function edit_site_assessment(req, res) {
     res.status(404).end();
     return;
   }
+  // Disabled. Allow editing
   // Can't edit transferred or completed assessments
-  if (site_assessment.transferred || site_assessment.complete) { 
-    res.status(400).end();
-    return;
-  }
+  // if (site_assessment.transferred || site_assessment.complete) { 
+  //   res.status(400).end();
+  //   return;
+  // }
   if (property == "project_start_date" || property == "project_end_date" || 
       property == "assessment_date") {
     var d = new Date(

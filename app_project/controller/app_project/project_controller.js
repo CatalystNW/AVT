@@ -182,10 +182,11 @@ async function edit_project(req, res) {
     res.status(404).end();
     return;
   }
-  if (project.complete) {
-    res.status(423).end(); // resource  locked
-    return;
-  }
+  // Disabed. Allow editing.
+  // if (project.complete) {
+  //   res.status(423).end(); // resource  locked
+  //   return;
+  // }
   if (req.body.property == "project_start_date" 
     || req.body.property == "project_end_date") {
     var d = new Date(
