@@ -1,7 +1,5 @@
-const UserPackage     = require("../../../models/userPackage"),
-      AppProject      = require("../../models/app_project/AppProject"),
-      PlanChecklist   = require("../../models/app_project/AppProjectPlanChecklist"),
-      WrapupChecklist = require("../../models/app_project/ProjectWrapupChecklist");
+const AppProject      = require("../../models/app_project/AppProject"),
+      DocumentPackage = require("../../../models/documentPackage");;
 
 const authHelper = require("./AuthHelper");
 
@@ -45,5 +43,18 @@ async function search_project(req, res) {
 }
 
 async function search_application(req, res) {
-  res.status(200).send();
+  let options = {};
+  if (req.body.startDate || req.body.endDate) {
+    options.start = {};
+    if (req.body.startDate) {
+      options.created["$gte"] = new Date(req.body.startDate);
+    }
+    if (req.body.endDate) {
+      let endDate = new Date(req.body.endDate);
+      endDate.setHours(23, 59, 59, 59);
+      options.created["$lte"] = endDate;
+    }
+  }
+  let documents = await DocumentPackage.find(options);
+  res.status(200).json(documents);
 }

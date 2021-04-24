@@ -8,23 +8,130 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { ApplicationReport };
 
+import { functionHelper } from "./functionHelper.js";
+
 var ApplicationReport = function (_React$Component) {
   _inherits(ApplicationReport, _React$Component);
 
-  function ApplicationReport() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function ApplicationReport(props) {
     _classCallCheck(this, ApplicationReport);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (ApplicationReport.__proto__ || Object.getPrototypeOf(ApplicationReport)).call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ApplicationReport.__proto__ || Object.getPrototypeOf(ApplicationReport)).call.apply(_ref, [this].concat(args))), _this), _this.searchForm = function (e) {
+    _this.searchForm = function (e) {
       e.preventDefault();
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+      $.ajax({
+        url: "/app_project/report/applications",
+        type: "POST",
+        data: functionHelper.get_data(_this.formId),
+        context: _this,
+        success: function success(applications) {
+          console.log(applications);
+          this.setState({
+            applications: applications
+          });
+        }
+      });
+    };
+
+    _this.createApplicationInfoTable = function () {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h3",
+          null,
+          "Applications Info"
+        ),
+        React.createElement(
+          "table",
+          { className: "table table-sm info-table" },
+          React.createElement(
+            "tbody",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "row" },
+                "# Applications"
+              ),
+              React.createElement(
+                "td",
+                null,
+                _this.state.applications.length
+              )
+            )
+          )
+        )
+      );
+    };
+
+    _this.createApplicationTable = function () {
+      return React.createElement(
+        "table",
+        { className: "table table-sm" },
+        React.createElement(
+          "thead",
+          null,
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Name"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Application Date"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Location"
+            )
+          )
+        ),
+        React.createElement(
+          "tbody",
+          null,
+          _this.state.applications.map(function (document) {
+            return React.createElement(
+              "tr",
+              { key: document._id },
+              React.createElement(
+                "td",
+                null,
+                React.createElement(
+                  "a",
+                  { href: "/view/" + document._id, target: "_blank" },
+                  document.application.name.first + " " + document.application.name.last
+                )
+              ),
+              React.createElement(
+                "td",
+                null,
+                functionHelper.convert_date(document.created).toLocaleDateString()
+              ),
+              React.createElement(
+                "td",
+                null,
+                document.application.address.city
+              )
+            );
+          })
+        )
+      );
+    };
+
+    _this.formId = "search-form";
+    _this.state = {
+      applications: []
+    };
+    return _this;
   }
 
   _createClass(ApplicationReport, [{
@@ -72,7 +179,14 @@ var ApplicationReport = function (_React$Component) {
             { type: "submit", className: "btn btn-primary" },
             "Search"
           )
-        )
+        ),
+        this.createApplicationInfoTable(),
+        React.createElement(
+          "h3",
+          null,
+          "Applications"
+        ),
+        this.createApplicationTable()
       );
     }
   }]);
