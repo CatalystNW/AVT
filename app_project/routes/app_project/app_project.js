@@ -79,5 +79,6 @@ router.get('/report/view', report_controller.view_index_page);
 router.get('/report/upcoming', report_controller.get_upcoming_projects);
 router.post('/report/project', report_controller.search_project);
 router.post('/report/applications', report_controller.application_report);
+router.post('/report/search_applications', report_controller.search_applications);
 
 module.exports = router;

@@ -7,6 +7,7 @@ module.exports.view_index_page = view_index_page;
 module.exports.get_upcoming_projects = get_upcoming_projects;
 module.exports.search_project = search_project;
 module.exports.application_report = application_report;
+module.exports.search_applications = search_applications;
 
 async function view_index_page(req, res) {
   res.render("app_project/report", {});
@@ -56,5 +57,22 @@ async function application_report(req, res) {
     }
   }
   let documents = await DocumentPackage.find(options);
+  res.status(200).json(documents);
+}
+
+async function search_applications(req, res) {
+  let options = {};
+  if (req.body.first_name) {
+    options["application.name.first"] = req.body.first_name;
+  }
+  if (req.body.last_name) {
+    options["application.name.last"] = req.body.last_name;
+  }
+  if (req.body.zip) {
+    options["application.address.zip"] = req.body.zip;
+  }
+
+  let documents = await DocumentPackage.find(options);
+
   res.status(200).json(documents);
 }

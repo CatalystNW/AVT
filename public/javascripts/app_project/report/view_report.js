@@ -9,6 +9,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 import { UpcomingProjects } from "./upcoming_projects.js";
 import { ProjectReport } from "./project_report.js";
 import { ApplicationReport } from "./application_report.js";
+import { SearchReport } from "./search_report.js";
 
 var ReportApp = function (_React$Component) {
   _inherits(ReportApp, _React$Component);
@@ -47,7 +48,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link active", href: "#applications-report", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link", href: "#applications-report", role: "tab", "data-toggle": "tab" },
               "Applications"
             )
           ),
@@ -56,7 +57,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link active", href: "#search-report", role: "tab", "data-toggle": "tab" },
               "Search"
             )
           )
@@ -82,8 +83,13 @@ var ReportApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "tab-pane show active", id: "applications-report", role: "tabpanel" },
+          { className: "tab-pane", id: "applications-report", role: "tabpanel" },
           React.createElement(ApplicationReport, null)
+        ),
+        React.createElement(
+          "div",
+          { className: "tab-pane show active", id: "search-report", role: "tabpanel" },
+          React.createElement(SearchReport, null)
         )
       );
     };
