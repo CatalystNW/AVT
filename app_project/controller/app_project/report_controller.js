@@ -38,6 +38,7 @@ async function search_project(req, res) {
   let projects = await AppProject.find(options)
                   .populate({path:"workItems", model: "WorkItem", 
                     populate: {path:"materialsItems", model: "MaterialsItem"}})
-                  .populate("partners");
+                  .populate("partners")
+                  .populate("documentPackage");
   res.status(200).json(projects);
 }
