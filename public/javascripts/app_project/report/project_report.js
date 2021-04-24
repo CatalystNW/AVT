@@ -8,6 +8,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { ProjectReport };
 
+import { functionHelper } from "./functionHelper.js";
+
 var ProjectReport = function (_React$Component) {
   _inherits(ProjectReport, _React$Component);
 
@@ -58,6 +60,7 @@ var ProjectReport = function (_React$Component) {
         context: _this,
         success: function success(projects) {
           console.log(projects);
+
           this.setState({
             projects: projects
           });
@@ -134,10 +137,131 @@ var ProjectReport = function (_React$Component) {
       );
     };
 
+    _this.createProjectInfoTable = function () {
+      var num_handleits = 0,
+          num_projects = 0,
+          num_volunteers = 0,
+          cost = 0,
+          volunteer_hours = 0;
+      _this.state.projects.forEach(function (project) {
+        volunteer_hours += project.volunteer_hours;
+        if (project.handleit) {
+          num_handleits++;
+        } else {
+          num_projects++;
+        }
+
+        project.workItems.forEach(function (workItem) {
+          workItem.materialsItems.map(function (materialsItem) {
+            cost += materialsItem.price * materialsItem.quantity;
+          });
+          num_volunteers += workItem.volunteers_required;
+        });
+      });
+
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h2",
+          null,
+          "Project Info"
+        ),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "table",
+            { className: "table table-sm info-table" },
+            React.createElement(
+              "tbody",
+              null,
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "# Handle-it Projects"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  num_handleits
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "# Projects"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  num_projects
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Total Volunteers"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  num_volunteers
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Total Cost"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  cost
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Total Labor Hours"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  volunteer_hours
+                )
+              )
+            )
+          )
+        )
+      );
+    };
+
+    _this.onClick_csv = function () {
+      var projectDataArray = functionHelper.getTableText(_this.projectTableId);
+      functionHelper.exportCSV("projects-report-", projectDataArray);
+    };
+
     _this.formId = "project-form";
     _this.state = {
       projects: []
     };
+    _this.projectTableId = "projets-table";
     return _this;
   }
 
@@ -195,7 +319,20 @@ var ProjectReport = function (_React$Component) {
             "Search"
           )
         ),
-        this.createPartnersTable()
+        this.createPartnersTable(),
+        this.createProjectInfoTable(),
+        React.createElement(
+          "h2",
+          null,
+          "Projects",
+          React.createElement(
+            "button",
+            { onClick: this.onClick_csv,
+              className: "btn btn-sm btn-success" },
+            "CSV"
+          )
+        ),
+        functionHelper.createTable(this.projectTableId, this.state.projects)
       );
     }
   }]);
