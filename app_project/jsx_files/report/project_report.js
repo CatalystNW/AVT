@@ -5,7 +5,7 @@ import { functionHelper } from "./functionHelper.js"
 class ProjectReport extends React.Component {
   constructor(props) {
     super(props);
-    this.formId = "project-form";
+    this.formId = "projects-report-form";
     this.state = {
       projects: [],
     }

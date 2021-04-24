@@ -224,7 +224,7 @@ var ProjectReport = function (_React$Component) {
       functionHelper.exportCSV("projects-report-", projectDataArray);
     };
 
-    _this.formId = "project-form";
+    _this.formId = "projects-report-form";
     _this.state = {
       projects: []
     };

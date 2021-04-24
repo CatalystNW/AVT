@@ -127,7 +127,7 @@ var ApplicationReport = function (_React$Component) {
       );
     };
 
-    _this.formId = "search-form";
+    _this.formId = "application-form";
     _this.state = {
       applications: []
     };

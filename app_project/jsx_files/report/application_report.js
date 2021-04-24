@@ -5,7 +5,7 @@ import { functionHelper } from "./functionHelper.js"
 class ApplicationReport extends React.Component {
   constructor(props) {
     super(props);
-    this.formId = "search-form";
+    this.formId = "application-form";
     this.state = {
       applications: [],
     };
