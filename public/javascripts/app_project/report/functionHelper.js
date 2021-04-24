@@ -19,10 +19,231 @@ var functionHelper = {
     }
     return null;
   },
+  getTableText: function getTableText(tableId) {
+    var table = document.getElementById(tableId);
+    var projectDataArray = [];
+    for (var r = 0; r < table.rows.length; r++) {
+      projectDataArray.push([]);
+      for (var c = 0; c < table.rows[r].cells.length; c++) {
+        projectDataArray[r].push(table.rows[r].cells[c].innerText.replace(/\n/ig, "; "));
+      }
+    }
+    return projectDataArray;
+  },
+  exportCSV: function exportCSV(filename, dataArray) {
+    var csvContent = "data:text/csv;charset=utf-8," + dataArray.map(function (row) {
+      return row.join(",");
+    }).join("\n");
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    var dateString = new Date().toISOString().replace(/T.*/, '');
+    link.setAttribute("download", filename + dateString + ".csv");
+    document.body.appendChild(link);
+    link.click();
+  },
   roundCurrency: function roundCurrency(n) {
     var mult = 100,
         value = void 0;
     value = parseFloat((n * mult).toFixed(6));
     return Math.round(value) / mult;
+  },
+  createTable: function createTable(id, projects, useProjectName) {
+    return React.createElement(
+      "table",
+      { className: "table table-sm", id: id },
+      React.createElement(
+        "thead",
+        null,
+        React.createElement(
+          "tr",
+          null,
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Project Name"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Name"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Handle-It"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Start Date"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Location"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Work Items"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Home Type"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "CC"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "PA"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "SH"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Partners"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Volunteers"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Cost"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
+            "Hours"
+          )
+        )
+      ),
+      React.createElement(
+        "tbody",
+        null,
+        projects.map(function (project) {
+          var cost = 0,
+              volunteers = 0,
+              hours = 0;
+          project.workItems.forEach(function (workItem) {
+            workItem.materialsItems.map(function (materialsItem) {
+              cost += materialsItem.price * materialsItem.quantity;
+            });
+            volunteers += workItem.volunteers_required;
+            hours += project.volunteer_hours;
+          });
+          return React.createElement(
+            "tr",
+            { key: project._id },
+            React.createElement(
+              "td",
+              null,
+              !project.name || project.name.length == 0 ? React.createElement(
+                "a",
+                { href: "/app_project/view_projects/" + project._id, target: "_blank" },
+                "N/A"
+              ) : React.createElement(
+                "a",
+                { href: "/app_project/view_projects/" + project._id, target: "_blank" },
+                project.name
+              )
+            ),
+            React.createElement(
+              "td",
+              null,
+              React.createElement(
+                "a",
+                { href: "/view/" + project.documentPackage._id, target: "_blank" },
+                project.documentPackage.application.name.first + " " + project.documentPackage.application.name.last
+              )
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.handleit ? "Y" : "N"
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.start ? functionHelper.convert_date(project.start).toLocaleDateString() : "None"
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.documentPackage.application.address.city
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.workItems.map(function (workItem, index) {
+                return React.createElement(
+                  "div",
+                  { key: project._id + "_" + workItem._id },
+                  index + ". " + workItem.name
+                );
+              })
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.documentPackage.property.home_type
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.crew_chief ? project.crew_chief : "N/A"
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.project_advocate ? project.project_advocate : "N/A"
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.site_host ? project.site_host : "N/A"
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.partners.map(function (partner) {
+                return React.createElement(
+                  "div",
+                  { key: project._id + "_" + partner._id },
+                  partner.org_name
+                );
+              })
+            ),
+            React.createElement(
+              "td",
+              null,
+              volunteers
+            ),
+            React.createElement(
+              "td",
+              null,
+              functionHelper.roundCurrency(cost).toFixed(2)
+            ),
+            React.createElement(
+              "td",
+              null,
+              hours
+            )
+          );
+        })
+      )
+    );
   }
 };
