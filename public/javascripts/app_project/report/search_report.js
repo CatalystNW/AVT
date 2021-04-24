@@ -22,14 +22,21 @@ var SearchReport = function (_React$Component) {
       e.preventDefault();
       console.log(functionHelper.get_data(_this.searchFormId));
       $.ajax({
-        url: "/app_project/report/search_applications",
+        url: "/app_project/report/search",
         type: "POST",
         data: functionHelper.get_data(_this.searchFormId),
         context: _this,
-        success: function success(applications) {
-          console.log(applications);
+        success: function success(projects) {
+          console.log(projects);
+          this.setState({
+            projects: projects
+          });
         }
       });
+    };
+
+    _this.resetForm = function () {
+      document.getElementById(_this.searchFormId).reset();
     };
 
     _this.createForm = function () {
@@ -43,7 +50,7 @@ var SearchReport = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "form-row" },
+          { className: "form-group row" },
           React.createElement(
             "div",
             { className: "form-group col-sm-6 col-md-3" },
@@ -86,13 +93,208 @@ var SearchReport = function (_React$Component) {
           )
         ),
         React.createElement(
+          "h3",
+          null,
+          "Project Date"
+        ),
+        React.createElement(
+          "div",
+          { className: "form-group row" },
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Begin - Start"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "project_start_start" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Begin - End"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "project_start_end" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "End - Start"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "project_end_start" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "End - End"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "project_end_end" })
+          )
+        ),
+        React.createElement(
+          "h3",
+          null,
+          "Application Date"
+        ),
+        React.createElement(
+          "div",
+          { className: "form-group row" },
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Start"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "application_start_start" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "End"
+            ),
+            React.createElement("input", { type: "text", className: "datepicker form-control",
+              placeholder: "yyyy-mm-dd", name: "appliation_start_end" })
+          )
+        ),
+        React.createElement(
           "button",
           { type: "submit" },
           "Submit"
+        ),
+        React.createElement(
+          "button",
+          { onClick: _this.resetForm, type: "button" },
+          "Clear Form"
         )
       );
     };
 
+    _this.createApplicationsTable = function () {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "table",
+          { className: "table table-sm" },
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Project"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Applicant"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Address"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Zip"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Status"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "App ID"
+              )
+            )
+          ),
+          React.createElement(
+            "tbody",
+            null,
+            _this.state.projects.map(function (project) {
+              return React.createElement(
+                "tr",
+                { key: project._id },
+                React.createElement(
+                  "td",
+                  null,
+                  !project.name || project.name.length == 0 ? React.createElement(
+                    "a",
+                    { href: "/app_project/view_projects/" + project._id, target: "_blank" },
+                    "N/A"
+                  ) : React.createElement(
+                    "a",
+                    { href: "/app_project/view_projects/" + project._id, target: "_blank" },
+                    project.name
+                  )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "a",
+                    { href: "/view/" + project.documentPackage._id, target: "_blank" },
+                    project.documentPackage.application.name.first + " " + project.documentPackage.application.name.last
+                  )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.documentPackage.application.address.city,
+                  ", ",
+                  project.documentPackage.application.address.state
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.documentPackage.application.address.zip
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.documentPackage.applicationStatus
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.documentPackage.app_name
+                )
+              );
+            })
+          )
+        )
+      );
+    };
+
+    _this.state = {
+      projects: []
+    };
     _this.searchFormId = "search-applications-form";
     return _this;
   }
@@ -103,7 +305,8 @@ var SearchReport = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        this.createForm()
+        this.createForm(),
+        this.createApplicationsTable()
       );
     }
   }]);

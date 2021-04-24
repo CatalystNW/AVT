@@ -77,8 +77,8 @@ router.delete('/delete_manager', authHelper.checkLoggedInAPI, authHelper.checkIf
 
 router.get('/report/view', report_controller.view_index_page);
 router.get('/report/upcoming', report_controller.get_upcoming_projects);
-router.post('/report/project', report_controller.search_project);
+router.post('/report/project', report_controller.project_report);
 router.post('/report/applications', report_controller.application_report);
-router.post('/report/search_applications', report_controller.search_applications);
+router.post('/report/search', report_controller.search);
 
 module.exports = router;
