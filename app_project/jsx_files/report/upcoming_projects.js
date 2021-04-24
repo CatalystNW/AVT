@@ -1,5 +1,7 @@
 export { UpcomingProjects }
 
+import { functionHelper } from "./functionHelper.js"
+
 class UpcomingProjects extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,7 @@ class UpcomingProjects extends React.Component {
 
         projectsData.forEach(project => {
           if (project.start)
-            project.start = this.convert_date(project.start);
+            project.start = functionHelper.convert_date(project.start);
           if (project.handleit) {
             projects.push(project);
           } else {
@@ -39,22 +41,6 @@ class UpcomingProjects extends React.Component {
       }
     });
   };
-
-  convert_date(old_date) {
-    let regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
-        result = regex.exec(old_date);
-    if (result) {
-      let [year, month, date, hours, minutes] = result.slice(1,6);
-      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
-    }
-    return null;
-  }
-
-  roundCurrency(n) {
-    let mult = 100, value;
-    value = parseFloat((n * mult).toFixed(6))
-    return Math.round(value) / mult;
-  }
 
   createTable = (id, projects) => {
     return (
@@ -112,7 +98,7 @@ class UpcomingProjects extends React.Component {
                   })}
                 </td>
                 <td>{volunteers}</td>
-                <td>{this.roundCurrency(cost).toFixed(2)}</td>
+                <td>{functionHelper.roundCurrency(cost).toFixed(2)}</td>
               </tr>
             )
           })}

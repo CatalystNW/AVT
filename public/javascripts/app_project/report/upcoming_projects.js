@@ -1,5 +1,3 @@
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9,6 +7,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 export { UpcomingProjects };
+
+import { functionHelper } from "./functionHelper.js";
 
 var UpcomingProjects = function (_React$Component) {
   _inherits(UpcomingProjects, _React$Component);
@@ -24,15 +24,13 @@ var UpcomingProjects = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(projectsData) {
-          var _this2 = this;
-
           var projects = [],
               handleits = [];
 
           console.log(projectsData);
 
           projectsData.forEach(function (project) {
-            if (project.start) project.start = _this2.convert_date(project.start);
+            if (project.start) project.start = functionHelper.convert_date(project.start);
             if (project.handleit) {
               projects.push(project);
             } else {
@@ -198,7 +196,7 @@ var UpcomingProjects = function (_React$Component) {
               React.createElement(
                 "td",
                 null,
-                _this.roundCurrency(cost).toFixed(2)
+                functionHelper.roundCurrency(cost).toFixed(2)
               )
             );
           })
@@ -259,32 +257,6 @@ var UpcomingProjects = function (_React$Component) {
   }
 
   _createClass(UpcomingProjects, [{
-    key: "convert_date",
-    value: function convert_date(old_date) {
-      var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
-          result = regex.exec(old_date);
-      if (result) {
-        var _result$slice = result.slice(1, 6),
-            _result$slice2 = _slicedToArray(_result$slice, 5),
-            year = _result$slice2[0],
-            month = _result$slice2[1],
-            date = _result$slice2[2],
-            hours = _result$slice2[3],
-            minutes = _result$slice2[4];
-
-        return new Date(Date.UTC(year, parseInt(month) - 1, date, hours, minutes));
-      }
-      return null;
-    }
-  }, {
-    key: "roundCurrency",
-    value: function roundCurrency(n) {
-      var mult = 100,
-          value = void 0;
-      value = parseFloat((n * mult).toFixed(6));
-      return Math.round(value) / mult;
-    }
-  }, {
     key: "render",
     value: function render() {
       return React.createElement(
