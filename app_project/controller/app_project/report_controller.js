@@ -6,7 +6,7 @@ const authHelper = require("./AuthHelper");
 module.exports.view_index_page = view_index_page;
 module.exports.get_upcoming_projects = get_upcoming_projects;
 module.exports.search_project = search_project;
-module.exports.search_application = search_application;
+module.exports.application_report = application_report;
 
 async function view_index_page(req, res) {
   res.render("app_project/report", {});
@@ -42,7 +42,7 @@ async function search_project(req, res) {
   res.status(200).json(projects);
 }
 
-async function search_application(req, res) {
+async function application_report(req, res) {
   let options = {};
   if (req.body.startDate || req.body.endDate) {
     options.start = {};
