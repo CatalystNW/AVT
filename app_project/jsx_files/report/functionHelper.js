@@ -123,5 +123,14 @@ const functionHelper = {
         </tbody>
       </table>
     )
+  },
+  get_data (formId) {
+    var data = {};
+    var formData = new FormData($("#" + formId)[0]);
+
+    for (var key of formData.keys()) {
+      data[key] = formData.get(key);
+    }
+    return data;
   }
 };
