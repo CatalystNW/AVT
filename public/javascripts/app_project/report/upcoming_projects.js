@@ -44,18 +44,6 @@ var UpcomingProjects = function (_React$Component) {
       });
     };
 
-    _this.getTableText = function (tableId) {
-      var table = document.getElementById(tableId);
-      var projectDataArray = [];
-      for (var r = 0; r < table.rows.length; r++) {
-        projectDataArray.push([]);
-        for (var c = 0; c < table.rows[r].cells.length; c++) {
-          projectDataArray[r].push(table.rows[r].cells[c].innerText.replace(/\n/ig, "; "));
-        }
-      }
-      return projectDataArray;
-    };
-
     _this.onClick_exportHandleitCSV = function () {
       var projectDataArray = functionHelper.getTableText(_this.handleitTableId);
       functionHelper.exportCSV("upcoming-handleits-", projectDataArray);
@@ -69,7 +57,7 @@ var UpcomingProjects = function (_React$Component) {
     _this.onClick_combinedProjectsCSV = function () {
       var projectDataArray = [["Handle-It"]].concat(functionHelper.getTableText(_this.handleitTableId));
 
-      projectDataArray = projectDataArray.concat([["Projects"]], _this.getTableText(_this.projectTableId));
+      projectDataArray = projectDataArray.concat([["Projects"]], functionHelper.getTableText(_this.projectTableId));
       functionHelper.exportCSV("upcoming-combined-projects-", projectDataArray);
     };
 
