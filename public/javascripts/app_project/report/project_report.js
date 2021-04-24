@@ -18,45 +18,12 @@ var ProjectReport = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ProjectReport.__proto__ || Object.getPrototypeOf(ProjectReport)).call(this, props));
 
-    _this.get_data = function () {
-      var data = {};
-      var formData = new FormData($("#" + _this.formId)[0]);
-
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = formData.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var key = _step.value;
-
-          data[key] = formData.get(key);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      return data;
-    };
-
     _this.searchForm = function (e) {
       e.preventDefault();
-      _this.get_data();
       $.ajax({
         url: "/app_project/report/project",
         type: "POST",
-        data: _this.get_data(),
+        data: functionHelper.get_data(_this.formId),
         context: _this,
         success: function success(projects) {
           console.log(projects);

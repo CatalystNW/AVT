@@ -19,23 +19,12 @@ class ProjectReport extends React.Component {
     });
   }
 
-  get_data = () => {
-    var data = {};
-    var formData = new FormData($("#" + this.formId)[0]);
-
-    for (var key of formData.keys()) {
-      data[key] = formData.get(key);
-    }
-    return data;
-  }
-
   searchForm = (e) => {
     e.preventDefault();
-    this.get_data();
     $.ajax({
       url: "/app_project/report/project",
       type: "POST",
-      data: this.get_data(),
+      data: functionHelper.get_data(this.formId),
       context: this,
       success: function(projects) {
         console.log(projects);
