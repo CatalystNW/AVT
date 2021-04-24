@@ -45,7 +45,7 @@ async function search_project(req, res) {
 async function application_report(req, res) {
   let options = {};
   if (req.body.startDate || req.body.endDate) {
-    options.start = {};
+    options.created = {};
     if (req.body.startDate) {
       options.created["$gte"] = new Date(req.body.startDate);
     }
