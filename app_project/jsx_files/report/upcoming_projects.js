@@ -26,8 +26,6 @@ class UpcomingProjects extends React.Component {
         console.log(projectsData)
 
         projectsData.forEach(project => {
-          if (project.start)
-            project.start = functionHelper.convert_date(project.start);
           if (project.handleit) {
             projects.push(project);
           } else {
@@ -40,71 +38,6 @@ class UpcomingProjects extends React.Component {
         });
       }
     });
-  };
-
-  createTable = (id, projects) => {
-    return (
-      <table className="table table-sm" id={id}>
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">Location</th>
-            <th scope="col">Work Items</th>
-            <th scope="col">Home Type</th>
-            <th scope="col">CC</th>
-            <th scope="col">PA</th>
-            <th scope="col">SH</th>
-            <th scope="col">Partners</th>
-            <th scope="col">Volunteers</th>
-            <th scope="col">Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map(project => {
-            let cost = 0, volunteers = 0;
-            project.workItems.forEach(workItem => {
-              workItem.materialsItems.map(materialsItem => {
-                cost += materialsItem.price * materialsItem.quantity;
-              });
-              volunteers += workItem.volunteers_required;
-            });
-            return (
-              <tr key={project._id}>
-                <td>
-                  <a href={"/app_project/view_projects/" + project._id} target="_blank">{project.documentPackage.application.name.first 
-                      + " " + project.documentPackage.application.name.last}</a>
-                </td>
-                <td>
-                  { (project.start) ? project.start.toLocaleDateString() : "None"}
-                </td>
-                <td>
-                  {project.documentPackage.application.address.city}
-                </td>
-                <td>
-                  {project.workItems.map((workItem, index) => {
-                    return (
-                    <div key={project._id + "_" + workItem._id}>
-                      {index + ". " + workItem.name}</div>);
-                  })}
-                </td>
-                <td>{project.documentPackage.property.home_type}</td>
-                <td>{project.crew_chief ? project.crew_chief : "N/A"}</td>
-                <td>{project.project_advocate ? project.project_advocate : "N/A"}</td>
-                <td>{project.site_host ? project.site_host : "N/A"}</td>
-                <td>
-                  {project.partners.map(partner => {
-                    return (<div key={project._id + "_" + partner._id}>{partner.org_name}</div>)
-                  })}
-                </td>
-                <td>{volunteers}</td>
-                <td>{functionHelper.roundCurrency(cost).toFixed(2)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    )
   };
 
   getTableText = (tableId) => {
@@ -120,18 +53,18 @@ class UpcomingProjects extends React.Component {
   }
 
   onClick_exportHandleitCSV = () => {
-    const projectDataArray = this.getTableText(this.handleitTableId);
-    this.exportCSV("upcoming-handleits-", projectDataArray);
+    const projectDataArray = functionHelper.getTableText(this.handleitTableId);
+    functionHelper.exportCSV("upcoming-handleits-", projectDataArray);
   };
   onClick_exportProjectCSV = () => {
-    const projectDataArray = this.getTableText(this.projectTableId);
-    this.exportCSV("upcoming-projects-", projectDataArray);
+    const projectDataArray = functionHelper.getTableText(this.projectTableId);
+    functionHelper.exportCSV("upcoming-projects-", projectDataArray);
   };
   onClick_combinedProjectsCSV = () => {
-    let projectDataArray = [["Handle-It"]].concat(this.getTableText(this.handleitTableId));
+    let projectDataArray = [["Handle-It"]].concat(functionHelper.getTableText(this.handleitTableId));
 
     projectDataArray = projectDataArray.concat([["Projects"]], this.getTableText(this.projectTableId));
-    this.exportCSV("upcoming-combined-projects-", projectDataArray);
+    functionHelper.exportCSV("upcoming-combined-projects-", projectDataArray);
   };
 
   exportCSV = (filename, dataArray) => {
@@ -160,9 +93,9 @@ class UpcomingProjects extends React.Component {
             onClick={this.onClick_exportProjectCSV}>Project</button>
         </span>
         <h2>Handle-It Projects</h2>
-        {this.createTable(this.handleitTableId, this.state.handleits)}
+        {functionHelper.createTable(this.handleitTableId, this.state.handleits)}
         <h2>Projects</h2>
-        {this.createTable(this.projectTableId, this.state.projects)}
+        {functionHelper.createTable(this.projectTableId, this.state.projects)}
       </div>
     )
   }
