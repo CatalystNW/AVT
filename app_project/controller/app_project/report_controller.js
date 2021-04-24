@@ -8,6 +8,7 @@ const authHelper = require("./AuthHelper");
 module.exports.view_index_page = view_index_page;
 module.exports.get_upcoming_projects = get_upcoming_projects;
 module.exports.search_project = search_project;
+module.exports.search_application = search_application;
 
 async function view_index_page(req, res) {
   res.render("app_project/report", {});
@@ -41,4 +42,8 @@ async function search_project(req, res) {
                   .populate("partners")
                   .populate("documentPackage");
   res.status(200).json(projects);
+}
+
+async function search_application(req, res) {
+  res.status(200).send();
 }

@@ -1,5 +1,6 @@
 import { UpcomingProjects } from "./upcoming_projects.js"
 import { ProjectReport } from "./project_report.js"
+import { ApplicationReport } from "./application_report.js"
 
 class ReportApp extends React.Component {
   constructor(props) {
@@ -14,10 +15,10 @@ class ReportApp extends React.Component {
             <a className="nav-link" href="#upcomingReport" role="tab" data-toggle="tab">Upcoming Projects</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link active" href="#project-report" role="tab" data-toggle="tab">Projects</a>
+            <a className="nav-link" href="#project-report" role="tab" data-toggle="tab">Projects</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" role="tab" data-toggle="tab">Applications</a>
+            <a className="nav-link active" href="#applications-report" role="tab" data-toggle="tab">Applications</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#" role="tab" data-toggle="tab">Search</a>
@@ -33,10 +34,12 @@ class ReportApp extends React.Component {
         <div className="tab-pane" id="upcomingReport" role="tabpanel">
           <UpcomingProjects />
         </div>
-        <div className="tab-pane show active" id="project-report" role="tabpanel">
+        <div className="tab-pane" id="project-report" role="tabpanel">
           <ProjectReport />
         </div>
-        <div className="tab-pane" id="contact" role="tabpanel">...</div>
+        <div className="tab-pane show active" id="applications-report" role="tabpanel">
+          <ApplicationReport />
+        </div>
       </div>
     );
   };
