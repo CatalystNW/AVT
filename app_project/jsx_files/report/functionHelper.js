@@ -62,13 +62,12 @@ const functionHelper = {
         </thead>
         <tbody>
           {projects.map(project => {
-            let cost = 0, volunteers = 0, hours = 0;
+            let cost = 0, volunteers = 0, hours = project.volunteer_hours;;
             project.workItems.forEach(workItem => {
               workItem.materialsItems.map(materialsItem => {
                 cost += materialsItem.price * materialsItem.quantity;
               });
               volunteers += workItem.volunteers_required;
-              hours += project.volunteer_hours;
             });
             return (
               <tr key={project._id}>
