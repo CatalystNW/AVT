@@ -191,7 +191,9 @@ async function search(req, res) {
     }    
   }
 
-  let projects = await AppProject.find(options).populate("documentPackage");
+  let projects = await AppProject.find(options).populate("documentPackage")
+                .populate({path:"workItems", model: "WorkItem", 
+                  populate: {path:"materialsItems", model: "MaterialsItem"}});
 
   res.status(200).json(projects);
 }

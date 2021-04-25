@@ -18,18 +18,64 @@ var SearchReport = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SearchReport.__proto__ || Object.getPrototypeOf(SearchReport)).call(this, props));
 
+    _this.filterProjects = function (projects, options) {
+      console.log(options.cost.length);
+      if (options.volunteers && options.volunteers.length > 0 || options.hours && options.hours.length > 0 || options.cost && options.cost.length > 0) {
+        var newProjects = [],
+            cost = void 0,
+            hours = void 0,
+            volunteers = void 0;
+        projects.forEach(function (project) {
+          cost = 0;
+          hours = 0;
+          volunteers = project.volunteer_hours;;
+          project.workItems.forEach(function (workItem) {
+            workItem.materialsItems.forEach(function (materialsItem) {
+              cost += materialsItem.price * materialsItem.quantity;
+            });
+            volunteers += workItem.volunteers_required;
+            hours += project.volunteer_hours;
+          });
+          if (options.volunteers && options.volunteers.length > 0) {
+            if (options.volunteers_options == "gte") {
+              if (volunteers < options.volunteers) return;
+            } else {
+              if (volunteers > options.volunteers) return;
+            }
+          }
+          if (options.hours && options.hours.length > 0) {
+            if (options.hours_options == "gte") {
+              if (hours < options.hours) return;
+            } else {
+              if (hours > options.hours) return;
+            }
+          }
+          if (options.cost && options.cost.length > 0) {
+            if (options.cost_options == "gte") {
+              if (cost < options.cost) return;
+            } else {
+              if (cost > options.cost) return;
+            }
+          }
+          newProjects.push(project);
+        });
+        return newProjects;
+      } else {
+        return projects;
+      }
+    };
+
     _this.searchForm = function (e) {
       e.preventDefault();
-      console.log(functionHelper.get_data(_this.searchFormId));
+      var options = functionHelper.get_data(_this.searchFormId);
       $.ajax({
         url: "/app_project/report/search",
         type: "POST",
-        data: functionHelper.get_data(_this.searchFormId),
+        data: options,
         context: _this,
         success: function success(projects) {
-          console.log(projects);
           this.setState({
-            projects: projects
+            projects: this.filterProjects(projects, options)
           });
         }
       });
@@ -219,13 +265,88 @@ var SearchReport = function (_React$Component) {
             null,
             "AND"
           ),
-          React.createElement("input", { type: "radio", name: "leaders_option", value: "and", checked: true }),
+          React.createElement("input", { type: "radio", name: "leaders_option", value: "and", defaultChecked: true }),
           React.createElement(
             "label",
             null,
             "OR"
           ),
           React.createElement("input", { type: "radio", name: "leaders_option", value: "or" })
+        ),
+        React.createElement(
+          "h3",
+          null,
+          "Project Options"
+        ),
+        React.createElement(
+          "div",
+          { className: "form-group row" },
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Number Volunteers"
+            ),
+            React.createElement("input", { className: "form-control", type: "number", name: "volunteers" }),
+            React.createElement(
+              "label",
+              null,
+              "Less Than"
+            ),
+            React.createElement("input", { type: "radio", name: "volunteers_options", value: "gte", defaultChecked: true }),
+            React.createElement(
+              "label",
+              null,
+              "Greater Than"
+            ),
+            React.createElement("input", { type: "radio", name: "volunteers_options", value: "lte" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Cost"
+            ),
+            React.createElement("input", { className: "form-control", type: "number", name: "cost" }),
+            React.createElement(
+              "label",
+              null,
+              "Less Than"
+            ),
+            React.createElement("input", { type: "radio", name: "cost_options", value: "gte", defaultChecked: true }),
+            React.createElement(
+              "label",
+              null,
+              "Greater Than"
+            ),
+            React.createElement("input", { type: "radio", name: "cost_options", value: "lte" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Volunteer Hours"
+            ),
+            React.createElement("input", { className: "form-control", type: "number", name: "hours" }),
+            React.createElement(
+              "label",
+              null,
+              "Less Than"
+            ),
+            React.createElement("input", { type: "radio", name: "hours_options", value: "gte", defaultChecked: true }),
+            React.createElement(
+              "label",
+              null,
+              "Greater Than"
+            ),
+            React.createElement("input", { type: "radio", name: "hours_options", value: "lte" })
+          )
         ),
         React.createElement(
           "button",
@@ -257,6 +378,11 @@ var SearchReport = function (_React$Component) {
                 "th",
                 { scope: "col" },
                 "Project"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "Handle-it"
               ),
               React.createElement(
                 "th",
@@ -319,6 +445,11 @@ var SearchReport = function (_React$Component) {
                     { href: "/app_project/view_projects/" + project._id, target: "_blank" },
                     project.name
                   )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.handleit ? "Yes" : "No"
                 ),
                 React.createElement(
                   "td",

@@ -11,18 +11,70 @@ class SearchReport extends React.Component {
     this.searchFormId = "search-applications-form";
   }
 
+  filterProjects = (projects, options) => {
+    console.log(options.cost.length);
+    if ((options.volunteers && options.volunteers.length > 0) ||
+        (options.hours && options.hours.length > 0) ||
+        (options.cost && options.cost.length > 0)) {
+      let newProjects = [],
+          cost, hours, volunteers;
+      projects.forEach(project => {
+        cost = 0;
+        hours = 0;
+        volunteers = project.volunteer_hours;;
+        project.workItems.forEach(workItem => {
+          workItem.materialsItems.forEach(materialsItem => {
+            cost += materialsItem.price * materialsItem.quantity;
+          });
+          volunteers += workItem.volunteers_required;
+          hours += project.volunteer_hours;
+        });
+        if (options.volunteers && options.volunteers.length > 0) {
+          if (options.volunteers_options == "gte") {
+            if (volunteers < options.volunteers)
+              return;
+          } else {
+            if (volunteers > options.volunteers)
+              return;
+          }
+        }
+        if (options.hours && options.hours.length > 0) {
+          if (options.hours_options == "gte") {
+            if (hours < options.hours)
+              return;
+          } else {
+            if (hours > options.hours)
+              return;
+          }
+        }
+        if (options.cost && options.cost.length > 0) {
+          if (options.cost_options == "gte") {
+            if (cost < options.cost)
+              return;
+          } else {
+            if (cost > options.cost)
+              return;
+          }
+        }
+        newProjects.push(project);
+      });
+      return newProjects;
+    } else {
+      return projects;
+    }
+  };
+
   searchForm = (e) => {
     e.preventDefault();
-    console.log(functionHelper.get_data(this.searchFormId));
+    let options = functionHelper.get_data(this.searchFormId);
     $.ajax({
       url: "/app_project/report/search",
       type: "POST",
-      data: functionHelper.get_data(this.searchFormId),
+      data: options,
       context: this,
       success: function(projects) {
-        console.log(projects);
         this.setState({
-          projects: projects,
+          projects: this.filterProjects(projects, options),
         });
       }
     });
@@ -107,8 +159,30 @@ class SearchReport extends React.Component {
             <label>Crew Chief</label>
             <input className="form-control" type="text" name="crew_chief"></input>    
           </div>
-          <label>AND</label><input type="radio" name="leaders_option" value="and" checked></input>
+          <label>AND</label><input type="radio" name="leaders_option" value="and" defaultChecked></input>
           <label>OR</label><input type="radio" name="leaders_option" value="or"></input>
+        </div>
+
+        <h3>Project Options</h3>
+        <div className="form-group row">
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Number Volunteers</label>
+            <input className="form-control" type="number" name="volunteers"></input>    
+            <label>Less Than</label><input type="radio" name="volunteers_options" value="gte" defaultChecked></input>
+            <label>Greater Than</label><input type="radio" name="volunteers_options" value="lte"></input>
+          </div>
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Cost</label>
+            <input className="form-control" type="number" name="cost"></input>    
+            <label>Less Than</label><input type="radio" name="cost_options" value="gte" defaultChecked></input>
+            <label>Greater Than</label><input type="radio" name="cost_options" value="lte"></input>
+          </div>
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Volunteer Hours</label>
+            <input className="form-control" type="number" name="hours"></input>    
+            <label>Less Than</label><input type="radio" name="hours_options" value="gte" defaultChecked></input>
+            <label>Greater Than</label><input type="radio" name="hours_options" value="lte"></input>
+          </div>
         </div>
 
         <button type="submit">Submit</button>
@@ -123,6 +197,7 @@ class SearchReport extends React.Component {
           <thead>
             <tr>
               <th scope="col">Project</th>
+              <th scope="col">Handle-it</th>
               <th scope="col">Applicant</th>
               <th scope="col">Address</th>
               <th scope="col">Zip</th>
@@ -145,6 +220,7 @@ class SearchReport extends React.Component {
                       {project.name}
                     </a>)
                   }</td>
+                <td>{project.handleit ? "Yes" : "No"}</td>
                 <td>
                   <a href={"/view/" + project.documentPackage._id} target="_blank">
                     {project.documentPackage.application.name.first 

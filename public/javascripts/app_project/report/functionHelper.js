@@ -136,13 +136,12 @@ var functionHelper = {
         projects.map(function (project) {
           var cost = 0,
               volunteers = 0,
-              hours = 0;
+              hours = project.volunteer_hours;;
           project.workItems.forEach(function (workItem) {
             workItem.materialsItems.map(function (materialsItem) {
               cost += materialsItem.price * materialsItem.quantity;
             });
             volunteers += workItem.volunteers_required;
-            hours += project.volunteer_hours;
           });
           return React.createElement(
             "tr",
