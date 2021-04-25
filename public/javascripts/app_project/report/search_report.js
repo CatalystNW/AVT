@@ -177,6 +177,57 @@ var SearchReport = function (_React$Component) {
           )
         ),
         React.createElement(
+          "h3",
+          null,
+          "Project Leaders"
+        ),
+        React.createElement(
+          "div",
+          { className: "form-group row" },
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Site Host"
+            ),
+            React.createElement("input", { className: "form-control", type: "text", name: "site_host" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Project Advocate"
+            ),
+            React.createElement("input", { className: "form-control", type: "text", name: "project_advocate" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
+              "Crew Chief"
+            ),
+            React.createElement("input", { className: "form-control", type: "text", name: "crew_chief" })
+          ),
+          React.createElement(
+            "label",
+            null,
+            "AND"
+          ),
+          React.createElement("input", { type: "radio", name: "leaders_option", value: "and", checked: true }),
+          React.createElement(
+            "label",
+            null,
+            "OR"
+          ),
+          React.createElement("input", { type: "radio", name: "leaders_option", value: "or" })
+        ),
+        React.createElement(
           "button",
           { type: "submit" },
           "Submit"
@@ -231,6 +282,21 @@ var SearchReport = function (_React$Component) {
                 "th",
                 { scope: "col" },
                 "App ID"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "SH"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "PA"
+              ),
+              React.createElement(
+                "th",
+                { scope: "col" },
+                "CC"
               )
             )
           ),
@@ -284,6 +350,21 @@ var SearchReport = function (_React$Component) {
                   "td",
                   null,
                   project.documentPackage.app_name
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.site_host
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.project_advocate
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  project.crew_chief
                 )
               );
             })

@@ -139,6 +139,58 @@ async function search(req, res) {
     }
   }
 
+  if (req.body.site_host || req.body.project_advocate ||
+        req.body.crew_chief) {
+    
+    if (req.body.leaders_option == "or") {
+      let leaders_option = [];
+      if (req.body.site_host) {
+        leaders_option.push({
+          "site_host": {
+            '$regex': req.body.site_host,
+            '$options': 'i'
+          }
+        });
+      }
+      if (req.body.crew_chief) {
+        leaders_option.push({
+          "crew_chief": {
+            '$regex': req.body.crew_chief,
+            '$options': 'i'
+          }
+        });
+      }
+      if (req.body.project_advocate) {
+        leaders_option.push({
+          "project_advocate": {
+            '$regex': req.body.project_advocate,
+            '$options': 'i'
+          }
+        });
+      }
+      options["$or"] = leaders_option;
+    } else {
+      if (req.body.site_host) {
+        options.site_host = {
+          '$regex': req.body.site_host,
+          '$options': 'i'
+        };
+      }
+      if (req.body.crew_chief) {
+        options.crew_chief = {
+          '$regex': req.body.crew_chief,
+          '$options': 'i'
+        };
+      }
+      if (req.body.project_advocate) {
+        options.project_advocate = {
+          '$regex': req.body.project_advocate,
+          '$options': 'i'
+        };
+      }
+    }    
+  }
+
   let projects = await AppProject.find(options).populate("documentPackage");
 
   res.status(200).json(projects);

@@ -92,6 +92,25 @@ class SearchReport extends React.Component {
               placeholder="yyyy-mm-dd" name="appliation_start_end"></input>
           </div>
         </div>
+
+        <h3>Project Leaders</h3>
+        <div className="form-group row">
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Site Host</label>
+            <input className="form-control" type="text" name="site_host"></input>    
+          </div>
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Project Advocate</label>
+            <input className="form-control" type="text" name="project_advocate"></input>    
+          </div>
+          <div className="form-group col-sm-6 col-md-3">
+            <label>Crew Chief</label>
+            <input className="form-control" type="text" name="crew_chief"></input>    
+          </div>
+          <label>AND</label><input type="radio" name="leaders_option" value="and" checked></input>
+          <label>OR</label><input type="radio" name="leaders_option" value="or"></input>
+        </div>
+
         <button type="submit">Submit</button>
         <button onClick={this.resetForm} type="button">Clear Form</button>
       </form>)
@@ -109,6 +128,9 @@ class SearchReport extends React.Component {
               <th scope="col">Zip</th>
               <th scope="col">Status</th>
               <th scope="col">App ID</th>
+              <th scope="col">SH</th>
+              <th scope="col">PA</th>
+              <th scope="col">CC</th>
             </tr>
           </thead>
           <tbody>
@@ -134,6 +156,9 @@ class SearchReport extends React.Component {
                 <td>{project.documentPackage.application.address.zip}</td>
                 <td>{project.documentPackage.applicationStatus}</td>
                 <td>{project.documentPackage.app_name}</td>
+                <td>{project.site_host}</td>
+                <td>{project.project_advocate}</td>
+                <td>{project.crew_chief}</td>
               </tr>);
             })}
           </tbody>
