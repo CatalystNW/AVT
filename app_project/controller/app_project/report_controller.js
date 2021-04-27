@@ -10,7 +10,8 @@ module.exports.application_report = application_report;
 module.exports.search = search;
 
 async function view_index_page(req, res) {
-  res.render("app_project/report", {});
+  const context = authHelper.getUserContext(req, res);
+  res.render("app_project/report", context);
 }
 
 async function get_upcoming_projects(req, res) {
