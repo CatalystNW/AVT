@@ -24,7 +24,7 @@ async function get_upcoming_projects(req, res) {
 }
 
 async function project_report(req, res) {
-  let options = {status: "complete"};
+  let options = { $or: [{status: "complete"}, {status: "withdrawn"}]};
   if (req.body.startDate || req.body.endDate) {
     options.start = {};
     if (req.body.startDate) {
