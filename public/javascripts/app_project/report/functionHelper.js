@@ -71,6 +71,11 @@ var functionHelper = {
           React.createElement(
             "th",
             { scope: "col" },
+            "Status"
+          ),
+          React.createElement(
+            "th",
+            { scope: "col" },
             "Handle-It"
           ),
           React.createElement(
@@ -158,6 +163,11 @@ var functionHelper = {
                 { href: "/app_project/view_projects/" + project._id, target: "_blank" },
                 project.name
               )
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.status
             ),
             React.createElement(
               "td",

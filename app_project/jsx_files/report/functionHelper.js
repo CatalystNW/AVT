@@ -46,6 +46,7 @@ const functionHelper = {
           <tr>
             <th scope="col">Project Name</th>
             <th scope="col">Name</th>
+            <th scope="col">Status</th>
             <th scope="col">Handle-It</th>
             <th scope="col">Start Date</th>
             <th scope="col">Location</th>
@@ -81,6 +82,7 @@ const functionHelper = {
                     </a>)
                   }
                 </td>
+                <td>{project.status}</td>
                 <td>
                   <a href={"/view/" + project.documentPackage._id} target="_blank">
                     {project.documentPackage.application.name.first 
