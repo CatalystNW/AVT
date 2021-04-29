@@ -166,6 +166,10 @@ class SearchReport extends React.Component {
         <h3>Project Options</h3>
         <div className="form-group row">
           <div className="form-group col-sm-6 col-md-3">
+            <label>Project Name</label>
+            <input className="form-control" type="text" name="project_name"></input>
+          </div>
+          <div className="form-group col-sm-6 col-md-3">
             <label>Number Volunteers</label>
             <input className="form-control" type="number" name="volunteers"></input>    
             <label>Less Than</label><input type="radio" name="volunteers_options" value="gte" defaultChecked></input>

@@ -287,6 +287,16 @@ var SearchReport = function (_React$Component) {
             React.createElement(
               "label",
               null,
+              "Project Name"
+            ),
+            React.createElement("input", { className: "form-control", type: "text", name: "project_name" })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-group col-sm-6 col-md-3" },
+            React.createElement(
+              "label",
+              null,
               "Number Volunteers"
             ),
             React.createElement("input", { className: "form-control", type: "number", name: "volunteers" }),

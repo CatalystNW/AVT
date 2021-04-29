@@ -116,6 +116,13 @@ async function search(req, res) {
     options.documentPackage = {$in: docIds};
   }
 
+  if (req.body.project_name) {
+    options.name = {
+      '$regex': req.body.project_name,
+      '$options': 'i'
+    };
+  }
+
   if (req.body.project_start_start || req.body.project_start_end) {
     options.start = {};
     if (req.body.project_start_start) {
