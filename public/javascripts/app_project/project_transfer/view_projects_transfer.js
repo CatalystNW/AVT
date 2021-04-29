@@ -40,7 +40,8 @@ var ProjectsTransferApp = function (_React$Component) {
     value: function render() {
       var doc = void 0,
           app = void 0,
-          address = void 0;
+          address = void 0,
+          numWorkitems = void 0;
       return React.createElement(
         "div",
         null,
@@ -77,6 +78,14 @@ var ProjectsTransferApp = function (_React$Component) {
               doc = assessment.documentPackage;
               app = doc.application;
               address = app.address.line_2 ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+              // count # of accepted work items
+              numWorkitems = 0;
+              assessment.workItems.forEach(function (workItem) {
+                if (workItem.status == "accepted") {
+                  numWorkitems++;
+                }
+              });
+
               return React.createElement(
                 "tr",
                 { key: assessment._id },
@@ -99,7 +108,7 @@ var ProjectsTransferApp = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  assessment.workItems.length
+                  numWorkitems
                 )
               );
             })

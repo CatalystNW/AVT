@@ -22,7 +22,7 @@ class ProjectsTransferApp extends React.Component {
   }
 
   render() {
-    let doc, app, address;
+    let doc, app, address, numWorkitems;
     return (<div>
       <table className="table">
         <thead>
@@ -37,12 +37,20 @@ class ProjectsTransferApp extends React.Component {
             doc = assessment.documentPackage;
             app = doc.application;
             address = (app.address.line_2) ? app.address.line_1 + " " + app.address.line_2 : app.address.line_1;
+            // count # of accepted work items
+            numWorkitems = 0;
+            assessment.workItems.forEach(workItem =>  {
+              if (workItem.status == "accepted") {
+                numWorkitems++;
+              }
+            });
+
             return (
             <tr key={assessment._id}>
               <td><a href={"/app_project/project_transfer/" + assessment._id}>
                 {app.name.first} {app.name.last}</a></td>
               <td>{address}</td>
-              <td>{assessment.workItems.length}</td>
+              <td>{numWorkitems}</td>
             </tr>)
           })}
         </tbody>
