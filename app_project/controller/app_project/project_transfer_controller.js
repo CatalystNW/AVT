@@ -52,6 +52,9 @@ async function transfer_project(req, res) {
   
   // Create Non-handleit Projects
   for (let i=0, old_workItem; i < siteAssessment.workItems.length; i++) {
+    if (siteAssessment.workItems[i].status != "accepted") {
+      continue;
+    }
     old_workItem = siteAssessment.workItems[i];
     new_workItem = await WorkItem.makeCopy(old_workItem);
     project_name = project_workitems[old_workItem._id];
