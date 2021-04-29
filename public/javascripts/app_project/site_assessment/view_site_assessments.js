@@ -39,12 +39,12 @@ var SiteAssessmentApp = function (_React$Component) {
             var assessment = void 0;
             dataObj.documents.forEach(function (doc) {
               assessment = assessmentsByDocs[doc._id];
-              if (doc.status == "assess") {
+              if (doc.applicationStatus == "assess") {
                 if (assessment && assessment.status != "pending") {
                   window.alert("Conflict document & assessment status found for document: " + doc.app_name);
                 }
                 pending.push(doc);
-              } else if (doc.status == "assessComp") {
+              } else if (doc.applicationStatus == "assessComp") {
                 if (!assessment) {
                   window.alert("No assessment found for document with completed status: " + doc.app_name);
                 }
