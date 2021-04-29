@@ -1171,7 +1171,7 @@ $(function(){
 		this.applicationId = '{{ doc._id }}'
 
 		this.appID = 123
-		this.docStatus = '{{doc.status}}'
+		this.docStatus = '{{doc.applicationStatus}}'
 
 
 		this.people = {{{stringify finances}}}
@@ -1261,7 +1261,7 @@ $(function(){
 			if (this.docStatus === 'new') {
 				// Changes document status to 'awaiting documents'
 				xhr(
-					{ name: 'status', value: 'documents' },
+					{ name: 'applicationStatus', value: 'documents' },
 					'POST',
 					'/edit/' + this.applicationId,
 					function(err) {
