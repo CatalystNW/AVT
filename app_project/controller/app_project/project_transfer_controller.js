@@ -50,8 +50,8 @@ async function transfer_project(req, res) {
   documentPackage.applicationStatus = "transferred";
   await documentPackage.save();
   
-  // Create Non-handleit Projects
   for (let i=0, old_workItem; i < siteAssessment.workItems.length; i++) {
+    // Transfer only accepted work items
     if (siteAssessment.workItems[i].status != "accepted") {
       continue;
     }
