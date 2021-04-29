@@ -104,6 +104,16 @@ var PAFApp = function (_React$Component) {
         "div",
         null,
         React.createElement(
+          "div",
+          { id: "cblock-container" },
+          React.createElement("img", { src: "/images/app_project/handleit_logo.png" })
+        ),
+        React.createElement(
+          "p",
+          { id: "info-container" },
+          "Catalyst Partnerships is a non-proft general contractor. We bring together useful resources and caring volunteers to meet the needs of under-resourced people in our community. \u201CHandle-It\u201D volunteers can provide minor home repairs to improve the safety of the home for no fee. Handle-It Volunteers are skilled handy men and women who have undergone and passed background checks and are insured by Catalyst. To the extent required by law, Catalyst is duly licensed, bonded, and insured to perform such work"
+        ),
+        React.createElement(
           "h1",
           { id: "doc-header" },
           "CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ",

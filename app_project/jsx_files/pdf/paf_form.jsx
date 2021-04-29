@@ -81,6 +81,16 @@ class PAFApp extends React.Component {
         assessment_summary = siteAssessment.summary;
     return (
     <div>
+      <div id="cblock-container">
+        <img src="/images/app_project/handleit_logo.png"></img>
+      </div>
+      <p id="info-container">
+        Catalyst Partnerships is a non-proft general contractor. We bring together useful resources and caring volunteers to meet the
+        needs of under-resourced people in our community. “Handle-It” volunteers can provide minor home repairs to improve the safety
+        of the home for no fee. Handle-It Volunteers are skilled handy men and women who have undergone and passed background
+        checks and are insured by Catalyst. To the extent required by law, Catalyst is duly licensed, bonded, and insured to perform such
+      work
+      </p>
       <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
       <table>
         <tbody>
