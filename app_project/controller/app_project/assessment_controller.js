@@ -78,12 +78,13 @@ async function view_site_assessment(req, res) {
 
 async function getToTransferAssessments(req, res) {
   let assessments = await SiteAssessment.find({status: "approved",})
-      .populate("documentPackage");
+      .populate("documentPackage").populate("workItems");;
   res.status(200).json(assessments);
 }
 
 async function getTransferredAssessments(req, res) {
-  let assessments = await SiteAssessment.find({complete: true}).populate("documentPackage");
+  let assessments = await SiteAssessment.find({complete: true})
+                      .populate("documentPackage");
   res.status(200).json(assessments);
 }
 
