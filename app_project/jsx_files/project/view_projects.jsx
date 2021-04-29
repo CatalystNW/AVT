@@ -47,11 +47,11 @@ class AppProjects extends React.Component {
           (<td className="col-sm-1" >{(project.handleit) ? "✔️" : ""}</td>) : null;
       projects.push(
         <tr key={project._id}>
-          <td className="col-sm-2" >{project.name}</td>
-          { handleitColumn }
           <td className="col-sm-2" >
-            <a href={"./view_projects/"+ project._id}>{app.name.first} {app.name.last}</a>
-          </td>
+            <a href={"./view_projects/"+ project._id}>
+              { (project.name && project.name.length > 0) ? project.name : "N/A"}</a></td>
+          { handleitColumn }
+          <td className="col-sm-2" >{app.name.first} {app.name.last}</td>
           <td className="col-sm-2" >{address}</td>
           <td className="col-sm-2" >{start}</td>
           <td className="col-sm-1" >{project.crew_chief}</td>

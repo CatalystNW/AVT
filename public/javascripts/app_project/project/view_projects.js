@@ -57,19 +57,19 @@ var AppProjects = function (_React$Component) {
           React.createElement(
             "td",
             { className: "col-sm-2" },
-            project.name
+            React.createElement(
+              "a",
+              { href: "./view_projects/" + project._id },
+              project.name && project.name.length > 0 ? project.name : "N/A"
+            )
           ),
           handleitColumn,
           React.createElement(
             "td",
             { className: "col-sm-2" },
-            React.createElement(
-              "a",
-              { href: "./view_projects/" + project._id },
-              app.name.first,
-              " ",
-              app.name.last
-            )
+            app.name.first,
+            " ",
+            app.name.last
           ),
           React.createElement(
             "td",
