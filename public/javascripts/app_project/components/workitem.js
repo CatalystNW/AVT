@@ -340,7 +340,7 @@ var WorkItem = function (_React$Component) {
           "To Review"
         ), React.createElement(
           "option",
-          { key: id + "accepted", value: "pending" },
+          { key: id + "pending", value: "pending" },
           "Pending"
         ), React.createElement(
           "option",

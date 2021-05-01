@@ -226,7 +226,7 @@ class WorkItem extends React.Component {
     } else { // Site Assessment statuses
       statuses = [
         <option key={id+"to_review"} value="to_review">To Review</option>,
-        <option key={id+"accepted"} value="pending">Pending</option>,
+        <option key={id+"pending"} value="pending">Pending</option>,
         <option key={id+"accepted"} value="accepted">Accepted</option>,
         <option key={id+"declined"} value="declined">Declined</option>,
       ];
