@@ -219,6 +219,15 @@ async function edit_site_assessment(req, res) {
           return;
         }
       }
+      if (status == "approved") {
+        // Change pending work items to approved
+        for (let i=0; i< site_assessment.workItems.length; i++) {
+          if (site_assessment.workItems[i].status == "pending") {
+            site_assessment.workItems[i].status = "accepted";
+            await site_assessment.workItems[i].save();
+          }
+        }
+      }
       doc.applicationStatus = "assessComp";
     } else if (status == "declined") {
       // Marks Assessment, Workitems, MaterialsItems as complete & status as declined
