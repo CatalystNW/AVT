@@ -333,10 +333,15 @@ var WorkItem = function (_React$Component) {
           "Complete"
         )];
       } else {
+        // Site Assessment statuses
         statuses = [React.createElement(
           "option",
           { key: id + "to_review", value: "to_review" },
           "To Review"
+        ), React.createElement(
+          "option",
+          { key: id + "accepted", value: "pending" },
+          "Pending"
         ), React.createElement(
           "option",
           { key: id + "accepted", value: "accepted" },
