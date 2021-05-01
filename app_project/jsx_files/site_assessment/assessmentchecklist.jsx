@@ -119,6 +119,9 @@ class AssessmentChecklist extends React.Component {
       result = window.confirm(
         `Are you sure you want to decline the site assessment? 
         This can't be undone.`)
+    } else if (newStatus == "approved") {
+      result = window.confirm(
+        `Are you sure you want to approve the project? All pending work items will now be accepted.`);
     }
     
     if (result) {
@@ -132,10 +135,16 @@ class AssessmentChecklist extends React.Component {
           value: newStatus,
         },
         success: function(returnData, textStatus, xhr) {
-          console.log(returnData);
-          this.setState({
-            status: newStatus,
-          });
+          if (newStatus == "approved") {
+            // Quick-patch: Didn't use React Redux so WorkItems status
+            // can't be changed externally as need in changing
+            // to approved status.
+            location.reload();
+          } else {
+            this.setState({
+              status: newStatus,
+            });
+          }
         },
         error: function(xhr, textStatus, err) {
           window.alert("Error: please make sure there aren't any work items under review.");

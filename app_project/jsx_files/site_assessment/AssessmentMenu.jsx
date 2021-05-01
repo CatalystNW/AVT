@@ -72,11 +72,11 @@ class AssessmentMenu extends React.Component {
       else
         return 2;
     }
-    const workitems = this.state.workItems;
-    workitems.sort((a, b) => {
+    this.state.workItems.sort((a, b) => {
       return getValue(a) - getValue(b);
-    })
-    return workitems.map((workitem, index) => {
+    });
+
+    return this.state.workItems.map((workitem, index) => {
       return (
       <WorkItem
         workitem={workitem} page_type={"site_assessment"}

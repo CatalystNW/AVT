@@ -57,11 +57,11 @@ var AssessmentMenu = function (_React$Component) {
       function getValue(workitem) {
         if (workitem.status == "to_review") return 0;else if (workitem.status == "accepted") return 1;else return 2;
       }
-      var workitems = _this.state.workItems;
-      workitems.sort(function (a, b) {
+      _this.state.workItems.sort(function (a, b) {
         return getValue(a) - getValue(b);
       });
-      return workitems.map(function (workitem, index) {
+
+      return _this.state.workItems.map(function (workitem, index) {
         return React.createElement(WorkItem, {
           workitem: workitem, page_type: "site_assessment",
           remove_workitem: _this.remove_workitem,
