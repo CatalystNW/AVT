@@ -138,7 +138,7 @@ class AssessmentChecklist extends React.Component {
           });
         },
         error: function(xhr, textStatus, err) {
-          window.alert("Error. Please check that all the work items have either accepted or declined.");
+          window.alert("Error: please make sure there aren't any work items under review.");
         }
       });
     }

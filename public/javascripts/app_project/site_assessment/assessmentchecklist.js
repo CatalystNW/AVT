@@ -138,7 +138,7 @@ var AssessmentChecklist = function (_React$Component) {
             });
           },
           error: function error(xhr, textStatus, err) {
-            window.alert("Error. Please check that all the work items have either accepted or declined.");
+            window.alert("Error: please make sure there aren't any work items under review.");
           }
         });
       }
