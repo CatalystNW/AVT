@@ -3,7 +3,10 @@ class ProjectTransferApp extends React.Component {
     super(props);
     this.state = {
       assessment_id: assessment_id,
+      // Work Items loaded via load_assessment
       proj_workitems: [],
+      assessment: null,
+      // Projects created by user on the page
       projects: [],
     }
     this.project_select_class = "project-select";
@@ -26,6 +29,7 @@ class ProjectTransferApp extends React.Component {
         }
         
         that.setState({
+          assessment: data,
           proj_workitems: proj_workitems,
         });
       },
@@ -62,10 +66,11 @@ class ProjectTransferApp extends React.Component {
   create_workItems = () => {
     var workitems = this.state.proj_workitems,
         keyname = "p-wi-";
+    console.log(this.state.assessment);
     return (<table className="table">
       <thead>
         <tr>
-          <th scope="col">Name</th>
+          <th scope="col">Work Item Name</th>
           <th scope="col">Description</th>
           <th scope="col">Project Name</th>
         </tr>
@@ -137,9 +142,9 @@ class ProjectTransferApp extends React.Component {
   onClick_transfer = () => {
     // Check that all projects are assigned
     if (this.state.proj_workitems.length == 0) {
-      window.alert("There are no work items");
+      window.alert("There aren't any work items in the site assessment.");
     } else if (this.state.proj_workitems.length > 0 && this.state.projects.length == 0) {
-      window.alert("There are work items not assigned to a project");
+      window.alert("There are work items not assigned to a project. Create a project and assign work items to it.");
     } else {
       var result = window.confirm("Are you sure you want to transfer?");
       if (result) {
@@ -149,12 +154,39 @@ class ProjectTransferApp extends React.Component {
   }
 
   render() {
+    let applicantHeader = (this.state.assessment != null) ?
+        (<div className="row">
+          <div className="col-md-8 col-lg-6">
+            <table className="table table-sm">
+              <tbody>
+                <tr>
+                  <th scope="row">Applicant Name</th>
+                  <td>{this.state.assessment.documentPackage.application.name.first +
+                    " " + this.state.assessment.documentPackage.application.name.last}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Location</th>
+                  <td>{this.state.assessment.documentPackage.application.address.city}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Summary</th>
+                  <td>{this.state.assessment.summary}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        ) : (null);
+
     return (<div>
-      <button className="btn btn-sm btn-outline-primary" type="button"
-        onClick={this.onClick_transfer}>Transfer</button>
-      <button className="btn btn-sm btn-outline-info" type="button"
-        onClick={this.onClick_create_project}>Create Project</button>
-      <h2>Project Work Items</h2>
+      <h1>Project Work Items</h1>
+      {applicantHeader}
+      <div>
+        <button className="btn btn-sm btn-outline-primary" type="button"
+          onClick={this.onClick_transfer}>Transfer</button>
+        <button className="btn btn-sm btn-outline-info" type="button"
+          onClick={this.onClick_create_project}>Create Project</button>
+      </div>
       {this.create_workItems(false)}
     </div>);
   }

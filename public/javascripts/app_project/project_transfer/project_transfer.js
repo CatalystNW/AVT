@@ -34,6 +34,7 @@ var ProjectTransferApp = function (_React$Component) {
           }
 
           that.setState({
+            assessment: data,
             proj_workitems: proj_workitems
           });
         }
@@ -77,6 +78,7 @@ var ProjectTransferApp = function (_React$Component) {
     _this.create_workItems = function () {
       var workitems = _this.state.proj_workitems,
           keyname = "p-wi-";
+      console.log(_this.state.assessment);
       return React.createElement(
         "table",
         { className: "table" },
@@ -89,7 +91,7 @@ var ProjectTransferApp = function (_React$Component) {
             React.createElement(
               "th",
               { scope: "col" },
-              "Name"
+              "Work Item Name"
             ),
             React.createElement(
               "th",
@@ -179,9 +181,9 @@ var ProjectTransferApp = function (_React$Component) {
     _this.onClick_transfer = function () {
       // Check that all projects are assigned
       if (_this.state.proj_workitems.length == 0) {
-        window.alert("There are no work items");
+        window.alert("There aren't any work items in the site assessment.");
       } else if (_this.state.proj_workitems.length > 0 && _this.state.projects.length == 0) {
-        window.alert("There are work items not assigned to a project");
+        window.alert("There are work items not assigned to a project. Create a project and assign work items to it.");
       } else {
         var result = window.confirm("Are you sure you want to transfer?");
         if (result) {
@@ -192,7 +194,10 @@ var ProjectTransferApp = function (_React$Component) {
 
     _this.state = {
       assessment_id: assessment_id,
+      // Work Items loaded via load_assessment
       proj_workitems: [],
+      assessment: null,
+      // Projects created by user on the page
       projects: []
     };
     _this.project_select_class = "project-select";
@@ -206,25 +211,89 @@ var ProjectTransferApp = function (_React$Component) {
   _createClass(ProjectTransferApp, [{
     key: "render",
     value: function render() {
+      var applicantHeader = this.state.assessment != null ? React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-md-8 col-lg-6" },
+          React.createElement(
+            "table",
+            { className: "table table-sm" },
+            React.createElement(
+              "tbody",
+              null,
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Applicant Name"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  this.state.assessment.documentPackage.application.name.first + " " + this.state.assessment.documentPackage.application.name.last
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Location"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  this.state.assessment.documentPackage.application.address.city
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { scope: "row" },
+                  "Summary"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  this.state.assessment.summary
+                )
+              )
+            )
+          )
+        )
+      ) : null;
+
       return React.createElement(
         "div",
         null,
         React.createElement(
-          "button",
-          { className: "btn btn-sm btn-outline-primary", type: "button",
-            onClick: this.onClick_transfer },
-          "Transfer"
-        ),
-        React.createElement(
-          "button",
-          { className: "btn btn-sm btn-outline-info", type: "button",
-            onClick: this.onClick_create_project },
-          "Create Project"
-        ),
-        React.createElement(
-          "h2",
+          "h1",
           null,
           "Project Work Items"
+        ),
+        applicantHeader,
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-outline-primary", type: "button",
+              onClick: this.onClick_transfer },
+            "Transfer"
+          ),
+          React.createElement(
+            "button",
+            { className: "btn btn-sm btn-outline-info", type: "button",
+              onClick: this.onClick_create_project },
+            "Create Project"
+          )
         ),
         this.create_workItems(false)
       );
