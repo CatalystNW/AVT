@@ -71,6 +71,11 @@ async function transfer_project(req, res) {
       project.start = siteAssessment.project_start_date;
       project.end = siteAssessment.project_end_date;
 
+      project.porta_potty_required = siteAssessment.porta_potty_required;
+      project.waste_required = siteAssessment.waste_required;
+      project.porta_potty_cost = siteAssessment.porta_potty_cost;
+      project.waste_cost = siteAssessment.waste_cost;
+
       project.handleit = false;
       
       project.workItems.push(new_workItem._id);
