@@ -15,17 +15,17 @@ var PAFApp = function (_React$Component) {
     // this.hide_elements();
     var _this = _possibleConstructorReturn(this, (PAFApp.__proto__ || Object.getPrototypeOf(PAFApp)).call(this, props));
 
-    _this.filterWorkItems = function () {
-      var workitems = void 0;
+    _this.getState = function () {
+      var workitems = void 0,
+          data = void 0;
       if (_this.props.type == "project") {
-        var proj = _this.props.projectData;
-        workitems = proj.workItems;
+        data = _this.props.projectData;
       } else if (_this.props.type == "assessment") {
-        var assessment = _this.props.assessmentData;
-        workitems = assessment.workItems;
+        data = _this.props.assessmentData;
       } else {
         return;
       }
+      workitems = data.workItems;
 
       var filteredWorkitems = [];
       workitems.forEach(function (workitem) {
@@ -33,7 +33,11 @@ var PAFApp = function (_React$Component) {
           filteredWorkitems.push(workitem);
         }
       });
-      return filteredWorkitems;
+      return {
+        workitems: filteredWorkitems,
+        porta_potty_cost: data.porta_potty_required ? data.porta_potty_cost : 0,
+        waste_cost: data.waste_required ? data.waste_cost : 0
+      };
     };
 
     _this.hide_elements = function () {
@@ -45,9 +49,7 @@ var PAFApp = function (_React$Component) {
       // $('#noUserNav').css('display', 'none')
     };
 
-    _this.state = {
-      workitems: _this.filterWorkItems()
-    };
+    _this.state = _this.getState();
     return _this;
   }
 
@@ -380,6 +382,45 @@ var PAFApp = function (_React$Component) {
           React.createElement(
             "b",
             null,
+            "Cost"
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          "Total Work Items Cost: $",
+          total_cost.toFixed(2)
+        ),
+        React.createElement(
+          "div",
+          null,
+          "Porta Potty Cost: $",
+          this.state.porta_potty_cost.toFixed(2)
+        ),
+        React.createElement(
+          "div",
+          null,
+          "Total Cost Estimate: $",
+          this.state.waste_cost.toFixed(2)
+        ),
+        React.createElement(
+          "div",
+          null,
+          "Final Cost Estimate: $",
+          (total_cost + this.state.porta_potty_cost + this.state.waste_cost).toFixed(2)
+        ),
+        React.createElement(
+          "div",
+          null,
+          "Total Volunteers Needed: ",
+          total_volunteers
+        ),
+        React.createElement(
+          "h2",
+          null,
+          React.createElement(
+            "b",
+            null,
             "Hazard / Safety Testing"
           )
         ),
@@ -497,18 +538,6 @@ var PAFApp = function (_React$Component) {
               )
             );
           })
-        ),
-        React.createElement(
-          "div",
-          null,
-          "Total Cost Estimate: ",
-          total_cost.toFixed(2)
-        ),
-        React.createElement(
-          "div",
-          null,
-          "Total Volunteers Needed: ",
-          total_volunteers
         )
       );
     }

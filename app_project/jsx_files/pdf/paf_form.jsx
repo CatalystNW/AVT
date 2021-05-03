@@ -2,23 +2,20 @@ class PAFApp extends React.Component {
   constructor(props) {
     super(props);
     // this.hide_elements();
-    this.state = {
-      workitems: this.filterWorkItems(),
-    };
+    this.state = this.getState();
   }
 
   // Get work items from props and return an array of non-decliend ones
-  filterWorkItems = () => {
-    let workitems;
+  getState = () => {
+    let workitems, data;
     if (this.props.type == "project") {
-      const proj = this.props.projectData;
-      workitems = proj.workItems;
+      data = this.props.projectData;
     } else if (this.props.type == "assessment") {
-      const assessment = this.props.assessmentData;
-      workitems = assessment.workItems;
+      data = this.props.assessmentData;
     } else {
       return;
     }
+    workitems = data.workItems;
 
     let filteredWorkitems = [];
     workitems.forEach(workitem => {
@@ -26,7 +23,13 @@ class PAFApp extends React.Component {
         filteredWorkitems.push(workitem);
       }
     });
-    return filteredWorkitems
+    return {
+      workitems: filteredWorkitems,
+      porta_potty_cost: (data.porta_potty_required) ? 
+        (data.porta_potty_cost): 0,
+      waste_cost: (data.waste_required) ? 
+        data.waste_cost : 0,
+    };
   };
 
   hide_elements = () => {
@@ -177,6 +180,14 @@ class PAFApp extends React.Component {
         )
       })}
 
+      <h2><b>Cost</b></h2>
+      <div>Total Work Items Cost: ${total_cost.toFixed(2)}</div>
+      <div>Porta Potty Cost: ${this.state.porta_potty_cost.toFixed(2)}</div>
+      <div>Total Cost Estimate: ${this.state.waste_cost.toFixed(2)}</div>
+      <div>Final Cost Estimate: ${(total_cost + this.state.porta_potty_cost + 
+                              this.state.waste_cost).toFixed(2)}</div>
+      <div>Total Volunteers Needed: {total_volunteers}</div>
+
       <h2><b>Hazard / Safety Testing</b></h2>
       <div>Lead: {siteAssessment.lead}</div>
       <div>Asbestos: {siteAssessment.asbestos}</div>
@@ -216,10 +227,6 @@ class PAFApp extends React.Component {
           );
         })}
       </div>
-
-      <div>Total Cost Estimate: {total_cost.toFixed(2)}</div>
-      <div>Total Volunteers Needed: {total_volunteers}</div>
-
     </div>);
   }
 }
