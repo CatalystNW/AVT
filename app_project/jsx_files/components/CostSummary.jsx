@@ -9,6 +9,9 @@ class CostSummary extends React.Component {
       accepted_project_materials: [],
       accepted_project_volunteers: 0,
 
+      portaPottyCost: 0,
+      wasteCost: 0,
+
       num_review_project_workitems: 0,
       review_project_materials: [],
       review_project_volunteers: 0,
@@ -30,7 +33,8 @@ class CostSummary extends React.Component {
       this.load_project_data(id);
     }
   }
-  loadWorkItems = (data_type, workItems) => {
+  loadWorkItems = (data_type, projectOrAssessment) => {
+    let workItems = projectOrAssessment.workItems;
     let accepted_project_materials = [],
         num_accepted_project_workitems = 0,
         accepted_project_volunteers = 0,
@@ -39,6 +43,15 @@ class CostSummary extends React.Component {
         review_project_materials = [],
         review_project_volunteers = 0,
         i, j, item_arr;
+    
+    let wasteCost = 0, portaPottyCost = 0;
+    if (projectOrAssessment.porta_potty_required) {
+      portaPottyCost =  projectOrAssessment.porta_potty_cost;
+    }
+    if (projectOrAssessment.waste_required) {
+      wasteCost =  projectOrAssessment.waste_cost;
+    }
+
     for (i=0; i< workItems.length; i++) {
       if (workItems[i].status == "declined") {
         continue;
@@ -72,6 +85,9 @@ class CostSummary extends React.Component {
       review_project_materials: review_project_materials,
       review_project_volunteers: review_project_volunteers,
       data_type: data_type,
+
+      wasteCost: wasteCost,
+      portaPottyCost: portaPottyCost
     });
   };
   /**
@@ -85,7 +101,8 @@ class CostSummary extends React.Component {
       type: "GET",
       context: this,
       success: function(projectData) {
-        this.loadWorkItems("project", projectData.workItems);
+        console.log(projectData);
+        this.loadWorkItems("project", projectData);
       }
     })
   };
@@ -101,7 +118,7 @@ class CostSummary extends React.Component {
       context: this,
       success: function(siteAssessmentData) {
         console.log(siteAssessmentData);
-        this.loadWorkItems("site_assessment", siteAssessmentData.workItems);
+        this.loadWorkItems("site_assessment", siteAssessmentData);
       }
     });
   }
@@ -160,6 +177,16 @@ class CostSummary extends React.Component {
             <td></td>
             <td className="col-sm-2">{total.toFixed(2)}</td>
           </tr>
+          {(acceptedStatus == true) ? 
+          (<tr>
+            <th className="col-sm-10">Grand Total</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td className="col-sm-2">
+              {(total + this.state.portaPottyCost + this.state.wasteCost).toFixed(2)}
+            </td>
+          </tr>) : (null)}
         </tfoot>
       </table>
     );
@@ -182,6 +209,14 @@ class CostSummary extends React.Component {
               <tr>
                 <th className="col-xs-6 col-lg-4">Volunteers Required</th>
                 <td className="col-xs-6 col-lg-4">{this.state.accepted_project_volunteers}</td>
+              </tr>
+              <tr>
+                <th className="col-xs-6 col-lg-4">Porta Potty Cost</th>
+                <td className="col-xs-6 col-lg-4">{this.state.portaPottyCost}</td>
+              </tr>
+              <tr>
+                <th className="col-xs-6 col-lg-4">Waste Disposal Cost</th>
+                <td className="col-xs-6 col-lg-4">{this.state.wasteCost}</td>
               </tr>
               <tr>
                 <td>

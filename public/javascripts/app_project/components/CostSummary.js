@@ -24,7 +24,8 @@ var CostSummary = function (_React$Component) {
       }
     };
 
-    _this.loadWorkItems = function (data_type, workItems) {
+    _this.loadWorkItems = function (data_type, projectOrAssessment) {
+      var workItems = projectOrAssessment.workItems;
       var accepted_project_materials = [],
           num_accepted_project_workitems = 0,
           accepted_project_volunteers = 0,
@@ -34,6 +35,16 @@ var CostSummary = function (_React$Component) {
           i = void 0,
           j = void 0,
           item_arr = void 0;
+
+      var wasteCost = 0,
+          portaPottyCost = 0;
+      if (projectOrAssessment.porta_potty_required) {
+        portaPottyCost = projectOrAssessment.porta_potty_cost;
+      }
+      if (projectOrAssessment.waste_required) {
+        wasteCost = projectOrAssessment.waste_cost;
+      }
+
       for (i = 0; i < workItems.length; i++) {
         if (workItems[i].status == "declined") {
           continue;
@@ -66,7 +77,10 @@ var CostSummary = function (_React$Component) {
         num_review_project_workitems: num_review_project_workitems,
         review_project_materials: review_project_materials,
         review_project_volunteers: review_project_volunteers,
-        data_type: data_type
+        data_type: data_type,
+
+        wasteCost: wasteCost,
+        portaPottyCost: portaPottyCost
       });
     };
 
@@ -76,7 +90,8 @@ var CostSummary = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(projectData) {
-          this.loadWorkItems("project", projectData.workItems);
+          console.log(projectData);
+          this.loadWorkItems("project", projectData);
         }
       });
     };
@@ -88,7 +103,7 @@ var CostSummary = function (_React$Component) {
         context: _this,
         success: function success(siteAssessmentData) {
           console.log(siteAssessmentData);
-          this.loadWorkItems("site_assessment", siteAssessmentData.workItems);
+          this.loadWorkItems("site_assessment", siteAssessmentData);
         }
       });
     };
@@ -192,7 +207,24 @@ var CostSummary = function (_React$Component) {
               { className: "col-sm-2" },
               total.toFixed(2)
             )
-          )
+          ),
+          acceptedStatus == true ? React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "th",
+              { className: "col-sm-10" },
+              "Grand Total"
+            ),
+            React.createElement("td", null),
+            React.createElement("td", null),
+            React.createElement("td", null),
+            React.createElement(
+              "td",
+              { className: "col-sm-2" },
+              (total + _this.state.portaPottyCost + _this.state.wasteCost).toFixed(2)
+            )
+          ) : null
         )
       );
     };
@@ -202,6 +234,9 @@ var CostSummary = function (_React$Component) {
       num_accepted_project_workitems: 0,
       accepted_project_materials: [],
       accepted_project_volunteers: 0,
+
+      portaPottyCost: 0,
+      wasteCost: 0,
 
       num_review_project_workitems: 0,
       review_project_materials: [],
@@ -298,6 +333,34 @@ var CostSummary = function (_React$Component) {
                   "td",
                   { className: "col-xs-6 col-lg-4" },
                   this.state.accepted_project_volunteers
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-6 col-lg-4" },
+                  "Porta Potty Cost"
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-6 col-lg-4" },
+                  this.state.portaPottyCost
+                )
+              ),
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  { className: "col-xs-6 col-lg-4" },
+                  "Waste Disposal Cost"
+                ),
+                React.createElement(
+                  "td",
+                  { className: "col-xs-6 col-lg-4" },
+                  this.state.wasteCost
                 )
               ),
               React.createElement(
