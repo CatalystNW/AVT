@@ -159,6 +159,38 @@ var ProjectMenu = function (_React$Component) {
       });
     };
 
+    _this.onChange_porta_checkbox = function (e) {
+      var data = {
+        property: "porta_potty_required",
+        value: e.target.checked
+      };
+      $.ajax({
+        url: "/app_project/projects/" + _this.state._id,
+        type: "PATCH",
+        data: data,
+        context: _this
+      });
+      _this.setState({
+        porta_potty_required: e.target.checked
+      });
+    };
+
+    _this.onChange_waste_checkbox = function (e) {
+      var data = {
+        property: "waste_required",
+        value: e.target.checked
+      };
+      $.ajax({
+        url: "/app_project/projects/" + _this.state._id,
+        type: "PATCH",
+        data: data,
+        context: _this
+      });
+      _this.setState({
+        waste_required: e.target.checked
+      });
+    };
+
     _this.state = _this.props.project_data;
     _this.state.assignable_users = [];
 
@@ -174,6 +206,8 @@ var ProjectMenu = function (_React$Component) {
     _this.site_host_timer = null;
     _this.crew_chief_timer = null;
     _this.project_advocate_timer = null;
+    _this.porta_potty_cost_timer = null;
+    _this.waste_cost_timer = null;
     _this.timerValue = 500; // in ms
     return _this;
   }
@@ -448,6 +482,78 @@ var ProjectMenu = function (_React$Component) {
                   property_type: "site_host",
                   onChange: this.onChange_inputs_timer,
                   value: this.state.site_host })
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "form-group row" },
+              React.createElement(
+                "div",
+                { className: "col-sm-6 col-md-4" },
+                React.createElement(
+                  "label",
+                  { className: "checkbox-label" },
+                  "Porta Potty "
+                ),
+                React.createElement("input", { type: "checkbox", id: "porta-potty-required-checkbox",
+                  checked: this.state.porta_potty_required,
+                  onChange: this.onChange_porta_checkbox
+                })
+              ),
+              React.createElement(
+                "div",
+                { className: "col-sm-6 col-md-4" },
+                React.createElement(
+                  "div",
+                  { className: "input-group input-group-sm" },
+                  React.createElement(
+                    "span",
+                    { className: "input-group-addon" },
+                    "Cost"
+                  ),
+                  React.createElement("input", { type: "number", className: "form-control", min: "0", step: "0.01",
+                    property_type: "porta_potty_cost",
+                    value: this.state.porta_potty_cost,
+                    onChange: this.onChange_inputs_timer,
+                    disabled: !this.state.porta_potty_required
+                  })
+                )
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "form-group row" },
+              React.createElement(
+                "div",
+                { className: "col-sm-6 col-md-4" },
+                React.createElement(
+                  "label",
+                  { className: "checkbox-label" },
+                  "Waste/Dump Trailer "
+                ),
+                React.createElement("input", { type: "checkbox",
+                  checked: this.state.waste_required,
+                  onChange: this.onChange_waste_checkbox
+                })
+              ),
+              React.createElement(
+                "div",
+                { className: "col-sm-6 col-md-4" },
+                React.createElement(
+                  "div",
+                  { className: "input-group input-group-sm" },
+                  React.createElement(
+                    "span",
+                    { className: "input-group-addon" },
+                    "Cost"
+                  ),
+                  React.createElement("input", { type: "number", className: "form-control", min: "0", step: "0.01",
+                    value: this.state.waste_cost,
+                    property_type: "waste_cost",
+                    onChange: this.onChange_inputs_timer,
+                    disabled: !this.state.waste_required
+                  })
+                )
               )
             )
           ),

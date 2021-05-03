@@ -32,6 +32,8 @@ class ProjectMenu extends React.Component {
     this.site_host_timer = null;
     this.crew_chief_timer = null;
     this.project_advocate_timer = null;
+    this.porta_potty_cost_timer = null;
+    this.waste_cost_timer = null;
     this.timerValue = 500; // in ms
   }
 
@@ -191,6 +193,37 @@ class ProjectMenu extends React.Component {
     });
   };
 
+  onChange_porta_checkbox = (e) => {
+    let data = {
+      property: "porta_potty_required",
+      value: e.target.checked,
+    };
+    $.ajax({
+      url: "/app_project/projects/" + this.state._id,
+      type: "PATCH",
+      data: data,
+      context: this,
+    });
+    this.setState({
+      porta_potty_required: e.target.checked,
+    });
+  }
+  onChange_waste_checkbox = (e) => {
+    let data = {
+      property: "waste_required",
+      value: e.target.checked,
+    };
+    $.ajax({
+      url: "/app_project/projects/" + this.state._id,
+      type: "PATCH",
+      data: data,
+      context: this,
+    });
+    this.setState({
+      waste_required: e.target.checked,
+    });
+  }
+
   render () {
     const divStyle = {
       height: funkie.calculate_page_height().toString() + "px",
@@ -314,6 +347,49 @@ class ProjectMenu extends React.Component {
                   value={this.state.site_host}></input>
               </div>
             </div>
+
+            <div className="form-group row">
+              <div className="col-sm-6 col-md-4">
+                <label className="checkbox-label">Porta Potty </label>
+                <input type="checkbox" id="porta-potty-required-checkbox"
+                  checked={this.state.porta_potty_required}
+                  onChange={this.onChange_porta_checkbox}
+                />
+              </div>
+              <div className="col-sm-6 col-md-4">
+                <div className="input-group input-group-sm">
+                  <span className="input-group-addon">Cost</span>
+                  <input type="number" className="form-control" min="0" step="0.01"
+                    property_type="porta_potty_cost"
+                    value={this.state.porta_potty_cost}
+                    onChange={this.onChange_inputs_timer}
+                    disabled={!this.state.porta_potty_required}
+                  ></input>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group row">
+              <div className="col-sm-6 col-md-4">
+                <label className="checkbox-label">Waste/Dump Trailer </label>
+                <input type="checkbox" 
+                  checked={this.state.waste_required}
+                  onChange={this.onChange_waste_checkbox}
+                />
+              </div>
+              <div className="col-sm-6 col-md-4">
+                <div className="input-group input-group-sm">
+                  <span className="input-group-addon">Cost</span>
+                  <input type="number" className="form-control" min="0" step="0.01"
+                    value={this.state.waste_cost}
+                    property_type="waste_cost"
+                    onChange={this.onChange_inputs_timer}
+                    disabled={!this.state.waste_required}
+                  ></input>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div className="tab-pane" id="nav-cost-summary" role="tabpanel">
             <CostSummary ref={this.costsummary}/>
