@@ -45,6 +45,11 @@ const AppProjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "AppProjectNote",
   }],
+  
+  porta_potty_required: {type: Boolean, default: false,},
+  waste_required: {type: Boolean, default: false, },
+  porta_potty_cost: {type: Number, default: 0},
+  waste_cost: {type: Number, default: 0},
 
   crew_chief: String,
   project_advocate: String,
