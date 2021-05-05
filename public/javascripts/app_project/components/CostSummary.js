@@ -8,6 +8,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { CostSummary };
 
+import { functionHelper } from "../functionHelper.js";
+
 var CostSummary = function (_React$Component) {
   _inherits(CostSummary, _React$Component);
 
@@ -24,7 +26,7 @@ var CostSummary = function (_React$Component) {
       }
     };
 
-    _this.loadWorkItems = function (data_type, projectOrAssessment) {
+    _this.loadDataToState = function (data_type, projectOrAssessment) {
       var workItems = projectOrAssessment.workItems;
       var accepted_project_materials = [],
           num_accepted_project_workitems = 0,
@@ -80,7 +82,8 @@ var CostSummary = function (_React$Component) {
         data_type: data_type,
 
         wasteCost: wasteCost,
-        portaPottyCost: portaPottyCost
+        portaPottyCost: portaPottyCost,
+        name: projectOrAssessment.documentPackage.application.name.first + " " + projectOrAssessment.documentPackage.application.name.last
       });
     };
 
@@ -91,7 +94,7 @@ var CostSummary = function (_React$Component) {
         context: _this,
         success: function success(projectData) {
           console.log(projectData);
-          this.loadWorkItems("project", projectData);
+          this.loadDataToState("project", projectData);
         }
       });
     };
@@ -103,7 +106,7 @@ var CostSummary = function (_React$Component) {
         context: _this,
         success: function success(siteAssessmentData) {
           console.log(siteAssessmentData);
-          this.loadWorkItems("site_assessment", siteAssessmentData);
+          this.loadDataToState("site_assessment", siteAssessmentData);
         }
       });
     };
@@ -112,11 +115,12 @@ var CostSummary = function (_React$Component) {
       var arr = acceptedStatus === true ? _this.state.accepted_project_materials : _this.state.review_project_materials,
           total = 0,
           cost = void 0,
-          price = void 0;
+          price = void 0,
+          id = acceptedStatus === true ? _this.projectItemsTableId : _this.reviewProjectItemsTableId;
       var workitem_type = acceptedStatus === true ? "accepted" : "review";
       return React.createElement(
         "table",
-        { className: "table" },
+        { className: "table", id: id },
         React.createElement(
           "thead",
           null,
@@ -229,6 +233,18 @@ var CostSummary = function (_React$Component) {
       );
     };
 
+    _this.onClick_exportReviewCSV = function () {
+      var tableId = _this.reviewProjectItemsTableId;
+      var tableText = functionHelper.getTableText(tableId);
+      functionHelper.exportCSV(_this.state.name + " review_materials_list_review_", tableText);
+    };
+
+    _this.onClick_exportProjectCSV = function () {
+      var tableId = _this.projectItemsTableId;
+      var tableText = functionHelper.getTableText(tableId);
+      functionHelper.exportCSV(_this.state.name + " materials_list_review_", tableText);
+    };
+
     _this.state = {
       data_type: "site_assessment",
       num_accepted_project_workitems: 0,
@@ -242,6 +258,9 @@ var CostSummary = function (_React$Component) {
       review_project_materials: [],
       review_project_volunteers: 0
     };
+
+    _this.projectItemsTableId = "proj-mi-table";
+    _this.reviewProjectItemsTableId = "review-proj-mi-table";
     return _this;
   }
 
@@ -372,7 +391,14 @@ var CostSummary = function (_React$Component) {
                   React.createElement(
                     "h3",
                     null,
-                    "Materials Lists"
+                    "Materials Lists ",
+                    React.createElement(
+                      "button",
+                      {
+                        className: "btn btn-sm btn-primary",
+                        onClick: this.onClick_exportProjectCSV },
+                      "Export CSV"
+                    )
                   ),
                   this.create_materialsitems_table(true)
                 )
@@ -431,7 +457,14 @@ var CostSummary = function (_React$Component) {
                   React.createElement(
                     "h2",
                     null,
-                    "Materials Lists"
+                    "Materials Lists ",
+                    React.createElement(
+                      "button",
+                      {
+                        className: "btn btn-sm btn-primary",
+                        onClick: this.onClick_exportReviewCSV },
+                      "Export CSV"
+                    )
                   ),
                   this.create_materialsitems_table(false)
                 )

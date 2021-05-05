@@ -1,5 +1,7 @@
 export { CostSummary }
 
+import { functionHelper } from "../functionHelper.js"
+
 class CostSummary extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,9 @@ class CostSummary extends React.Component {
       review_project_materials: [],
       review_project_volunteers: 0,
     };
+
+    this.projectItemsTableId = "proj-mi-table";
+    this.reviewProjectItemsTableId = "review-proj-mi-table";
   }
 
   /**
@@ -32,8 +37,8 @@ class CostSummary extends React.Component {
     } else if (data_type == "project") {
       this.load_project_data(id);
     }
-  }
-  loadWorkItems = (data_type, projectOrAssessment) => {
+  };
+  loadDataToState = (data_type, projectOrAssessment) => {
     let workItems = projectOrAssessment.workItems;
     let accepted_project_materials = [],
         num_accepted_project_workitems = 0,
@@ -87,7 +92,9 @@ class CostSummary extends React.Component {
       data_type: data_type,
 
       wasteCost: wasteCost,
-      portaPottyCost: portaPottyCost
+      portaPottyCost: portaPottyCost,
+      name: projectOrAssessment.documentPackage.application.name.first + " " +
+          projectOrAssessment.documentPackage.application.name.last
     });
   };
   /**
@@ -102,7 +109,7 @@ class CostSummary extends React.Component {
       context: this,
       success: function(projectData) {
         console.log(projectData);
-        this.loadWorkItems("project", projectData);
+        this.loadDataToState("project", projectData);
       }
     })
   };
@@ -118,10 +125,10 @@ class CostSummary extends React.Component {
       context: this,
       success: function(siteAssessmentData) {
         console.log(siteAssessmentData);
-        this.loadWorkItems("site_assessment", siteAssessmentData);
+        this.loadDataToState("site_assessment", siteAssessmentData);
       }
     });
-  }
+  };
 
   roundCurrency(n) {
     let mult = 100, value;
@@ -139,11 +146,14 @@ class CostSummary extends React.Component {
     let arr = (acceptedStatus === true) ?
               this.state.accepted_project_materials :
               this.state.review_project_materials,
-        total = 0, cost, price;
+        total = 0, cost, price,
+        id = (acceptedStatus === true) ?
+              this.projectItemsTableId :
+              this.reviewProjectItemsTableId;
     const workitem_type = (acceptedStatus === true) ?
             "accepted" : "review";
     return (
-      <table className="table">
+      <table className="table" id={id}>
         <thead>
           <tr>
             <th scope="col">Description</th>
@@ -191,6 +201,17 @@ class CostSummary extends React.Component {
       </table>
     );
   };
+  onClick_exportReviewCSV = () => {
+    let tableId = this.reviewProjectItemsTableId;
+    let tableText = functionHelper.getTableText(tableId);
+    functionHelper.exportCSV(this.state.name + " review_materials_list_review_", tableText);
+  };
+
+  onClick_exportProjectCSV = () => {
+    let tableId = this.projectItemsTableId;
+    let tableText = functionHelper.getTableText(tableId);
+    functionHelper.exportCSV(this.state.name + " materials_list_review_", tableText);
+  };
 
   render() {
     return(
@@ -220,7 +241,9 @@ class CostSummary extends React.Component {
               </tr>
               <tr>
                 <td>
-                  <h3>Materials Lists</h3>
+                  <h3>Materials Lists <button 
+                          className="btn btn-sm btn-primary" 
+                          onClick={this.onClick_exportProjectCSV}>Export CSV</button></h3>
                   {this.create_materialsitems_table(true)}
                 </td>
               </tr>
@@ -242,7 +265,10 @@ class CostSummary extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    <h2>Materials Lists</h2>
+                    <h2>Materials Lists <button 
+                            className="btn btn-sm btn-primary" 
+                            onClick={this.onClick_exportReviewCSV}>Export CSV</button>
+                    </h2>
                     {this.create_materialsitems_table(false)}
                   </td>
                 </tr>
