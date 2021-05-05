@@ -210,6 +210,7 @@ class CostSummary extends React.Component {
   onClick_exportProjectCSV = () => {
     let tableId = this.projectItemsTableId;
     let tableText = functionHelper.getTableText(tableId);
+    tableText.pop();
     functionHelper.exportCSV(this.state.name + " materials_list_review_", tableText);
   };
 

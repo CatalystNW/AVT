@@ -242,6 +242,7 @@ var CostSummary = function (_React$Component) {
     _this.onClick_exportProjectCSV = function () {
       var tableId = _this.projectItemsTableId;
       var tableText = functionHelper.getTableText(tableId);
+      tableText.pop();
       functionHelper.exportCSV(_this.state.name + " materials_list_review_", tableText);
     };
 
