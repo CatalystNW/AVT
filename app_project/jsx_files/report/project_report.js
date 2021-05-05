@@ -1,6 +1,6 @@
 export { ProjectReport }
 
-import { functionHelper } from "./functionHelper.js"
+import { functionHelper } from "../functionHelper.js"
 
 class ProjectReport extends React.Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 export { UpcomingProjects }
 
-import { functionHelper } from "./functionHelper.js"
+import { functionHelper } from "../functionHelper.js"
 
 class UpcomingProjects extends React.Component {
   constructor(props) {

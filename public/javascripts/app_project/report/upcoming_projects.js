@@ -8,7 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { UpcomingProjects };
 
-import { functionHelper } from "./functionHelper.js";
+import { functionHelper } from "../functionHelper.js";
 
 var UpcomingProjects = function (_React$Component) {
   _inherits(UpcomingProjects, _React$Component);

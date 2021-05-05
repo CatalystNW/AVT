@@ -8,7 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 export { SearchReport };
 
-import { functionHelper } from "./functionHelper.js";
+import { functionHelper } from "../functionHelper.js";
 
 var SearchReport = function (_React$Component) {
   _inherits(SearchReport, _React$Component);
