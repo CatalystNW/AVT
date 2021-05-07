@@ -112,12 +112,6 @@ async function create_workitem(req, res) {
     } else {
       res.status(400).end(); return;
     }
-    // Disabled. Allow editing
-    // Prevent adding workitems for transferred assessments
-    // if (assessment && (assessment.transferred || assessment.complete)) {
-    //   res.status(400).end();
-    //   return;
-    // }
     
     workitem.siteAssessment = assessment._id;
     workitem.type = "assessment"
@@ -148,12 +142,6 @@ async function edit_workitem(req, res)  {
         res.status(404).end();
         return;
       }
-      // Disabled. Allow editing
-      // else if  (workitem.transferred || workitem.complete) {
-      //   // Transferred work items aren't editable
-      //   res.status(400).end();
-      //   return;
-      // }
 
       workitem = await WorkItem.findOneAndUpdate({_id: req.params.workitem_id,}, req.body, {new: true}).populate("materialsItems");
       res.status(200).json(workitem);
@@ -172,11 +160,6 @@ async function delete_workitem(req, res) {
   let workitem = await WorkItem.findById(workItem_id),
       i;
   if (workitem) {
-    // Disabled. Allow editing
-    // if (workitem.transferred || workitem.complete) { // Prevent deletion of transferred workItem
-    //   res.status(400).end();
-    //   return;
-    // }
     if (workitem.type == "project" || workitem.handleit) {
       if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
         res.status(403).end(); return;

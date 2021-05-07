@@ -27,11 +27,6 @@ async function create_materialsitem(req, res) {
       res.status(403).end(); return;
     }
   }
-  // Disabled. Allow editing
-  // if (workitem.transferred || workitem.complete) { // Can't create for transferred WorkItem
-  //   res.status(400).end();
-  //   return;
-  // }
   var item = new MaterialsItem();
   item.description = req.body.description;
   item.quantity = req.body.quantity;
@@ -50,13 +45,6 @@ async function delete_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
 
   var workitem = await WorkItem.findById(item.workItem);
-  // Disabled. Allow editing
-  // if (item.transferred || workitem.transferred ||
-  //   item.complete || workitem.complete
-  //   ) {
-  //   res.status(400).end();
-  //   return;
-  // }
   // Check for user roles using workitem type
   if (workitem.type == "project") {
     if (!authHelper.hasRole(req, res, "PROJECT_MANAGEMENT")) {
@@ -85,11 +73,6 @@ async function edit_materialsitem(req, res) {
   var item = await MaterialsItem.findById(req.params.id);
   if (!item)
     res.status(404).end();
-  // Disabled. Allow editing
-  // if (item.transferred || item.complete) {
-  //   res.status(400).end();
-  //   return;
-  // }
   var old_cost = item.cost;
   item = await MaterialsItem.findOneAndUpdate({_id: req.params.id}, req.body, {new: true,});
 

@@ -140,6 +140,7 @@ async function edit_checklist(req, res) {
     res.status(404).end();
     return;
   }
+  // Convert checlist property to true/false depending from string value
   if (req.body.property_type == "property") {
     if (property in checklist) {
       checklist[property].complete = value == "true" ? true : false;
@@ -182,11 +183,6 @@ async function edit_project(req, res) {
     res.status(404).end();
     return;
   }
-  // Disabed. Allow editing.
-  // if (project.complete) {
-  //   res.status(423).end(); // resource  locked
-  //   return;
-  // }
   if (req.body.property == "project_start_date" 
     || req.body.property == "project_end_date") {
     var d = new Date(

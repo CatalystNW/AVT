@@ -89,10 +89,6 @@ async function delete_project_note(req, res) {
     res.status(404).end();
     return;
   }
-  // Disabled. Allow editing
-  // if (project.complete) {
-  //   res.status(400).end(); return;
-  // }
   // Confirm note belongs to user
   const context = authHelper.getUserContext(req, res);
   if (note.user.toString() != context.user_id.toString()) {
