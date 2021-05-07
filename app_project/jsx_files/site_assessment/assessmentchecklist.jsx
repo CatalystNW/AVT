@@ -117,14 +117,20 @@ class AssessmentChecklist extends React.Component {
     let result = true;
     if (newStatus == "declined") {
       result = window.confirm(
-        `Are you sure you want to decline the site assessment? 
-        This can't be undone.`)
+        `Are you sure you want to decline the site assessment?`)
     } else if (newStatus == "approved") {
       result = window.confirm(
         `Are you sure you want to approve the project? All pending work items will now be accepted.`);
     }
     
     if (result) {
+      // Set AssessmentMenu to status & use it to check that 
+      // changing status is ok
+      result = this.props.changeStatus(newStatus);
+      if (!result) {
+        window.alert("Please set all work items to 'declined' status first");
+        return;
+      }
       $.ajax({
         type: "PATCH",
         url: "/app_project/site_assessments/" + this.state._id,
