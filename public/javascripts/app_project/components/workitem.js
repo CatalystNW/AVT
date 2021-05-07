@@ -327,6 +327,10 @@ var WorkItem = function (_React$Component) {
           "option",
           { key: id + "complete", value: "complete" },
           "Complete"
+        ), React.createElement(
+          "option",
+          { key: id + "declined", value: "declined" },
+          "Declined"
         )];
       } else {
         // Site Assessment statuses

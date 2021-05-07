@@ -218,6 +218,7 @@ class WorkItem extends React.Component {
         <option key={id+"review"} value="to_review">To Review</option>,
         <option key={id+"progress"}value="in_progress">In Progress</option>,
         <option key={id+"complete"} value="complete">Complete</option>,
+        <option key={id+"declined"} value="declined">Declined</option>,
       ];
     } else { // Site Assessment statuses
       statuses = [
