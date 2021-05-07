@@ -78,6 +78,16 @@ var ProjectMenu = function (_React$Component) {
       var property = e.target.name,
           value = e.target.value;
       if (value == "complete" || value == "withdrawn") {
+        // Make sure all work items are declined
+        if (value == "withdrawn") {
+          var workItems = _this.state.workItems;
+          for (var i = 0; i < workItems.length; i++) {
+            if (workItems[i].status != "declined") {
+              window.alert("All work items must first have a declined status before withdrawing the project.");
+              return;
+            }
+          }
+        }
         var result = window.confirm("Are you sure you want to set the project to " + value + "?");
         if (!result) {
           return;
@@ -246,12 +256,6 @@ var ProjectMenu = function (_React$Component) {
         "div",
         { className: "col-sm-12 col-lg-8", style: divStyle,
           id: "assessment-container" },
-        React.createElement(
-          "h2",
-          null,
-          "Project: ",
-          this.state.name
-        ),
         React.createElement(
           "div",
           { id: "project-nav-container" },
@@ -590,7 +594,7 @@ var ProjectMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
-            !this.state.handleit ? React.createElement(
+            !this.state.handleit && this.state.status != "withdrawn" ? React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu
