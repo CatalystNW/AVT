@@ -273,6 +273,9 @@ var WorkItem = function (_React$Component) {
         workitem_id: _this.state._id,
         status: status
       }, function () {
+        if (that.props.changeWorkItemStatus) {
+          that.props.changeWorkItemStatus(that.state._id, status);
+        }
         that.setState({ status: status });
       });
     };
