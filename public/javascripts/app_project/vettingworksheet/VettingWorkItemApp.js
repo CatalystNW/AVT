@@ -42,9 +42,6 @@ var VettingWorkItemApp = function (_React$Component) {
               workItems.push(workitem);
             }
           }
-          console.log(workItems);
-          console.log(completeWorkItems);
-          console.log(declinedWorkItems);
           this.setState({
             workItems: workItems,
             completeWorkItems: completeWorkItems,
@@ -67,7 +64,6 @@ var VettingWorkItemApp = function (_React$Component) {
         data: data,
         context: _this,
         success: function success(workitem) {
-          console.log(workitem);
           this.clearForm();
           this.setState({
             workItems: [].concat(_toConsumableArray(this.state.workItems), [workitem])
@@ -144,7 +140,6 @@ var VettingWorkItemApp = function (_React$Component) {
     };
 
     _this.createWorkItem = function (workItem) {
-      console.log(workItem);
       return React.createElement(
         "div",
         { className: "panel panel-primary", key: "container-" + workItem._id },

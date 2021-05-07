@@ -39,9 +39,6 @@ class VettingWorkItemApp extends React.Component {
             workItems.push(workitem);
           }
         }
-        console.log(workItems);
-        console.log(completeWorkItems);
-        console.log(declinedWorkItems);
         this.setState({
           workItems: workItems,
           completeWorkItems: completeWorkItems,
@@ -64,7 +61,6 @@ class VettingWorkItemApp extends React.Component {
       data: data,
       context: this,
       success: function(workitem) {
-        console.log(workitem);
         this.clearForm();
         this.setState({
           workItems: [...this.state.workItems, workitem],
@@ -138,7 +134,6 @@ class VettingWorkItemApp extends React.Component {
    * @returns <div>
    */
   createWorkItem = (workItem) => {
-    console.log(workItem)
     return (
       <div className="panel panel-primary" key={"container-" + workItem._id}>
         <div className="panel-body">
