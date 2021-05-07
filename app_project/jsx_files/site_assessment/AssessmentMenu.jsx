@@ -72,7 +72,7 @@ class AssessmentMenu extends React.Component {
         workItems: newWorkItems,
       };
     });
-  }
+  };
 
   /**
    * Creates an array of WorkItems that are sorted by its status.
