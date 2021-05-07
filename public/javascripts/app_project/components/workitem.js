@@ -448,8 +448,7 @@ var WorkItem = function (_React$Component) {
           React.createElement(
             "div",
             { className: "form-group row" },
-            // Hide Status if it's handle-it
-            !this.state.handleit ? React.createElement(
+            React.createElement(
               "div",
               { className: "col-md-6 col-sm-12" },
               React.createElement(
@@ -468,13 +467,12 @@ var WorkItem = function (_React$Component) {
                 React.createElement(
                   "select",
                   { className: "form-control", value: this.state.status,
-                    id: "workitem-status-select",
                     disabled: this.props.page_type == "vetting",
                     onChange: this.onChange_workitem_status },
                   statuses
                 )
               )
-            ) : null,
+            ),
             React.createElement(
               "div",
               { className: "col-md-6 col-sm-12" },

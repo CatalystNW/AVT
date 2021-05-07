@@ -276,21 +276,17 @@ class WorkItem extends React.Component {
             workitem_id={this.state._id} readOnly />
         </div>
         <div className="form-group row">
-          { // Hide Status if it's handle-it
-          !this.state.handleit ?
-            (<div className="col-md-6 col-sm-12">
+          <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
               htmlFor="workitem-status-select"><b>Status</b></label>
             <div className="col-6">
               <select className="form-control" value={this.state.status}
-                  id="workitem-status-select" 
                   disabled={this.props.page_type=="vetting"}
                   onChange={this.onChange_workitem_status}>
                 {statuses}
               </select>
             </div>
-          </div>) : null
-          }
+          </div>
           <div className="col-md-6 col-sm-12">
             <label className="col-6 col-form-label"
               htmlFor="workitem-status-select"><b>Volunteers Required</b></label>
