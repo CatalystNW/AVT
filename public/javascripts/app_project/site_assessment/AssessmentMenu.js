@@ -52,6 +52,21 @@ var AssessmentMenu = function (_React$Component) {
       });
     };
 
+    _this.changeWorkItemStatus = function (workItem_id, status) {
+      _this.setState(function (state) {
+        var newWorkItems = [].concat(_toConsumableArray(state.workItems));
+        for (var i = 0; i < newWorkItems.length; i++) {
+          if (newWorkItems[i]._id == workItem_id) {
+            newWorkItems[i].status = status;
+            break;
+          }
+        }
+        return {
+          workItems: newWorkItems
+        };
+      });
+    };
+
     _this.createWorkItems = function () {
       // Set workitem value for sorting work items
       function getValue(workitem) {
@@ -64,6 +79,7 @@ var AssessmentMenu = function (_React$Component) {
       return _this.state.workItems.map(function (workitem, index) {
         return React.createElement(WorkItem, {
           workitem: workitem, page_type: "site_assessment",
+          changeWorkItemStatus: _this.changeWorkItemStatus,
           remove_workitem: _this.remove_workitem,
           set_edit_materialisitem_menu: _this.props.set_edit_materialisitem_menu,
           set_create_materialsitem_menu: _this.props.set_create_materialsitem_menu,
@@ -72,7 +88,22 @@ var AssessmentMenu = function (_React$Component) {
       });
     };
 
+    _this.changeStatus = function (newStatus) {
+      if (newStatus == "declined") {
+        var workItems = _this.state.workItems;
+        // Make sure all workItems are declined before allowing status change
+        for (var i = 0; i < workItems.length; i++) {
+          if (workItems[i].status != "declined") {
+            return false;
+          }
+        }
+      }
+      _this.setState({ status: newStatus });
+      return true;
+    };
+
     _this.state = {
+      status: "pending",
       workItems: [],
       transferred: false
     };
@@ -168,6 +199,7 @@ var AssessmentMenu = function (_React$Component) {
             { className: "tab-pane show active", id: "nav-checklist", role: "tabpanel" },
             React.createElement(AssessmentChecklist, { ref: this.checklist,
               assessment: {},
+              changeStatus: this.changeStatus,
               vetting_summary: this.props.vetting_summary
             })
           ),
@@ -179,12 +211,12 @@ var AssessmentMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
-            !this.state.transferred && !this.state.complete ? React.createElement(
+            React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu },
               "Create Work Item"
-            ) : null,
+            ),
             this.createWorkItems()
           ),
           React.createElement(

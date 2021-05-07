@@ -11,6 +11,7 @@ class AssessmentMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      status: "pending",
       workItems: [],
       transferred: false,
     }
@@ -58,6 +59,21 @@ class AssessmentMenu extends React.Component {
     });
   };
 
+  changeWorkItemStatus = (workItem_id, status) => {
+    this.setState(state => {
+      let newWorkItems = [...state.workItems];
+      for (let i=0; i<newWorkItems.length; i++) {
+        if (newWorkItems[i]._id == workItem_id) {
+          newWorkItems[i].status = status;
+          break;
+        }        
+      }
+      return {
+        workItems: newWorkItems,
+      };
+    });
+  }
+
   /**
    * Creates an array of WorkItems that are sorted by its status.
    * @returns Array[WorkItems]
@@ -80,12 +96,27 @@ class AssessmentMenu extends React.Component {
       return (
       <WorkItem
         workitem={workitem} page_type={"site_assessment"}
+        changeWorkItemStatus = {this.changeWorkItemStatus}
         remove_workitem={this.remove_workitem}
         set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
         set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
         set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
         key={workitem._id+"-workitem-card"}></WorkItem>);
     });
+  };
+
+  changeStatus = (newStatus) => {
+    if (newStatus == "declined") {
+      const workItems = this.state.workItems;
+      // Make sure all workItems are declined before allowing status change
+      for (let i=0; i< workItems.length; i++) {
+        if (workItems[i].status != "declined") {
+          return false;
+        }
+      }
+    }
+    this.setState({status: newStatus});
+    return true;
   };
 
   render() {
@@ -121,6 +152,7 @@ class AssessmentMenu extends React.Component {
           <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
             <AssessmentChecklist ref={this.checklist}
               assessment={{}}
+              changeStatus={this.changeStatus}
               vetting_summary = {this.props.vetting_summary}
             />
           </div>
@@ -128,12 +160,10 @@ class AssessmentMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
-            {(!this.state.transferred && !this.state.complete) ?
-              (<button type="button" className="btn btn-primary" 
+            <button type="button" className="btn btn-primary" 
               onClick={this.props.set_create_workitem_menu}>
               Create Work Item
-            </button>) : null
-            }
+            </button>
             
             {this.createWorkItems()}
           </div>
