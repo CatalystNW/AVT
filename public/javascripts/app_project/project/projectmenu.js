@@ -74,6 +74,21 @@ var ProjectMenu = function (_React$Component) {
       });
     };
 
+    _this.changeWorkItemStatus = function (workItem_id, status) {
+      _this.setState(function (state) {
+        var newWorkItems = _this.state.workItems ? [].concat(_toConsumableArray(state.workItems)) : [];
+        for (var i = 0; i < newWorkItems.length; i++) {
+          if (newWorkItems[i]._id == workItem_id) {
+            newWorkItems[i].status = status;
+            break;
+          }
+        }
+        return {
+          workItems: newWorkItems
+        };
+      });
+    };
+
     _this.onChange_status = function (e) {
       var property = e.target.name,
           value = e.target.value;
@@ -160,6 +175,7 @@ var ProjectMenu = function (_React$Component) {
       return workitems.map(function (workitem, index) {
         return React.createElement(WorkItem, {
           workitem: workitem, page_type: "project",
+          changeWorkItemStatus: _this.changeWorkItemStatus,
           remove_workitem: _this.remove_workitem,
           set_edit_materialisitem_menu: _this.props.set_edit_materialisitem_menu,
           set_create_materialsitem_menu: _this.props.set_create_materialsitem_menu,

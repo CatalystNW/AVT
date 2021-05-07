@@ -94,6 +94,22 @@ class ProjectMenu extends React.Component {
       context: this,
     });
   };
+  
+  changeWorkItemStatus = (workItem_id, status) => {
+    this.setState(state => {
+      let newWorkItems = (this.state.workItems)  ?
+      [...state.workItems] : [];
+      for (let i=0; i<newWorkItems.length; i++) {
+        if (newWorkItems[i]._id == workItem_id) {
+          newWorkItems[i].status = status;
+          break;
+        }        
+      }
+      return {
+        workItems: newWorkItems,
+      };
+    });
+  };
 
   onChange_status = (e) => {
     const property = e.target.name,
@@ -194,6 +210,7 @@ class ProjectMenu extends React.Component {
       return (
       <WorkItem
         workitem={workitem} page_type={"project"}
+        changeWorkItemStatus={this.changeWorkItemStatus}
         remove_workitem={this.remove_workitem}
         set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
         set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
