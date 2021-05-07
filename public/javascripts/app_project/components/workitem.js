@@ -267,9 +267,6 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.onChange_workitem_status = function (e) {
-      if (!_this.editable) {
-        return;
-      }
       var that = _this,
           status = e.target.value;
       funkie.edit_workitem({
@@ -281,7 +278,6 @@ var WorkItem = function (_React$Component) {
     };
 
     _this.state = _this.props.workitem;
-    _this.editable = !_this.props.workitem.transferred && !_this.props.workitem.complete;
     return _this;
   }
   // Finds the material item in state & then runs edit_materialsitem on it
@@ -362,7 +358,7 @@ var WorkItem = function (_React$Component) {
             "h5",
             { className: "card-title" },
             this.state.name,
-            this.editable ? React.createElement(
+            React.createElement(
               "span",
               { style: { marginLeft: "15px" } },
               React.createElement(
@@ -371,8 +367,8 @@ var WorkItem = function (_React$Component) {
                   onClick: this.onClick_edit_workitem_btn },
                 "Edit"
               )
-            ) : null,
-            this.editable && !this.state.handleit && this.props.page_type != "vetting" ? React.createElement(
+            ),
+            !this.state.handleit && this.props.page_type != "vetting" ? React.createElement(
               "span",
               null,
               React.createElement(
@@ -495,11 +491,11 @@ var WorkItem = function (_React$Component) {
               React.createElement(
                 "div",
                 { className: "col-6" },
-                this.editable ? React.createElement("input", { type: "number", className: "form-control",
+                React.createElement("input", { type: "number", className: "form-control",
                   name: "volunteers_required",
                   property_type: "volunteers_required",
                   onChange: this.onChange_inputs_timer,
-                  value: this.state.volunteers_required }) : this.state.volunteers_required
+                  value: this.state.volunteers_required })
               )
             )
           ),
@@ -514,13 +510,13 @@ var WorkItem = function (_React$Component) {
             React.createElement(
               "div",
               { style: { marginLeft: "15px" } },
-              this.editable ? React.createElement(
+              React.createElement(
                 "button",
                 { type: "button", className: "btn btn-primary btn-sm",
                   onClick: this.onClick_create_item,
                   workitem_id: this.state._id },
                 "+ Item"
-              ) : null
+              )
             )
           ),
           this.create_materialslist()

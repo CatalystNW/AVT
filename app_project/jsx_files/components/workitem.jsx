@@ -4,7 +4,6 @@ class WorkItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.workitem;
-    this.editable = (!this.props.workitem.transferred && !this.props.workitem.complete);
   }
 
   set_handleit_handler = (server_data) => {
@@ -194,9 +193,6 @@ class WorkItem extends React.Component {
   }
   
   onChange_workitem_status = (e) => {
-    if (!this.editable) {
-      return;
-    }
     var that = this,
         status = e.target.value;
     funkie.edit_workitem({
@@ -235,12 +231,10 @@ class WorkItem extends React.Component {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title">{this.state.name}
-          {this.editable ? 
-            (<span style={{marginLeft: "15px"}}>
-              <button type="button" className="btn btn-sm btn-secondary"
-                onClick={this.onClick_edit_workitem_btn}>Edit</button></span>) : (null)
-          }
-          {this.editable && !this.state.handleit && this.props.page_type!="vetting" ?
+          <span style={{marginLeft: "15px"}}>
+            <button type="button" className="btn btn-sm btn-secondary"
+              onClick={this.onClick_edit_workitem_btn}>Edit</button></span>
+          {!this.state.handleit && this.props.page_type!="vetting" ?
             (<span>
               <button type="button" className="btn btn-sm btn-danger"
                 onClick={this.onClick_del_workitem_btn}>Delete</button>
@@ -301,13 +295,11 @@ class WorkItem extends React.Component {
             <label className="col-6 col-form-label"
               htmlFor="workitem-status-select"><b>Volunteers Required</b></label>
             <div className="col-6">
-              { this.editable ?
-              (<input type="number" className="form-control"
+              <input type="number" className="form-control"
                 name="volunteers_required"
                 property_type="volunteers_required"
                 onChange={this.onChange_inputs_timer}
-                value={this.state.volunteers_required}></input>)
-                : this.state.volunteers_required }
+                value={this.state.volunteers_required}></input>
             </div>
           </div>
         </div>
@@ -315,12 +307,10 @@ class WorkItem extends React.Component {
         <div style={{display: "flex",}}>
           <h4>Materials List</h4>
           <div style={{marginLeft: "15px"}}>
-            { this.editable ?
-              (<button type="button" className="btn btn-primary btn-sm"
-                onClick={this.onClick_create_item}
-                workitem_id={this.state._id}>+ Item
-              </button>) : null
-            }
+            <button type="button" className="btn btn-primary btn-sm"
+              onClick={this.onClick_create_item}
+              workitem_id={this.state._id}>+ Item
+            </button>
           </div>
         </div>
         
