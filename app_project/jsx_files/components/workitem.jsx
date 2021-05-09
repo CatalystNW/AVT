@@ -235,10 +235,14 @@ class WorkItem extends React.Component {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title">{this.state.name}
-          <span style={{marginLeft: "15px"}}>
-            <button type="button" className="btn btn-sm btn-secondary"
-              onClick={this.onClick_edit_workitem_btn}>Edit</button></span>
-          {!this.state.handleit && this.props.page_type!="vetting" ?
+          {this.props.set_edit_workitem_menu != null ? 
+          (<span style={{marginLeft: "15px"}}>
+          <button type="button" className="btn btn-sm btn-secondary"
+            onClick={this.onClick_edit_workitem_btn}>Edit</button></span>): null
+          }
+          
+          { this.props.set_edit_workitem_menu != null &&
+            !this.state.handleit && this.props.page_type!="vetting" ?
             (<span>
               <button type="button" className="btn btn-sm btn-danger"
                 onClick={this.onClick_del_workitem_btn}>Delete</button>

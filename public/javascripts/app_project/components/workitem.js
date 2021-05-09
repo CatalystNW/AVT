@@ -365,7 +365,7 @@ var WorkItem = function (_React$Component) {
             "h5",
             { className: "card-title" },
             this.state.name,
-            React.createElement(
+            this.props.set_edit_workitem_menu != null ? React.createElement(
               "span",
               { style: { marginLeft: "15px" } },
               React.createElement(
@@ -374,8 +374,8 @@ var WorkItem = function (_React$Component) {
                   onClick: this.onClick_edit_workitem_btn },
                 "Edit"
               )
-            ),
-            !this.state.handleit && this.props.page_type != "vetting" ? React.createElement(
+            ) : null,
+            this.props.set_edit_workitem_menu != null && !this.state.handleit && this.props.page_type != "vetting" ? React.createElement(
               "span",
               null,
               React.createElement(
