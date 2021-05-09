@@ -22,7 +22,7 @@ var App = function (_React$Component) {
       var that = _this;
       funkie.get_assessment(assessment_id, function (siteAssessment) {
         console.log("assessment", siteAssessment);
-        that.assessmentmenu.current.change_assessment(siteAssessment);
+        that.assessmentmenu.current.loadAssessment(siteAssessment);
         that.setState({ assessment: siteAssessment }, function () {
           funkie.load_application(siteAssessment.documentPackage._id, function (data) {
             console.log(data);

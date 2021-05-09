@@ -19,7 +19,7 @@ class AssessmentMenu extends React.Component {
     this.costsummary = React.createRef();
   }
 
-  change_assessment = (assessment) => {
+  loadAssessment = (assessment) => {
     this.setState(assessment);
     this.infoMenu.current.load_assessment(assessment);
   };
@@ -154,7 +154,6 @@ class AssessmentMenu extends React.Component {
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
           <div className="tab-pane show active" id="nav-info-menu" role="tabpanel">
             <AssessmentInfoMenu ref={this.infoMenu}
-              assessment={{}}
               changeStatus={this.changeStatus}
               vetting_summary = {this.props.vetting_summary}
             />

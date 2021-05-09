@@ -26,7 +26,7 @@ var AssessmentMenu = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (AssessmentMenu.__proto__ || Object.getPrototypeOf(AssessmentMenu)).call(this, props));
 
-    _this.change_assessment = function (assessment) {
+    _this.loadAssessment = function (assessment) {
       _this.setState(assessment);
       _this.infoMenu.current.load_assessment(assessment);
     };
@@ -199,7 +199,6 @@ var AssessmentMenu = function (_React$Component) {
             "div",
             { className: "tab-pane show active", id: "nav-info-menu", role: "tabpanel" },
             React.createElement(AssessmentInfoMenu, { ref: this.infoMenu,
-              assessment: {},
               changeStatus: this.changeStatus,
               vetting_summary: this.props.vetting_summary
             })

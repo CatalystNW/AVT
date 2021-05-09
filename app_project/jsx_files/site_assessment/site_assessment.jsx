@@ -23,7 +23,7 @@ class App extends React.Component {
       assessment_id, 
       (siteAssessment) => {
         console.log("assessment", siteAssessment);
-        that.assessmentmenu.current.change_assessment(siteAssessment);
+        that.assessmentmenu.current.loadAssessment(siteAssessment);
         that.setState({assessment: siteAssessment,}, () => {
           funkie.load_application(siteAssessment.documentPackage._id, function(data) {
             console.log(data);
