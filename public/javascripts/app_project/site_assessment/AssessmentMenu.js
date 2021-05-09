@@ -155,9 +155,9 @@ var AssessmentMenu = function (_React$Component) {
               { className: "nav-item" },
               React.createElement(
                 "a",
-                { className: "nav-link active", id: "nav-checklist-tab", "data-toggle": "tab",
-                  href: "#nav-checklist", role: "tab" },
-                "Checklist"
+                { className: "nav-link active", id: "nav-info-menu-tab", "data-toggle": "tab",
+                  href: "#nav-info-menu", role: "tab" },
+                "General Info"
               )
             ),
             React.createElement(
@@ -197,7 +197,7 @@ var AssessmentMenu = function (_React$Component) {
           { className: "tab-content overflow-auto", id: "nav-assessment-tabContent" },
           React.createElement(
             "div",
-            { className: "tab-pane show active", id: "nav-checklist", role: "tabpanel" },
+            { className: "tab-pane show active", id: "nav-info-menu", role: "tabpanel" },
             React.createElement(AssessmentInfoMenu, { ref: this.checklist,
               assessment: {},
               changeStatus: this.changeStatus,

@@ -133,8 +133,8 @@ class AssessmentMenu extends React.Component {
         <div id="assessment-nav-container">
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
-              <a className="nav-link active" id="nav-checklist-tab" data-toggle="tab" 
-                href="#nav-checklist" role="tab">Checklist</a>
+              <a className="nav-link active" id="nav-info-menu-tab" data-toggle="tab" 
+                href="#nav-info-menu" role="tab">General Info</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" id="nav-property-tab" data-toggle="tab" 
@@ -152,7 +152,7 @@ class AssessmentMenu extends React.Component {
         </div>
 
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
-          <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
+          <div className="tab-pane show active" id="nav-info-menu" role="tabpanel">
             <AssessmentInfoMenu ref={this.checklist}
               assessment={{}}
               changeStatus={this.changeStatus}
