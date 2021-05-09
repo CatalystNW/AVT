@@ -80,10 +80,11 @@ var AssessmentMenu = function (_React$Component) {
         return React.createElement(WorkItem, {
           workitem: workitem, page_type: "site_assessment",
           changeWorkItemStatus: _this.changeWorkItemStatus,
-          remove_workitem: _this.remove_workitem,
+
+          remove_workitem: _this.state.status != "approved" ? _this.remove_workitem : null,
           set_edit_materialisitem_menu: _this.props.set_edit_materialisitem_menu,
           set_create_materialsitem_menu: _this.props.set_create_materialsitem_menu,
-          set_edit_workitem_menu: _this.props.set_edit_workitem_menu,
+          set_edit_workitem_menu: _this.state.status != "approved" ? _this.props.set_edit_workitem_menu : null,
           key: workitem._id + "-workitem-card" });
       });
     };
@@ -211,12 +212,12 @@ var AssessmentMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane", id: "nav-workitem", role: "tabpanel" },
-            React.createElement(
+            this.state.status != "approved" ? React.createElement(
               "button",
               { type: "button", className: "btn btn-primary",
                 onClick: this.props.set_create_workitem_menu },
               "Create Work Item"
-            ),
+            ) : null,
             this.createWorkItems()
           ),
           React.createElement(

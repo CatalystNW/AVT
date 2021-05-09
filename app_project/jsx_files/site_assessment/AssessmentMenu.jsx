@@ -97,10 +97,13 @@ class AssessmentMenu extends React.Component {
       <WorkItem
         workitem={workitem} page_type={"site_assessment"}
         changeWorkItemStatus = {this.changeWorkItemStatus}
-        remove_workitem={this.remove_workitem}
+        
+        remove_workitem={this.state.status != "approved" ? 
+            this.remove_workitem: null}
         set_edit_materialisitem_menu={this.props.set_edit_materialisitem_menu}
         set_create_materialsitem_menu={this.props.set_create_materialsitem_menu}
-        set_edit_workitem_menu = {this.props.set_edit_workitem_menu}
+        set_edit_workitem_menu = { this.state.status != "approved" ? 
+          this.props.set_edit_workitem_menu : null}
         key={workitem._id+"-workitem-card"}></WorkItem>);
     });
   };
@@ -160,10 +163,12 @@ class AssessmentMenu extends React.Component {
             <CostSummary ref={this.costsummary}/>
           </div>
           <div className="tab-pane" id="nav-workitem" role="tabpanel">
-            <button type="button" className="btn btn-primary" 
-              onClick={this.props.set_create_workitem_menu}>
-              Create Work Item
-            </button>
+            {this.state.status != "approved" ? 
+            (<button type="button" className="btn btn-primary" 
+            onClick={this.props.set_create_workitem_menu}>
+            Create Work Item
+          </button>) : null
+            }            
             
             {this.createWorkItems()}
           </div>
