@@ -195,7 +195,7 @@ class SiteAssessmentApp extends React.Component {
         </table>
       </div>
       <div>
-        <h2>Project Approval</h2>
+        <h2>Awaiting Project Approval</h2>
         <table className="table">
             {this.createHeader()}
             <tbody>

@@ -324,7 +324,7 @@ var AssessmentInfoMenu = function (_React$Component) {
                   React.createElement(
                     "option",
                     { value: "approval_process" },
-                    "Project Approval"
+                    "Awaiting Project Approval"
                   ),
                   React.createElement(
                     "option",

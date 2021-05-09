@@ -297,7 +297,7 @@ var SiteAssessmentApp = function (_React$Component) {
           React.createElement(
             "h2",
             null,
-            "Project Approval"
+            "Awaiting Project Approval"
           ),
           React.createElement(
             "table",

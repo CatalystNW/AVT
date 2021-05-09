@@ -237,7 +237,7 @@ class AssessmentInfoMenu extends React.Component {
                 id="assessment-status-select">
                 <option value="pending">Pending</option>
                 <option value="complete">Complete</option>
-                <option value="approval_process">Project Approval</option>
+                <option value="approval_process">Awaiting Project Approval</option>
                 <option value="approved">Project Approved</option>
                 <option value="declined">Declined</option>
               </select>
