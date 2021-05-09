@@ -28,7 +28,7 @@ var AssessmentMenu = function (_React$Component) {
 
     _this.change_assessment = function (assessment) {
       _this.setState(assessment);
-      _this.checklist.current.load_assessment(assessment);
+      _this.infoMenu.current.load_assessment(assessment);
     };
 
     _this.add_workitem = function (workitem) {
@@ -108,7 +108,7 @@ var AssessmentMenu = function (_React$Component) {
       workItems: [],
       transferred: false
     };
-    _this.checklist = React.createRef();
+    _this.infoMenu = React.createRef();
     _this.costsummary = React.createRef();
     return _this;
   }
@@ -198,7 +198,7 @@ var AssessmentMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane show active", id: "nav-info-menu", role: "tabpanel" },
-            React.createElement(AssessmentInfoMenu, { ref: this.checklist,
+            React.createElement(AssessmentInfoMenu, { ref: this.infoMenu,
               assessment: {},
               changeStatus: this.changeStatus,
               vetting_summary: this.props.vetting_summary

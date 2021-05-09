@@ -15,13 +15,13 @@ class AssessmentMenu extends React.Component {
       workItems: [],
       transferred: false,
     }
-    this.checklist = React.createRef();
+    this.infoMenu = React.createRef();
     this.costsummary = React.createRef();
   }
 
   change_assessment = (assessment) => {
     this.setState(assessment);
-    this.checklist.current.load_assessment(assessment);
+    this.infoMenu.current.load_assessment(assessment);
   };
 
   componentDidMount() {
@@ -153,7 +153,7 @@ class AssessmentMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
           <div className="tab-pane show active" id="nav-info-menu" role="tabpanel">
-            <AssessmentInfoMenu ref={this.checklist}
+            <AssessmentInfoMenu ref={this.infoMenu}
               assessment={{}}
               changeStatus={this.changeStatus}
               vetting_summary = {this.props.vetting_summary}
