@@ -13,6 +13,7 @@ class AssessmentInfoMenu extends React.Component {
       porta_potty_cost: 0,
       waste_cost: 0,
       loaded_assessment: false,
+      vetting_summary: "",
     };
     this.safety_plan_timer = null;
     this.porta_potty_cost_timer = null;
@@ -21,6 +22,8 @@ class AssessmentInfoMenu extends React.Component {
   }
   load_assessment = (assessment) => {
     assessment.loaded_assessment = true;
+    assessment.vetting_summary = assessment.documentPackage.notes ?
+      assessment.documentPackage.notes.vet_summary : "";
     this.setState(assessment, () => {
       // Set safety plan coloring after assessment is loaded
       this.color_safety_plan_textarea();
@@ -195,7 +198,10 @@ class AssessmentInfoMenu extends React.Component {
           <tr>
             <th className="col-xs-3">Vetting Summary</th>
             <td className="col-xs-9">
-              {this.props.vetting_summary}
+              <textarea className="form-control" value={this.state.vetting_summary}
+                property_type="vetting_summary"
+                onChange={this.onChange_inputs_timer}
+              ></textarea>
             </td>
           </tr>
           <tr>

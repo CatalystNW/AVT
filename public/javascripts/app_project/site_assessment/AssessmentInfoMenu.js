@@ -25,6 +25,7 @@ var AssessmentInfoMenu = function (_React$Component) {
 
     _this.load_assessment = function (assessment) {
       assessment.loaded_assessment = true;
+      assessment.vetting_summary = assessment.documentPackage.notes ? assessment.documentPackage.notes.vet_summary : "";
       _this.setState(assessment, function () {
         // Set safety plan coloring after assessment is loaded
         _this.color_safety_plan_textarea();
@@ -191,7 +192,8 @@ var AssessmentInfoMenu = function (_React$Component) {
       waste_required: false,
       porta_potty_cost: 0,
       waste_cost: 0,
-      loaded_assessment: false
+      loaded_assessment: false,
+      vetting_summary: ""
     };
     _this.safety_plan_timer = null;
     _this.porta_potty_cost_timer = null;
@@ -227,7 +229,10 @@ var AssessmentInfoMenu = function (_React$Component) {
               React.createElement(
                 "td",
                 { className: "col-xs-9" },
-                this.props.vetting_summary
+                React.createElement("textarea", { className: "form-control", value: this.state.vetting_summary,
+                  property_type: "vetting_summary",
+                  onChange: this.onChange_inputs_timer
+                })
               )
             ),
             React.createElement(
