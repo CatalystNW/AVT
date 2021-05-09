@@ -55,4 +55,11 @@ h2 {
     {
         display: none !important;
     }
+
+    @media print {
+        #cblock-container img{
+            width: 400px;
+            height: auto;
+        }
+    }
 }
