@@ -108,7 +108,7 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           "div",
           { id: "cblock-container" },
-          React.createElement("img", { src: "/images/app_project/handleit_logo.png" })
+          React.createElement("img", { src: "/images/app_project/letterhead.png" })
         ),
         React.createElement(
           "p",

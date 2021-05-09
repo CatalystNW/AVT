@@ -69,7 +69,7 @@ class HandleitForm extends React.Component {
       </div>
 
       <div id="cblock-container">
-        <img src="/images/app_project/handleit_logo.png"></img>
+        <img src="/images/app_project/letterhead.png"></img>
       </div>
       <p id="info-container">
         Catalyst Partnerships is a non-proft general contractor. We bring together useful resources and caring volunteers to meet the
