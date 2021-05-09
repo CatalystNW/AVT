@@ -53,6 +53,12 @@ h4 {
 }
 
 @media print {
+    body {
+        font-size: 12px;
+    }
+    table {
+        line-height: 1.2;
+    }
     .no-print, .no-print *
     {
         display: none !important;

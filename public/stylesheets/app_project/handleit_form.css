@@ -1,6 +1,5 @@
 body {
     padding: 0 20px;
-    font-size: 14px;
     font-family:Arial, Helvetica, sans-serif;
 }
 
@@ -34,7 +33,6 @@ h2 {
 
 #info-container {
     font-size: 12px;
-    line-height: 14px;
     letter-spacing: normal;
     color: gray;
 }
@@ -51,15 +49,21 @@ h2 {
 
 @media print
 {
+    body {
+        font-size: 12px;
+    }
+    
     .no-print, .no-print *
     {
         display: none !important;
     }
 
-    @media print {
-        #cblock-container img{
-            width: 400px;
-            height: auto;
-        }
+    #cblock-container img{
+        width: 400px;
+        height: auto;
+    }
+
+    #info-container {
+        font-size: 8px;
     }
 }
