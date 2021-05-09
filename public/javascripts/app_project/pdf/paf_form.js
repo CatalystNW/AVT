@@ -118,7 +118,7 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           "h1",
           { id: "doc-header" },
-          "CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM ",
+          "PROJECT ASSESSMENT FORM ",
           date_string
         ),
         React.createElement(

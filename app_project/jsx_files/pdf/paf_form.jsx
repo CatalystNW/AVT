@@ -94,7 +94,7 @@ class PAFApp extends React.Component {
         checks and are insured by Catalyst. To the extent required by law, Catalyst is duly licensed, bonded, and insured to perform such
       work
       </p>
-      <h1 id="doc-header">CATALYST PARTNERSHIPS - PROJECT ASSESSMENT FORM {date_string}</h1>
+      <h1 id="doc-header">PROJECT ASSESSMENT FORM {date_string}</h1>
       <table>
         <tbody>
           <tr>
