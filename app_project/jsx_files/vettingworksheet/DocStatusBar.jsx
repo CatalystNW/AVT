@@ -47,6 +47,8 @@ class DocStatusBar extends React.Component {
     };
     const status = this.state.applicationStatus;
     if (values[status].noneditable) {
+      return (<span>{values[status].text}</span>);
+    } else if (!(status in values)) {
       return (<span>{status}</span>);
     }
     const options = [];

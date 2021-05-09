@@ -57,6 +57,12 @@ var DocStatusBar = function (_React$Component) {
         return React.createElement(
           "span",
           null,
+          values[status].text
+        );
+      } else if (!(status in values)) {
+        return React.createElement(
+          "span",
+          null,
           status
         );
       }
