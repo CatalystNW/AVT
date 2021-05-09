@@ -235,6 +235,11 @@ async function edit_site_assessment(req, res) {
     await site_assessment.save();
     await doc.save();
     res.status(200).end();
+  } else if (property == "vetting_summary") {
+    const documentPackage = await DocumentPackage.findById(site_assessment.documentPackage);
+    documentPackage.notes.vet_summary = req.body.value;
+    await documentPackage.save()
+    res.status(200).end();
   } else if (property in site_assessment) {
     if (req.body.value) {
       site_assessment[property] = req.body.value;
