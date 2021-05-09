@@ -78,7 +78,7 @@ class PAFApp extends React.Component {
     }
     let total_cost = 0,
         total_volunteers = 0,
-        cost;
+        cost, subtotal;
     let vet_summary = (documentPackage && documentPackage.notes) ? 
           documentPackage.notes.vet_summary : null,
         assessment_summary = siteAssessment.summary;
@@ -114,7 +114,16 @@ class PAFApp extends React.Component {
 
       <h2><b>Work Items</b></h2>
       {this.state.workitems.map((workItem) => {
+        subtotal = 0;
         total_volunteers += workItem.volunteers_required;
+
+        workItem.materialsItems.forEach( (materialsItem) => {
+          subtotal += (materialsItem.price * materialsItem.quantity);
+          
+        });
+
+        subtotal = this.roundCurrency(subtotal);
+        total_cost += subtotal;
         return (
           <div className="workitem-total-container" key={workItem._id}>
             <div key={"wi-" + workItem._id} className="workitem-container">
@@ -123,6 +132,10 @@ class PAFApp extends React.Component {
                   <tr>
                     <th>Work Item Name</th>
                     <td>{workItem.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Subtotal</th>
+                    <td>${subtotal.toFixed(2)}</td>
                   </tr>
                   <tr>
                     <th>Description</th>
@@ -139,38 +152,7 @@ class PAFApp extends React.Component {
                 </tbody>
               </table>
             </div>
-
-            <h4>Materials List</h4>
-            {workItem.materialsItems.map( (materialsItem) => {
-              cost = this.roundCurrency(materialsItem.price * materialsItem.quantity);
-              total_cost += cost;
-              return (
-              <div key={"wi-mi-" + materialsItem._id} className="materialsItem-container">
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Description</th>
-                      <td>{materialsItem.description}</td>
-                    </tr>
-                    <tr>
-                      <th>Quantity</th>
-                      <td>{materialsItem.quantity}</td>
-                    </tr>
-                    <tr>
-                      <th>Price</th>
-                      <td>{materialsItem.price}</td>
-                    </tr>
-                    <tr>
-                      <th>Total</th>
-                      <td>${cost.toFixed(2)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>)
-            })}
-
-          </div>
-        )
+          </div>)
       })}
 
       <h2><b>Cost</b></h2>

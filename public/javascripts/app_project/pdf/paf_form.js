@@ -99,7 +99,8 @@ var PAFApp = function (_React$Component) {
       }
       var total_cost = 0,
           total_volunteers = 0,
-          cost = void 0;
+          cost = void 0,
+          subtotal = void 0;
       var vet_summary = documentPackage && documentPackage.notes ? documentPackage.notes.vet_summary : null,
           assessment_summary = siteAssessment.summary;
       return React.createElement(
@@ -219,7 +220,15 @@ var PAFApp = function (_React$Component) {
           )
         ),
         this.state.workitems.map(function (workItem) {
+          subtotal = 0;
           total_volunteers += workItem.volunteers_required;
+
+          workItem.materialsItems.forEach(function (materialsItem) {
+            subtotal += materialsItem.price * materialsItem.quantity;
+          });
+
+          subtotal = _this2.roundCurrency(subtotal);
+          total_cost += subtotal;
           return React.createElement(
             "div",
             { className: "workitem-total-container", key: workItem._id },
@@ -244,6 +253,21 @@ var PAFApp = function (_React$Component) {
                       "td",
                       null,
                       workItem.name
+                    )
+                  ),
+                  React.createElement(
+                    "tr",
+                    null,
+                    React.createElement(
+                      "th",
+                      null,
+                      "Subtotal"
+                    ),
+                    React.createElement(
+                      "td",
+                      null,
+                      "$",
+                      subtotal.toFixed(2)
                     )
                   ),
                   React.createElement(
@@ -290,85 +314,7 @@ var PAFApp = function (_React$Component) {
                   )
                 )
               )
-            ),
-            React.createElement(
-              "h4",
-              null,
-              "Materials List"
-            ),
-            workItem.materialsItems.map(function (materialsItem) {
-              cost = _this2.roundCurrency(materialsItem.price * materialsItem.quantity);
-              total_cost += cost;
-              return React.createElement(
-                "div",
-                { key: "wi-mi-" + materialsItem._id, className: "materialsItem-container" },
-                React.createElement(
-                  "table",
-                  null,
-                  React.createElement(
-                    "tbody",
-                    null,
-                    React.createElement(
-                      "tr",
-                      null,
-                      React.createElement(
-                        "th",
-                        null,
-                        "Description"
-                      ),
-                      React.createElement(
-                        "td",
-                        null,
-                        materialsItem.description
-                      )
-                    ),
-                    React.createElement(
-                      "tr",
-                      null,
-                      React.createElement(
-                        "th",
-                        null,
-                        "Quantity"
-                      ),
-                      React.createElement(
-                        "td",
-                        null,
-                        materialsItem.quantity
-                      )
-                    ),
-                    React.createElement(
-                      "tr",
-                      null,
-                      React.createElement(
-                        "th",
-                        null,
-                        "Price"
-                      ),
-                      React.createElement(
-                        "td",
-                        null,
-                        materialsItem.price
-                      )
-                    ),
-                    React.createElement(
-                      "tr",
-                      null,
-                      React.createElement(
-                        "th",
-                        null,
-                        "Total"
-                      ),
-                      React.createElement(
-                        "td",
-                        null,
-                        "$",
-                        cost.toFixed(2)
-                      )
-                    )
-                  )
-                )
-              );
-            })
+            )
           );
         }),
         React.createElement(
