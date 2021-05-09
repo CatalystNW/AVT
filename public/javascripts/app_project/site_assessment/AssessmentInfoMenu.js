@@ -11,15 +11,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 import { DateMenuRow } from "../DateMenuRow.js";
 import { PdfButtons } from "../components/PdfButtons.js";
 
-export { AssessmentChecklist };
+export { AssessmentInfoMenu };
 
-var AssessmentChecklist = function (_React$Component) {
-  _inherits(AssessmentChecklist, _React$Component);
+var AssessmentInfoMenu = function (_React$Component) {
+  _inherits(AssessmentInfoMenu, _React$Component);
 
-  function AssessmentChecklist(props) {
-    _classCallCheck(this, AssessmentChecklist);
+  function AssessmentInfoMenu(props) {
+    _classCallCheck(this, AssessmentInfoMenu);
 
-    var _this = _possibleConstructorReturn(this, (AssessmentChecklist.__proto__ || Object.getPrototypeOf(AssessmentChecklist)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (AssessmentInfoMenu.__proto__ || Object.getPrototypeOf(AssessmentInfoMenu)).call(this, props));
     // site_assessment directly loaded into state later (w/ ajax call)
 
 
@@ -204,7 +204,7 @@ var AssessmentChecklist = function (_React$Component) {
   // Set timer when text is typed
 
 
-  _createClass(AssessmentChecklist, [{
+  _createClass(AssessmentInfoMenu, [{
     key: "render",
     value: function render() {
       return React.createElement(
@@ -510,5 +510,5 @@ var AssessmentChecklist = function (_React$Component) {
     }
   }]);
 
-  return AssessmentChecklist;
+  return AssessmentInfoMenu;
 }(React.Component);

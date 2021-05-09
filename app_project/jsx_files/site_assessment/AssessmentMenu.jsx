@@ -1,6 +1,6 @@
 import { WorkItem } from "../components/workitem.js"
 import { CostSummary } from "../components/CostSummary.js"
-import { AssessmentChecklist } from "./assessmentchecklist.js"
+import { AssessmentInfoMenu } from "./AssessmentInfoMenu.js"
 import { PartnerMenu } from "../components/PartnerMenu.js"
 
 export { AssessmentMenu }
@@ -153,7 +153,7 @@ class AssessmentMenu extends React.Component {
 
         <div className="tab-content overflow-auto" id="nav-assessment-tabContent">
           <div className="tab-pane show active" id="nav-checklist" role="tabpanel">
-            <AssessmentChecklist ref={this.checklist}
+            <AssessmentInfoMenu ref={this.checklist}
               assessment={{}}
               changeStatus={this.changeStatus}
               vetting_summary = {this.props.vetting_summary}

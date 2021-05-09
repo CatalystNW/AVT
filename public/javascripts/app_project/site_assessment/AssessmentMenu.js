@@ -10,7 +10,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 import { WorkItem } from "../components/workitem.js";
 import { CostSummary } from "../components/CostSummary.js";
-import { AssessmentChecklist } from "./assessmentchecklist.js";
+import { AssessmentInfoMenu } from "./AssessmentInfoMenu.js";
 import { PartnerMenu } from "../components/PartnerMenu.js";
 
 export { AssessmentMenu };
@@ -198,7 +198,7 @@ var AssessmentMenu = function (_React$Component) {
           React.createElement(
             "div",
             { className: "tab-pane show active", id: "nav-checklist", role: "tabpanel" },
-            React.createElement(AssessmentChecklist, { ref: this.checklist,
+            React.createElement(AssessmentInfoMenu, { ref: this.checklist,
               assessment: {},
               changeStatus: this.changeStatus,
               vetting_summary: this.props.vetting_summary

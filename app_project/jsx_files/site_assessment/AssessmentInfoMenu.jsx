@@ -1,9 +1,9 @@
 import { DateMenuRow } from "../DateMenuRow.js"
 import { PdfButtons } from "../components/PdfButtons.js"
 
-export { AssessmentChecklist }
+export { AssessmentInfoMenu }
 
-class AssessmentChecklist extends React.Component {
+class AssessmentInfoMenu extends React.Component {
   constructor(props) {
     // site_assessment directly loaded into state later (w/ ajax call)
     super(props);
