@@ -20,7 +20,7 @@ var CurrentProjects = function (_React$Component) {
 
     _this.loadData = function () {
       $.ajax({
-        url: "/app_project/report/upcoming",
+        url: "/app_project/report/current",
         type: "GET",
         context: _this,
         success: function success(projectsData) {

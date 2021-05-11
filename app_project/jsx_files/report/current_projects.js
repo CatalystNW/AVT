@@ -16,7 +16,7 @@ class CurrentProjects extends React.Component {
 
   loadData = () => {
     $.ajax({
-      url: "/app_project/report/upcoming",
+      url: "/app_project/report/current",
       type: "GET",
       context: this,
       success: function(projectsData) {

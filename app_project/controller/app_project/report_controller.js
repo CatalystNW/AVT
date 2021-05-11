@@ -4,7 +4,7 @@ const AppProject      = require("../../models/app_project/AppProject"),
 const authHelper = require("./AuthHelper");
 
 module.exports.view_index_page = view_index_page;
-module.exports.get_upcoming_projects = get_upcoming_projects;
+module.exports.get_current_projects = get_current_projects;
 module.exports.project_report = project_report;
 module.exports.application_report = application_report;
 module.exports.search = search;
@@ -14,7 +14,7 @@ async function view_index_page(req, res) {
   res.render("app_project/report", context);
 }
 
-async function get_upcoming_projects(req, res) {
+async function get_current_projects(req, res) {
   let projects = await AppProject.find({$or: [ {status: "upcoming",}, {status: "in_progress"}] })
                   .populate({path:"workItems", model: "WorkItem", 
                     populate: {path:"materialsItems", model: "MaterialsItem"}})

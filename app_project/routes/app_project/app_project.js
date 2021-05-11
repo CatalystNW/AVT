@@ -76,7 +76,7 @@ router.get('/delete_manager', authHelper.checkLoggedInPages, authHelper.checkIfC
 router.delete('/delete_manager', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.manage_deletion);
 
 router.get('/report/view', authHelper.checkLoggedInPages, report_controller.view_index_page);
-router.get('/report/upcoming', authHelper.checkLoggedInAPI, report_controller.get_upcoming_projects);
+router.get('/report/current', authHelper.checkLoggedInAPI, report_controller.get_current_projects);
 router.post('/report/project', authHelper.checkLoggedInAPI, report_controller.project_report);
 router.post('/report/applications', authHelper.checkLoggedInAPI, report_controller.application_report);
 router.post('/report/search', authHelper.checkLoggedInAPI, report_controller.search);
