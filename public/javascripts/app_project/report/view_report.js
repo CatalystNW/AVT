@@ -10,6 +10,7 @@ import { CurrentProjects } from "./current_projects.js";
 import { ProjectReport } from "./project_report.js";
 import { ApplicationReport } from "./application_report.js";
 import { SearchReport } from "./search_report.js";
+import { PartnersReport } from "./partners_report.js";
 
 var ReportApp = function (_React$Component) {
   _inherits(ReportApp, _React$Component);
@@ -60,6 +61,15 @@ var ReportApp = function (_React$Component) {
               { className: "nav-link", href: "#search-report", role: "tab", "data-toggle": "tab" },
               "Search"
             )
+          ),
+          React.createElement(
+            "li",
+            { className: "nav-item" },
+            React.createElement(
+              "a",
+              { className: "nav-link", href: "#partners-report", role: "tab", "data-toggle": "tab" },
+              "Partners"
+            )
           )
         )
         //</div>
@@ -90,6 +100,11 @@ var ReportApp = function (_React$Component) {
           "div",
           { className: "tab-pane", id: "search-report", role: "tabpanel" },
           React.createElement(SearchReport, null)
+        ),
+        React.createElement(
+          "div",
+          { className: "tab-pane", id: "partners-report", role: "tabpanel" },
+          React.createElement(PartnersReport, null)
         )
       );
     };
