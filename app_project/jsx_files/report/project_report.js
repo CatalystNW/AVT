@@ -162,7 +162,7 @@ class ProjectReport extends React.Component {
         <button onClick={this.onClick_csv}
           className="btn btn-sm btn-success">
         CSV</button></h2>
-      {functionHelper.createTable(this.projectTableId, this.state.projects)}
+      {functionHelper.createTable(this.projectTableId, this.state.projects, true)}
     </div>);
   }
 }

@@ -48,7 +48,9 @@ var functionHelper = {
     value = parseFloat((n * mult).toFixed(6));
     return Math.round(value) / mult;
   },
-  createTable: function createTable(id, projects, useProjectName) {
+  createTable: function createTable(id, projects) {
+    var complete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
     return React.createElement(
       "table",
       { className: "table table-sm", id: id },
@@ -121,12 +123,12 @@ var functionHelper = {
           React.createElement(
             "th",
             { scope: "col" },
-            "Volunteers"
+            complete ? "Volunteers" : "Volunteers Needed"
           ),
           React.createElement(
             "th",
             { scope: "col" },
-            "Cost"
+            complete ? "Cost" : "Estimated Cost"
           ),
           React.createElement(
             "th",
@@ -167,16 +169,16 @@ var functionHelper = {
             React.createElement(
               "td",
               null,
-              project.status
-            ),
-            React.createElement(
-              "td",
-              null,
               React.createElement(
                 "a",
                 { href: "/view/" + project.documentPackage._id, target: "_blank" },
                 project.documentPackage.application.name.first + " " + project.documentPackage.application.name.last
               )
+            ),
+            React.createElement(
+              "td",
+              null,
+              project.status
             ),
             React.createElement(
               "td",

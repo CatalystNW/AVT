@@ -299,7 +299,7 @@ var ProjectReport = function (_React$Component) {
             "CSV"
           )
         ),
-        functionHelper.createTable(this.projectTableId, this.state.projects)
+        functionHelper.createTable(this.projectTableId, this.state.projects, true)
       );
     }
   }]);

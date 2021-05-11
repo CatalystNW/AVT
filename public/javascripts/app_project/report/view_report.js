@@ -40,7 +40,7 @@ var ReportApp = function (_React$Component) {
             React.createElement(
               "a",
               { className: "nav-link", href: "#project-report", role: "tab", "data-toggle": "tab" },
-              "Projects"
+              "Completed Projects"
             )
           ),
           React.createElement(

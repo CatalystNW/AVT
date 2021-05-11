@@ -39,7 +39,7 @@ const functionHelper = {
     value = parseFloat((n * mult).toFixed(6))
     return Math.round(value) / mult;
   },
-  createTable(id, projects, useProjectName) {
+  createTable(id, projects, complete=false) {
     return (
       <table className="table table-sm" id={id}>
         <thead>
@@ -56,8 +56,8 @@ const functionHelper = {
             <th scope="col">PA</th>
             <th scope="col">SH</th>
             <th scope="col">Partners</th>
-            <th scope="col">Volunteers</th>
-            <th scope="col">Cost</th>
+            <th scope="col">{ complete ? "Volunteers" : "Volunteers Needed"}</th>
+            <th scope="col">{ complete ? "Cost" : "Estimated Cost"}</th>
             <th scope="col">Hours</th>
           </tr>
         </thead>
@@ -82,12 +82,12 @@ const functionHelper = {
                     </a>)
                   }
                 </td>
-                <td>{project.status}</td>
                 <td>
                   <a href={"/view/" + project.documentPackage._id} target="_blank">
                     {project.documentPackage.application.name.first 
                       + " " + project.documentPackage.application.name.last}</a>
                 </td>
+                <td>{project.status}</td>
                 <td>
                   {project.handleit ? "Y": "N"}
                 </td>

@@ -16,7 +16,7 @@ class ReportApp extends React.Component {
             <a className="nav-link active" href="#upcomingReport" role="tab" data-toggle="tab">Current Projects</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#project-report" role="tab" data-toggle="tab">Projects</a>
+            <a className="nav-link" href="#project-report" role="tab" data-toggle="tab">Completed Projects</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#applications-report" role="tab" data-toggle="tab">Applications</a>
