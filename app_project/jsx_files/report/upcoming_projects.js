@@ -70,7 +70,7 @@ class UpcomingProjects extends React.Component {
   render() {
     return (
       <div>
-        <h1>Upcoming Projects</h1>
+        <h1>Current Projects</h1>
         <span>
           <label className="m-1">Download CSV: </label>
           <button className="btn btn-sm btn-primary"

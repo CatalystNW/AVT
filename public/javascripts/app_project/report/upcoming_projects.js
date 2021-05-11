@@ -93,7 +93,7 @@ var UpcomingProjects = function (_React$Component) {
         React.createElement(
           "h1",
           null,
-          "Upcoming Projects"
+          "Current Projects"
         ),
         React.createElement(
           "span",
