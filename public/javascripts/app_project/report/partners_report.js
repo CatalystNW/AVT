@@ -16,7 +16,64 @@ var PartnersReport = function (_React$Component) {
   function PartnersReport(props) {
     _classCallCheck(this, PartnersReport);
 
-    return _possibleConstructorReturn(this, (PartnersReport.__proto__ || Object.getPrototypeOf(PartnersReport)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (PartnersReport.__proto__ || Object.getPrototypeOf(PartnersReport)).call(this, props));
+
+    _this.getPartners = function () {
+      $.ajax({
+        url: "/app_project/report/partners",
+        type: "GET",
+        context: _this,
+        success: function success(data) {
+          var partnersDict = {};
+          var partnersData = data.partners,
+              projectsData = data.projects;
+          var i = void 0;
+          for (i = 0; i < partnersData.length; i++) {
+            partnersDict[partnersData[i]._id] = partnersData[i];
+            partnersDict[partnersData[i]._id].projects = [];
+          }
+
+          for (i = 0; i < projectsData.length; i++) {
+            projectsData[i].partners.forEach(function (partner) {
+              if (partner in partnersDict) {
+                partnersDict[partner].push(projectsData[i]);
+              }
+            });
+          }
+          this.setState({
+            partners: Object.entries(partnersDict)
+          });
+        }
+      });
+    };
+
+    _this.createPartnersTable = function () {
+      return React.createElement(
+        "table",
+        null,
+        React.createElement(
+          "thead",
+          null,
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Name"
+            )
+          )
+        ),
+        React.createElement("tbody", null)
+      );
+    };
+
+    _this.state = {
+      partners: []
+
+    };
+    _this.getPartners();
+    return _this;
   }
 
   _createClass(PartnersReport, [{
@@ -25,7 +82,7 @@ var PartnersReport = function (_React$Component) {
       return React.createElement(
         "div",
         null,
-        "Partners"
+        this.createPartnersTable()
       );
     }
   }]);

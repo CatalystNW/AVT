@@ -31,7 +31,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link active", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
               "Current Projects"
             )
           ),
@@ -67,7 +67,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#partners-report", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link active", href: "#partners-report", role: "tab", "data-toggle": "tab" },
               "Partners"
             )
           )
@@ -83,7 +83,7 @@ var ReportApp = function (_React$Component) {
         { className: "tab-content", id: "myTabContent" },
         React.createElement(
           "div",
-          { className: "tab-pane show active", id: "upcomingReport", role: "tabpanel" },
+          { className: "tab-pane", id: "upcomingReport", role: "tabpanel" },
           React.createElement(CurrentProjects, null)
         ),
         React.createElement(
@@ -103,7 +103,7 @@ var ReportApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "tab-pane", id: "partners-report", role: "tabpanel" },
+          { className: "tab-pane show active", id: "partners-report", role: "tabpanel" },
           React.createElement(PartnersReport, null)
         )
       );

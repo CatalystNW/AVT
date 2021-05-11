@@ -80,5 +80,6 @@ router.get('/report/current', authHelper.checkLoggedInAPI, report_controller.get
 router.post('/report/project', authHelper.checkLoggedInAPI, report_controller.project_report);
 router.post('/report/applications', authHelper.checkLoggedInAPI, report_controller.application_report);
 router.post('/report/search', authHelper.checkLoggedInAPI, report_controller.search);
+router.get('/report/partners', authHelper.checkLoggedInAPI, report_controller.getPartners);
 
 module.exports = router;

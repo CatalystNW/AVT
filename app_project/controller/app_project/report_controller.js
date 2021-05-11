@@ -1,5 +1,6 @@
 const AppProject      = require("../../models/app_project/AppProject"),
-      DocumentPackage = require("../../../models/documentPackage");;
+      PartnerPackage = require("../../../models/partnerPackage"),
+      DocumentPackage = require("../../../models/documentPackage");
 
 const authHelper = require("./AuthHelper");
 
@@ -8,6 +9,7 @@ module.exports.get_current_projects = get_current_projects;
 module.exports.project_report = project_report;
 module.exports.application_report = application_report;
 module.exports.search = search;
+module.exports.getPartners = getPartners;
 
 async function view_index_page(req, res) {
   const context = authHelper.getUserContext(req, res);
@@ -204,4 +206,13 @@ async function search(req, res) {
                   populate: {path:"materialsItems", model: "MaterialsItem"}});
 
   res.status(200).json(projects);
+}
+
+async function getPartners(req, res) {
+  let partners = await PartnerPackage.find(),
+      projects = await AppProject.find();
+  res.status(200).json({
+    partners: partners,
+    projects: projects,
+  });
 }
