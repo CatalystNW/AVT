@@ -15,7 +15,7 @@ async function view_index_page(req, res) {
 }
 
 async function get_upcoming_projects(req, res) {
-  let projects = await AppProject.find({status: "upcoming",})
+  let projects = await AppProject.find({$or: [ {status: "upcoming",}, {status: "in_progress"}] })
                   .populate({path:"workItems", model: "WorkItem", 
                     populate: {path:"materialsItems", model: "MaterialsItem"}})
                   .populate("partners")
