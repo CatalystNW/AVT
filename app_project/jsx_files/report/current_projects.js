@@ -1,8 +1,8 @@
-export { UpcomingProjects }
+export { CurrentProjects }
 
 import { functionHelper } from "../functionHelper.js"
 
-class UpcomingProjects extends React.Component {
+class CurrentProjects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

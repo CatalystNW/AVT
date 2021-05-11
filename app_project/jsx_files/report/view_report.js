@@ -1,4 +1,4 @@
-import { UpcomingProjects } from "./upcoming_projects.js"
+import { CurrentProjects } from "./current_projects.js"
 import { ProjectReport } from "./project_report.js"
 import { ApplicationReport } from "./application_report.js"
 import { SearchReport } from "./search_report.js"
@@ -33,7 +33,7 @@ class ReportApp extends React.Component {
     return (
       <div className="tab-content" id="myTabContent">
         <div className="tab-pane show active" id="upcomingReport" role="tabpanel">
-          <UpcomingProjects />
+          <CurrentProjects />
         </div>
         <div className="tab-pane" id="project-report" role="tabpanel">
           <ProjectReport />
