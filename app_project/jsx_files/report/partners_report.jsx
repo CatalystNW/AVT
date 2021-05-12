@@ -34,8 +34,24 @@ class PartnersReport extends React.Component {
             }
           });
         }
+        let partners = Object.values(partnersDict);
+        // Sort the partners by org_name
+        partners.sort((a, b) => {
+          var nameA = a.org_name.toUpperCase(); // ignore upper and lowercase
+          var nameB = b.org_name.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+
+          // names must be equal
+          return 0;
+
+        });
         this.setState({
-          partners: Object.values(partnersDict),
+          partners: partners,
         });
       }
     });
