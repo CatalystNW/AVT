@@ -24,6 +24,7 @@ var PartnersReport = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(data) {
+          console.log(data);
           var partnersDict = {};
           var partnersData = data.partners,
               projectsData = data.projects;
@@ -36,21 +37,116 @@ var PartnersReport = function (_React$Component) {
           for (i = 0; i < projectsData.length; i++) {
             projectsData[i].partners.forEach(function (partner) {
               if (partner in partnersDict) {
-                partnersDict[partner].push(projectsData[i]);
+                partnersDict[partner].projects.push(projectsData[i]);
               }
             });
           }
           this.setState({
-            partners: Object.entries(partnersDict)
+            partners: Object.values(partnersDict)
           });
         }
       });
     };
 
+    _this.onClick_partnersRow = function (e) {
+      var partnerId = e.target.value;
+      _this.setState(function (state) {
+        var newShowPartnerProjects = new Set(_this.state.showPartnerProjects);
+        if (newShowPartnerProjects.has(partnerId)) {
+          newShowPartnerProjects.delete(partnerId);
+        } else {
+          newShowPartnerProjects.add(partnerId);
+        }
+        return {
+          showPartnerProjects: newShowPartnerProjects
+        };
+      });
+    };
+
     _this.createPartnersTable = function () {
+      var partners = _this.state.partners,
+          i = void 0,
+          tr = void 0;
+
+      var rows = [];
+      console.log(partners);
+      for (i = 0; i < partners.length; i++) {
+        tr = React.createElement(
+          "tr",
+          { key: partners[i]._id,
+            className: "clickable" },
+          React.createElement(
+            "td",
+            null,
+            partners[i].org_name
+          ),
+          React.createElement(
+            "td",
+            null,
+            partners[i].org_address
+          ),
+          React.createElement(
+            "td",
+            null,
+            partners[i].contact_phone
+          ),
+          React.createElement(
+            "td",
+            null,
+            partners[i].contact_email
+          ),
+          React.createElement(
+            "td",
+            null,
+            React.createElement(
+              "button",
+              { className: "btn btn-outline-primary btn-sm",
+                value: partners[i]._id,
+                onClick: _this.onClick_partnersRow },
+              partners[i].projects.length
+            )
+          )
+        );
+        rows.push(tr);
+
+        if (_this.state.showPartnerProjects.has(partners[i]._id)) {
+          partners[i].projects.forEach(function (project) {
+            rows.push(React.createElement(
+              "tr",
+              { className: "project-partner-row",
+                key: "proj-" + partners[i]._id + "-" + project._id },
+              React.createElement(
+                "th",
+                null,
+                "Project Name"
+              ),
+              React.createElement(
+                "td",
+                null,
+                project.name && project.name.length > 0 ? project.name : "N/A"
+              ),
+              React.createElement(
+                "th",
+                null,
+                "Status"
+              ),
+              React.createElement(
+                "td",
+                null,
+                project.status
+              ),
+              React.createElement(
+                "td",
+                null,
+                project.start ? functionHelper.convert_date(project.start).toLocaleDateString() : "None"
+              )
+            ));
+          });
+        }
+      }
       return React.createElement(
         "table",
-        null,
+        { className: "table table-sm" },
         React.createElement(
           "thead",
           null,
@@ -60,17 +156,41 @@ var PartnersReport = function (_React$Component) {
             React.createElement(
               "th",
               { scope: "col" },
-              "Name"
+              "Organization"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Address"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Phone"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "Email"
+            ),
+            React.createElement(
+              "th",
+              { scope: "col" },
+              "# Projects"
             )
           )
         ),
-        React.createElement("tbody", null)
+        React.createElement(
+          "tbody",
+          null,
+          rows
+        )
       );
     };
 
     _this.state = {
-      partners: []
-
+      partners: [],
+      showPartnerProjects: new Set()
     };
     _this.getPartners();
     return _this;

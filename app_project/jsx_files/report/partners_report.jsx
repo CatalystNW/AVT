@@ -7,7 +7,7 @@ class PartnersReport extends React.Component {
     super(props);
     this.state = {
       partners: [],
-
+      showPartnerProjects: new Set(),
     };
     this.getPartners();
   }
@@ -18,6 +18,7 @@ class PartnersReport extends React.Component {
       type: "GET",
       context: this,
       success: function(data) {
+        console.log(data);
         const partnersDict = {};
         const partnersData = data.partners,
               projectsData = data.projects;
@@ -30,26 +31,84 @@ class PartnersReport extends React.Component {
         for (i=0; i<projectsData.length; i++) {
           projectsData[i].partners.forEach(partner => {
             if (partner in partnersDict) {
-              partnersDict[partner].push(projectsData[i]);
+              partnersDict[partner].projects.push(projectsData[i]);
             }
           });
         }
         this.setState({
-          partners: Object.entries(partnersDict),
+          partners: Object.values(partnersDict),
         });
       }
     });
   };
 
+  onClick_partnersRow = (e) => {
+    const partnerId = e.target.value;
+    this.setState(state => {
+      let newShowPartnerProjects = new Set(this.state.showPartnerProjects);
+      if (newShowPartnerProjects.has(partnerId)) {
+        newShowPartnerProjects.delete(partnerId);
+      } else {
+        newShowPartnerProjects.add(partnerId)
+      }
+      return {
+        showPartnerProjects: newShowPartnerProjects,
+      };
+    })
+    
+  };
+
   createPartnersTable = () => {
-    return (<table>
+    let partners = this.state.partners, 
+        i, tr;
+
+    const rows = [];
+    console.log(partners);
+    for (i=0; i<partners.length; i++) {
+      tr = (<tr key={partners[i]._id}
+          className="clickable">
+        <td>{partners[i].org_name}</td>
+        <td>{partners[i].org_address}</td>
+        <td>{partners[i].contact_phone}</td>
+        <td>{partners[i].contact_email}</td>
+        <td>
+          <button className="btn btn-outline-primary btn-sm"
+              value={partners[i]._id}
+              onClick={this.onClick_partnersRow}>
+            {partners[i].projects.length}</button>
+        </td>
+      </tr>);
+      rows.push(tr);
+
+      if (this.state.showPartnerProjects.has(partners[i]._id)) {
+        partners[i].projects.forEach(project => {
+          rows.push(
+            <tr className="project-partner-row"
+                key={"proj-" + partners[i]._id + "-" + project._id}>
+              <th>Project Name</th>
+              <td>{project.name && project.name.length > 0 ?
+                      project.name : "N/A"}</td>
+              <th>Status</th>
+              <td>{project.status}</td>
+              <td>{ (project.start) ? 
+                    functionHelper.convert_date(project.start).toLocaleDateString() : 
+                    "None"}</td>
+            </tr>);
+        });
+      }
+    }
+    return (<table className="table table-sm">
       <thead>
         <tr>
-          <th scope="col">Name</th>
+          <th scope="col">Organization</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+          <th scope="col"># Projects</th>
         </tr>
       </thead>
       <tbody>
-        
+        {rows}
       </tbody>
     </table>);
   };

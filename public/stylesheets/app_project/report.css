@@ -18,3 +18,11 @@ h3 {
 .form-group {
     margin: 2px 0px;
 }
+
+.clickable {
+    cursor: pointer;
+}
+
+.project-partner-row {
+    background-color: lightcyan;
+}
