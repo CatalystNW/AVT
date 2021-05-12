@@ -28,6 +28,13 @@ class ProjectReport extends React.Component {
       context: this,
       success: function(projects) {
         console.log(projects);
+        for (let i=0; i<projects.length; i++) {
+          if (projects[i].start) {
+            projects[i].start = functionHelper.convert_date(projects[i].start);
+          }
+        }
+
+        projects.sort(functionHelper.date_sorter);
 
         this.setState({
           projects: projects,
