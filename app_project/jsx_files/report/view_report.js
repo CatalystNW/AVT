@@ -7,6 +7,11 @@ import { PartnersReport } from "./partners_report.js"
 class ReportApp extends React.Component {
   constructor(props) {
     super(props);
+    this.partnersReport = React.createRef();
+  }
+
+  onClickPatnersReport = () => {
+    this.partnersReport.current.getPartners();
   }
 
   createTabs = () => {
@@ -14,7 +19,7 @@ class ReportApp extends React.Component {
       //<div>
         <ul className="nav nav-tabs">
           <li className="nav-item">
-            <a className="nav-link" href="#upcomingReport" role="tab" data-toggle="tab">
+            <a className="nav-link active" href="#upcomingReport" role="tab" data-toggle="tab">
               Current Projects</a>
           </li>
           <li className="nav-item">
@@ -29,8 +34,8 @@ class ReportApp extends React.Component {
             <a className="nav-link" href="#search-report" role="tab" data-toggle="tab">
               Search</a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link active" href="#partners-report" role="tab" data-toggle="tab">
+          <li className="nav-item" onClick={this.onClickPatnersReport}>
+            <a className="nav-link" href="#partners-report" role="tab" data-toggle="tab">
               Partners</a>
           </li>
         </ul>
@@ -41,7 +46,7 @@ class ReportApp extends React.Component {
   createPages = () => {
     return (
       <div className="tab-content" id="myTabContent">
-        <div className="tab-pane" id="upcomingReport" role="tabpanel">
+        <div className="tab-pane show active" id="upcomingReport" role="tabpanel">
           <CurrentProjects />
         </div>
         <div className="tab-pane" id="project-report" role="tabpanel">
@@ -53,8 +58,8 @@ class ReportApp extends React.Component {
         <div className="tab-pane" id="search-report" role="tabpanel">
           <SearchReport />
         </div>
-        <div className="tab-pane show active" id="partners-report" role="tabpanel">
-          <PartnersReport />
+        <div className="tab-pane" id="partners-report" role="tabpanel">
+          <PartnersReport ref={this.partnersReport}/>
         </div>
       </div>
     );

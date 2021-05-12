@@ -9,7 +9,6 @@ class PartnersReport extends React.Component {
       partners: [],
       showPartnerProjects: new Set(),
     };
-    this.getPartners();
   }
 
   getPartners = () => {

@@ -192,7 +192,6 @@ var PartnersReport = function (_React$Component) {
       partners: [],
       showPartnerProjects: new Set()
     };
-    _this.getPartners();
     return _this;
   }
 

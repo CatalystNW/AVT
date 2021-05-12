@@ -20,6 +20,10 @@ var ReportApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ReportApp.__proto__ || Object.getPrototypeOf(ReportApp)).call(this, props));
 
+    _this.onClickPatnersReport = function () {
+      _this.partnersReport.current.getPartners();
+    };
+
     _this.createTabs = function () {
       return (
         //<div>
@@ -31,7 +35,7 @@ var ReportApp = function (_React$Component) {
             { className: "nav-item" },
             React.createElement(
               "a",
-              { className: "nav-link", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link active", href: "#upcomingReport", role: "tab", "data-toggle": "tab" },
               "Current Projects"
             )
           ),
@@ -64,10 +68,10 @@ var ReportApp = function (_React$Component) {
           ),
           React.createElement(
             "li",
-            { className: "nav-item" },
+            { className: "nav-item", onClick: _this.onClickPatnersReport },
             React.createElement(
               "a",
-              { className: "nav-link active", href: "#partners-report", role: "tab", "data-toggle": "tab" },
+              { className: "nav-link", href: "#partners-report", role: "tab", "data-toggle": "tab" },
               "Partners"
             )
           )
@@ -83,7 +87,7 @@ var ReportApp = function (_React$Component) {
         { className: "tab-content", id: "myTabContent" },
         React.createElement(
           "div",
-          { className: "tab-pane", id: "upcomingReport", role: "tabpanel" },
+          { className: "tab-pane show active", id: "upcomingReport", role: "tabpanel" },
           React.createElement(CurrentProjects, null)
         ),
         React.createElement(
@@ -103,12 +107,13 @@ var ReportApp = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "tab-pane show active", id: "partners-report", role: "tabpanel" },
-          React.createElement(PartnersReport, null)
+          { className: "tab-pane", id: "partners-report", role: "tabpanel" },
+          React.createElement(PartnersReport, { ref: _this.partnersReport })
         )
       );
     };
 
+    _this.partnersReport = React.createRef();
     return _this;
   }
 
