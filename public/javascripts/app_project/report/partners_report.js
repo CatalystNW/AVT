@@ -130,13 +130,14 @@ var PartnersReport = function (_React$Component) {
               { className: "project-partner-row",
                 key: "proj-" + partners[i]._id + "-" + project._id },
               React.createElement(
-                "th",
-                null,
-                "Project Name"
-              ),
-              React.createElement(
                 "td",
                 null,
+                React.createElement(
+                  "b",
+                  null,
+                  "Project Name:"
+                ),
+                " ",
                 React.createElement(
                   "a",
                   { href: "/app_project/view_projects/" + project._id,
@@ -145,18 +146,25 @@ var PartnersReport = function (_React$Component) {
                 )
               ),
               React.createElement(
-                "th",
-                null,
-                "Status"
-              ),
-              React.createElement(
                 "td",
                 null,
+                React.createElement(
+                  "b",
+                  null,
+                  "Status:"
+                ),
+                " ",
                 project.status
               ),
               React.createElement(
                 "td",
                 null,
+                React.createElement(
+                  "b",
+                  null,
+                  "Start:"
+                ),
+                " ",
                 project.start ? functionHelper.convert_date(project.start).toLocaleDateString() : "None"
               )
             ));

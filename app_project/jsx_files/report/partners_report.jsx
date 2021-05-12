@@ -99,14 +99,12 @@ class PartnersReport extends React.Component {
           rows.push(
             <tr className="project-partner-row"
                 key={"proj-" + partners[i]._id + "-" + project._id}>
-              <th>Project Name</th>
               <td>
-                <a href={"/app_project/view_projects/" + project._id} 
+                <b>Project Name:</b> <a href={"/app_project/view_projects/" + project._id} 
                   target="_blank">{project.name && project.name.length > 0 ?
                       project.name : "N/A"}</a></td>
-              <th>Status</th>
-              <td>{project.status}</td>
-              <td>{ (project.start) ? 
+              <td><b>Status:</b> {project.status}</td>
+              <td><b>Start:</b> { (project.start) ? 
                     functionHelper.convert_date(project.start).toLocaleDateString() : 
                     "None"}</td>
             </tr>);
