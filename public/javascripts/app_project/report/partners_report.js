@@ -88,8 +88,7 @@ var PartnersReport = function (_React$Component) {
       for (i = 0; i < partners.length; i++) {
         tr = React.createElement(
           "tr",
-          { key: partners[i]._id,
-            className: "clickable" },
+          { key: partners[i]._id },
           React.createElement(
             "td",
             null,
@@ -138,7 +137,11 @@ var PartnersReport = function (_React$Component) {
               React.createElement(
                 "td",
                 null,
-                project.name && project.name.length > 0 ? project.name : "N/A"
+                React.createElement(
+                  "a",
+                  { href: "/app_project/view_projects/" + project._id },
+                  project.name && project.name.length > 0 ? project.name : "N/A"
+                )
               ),
               React.createElement(
                 "th",

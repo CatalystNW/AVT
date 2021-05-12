@@ -80,8 +80,7 @@ class PartnersReport extends React.Component {
     const rows = [];
     console.log(partners);
     for (i=0; i<partners.length; i++) {
-      tr = (<tr key={partners[i]._id}
-          className="clickable">
+      tr = (<tr key={partners[i]._id}>
         <td>{partners[i].org_name}</td>
         <td>{partners[i].org_address}</td>
         <td>{partners[i].contact_phone}</td>
@@ -101,8 +100,9 @@ class PartnersReport extends React.Component {
             <tr className="project-partner-row"
                 key={"proj-" + partners[i]._id + "-" + project._id}>
               <th>Project Name</th>
-              <td>{project.name && project.name.length > 0 ?
-                      project.name : "N/A"}</td>
+              <td>
+                <a href={"/app_project/view_projects/" + project._id}>{project.name && project.name.length > 0 ?
+                      project.name : "N/A"}</a></td>
               <th>Status</th>
               <td>{project.status}</td>
               <td>{ (project.start) ? 
