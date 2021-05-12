@@ -27,12 +27,13 @@ var ProjectReport = function (_React$Component) {
         context: _this,
         success: function success(projects) {
           console.log(projects);
+          // Convert project.start from date string to date object
           for (var i = 0; i < projects.length; i++) {
             if (projects[i].start) {
               projects[i].start = functionHelper.convert_date(projects[i].start);
             }
           }
-
+          // Sort projects by project.start
           projects.sort(functionHelper.date_sorter);
 
           this.setState({

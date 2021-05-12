@@ -29,6 +29,7 @@ var CurrentProjects = function (_React$Component) {
               handleits = [];
 
           projectsData.forEach(function (project) {
+            // Convert project.start from date string to date object
             if (project.start) {
               project.start = functionHelper.convert_date(project.start);
             }
@@ -39,7 +40,7 @@ var CurrentProjects = function (_React$Component) {
               handleits.push(project);
             }
           });
-
+          // Sort projects by project.start
           projects.sort(functionHelper.date_sorter);
           handleits.sort(functionHelper.date_sorter);
 
