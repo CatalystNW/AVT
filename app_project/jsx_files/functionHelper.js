@@ -11,6 +11,16 @@ const functionHelper = {
     return null;
   },
 
+  // Sort by project.start
+  date_sorter(a, b) {
+    if (!a.start) {
+      return 1;
+    } else if (!b.start) {
+      return -1;
+    }
+    return b.start.getTime() - a.start.getTime();
+  },
+
   getTableText(tableId) {
     const table = document.getElementById(tableId);
     const projectDataArray = [];
@@ -70,6 +80,16 @@ const functionHelper = {
               });
               volunteers += workItem.volunteers_required;
             });
+            let start_date;
+            if (project.start) {
+              if (typeof project.start == "string") {
+                start_date = functionHelper.convert_date(project.start).toLocaleDateString();
+              } else {
+                start_date = project.start.toLocaleDateString();
+              }
+            } else {
+              start_date = "None";
+            }
             return (
               <tr key={project._id}>
                 <td>
@@ -92,9 +112,7 @@ const functionHelper = {
                   {project.handleit ? "Y": "N"}
                 </td>
                 <td>
-                  { (project.start) ? 
-                    functionHelper.convert_date(project.start).toLocaleDateString() : 
-                    "None"}
+                  {start_date}
                 </td>
                 <td>
                   {project.documentPackage.application.address.city}

@@ -19,6 +19,17 @@ var functionHelper = {
     }
     return null;
   },
+
+
+  // Sort by project.start
+  date_sorter: function date_sorter(a, b) {
+    if (!a.start) {
+      return 1;
+    } else if (!b.start) {
+      return -1;
+    }
+    return b.start.getTime() - a.start.getTime();
+  },
   getTableText: function getTableText(tableId) {
     var table = document.getElementById(tableId);
     var projectDataArray = [];
@@ -150,6 +161,16 @@ var functionHelper = {
             });
             volunteers += workItem.volunteers_required;
           });
+          var start_date = void 0;
+          if (project.start) {
+            if (typeof project.start == "string") {
+              start_date = functionHelper.convert_date(project.start).toLocaleDateString();
+            } else {
+              start_date = project.start.toLocaleDateString();
+            }
+          } else {
+            start_date = "None";
+          }
           return React.createElement(
             "tr",
             { key: project._id },
@@ -188,7 +209,7 @@ var functionHelper = {
             React.createElement(
               "td",
               null,
-              project.start ? functionHelper.convert_date(project.start).toLocaleDateString() : "None"
+              start_date
             ),
             React.createElement(
               "td",
