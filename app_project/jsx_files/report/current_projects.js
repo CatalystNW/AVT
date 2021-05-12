@@ -20,18 +20,25 @@ class CurrentProjects extends React.Component {
       type: "GET",
       context: this,
       success: function(projectsData) {
+        console.log(projectsData);
         let projects = [],
             handleits = [];
 
-        console.log(projectsData)
-
         projectsData.forEach(project => {
+          if (project.start) {
+            project.start = functionHelper.convert_date(project.start);
+          }
+
           if (project.handleit) {
             projects.push(project);
           } else {
             handleits.push(project);
           }
         });
+
+        projects.sort(functionHelper.date_sorter);
+        handleits.sort(functionHelper.date_sorter);
+
         this.setState({
           projects: projects,
           handleits: handleits,

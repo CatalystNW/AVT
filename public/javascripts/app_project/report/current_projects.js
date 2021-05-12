@@ -24,18 +24,25 @@ var CurrentProjects = function (_React$Component) {
         type: "GET",
         context: _this,
         success: function success(projectsData) {
+          console.log(projectsData);
           var projects = [],
               handleits = [];
 
-          console.log(projectsData);
-
           projectsData.forEach(function (project) {
+            if (project.start) {
+              project.start = functionHelper.convert_date(project.start);
+            }
+
             if (project.handleit) {
               projects.push(project);
             } else {
               handleits.push(project);
             }
           });
+
+          projects.sort(functionHelper.date_sorter);
+          handleits.sort(functionHelper.date_sorter);
+
           this.setState({
             projects: projects,
             handleits: handleits
