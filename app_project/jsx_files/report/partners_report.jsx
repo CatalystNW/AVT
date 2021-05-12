@@ -101,7 +101,8 @@ class PartnersReport extends React.Component {
                 key={"proj-" + partners[i]._id + "-" + project._id}>
               <th>Project Name</th>
               <td>
-                <a href={"/app_project/view_projects/" + project._id}>{project.name && project.name.length > 0 ?
+                <a href={"/app_project/view_projects/" + project._id} 
+                  target="_blank">{project.name && project.name.length > 0 ?
                       project.name : "N/A"}</a></td>
               <th>Status</th>
               <td>{project.status}</td>

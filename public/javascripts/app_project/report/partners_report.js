@@ -139,7 +139,8 @@ var PartnersReport = function (_React$Component) {
                 null,
                 React.createElement(
                   "a",
-                  { href: "/app_project/view_projects/" + project._id },
+                  { href: "/app_project/view_projects/" + project._id,
+                    target: "_blank" },
                   project.name && project.name.length > 0 ? project.name : "N/A"
                 )
               ),
