@@ -23,7 +23,7 @@ Promise.promisifyAll(mongoose); // Convert mongoose API to always return promise
 var ObjectId = require('mongodb').ObjectID;
 module.exports = function(passport) {
 /* Route to specific application by Object ID */
-router.get('/:id', isLoggedIn, function(req, res) {
+	router.get('/:id', isLoggedIn, function(req, res) {
     //Checking what's in params
     console.log("Vetting Worksheet for " + ObjectId(req.params.id));
     /* search by _id. */
@@ -32,72 +32,45 @@ router.get('/:id', isLoggedIn, function(req, res) {
         vettingNotes: VettingNotePackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
 
         finances: FinPackage.find({appID: ObjectId(req.params.id)}).sort([['_id', 1]]).lean().execAsync(),
-    		workItems: WorkItemPackage.find({applicationId: ObjectId(req.params.id)}).lean().execAsync(),
     		highlight: highlightPackage.findOne({"documentPackage": ObjectId(req.params.id)}).lean().execAsync(),
-
-
-
 	      //finances: FinPackage.findOne({appID: ObjectId(req.params.id)}).lean().execAsync()
+    }).then(function(result) {
+			//format birth date for display
+			if(result.doc.application.dob.date != null) {
+				var dobYear = result.doc.application.dob.date.getFullYear();
+				//get month and day with padding since they are 0 indexed
+				var dobDay = ( "00" + result.doc.application.dob.date.getDate()).slice(-2);
+				var dobMon = ("00" + (result.doc.application.dob.date.getMonth()+1)).slice(-2);
 
-
-    })
-        .then(function(result) {
-            //format birth date for display
-            if(result.doc.application.dob.date != null) {
-                var dobYear = result.doc.application.dob.date.getFullYear();
-                //get month and day with padding since they are 0 indexed
-                var dobDay = ( "00" + result.doc.application.dob.date.getDate()).slice(-2);
-                var dobMon = ("00" + (result.doc.application.dob.date.getMonth()+1)).slice(-2);
-
-                result.doc.application.dob.date = dobYear + "-" + dobMon + "-" + dobDay;
-            }
+				result.doc.application.dob.date = dobYear + "-" + dobMon + "-" + dobDay;
+			}
 
 			if(result.doc.service_area == null) {
-				console.log("no service area value");
 				result.service = false;
 			}
 			else {
-				console.log("there is a service area value");
 				result.service = true;
 			}
 
-            // format vetting notes dates
-            if(result.vettingNotes.length != 0)
-            {
-                result.vettingNotes.forEach(function(note, index){
-                    var Year = note.date.getFullYear();
-                    //get month and day with padding since they are 0 indexed
-                    var Day = ( "00" + note.date.getDate()).slice(-2);
-                    var Mon = ("00" + (note.date.getMonth()+1)).slice(-2);
-                    result.vettingNotes[index].date = Mon + "/" + Day + "/" + Year;
-                });
-            }
-
-
-			if(result.workItems.length != 0)
-            {
-				console.log("there are work items");
-                result.workItems.forEach(function(item, index){
-					console.log(item.name);
-					console.log(item.description);
-                    var Year = item.date.getFullYear();
-                    //get month and day with padding since they are 0 indexed
-                    var Day = ( "00" + item.date.getDate()).slice(-2);
-                    var Mon = ("00" + (item.date.getMonth()+1)).slice(-2);
-                    result.workItems[index].date = Mon + "/" + Day + "/" + Year;
-					console.log(item.date);
-                });
-            }
+			// format vetting notes dates
+			if(result.vettingNotes.length != 0) {
+				result.vettingNotes.forEach(function(note, index){
+						var Year = note.date.getFullYear();
+						//get month and day with padding since they are 0 indexed
+						var Day = ( "00" + note.date.getDate()).slice(-2);
+						var Mon = ("00" + (note.date.getMonth()+1)).slice(-2);
+						result.vettingNotes[index].date = Mon + "/" + Day + "/" + Year;
+				});
+			}
 
 			res.locals.layout = 'b3-layout';
 			result.user = req.user._id;
 			result.title = "Vetting Worksheet";
 
-            res.render('b3-worksheet-view', result);
-        })
-        .catch(function(err) {
-            console.error(err);
-        });
+			res.render('b3-worksheet-view', result);
+		}).catch(function(err) {
+			console.error(err);
+		});
 });
 
 router

@@ -1,3 +1,6 @@
+// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEBUG_DEVELOPMENT_MODE
+require('dotenv').config();
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Node Modules
 // Import and Node Modules (from package.json) that the app will use)
@@ -48,6 +51,7 @@ var partners = require('./routes/partners')(passport);
 var projectview = require('./routes/projectview')(passport);
 
 var care_network = require('./carenetwork/routes/care/carenetwork');
+var app_project = require('./app_project/routes/app_project/app_project');
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -70,6 +74,7 @@ app.set('view options', { layout: 'layout' });
 // hbs.registerPartial('partnerTab', path.join(__dirname,'views/partners.hbs'));
 
 hbs.registerHelper("debug", function(optionalValue) {
+  if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
     console.log("Current Context");
     console.log("====================");
     console.log(this);
@@ -79,6 +84,7 @@ hbs.registerHelper("debug", function(optionalValue) {
         console.log("====================");
         console.log(optionalValue);
     }
+  }
 });
 
 hbs.registerHelper('stringify', function(val) {
@@ -189,10 +195,7 @@ hbs.registerHelper('otherResidents', function(residentsObject) {
 })
 
 hbs.registerHelper('select', function(values) {
-  console.log('here');
-  console.log(values);
   var $el = $('select');
-  console.log($el);
   var i = 0;
   for(i; i<values.length; i++)
   {
@@ -276,8 +279,10 @@ hbs.registerHelper('getApplicationStartTime', function (apps, appid) {
 });
 
 hbs.registerHelper('getApplicationDueDate', function (apps, appid, ldTime) {
-  console.log("Handlebars Helper: getApplicationDueDate called");
-  console.log(ldTime);
+  if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
+    console.log("Handlebars Helper: getApplicationDueDate called");
+    console.log(ldTime);
+  }
   if (apps[appid] && apps[appid].project && apps[appid].project.project_start) {
       var myNewDate = new Date(apps[appid].project.project_start);
       
@@ -323,8 +328,6 @@ hbs.registerHelper('getPlanTaskAssignments', function(plan, userId, apps, appid)
   var labels = [];
   for (var i = 0; i < assigned.length; i++) {
     if (!assigned[i].complete) {
-      console.log("apple");
-      console.log(assigned[i]);
       labels.push(assigned[i].label);
     }
   }
@@ -392,7 +395,9 @@ app.use(function(req, res, next) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
-    console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
+    if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
+      console.log('[ ' + req.method + ' ] request made from ' + 'IP: ' + ip);
+    }
     if(req.get('X-Forwarded-Proto') == 'http'){
       res.redirect('https://' + req.get('Host') + req.url);
     }
@@ -423,6 +428,7 @@ app.use('/tasks/', tasks);
 app.use('/leadtime', leadtime);
 app.use('/carenetwork', care_network);
 app.use('/projectreport', report);
+app.use('/app_project', app_project);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Server Side Libraries
 // Links to jQuery and Boots strap files

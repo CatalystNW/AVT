@@ -8,7 +8,8 @@
     "start": "node ./bin/www",
     "stop": "pkill --signal SIGINT node",
     "disown": "nohup npm start &",
-    "pull": "git pull --no-edit"
+    "pull": "git pull --no-edit",
+    "build:appproject": "babel --watch app_project/jsx_files --out-dir ./public/javascripts/app_project --presets react-app/prod"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",

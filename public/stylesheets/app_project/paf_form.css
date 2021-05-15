@@ -1,0 +1,71 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 0 20px;
+}
+
+#doc-header {
+    padding-bottom: 20px;
+}
+
+#navID, #userNav, #imageBar, #footerID {
+    display: none;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+h2 {
+    padding-top: 15px;
+    font-size: 20px;
+}
+
+h3 {
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+h4 {
+    font-size: 17px;
+    text-decoration: underline;
+}
+
+#info-container {
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: normal;
+    color: gray;
+}
+
+#partners-container,
+.workitem-total-container {
+    margin-left: 20px;
+}
+
+.materialsItem-container {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.workitem-container,
+.partner-container {
+    margin-bottom: 15px;
+}
+
+@media print {
+    body {
+        font-size: 12px;
+    }
+    table {
+        line-height: 1.2;
+    }
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    #cblock-container img{
+        width: 400px;
+        height: auto;
+    }
+}

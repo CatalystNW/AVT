@@ -47,6 +47,16 @@ ObjectId = Schema.ObjectId;
 
 var DocumentPackageSchema = new Schema({
     status:         String,
+    // Status used for Version 2 of Application
+    applicationStatus : {
+        type: String,
+        enum: [
+            "new", 
+            "phone", "handle", "discuss", "documents", "assess", "assessComp", "approval",
+            "declined", "withdrawn", "withdrawnooa", "project", "waitlist",
+            "transferred",
+        ]
+    },
     care_network_transfer: {
         type: mongoose.ObjectId, // Will default to null if not transferred
         ref: "CareApplicant",

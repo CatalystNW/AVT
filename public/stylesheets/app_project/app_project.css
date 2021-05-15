@@ -1,0 +1,47 @@
+#assessment-container,
+#application-info-container {
+    overflow: auto;
+    -webkit-overflow-scrolling: auto;
+}
+
+.card {
+    padding: 10px;
+}
+
+div.dropdown-menu {
+    cursor: pointer;
+}
+
+.warning-box {
+    background-color: red;
+}
+
+.checkbox-label {
+    padding-right: 10px;
+}
+
+#project-nav-container,
+#assessment-nav-container {
+    position: fixed;
+    z-index: 100;
+    background-color: white;
+}
+
+#application-info-nav-container {
+    position: fixed;
+    z-index: 100;
+    background-color: white;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+h3 {
+    font-size: 1.25rem;
+}
+
+.checklists-checkbox-td,
+.checklists-checkbox-td > input {
+    cursor: pointer;
+}
+

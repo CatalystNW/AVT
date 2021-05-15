@@ -262,7 +262,7 @@ router.post('/csvExport', isLoggedInPost, function(req, res){
 
 // });
 
-router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
+router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, res, next) {
 
     var payload = {};
 
@@ -341,6 +341,22 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 		});
     }
 
+    // Transferred applications (transferred to new projects app)
+    payload.transferred = [];
+    if (res.locals.results.transferred && res.locals.results.transferred[0] !== null) {
+        res.locals.results.transferred.forEach((document)=> {
+            payload.transferred.push(formatElement(document));
+        })
+    }
+
+    // 'noStatus' to noStatus
+    payload.noStatus = [];
+    if (res.locals.results.noStatus && res.locals.results.noStatus[0] !== null) {
+        res.locals.results.noStatus.forEach((document)=> {
+            payload.noStatus.push(formatElement(document));
+        })
+    }
+
     //add all other existing statuses to processing array
     payload.processing = [];
 
@@ -408,7 +424,7 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 		singleYear = {"yearValue" : x};
 		payload.year.push(singleYear);
 
-	}
+    }
 
 	payload.user = req.user._id;
 	payload.user_email = res.locals.email;
@@ -593,53 +609,47 @@ function formatDate(element)
  * @returns: The document package with wordier status
  */
 function formatStatus(element) {
-    var status;
+    
 
-    switch (element.status){
-        case 'new':
-            status = 'NEW';
-            break;
-        case 'phone':
-            status = 'Phone Call Needed';
-            break;
-        case 'handle':
-            status = 'Handle-It';
-            break;
-        case 'documents':
-            status = 'Awaiting Documents';
-            break;
-        case 'discuss':
-            status = 'On Hold - Pending Discussion';
-            break;
-        case 'assess':
-            status = 'Site Assessment - Pending';
-            break;
-		case 'assessComp':
-			status = 'Site Assessment - Complete';
-			break;
-        case 'approval':
-            status = 'Approval Process';
-            break;
-        case 'declined':
-            status = 'Declined';
-			break;
-		case 'withdrawnooa':
-			status = 'Withdrawn - Out of Service Area';
-			break;
-        case 'withdrawn':
-            status = 'Withdrawn';
-            break;
-        case 'project':
-            status ='Approved Project';
-            break;
-        case 'waitlist':
-            status ='Waitlist';
-            break;
-        default:
-            status = element.status;
+    function getStatus(status) {
+        switch (status){
+            case 'new':
+                return 'NEW';
+            case 'phone':
+                return 'Phone Call Needed';
+            case 'handle':
+                return 'Handle-It';
+            case 'documents':
+                return 'Awaiting Documents';
+            case 'discuss':
+                return 'On Hold - Pending Discussion';
+            case 'assess':
+                return 'Site Assessment - Pending';
+            case 'assessComp':
+                return 'Site Assessment - Complete';
+            case 'approval':
+                return 'Approval Process';
+            case 'declined':
+                return 'Declined';
+            case 'withdrawnooa':
+                return 'Withdrawn - Out of Service Area';
+            case 'withdrawn':
+                return 'Withdrawn';
+            case 'project':
+                return'Approved Project';
+            case 'waitlist':
+                return'Waitlist';
+            case 'transferred':
+                return'Transferred';
+            case undefined:
+                return '';
+            default:
+                return status;
+        }
     }
-
-    element.status = status;
+    element.applicationStatus = getStatus(element.applicationStatus);
+    element.status = getStatus(element.status);
+    
     return element;
 }
 
