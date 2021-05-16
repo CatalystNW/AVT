@@ -338,7 +338,7 @@ var ModalMenu = function (_React$Component) {
               { htmlFor: "name-input" },
               "Partner Name"
             ),
-            React.createElement("input", { type: "text", className: "form-control", name: "name",
+            React.createElement("input", { type: "text", className: "form-control", name: "org_name",
               defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.org_name : "",
               id: "name-input", required: true })
           ),
@@ -350,7 +350,7 @@ var ModalMenu = function (_React$Component) {
               { htmlFor: "contact-input" },
               "Contact Name"
             ),
-            React.createElement("input", { type: "text", className: "form-control", name: "contact",
+            React.createElement("input", { type: "text", className: "form-control", name: "contact_name",
               defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_name : "",
               id: "contact-input", required: true })
           ),
@@ -362,7 +362,7 @@ var ModalMenu = function (_React$Component) {
               { htmlFor: "address-input" },
               "Address"
             ),
-            React.createElement("input", { type: "text", className: "form-control", name: "address",
+            React.createElement("input", { type: "text", className: "form-control", name: "org_address",
               defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.org_address : "",
               id: "address-input", required: true })
           ),
@@ -374,7 +374,7 @@ var ModalMenu = function (_React$Component) {
               { htmlFor: "phone-input" },
               "Phone"
             ),
-            React.createElement("input", { type: "text", className: "form-control", name: "phone",
+            React.createElement("input", { type: "text", className: "form-control", name: "contact_phone",
               defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_phone : "",
               id: "phone-input", required: true })
           ),
@@ -386,7 +386,7 @@ var ModalMenu = function (_React$Component) {
               { htmlFor: "email-input" },
               "Email"
             ),
-            React.createElement("input", { type: "text", className: "form-control", name: "email",
+            React.createElement("input", { type: "text", className: "form-control", name: "contact_email",
               defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_email : "",
               id: "email-input", required: true })
           )

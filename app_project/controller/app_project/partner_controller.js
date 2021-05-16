@@ -35,11 +35,11 @@ async function edit_partner(req, res) {
   }
 
   var partner = await PartnerPackage.findById(req.params.partner_id);
-  partner.org_name      = req.body.name;
-  partner.org_address   = req.body.address;
-  partner.contact_name  = req.body.contact;
-  partner.contact_phone = req.body.phone;
-  partner.contact_email = req.body.email;
+  partner.org_name      = req.body.org_name;
+  partner.org_address   = req.body.org_address;
+  partner.contact_name  = req.body.contact_name;
+  partner.contact_phone = req.body.contact_phone;
+  partner.contact_email = req.body.contact_email;
   await partner.save();
   res.status(200).json(partner);
 }

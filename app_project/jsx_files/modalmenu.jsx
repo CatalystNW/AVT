@@ -226,7 +226,7 @@ class ModalMenu extends React.Component {
       return (<div>
         <div className="form-group">
           <label htmlFor="name-input">Partner Name</label>
-          <input type="text" className="form-control" name="name" 
+          <input type="text" className="form-control" name="org_name" 
             defaultValue={
               (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
                 this.state.prev_data.org_name : ""}
@@ -234,7 +234,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="contact-input">Contact Name</label>
-          <input type="text" className="form-control" name="contact" 
+          <input type="text" className="form-control" name="contact_name" 
             defaultValue={
               (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
                 this.state.prev_data.contact_name : ""}
@@ -242,7 +242,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="address-input">Address</label>
-          <input type="text" className="form-control" name="address" 
+          <input type="text" className="form-control" name="org_address" 
             defaultValue={
               (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
                 this.state.prev_data.org_address : ""}
@@ -250,7 +250,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="phone-input">Phone</label>
-          <input type="text" className="form-control" name="phone" 
+          <input type="text" className="form-control" name="contact_phone" 
             defaultValue={
               (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
                 this.state.prev_data.contact_phone : ""}
@@ -258,7 +258,7 @@ class ModalMenu extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="email-input">Email</label>
-          <input type="text" className="form-control" name="email" 
+          <input type="text" className="form-control" name="contact_email" 
             defaultValue={
               (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
                 this.state.prev_data.contact_email : ""}
