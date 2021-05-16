@@ -23,10 +23,15 @@ var functionHelper = {
 
   // Sort by project.start
   date_sorter: function date_sorter(a, b) {
+    var ascending = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
     if (!a.start) {
       return 1;
     } else if (!b.start) {
       return -1;
+    }
+    if (ascending) {
+      return a.start.getTime() - b.start.getTime();
     }
     return b.start.getTime() - a.start.getTime();
   },
