@@ -236,7 +236,6 @@ class PartnerMenu extends React.Component {
           <thead>
           <tr>
               <th scope="col">Name</th>
-              <th scope="col">Address</th>
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
@@ -247,7 +246,6 @@ class PartnerMenu extends React.Component {
             {this.state.partners.map((partner,index) => {
               return (<tr key={"current-" + partner._id}>
                 <td>{partner.org_name}</td>
-                <td>{partner.org_address}</td>
                 <td>{partner.contact_name}</td>
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
@@ -283,7 +281,6 @@ class PartnerMenu extends React.Component {
             <tr>
               <th scope="col"></th>
               <th scope="col">Name</th>
-              <th scope="col">Address</th>
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
@@ -302,7 +299,6 @@ class PartnerMenu extends React.Component {
                   ></input>
                 </td>
                 <td>{partner.org_name}</td>
-                <td>{partner.org_address}</td>
                 <td>{partner.contact_name}</td>
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>

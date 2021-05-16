@@ -249,11 +249,6 @@ var PartnerMenu = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Address"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
                 "Contact"
               ),
               React.createElement(
@@ -284,11 +279,6 @@ var PartnerMenu = function (_React$Component) {
                   "td",
                   null,
                   partner.org_name
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  partner.org_address
                 ),
                 React.createElement(
                   "td",
@@ -377,11 +367,6 @@ var PartnerMenu = function (_React$Component) {
               React.createElement(
                 "th",
                 { scope: "col" },
-                "Address"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
                 "Contact"
               ),
               React.createElement(
@@ -421,11 +406,6 @@ var PartnerMenu = function (_React$Component) {
                   "td",
                   null,
                   partner.org_name
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  partner.org_address
                 ),
                 React.createElement(
                   "td",
