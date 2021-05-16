@@ -117,20 +117,24 @@ var PartnerMenu = function (_React$Component) {
       var data = _this.state[location][index];
       data.type = "project";
       data.partner_id = data._id;
-      _this.props.getModalMenu().show_menu("edit_partner", funkie.edit_partner, data, function (editPartner) {
+
+      _this.props.getModalMenu().show_menu("edit_partner", funkie.edit_partner, data, function (newPartnerData) {
+        if (newPartnerData == null) {
+          return;
+        }
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
           var new_partners = [].concat(_toConsumableArray(state.partners));
           var i = void 0;
           for (i = 0; i < new_allPartners.length; i++) {
             if (new_allPartners[i]._id == partner_id) {
-              new_allPartners[i] = editPartner;
+              new_allPartners[i] = newPartnerData;
               break;
             }
           }
           for (i = 0; i < new_partners.length; i++) {
             if (new_partners[i]._id == partner_id) {
-              new_partners[i] = editPartner;
+              new_partners[i] = newPartnerData;
               break;
             }
           }
@@ -288,12 +292,12 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner.contact_email
+                  partner.contact_phone
                 ),
                 React.createElement(
                   "td",
                   null,
-                  partner.contact_phone
+                  partner.contact_email
                 ),
                 React.createElement(
                   "td",
@@ -415,12 +419,12 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner.contact_email
+                  partner.contact_phone
                 ),
                 React.createElement(
                   "td",
                   null,
-                  partner.contact_phone
+                  partner.contact_email
                 ),
                 React.createElement(
                   "td",

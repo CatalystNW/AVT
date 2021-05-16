@@ -116,27 +116,31 @@ class PartnerMenu extends React.Component {
     const partner_id = e.target.getAttribute("partner_id"),
           index = e.target.getAttribute("index"),
           location = e.target.getAttribute("location");
-    var data = this.state[location][index];
+    const data = this.state[location][index];
     data.type = "project";
     data.partner_id = data._id;
+
     this.props.getModalMenu().show_menu(
       "edit_partner",
       funkie.edit_partner,
       data,
-      (editPartner) => {
+      (newPartnerData) => {
+        if (newPartnerData == null) {
+          return;
+        }
         this.setState(state => {
           let new_allPartners = [...state.allPartners];
           let new_partners = [...state.partners];
           let i;
           for (i=0; i<new_allPartners.length; i++) {
             if (new_allPartners[i]._id == partner_id) {
-              new_allPartners[i] = editPartner;
+              new_allPartners[i] = newPartnerData;
               break;
             }
           }
           for (i=0; i<new_partners.length; i++) {
             if (new_partners[i]._id == partner_id) {
-              new_partners[i] = editPartner;
+              new_partners[i] = newPartnerData;
               break;
             }
           }
@@ -247,8 +251,8 @@ class PartnerMenu extends React.Component {
               return (<tr key={"current-" + partner._id}>
                 <td>{partner.org_name}</td>
                 <td>{partner.contact_name}</td>
-                <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>{partner.contact_email}</td>
                 <td>
                   <button type="button" className="btn btn-sm btn-primary"
                     location={"partners"}
@@ -300,8 +304,8 @@ class PartnerMenu extends React.Component {
                 </td>
                 <td>{partner.org_name}</td>
                 <td>{partner.contact_name}</td>
-                <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>{partner.contact_email}</td>
                 <td>
                   <button type="button" className="btn btn-sm btn-primary"
                     location={"allPartners"}
