@@ -31,9 +31,9 @@ class CurrentProjects extends React.Component {
           }
 
           if (project.handleit) {
-            projects.push(project);
-          } else {
             handleits.push(project);
+          } else {
+            projects.push(project);
           }
         });
         // Sort projects by project.start
