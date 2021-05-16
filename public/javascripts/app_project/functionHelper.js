@@ -23,10 +23,15 @@ var functionHelper = {
 
   // Sort by project.start
   date_sorter: function date_sorter(a, b) {
+    var ascending = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
     if (!a.start) {
       return 1;
     } else if (!b.start) {
       return -1;
+    }
+    if (ascending) {
+      return a.start.getTime() - b.start.getTime();
     }
     return b.start.getTime() - a.start.getTime();
   },
@@ -60,7 +65,7 @@ var functionHelper = {
     return Math.round(value) / mult;
   },
   createTable: function createTable(id, projects) {
-    var complete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    var completedReport = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     return React.createElement(
       "table",
@@ -86,11 +91,11 @@ var functionHelper = {
             { scope: "col" },
             "Status"
           ),
-          React.createElement(
+          completedReport ? React.createElement(
             "th",
             { scope: "col" },
             "Handle-It"
-          ),
+          ) : null,
           React.createElement(
             "th",
             { scope: "col" },
@@ -134,12 +139,12 @@ var functionHelper = {
           React.createElement(
             "th",
             { scope: "col" },
-            complete ? "Volunteers" : "Volunteers Needed"
+            completedReport ? "Volunteers" : "Volunteers Needed"
           ),
           React.createElement(
             "th",
             { scope: "col" },
-            complete ? "Cost" : "Estimated Cost"
+            completedReport ? "Cost" : "Estimated Cost"
           ),
           React.createElement(
             "th",
@@ -201,11 +206,11 @@ var functionHelper = {
               null,
               project.status
             ),
-            React.createElement(
+            completedReport ? React.createElement(
               "td",
               null,
               project.handleit ? "Y" : "N"
-            ),
+            ) : null,
             React.createElement(
               "td",
               null,

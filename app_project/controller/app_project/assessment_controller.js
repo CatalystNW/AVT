@@ -128,9 +128,6 @@ async function getApplicationsInAssessment(req, res) {
  * Returns: siteAssessment(no population) or null if documentPackage doesn't exist.
  */
 async function getOrCreateAssessmentByAppId(app_id) {
-  if (!authHelper.hasRole(req, res, ["SITE", "VET"])) {
-    res.status(403).end(); return;
-  }
   // Make sure app_id is valid
   var doc = await DocumentPackage.findById(app_id);
 

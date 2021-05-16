@@ -103,27 +103,38 @@ var PartnerMenu = function (_React$Component) {
       _this.change_status();
     };
 
+    _this.onClickViewPartner = function (e) {
+      var index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+      var data = _this.state[location][index];
+      _this.props.getModalMenu().show_menu("view_partner", null, data, null);
+    };
+
     _this.onClick_editPartner = function (e) {
       var partner_id = e.target.getAttribute("partner_id"),
           index = e.target.getAttribute("index"),
           location = e.target.getAttribute("location");
-      var data = Object.assign({}, _this.state[location][index]);
+      var data = _this.state[location][index];
       data.type = "project";
       data.partner_id = data._id;
-      _this.props.getModalMenu().show_menu("edit_partner", funkie.edit_partner, data, function (editPartner) {
+
+      _this.props.getModalMenu().show_menu("edit_partner", funkie.edit_partner, data, function (newPartnerData) {
+        if (newPartnerData == null) {
+          return;
+        }
         _this.setState(function (state) {
           var new_allPartners = [].concat(_toConsumableArray(state.allPartners));
           var new_partners = [].concat(_toConsumableArray(state.partners));
           var i = void 0;
           for (i = 0; i < new_allPartners.length; i++) {
             if (new_allPartners[i]._id == partner_id) {
-              new_allPartners[i] = editPartner;
+              new_allPartners[i] = newPartnerData;
               break;
             }
           }
           for (i = 0; i < new_partners.length; i++) {
             if (new_partners[i]._id == partner_id) {
-              new_partners[i] = editPartner;
+              new_partners[i] = newPartnerData;
               break;
             }
           }
@@ -227,7 +238,7 @@ var PartnerMenu = function (_React$Component) {
         ),
         React.createElement(
           "table",
-          null,
+          { className: "table table-sm" },
           React.createElement(
             "thead",
             null,
@@ -238,11 +249,6 @@ var PartnerMenu = function (_React$Component) {
                 "th",
                 { scope: "col" },
                 "Name"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
-                "Address"
               ),
               React.createElement(
                 "th",
@@ -281,17 +287,7 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner.org_address
-                ),
-                React.createElement(
-                  "td",
-                  null,
                   partner.contact_name
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  partner.contact_email
                 ),
                 React.createElement(
                   "td",
@@ -301,6 +297,19 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
+                  partner.contact_email
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-sm btn-primary",
+                      location: "partners",
+                      partner_id: partner._id, index: index,
+                      onClick: _this.onClickViewPartner },
+                    "View"
+                  ),
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm",
@@ -323,19 +332,19 @@ var PartnerMenu = function (_React$Component) {
         null,
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-primary",
+          { type: "button", className: "btn btn-primary",
             onClick: _this.submitSelectedPartners },
           "Submit"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-warning",
+          { type: "button", className: "btn btn-warning",
             onClick: _this.change_status },
           "Cancel"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-success",
+          { type: "button", className: "btn btn-success",
             onClick: _this.onClick_createPartner },
           "Create Partner"
         ),
@@ -346,7 +355,7 @@ var PartnerMenu = function (_React$Component) {
         ),
         React.createElement(
           "table",
-          null,
+          { className: "table table-sm" },
           React.createElement(
             "thead",
             null,
@@ -358,11 +367,6 @@ var PartnerMenu = function (_React$Component) {
                 "th",
                 { scope: "col" },
                 "Name"
-              ),
-              React.createElement(
-                "th",
-                { scope: "col" },
-                "Address"
               ),
               React.createElement(
                 "th",
@@ -410,17 +414,7 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  partner.org_address
-                ),
-                React.createElement(
-                  "td",
-                  null,
                   partner.contact_name
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  partner.contact_email
                 ),
                 React.createElement(
                   "td",
@@ -430,9 +424,22 @@ var PartnerMenu = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
+                  partner.contact_email
+                ),
+                React.createElement(
+                  "td",
+                  null,
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm btn-primary",
+                      location: "allPartners",
+                      partner_id: partner._id, index: index,
+                      onClick: _this.onClickViewPartner },
+                    "View"
+                  ),
+                  React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-sm btn-secondary",
                       location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },

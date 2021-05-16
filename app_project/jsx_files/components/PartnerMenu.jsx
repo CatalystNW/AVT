@@ -100,31 +100,47 @@ class PartnerMenu extends React.Component {
     this.change_status();
   };
 
+  onClickViewPartner = (e) => {
+    const index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+    const data = this.state[location][index];
+    this.props.getModalMenu().show_menu(
+      "view_partner",
+      null,
+      data,
+      null,
+    );
+  };
+
   onClick_editPartner = (e) => {
     const partner_id = e.target.getAttribute("partner_id"),
           index = e.target.getAttribute("index"),
           location = e.target.getAttribute("location");
-    var data = {...this.state[location][index]};
+    const data = this.state[location][index];
     data.type = "project";
     data.partner_id = data._id;
+
     this.props.getModalMenu().show_menu(
       "edit_partner",
       funkie.edit_partner,
       data,
-      (editPartner) => {
+      (newPartnerData) => {
+        if (newPartnerData == null) {
+          return;
+        }
         this.setState(state => {
           let new_allPartners = [...state.allPartners];
           let new_partners = [...state.partners];
           let i;
           for (i=0; i<new_allPartners.length; i++) {
             if (new_allPartners[i]._id == partner_id) {
-              new_allPartners[i] = editPartner;
+              new_allPartners[i] = newPartnerData;
               break;
             }
           }
           for (i=0; i<new_partners.length; i++) {
             if (new_partners[i]._id == partner_id) {
-              new_partners[i] = editPartner;
+              new_partners[i] = newPartnerData;
               break;
             }
           }
@@ -220,11 +236,10 @@ class PartnerMenu extends React.Component {
         <button type="button" className="btn btn-primary"
           onClick={this.change_status}>Modify Partners</button>
         <h3>Current Partners</h3>
-        <table>
+        <table className="table table-sm">
           <thead>
           <tr>
               <th scope="col">Name</th>
-              <th scope="col">Address</th>
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
@@ -235,11 +250,14 @@ class PartnerMenu extends React.Component {
             {this.state.partners.map((partner,index) => {
               return (<tr key={"current-" + partner._id}>
                 <td>{partner.org_name}</td>
-                <td>{partner.org_address}</td>
                 <td>{partner.contact_name}</td>
-                <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>{partner.contact_email}</td>
                 <td>
+                  <button type="button" className="btn btn-sm btn-primary"
+                    location={"partners"}
+                    partner_id={partner._id} index={index}
+                    onClick={this.onClickViewPartner}>View</button>
                   <button type="button" className="btn btn-sm"
                     location={"partners"}
                     partner_id={partner._id} index={index}
@@ -255,19 +273,18 @@ class PartnerMenu extends React.Component {
   show_all_partners = () => {
     return (
     <div>
-      <button type="button" className="btn btn-sm btn-primary"
+      <button type="button" className="btn btn-primary"
         onClick={this.submitSelectedPartners}>Submit</button>
-      <button type="button" className="btn btn-sm btn-warning"
+      <button type="button" className="btn btn-warning"
         onClick={this.change_status}>Cancel</button>
-      <button type="button" className="btn btn-sm btn-success"
+      <button type="button" className="btn btn-success"
         onClick={this.onClick_createPartner}>Create Partner</button>
       <h3>Available Partners</h3>
-      <table>
+      <table className="table table-sm">
           <thead>
             <tr>
               <th scope="col"></th>
               <th scope="col">Name</th>
-              <th scope="col">Address</th>
               <th scope="col">Contact</th>
               <th scope="col">Phone</th>
               <th scope="col">Email</th>
@@ -286,12 +303,15 @@ class PartnerMenu extends React.Component {
                   ></input>
                 </td>
                 <td>{partner.org_name}</td>
-                <td>{partner.org_address}</td>
                 <td>{partner.contact_name}</td>
-                <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
+                <td>{partner.contact_email}</td>
                 <td>
                   <button type="button" className="btn btn-sm btn-primary"
+                    location={"allPartners"}
+                    partner_id={partner._id} index={index}
+                    onClick={this.onClickViewPartner}>View</button>
+                  <button type="button" className="btn btn-sm btn-secondary"
                     location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>

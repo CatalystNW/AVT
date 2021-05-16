@@ -58,14 +58,21 @@ class ModalMenu extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    $("#save-btn").prop("disabled", true);
-    if (this.state.submit_form_handler) {
-      var data = this.get_data();
-      
-      this.state.submit_form_handler(
-        data, this.close_menu, this.state.handle_data_callback);
+    if (this.state.type == "edit_partner") {
+      const result = window.confirm(`Are you sure you want to edit partner ${this.state.prev_data.org_name}?`);
+      if (!result) {
+        this.close_menu();
+      }
     } else {
-      this.close_menu();
+      $("#save-btn").prop("disabled", true);
+      if (this.state.submit_form_handler) {
+        var data = this.get_data();
+        
+        this.state.submit_form_handler(
+          data, this.close_menu, this.state.handle_data_callback);
+      } else {
+        this.close_menu();
+      }
     }
   }
 
@@ -130,15 +137,21 @@ class ModalMenu extends React.Component {
         }, ()=> {$("#modalMenu").modal("show");}
       )
     } else if (type == "edit_partner") {
-      this.setState(
-        {
+      this.setState({
           type: type, title: "Edit Partner",
           submit_form_handler: submit_form_handler,
           additional_data: { partner_id: additional_data.partner_id},
           handle_data_callback: handle_data_callback,
           prev_data: additional_data,
-        }, ()=> {$("#modalMenu").modal("show");}
-      )
+        }, ()=> {$("#modalMenu").modal("show");})
+    } else if (type == "view_partner") {
+      this.setState({
+          type: type, title: "View Partner",
+          submit_form_handler: null,
+          additional_data: { partner_id: additional_data.partner_id},
+          handle_data_callback: null,
+          prev_data: additional_data,
+        }, ()=> {$("#modalMenu").modal("show");});
     }
   }
 
@@ -215,36 +228,47 @@ class ModalMenu extends React.Component {
         </div>
       </div>);
     } else if (this.state.type == "create_partner" ||
-                this.state.type == "edit_partner") {
+                this.state.type == "edit_partner" ||
+                this.state.type == "view_partner") {
       return (<div>
         <div className="form-group">
           <label htmlFor="name-input">Partner Name</label>
-          <input type="text" className="form-control" name="name" 
-            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.org_name : ""}
+          <input type="text" className="form-control" name="org_name" 
+            defaultValue={
+              (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
+                this.state.prev_data.org_name : ""}
             id="name-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="contact-input">Contact Name</label>
-          <input type="text" className="form-control" name="contact" 
-            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.contact_name : ""}
+          <input type="text" className="form-control" name="contact_name" 
+            defaultValue={
+              (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
+                this.state.prev_data.contact_name : ""}
             id="contact-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="address-input">Address</label>
-          <input type="text" className="form-control" name="address" 
-            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.org_address : ""}
+          <input type="text" className="form-control" name="org_address" 
+            defaultValue={
+              (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
+                this.state.prev_data.org_address : ""}
             id="address-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="phone-input">Phone</label>
-          <input type="text" className="form-control" name="phone" 
-            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.contact_phone : ""}
+          <input type="text" className="form-control" name="contact_phone" 
+            defaultValue={
+              (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
+                this.state.prev_data.contact_phone : ""}
             id="phone-input" required></input>
         </div>
         <div className="form-group">
           <label htmlFor="email-input">Email</label>
-          <input type="text" className="form-control" name="email" 
-            defaultValue={this.state.type == "edit_partner" ? this.state.prev_data.contact_email : ""}
+          <input type="text" className="form-control" name="contact_email" 
+            defaultValue={
+              (this.state.type == "edit_partner"|| this.state.type=="view_partner") ? 
+                this.state.prev_data.contact_email : ""}
             id="email-input" required></input>
         </div>
       </div>);
@@ -254,6 +278,7 @@ class ModalMenu extends React.Component {
   }
 
   render() {
+    const submitStatus =  (this.state.type != "view_partner");
     return (
       <div className="modal" tabIndex="-1" role="dialog" id="modalMenu">
         <div className="modal-dialog" role="document">
@@ -269,7 +294,11 @@ class ModalMenu extends React.Component {
                 {this.create_menu()}
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary" id="save-btn">Save</button>
+                { submitStatus ? 
+                  (<button type="submit" className="btn btn-primary" 
+                    id="save-btn">Save</button>) : null
+                 }
+                
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>

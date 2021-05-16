@@ -133,6 +133,7 @@ var ProjectReport = function (_React$Component) {
           num_volunteers += workItem.volunteers_required;
         });
       });
+      cost = functionHelper.roundCurrency(cost);
 
       return React.createElement(
         "div",
@@ -204,7 +205,7 @@ var ProjectReport = function (_React$Component) {
                 React.createElement(
                   "td",
                   null,
-                  cost
+                  cost.toFixed(2)
                 )
               ),
               React.createElement(

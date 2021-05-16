@@ -12,11 +12,14 @@ const functionHelper = {
   },
 
   // Sort by project.start
-  date_sorter(a, b) {
+  date_sorter(a, b, ascending=true) {
     if (!a.start) {
       return 1;
     } else if (!b.start) {
       return -1;
+    }
+    if (ascending) {
+      return a.start.getTime() - b.start.getTime();
     }
     return b.start.getTime() - a.start.getTime();
   },
@@ -49,7 +52,7 @@ const functionHelper = {
     value = parseFloat((n * mult).toFixed(6))
     return Math.round(value) / mult;
   },
-  createTable(id, projects, complete=false) {
+  createTable(id, projects, completedReport=false) {
     return (
       <table className="table table-sm" id={id}>
         <thead>
@@ -57,7 +60,9 @@ const functionHelper = {
             <th scope="col">Project Name</th>
             <th scope="col">Name</th>
             <th scope="col">Status</th>
-            <th scope="col">Handle-It</th>
+            { completedReport ? 
+              (<th scope="col">Handle-It</th>) : null
+            }            
             <th scope="col">Start Date</th>
             <th scope="col">Location</th>
             <th scope="col">Work Items</th>
@@ -66,8 +71,8 @@ const functionHelper = {
             <th scope="col">PA</th>
             <th scope="col">SH</th>
             <th scope="col">Partners</th>
-            <th scope="col">{ complete ? "Volunteers" : "Volunteers Needed"}</th>
-            <th scope="col">{ complete ? "Cost" : "Estimated Cost"}</th>
+            <th scope="col">{ completedReport ? "Volunteers" : "Volunteers Needed"}</th>
+            <th scope="col">{ completedReport ? "Cost" : "Estimated Cost"}</th>
             <th scope="col">Hours</th>
           </tr>
         </thead>
@@ -108,9 +113,11 @@ const functionHelper = {
                       + " " + project.documentPackage.application.name.last}</a>
                 </td>
                 <td>{project.status}</td>
-                <td>
-                  {project.handleit ? "Y": "N"}
-                </td>
+                { completedReport ? 
+                  (<td>
+                    {project.handleit ? "Y": "N"}
+                  </td>) : null
+                }                
                 <td>
                   {start_date}
                 </td>
