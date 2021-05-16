@@ -220,7 +220,7 @@ class PartnerMenu extends React.Component {
         <button type="button" className="btn btn-primary"
           onClick={this.change_status}>Modify Partners</button>
         <h3>Current Partners</h3>
-        <table>
+        <table className="table table-sm">
           <thead>
           <tr>
               <th scope="col">Name</th>
@@ -255,14 +255,14 @@ class PartnerMenu extends React.Component {
   show_all_partners = () => {
     return (
     <div>
-      <button type="button" className="btn btn-sm btn-primary"
+      <button type="button" className="btn btn-primary"
         onClick={this.submitSelectedPartners}>Submit</button>
-      <button type="button" className="btn btn-sm btn-warning"
+      <button type="button" className="btn btn-warning"
         onClick={this.change_status}>Cancel</button>
-      <button type="button" className="btn btn-sm btn-success"
+      <button type="button" className="btn btn-success"
         onClick={this.onClick_createPartner}>Create Partner</button>
       <h3>Available Partners</h3>
-      <table>
+      <table className="table table-sm">
           <thead>
             <tr>
               <th scope="col"></th>

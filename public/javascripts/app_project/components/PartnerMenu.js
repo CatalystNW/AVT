@@ -227,7 +227,7 @@ var PartnerMenu = function (_React$Component) {
         ),
         React.createElement(
           "table",
-          null,
+          { className: "table table-sm" },
           React.createElement(
             "thead",
             null,
@@ -323,19 +323,19 @@ var PartnerMenu = function (_React$Component) {
         null,
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-primary",
+          { type: "button", className: "btn btn-primary",
             onClick: _this.submitSelectedPartners },
           "Submit"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-warning",
+          { type: "button", className: "btn btn-warning",
             onClick: _this.change_status },
           "Cancel"
         ),
         React.createElement(
           "button",
-          { type: "button", className: "btn btn-sm btn-success",
+          { type: "button", className: "btn btn-success",
             onClick: _this.onClick_createPartner },
           "Create Partner"
         ),
@@ -346,7 +346,7 @@ var PartnerMenu = function (_React$Component) {
         ),
         React.createElement(
           "table",
-          null,
+          { className: "table table-sm" },
           React.createElement(
             "thead",
             null,
