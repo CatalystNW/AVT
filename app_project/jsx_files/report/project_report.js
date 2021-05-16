@@ -105,6 +105,7 @@ class ProjectReport extends React.Component {
         num_volunteers += workItem.volunteers_required;
       });
     });
+    cost = functionHelper.roundCurrency(cost);
 
     return(
       <div>
@@ -126,7 +127,7 @@ class ProjectReport extends React.Component {
               </tr>
               <tr>
                 <th scope="row">Total Cost</th>
-                <td>{cost}</td>
+                <td>{cost.toFixed(2)}</td>
               </tr>
               <tr>
                 <th scope="row">Total Labor Hours</th>
