@@ -58,14 +58,21 @@ class ModalMenu extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    $("#save-btn").prop("disabled", true);
-    if (this.state.submit_form_handler) {
-      var data = this.get_data();
-      
-      this.state.submit_form_handler(
-        data, this.close_menu, this.state.handle_data_callback);
+    if (this.state.type == "edit_partner") {
+      const result = window.confirm(`Are you sure you want to edit partner ${this.state.prev_data.org_name}?`);
+      if (!result) {
+        this.close_menu();
+      }
     } else {
-      this.close_menu();
+      $("#save-btn").prop("disabled", true);
+      if (this.state.submit_form_handler) {
+        var data = this.get_data();
+        
+        this.state.submit_form_handler(
+          data, this.close_menu, this.state.handle_data_callback);
+      } else {
+        this.close_menu();
+      }
     }
   }
 

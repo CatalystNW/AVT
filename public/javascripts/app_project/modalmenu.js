@@ -84,13 +84,20 @@ var ModalMenu = function (_React$Component) {
 
     _this.onSubmit = function (event) {
       event.preventDefault();
-      $("#save-btn").prop("disabled", true);
-      if (_this.state.submit_form_handler) {
-        var data = _this.get_data();
-
-        _this.state.submit_form_handler(data, _this.close_menu, _this.state.handle_data_callback);
+      if (_this.state.type == "edit_partner") {
+        var result = window.confirm("Are you sure you want to edit partner " + _this.state.prev_data.org_name + "?");
+        if (!result) {
+          _this.close_menu();
+        }
       } else {
-        _this.close_menu();
+        $("#save-btn").prop("disabled", true);
+        if (_this.state.submit_form_handler) {
+          var data = _this.get_data();
+
+          _this.state.submit_form_handler(data, _this.close_menu, _this.state.handle_data_callback);
+        } else {
+          _this.close_menu();
+        }
       }
     };
 
