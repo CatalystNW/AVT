@@ -100,11 +100,23 @@ class PartnerMenu extends React.Component {
     this.change_status();
   };
 
+  onClickViewPartner = (e) => {
+    const index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+    const data = this.state[location][index];
+    this.props.getModalMenu().show_menu(
+      "view_partner",
+      null,
+      data,
+      null,
+    );
+  };
+
   onClick_editPartner = (e) => {
     const partner_id = e.target.getAttribute("partner_id"),
           index = e.target.getAttribute("index"),
           location = e.target.getAttribute("location");
-    var data = {...this.state[location][index]};
+    var data = this.state[location][index];
     data.type = "project";
     data.partner_id = data._id;
     this.props.getModalMenu().show_menu(
@@ -240,6 +252,10 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_email}</td>
                 <td>{partner.contact_phone}</td>
                 <td>
+                  <button type="button" className="btn btn-sm btn-primary"
+                    location={"partners"}
+                    partner_id={partner._id} index={index}
+                    onClick={this.onClickViewPartner}>View</button>
                   <button type="button" className="btn btn-sm"
                     location={"partners"}
                     partner_id={partner._id} index={index}
@@ -292,6 +308,10 @@ class PartnerMenu extends React.Component {
                 <td>{partner.contact_phone}</td>
                 <td>
                   <button type="button" className="btn btn-sm btn-primary"
+                    location={"allPartners"}
+                    partner_id={partner._id} index={index}
+                    onClick={this.onClickViewPartner}>View</button>
+                  <button type="button" className="btn btn-sm btn-secondary"
                     location={"allPartners"}
                     partner_id={partner._id} index={index}
                     onClick={this.onClick_editPartner}>Edit</button>

@@ -103,11 +103,18 @@ var PartnerMenu = function (_React$Component) {
       _this.change_status();
     };
 
+    _this.onClickViewPartner = function (e) {
+      var index = e.target.getAttribute("index"),
+          location = e.target.getAttribute("location");
+      var data = _this.state[location][index];
+      _this.props.getModalMenu().show_menu("view_partner", null, data, null);
+    };
+
     _this.onClick_editPartner = function (e) {
       var partner_id = e.target.getAttribute("partner_id"),
           index = e.target.getAttribute("index"),
           location = e.target.getAttribute("location");
-      var data = Object.assign({}, _this.state[location][index]);
+      var data = _this.state[location][index];
       data.type = "project";
       data.partner_id = data._id;
       _this.props.getModalMenu().show_menu("edit_partner", funkie.edit_partner, data, function (editPartner) {
@@ -303,6 +310,14 @@ var PartnerMenu = function (_React$Component) {
                   null,
                   React.createElement(
                     "button",
+                    { type: "button", className: "btn btn-sm btn-primary",
+                      location: "partners",
+                      partner_id: partner._id, index: index,
+                      onClick: _this.onClickViewPartner },
+                    "View"
+                  ),
+                  React.createElement(
+                    "button",
                     { type: "button", className: "btn btn-sm",
                       location: "partners",
                       partner_id: partner._id, index: index,
@@ -433,6 +448,14 @@ var PartnerMenu = function (_React$Component) {
                   React.createElement(
                     "button",
                     { type: "button", className: "btn btn-sm btn-primary",
+                      location: "allPartners",
+                      partner_id: partner._id, index: index,
+                      onClick: _this.onClickViewPartner },
+                    "View"
+                  ),
+                  React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-sm btn-secondary",
                       location: "allPartners",
                       partner_id: partner._id, index: index,
                       onClick: _this.onClick_editPartner },
