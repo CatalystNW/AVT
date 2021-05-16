@@ -183,6 +183,16 @@ var ModalMenu = function (_React$Component) {
         }, function () {
           $("#modalMenu").modal("show");
         });
+      } else if (type == "view_partner") {
+        this.setState({
+          type: type, title: "View Partner",
+          submit_form_handler: null,
+          additional_data: { partner_id: additional_data.partner_id },
+          handle_data_callback: null,
+          prev_data: additional_data
+        }, function () {
+          $("#modalMenu").modal("show");
+        });
       }
     }
   }, {
@@ -316,7 +326,7 @@ var ModalMenu = function (_React$Component) {
               defaultValue: this.state.prev_data.vendor, id: "vendor-input", required: true })
           )
         );
-      } else if (this.state.type == "create_partner" || this.state.type == "edit_partner") {
+      } else if (this.state.type == "create_partner" || this.state.type == "edit_partner" || this.state.type == "view_partner") {
         return React.createElement(
           "div",
           null,
@@ -329,7 +339,7 @@ var ModalMenu = function (_React$Component) {
               "Partner Name"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "name",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.org_name : "",
+              defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.org_name : "",
               id: "name-input", required: true })
           ),
           React.createElement(
@@ -341,7 +351,7 @@ var ModalMenu = function (_React$Component) {
               "Contact Name"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "contact",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_name : "",
+              defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_name : "",
               id: "contact-input", required: true })
           ),
           React.createElement(
@@ -353,7 +363,7 @@ var ModalMenu = function (_React$Component) {
               "Address"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "address",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.org_address : "",
+              defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.org_address : "",
               id: "address-input", required: true })
           ),
           React.createElement(
@@ -365,7 +375,7 @@ var ModalMenu = function (_React$Component) {
               "Phone"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "phone",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_phone : "",
+              defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_phone : "",
               id: "phone-input", required: true })
           ),
           React.createElement(
@@ -377,7 +387,7 @@ var ModalMenu = function (_React$Component) {
               "Email"
             ),
             React.createElement("input", { type: "text", className: "form-control", name: "email",
-              defaultValue: this.state.type == "edit_partner" ? this.state.prev_data.contact_email : "",
+              defaultValue: this.state.type == "edit_partner" || this.state.type == "view_partner" ? this.state.prev_data.contact_email : "",
               id: "email-input", required: true })
           )
         );
@@ -388,6 +398,7 @@ var ModalMenu = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var submitStatus = this.state.type != "view_partner";
       return React.createElement(
         "div",
         { className: "modal", tabIndex: "-1", role: "dialog", id: "modalMenu" },
@@ -422,11 +433,12 @@ var ModalMenu = function (_React$Component) {
               React.createElement(
                 "div",
                 { className: "modal-footer" },
-                React.createElement(
+                submitStatus ? React.createElement(
                   "button",
-                  { type: "submit", className: "btn btn-primary", id: "save-btn" },
+                  { type: "submit", className: "btn btn-primary",
+                    id: "save-btn" },
                   "Save"
-                ),
+                ) : null,
                 React.createElement(
                   "button",
                   { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" },
