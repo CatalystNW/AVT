@@ -203,8 +203,8 @@ var AppProjects = function (_React$Component) {
         "div",
         null,
         this.createProjectTable("Handle-It: Upcoming", "upcoming", 1),
-        this.createProjectTable("Project: Upcoming", "upcoming", 2),
         this.createProjectTable("Handle-It: In Progress", "in_progress", 1),
+        this.createProjectTable("Project: Upcoming", "upcoming", 2),
         this.createProjectTable("Project: In Progress", "in_progress", 2),
         this.createProjectTable("Completed", "complete", 0),
         this.createProjectTable("Withdrawn", "withdrawn", 0)
