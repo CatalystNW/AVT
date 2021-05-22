@@ -9,16 +9,17 @@ class DocStatusBar extends React.Component {
   }
 
   onChangeStatus = (e) => {
+    const status = e.target.value
     $.ajax({
       url: "/app_project/document/" + this.props.appId + "/status",
       type: "PATCH",
       context: this,
       data: {
-        applicationStatus: e.target.value,
+        applicationStatus: status,
       },
       success: function(data) {
         this.setState({
-          applicationStatus: e.target.value,
+          applicationStatus: status,
         });
       },
       error: function() {
@@ -59,7 +60,7 @@ class DocStatusBar extends React.Component {
       }
     }
     return (
-      <select className="form-control" value={this.state.applicationStatus}
+      <select className="form-control" value={status}
         onChange={this.onChangeStatus}>
         {options}
       </select>

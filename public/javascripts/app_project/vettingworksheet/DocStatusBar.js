@@ -17,16 +17,17 @@ var DocStatusBar = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (DocStatusBar.__proto__ || Object.getPrototypeOf(DocStatusBar)).call(this, props));
 
     _this.onChangeStatus = function (e) {
+      var status = e.target.value;
       $.ajax({
         url: "/app_project/document/" + _this.props.appId + "/status",
         type: "PATCH",
         context: _this,
         data: {
-          applicationStatus: e.target.value
+          applicationStatus: status
         },
         success: function success(data) {
           this.setState({
-            applicationStatus: e.target.value
+            applicationStatus: status
           });
         },
         error: function error() {
@@ -78,7 +79,7 @@ var DocStatusBar = function (_React$Component) {
       }
       return React.createElement(
         "select",
-        { className: "form-control", value: _this.state.applicationStatus,
+        { className: "form-control", value: status,
           onChange: _this.onChangeStatus },
         options
       );
