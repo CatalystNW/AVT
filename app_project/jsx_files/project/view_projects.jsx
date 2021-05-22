@@ -3,6 +3,12 @@ class AppProjects extends React.Component {
     super(props);
     this.state = {
       projects: [],
+      showHandleitUpcoming: true,
+      showHandleitInProgress: true,
+      showProjectUpcoming: true,
+      showProjectInProgress: true,
+      showCompleted: true,
+      showWithdrawn: true,
     }
     this.get_projects();
   }
@@ -27,10 +33,9 @@ class AppProjects extends React.Component {
    */
   createProjectRows = (status, filterStatus) => {
     const projects = [];
-    let project, start, doc, app, address, handleitColumn;
+    let start, doc, app, address, handleitColumn;
     
-    for (let i=0; i< this.state.projects.length; i++) {
-      project = this.state.projects[i];
+    for (let project of this.state.projects) {
       if (project.status != status )
         continue;
       if (filterStatus == 2 && project.handleit ||
@@ -62,6 +67,35 @@ class AppProjects extends React.Component {
     return projects;    
   }
 
+  onClickProjectHeader = (e) => {
+    e.preventDefault();
+    const status = e.target.getAttribute("status"),
+          filterStatus = e.target.getAttribute("filterstatus");
+    let statusState;
+    if (status == "complete") {
+      statusState = "showCompleted";
+    } else if (status == "withdrawn") {
+      statusState = "showWithdrawn";
+    } else if (status == "upcoming") {
+      if (filterStatus == 1) {
+        statusState = "showHandleitUpcoming";
+      } else {
+        statusState = "showProjectUpcoming";
+      }
+    } else {
+      if (filterStatus == 1) {
+        statusState = "showHandleitInProgress";
+      } else {
+        statusState = "showProjectInProgress";
+      }
+    }
+    this.setState(state => {
+      return {
+        [statusState]: !state[statusState]
+      };
+    });
+  }
+
   /**
    * Create Table for projects
    * @param {*} status-projet.status[String]
@@ -70,41 +104,71 @@ class AppProjects extends React.Component {
    */
   createProjectTable = (title, status, filterStatus) => {
     const projectRows = this.createProjectRows(status, filterStatus);
+
+    // Determine if state status on whether table should be shown
+    let showStatus;
+    if (status == "upcoming") {
+      if (filterStatus == 1) {
+        showStatus = this.state.showHandleitUpcoming;
+      } else {
+        showStatus = this.state.showProjectUpcoming
+      }
+    } else if (status == "in_progress") {
+      if (filterStatus == 1) {
+        showStatus = this.state.showHandleitInProgress;
+      } else {
+        showStatus =this.state.showProjectInProgress
+      }
+    } else if (status == "complete") {
+      showStatus = this.state.showCompleted;
+    } else {
+      showStatus = this.state.showWithdrawn;
+    }
+
     // show column only when both handleit & projects are showng
     let handleitColumn = (filterStatus == 0) ?
           (<th className="col-sm-1" scope="col">Handle-It</th>) : null;
     return (
       <div>
-        <h2>{title}</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="col-sm-2" scope="col">Project Name</th>
-              { handleitColumn }
-              <th className="col-sm-2" scope="col">Applicant</th>
-              <th className="col-sm-2" scope="col">Location</th>
-              <th className="col-sm-2" scope="col">Start Date</th>
-              <th className="col-sm-1" scope="col">CC</th>
-              <th className="col-sm-1" scope="col">PA</th>
-              <th className="col-sm-1" scope="col">SH</th>
-            </tr>
-          </thead>
-          <tbody>
-            { projectRows }
-          </tbody>
-        </table>
+        <h2 ><a href="#" status={status} filterstatus={filterStatus}
+              onClick={this.onClickProjectHeader}>{title}</a></h2>
+        {showStatus ? 
+          (<table className="table">
+            <thead>
+              <tr>
+                <th className="col-sm-2" scope="col">Project Name</th>
+                { handleitColumn }
+                <th className="col-sm-2" scope="col">Applicant</th>
+                <th className="col-sm-2" scope="col">Location</th>
+                <th className="col-sm-2" scope="col">Start Date</th>
+                <th className="col-sm-1" scope="col">CC</th>
+                <th className="col-sm-1" scope="col">PA</th>
+                <th className="col-sm-1" scope="col">SH</th>
+              </tr>
+            </thead>
+            <tbody>
+              { projectRows }
+            </tbody>
+          </table>) : null
+        }
+        
       </div>);
   };
 
   render() {
     return (
       <div>
-        {this.createProjectTable("Handle-It: Upcoming", "upcoming", 1)}
-        {this.createProjectTable("Handle-It: In Progress", "in_progress", 1)}
-        {this.createProjectTable("Project: Upcoming", "upcoming", 2)}
-        {this.createProjectTable("Project: In Progress", "in_progress", 2)}
-        {this.createProjectTable("Completed", "complete", 0)}
-        {this.createProjectTable("Withdrawn", "withdrawn", 0)}
+        { this.createProjectTable("Handle-It: Upcoming", "upcoming", 1) }
+
+        { this.createProjectTable("Handle-It: In Progress", "in_progress", 1)}
+
+        { this.createProjectTable("Project: Upcoming", "upcoming", 2) }
+        
+        { this.createProjectTable("Project: In Progress", "in_progress", 2) }
+
+        { this.createProjectTable("Completed", "complete", 0) }
+
+        { this.createProjectTable("Withdrawn", "withdrawn", 0) }
       </div>
     );
   }
