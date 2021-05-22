@@ -8,6 +8,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+import { functionHelper } from "../functionHelper.js";
+
 var AppProjects = function (_React$Component) {
   _inherits(AppProjects, _React$Component);
 
@@ -21,17 +23,33 @@ var AppProjects = function (_React$Component) {
       $.ajax({
         url: "./projects",
         type: "GET",
-        success: function success(data) {
-          console.log(data);
-          that.setState({ projects: data });
+        success: function success(projects) {
+          console.log(projects);
+          var yearSet = new Set(),
+              year = void 0;
+
+          // Convert project.date to project>startDate (with date obj) &&
+          // Add to state.completeYears
+          projects.forEach(function (project) {
+            project.startDate = functionHelper.convert_date(project.start);
+            if (project.startDate && project.status == "complete") {
+              year = project.startDate.getFullYear();
+              if (year && !yearSet.has(year)) {
+                yearSet.add(parseInt(year));
+              }
+            }
+          });
+          that.setState({
+            completeYears: Array.from(yearSet).sort().reverse(),
+            projects: projects
+          });
         }
       });
     };
 
     _this.createProjectRows = function (status, filterStatus) {
       var projects = [];
-      var start = void 0,
-          doc = void 0,
+      var doc = void 0,
           app = void 0,
           address = void 0,
           handleitColumn = void 0;
@@ -44,11 +62,13 @@ var AppProjects = function (_React$Component) {
         for (var _iterator = _this.state.projects[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var project = _step.value;
 
+          if (project.status == "complete" && _this.state.selectedCompleteYear != "all" && (project.startDate == null || project.startDate.getFullYear() != _this.state.selectedCompleteYear)) {
+            continue;
+          }
           if (project.status != status) continue;
           if (filterStatus == 2 && project.handleit || filterStatus == 1 && !project.handleit) {
             continue;
           }
-          if (project.start) start = project.start.replace("T", " ").substring(0, project.start.length - 8);
           doc = project.documentPackage;
           app = doc.application;
           address = app.address.city + ", " + app.address.state;
@@ -86,7 +106,7 @@ var AppProjects = function (_React$Component) {
             React.createElement(
               "td",
               { className: "col-sm-2" },
-              start
+              project.startDate ? project.startDate.toLocaleDateString() : ""
             ),
             React.createElement(
               "td",
@@ -150,6 +170,13 @@ var AppProjects = function (_React$Component) {
       });
     };
 
+    _this.onChangeCompleteYear = function (e) {
+      console.log(e.target.value);
+      _this.setState({
+        selectedCompleteYear: e.target.value
+      });
+    };
+
     _this.createProjectTable = function (title, status, filterStatus) {
       var projectRows = _this.createProjectRows(status, filterStatus);
 
@@ -183,14 +210,35 @@ var AppProjects = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "h2",
+          "div",
           null,
           React.createElement(
-            "a",
-            { href: "#", status: status, filterstatus: filterStatus,
-              onClick: _this.onClickProjectHeader },
-            title
-          )
+            "h3",
+            null,
+            React.createElement(
+              "a",
+              { href: "#", status: status, filterstatus: filterStatus,
+                onClick: _this.onClickProjectHeader },
+              title
+            )
+          ),
+          status == "complete" ? React.createElement(
+            "select",
+            { value: _this.state.selectedCompleteYear,
+              onChange: _this.onChangeCompleteYear },
+            React.createElement(
+              "option",
+              { value: "all" },
+              "All"
+            ),
+            _this.state.completeYears.map(function (year) {
+              return React.createElement(
+                "option",
+                { key: year, value: year },
+                year
+              );
+            })
+          ) : null
         ),
         showStatus ? React.createElement(
           "table",
@@ -255,7 +303,9 @@ var AppProjects = function (_React$Component) {
       showProjectUpcoming: true,
       showProjectInProgress: true,
       showCompleted: true,
-      showWithdrawn: true
+      showWithdrawn: true,
+      selectedCompleteYear: "all",
+      completeYears: [] // Contains years of completed projects
     };
     _this.get_projects();
     return _this;

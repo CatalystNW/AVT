@@ -1,3 +1,5 @@
+import { functionHelper } from "../functionHelper.js"
+
 class AppProjects extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +11,8 @@ class AppProjects extends React.Component {
       showProjectInProgress: true,
       showCompleted: true,
       showWithdrawn: true,
+      selectedCompleteYear: "all",
+      completeYears: [], // Contains years of completed projects
     }
     this.get_projects();
   }
@@ -18,9 +22,26 @@ class AppProjects extends React.Component {
     $.ajax({
       url: "./projects",
       type: "GET",
-      success: function(data) {
-        console.log(data);
-        that.setState({projects: data,})
+      success: function(projects) {
+        console.log(projects);
+        let yearSet = new Set(), 
+            year;
+
+        // Convert project.date to project>startDate (with date obj) &&
+        // Add to state.completeYears
+        projects.forEach(project => {
+          project.startDate = functionHelper.convert_date(project.start);
+          if (project.startDate && project.status == "complete") {
+            year = project.startDate.getFullYear();
+            if (year && !yearSet.has(year)) {
+              yearSet.add(parseInt(year));
+            }
+          }
+        });
+        that.setState({
+          completeYears: Array.from(yearSet).sort().reverse(),
+          projects: projects,
+        })
       },
     });
   }  
@@ -33,17 +54,21 @@ class AppProjects extends React.Component {
    */
   createProjectRows = (status, filterStatus) => {
     const projects = [];
-    let start, doc, app, address, handleitColumn;
+    let doc, app, address, handleitColumn;
     
     for (let project of this.state.projects) {
+      if (project.status == "complete" &&
+          this.state.selectedCompleteYear != "all" &&
+          (project.startDate == null || 
+            project.startDate.getFullYear() != this.state.selectedCompleteYear)) {
+        continue;
+      }
       if (project.status != status )
         continue;
       if (filterStatus == 2 && project.handleit ||
           filterStatus == 1 && !project.handleit) {
         continue;
       }
-      if (project.start)
-        start = project.start.replace("T", " ").substring(0, project.start.length - 8);
       doc = project.documentPackage;
       app = doc.application;
       address = `${app.address.city}, ${app.address.state}`;
@@ -58,7 +83,9 @@ class AppProjects extends React.Component {
           { handleitColumn }
           <td className="col-sm-2" >{app.name.first} {app.name.last}</td>
           <td className="col-sm-2" >{address}</td>
-          <td className="col-sm-2" >{start}</td>
+          <td className="col-sm-2" >
+            {project.startDate ? project.startDate.toLocaleDateString() : ""}
+          </td>
           <td className="col-sm-1" >{project.crew_chief}</td>
           <td className="col-sm-1" >{project.project_advocate}</td>
           <td className="col-sm-1" >{project.site_host}</td>
@@ -96,6 +123,13 @@ class AppProjects extends React.Component {
     });
   }
 
+  onChangeCompleteYear = (e)=> {
+    console.log(e.target.value);
+    this.setState({
+      selectedCompleteYear: e.target.value,
+    });
+  }
+
   /**
    * Create Table for projects
    * @param {*} status-projet.status[String]
@@ -130,8 +164,24 @@ class AppProjects extends React.Component {
           (<th className="col-sm-1" scope="col">Handle-It</th>) : null;
     return (
       <div>
-        <h2 ><a href="#" status={status} filterstatus={filterStatus}
-              onClick={this.onClickProjectHeader}>{title}</a></h2>
+        <div>
+          <h3>
+            <a href="#" status={status} filterstatus={filterStatus}
+                onClick={this.onClickProjectHeader}>{title}</a>  
+          </h3>           
+          {status == "complete" ? 
+          (
+            <select value={this.state.selectedCompleteYear}
+                onChange={this.onChangeCompleteYear}>
+              <option value={"all"}>All</option>
+              {this.state.completeYears.map(year => {
+                return (
+                  <option key={year} value={year}>{year}</option>)
+              })}
+            </select>
+          ): null}
+        </div>
+        
         {showStatus ? 
           (<table className="table">
             <thead>
