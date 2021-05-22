@@ -90,7 +90,6 @@ var AppProjects = function (_React$Component) {
                 project.name && project.name.length > 0 ? project.name : "N/A"
               )
             ),
-            handleitColumn,
             React.createElement(
               "td",
               { className: "col-sm-2" },
@@ -122,7 +121,8 @@ var AppProjects = function (_React$Component) {
               "td",
               { className: "col-sm-1" },
               project.site_host
-            )
+            ),
+            handleitColumn
           ));
         }
       } catch (err) {
@@ -254,7 +254,6 @@ var AppProjects = function (_React$Component) {
                 { className: "col-sm-2", scope: "col" },
                 "Project Name"
               ),
-              handleitColumn,
               React.createElement(
                 "th",
                 { className: "col-sm-2", scope: "col" },
@@ -284,7 +283,8 @@ var AppProjects = function (_React$Component) {
                 "th",
                 { className: "col-sm-1", scope: "col" },
                 "SH"
-              )
+              ),
+              handleitColumn
             )
           ),
           React.createElement(

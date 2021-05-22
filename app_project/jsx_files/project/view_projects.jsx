@@ -80,7 +80,6 @@ class AppProjects extends React.Component {
           <td className="col-sm-2" >
             <a href={"./view_projects/"+ project._id}>
               { (project.name && project.name.length > 0) ? project.name : "N/A"}</a></td>
-          { handleitColumn }
           <td className="col-sm-2" >{app.name.first} {app.name.last}</td>
           <td className="col-sm-2" >{address}</td>
           <td className="col-sm-2" >
@@ -89,6 +88,7 @@ class AppProjects extends React.Component {
           <td className="col-sm-1" >{project.crew_chief}</td>
           <td className="col-sm-1" >{project.project_advocate}</td>
           <td className="col-sm-1" >{project.site_host}</td>
+          { handleitColumn }
         </tr>);  
     }
     return projects;    
@@ -187,13 +187,13 @@ class AppProjects extends React.Component {
             <thead>
               <tr>
                 <th className="col-sm-2" scope="col">Project Name</th>
-                { handleitColumn }
                 <th className="col-sm-2" scope="col">Applicant</th>
                 <th className="col-sm-2" scope="col">Location</th>
                 <th className="col-sm-2" scope="col">Start Date</th>
                 <th className="col-sm-1" scope="col">CC</th>
                 <th className="col-sm-1" scope="col">PA</th>
                 <th className="col-sm-1" scope="col">SH</th>
+                { handleitColumn }
               </tr>
             </thead>
             <tbody>
