@@ -158,7 +158,7 @@ class PAFApp extends React.Component {
       <h2><b>Cost</b></h2>
       <div>Total Work Items Cost: ${total_cost.toFixed(2)}</div>
       <div>Porta Potty Cost: ${this.state.porta_potty_cost.toFixed(2)}</div>
-      <div>Total Cost Estimate: ${this.state.waste_cost.toFixed(2)}</div>
+      <div>Waste/Dump Trailer Cost: ${this.state.waste_cost.toFixed(2)}</div>
       <div>Final Cost Estimate: ${(total_cost + this.state.porta_potty_cost + 
                               this.state.waste_cost).toFixed(2)}</div>
       <div>Total Volunteers Needed: {total_volunteers}</div>

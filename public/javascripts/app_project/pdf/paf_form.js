@@ -341,7 +341,7 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           "div",
           null,
-          "Total Cost Estimate: $",
+          "Waste/Dump Trailer Cost: $",
           this.state.waste_cost.toFixed(2)
         ),
         React.createElement(
