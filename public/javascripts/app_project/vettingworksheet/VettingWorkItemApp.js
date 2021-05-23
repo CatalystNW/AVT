@@ -160,9 +160,33 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.createDeclinedWorkItems = function () {
       var workitems = [];
 
-      _this.state.declinedWorkItems.forEach(function (workItem) {
-        workitems.push(_this.createWorkItem(workItem));
-      });
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = _this.state.declinedWorkItems[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var workItem = _step2.value;
+
+          if (_this.state.showType == "assessment" && workItem.type != "assessment" || _this.state.showType == "project" && workItem.type != "project") {
+            continue;
+          }
+          workitems.push(_this.createWorkItem(workItem));
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
 
       return workitems;
     };
@@ -170,9 +194,33 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.createCurrentWorkItems = function () {
       var workitems = [];
 
-      _this.state.workItems.forEach(function (workItem) {
-        workitems.push(_this.createWorkItem(workItem));
-      });
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = _this.state.workItems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var workItem = _step3.value;
+
+          if (_this.state.showType == "assessment" && workItem.type != "assessment" || _this.state.showType == "project" && workItem.type != "project") {
+            continue;
+          }
+          workitems.push(_this.createWorkItem(workItem));
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
 
       return workitems;
     };
@@ -180,8 +228,17 @@ var VettingWorkItemApp = function (_React$Component) {
     _this.createCompleteWorkItems = function () {
       var workitems = [];
 
-      _this.state.completeWorkItems.forEach(function (workItem) {
-        if (workItem.status != "declined") {
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = _this.state.workItems[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var workItem = _step4.value;
+
+          if (_this.state.showType == "assessment" && workItem.type != "assessment" || _this.state.showType == "project" && workItem.type != "project" || workItem.status == "declined") {
+            continue;
+          }
           workitems.push(React.createElement(
             "div",
             { className: "panel panel-primary", key: workItem._id },
@@ -190,23 +247,41 @@ var VettingWorkItemApp = function (_React$Component) {
               { className: "panel-body" },
               React.createElement(WorkItem, { page_type: "vetting",
                 workitem: workItem
-                // Disabled
-                // remove_workitem={this.remove_workitem}
-                // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                // set_edit_workitem_menu = {this.set_edit_workitem_menu}
+                // Disabled remove, edit, & create so manually create
               })
             )
           ));
         }
-      });
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
       return workitems;
+    };
+
+    _this.onClickSetShowType = function (e) {
+      var value = e.target.value;
+      if (value == "all" || value == "assessment" || value == "project") {
+        _this.setState({ showType: value });
+      }
     };
 
     _this.state = {
       workItems: [],
       completeWorkItems: [],
-      declinedWorkItems: []
+      declinedWorkItems: [],
+      showType: "all" // "all", "assessment", "project"
     };
     _this.assessmentId = null;
     _this.loadWorkItems();
@@ -233,6 +308,38 @@ var VettingWorkItemApp = function (_React$Component) {
       return React.createElement(
         "div",
         null,
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "h3",
+            null,
+            "Work Items"
+          ),
+          React.createElement(
+            "span",
+            null,
+            "Show Work Items:",
+            React.createElement(
+              "button",
+              { value: "all", className: "btn btn-sm btn-primary",
+                onClick: this.onClickSetShowType },
+              "Show All"
+            ),
+            React.createElement(
+              "button",
+              { value: "assessment", className: "btn btn-sm btn-secondary",
+                onClick: this.onClickSetShowType },
+              "Assessment Only"
+            ),
+            React.createElement(
+              "button",
+              { value: "project", className: "btn btn-sm btn-success",
+                onClick: this.onClickSetShowType },
+              "Projet Only"
+            )
+          )
+        ),
         React.createElement(
           "div",
           { className: "row" },
