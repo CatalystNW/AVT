@@ -259,6 +259,7 @@ class ProjectMenu extends React.Component {
       <div className="col-sm-12 col-lg-8" style={divStyle}
         id="assessment-container">
         <div id="project-nav-container">
+          <h2>{this.state.handleit ? "Handle-It Project" : "Project"} {this.state.name}</h2>
           <ul className="nav nav-tabs" id="nav-assessment-tabs" role="tablist">
             <li className="nav-item">
               <a className="nav-link active" id="nav-info-tab" data-toggle="tab" 
