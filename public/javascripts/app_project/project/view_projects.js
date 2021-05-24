@@ -333,6 +333,11 @@ var AppProjects = function (_React$Component) {
       return React.createElement(
         "div",
         null,
+        React.createElement(
+          "h2",
+          null,
+          "Projects"
+        ),
         this.createProjectTable("Handle-It: Upcoming", "upcoming", 1),
         this.createProjectTable("Handle-It: In Progress", "in_progress", 1),
         this.createProjectTable("Project: Upcoming", "upcoming", 2),
