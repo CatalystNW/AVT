@@ -47,6 +47,10 @@ class PAFApp extends React.Component {
     return Math.round(value) / mult;
   }
 
+  onClick_print = () => {
+    window.print();
+  };
+
   render() {
     let docApp, documentPackage, siteAssessment, partners;
     if (this.props.type == "project") {
@@ -84,6 +88,10 @@ class PAFApp extends React.Component {
         assessment_summary = siteAssessment.summary;
     return (
     <div>
+      <div id="buttons-container" className="no-print">
+        <button onClick={this.onClick_print}>Print</button>  
+      </div>
+
       <div id="cblock-container">
         <img src="/images/app_project/letterhead.png"></img>
       </div>
