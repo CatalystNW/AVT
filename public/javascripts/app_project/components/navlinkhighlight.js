@@ -34,7 +34,6 @@ window.onload = function () {
   }
   if (navId) {
     var link = document.getElementById(navId);
-    console.log(link);
     if (link) {
       link.classList.add("active");
     }
