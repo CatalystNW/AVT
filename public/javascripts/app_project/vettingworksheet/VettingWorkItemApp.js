@@ -34,9 +34,12 @@ var VettingWorkItemApp = function (_React$Component) {
               declinedWorkItems = [];
           for (var i = 0, workitem; i < workitems.length; i++) {
             workitem = workitems[i];
+            if (workitem.status == "accepted" && (workitem.complete || workitem.transferred)) {
+              continue;
+            }
             if (workitem.status == "declined") {
               declinedWorkItems.push(workitem);
-            } else if (workitem.handleit == true || workitem.status == "accepted" || workitem.status == "complete") {
+            } else if (workitem.handleit == true || workitem.status == "complete") {
               completeWorkItems.push(workitem);
             } else {
               workItems.push(workitem);
