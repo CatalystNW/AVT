@@ -50,6 +50,11 @@ var VettingWorkItemApp = function (_React$Component) {
             currentWorkItems: currentWorkItems,
             completeWorkItems: completeWorkItems,
             declinedWorkItems: declinedWorkItems
+          }, function () {
+            // Temporarily console.log for debugging
+            console.log("current", currentWorkItems);
+            console.log("complete", completeWorkItems);
+            console.log("declined", declinedWorkItems);
           });
         }
       });
