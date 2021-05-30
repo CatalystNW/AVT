@@ -77,7 +77,17 @@ const AppProjectPlanListSchema = new mongoose.Schema({
       ref: "UserPackage",
     },
   },
-  verify_site_resources: {
+  coordinate_site_host: {
+    complete: {
+      type: Boolean,
+      default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "UserPackage",
+    },
+  },
+  coordinate_project_advocate: {
     complete: {
       type: Boolean,
       default: false,
