@@ -7,7 +7,9 @@ class ApplicationInformation extends React.Component {
     super(props);
     this.state = {
       site_assessment: null,
-    }
+    };
+    // Used to show application link
+    this.userVetRole = (user_roles && user_roles.includes("VET"));
   }
 
   componentDidMount() {
@@ -42,15 +44,31 @@ class ApplicationInformation extends React.Component {
       <span>{app.line_1}<br />{app.city}, {app.state} {app.zip}</span> :
       <span>{app.line_1}<br />{app.line_2}<br />{app.city}, {app.state} {app.zip}</span>
     const owns_home = app.owns_home ? "Yes" : "No";
-      
     return (
       <div>
         <table className="table">
           <tbody>
-            <tr><th className="col-xs-3">Name</th><td className="col-xs-9">{this.getName()}</td></tr>
-            <tr><th className="col-xs-3">Address</th><td className="col-xs-9">{address}</td></tr>
-            <tr><th className="col-xs-3">Phone</th><td className="col-xs-9">{app.phone}</td></tr>
-            <tr><th className="col-xs-3">Email</th><td className="col-xs-9">{app.email}</td></tr>
+            <tr>
+                <th className="col-xs-3">Name</th>
+                { this.userVetRole ? 
+                  <td className="col-xs-9">
+                    <a href={"/view/" + this.props.application.id} target="_blank"
+                      >{this.getName()}</a></td> :
+                  <td className="col-xs-9">{this.getName()}</td>
+                 }
+            </tr>
+            <tr>
+              <th className="col-xs-3">Address</th>
+              <td className="col-xs-9">{address}</td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Phone</th>
+              <td className="col-xs-9">{app.phone}</td>
+            </tr>
+            <tr>
+              <th className="col-xs-3">Email</th>
+              <td className="col-xs-9">{app.email}</td>
+              </tr>
             <tr>
               <th className="col-xs-3">Emergency Contact</th>
               <td className="col-xs-9">
