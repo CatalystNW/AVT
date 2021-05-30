@@ -236,7 +236,7 @@ var VettingWorkItemApp = function (_React$Component) {
       var _iteratorError4 = undefined;
 
       try {
-        for (var _iterator4 = _this.state.workItems[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        for (var _iterator4 = _this.state.completeWorkItems[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
           var workItem = _step4.value;
 
           if (_this.state.showType == "assessment" && workItem.type != "assessment" || _this.state.showType == "project" && workItem.type != "project" || workItem.status == "declined") {

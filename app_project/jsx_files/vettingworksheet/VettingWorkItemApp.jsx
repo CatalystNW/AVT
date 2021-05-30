@@ -190,7 +190,7 @@ class VettingWorkItemApp extends React.Component {
   createCompleteWorkItems = () => {
     const workitems = [];
     
-    for (const workItem of this.state.workItems) {
+    for (const workItem of this.state.completeWorkItems) {
       if ((this.state.showType == "assessment" && workItem.type != "assessment") ||
           (this.state.showType == "project" && workItem.type != "project") ||
           workItem.status == "declined") {
