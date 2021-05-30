@@ -30,7 +30,7 @@ var VettingWorkItemApp = function (_React$Component) {
         success: function success(workitems) {
           console.log(workitems);
           var completeWorkItems = [],
-              workItems = [],
+              currentWorkItems = [],
               declinedWorkItems = [];
           for (var i = 0, workitem; i < workitems.length; i++) {
             workitem = workitems[i];
@@ -40,14 +40,14 @@ var VettingWorkItemApp = function (_React$Component) {
             }
             if (workitem.status == "declined") {
               declinedWorkItems.push(workitem);
-            } else if (workitem.handleit == true || workitem.status == "complete") {
+            } else if (workitem.handleit || workitem.status == "complete") {
               completeWorkItems.push(workitem);
             } else {
-              workItems.push(workitem);
+              currentWorkItems.push(workitem);
             }
           }
           this.setState({
-            workItems: workItems,
+            currentWorkItems: currentWorkItems,
             completeWorkItems: completeWorkItems,
             declinedWorkItems: declinedWorkItems
           });
@@ -70,7 +70,7 @@ var VettingWorkItemApp = function (_React$Component) {
         success: function success(workitem) {
           this.clearForm();
           this.setState({
-            workItems: [].concat(_toConsumableArray(this.state.workItems), [workitem])
+            currentWorkItems: [].concat(_toConsumableArray(this.state.currentWorkItems), [workitem])
           });
         }
       });
@@ -123,7 +123,7 @@ var VettingWorkItemApp = function (_React$Component) {
             break;
           }
         }
-        return { workItems: new_workitems };
+        return { currentWorkItems: new_workitems };
       });
     };
 
@@ -203,7 +203,7 @@ var VettingWorkItemApp = function (_React$Component) {
       var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator3 = _this.state.workItems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        for (var _iterator3 = _this.state.currentWorkItems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
           var workItem = _step3.value;
 
           if (_this.state.showType == "assessment" && workItem.type != "assessment" || _this.state.showType == "project" && workItem.type != "project") {
@@ -282,7 +282,7 @@ var VettingWorkItemApp = function (_React$Component) {
     };
 
     _this.state = {
-      workItems: [],
+      currentWorkItems: [],
       completeWorkItems: [],
       declinedWorkItems: [],
       showType: "all" // "all", "assessment", "project"

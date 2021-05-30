@@ -7,7 +7,7 @@ class VettingWorkItemApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      workItems: [],
+      currentWorkItems: [],
       completeWorkItems: [],
       declinedWorkItems: [],
       showType: "all", // "all", "assessment", "project"
@@ -26,7 +26,7 @@ class VettingWorkItemApp extends React.Component {
       success: function(workitems) {
         console.log(workitems);
         let completeWorkItems = [],
-            workItems = [],
+            currentWorkItems = [],
             declinedWorkItems = [];
         for (let i = 0, workitem; i< workitems.length; i++ ) {
           workitem = workitems[i];
@@ -37,15 +37,15 @@ class VettingWorkItemApp extends React.Component {
           }
           if (workitem.status == "declined") {
             declinedWorkItems.push(workitem)
-          } else if (workitem.handleit == true ||
+          } else if (workitem.handleit ||
                 workitem.status == "complete") {
             completeWorkItems.push(workitem);
           } else  {
-            workItems.push(workitem);
+            currentWorkItems.push(workitem);
           }
         }
         this.setState({
-          workItems: workItems,
+          currentWorkItems: currentWorkItems,
           completeWorkItems: completeWorkItems,
           declinedWorkItems: declinedWorkItems,
         });
@@ -68,7 +68,7 @@ class VettingWorkItemApp extends React.Component {
       success: function(workitem) {
         this.clearForm();
         this.setState({
-          workItems: [...this.state.workItems, workitem],
+          currentWorkItems: [...this.state.currentWorkItems, workitem],
         })
       }
     })
@@ -99,7 +99,7 @@ class VettingWorkItemApp extends React.Component {
           break;
         }
       }
-      return {workItems: new_workitems}
+      return {currentWorkItems: new_workitems}
     });
   };
 
@@ -176,7 +176,7 @@ class VettingWorkItemApp extends React.Component {
   createCurrentWorkItems = () => {
     const workitems = [];
 
-    for (const workItem of this.state.workItems) {
+    for (const workItem of this.state.currentWorkItems) {
       if ((this.state.showType == "assessment" && workItem.type != "assessment") ||
           (this.state.showType == "project" && workItem.type != "project")) {
         continue
