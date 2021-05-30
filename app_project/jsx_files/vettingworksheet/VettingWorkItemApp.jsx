@@ -30,7 +30,8 @@ class VettingWorkItemApp extends React.Component {
             declinedWorkItems = [];
         for (let i = 0, workitem; i< workitems.length; i++ ) {
           workitem = workitems[i];
-          if (workitem.status == "accepted" && 
+          // Specified by Dan to show handleit under completed
+          if (workitem.status == "accepted" && !workitem.handleit &&
               (workitem.complete || workitem.transferred)) {
             continue;
           }
