@@ -321,7 +321,7 @@
     });
 
     $("#convertStatusBtn").on("click", function(event) {
-        const msg = "Converted. If there are any unconverted documents, please note that documents and contact the administrator.";
+        const msg = "Converted. If there are any unconverted documents, try to manuall convert it in the vetting page or contact an administrator.";
         $.ajax({
             type: "POST",
             url: "/app_project/document/convert",
