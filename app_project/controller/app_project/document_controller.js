@@ -9,11 +9,6 @@ async function editDocumentStatus(req, res) {
   if (!authHelper.hasRole(req, res, "VET")) {
     res.status(403).end(); return;
   }
-  const statusSet = new Set([
-    'discuss', 'new', 'phone', 'handle', 'documents',
-    'assess', 'assessComp', 'approval', 'declined',
-    'withdrawnooa', 'withdrawn', 'project',
-    'waitlist', 'transferred']);
   const document = await DocumentPackage.findById(req.params.application_id);
   if (document) {
     try {
