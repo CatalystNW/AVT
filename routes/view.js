@@ -266,9 +266,7 @@ router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, re
 
     var payload = {};
 
-    if (res.locals.results.new[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'new\'');
-    } else {
+    if (res.locals.results.new && res.locals.results.new[0]) {
         res.locals.results.new.forEach(function (element) {
             element = formatElement(element);
         });
@@ -277,53 +275,33 @@ router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, re
 
 	//separate bucket for approved applications
 
-    payload.project = [];
+    payload.vetted = [];
 
-	if (res.locals.results.project[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'project\'');
-    } else {
-        res.locals.results.project.forEach(function (element) {
+    if (res.locals.results.vetted && res.locals.results.vetted[0]) {
+        res.locals.results.vetted.forEach(function (element) {
             element = formatElement(element);
-            payload.project.push(element);
+            payload.vetted.push(element);
 		});
     }
-
-    if (res.locals.results.handle[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'handle\'');
-    } else {
-        res.locals.results.handle.forEach(function (element) {
-            element = formatElement(element);
-            payload.project.push(element);
-        });
-    }
-
-
-    //payload.project = res.locals.results.project;
 
     //put declined and withdrawn in the same bucket
     payload.unapproved = [];
 
-    if (res.locals.results.declined[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'declined\'');
-    } else {
+    if (res.locals.results.declined && res.locals.results.declined[0]) {
         res.locals.results.declined.forEach(function (element) {
             element = formatElement(element);
             payload.unapproved.push(element);
         });
     }
 
-    if (res.locals.results.withdrawn[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'withdrawn\'');
-    } else {
+    if (res.locals.results.withdrawn && res.locals.results.withdrawn[0]) {
         res.locals.results.withdrawn.forEach(function (element) {
             element = formatElement(element);
             payload.unapproved.push(element);
         });
 	}
 
-	if (res.locals.results.withdrawnooa[0] == null) {
-		console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'withdrawnooa\'');
-	} else {
+	if (res.locals.results.withdrawnooa && res.locals.results.withdrawnooa[0]) {
 		res.locals.results.withdrawnooa.forEach(function (element) {
 			element = formatElement(element);
 			payload.unapproved.push(element);
@@ -332,9 +310,7 @@ router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, re
     //Put waitlist status in a separate waitlist bucket
     payload.waitlist = [];
     
-	if (res.locals.results.waitlist[0] == null) {
-		console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'waitlist\'');
-	} else {
+	if (res.locals.results.waitlist && res.locals.results.waitlist[0]) {
 		res.locals.results.waitlist.forEach(function (element) {
 			element = formatElement(element);
 			payload.waitlist.push(element);
@@ -360,9 +336,7 @@ router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, re
     //add all other existing statuses to processing array
     payload.processing = [];
 
-    if (res.locals.results.phone[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'phone\'');
-    } else {
+    if (res.locals.results.phone && res.locals.results.phone[0]) {
         //need to grab each element and push into the 'processing' array
         res.locals.results.phone.forEach(function (element) {
             element = formatElement(element);
@@ -371,46 +345,29 @@ router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, re
     }
 
 
-    if (res.locals.results.documents[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'documents\'');
-    } else {
+    if (res.locals.results.documents && res.locals.results.documents[0]) {
         res.locals.results.documents.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-    if (res.locals.results.discuss[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'discuss\'');
-    } else {
+    if (res.locals.results.discuss && res.locals.results.discuss[0]) {
         res.locals.results.discuss.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-    if (res.locals.results.assess[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'assess\'');
-    } else {
+    if (res.locals.results.assess && res.locals.results.assess[0]) {
         res.locals.results.assess.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-	if (res.locals.results.assessComp[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'assessComp\'');
-    } else {
+	if (res.locals.results.assessComp && res.locals.results.assessComp[0]) {
         res.locals.results.assessComp.forEach(function (element) {
-            element = formatElement(element);
-            payload.processing.push(element);
-        });
-    }
-
-    if (res.locals.results.approval[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'approval\'');
-    } else {
-        res.locals.results.approval.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
@@ -641,6 +598,8 @@ function formatStatus(element) {
                 return'Waitlist';
             case 'transferred':
                 return'Transferred';
+            case "vetted":
+                return "Application Vetted";
             case undefined:
                 return '';
             default:
