@@ -35,9 +35,10 @@ async function editDocumentStatus(req, res) {
  */
 async function portDocumentStatusToApplicationStatus(req, res) {
   const docs = await DocumentPackage.find({applicationStatus: undefined});
-  console.log(docs);
+  const statusEnum = DocumentPackage.schema.path("status").enumValues;
   for (let i=0; i< docs.length; i++) {
-    if (docs[i].applicationStatus == undefined && docs[i].status) {
+    // Convert only if status exists in applicationStatus.enums
+    if (docs[i].applicationStatus == undefined && docs[i].status && docs[i].status && docs[i].status in statusEnum) {
       try {
         docs[i].applicationStatus = docs[i].status;
         await docs[i].save();
