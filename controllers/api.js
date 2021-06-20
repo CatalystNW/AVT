@@ -448,7 +448,7 @@ getDocumentPlanning: function (req, res, next) {
                 }
 
                 const documents = {
-                    "new": [], "phone": [], "handle": [], "discuss": [], 
+                    "new": [], "phone": [], "discuss": [], 
                     "documents": [], "assess": [], "assessComp": [], 
                     "declined": [], "withdrawn": [], "withdrawnooa": [], 
                     "vetted": [], "waitlist": [], "transferred": [], "noStatus": [],
