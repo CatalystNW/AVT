@@ -53,7 +53,7 @@ var DocumentPackageSchema = new Schema({
         type: String,
         enum: [
             "new", 
-            "phone", "discuss", "documents", "assess", "assessComp", "approval",
+            "phone", "discuss", "documents", "assess", "assessComp",
             "declined", "withdrawn", "withdrawnooa", "vetted", "waitlist",
             "transferred",
         ]
