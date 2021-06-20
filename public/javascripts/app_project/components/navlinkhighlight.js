@@ -1,6 +1,7 @@
 window.onload = function () {
   var pathname = window.location.pathname;
 
+  // Highlights the specific navigation link on navbar depending on current page
   var navId = void 0;
   if (pathname.includes("carenetwork")) {
     navId = "care-nav-link";
