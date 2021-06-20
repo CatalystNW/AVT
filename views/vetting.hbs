@@ -293,7 +293,7 @@
                             <tbody>
                             {{#each noStatus}}
                                 <tr>
-                                    <td class="col-md-2">{{#if application.name.preferred}}{{application.name.preferred}} {{application.name.last}}{{else}}{{application.name.first}} {{application.name.last}}{{/if}}</td>
+                                    <td class="col-md-2"><a href="/view/{{_id}}">{{#if application.name.preferred}}{{application.name.preferred}} {{application.name.last}}{{else}}{{application.name.first}} {{application.name.last}}{{/if}}</a></td>
                                     <td class="col-md-2" fullDate="{{updated_full_date}}">{{updated}}</td>
                                     <td class="col-md-2"><span class="text-danger">{{this.applicationStatus}}</span></td>
                                     <td class="col-md-2"><span class="text-danger">{{this.status}}</span></td>
