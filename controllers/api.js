@@ -420,7 +420,6 @@ getDocumentPlanning: function (req, res, next) {
      * Description: retrieve all Document Packages from the database and group by status code
      * Type: GET
      * Params: 
-     * Address: api.getDocumentByStatus
      * Returns: results.statuscode[array of Document Packages]
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
      * 
@@ -450,9 +449,9 @@ getDocumentPlanning: function (req, res, next) {
 
                 const documents = {
                     "new": [], "phone": [], "handle": [], "discuss": [], 
-                    "documents": [], "assess": [], "assessComp": [], "approval": [],
-                    "declined": [], "withdrawn": [], "withdrawnooa": [], "project": [], "waitlist": [],
-                    "transferred": [], "noStatus": [],
+                    "documents": [], "assess": [], "assessComp": [], 
+                    "declined": [], "withdrawn": [], "withdrawnooa": [], 
+                    "vetted": [], "waitlist": [], "transferred": [], "noStatus": [],
                 };
 
                 let doc;
