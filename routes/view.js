@@ -262,13 +262,11 @@ router.post('/csvExport', isLoggedInPost, function(req, res){
 
 // });
 
-router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
+router.get('/', isLoggedIn, api.getDocumentByApplicationStatus, function(req, res, next) {
 
     var payload = {};
 
-    if (res.locals.results.new[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'new\'');
-    } else {
+    if (res.locals.results.new && res.locals.results.new[0]) {
         res.locals.results.new.forEach(function (element) {
             element = formatElement(element);
         });
@@ -277,53 +275,33 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 
 	//separate bucket for approved applications
 
-    payload.project = [];
+    payload.vetted = [];
 
-	if (res.locals.results.project[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'project\'');
-    } else {
-        res.locals.results.project.forEach(function (element) {
+    if (res.locals.results.vetted && res.locals.results.vetted[0]) {
+        res.locals.results.vetted.forEach(function (element) {
             element = formatElement(element);
-            payload.project.push(element);
+            payload.vetted.push(element);
 		});
     }
-
-    if (res.locals.results.handle[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'handle\'');
-    } else {
-        res.locals.results.handle.forEach(function (element) {
-            element = formatElement(element);
-            payload.project.push(element);
-        });
-    }
-
-
-    //payload.project = res.locals.results.project;
 
     //put declined and withdrawn in the same bucket
     payload.unapproved = [];
 
-    if (res.locals.results.declined[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'declined\'');
-    } else {
+    if (res.locals.results.declined && res.locals.results.declined[0]) {
         res.locals.results.declined.forEach(function (element) {
             element = formatElement(element);
             payload.unapproved.push(element);
         });
     }
 
-    if (res.locals.results.withdrawn[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'withdrawn\'');
-    } else {
+    if (res.locals.results.withdrawn && res.locals.results.withdrawn[0]) {
         res.locals.results.withdrawn.forEach(function (element) {
             element = formatElement(element);
             payload.unapproved.push(element);
         });
 	}
 
-	if (res.locals.results.withdrawnooa[0] == null) {
-		console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'withdrawnooa\'');
-	} else {
+	if (res.locals.results.withdrawnooa && res.locals.results.withdrawnooa[0]) {
 		res.locals.results.withdrawnooa.forEach(function (element) {
 			element = formatElement(element);
 			payload.unapproved.push(element);
@@ -332,21 +310,33 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
     //Put waitlist status in a separate waitlist bucket
     payload.waitlist = [];
     
-	if (res.locals.results.waitlist[0] == null) {
-		console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'waitlist\'');
-	} else {
+	if (res.locals.results.waitlist && res.locals.results.waitlist[0]) {
 		res.locals.results.waitlist.forEach(function (element) {
 			element = formatElement(element);
 			payload.waitlist.push(element);
 		});
     }
 
+    // Transferred applications (transferred to new projects app)
+    payload.transferred = [];
+    if (res.locals.results.transferred && res.locals.results.transferred[0] !== null) {
+        res.locals.results.transferred.forEach((document)=> {
+            payload.transferred.push(formatElement(document));
+        })
+    }
+
+    // 'noStatus' to noStatus
+    payload.noStatus = [];
+    if (res.locals.results.noStatus && res.locals.results.noStatus[0] !== null) {
+        res.locals.results.noStatus.forEach((document)=> {
+            payload.noStatus.push(formatElement(document));
+        })
+    }
+
     //add all other existing statuses to processing array
     payload.processing = [];
 
-    if (res.locals.results.phone[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'phone\'');
-    } else {
+    if (res.locals.results.phone && res.locals.results.phone[0]) {
         //need to grab each element and push into the 'processing' array
         res.locals.results.phone.forEach(function (element) {
             element = formatElement(element);
@@ -355,46 +345,29 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
     }
 
 
-    if (res.locals.results.documents[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'documents\'');
-    } else {
+    if (res.locals.results.documents && res.locals.results.documents[0]) {
         res.locals.results.documents.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-    if (res.locals.results.discuss[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'discuss\'');
-    } else {
+    if (res.locals.results.discuss && res.locals.results.discuss[0]) {
         res.locals.results.discuss.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-    if (res.locals.results.assess[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'assess\'');
-    } else {
+    if (res.locals.results.assess && res.locals.results.assess[0]) {
         res.locals.results.assess.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
     }
 
-	if (res.locals.results.assessComp[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'assessComp\'');
-    } else {
+	if (res.locals.results.assessComp && res.locals.results.assessComp[0]) {
         res.locals.results.assessComp.forEach(function (element) {
-            element = formatElement(element);
-            payload.processing.push(element);
-        });
-    }
-
-    if (res.locals.results.approval[0] == null) {
-        console.log('[ ROUTER ] /view/status :: Unable to find Document Packages with status: \'approval\'');
-    } else {
-        res.locals.results.approval.forEach(function (element) {
             element = formatElement(element);
             payload.processing.push(element);
         });
@@ -408,7 +381,7 @@ router.get('/', isLoggedIn, api.getDocumentByStatus, function(req, res, next) {
 		singleYear = {"yearValue" : x};
 		payload.year.push(singleYear);
 
-	}
+    }
 
 	payload.user = req.user._id;
 	payload.user_email = res.locals.email;
@@ -593,53 +566,49 @@ function formatDate(element)
  * @returns: The document package with wordier status
  */
 function formatStatus(element) {
-    var status;
+    
 
-    switch (element.status){
-        case 'new':
-            status = 'NEW';
-            break;
-        case 'phone':
-            status = 'Phone Call Needed';
-            break;
-        case 'handle':
-            status = 'Handle-It';
-            break;
-        case 'documents':
-            status = 'Awaiting Documents';
-            break;
-        case 'discuss':
-            status = 'On Hold - Pending Discussion';
-            break;
-        case 'assess':
-            status = 'Site Assessment - Pending';
-            break;
-		case 'assessComp':
-			status = 'Site Assessment - Complete';
-			break;
-        case 'approval':
-            status = 'Approval Process';
-            break;
-        case 'declined':
-            status = 'Declined';
-			break;
-		case 'withdrawnooa':
-			status = 'Withdrawn - Out of Service Area';
-			break;
-        case 'withdrawn':
-            status = 'Withdrawn';
-            break;
-        case 'project':
-            status ='Approved Project';
-            break;
-        case 'waitlist':
-            status ='Waitlist';
-            break;
-        default:
-            status = element.status;
+    function getStatus(status) {
+        switch (status){
+            case 'new':
+                return 'NEW';
+            case 'phone':
+                return 'Phone Call Needed';
+            case 'handle':
+                return 'Handle-It';
+            case 'documents':
+                return 'Awaiting Documents';
+            case 'discuss':
+                return 'On Hold - Pending Discussion';
+            case 'assess':
+                return 'Site Assessment - Pending';
+            case 'assessComp':
+                return 'Site Assessment - Complete';
+            case 'approval':
+                return 'Approval Process';
+            case 'declined':
+                return 'Declined';
+            case 'withdrawnooa':
+                return 'Withdrawn - Out of Service Area';
+            case 'withdrawn':
+                return 'Withdrawn';
+            case 'project':
+                return'Approved Project';
+            case 'waitlist':
+                return'Waitlist';
+            case 'transferred':
+                return'Transferred';
+            case "vetted":
+                return "Application Vetted";
+            case undefined:
+                return '';
+            default:
+                return status;
+        }
     }
-
-    element.status = status;
+    element.applicationStatus = getStatus(element.applicationStatus);
+    element.status = getStatus(element.status);
+    
     return element;
 }
 

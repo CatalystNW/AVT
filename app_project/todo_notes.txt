@@ -1,0 +1,226 @@
+* Make Header tabs for projects clickable to hide
+* prevent project notes being editable/deletable by the non-owner
+* redesign pages
+
+* Potentially: show project site assessments for certain users only
+* Potentially check for site assessment, work item status before allowing transfer
+* Potentially check for project status before allowing transfer
+
+* Possibly prevent work item creation in project page
+
+Figure out common methods & create a library for them
+Refactor
+
+#Notes:
+transfer, decline assessmenst -> marks it as complete
+complete, withdrawn project - > marks everythign as complete
+lock projects?
+withdrawn projects -> locked?
+
+Site Assessment
+    Checklist
+        Add change handlers for all the inputs
+            Start Date + Start Time
+            End Date + End Time
+            Lead
+            Asbestos
+            Safety Plan
+        Tool Rentals Table
+            Make Create Menu
+            Create Tools handlers
+            Create Tools creation on Express
+            Created tool shows up on the table
+            Make Edit Menu
+            Edit Tools handler
+            Edited tools method on Express
+            Edited tool shows up on table
+        Other Costs Table
+            Create an Other Costs class
+            Make Create Menu
+            Create Other Costs handlers
+            Create Other Costs creation on Express
+            Created Other Costs shows up on the table
+            Make Edit Menu
+            Edit Other Costs handler
+            Edited Other Costs method on Express
+            Edited Other Costs shows up on table
+        Porta Potty
+            When required is unchecked, disable cost inputs
+            Update required field to server onchange
+            Update cost property to server onchange
+        Waste Dump Trailer
+            When required is unchecked, disable cost inputs
+            Update required field to server onchange
+            Update cost property to server onchange
+        Assessment status
+            Make element & fill in possible statuses
+            Create a handler that loads this to select on page load
+            create onchange handlers
+            create/edit ajax function that requests this patch
+            edit the server edit method to accomodate this
+            create handler that will show this new state change
+            
+        CSS - Make smaller & better fit data
+    
+    Partners
+        Create page that shows current Partners
+        Create modal menu that can select new Partners
+            handler that loads the partner info on loads & differentiate added already
+            Submit handler
+            backend method that handles that selection
+            handler that shows the changes on the browser
+        Delete partners button
+            create button for each current partners
+            new button for any new partners as well
+            click handler
+            backend method that handles deselection
+            handler that shows the changes on the browser
+        
+        Add new partners option
+            create modal menu to create new partners
+            submit handler
+            backend method that adds the partner to site assessment
+    
+    Total Costs
+        shows all the costs under the site assessment (inc. work items)
+            
+    Work Items
+        CSS - Make smaller & better fit data
+    
+    ### Probably Not needed #########
+    Site assessment notes
+        Make / update note class
+        create elements with react
+        onchange handlers
+        backend methods to create notes
+
+Project Page
+    Build HTML pages
+        Transfer / View projects page by applications with work items
+        Transfer / Project creation page
+        Show Project Info
+        Work items Page
+        Leaders page
+        planning information (from site assessment)
+        project planning Checklist
+        project notes
+        leaders page
+        partners page
+        wrap up page
+    
+    Transfer view page
+        show all applications that have the new work items current under item
+        link it to the transfer page
+
+    Create site assessment -> Projects transfer pages
+        Create table to decide which work item will go to which new project
+        user can create new projects
+        user can select which work items go to which project
+        user can select which project will import the site assessment info
+        Edit the projects class + update
+        Configure backend component to create projects
+        handler that shows this on the browser
+
+        work items will be copied and then placed under projects
+        copy site assessment info into the new projects
+        lock the old work items / site assessments & flag into new status
+    
+    Create projects info + menu page
+        half / half screen like site assessment as a rough draft for now
+        it might not work
+
+    Project info
+        create page with elements for each info section
+        create load ajax function that requests for the project info
+        server method that serves this data
+        handler that loads this to the page
+    
+    Start + End Dates
+        This wasn't present in the prev version
+        create it the elements
+        change handlers + ajax handler
+        server methods that will edit this
+        handlers that will mke these changes to the brwoser
+
+    Work Items
+        Make Work Items screen/menu from Site Assessment work for projects as well
+        Make Work Items Portable
+        Use Work Items for projects
+        Add option to create project notes on work items
+        Change the create work item methods so that it work correctly for projects
+        change the create server methods so tha it works correctly for projects
+        Change the edit work item methods so that it work correctly for projects
+        change the edit server methods so tha it works correctly for projects
+        Change the delete work item methods so that it work correctly for projects
+        change the delete server methods so tha it works correctly for projects
+        Change the handleit work item methods so that it work correctly for projects
+        change the handleit server methods so tha it works correctly for projects
+
+    Leaders page
+        create elements
+        create on change handlers + ajax calls
+        create server methods to make these changes
+        create handlers to show the new changes to the browser
+
+    Edit the previous partners modules so that it works for projects
+        the partners menu class should work for projects
+        modify the create features
+            create modal menu
+        modify the edit features
+        modify the delete features
+        modify the create new partners to work for projects as well
+
+    Planning Checklist
+        ajax call that loads all possible owners
+        For each complete check element & owner select element:
+            create the html page & elements + react classses
+            create the onchange handlers for each element
+            create each ajax method for the elements
+            create the handlers that will change the elements for each element
+
+    Wrap-up Checklist
+        ajax call that loads all possible owners
+        For each complete check element & owner select element:
+            create the html page & elements + react classses
+            create the onchange handlers for each element
+            create each ajax method for the elements
+            create the handlers that will change the elements for each element
+    
+    Project notes
+        create html elements + react classses
+        load the project notes data to these elements
+            load to state functions
+        create note button
+            click handler
+            ajax call
+            server method that will create note
+            handler that will change browser with new notes
+        edit note button
+            click handler
+            ajax call
+            server method that will edit note
+            handler that will change browser with new notes
+        delete note button
+            click handler
+            ajax call
+            server method that will delete note
+            handler that will change browser with new notes
+    
+    Total Costs
+        shows all the costs under the projectts (inc. work items)
+
+    Export PDFs
+        research best way to create pdf, whether via express or frontend js
+        PAF Report
+        Handle-It Report
+
+Vetting page
+    Edit new work items to work here
+    should only load the work items 
+    add react files link lines
+    edit the react workitem classes to work here as well
+    load only the ones from site assessment
+    differentiate the ones that are locked and ones that are not
+
+Overall
+    Convert JSX to JS using NPM app

@@ -41,10 +41,7 @@
 <div class="container col-xs-12">
     <h1>{{doc.application.name.first}} {{doc.application.name.last}} - Application View</h1>
 
-    <div class="col-sm-6 no-left-padding">
-        <h3>Status: <a href="#" id="status" data-type="select" data-pk="1" data-url="/edit/{{doc._id}}" 
-                       data-name="status" data-title="Select status"></a></h3>
-        
+    <div class="col-sm-6 no-left-padding" id="status-container">
     </div>
     <div class="col-sm-6 drive-button-padding">
         <!-- HBS - IF NO DRIVE LINK  - then show this. -->
@@ -545,6 +542,28 @@
                 </tbody>
             </table>
 
+            <!--Advocate Info-->
+            <h3>Signature</h3>
+            <table class="table table-striped">
+                <colgroup>
+                    <col class="col-md-1 col-sm-1 col-xs-1">
+                    <col class="col-md-3 col-sm-1 col-xs-2">
+                    <col class="col-md-6 col-sm-3 col-xs-2">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>Signature</td>
+                        <td>{{doc.signature.client_sig}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Signature Date</td>
+                        <td>{{doc.signature.client_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
@@ -586,25 +605,6 @@
                     [
                         {value: 'true', text: 'True'},
                         {value: 'false', text: 'False'}
-                    ]
-        });
-        $('#status').editable({
-            value: '{{doc.status}}',
-            source:
-                    [
-                        {value: 'discuss', text: 'On Hold - Pending Discussion'},
-                        {value: 'new', text: 'NEW'},
-                        {value: 'phone', text: 'Phone Call Needed'},
-                        {value: 'handle', text: 'Handle-It'},
-                        {value: 'documents', text: 'Awaiting Documents'},
-                        {value: 'assess', text: 'Site Assessment - Pending'},
-						{value: 'assessComp', text: 'Site Assessment - Complete'},
-                        {value: 'approval', text: 'Approval Process'},
-                        {value: 'declined', text: 'Declined'},
-                        {value: 'withdrawnooa', text: 'Withdrawn - Outside Service Area'},
-                        {value: 'withdrawn', text: 'Withdrawn'},
-                        {value: 'project', text: 'Approved Project'},
-                        {value: 'waitlist', text: 'Waitlist'}
                     ]
         });
         $('#owns_home').editable({
@@ -850,3 +850,14 @@
  //      })
  //    })
 </script>
+
+<script>
+    // Used in vetting_page.js for the document status bar
+    var applicationStatus = "{{doc.applicationStatus}}",
+        appId="{{doc._id}}";
+</script>
+
+<script type="module" src="/javascript/app_project/vettingworksheet/view_page.js" type="text/javascript"></script>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>

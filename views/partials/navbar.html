@@ -39,62 +39,88 @@
 <!-- Begin navigation bar -->
 <nav id="navID"  class="navbar navbar-fixed-top navbar-dark bg-inverse d-print-none hidden-print" 
   style="padding-top: 0; padding-bottom: 0">
-    <a class="navbar-brand" href="/"><img src="../images/cBlock-nav.png" class="rounded-circle" width="30" height="30"></a>
+    <a class="navbar-brand" href="/"><img src="/images/cBlock-nav.png" class="rounded-circle" width="30" height="30"></a>
 
     <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
 
     <div class="collapse navbar-toggleable-xs" id="navbarResponsive">
         <ul class="nav navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" id="home-nav-link">
                 <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="apply-nav-link">
                 <a class="nav-link" href="/application/add">Apply</a>
             </li>
 
-            
             {{#if_in user_roles "VET"}}
-            <li class="nav-item">
+            <li class="nav-item" id="vetting-nav-link">
               <a class="nav-link" href="/view">Vetting</a>
-            </li>
-            {{/if_in}}
-            
-            {{#if_in user_roles "SITE"}}
-            <li class="nav-item">
-              <a class="nav-link" href="/site">Site Assessment</a>
-            </li>
-            {{/if_in}}
-
-            {{#if_in user_roles "PROJECT_MANAGEMENT"}}
-            <li class="nav-item">
-              <a class="nav-link" href="/projectsummary">Project Summary</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/projectreport">Reports</a>
             </li>
             {{/if_in}}
 
             {{#if assign_tasks}}
-            <li class="nav-item">
+            <li class="nav-item" id="tasks-nav-link">
               <a class="nav-link" href="/tasks">Tasks</a>
             </li>
             {{/if}}
           
             {{#if_in user_roles "ADMIN"}}
-              <li class="nav-item">
+              <li class="nav-item" id="users-nav-link">
                   <a class="nav-link" href="/user/userList">Users</a>
               </li>
             {{/if_in}}
-
-            <li class="nav-item">
+            
+            <li class="nav-item" id="care-nav-link">
               <a class="nav-link" href="/carenetwork">Care Network</a>
             </li>
 
+            {{#if_in user_roles "SITE"}}
+            <li class="nav-item" id="assessments-nav-link">
+              <a class="nav-link" href="/app_project/site_assessments/view">Assessments</a>
+            </li>
+            {{/if_in}}
 
+            {{#if_in user_roles "SITE"}}
+            <li class="nav-item" id="project-transfer-nav-link">
+              <a class="nav-link" href="/app_project/project_transfer">Transfer</a>
+            </li>
+            {{/if_in}}
+            
+            {{#if_in user_roles "PROJECT_MANAGEMENT"}}
+            <li class="nav-item" id="projects-nav-link">
+              <a class="nav-link" href="/app_project/view_projects">Projects</a>
+            </li>
+            {{/if_in}}
+
+            {{#if user }}
+            <li class="nav-item" id="report-nav-link">
+              <a class="nav-link" href="/app_project/report/view">Report</a>
+            </li>
+            {{/if}}
+            
+            {{#if user }}
+              <li class="nav-item dropdown" id="previous-nav-link">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Previous
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {{#if_in user_roles "SITE"}}
+                  <a class="dropdown-item" href="/site">Site Assessment</a>
+                  {{/if_in}}
+                  {{#if_in user_roles "PROJECT_MANAGEMENT"}}
+                  <a class="dropdown-item" href="/projectsummary">Project Summary</a>
+                  <a class="dropdown-item" href="/projectreport">Reports</a>
+                  {{/if_in}}
+                </div>
+              </li>
+            {{/if}}
+
+            {{#if ifDebug}}
+            <li class="nav-item">
+              <a class="nav-link" href="/app_project/delete_manager">Deletions</a></li>
+            {{/if}}
            
   <!--    NEW CHANGES -->
-            
-
 
         </ul>
         <div class="navbar-right">

@@ -93,6 +93,8 @@ careApplicantSchema.statics.create_app =  async function(data) {
   var field;
   var app_ref = await this.get_next_ref();
 
+  var field_obj, value, path_arr;
+
   var careapp = new this();
 
   careapp.reference = app_ref;

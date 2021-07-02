@@ -1,0 +1,69 @@
+body {
+    padding: 0 20px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#navID, #userNav, #imageBar, #footerID {
+    display: none;
+}
+
+.signatures-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#acceptance-p {
+    margin-bottom: 80px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+#price-p {
+    margin-top: 20px;
+}
+
+#info-container {
+    font-size: 12px;
+    letter-spacing: normal;
+    color: gray;
+}
+
+#cblock-container {
+    /* height: 30%; */
+    /* width: 80px; */
+}
+
+#cblock-container img {
+    height: 140px;
+    width: auto;
+}
+
+@media print
+{
+    body {
+        font-size: 12px;
+    }
+    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    #cblock-container img{
+        width: 400px;
+        height: auto;
+    }
+
+    #info-container {
+        font-size: 8px;
+    }
+}

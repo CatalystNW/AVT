@@ -1,6 +1,6 @@
 /**
  * Partners Package
- *     Part of Project View (once clicked on it)  
+ *     Part of Project View (once clicked on it) 
  * 
  *        Fields: Org Name, Org Address, Contact Name, Contact Phone, Contact email) 
  */
