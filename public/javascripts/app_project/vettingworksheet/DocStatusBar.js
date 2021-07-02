@@ -17,16 +17,22 @@ var DocStatusBar = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (DocStatusBar.__proto__ || Object.getPrototypeOf(DocStatusBar)).call(this, props));
 
     _this.onChangeStatus = function (e) {
+      var status = e.target.value;
+      if (status == 'unknown') {
+        window.alert("The option 'Unknown' isn't selectable.");
+        return;
+      }
+      console.log(status);
       $.ajax({
         url: "/app_project/document/" + _this.props.appId + "/status",
         type: "PATCH",
         context: _this,
         data: {
-          applicationStatus: e.target.value
+          applicationStatus: status
         },
         success: function success(data) {
           this.setState({
-            applicationStatus: e.target.value
+            applicationStatus: status
           });
         },
         error: function error() {
@@ -37,23 +43,23 @@ var DocStatusBar = function (_React$Component) {
 
     _this.createSelect = function () {
       var values = {
-        'discuss': { value: 'discuss', text: 'On Hold - Pending Discussion' },
-        'new': { value: 'new', text: 'NEW' },
-        'phone': { value: 'phone', text: 'Phone Call Needed' },
-        'handle': { value: 'handle', text: 'Handle-It' },
-        'documents': { value: 'documents', text: 'Awaiting Documents' },
-        'assess': { value: 'assess', text: 'Site Assessment - Pending' },
-        'assessComp': { value: 'assessComp', text: 'Site Assessment - Complete', noneditable: true },
-        'approval': { value: 'approval', text: 'Application Approval Process' },
-        'declined': { value: 'declined', text: 'Declined' },
-        'withdrawnooa': { value: 'withdrawnooa', text: 'Withdrawn - Outside Service Area' },
-        'withdrawn': { value: 'withdrawn', text: 'Withdrawn' },
-        'project': { value: 'project', text: 'Approved Project' },
-        'waitlist': { value: 'waitlist', text: 'Waitlist' },
-        'transferred': { value: 'transferred', text: 'Transferred' }
+        'discuss': { text: 'On Hold - Pending Discussion' },
+        'new': { text: 'NEW' },
+        'phone': { text: 'Phone Call Needed' },
+        'documents': { text: 'Awaiting Documents' },
+        'assess': { text: 'Site Assessment - Pending' },
+        'assessComp': { text: 'Site Assessment - Complete', noneditable: true },
+        'declined': { text: 'Declined' },
+        'withdrawnooa': { text: 'Withdrawn - Outside Service Area' },
+        'withdrawn': { text: 'Withdrawn' },
+        'vetted': { text: 'Application Vetted' },
+        'waitlist': { text: 'Waitlist' },
+        'transferred': { text: 'Transferred' },
+        'unknown': { text: "Unknown" }
+
       };
-      var status = _this.state.applicationStatus;
-      if (values[status].noneditable) {
+      var status = _this.state.applicationStatus in values ? _this.state.applicationStatus : "unknown";
+      if (status in values && values[status].noneditable) {
         return React.createElement(
           "span",
           null,
@@ -78,7 +84,7 @@ var DocStatusBar = function (_React$Component) {
       }
       return React.createElement(
         "select",
-        { className: "form-control", value: _this.state.applicationStatus,
+        { className: "form-control", value: status,
           onChange: _this.onChangeStatus },
         options
       );

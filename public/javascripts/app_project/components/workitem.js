@@ -436,7 +436,7 @@ var WorkItem = function (_React$Component) {
             React.createElement(
               "p",
               { className: "card-text" },
-              this.state.assessment_comments && this.state.assessment_comments.length > 0 ? this.state.assessment_comments : "N/A"
+              this.state.assessment_comments && this.state.assessment_comments.length > 0 ? this.state.assessment_comments : "N/A" && !this.state.handleit
             )
           ) : null,
           project_comments,

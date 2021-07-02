@@ -38,6 +38,8 @@
     height: 525px;
     overflow: auto;
     -webkit-overflow-scrolling: auto;
+    padding: 4px;
+    border: 1px solid;
 }
 
 h5.card-title {

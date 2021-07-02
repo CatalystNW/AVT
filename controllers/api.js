@@ -420,7 +420,6 @@ getDocumentPlanning: function (req, res, next) {
      * Description: retrieve all Document Packages from the database and group by status code
      * Type: GET
      * Params: 
-     * Address: api.getDocumentByStatus
      * Returns: results.statuscode[array of Document Packages]
      * Notes: statuscode is defined as any property of Promise.props (ex: new, phone, assess)
      * 
@@ -449,10 +448,10 @@ getDocumentPlanning: function (req, res, next) {
                 }
 
                 const documents = {
-                    "new": [], "phone": [], "handle": [], "discuss": [], 
-                    "documents": [], "assess": [], "assessComp": [], "approval": [],
-                    "declined": [], "withdrawn": [], "withdrawnooa": [], "project": [], "waitlist": [],
-                    "transferred": [], "noStatus": [],
+                    "new": [], "phone": [], "discuss": [], 
+                    "documents": [], "assess": [], "assessComp": [], 
+                    "declined": [], "withdrawn": [], "withdrawnooa": [], 
+                    "vetted": [], "waitlist": [], "transferred": [], "noStatus": [],
                 };
 
                 let doc;
@@ -474,70 +473,6 @@ getDocumentPlanning: function (req, res, next) {
                 });
 
                 res.locals.results = documents;
-
-                // If we are at this line all promises have executed and returned
-                // Call next() to pass all of this glorious data to the next express router
-                next();
-            })
-            .catch(function(err) {
-                console.error(err);
-            })
-            .catch(next);
-    },
-
-    getDocumentByStatus: function(req, res, next) {
-        if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
-            // Log the api call made to the console
-            console.log('[ API ] getDocumentByStatus :: Call invoked');
-        }
-		var currentTime = new Date();
-		var year = currentTime.getFullYear();
-        // Access the returned items as results.<status code>[array index].<what you need>
-        // Example: results.visit[3].address.line_1 = a string
-        Promise.props({
-            new: DocumentPackage.find({status: "new"}).sort({'updated':-1}).lean().execAsync(),
-            phone: DocumentPackage.find({status: "phone"}).lean().execAsync(),
-            documents: DocumentPackage.find({status: "documents"}).lean().execAsync(),
-            discuss: DocumentPackage.find({status: "discuss"}).lean().execAsync(),
-            assess: DocumentPackage.find({status: "assess"}).lean().execAsync(),
-			assessComp: DocumentPackage.find({status: "assessComp"}).lean().execAsync(),
-            withdrawn: DocumentPackage.find({status: "withdrawn"}).lean().execAsync(),
-            withdrawnooa: DocumentPackage.find({ status: "withdrawnooa" }).lean().execAsync(),
-            approval: DocumentPackage.find({status: "approval"}).lean().execAsync(),
-            handle: DocumentPackage.find({status: "handle"}).lean().execAsync(),
-            // declined: DocumentPackage.find({status: "declined", app_year : year}).lean().execAsync(),
-            // project: DocumentPackage.find({status: "project", app_year : year}).lean().execAsync(),
-            // handleToBeAssigned: DocumentPackage.find({status: "handleToBeAssigned", app_year : year}).lean().execAsync(),
-            // handleAssigned: DocumentPackage.find({status: "handleAssigned", app_year : year}).lean().execAsync(),
-            // handleCompleted: DocumentPackage.find({status: "handleCompleted", app_year : year}).lean().execAsync(),
-            // projectUpcoming: DocumentPackage.find({status: "projectUpcoming", app_year : year}).lean().execAsync(),
-            // projectInProgress: DocumentPackage.find({status: "projectInProgress", app_year : year}).lean().execAsync(),
-            // projectGoBacks: DocumentPackage.find({status: "projectGoBacks", app_year : year}).lean().execAsync(),
-            // projectCompleted: DocumentPackage.find({status: "projectCompleted", app_year : year}).lean().execAsync()
-
-            declined: DocumentPackage.find({status: "declined"}).lean().execAsync(),
-            project: DocumentPackage.find({status: "project"}).lean().execAsync(),
-            handleToBeAssigned: DocumentPackage.find({status: "handleToBeAssigned"}).lean().execAsync(),
-            handleAssigned: DocumentPackage.find({status: "handleAssigned"}).lean().execAsync(),
-            handleCompleted: DocumentPackage.find({status: "handleCompleted"}).lean().execAsync(),
-            projectUpcoming: DocumentPackage.find({status: "projectUpcoming"}).lean().execAsync(),
-            projectInProgress: DocumentPackage.find({status: "projectInProgress"}).lean().execAsync(),
-            projectGoBacks: DocumentPackage.find({status: "projectGoBacks"}).lean().execAsync(),
-            projectCompleted: DocumentPackage.find({status: "projectCompleted"}).lean().execAsync(),
-
-            waitlist: DocumentPackage.find({ status: "waitlist" }).lean().execAsync(),
-            transferred: DocumentPackage.find({ status: "transferred" }).lean().execAsync()
-        })
-            .then(function (results) {
-                if (process.env.DISABLE_CONSOLE_LOGGINGS !== "yes") {
-                    if (!results) {
-                        console.log('[ API ] getDocumentByStatus :: Documents package found: FALSE');
-                    }
-                    else {
-                        console.log('[ API ] getDocumentByStatus :: Documents package found: TRUE');
-                    }
-                }
-                res.locals.results = results;
 
                 // If we are at this line all promises have executed and returned
                 // Call next() to pass all of this glorious data to the next express router

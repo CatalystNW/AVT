@@ -39,6 +39,7 @@
  withdrawnooa - the client is outside the service area of Catalyst
  project      - the project has been approved and the document package will be converted to a project package
  waitlist     - these applications are waiting to be vetted, typically projects that require roofs that need to wait until the next project season.
+ vetted       - Application Vetted
  */
 
 var mongoose = require('mongoose');
@@ -52,8 +53,8 @@ var DocumentPackageSchema = new Schema({
         type: String,
         enum: [
             "new", 
-            "phone", "handle", "discuss", "documents", "assess", "assessComp", "approval",
-            "declined", "withdrawn", "withdrawnooa", "project", "waitlist",
+            "phone", "discuss", "documents", "assess", "assessComp",
+            "declined", "withdrawn", "withdrawnooa", "vetted", "waitlist",
             "transferred",
         ]
     },

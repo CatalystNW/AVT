@@ -9,16 +9,22 @@ class DocStatusBar extends React.Component {
   }
 
   onChangeStatus = (e) => {
+    const status = e.target.value
+    if (status == 'unknown') {
+      window.alert("The option 'Unknown' isn't selectable.");
+      return;
+    }
+    console.log(status);
     $.ajax({
       url: "/app_project/document/" + this.props.appId + "/status",
       type: "PATCH",
       context: this,
       data: {
-        applicationStatus: e.target.value,
+        applicationStatus: status,
       },
       success: function(data) {
         this.setState({
-          applicationStatus: e.target.value,
+          applicationStatus: status,
         });
       },
       error: function() {
@@ -30,23 +36,24 @@ class DocStatusBar extends React.Component {
 
   createSelect = () => {
     const values = {
-      'discuss': { value: 'discuss', text: 'On Hold - Pending Discussion' },
-      'new': { value: 'new', text: 'NEW' },
-      'phone': { value: 'phone', text: 'Phone Call Needed' },
-      'handle': { value: 'handle', text: 'Handle-It' },
-      'documents': { value: 'documents', text: 'Awaiting Documents' },
-      'assess': { value: 'assess', text: 'Site Assessment - Pending' },
-      'assessComp': { value: 'assessComp', text: 'Site Assessment - Complete', noneditable: true},
-      'approval': { value: 'approval', text: 'Application Approval Process' },
-      'declined': { value: 'declined', text: 'Declined' },
-      'withdrawnooa': { value: 'withdrawnooa', text: 'Withdrawn - Outside Service Area' },
-      'withdrawn': { value: 'withdrawn', text: 'Withdrawn' },
-      'project': { value: 'project', text: 'Approved Project' },
-      'waitlist': { value: 'waitlist', text: 'Waitlist'},
-      'transferred': { value: 'transferred', text: 'Transferred'}
+      'discuss': {text: 'On Hold - Pending Discussion' },
+      'new': { text: 'NEW' },
+      'phone': { text: 'Phone Call Needed' },
+      'documents': { text: 'Awaiting Documents' },
+      'assess': { text: 'Site Assessment - Pending' },
+      'assessComp': { text: 'Site Assessment - Complete', noneditable: true},
+      'declined': { text: 'Declined' },
+      'withdrawnooa': { text: 'Withdrawn - Outside Service Area' },
+      'withdrawn': { text: 'Withdrawn' },
+      'vetted': { text: 'Application Vetted' },
+      'waitlist': { text: 'Waitlist'},
+      'transferred': { text: 'Transferred'},
+      'unknown': {text: "Unknown"}
+
     };
-    const status = this.state.applicationStatus;
-    if (values[status].noneditable) {
+    const status = (this.state.applicationStatus in values) ?
+      this.state.applicationStatus : "unknown";
+    if (status in values && values[status].noneditable) {
       return (<span>{values[status].text}</span>);
     } else if (!(status in values)) {
       return (<span>{status}</span>);
@@ -59,7 +66,7 @@ class DocStatusBar extends React.Component {
       }
     }
     return (
-      <select className="form-control" value={this.state.applicationStatus}
+      <select className="form-control" value={status}
         onChange={this.onChangeStatus}>
         {options}
       </select>

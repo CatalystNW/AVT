@@ -49,6 +49,10 @@ var PAFApp = function (_React$Component) {
       // $('#noUserNav').css('display', 'none')
     };
 
+    _this.onClick_print = function () {
+      window.print();
+    };
+
     _this.state = _this.getState();
     return _this;
   }
@@ -106,6 +110,15 @@ var PAFApp = function (_React$Component) {
       return React.createElement(
         "div",
         null,
+        React.createElement(
+          "div",
+          { id: "buttons-container", className: "no-print" },
+          React.createElement(
+            "button",
+            { onClick: this.onClick_print },
+            "Print"
+          )
+        ),
         React.createElement(
           "div",
           { id: "cblock-container" },
@@ -341,7 +354,7 @@ var PAFApp = function (_React$Component) {
         React.createElement(
           "div",
           null,
-          "Total Cost Estimate: $",
+          "Waste/Dump Trailer Cost: $",
           this.state.waste_cost.toFixed(2)
         ),
         React.createElement(

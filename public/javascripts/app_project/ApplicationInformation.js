@@ -54,7 +54,6 @@ var ApplicationInformation = function (_React$Component) {
         app.zip
       );
       var owns_home = app.owns_home ? "Yes" : "No";
-
       return React.createElement(
         "div",
         null,
@@ -72,7 +71,16 @@ var ApplicationInformation = function (_React$Component) {
                 { className: "col-xs-3" },
                 "Name"
               ),
-              React.createElement(
+              _this.userVetRole ? React.createElement(
+                "td",
+                { className: "col-xs-9" },
+                React.createElement(
+                  "a",
+                  { href: "/view/" + _this.props.application.id, target: "_blank"
+                  },
+                  _this.getName()
+                )
+              ) : React.createElement(
                 "td",
                 { className: "col-xs-9" },
                 _this.getName()
@@ -528,6 +536,8 @@ var ApplicationInformation = function (_React$Component) {
     _this.state = {
       site_assessment: null
     };
+    // Used to show application link
+    _this.userVetRole = user_roles && user_roles.includes("VET");
     return _this;
   }
 

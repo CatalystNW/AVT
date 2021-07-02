@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+// Used for process.env.DISABLE_CONSOLE_LOGGINGS & DEBUG_DEVELOPMENT_MODE
+require('dotenv').config();
+
 const authHelper = require("../../controller/app_project/AuthHelper");
 
 var document_controller         = require('../../controller/app_project/document_controller.js'),
@@ -70,10 +73,12 @@ router.post('/partners', authHelper.checkLoggedInAPI, authHelper.checkIfCanView,
 router.get('/projects/paf_form/:project_id', authHelper.checkLoggedInPages, authHelper.checkIfCanView, project_controller.view_paf_page);
 router.get('/projects/handleit_form/:project_id', authHelper.checkLoggedInPages, authHelper.checkIfCanView, project_controller.view_handleit_form);
 
-// Temporarily delete projects & assessments for testing/development
-router.delete('/projects', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.delete_all_projects);
-router.get('/delete_manager', authHelper.checkLoggedInPages, authHelper.checkIfCanView, development_controller.view_delete_manager);
-router.delete('/delete_manager', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.manage_deletion);
+if (process.env.DEBUG_DEVELOPMENT_MODE === "yes") {
+  // Temporarily delete projects & assessments for testing/development
+  router.delete('/projects', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.delete_all_projects);
+  router.get('/delete_manager', authHelper.checkLoggedInPages, authHelper.checkIfCanView, development_controller.view_delete_manager);
+  router.delete('/delete_manager', authHelper.checkLoggedInAPI, authHelper.checkIfCanView, development_controller.manage_deletion);
+}
 
 router.get('/report/view', authHelper.checkLoggedInPages, report_controller.view_index_page);
 router.get('/report/current', authHelper.checkLoggedInAPI, report_controller.get_current_projects);

@@ -276,6 +276,13 @@ var ProjectMenu = function (_React$Component) {
           "div",
           { id: "project-nav-container" },
           React.createElement(
+            "h2",
+            null,
+            this.state.handleit ? "Handle-It Project" : "Project",
+            " ",
+            this.state.name
+          ),
+          React.createElement(
             "ul",
             { className: "nav nav-tabs", id: "nav-assessment-tabs", role: "tablist" },
             React.createElement(

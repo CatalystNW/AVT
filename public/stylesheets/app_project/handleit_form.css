@@ -43,8 +43,8 @@ h2 {
 }
 
 #cblock-container img {
-    /* height: 30%; */
-    width: 65%;
+    height: 140px;
+    width: auto;
 }
 
 @media print

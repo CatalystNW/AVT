@@ -124,10 +124,13 @@ class HandleitForm extends React.Component {
                     <th>Description</th>
                     <td>{workItem.description}</td>
                   </tr>
-                  <tr>
-                    <th>Site Comments</th>
-                    <td>{workItem.assessment_comments}</td>
-                  </tr>
+                  {workItem.project_comments && workItem.project_comments.length > 0 ?
+                    (<tr>
+                      <th>Project Comments</th>
+                      <td>{workItem.project_comments}</td>
+                    </tr>) : null
+                  }
+                  
                   <tr>
                     <th>Cost</th>
                     <td>{workitemCost.toFixed(2)}</td>

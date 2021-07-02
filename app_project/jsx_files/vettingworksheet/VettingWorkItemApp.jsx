@@ -7,9 +7,10 @@ class VettingWorkItemApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      workItems: [],
+      currentWorkItems: [],
       completeWorkItems: [],
       declinedWorkItems: [],
+      showType: "all", // "all", "assessment", "project"
     };
     this.assessmentId = null;
     this.loadWorkItems();
@@ -25,24 +26,33 @@ class VettingWorkItemApp extends React.Component {
       success: function(workitems) {
         console.log(workitems);
         let completeWorkItems = [],
-            workItems = [],
+            currentWorkItems = [],
             declinedWorkItems = [];
         for (let i = 0, workitem; i< workitems.length; i++ ) {
           workitem = workitems[i];
+          // Specified by Dan to show handleit under completed
+          if (workitem.status == "accepted" && !workitem.handleit &&
+              (workitem.complete || workitem.transferred)) {
+            continue;
+          }
           if (workitem.status == "declined") {
             declinedWorkItems.push(workitem)
-          } else if (workitem.handleit == true || 
-                workitem.status == "accepted" || 
+          } else if (workitem.handleit ||
                 workitem.status == "complete") {
             completeWorkItems.push(workitem);
           } else  {
-            workItems.push(workitem);
+            currentWorkItems.push(workitem);
           }
         }
         this.setState({
-          workItems: workItems,
+          currentWorkItems: currentWorkItems,
           completeWorkItems: completeWorkItems,
           declinedWorkItems: declinedWorkItems,
+        }, ()=> {
+          // Temporarily console.log for debugging
+          console.log("current", currentWorkItems);
+          console.log("complete", completeWorkItems);
+          console.log("declined", declinedWorkItems);
         });
       }
     });
@@ -63,7 +73,7 @@ class VettingWorkItemApp extends React.Component {
       success: function(workitem) {
         this.clearForm();
         this.setState({
-          workItems: [...this.state.workItems, workitem],
+          currentWorkItems: [...this.state.currentWorkItems, workitem],
         })
       }
     })
@@ -94,7 +104,7 @@ class VettingWorkItemApp extends React.Component {
           break;
         }
       }
-      return {workItems: new_workitems}
+      return {currentWorkItems: new_workitems}
     });
   };
 
@@ -152,12 +162,15 @@ class VettingWorkItemApp extends React.Component {
   createDeclinedWorkItems = () => {
     const workitems = [];
 
-    this.state.declinedWorkItems.forEach(workItem => {
+    for (const workItem of this.state.declinedWorkItems) {
+      if ((this.state.showType == "assessment" && workItem.type != "assessment") ||
+          (this.state.showType == "project" && workItem.type != "project")) {
+        continue
+      }
       workitems.push(
         this.createWorkItem(workItem)
       );
-    });
-
+    }
     return workitems;
   }
 
@@ -168,42 +181,64 @@ class VettingWorkItemApp extends React.Component {
   createCurrentWorkItems = () => {
     const workitems = [];
 
-    this.state.workItems.forEach(workItem => {
+    for (const workItem of this.state.currentWorkItems) {
+      if ((this.state.showType == "assessment" && workItem.type != "assessment") ||
+          (this.state.showType == "project" && workItem.type != "project")) {
+        continue
+      }
       workitems.push(
         this.createWorkItem(workItem)
       );
-    });
-
+    }
     return workitems;
   };
 
   createCompleteWorkItems = () => {
     const workitems = [];
-
-    this.state.completeWorkItems.forEach(workItem => {
-      if (workItem.status != "declined") {
-        workitems.push(
-          <div className="panel panel-primary" key={workItem._id}>
-            <div className="panel-body">
-              <WorkItem page_type={"vetting"}
-                workitem={workItem}
-                // Disabled
-                // remove_workitem={this.remove_workitem}
-                // set_edit_materialisitem_menu={this.set_edit_materialisitem_menu}
-                // set_create_materialsitem_menu={this.set_create_materialsitem_menu}
-                // set_edit_workitem_menu = {this.set_edit_workitem_menu}
-              />
-            </div>
-          </div>
-        )
+    
+    for (const workItem of this.state.completeWorkItems) {
+      if ((this.state.showType == "assessment" && workItem.type != "assessment") ||
+          (this.state.showType == "project" && workItem.type != "project") ||
+          workItem.status == "declined") {
+        continue
       }
-    });
+      workitems.push(
+        <div className="panel panel-primary" key={workItem._id}>
+          <div className="panel-body">
+            <WorkItem page_type={"vetting"}
+              workitem={workItem}
+              // Disabled remove, edit, & create so manually create
+            />
+          </div>
+        </div>
+      )
+    }
     return workitems;
   };
+
+  onClickSetShowType = (e) => {
+    const value = e.target.value;
+    if (value == "all" || value == "assessment" || value == "project") {
+      this.setState({showType: value});
+    }
+  }
 
   render() {
     return (
     <div>
+      <div>
+        <h3>Work Items</h3>
+        <span>
+          Show Work Items: 
+          <button value="all" className="btn btn-sm btn-primary"
+            onClick={this.onClickSetShowType}>Show All</button>
+          <button value="assessment" className="btn btn-sm btn-secondary"
+            onClick={this.onClickSetShowType}>Assessment Only</button>
+          <button value="project" className="btn btn-sm btn-success"
+            onClick={this.onClickSetShowType}>Projet Only</button>
+        </span>
+        
+      </div>
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
           <h3>Add a Work Item</h3>

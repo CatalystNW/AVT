@@ -269,7 +269,7 @@ class WorkItem extends React.Component {
             <b>Assessment Comments</b>
             <p className="card-text">
               {(this.state.assessment_comments && this.state.assessment_comments.length > 0) ?
-                this.state.assessment_comments : "N/A"}
+                this.state.assessment_comments : "N/A" && !this.state.handleit}
             </p>
           </div>) : null
         }

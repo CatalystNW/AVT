@@ -148,6 +148,11 @@ var AssessmentMenu = function (_React$Component) {
           "div",
           { id: "assessment-nav-container" },
           React.createElement(
+            "h2",
+            null,
+            "Site Assessment"
+          ),
+          React.createElement(
             "ul",
             { className: "nav nav-tabs", id: "nav-assessment-tabs", role: "tablist" },
             React.createElement(

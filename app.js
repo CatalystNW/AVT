@@ -371,6 +371,11 @@ hbs.registerHelper('getPreferredName', function(apps, appid) {
   }
 });
 
+// Checks if in development mode
+hbs.registerHelper("ifDebug", () => {
+  return process.env.DEBUG_DEVELOPMENT_MODE === "yes";
+});
+
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Middleware

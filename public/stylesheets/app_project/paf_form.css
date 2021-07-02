@@ -52,6 +52,11 @@ h4 {
     margin-bottom: 15px;
 }
 
+#cblock-container img {
+    height: 140px;
+    width: auto;
+}
+
 @media print {
     body {
         font-size: 12px;

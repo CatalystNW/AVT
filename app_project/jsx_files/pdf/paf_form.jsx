@@ -47,6 +47,10 @@ class PAFApp extends React.Component {
     return Math.round(value) / mult;
   }
 
+  onClick_print = () => {
+    window.print();
+  };
+
   render() {
     let docApp, documentPackage, siteAssessment, partners;
     if (this.props.type == "project") {
@@ -84,6 +88,10 @@ class PAFApp extends React.Component {
         assessment_summary = siteAssessment.summary;
     return (
     <div>
+      <div id="buttons-container" className="no-print">
+        <button onClick={this.onClick_print}>Print</button>  
+      </div>
+
       <div id="cblock-container">
         <img src="/images/app_project/letterhead.png"></img>
       </div>
@@ -158,7 +166,7 @@ class PAFApp extends React.Component {
       <h2><b>Cost</b></h2>
       <div>Total Work Items Cost: ${total_cost.toFixed(2)}</div>
       <div>Porta Potty Cost: ${this.state.porta_potty_cost.toFixed(2)}</div>
-      <div>Total Cost Estimate: ${this.state.waste_cost.toFixed(2)}</div>
+      <div>Waste/Dump Trailer Cost: ${this.state.waste_cost.toFixed(2)}</div>
       <div>Final Cost Estimate: ${(total_cost + this.state.porta_potty_cost + 
                               this.state.waste_cost).toFixed(2)}</div>
       <div>Total Volunteers Needed: {total_volunteers}</div>

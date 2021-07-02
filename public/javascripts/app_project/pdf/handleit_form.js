@@ -247,20 +247,20 @@ var HandleitForm = function (_React$Component) {
                       workItem.description
                     )
                   ),
-                  React.createElement(
+                  workItem.project_comments && workItem.project_comments.length > 0 ? React.createElement(
                     'tr',
                     null,
                     React.createElement(
                       'th',
                       null,
-                      'Site Comments'
+                      'Project Comments'
                     ),
                     React.createElement(
                       'td',
                       null,
-                      workItem.assessment_comments
+                      workItem.project_comments
                     )
-                  ),
+                  ) : null,
                   React.createElement(
                     'tr',
                     null,
