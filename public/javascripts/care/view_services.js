@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener("load", function() {
   this.card_tabler.start("view_services", 
     function click_callback(app_status, result) {
       if (app_status == "complete" && result == "show" && 
@@ -19,7 +19,7 @@ window.onload = function() {
       }
     }
   );
-};
+});
 
 var service_obj = {
   get_services() {
