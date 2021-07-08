@@ -50,6 +50,47 @@ var app_obj = {
   onload() {
     this.load_applications();
     this.add_change_year_select_handler();
+    $(".applications_header_tr").on("click", 
+        this.sort_applications_handler);
+  },
+
+  sort_applications_handler(event) {
+    var sort_name = event.target.getAttribute("name");
+    if (sort_name === "name" || sort_name === "reference") {
+      app_obj.applicants.sort((a, b) => {
+        var strA, strB;
+        if (sort_name === "name")  {
+          strA = a.application.first_name;
+          strB = b.application.first_name;
+        } else {
+          strA = a.reference;
+          strB = b.reference;
+        }
+        strA = strA.toUpperCase();
+        strB = strB.toUpperCase();
+        if (strA < strB) {
+          return -1;
+        } else if (strA > strB) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_name === "application_date") {
+      app_obj.applicants.sort((a, b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    } else if (sort_name === "last_edit_date") {
+      app_obj.applicants.sort((a, b) => {
+        return new Date(a.updatedAt) - new Date(b.updatedAt);
+      });
+    } else if (sort_name === "num_services") {
+      app_obj.applicants.sort((a, b) => {
+        return a.services.length - b.services.length;
+      });
+    } else {
+      return;
+    }
+    app_obj.load_apps_to_table();
   },
 
   load_applications() {
@@ -67,6 +108,7 @@ var app_obj = {
             });
           }
           app_obj.applicants = applicants;
+          console.log(applicants)
           app_obj.load_apps_to_table();
           app_obj.load_year_to_select();
         }

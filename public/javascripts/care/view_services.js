@@ -3,10 +3,10 @@ window.addEventListener("load", function() {
     function click_callback(app_status, result) {
       if (app_status == "complete" && result == "show" && 
         $("#complete_container").children().length == 0)
-        service_obj.get_services(); // Load app data to include complete apps
+        service_obj.load_services(); // Load app data to include complete apps
     }
   );
-  this.service_obj.get_services();
+  this.service_obj.load_services();
 
   applicant_form_modal.setup_form();
 
@@ -19,10 +19,29 @@ window.addEventListener("load", function() {
       }
     }
   );
-});
+  
+  $(".services-header-tr").on("click", 
+    services_table.sort_services_handler);
+};
 
 var service_obj = {
-  get_services() {
+  data: null,
+  update_service(service) {
+    for (var i=0; i< this.data.length; i++) {
+      if (service._id == this.data[i]._id) {
+        for(var prop in service) {
+          if (prop != "applicant" && prop in this.data[i]) {
+            this.data[i][prop] = service[prop];
+          }
+        }
+        break;
+      }
+    }
+  },
+  get_data() {
+    return this.data;
+  },
+  load_services() {
     var complete_show_cmd = card_tabler.get_appstatus_show_status("complete");
     var complete_show_status = (complete_show_cmd == "show") ? true : false;
 
@@ -31,57 +50,76 @@ var service_obj = {
       url: "/carenetwork/services?show_complete=" + complete_show_status,
       success: function(servicesData, textStatus, xhr) {
         if (xhr.status == 201 || xhr.status == 200) {
-          services_table.add_service_rows(servicesData);
+          service_obj.data = servicesData;
+          services_table.load_service_rows();
         }
       }
     });
   },
+  sort_data(sort_type) {
+    if (sort_type === "service_date") {
+      service_obj.data.sort((a, b) => {
+        return new Date(a.service_date) - new Date(b.service_date);
+      });
+    } else if (sort_type === "status" || sort_type === "volunteer"
+        || sort_type === "reference") {
+          
+      service_obj.data.sort((a, b) => {
+        var strA, strB;
+        if (sort_type === "status")  {
+          strA = a.status;
+          strB = b.status;
+        } else if (sort_type === "volunteer") {
+          strA = a.volunteer;
+          strB = b.volunteer;
+        } else {
+          strA = a.applicant.reference;
+          strB = b.applicant.reference;
+        }
+        strA = strA.toUpperCase();
+        strB = strB.toUpperCase();
+        console.log(strA, strB);
+        if (strA < strB) {
+          return -1;
+        } else if (strA > strB) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (sort_type == "create_date") {
+      service_obj.data.sort((a, b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    } else {
+      return false;
+    }
+    return true;
+  },
 };
 
 var services_table = {
+  sort_services_handler(event) {
+    var sort_type = event.target.getAttribute("name");
+    
+    if (service_obj.sort_data(sort_type)) {
+      console.log(service_obj.get_data())
+      console.log("sort", sort_type)
+      services_table.load_service_rows();
+    }
+  },
   get_id(service_id) {
     return service_id + "-service-tr";
   },
   update_service_row(service) {
-    var id = this.get_id(service._id);
-
-    // Get app reference from old row: since only app_id is passed in service.applicant
-    var $old_tr = $("#" + id);
-    var old_tr_children = $old_tr[0].childNodes,
-        text;
-
-    var app_ref;
-    for (var i=0; i<old_tr_children.length; i++) {
-      text = old_tr_children[i].textContent;
-      if (text.includes("CARE-")) {
-        app_ref = text;
-        break;
-      }
-    }
-    // Get status from the card head to check if it changes after update
-    var card_body = $old_tr.parents().eq(2),
-        card_head = card_body.prev();
-    var old_status = card_head.attr("value");
-
-    var new_tr = this.make_service_row(service, app_ref);
-    if (old_status == service.status)
-      $old_tr.replaceWith(new_tr);
-    else {
-      $old_tr.remove();
-      var tbody_id = this.get_tbody_id(service.status);
-    
-      $("#" + tbody_id).append(new_tr);
-    }
+    service_obj.update_service(service);
+    services_table.load_service_rows();
   },
   get_tbody_id(app_status) {
     return app_status + "_container";
   },
-  add_service_rows(servicesData) {
+  load_service_rows() {
     this.empty_services();
-
-    servicesData.sort(function(a, b) {
-      return new Date(b.service_date) - new Date(a.service_date);
-    });
+    var servicesData = service_obj.get_data();
 
     for(var  i=0; i<servicesData.length; i++) {
       this.add_service_row(servicesData[i]);
@@ -109,21 +147,16 @@ var services_table = {
       "id": this.get_id(service_id)
     });
 
-    
-
     $tr.append( $(`<td class="col-lg-2">${serviceData.service_date}</td>`) );
     $tr.append( $(`<td class="col-lg-2">${serviceData.status}</td>`));
     $tr.append( $(`<td class="col-lg-2">${serviceData.volunteer}</td>`));
       
     var $td = $(`<td class="col-lg-2"></td>`);
-
     var link = applicant_form_modal.create_link(
       serviceData.applicant._id, applicant_reference);
-
+    
     $td.append(link);
-
     $tr.append($td);
-
 
     $tr.append( $(`<td class="col-lg-2">${serviceData.createdAt}</td>`));
     var option_td = $(`<td class="col-lg-2"></td>`);

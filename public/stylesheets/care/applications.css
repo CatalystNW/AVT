@@ -15,3 +15,7 @@
 #yearSelectLabel {
     width: 220px;
 }
+
+.applications_header_tr {
+    cursor: pointer;
+}
