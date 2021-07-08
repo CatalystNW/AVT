@@ -22,7 +22,7 @@ window.addEventListener("load", function() {
   
   $(".services-header-tr").on("click", 
     services_table.sort_services_handler);
-};
+});
 
 var service_obj = {
   data: null,
