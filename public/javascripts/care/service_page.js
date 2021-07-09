@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener("load", function() {
   services_handler.load();
 };
 
@@ -130,4 +130,4 @@ var services_handler = {
       })
     });
   }
-}
+});

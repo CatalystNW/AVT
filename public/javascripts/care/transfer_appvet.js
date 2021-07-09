@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener("load", function() {
   this.set_query_parameters();
   load_input_row(false);
   
@@ -46,7 +46,7 @@ window.onload = function() {
       $ele.parent().parent().parent().removeClass("table-info");
     }
   });
-};
+});
 
 function get_query_parameters() {
   var option = $("#searchSelect").val();
