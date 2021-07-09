@@ -1,4 +1,4 @@
-window.onload = function () {
+window.addEventListener("load", function () {
   var pathname = window.location.pathname;
 
   // Highlights the specific navigation link on navbar depending on current page
@@ -39,4 +39,4 @@ window.onload = function () {
       link.classList.add("active");
     }
   }
-};
+});

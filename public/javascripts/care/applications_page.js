@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener("load", function() {
   this.card_tabler.start("applications", 
     function click_callback(app_status, result) {
       if (app_status == "do_not_contact" && result == "show" && 
@@ -22,7 +22,7 @@ window.onload = function() {
       }
     }
   );
-};
+});
 // handles the application element component
 var app_obj = {
   applicants: null,

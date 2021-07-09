@@ -23,7 +23,7 @@ var application_helper = {
   },
 };
 
-window.onload = function() {
+window.addEventListener('load', function() {
   $("#applicant-form").on("submit", function(e) {
     // Check that some inputs are filled out and send data
     e.preventDefault();
@@ -49,7 +49,7 @@ window.onload = function() {
       data: $form.serialize(),
       success: function(data, textStatus, xhr) {
         if (xhr.status == 201 && data && data.care_manager_status) {
-          window.location.replace("./view_applications");
+          window.location.replace("/carenetwork/view_applications");
         } else {
           $form.trigger('reset'); // Reset form
           window.alert("Your form was submitted successfully. Someone will contact you within a few days.");
@@ -65,4 +65,4 @@ window.onload = function() {
       }
     });
   });
-};
+});
