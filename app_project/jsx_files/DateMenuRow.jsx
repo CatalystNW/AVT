@@ -13,10 +13,12 @@ class DateMenuRow extends React.Component {
   }
 
   convert_date(old_date) {
+    // Date is given as UTC string by backend
     let regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
         result = regex.exec(old_date);
     if (result) {
       let [year, month, date, hours, minutes] = result.slice(1,6);
+      // Create as UTC from string (with proper month), then convert to timezone
       return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
     }
     return null;
