@@ -187,7 +187,7 @@ async function edit_project(req, res) {
     || req.body.property == "project_end_date") {
     var d = new Date(
       parseInt(req.body.year),
-      parseInt(req.body.month)-1,
+      parseInt(req.body.month),
       parseInt(req.body.day),
       parseInt(req.body.hours),
       parseInt(req.body.minutes),
