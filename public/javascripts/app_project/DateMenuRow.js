@@ -134,6 +134,7 @@ var DateMenuRow = function (_React$Component) {
   _createClass(DateMenuRow, [{
     key: "convert_date",
     value: function convert_date(old_date) {
+      // Date is given as UTC string by backend
       var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
           result = regex.exec(old_date);
       if (result) {
@@ -144,6 +145,8 @@ var DateMenuRow = function (_React$Component) {
             date = _result$slice2[2],
             hours = _result$slice2[3],
             minutes = _result$slice2[4];
+        // Create as UTC from string (with proper month), then convert to timezone
+
 
         return new Date(Date.UTC(year, parseInt(month) - 1, date, hours, minutes));
       }
