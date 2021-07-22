@@ -6,7 +6,7 @@ const functionHelper = {
         result = regex.exec(old_date);
     if (result) {
       let [year, month, date, hours, minutes] = result.slice(1,6);
-      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
+      return new Date(old_date);
     }
     return null;
   },

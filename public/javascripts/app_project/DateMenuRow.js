@@ -1,5 +1,3 @@
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11,7 +9,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 export { DateMenuRow };
 
 // Needs to use Bootstrap datepicker
-// this.props: title, date, change_callback
+// this.props: title, date, change_callback, date_type
 
 var DateMenuRow = function (_React$Component) {
   _inherits(DateMenuRow, _React$Component);
@@ -24,11 +22,7 @@ var DateMenuRow = function (_React$Component) {
     _this.get_data = function () {
       var obj = {
         date_type: _this.props.date_type,
-        year: _this.state.date.getFullYear(),
-        month: _this.state.date.getMonth(),
-        day: _this.state.date.getDate(),
-        hours: _this.state.date.getHours(),
-        minutes: _this.state.date.getMinutes()
+        date_iso_string: _this.state.date.toISOString()
       };
       return obj;
     };
@@ -134,18 +128,12 @@ var DateMenuRow = function (_React$Component) {
   _createClass(DateMenuRow, [{
     key: "convert_date",
     value: function convert_date(old_date) {
+      // Date is given as UTC string by backend
       var regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
           result = regex.exec(old_date);
       if (result) {
-        var _result$slice = result.slice(1, 6),
-            _result$slice2 = _slicedToArray(_result$slice, 5),
-            year = _result$slice2[0],
-            month = _result$slice2[1],
-            date = _result$slice2[2],
-            hours = _result$slice2[3],
-            minutes = _result$slice2[4];
-
-        return new Date(Date.UTC(year, parseInt(month) - 1, date, hours, minutes));
+        // Create as UTC from string (with proper month)
+        return new Date(old_date);
       }
       return null;
     }

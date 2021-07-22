@@ -175,13 +175,18 @@ async function edit_site_assessment(req, res) {
   }
   if (property == "project_start_date" || property == "project_end_date" || 
       property == "assessment_date") {
-    var d = new Date(
-      parseInt(req.body.year),
-      parseInt(req.body.month),
-      parseInt(req.body.day),
-      parseInt(req.body.hours),
-      parseInt(req.body.minutes),
-    );
+    // Can accept the date ISO string (toISOString js method) in date_iso_string
+    if (req.body.date_iso_string) {
+      d = new Date(req.body.date_iso_string);
+    } else {
+      d = new Date(
+        parseInt(req.body.year),
+        parseInt(req.body.month),
+        parseInt(req.body.day),
+        parseInt(req.body.hours),
+        parseInt(req.body.minutes),
+      ); 
+    }
     if (property == "project_start_date") {
       site_assessment.project_start_date = d;
     } else if (property == "project_end_date") {
