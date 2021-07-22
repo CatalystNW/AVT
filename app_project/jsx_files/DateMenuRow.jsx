@@ -1,7 +1,7 @@
 export { DateMenuRow }
 
 // Needs to use Bootstrap datepicker
-// this.props: title, date, change_callback
+// this.props: title, date, change_callback, date_type
 class DateMenuRow extends React.Component {
   constructor(props) {
     super(props);
@@ -17,9 +17,8 @@ class DateMenuRow extends React.Component {
     let regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/g,
         result = regex.exec(old_date);
     if (result) {
-      let [year, month, date, hours, minutes] = result.slice(1,6);
-      // Create as UTC from string (with proper month), then convert to timezone
-      return new Date(Date.UTC(year, parseInt(month)-1  , date, hours, minutes));
+      // Create as UTC from string (with proper month)
+      return new Date(old_date);
     }
     return null;
   }
@@ -27,11 +26,7 @@ class DateMenuRow extends React.Component {
   get_data =() => {
     let obj = {
       date_type: this.props.date_type,
-      year: this.state.date.getFullYear(),
-      month: this.state.date.getMonth(),
-      day: this.state.date.getDate(),
-      hours: this.state.date.getHours(),
-      minutes: this.state.date.getMinutes(),
+      date_iso_string: this.state.date.toISOString(),
     };
     return obj;
   };
