@@ -175,6 +175,7 @@ async function edit_site_assessment(req, res) {
   }
   if (property == "project_start_date" || property == "project_end_date" || 
       property == "assessment_date") {
+    // Can accept the date ISO string (toISOString js method) in date_iso_string
     if (req.body.date_iso_string) {
       d = new Date(req.body.date_iso_string);
     } else {

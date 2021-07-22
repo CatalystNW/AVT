@@ -192,6 +192,7 @@ async function edit_project(req, res) {
   if (req.body.property == "project_start_date" 
     || req.body.property == "project_end_date") {
     let d;
+    // Can accept the date ISO string (toISOString js method) in date_iso_string
     if (req.body.date_iso_string) {
       d = new Date(req.body.date_iso_string);
     } else {
