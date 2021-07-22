@@ -15,7 +15,7 @@ var functionHelper = {
           hours = _result$slice2[3],
           minutes = _result$slice2[4];
 
-      return new Date(Date.UTC(year, parseInt(month) - 1, date, hours, minutes));
+      return new Date(old_date);
     }
     return null;
   },
