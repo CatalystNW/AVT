@@ -38,9 +38,11 @@
     "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "glob-parent": "^5.1.2"
   },
   "resolutions": {
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "glob-parent": "^5.1.2"
   }
 }
