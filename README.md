@@ -1,4 +1,4 @@
-hello :)
+Hello :) 
 
 ## About Catalyst NW, and What this Software Does
 
