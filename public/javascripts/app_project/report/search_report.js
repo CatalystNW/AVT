@@ -341,7 +341,7 @@ var SearchReport = function (_React$Component) {
             React.createElement(
               "label",
               null,
-              "Volunteer Hours"
+              "Total Hours Volunteered"
             ),
             React.createElement("input", { className: "form-control", type: "number", name: "hours" }),
             React.createElement(

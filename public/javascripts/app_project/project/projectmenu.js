@@ -442,7 +442,7 @@ var ProjectMenu = function (_React$Component) {
               React.createElement(
                 "label",
                 { className: "col-sm-4 col-form-label" },
-                "Volunteer Hours"
+                "Total Hours Volunteered"
               ),
               React.createElement(
                 "div",
