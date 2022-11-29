@@ -1,4 +1,4 @@
-Hello Team :) 
+Hello Team, this is a test to update from GitHub Desktop
 
 ## About Catalyst NW, and What this Software Does
 
