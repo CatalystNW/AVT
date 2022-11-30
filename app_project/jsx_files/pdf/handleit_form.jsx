@@ -148,7 +148,7 @@ class HandleitForm extends React.Component {
 
       <p>
         Scope: The scope of Handle-It Projects are jobs that will require 1-3 volunteers one day’s time and cost Catalyst
-        $500 or less. In some cases, the property owner may already own the item that needs installation. If, after the
+        $1,000 or less. In some cases, the property owner may already own the item that needs installation. If, after the
         Handle-It volunteer examines the scope of work, it is decided that the job would require more extensive labor and/or
         materials, this project may be recommended for consideration as a full Catalyst Project. This will require further
         fnancial vetting and estimation of the necessary work to restore the home to safety
