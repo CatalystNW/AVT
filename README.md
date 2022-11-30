@@ -1,4 +1,4 @@
-Hello Team, this is a test to update from GitHub Desktop - JJ
+Hello Team, this is a test to update from GitHub Desktop - JJ Milmore
 
 ## About Catalyst NW, and What this Software Does
 
